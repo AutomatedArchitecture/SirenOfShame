@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CBB57466-4341-49BC-A61D-43A7CC656A95}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SirenOfShame.Lib</RootNamespace>
+    <AssemblyName>SirenOfShame.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Device\AudioPattern.cs" />
+    <Compile Include="Device\SdCardFileSystem\FileSystemBuilder.cs" />
+    <Compile Include="Device\SdCardFileSystem\UploadAudioPatternStream.cs" />
+    <Compile Include="Device\SdCardFileSystem\UploadAudioPatternMemory.cs" />
+    <Compile Include="Device\SirenOfShameInfo.cs" />
+    <Compile Include="Device\SdCardFileSystem\UsbAudioFatPacket.cs" />
+    <Compile Include="Device\UsbControlPacket.cs" />
+    <Compile Include="Device\HardwareType.cs" />
+    <Compile Include="Device\ISirenOfShameDevice.cs" />
+    <Compile Include="Device\LedPattern.cs" />
+    <Compile Include="Device\MockSirenOfShameDevice.cs" />
+    <Compile Include="Device\MockSirenOfShameDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Device\MockSirenOfShameDeviceDialog.Designer.cs">
+      <DependentUpon>MockSirenOfShameDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Device\SirenOfShameDevice.cs" />
+    <Compile Include="Device\SdCardFileSystem\UploadAudioPattern.cs" />
+    <Compile Include="Device\SdCardFileSystem\UploadLedPattern.cs" />
+    <Compile Include="Device\SdCardFileSystem\FileSystemHeader.cs" />
+    <Compile Include="Device\UsbInfoPacket.cs" />
+    <Compile Include="Device\SdCardFileSystem\UsbLedFatPacket.cs" />
+    <Compile Include="Device\UsbReadAudioPacket.cs" />
+    <Compile Include="Device\UsbReadLedPacket.cs" />
+    <Compile Include="ExceptionMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionMessageBox.Designer.cs">
+      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\ServerUnavailableException.cs" />
+    <Compile Include="Helpers\AssemblyHelpers.cs" />
+    <Compile Include="Helpers\FactoryExportProvider.cs" />
+    <Compile Include="Helpers\IEnumerableHelpers.cs" />
+    <Compile Include="Helpers\IocContainer.cs" />
+    <Compile Include="Helpers\ObjectHelpers.cs" />
+    <Compile Include="Helpers\ThreeStateTreeNode.cs" />
+    <Compile Include="Helpers\ThreeStateTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Helpers\XElementHelpers.cs" />
+    <Compile Include="ICIEntryPoint.cs" />
+    <Compile Include="MyLogManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerConfiguration\ConfigureServerBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Services\AudioFileService.cs" />
+    <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Settings\BuildDefinitionSetting.cs" />
+    <Compile Include="Settings\CIEntryPointSettings.cs" />
+    <Compile Include="Settings\MyBuildDefinition.cs" />
+    <Compile Include="Settings\Rule.cs" />
+    <Compile Include="Settings\SirenOfShameSettings.cs" />
+    <Compile Include="Util\BuildStatusUtil.cs" />
+    <Compile Include="Watcher\BuildStatus.cs" />
+    <Compile Include="Watcher\BuildStatusEnum.cs" />
+    <Compile Include="Watcher\BuildStatusListViewItem.cs" />
+    <Compile Include="Watcher\CruiseControlWatcher.cs" />
+    <Compile Include="Watcher\ModalDialogEvent.cs" />
+    <Compile Include="Watcher\ModalDialogEventArgs.cs" />
+    <Compile Include="Watcher\RefreshStatusEventArgs.cs" />
+    <Compile Include="Watcher\RulesEngine.cs" />
+    <Compile Include="Watcher\SetAudioEvent.cs" />
+    <Compile Include="Watcher\SetAudioEventArgs.cs" />
+    <Compile Include="Watcher\SetLightsEvent.cs" />
+    <Compile Include="Watcher\SetLightsEventArgs.cs" />
+    <Compile Include="Watcher\SetTrayIconEvent.cs" />
+    <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
+    <Compile Include="Watcher\StatusChangedEvent.cs" />
+    <Compile Include="Watcher\StatusCheckedEvent.cs" />
+    <Compile Include="Watcher\StatusCheckedEventArgsArgs.cs" />
+    <Compile Include="Watcher\TrayNotifyEvent.cs" />
+    <Compile Include="Watcher\TrayNotifyEventArgs.cs" />
+    <Compile Include="Watcher\UpdateStatusBarEvent.cs" />
+    <Compile Include="Watcher\UpdateStatusBarEventArgs.cs" />
+    <Compile Include="Watcher\WatcherBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoxLib\SoxLib.csproj">
+      <Project>{D3DE2E68-91E4-440F-84EA-FF8F7A6370F7}</Project>
+      <Name>SoxLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TeensyHidBootloaderLib\TeensyHidBootloaderLib.csproj">
+      <Project>{B0BA1E3F-E64D-4501-96AB-AAFF13EE4E77}</Project>
+      <Name>TeensyHidBootloaderLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UsbLib\UsbLib.csproj">
+      <Project>{A54CEA5A-D773-4914-B00B-E984FD93CF59}</Project>
+      <Name>UsbLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Device\MockSirenOfShameDeviceDialog.resx">
+      <DependentUpon>MockSirenOfShameDeviceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionMessageBox.resx">
+      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
