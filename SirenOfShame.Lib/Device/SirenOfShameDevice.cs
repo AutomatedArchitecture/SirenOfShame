@@ -16,8 +16,8 @@ namespace SirenOfShame.Lib.Device
     public class SirenOfShameDevice : ISirenOfShameDevice
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameDevice));
-        public const string VendorId = "03eb";
-        public const string ProductId = "204f";
+        public const string VendorId = "16d0";
+        public const string ProductId = "0646";
         public const int ReportId_Out_ControlPacket = 1;
         public const int ReportId_Out_Upload = 2;
         public const int ReportId_In_Info = 1;
