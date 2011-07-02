@@ -60,11 +60,13 @@ namespace SirenOfShame {
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this._buildMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -80,7 +82,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -175,6 +177,7 @@ namespace SirenOfShame {
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Controls.Add(this._automaticUpdater);
             this.panel1.Controls.Add(this._openSettings);
             this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._testSiren);
@@ -279,7 +282,7 @@ namespace SirenOfShame {
             this._when,
             this._toolStripSeparator1});
             this._buildMenu.Name = "_buildMenu";
-            this._buildMenu.Size = new System.Drawing.Size(159, 76);
+            this._buildMenu.Size = new System.Drawing.Size(164, 76);
             this._buildMenu.Text = "BuildMenu";
             this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
             // 
@@ -288,27 +291,39 @@ namespace SirenOfShame {
             this._affectsTrayIcon.Checked = true;
             this._affectsTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this._affectsTrayIcon.Name = "_affectsTrayIcon";
-            this._affectsTrayIcon.Size = new System.Drawing.Size(158, 22);
+            this._affectsTrayIcon.Size = new System.Drawing.Size(163, 22);
             this._affectsTrayIcon.Text = "Affects Tray Icon";
             this._affectsTrayIcon.Click += new System.EventHandler(this.AffectsTrayIconClick);
             // 
             // _stopWatching
             // 
             this._stopWatching.Name = "_stopWatching";
-            this._stopWatching.Size = new System.Drawing.Size(158, 22);
+            this._stopWatching.Size = new System.Drawing.Size(163, 22);
             this._stopWatching.Text = "Stop Watching";
             this._stopWatching.Click += new System.EventHandler(this.StopWatchingClick);
             // 
             // _when
             // 
             this._when.Name = "_when";
-            this._when.Size = new System.Drawing.Size(158, 22);
+            this._when.Size = new System.Drawing.Size(163, 22);
             this._when.Text = "When";
             // 
             // _toolStripSeparator1
             // 
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
-            this._toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
+            this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            // 
+            // _automaticUpdater
+            // 
+            this._automaticUpdater.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._automaticUpdater.ContainerForm = this;
+            this._automaticUpdater.DaysBetweenChecks = 0;
+            this._automaticUpdater.GUID = "2a0c1820-2647-40bc-9114-57045d626825";
+            this._automaticUpdater.Location = new System.Drawing.Point(881, 8);
+            this._automaticUpdater.Name = "_automaticUpdater";
+            this._automaticUpdater.Size = new System.Drawing.Size(16, 16);
+            this._automaticUpdater.TabIndex = 5;
+            this._automaticUpdater.wyUpdateCommandline = null;
             // 
             // MainForm
             // 
@@ -331,6 +346,7 @@ namespace SirenOfShame {
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this._buildMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -364,6 +380,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _openSettings;
       private System.Windows.Forms.ColumnHeader comment;
       private System.Windows.Forms.ColumnHeader duration2;
+      private wyDay.Controls.AutomaticUpdater _automaticUpdater;
 
 	}
 }

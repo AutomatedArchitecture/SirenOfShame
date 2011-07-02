@@ -178,7 +178,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADU
-        HgAAAk1TRnQBSQFMAgEBCQEAAagBAQGoAQEBEAEAARABAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        HgAAAk1TRnQBSQFMAgEBCQEAAbABAQGwAQEBEAEAARABAAT/AREBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABMAMAAQEBAAEQBgABGJQAAUUBRAFmAUQBdQFaDAAB+QFWASwBGQEzAT5oAAHFAWABhgFMAWYBRAF2
         AVoIAAEaAVsBTQEdAf8BfwGXAUoBGgFfZgABEQFmASgBZQHHAVgBZgFEAXYBWgQAAfkBVgEsARkB/wF/
         AZcBTgEaAVtqAAERAWYBKAFlAccBWAFGAUQBdgFaAfkBVgFNAR0B/wF/AZcBSgEaAVtuAAERAWYBKAFl
@@ -312,12 +312,6 @@
         BwABAQcAAQcHAAEHBwABBwcAAQ8HAAEPBgABgAEfBgABwAE/Cw==
 </value>
   </data>
-  <metadata name="buildStatusBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>133, 17</value>
-  </metadata>
-  <metadata name="_buildMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>629, 22</value>
-  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAIAEBAAAAAAGABoAwAAJgAAABAQAAAAAAgAaAUAAI4DAAAoAAAAEAAAACAAAAABABgAAAAAAAAD
@@ -361,4 +355,10 @@
         AADABwAA4A8AAP//AAA=
 </value>
   </data>
+  <metadata name="buildStatusBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>133, 17</value>
+  </metadata>
+  <metadata name="_buildMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>629, 22</value>
+  </metadata>
 </root>

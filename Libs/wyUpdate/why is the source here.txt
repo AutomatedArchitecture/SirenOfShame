@@ -1,0 +1,1 @@
+I've made slight modifications to the source to change the behavior of the visibility.
