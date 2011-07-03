@@ -77,7 +77,7 @@ namespace SirenOfShame.Lib.Watcher
             previousWorkingOrBrokenBuildStatus.TryGetValue(Id, out previousStatus);
 
             bool noStartTime = StartedTime == DateTime.MinValue;
-            string duration = GetDuration(FinishedTime, StartedTime, now, previousStatus);
+            string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
             string startTime = noStartTime ? "" : StartedTime.ToString("M/d h:mm tt");
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
 
@@ -93,29 +93,36 @@ namespace SirenOfShame.Lib.Watcher
             };
         }
         
-        private string GetDuration(DateTime finishedTime, DateTime startedTime, DateTime now, BuildStatus previousStatus)
+        private string GetDurationAsString(DateTime finishedTime, DateTime startedTime, DateTime now, BuildStatus previousStatus)
         {
-            TimeSpan duration;
+            TimeSpan? duration = GetDuration(startedTime, finishedTime, previousStatus, now);
+            if (duration == null) return "";
+            if (duration.Value.Ticks < 0) return string.Format("OT: {0}:{1:00}", 0 - (int)duration.Value.TotalMinutes, 0 - duration.Value.Seconds);
+            return string.Format("{0}:{1:00}", (int)duration.Value.TotalMinutes, duration.Value.Seconds);
+        }
+
+        private TimeSpan? GetDuration(DateTime startedTime, DateTime finishedTime, BuildStatus previousStatus, DateTime now)
+        {
             if (BuildStatusEnum != BuildStatusEnum.InProgress)
             {
                 if (startedTime == DateTime.MinValue || finishedTime == DateTime.MinValue)
                 {
                     _log.Warn("Start time or stop time was null for " + Id + ", and the build was not in progress, this should only happen at startup");
-                    return "";
+                    return null;
                 }
-                duration = finishedTime - startedTime;
-            } else
-            {
-                if (previousStatus == null)
-                {
-                    duration = now - LocalStartTime;
-                } else
-                {
-                    // todo: insert interesting logic
-                    duration = now - LocalStartTime;
-                }
+                return finishedTime - startedTime;
             }
-            return string.Format("{0}:{1:00}", (int)duration.TotalMinutes, duration.Seconds);
+            
+            if (previousStatus == null || previousStatus.StartedTime == DateTime.MinValue || previousStatus.FinishedTime == DateTime.MinValue)
+            {
+                // count up
+                return now - LocalStartTime;
+            }
+            
+            // count down
+            var previousDuration = previousStatus.FinishedTime - previousStatus.StartedTime;
+            var currentDuration = now - LocalStartTime;
+            return previousDuration - currentDuration;
         }
 
         public void Changed(BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
