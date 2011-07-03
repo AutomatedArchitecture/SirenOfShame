@@ -71,10 +71,13 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public BuildStatusListViewItem AsBuildStatusListViewItem()
+        public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus)
         {
+            BuildStatus previousStatus;
+            previousWorkingOrBrokenBuildStatus.TryGetValue(Id, out previousStatus);
+
             bool noStartTime = StartedTime == DateTime.MinValue;
-            string duration = GetDuration(FinishedTime, StartedTime);
+            string duration = GetDuration(FinishedTime, StartedTime, now, previousStatus);
             string startTime = noStartTime ? "" : StartedTime.ToString("M/d h:mm tt");
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
 
@@ -90,7 +93,7 @@ namespace SirenOfShame.Lib.Watcher
             };
         }
         
-        private string GetDuration(DateTime finishedTime, DateTime startedTime)
+        private string GetDuration(DateTime finishedTime, DateTime startedTime, DateTime now, BuildStatus previousStatus)
         {
             TimeSpan duration;
             if (BuildStatusEnum != BuildStatusEnum.InProgress)
@@ -103,7 +106,14 @@ namespace SirenOfShame.Lib.Watcher
                 duration = finishedTime - startedTime;
             } else
             {
-                duration = DateTime.Now - LocalStartTime;
+                if (previousStatus == null)
+                {
+                    duration = now - LocalStartTime;
+                } else
+                {
+                    // todo: insert interesting logic
+                    duration = now - LocalStartTime;
+                }
             }
             return string.Format("{0}:{1:00}", (int)duration.TotalMinutes, duration.Seconds);
         }

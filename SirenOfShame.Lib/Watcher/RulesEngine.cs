@@ -115,7 +115,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
                 .OrderBy(s => s.Name)
-                .Select(bs => bs.AsBuildStatusListViewItem());
+                .Select(bs => bs.AsBuildStatusListViewItem(DateTime.Now, PreviousWorkingOrBrokenBuildStatus));
 
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
