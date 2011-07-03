@@ -111,11 +111,15 @@ namespace SirenOfShame.Lib.Watcher
             BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses);
         }
 
-        private void InvokeRefreshStatus(IEnumerable<BuildStatus> args)
+        private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
         {
+            IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
+                .OrderBy(s => s.Name)
+                .Select(bs => bs.AsBuildStatusListViewItem());
+
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
-            refreshStatus(this, new RefreshStatusEventArgs { AllBuildStatuses = args });
+            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusListViewItems = buildStatusListViewItems });
         }
 
         private void TimerTick(object sender, EventArgs e)

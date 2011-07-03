@@ -86,13 +86,13 @@ namespace SirenOfShame.Test.Unit.Watcher
             });
 
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
-            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].AllBuildStatuses.Count());
-            BuildStatus buildStatus = rulesEngine.RefreshStatusEvents[1].AllBuildStatuses.First();
-            Assert.AreEqual("Passing", buildStatus.BuildStatusDescription);
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
+            BuildStatusListViewItem buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
+            Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
-            Assert.AreEqual(new DateTime(2010, 1, 1), buildStatus.StartedTime);
+            Assert.AreEqual("1/1 12:00 AM", buildStatus.StartTime);
         }
         
         [TestMethod]

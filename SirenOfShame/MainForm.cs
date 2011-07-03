@@ -72,7 +72,9 @@ namespace SirenOfShame
         {
             var subItem = lvi.SubItems.Cast<ListViewItem.ListViewSubItem>().FirstOrDefault(i => i.Name == name);
             if (subItem == null) throw new Exception("Unable to find list view sub item" + name);
+// ReSharper disable RedundantCheckBeforeAssignment
             if (value != subItem.Text)
+// ReSharper restore RedundantCheckBeforeAssignment
                 subItem.Text = value;
         }
 
@@ -98,11 +100,8 @@ namespace SirenOfShame
         {
             Invoke(() =>
             {
-                IEnumerable<BuildStatus> buildStatuses = args.AllBuildStatuses;
-                var buildStatusListViewItems = buildStatuses
-                    .OrderBy(s => s.Name)
-                    .Select(bs => bs.AsBuildStatusListViewItem());
-                if (listView1.Items.Count != 0 && listView1.Items.Count != buildStatuses.Count())
+                var buildStatusListViewItems = args.BuildStatusListViewItems;
+                if (listView1.Items.Count != 0 && listView1.Items.Count != buildStatusListViewItems.Count())
                 {
                     listView1.Items.Clear();
                 }

@@ -3,6 +3,6 @@
 namespace SirenOfShame.Lib.Watcher
 {
     public class RefreshStatusEventArgs {
-        public IEnumerable<BuildStatus> AllBuildStatuses { get; set; }
+        public IEnumerable<BuildStatusListViewItem> BuildStatusListViewItems { get; set; }
     }
 }
