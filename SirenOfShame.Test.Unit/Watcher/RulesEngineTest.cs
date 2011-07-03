@@ -81,7 +81,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                     Name = "Build Def 1", 
                     RequestedBy = "User1", 
                     Id = "Build Def 1", 
-                    StartedTime = new DateTime(2010, 1, 1)
+                    StartedTime = new DateTime(2010, 1, 2, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 2, 1, 2, 2)
                 },
             });
 
@@ -92,7 +93,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
-            Assert.AreEqual("1/1 12:00 AM", buildStatus.StartTime);
+            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTime);
+            Assert.AreEqual("1:01", buildStatus.Duration);
         }
         
         [TestMethod]
