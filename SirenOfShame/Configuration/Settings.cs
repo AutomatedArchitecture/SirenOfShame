@@ -8,7 +8,7 @@ namespace SirenOfShame.Configuration
     public partial class Settings : FormBase
     {
         private readonly SirenOfShameSettings _settings;
-        private string _logFilename;
+        private readonly string _logFilename;
 
         public Settings(SirenOfShameSettings settings)
         {
@@ -29,19 +29,19 @@ namespace SirenOfShame.Configuration
             }
         }
 
-        private void OkClick(object sender, System.EventArgs e)
+        private void OkClick(object sender, EventArgs e)
         {
             _settings.PollInterval = _pollInterval.Value;
             _settings.Save();
             Close();
         }
 
-        private void CancelClick(object sender, System.EventArgs e)
+        private void CancelClick(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void PollIntervalValueChanged(object sender, System.EventArgs e)
+        private void PollIntervalValueChanged(object sender, EventArgs e)
         {
             RefreshDurationText();
         }
@@ -56,7 +56,7 @@ namespace SirenOfShame.Configuration
             _duration.Text = string.Format("{0} seconds{1}", _pollInterval.Value, snideComment);
         }
 
-        private void _viewLog_Click(object sender, EventArgs e)
+        private void ViewLogClick(object sender, EventArgs e)
         {
             Process.Start(_logFilename);
         }

@@ -98,7 +98,7 @@
             this._viewLog.TabIndex = 8;
             this._viewLog.Text = "View Log...";
             this._viewLog.UseVisualStyleBackColor = true;
-            this._viewLog.Click += new System.EventHandler(this._viewLog_Click);
+            this._viewLog.Click += new System.EventHandler(this.ViewLogClick);
             // 
             // Settings
             // 

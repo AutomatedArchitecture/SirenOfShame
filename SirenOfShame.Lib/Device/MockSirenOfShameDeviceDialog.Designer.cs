@@ -93,7 +93,7 @@
             this._audioPatterns.Name = "_audioPatterns";
             this._audioPatterns.Size = new System.Drawing.Size(100, 99);
             this._audioPatterns.TabIndex = 7;
-            this._audioPatterns.Text = "Audio Pattern 1";
+            this._audioPatterns.Text = "Audio Pattern 1\r\nAudio Pattern 2";
             // 
             // _ledPatterns
             // 
@@ -102,7 +102,7 @@
             this._ledPatterns.Name = "_ledPatterns";
             this._ledPatterns.Size = new System.Drawing.Size(100, 99);
             this._ledPatterns.TabIndex = 8;
-            this._ledPatterns.Text = "LED Pattern 1";
+            this._ledPatterns.Text = "LED Pattern 1\r\nLED Pattern 2";
             // 
             // _timer
             // 
