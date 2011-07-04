@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
@@ -31,7 +30,7 @@ namespace SirenOfShame
         private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
         {
             _log.Error("Global error", e.Exception);
-            MessageBox.Show(e.Exception.Message);
+            ExceptionMessageBox.Show(null, "Drat", "Something crazy just happened.", e.Exception);
         }
 
         public Program()

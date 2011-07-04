@@ -99,7 +99,7 @@ namespace SirenOfShame.Lib.Settings
             catch (Exception ex)
             {
                 Log.Error("Unable to deserialize settings file, so reverting", ex);
-                MessageBox.Show("Hate to tell you this, but there was an error deserializing the settings file so we took the liberty of reverting the settings to the factory defaults to get everything up and running.  Sorry about your luck.");
+                ExceptionMessageBox.Show(null, "Drat", "Hate to tell you this, but there was an error deserializing the settings file so we took the liberty of reverting the settings to the factory defaults to get everything up and running.  Sorry about your luck.", ex);
             }
             finally
             {

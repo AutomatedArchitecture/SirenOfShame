@@ -50,7 +50,7 @@
             this._ok.TabIndex = 1;
             this._ok.Text = "OK";
             this._ok.UseVisualStyleBackColor = true;
-            this._ok.Click += new System.EventHandler(this._ok_Click);
+            this._ok.Click += new System.EventHandler(this.OkClick);
             // 
             // _showMore
             // 
@@ -60,7 +60,7 @@
             this._showMore.TabIndex = 2;
             this._showMore.Text = "More...";
             this._showMore.UseVisualStyleBackColor = true;
-            this._showMore.Click += new System.EventHandler(this._showMore_Click);
+            this._showMore.Click += new System.EventHandler(this.ShowMoreClick);
             // 
             // _exception
             // 

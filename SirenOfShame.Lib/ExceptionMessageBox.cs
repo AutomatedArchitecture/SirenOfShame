@@ -21,15 +21,18 @@ namespace SirenOfShame.Lib
                 _exception = { Text = exception.ToString() }
             };
             dlg._exception.Visible = false;
-            dlg.Show(owner);
+            if (owner != null)
+                dlg.Show(owner);
+            else
+                dlg.Show();
         }
 
-        private void _ok_Click(object sender, EventArgs e)
+        private void OkClick(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void _showMore_Click(object sender, EventArgs e)
+        private void ShowMoreClick(object sender, EventArgs e)
         {
             _exception.Visible = true;
             _showMore.Visible = false;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
 using log4net;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -74,7 +73,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 _log.Error("uncaught exception in watcher", ex);
                 StopWatching();
-                MessageBox.Show("Error connecting to server: " + ex.Message);
+                ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", ex);
             }
         }
 
