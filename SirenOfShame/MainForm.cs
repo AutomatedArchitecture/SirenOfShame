@@ -592,5 +592,11 @@ namespace SirenOfShame
             Settings settings = new Settings(_settings);
             settings.ShowDialog();
         }
+
+        private void TimeboxEnforcerClick(object sender, EventArgs e)
+        {
+            TimeboxEnforcer timeboxEnforcer = new TimeboxEnforcer();
+            timeboxEnforcer.Show();
+        }
     }
 }

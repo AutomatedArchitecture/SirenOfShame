@@ -49,31 +49,40 @@ namespace SirenOfShame {
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.balls = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this._configureRules = new System.Windows.Forms.Button();
+            this.bigIcons = new System.Windows.Forms.ImageList(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this._timeboxEnforcer = new System.Windows.Forms.Button();
+            this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this._openSettings = new System.Windows.Forms.Button();
             this._configureSiren = new System.Windows.Forms.Button();
             this._testSiren = new System.Windows.Forms.Button();
             this._configureServers = new System.Windows.Forms.Button();
-            this._configureRules = new System.Windows.Forms.Button();
             this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this._buildMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._lastStatusUpdate});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 195);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 261);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(909, 22);
             this.statusStrip1.TabIndex = 29;
@@ -125,9 +134,9 @@ namespace SirenOfShame {
             this.checkedInBy,
             this.comment});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 30);
+            this.listView1.Location = new System.Drawing.Point(0, 85);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(909, 165);
+            this.listView1.Size = new System.Drawing.Size(909, 176);
             this.listView1.SmallImageList = this.balls;
             this.listView1.TabIndex = 36;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -177,98 +186,210 @@ namespace SirenOfShame {
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.RibbonBackground;
+            this.panel1.Controls.Add(this._configureRules);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this._timeboxEnforcer);
             this.panel1.Controls.Add(this._automaticUpdater);
             this.panel1.Controls.Add(this._openSettings);
             this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._testSiren);
             this.panel1.Controls.Add(this._configureServers);
-            this.panel1.Controls.Add(this._configureRules);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(909, 30);
+            this.panel1.Size = new System.Drawing.Size(909, 85);
             this.panel1.TabIndex = 37;
+            // 
+            // _configureRules
+            // 
+            this._configureRules.BackColor = System.Drawing.Color.Transparent;
+            this._configureRules.FlatAppearance.BorderSize = 0;
+            this._configureRules.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureRules.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureRules.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._configureRules.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._configureRules.ImageIndex = 1;
+            this._configureRules.ImageList = this.bigIcons;
+            this._configureRules.Location = new System.Drawing.Point(0, 1);
+            this._configureRules.Name = "_configureRules";
+            this._configureRules.Size = new System.Drawing.Size(63, 70);
+            this._configureRules.TabIndex = 0;
+            this._configureRules.Text = "Configure Rules";
+            this._configureRules.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._configureRules.UseVisualStyleBackColor = false;
+            this._configureRules.Click += new System.EventHandler(this.ConfigureRulesClick);
+            // 
+            // bigIcons
+            // 
+            this.bigIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("bigIcons.ImageStream")));
+            this.bigIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.bigIcons.Images.SetKeyName(0, "alarm.png");
+            this.bigIcons.Images.SetKeyName(1, "ConfigureRulesBig.png");
+            this.bigIcons.Images.SetKeyName(2, "TestSirenBig.png");
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label3.Location = new System.Drawing.Point(275, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 16);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "} else";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label2.Location = new System.Drawing.Point(195, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 16);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Test";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label1.Location = new System.Drawing.Point(3, 69);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(186, 16);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Configuration";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::SirenOfShame.Properties.Resources.separater;
+            this.pictureBox2.Location = new System.Drawing.Point(191, -1);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(3, 85);
+            this.pictureBox2.TabIndex = 8;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::SirenOfShame.Properties.Resources.separater;
+            this.pictureBox1.Location = new System.Drawing.Point(273, -1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(3, 85);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
+            // _timeboxEnforcer
+            // 
+            this._timeboxEnforcer.BackColor = System.Drawing.Color.Transparent;
+            this._timeboxEnforcer.FlatAppearance.BorderSize = 0;
+            this._timeboxEnforcer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._timeboxEnforcer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._timeboxEnforcer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._timeboxEnforcer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._timeboxEnforcer.ImageIndex = 0;
+            this._timeboxEnforcer.ImageList = this.bigIcons;
+            this._timeboxEnforcer.Location = new System.Drawing.Point(278, 1);
+            this._timeboxEnforcer.Name = "_timeboxEnforcer";
+            this._timeboxEnforcer.Size = new System.Drawing.Size(73, 70);
+            this._timeboxEnforcer.TabIndex = 6;
+            this._timeboxEnforcer.Text = "Timebox Enforder";
+            this._timeboxEnforcer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._timeboxEnforcer.UseVisualStyleBackColor = false;
+            this._timeboxEnforcer.Click += new System.EventHandler(this.TimeboxEnforcerClick);
+            // 
+            // _automaticUpdater
+            // 
+            this._automaticUpdater.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._automaticUpdater.ContainerForm = this;
+            this._automaticUpdater.DaysBetweenChecks = 0;
+            this._automaticUpdater.GUID = "2a0c1820-2647-40bc-9114-57045d626825";
+            this._automaticUpdater.Location = new System.Drawing.Point(881, 8);
+            this._automaticUpdater.Name = "_automaticUpdater";
+            this._automaticUpdater.Size = new System.Drawing.Size(16, 16);
+            this._automaticUpdater.TabIndex = 5;
+            this._automaticUpdater.wyUpdateCommandline = null;
             // 
             // _openSettings
             // 
+            this._openSettings.BackColor = System.Drawing.Color.Transparent;
             this._openSettings.FlatAppearance.BorderSize = 0;
+            this._openSettings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._openSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._openSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._openSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._openSettings.ImageIndex = 8;
             this._openSettings.ImageList = this.balls;
-            this._openSettings.Location = new System.Drawing.Point(414, 3);
+            this._openSettings.Location = new System.Drawing.Point(66, 48);
             this._openSettings.Name = "_openSettings";
             this._openSettings.Size = new System.Drawing.Size(70, 23);
             this._openSettings.TabIndex = 4;
             this._openSettings.Text = "Settings";
             this._openSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._openSettings.UseVisualStyleBackColor = true;
+            this._openSettings.UseVisualStyleBackColor = false;
             this._openSettings.Click += new System.EventHandler(this.OpenSettingsClick);
             // 
             // _configureSiren
             // 
+            this._configureSiren.BackColor = System.Drawing.Color.Transparent;
             this._configureSiren.FlatAppearance.BorderSize = 0;
+            this._configureSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._configureSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._configureSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._configureSiren.ImageIndex = 6;
             this._configureSiren.ImageList = this.balls;
-            this._configureSiren.Location = new System.Drawing.Point(304, 3);
+            this._configureSiren.Location = new System.Drawing.Point(66, 26);
             this._configureSiren.Name = "_configureSiren";
             this._configureSiren.Size = new System.Drawing.Size(104, 23);
             this._configureSiren.TabIndex = 3;
             this._configureSiren.Text = "Configure Siren";
             this._configureSiren.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._configureSiren.UseVisualStyleBackColor = true;
+            this._configureSiren.UseVisualStyleBackColor = false;
             this._configureSiren.Click += new System.EventHandler(this.ConfigureSirenClick);
             // 
             // _testSiren
             // 
+            this._testSiren.BackColor = System.Drawing.Color.Transparent;
             this._testSiren.Enabled = false;
             this._testSiren.FlatAppearance.BorderSize = 0;
+            this._testSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._testSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._testSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._testSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._testSiren.ImageIndex = 5;
-            this._testSiren.ImageList = this.balls;
-            this._testSiren.Location = new System.Drawing.Point(218, 3);
+            this._testSiren.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._testSiren.ImageIndex = 2;
+            this._testSiren.ImageList = this.bigIcons;
+            this._testSiren.Location = new System.Drawing.Point(200, 3);
             this._testSiren.Name = "_testSiren";
-            this._testSiren.Size = new System.Drawing.Size(80, 23);
+            this._testSiren.Size = new System.Drawing.Size(68, 68);
             this._testSiren.TabIndex = 2;
-            this._testSiren.Text = "Test Siren";
-            this._testSiren.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._testSiren.UseVisualStyleBackColor = true;
+            this._testSiren.Text = "Show Off Siren";
+            this._testSiren.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._testSiren.UseVisualStyleBackColor = false;
             this._testSiren.Click += new System.EventHandler(this.TestSirenClick);
             // 
             // _configureServers
             // 
+            this._configureServers.BackColor = System.Drawing.Color.Transparent;
             this._configureServers.FlatAppearance.BorderSize = 0;
+            this._configureServers.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureServers.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._configureServers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._configureServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._configureServers.ImageIndex = 4;
             this._configureServers.ImageList = this.balls;
-            this._configureServers.Location = new System.Drawing.Point(12, 4);
+            this._configureServers.Location = new System.Drawing.Point(66, 3);
             this._configureServers.Name = "_configureServers";
-            this._configureServers.Size = new System.Drawing.Size(87, 23);
+            this._configureServers.Size = new System.Drawing.Size(123, 23);
             this._configureServers.TabIndex = 1;
-            this._configureServers.Text = "Add Server";
+            this._configureServers.Text = "Configure CI Server";
             this._configureServers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._configureServers.UseVisualStyleBackColor = true;
+            this._configureServers.UseVisualStyleBackColor = false;
             this._configureServers.Click += new System.EventHandler(this.ConfigureServersClick);
-            // 
-            // _configureRules
-            // 
-            this._configureRules.FlatAppearance.BorderSize = 0;
-            this._configureRules.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._configureRules.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._configureRules.ImageIndex = 3;
-            this._configureRules.ImageList = this.balls;
-            this._configureRules.Location = new System.Drawing.Point(105, 4);
-            this._configureRules.Name = "_configureRules";
-            this._configureRules.Size = new System.Drawing.Size(107, 23);
-            this._configureRules.TabIndex = 0;
-            this._configureRules.Text = "Configure Rules";
-            this._configureRules.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._configureRules.UseVisualStyleBackColor = true;
-            this._configureRules.Click += new System.EventHandler(this.ConfigureRulesClick);
             // 
             // buildStatusBindingSource
             // 
@@ -313,23 +434,11 @@ namespace SirenOfShame {
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
             this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
-            // _automaticUpdater
-            // 
-            this._automaticUpdater.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._automaticUpdater.ContainerForm = this;
-            this._automaticUpdater.DaysBetweenChecks = 0;
-            this._automaticUpdater.GUID = "2a0c1820-2647-40bc-9114-57045d626825";
-            this._automaticUpdater.Location = new System.Drawing.Point(881, 8);
-            this._automaticUpdater.Name = "_automaticUpdater";
-            this._automaticUpdater.Size = new System.Drawing.Size(16, 16);
-            this._automaticUpdater.TabIndex = 5;
-            this._automaticUpdater.wyUpdateCommandline = null;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(909, 217);
+            this.ClientSize = new System.Drawing.Size(909, 283);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
@@ -344,9 +453,11 @@ namespace SirenOfShame {
             this.statusStrip1.PerformLayout();
             this.minimizedMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this._buildMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,6 +492,13 @@ namespace SirenOfShame {
       private System.Windows.Forms.ColumnHeader comment;
       private System.Windows.Forms.ColumnHeader duration2;
       private wyDay.Controls.AutomaticUpdater _automaticUpdater;
+      private System.Windows.Forms.Button _timeboxEnforcer;
+      private System.Windows.Forms.ImageList bigIcons;
+      private System.Windows.Forms.PictureBox pictureBox1;
+      private System.Windows.Forms.PictureBox pictureBox2;
+      private System.Windows.Forms.Label label3;
+      private System.Windows.Forms.Label label2;
+      private System.Windows.Forms.Label label1;
 
 	}
 }
