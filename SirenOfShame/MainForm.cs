@@ -598,5 +598,11 @@ namespace SirenOfShame
             TimeboxEnforcer timeboxEnforcer = new TimeboxEnforcer();
             timeboxEnforcer.Show();
         }
+
+        private void HelpClick(object sender, EventArgs e)
+        {
+            HelpAbout helpAbout = new HelpAbout();
+            helpAbout.ShowDialog();
+        }
     }
 }
