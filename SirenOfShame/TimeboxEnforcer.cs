@@ -37,15 +37,31 @@ namespace SirenOfShame
             _timeboxLights.SelectedIndex = 1;
         }
 
+        private TimeSpan GetTimespanOrDefault(TextBox textBox, int defaultSeconds)
+        {
+            int duration;
+            if (!Int32.TryParse(textBox.Text, out duration))
+            {
+                duration = defaultSeconds;
+            }
+            return new TimeSpan(0, 0, 0, duration);
+        }
+
         private void TimerTick(object sender, EventArgs e)
         {
             TimeSpan newTimeSpan = _timeSpan - new TimeSpan(0, 0, 0, 1);
             if (newTimeSpan.Ticks == 0)
             {
                 if (_timeboxAudio.SelectedIndex != 0)
-                    SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, new TimeSpan(0, 0, 0, 10));
+                {
+                    var duration = GetTimespanOrDefault(_audioDuration, 10);
+                    SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, duration);
+                }
                 if (_timeboxLights.SelectedIndex != 0)
-                    SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, new TimeSpan(0, 0, 0, 10));
+                {
+                    var duration = GetTimespanOrDefault(_lightDuration, 10);
+                    SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, duration);
+                }
             }
             UpdateDuration(newTimeSpan);
         }

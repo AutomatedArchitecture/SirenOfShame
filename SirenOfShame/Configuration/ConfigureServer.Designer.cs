@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureServer));
             this._serverType = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this._close = new System.Windows.Forms.Button();
@@ -100,6 +101,7 @@
             this.Controls.Add(this._configurationContainer);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServer";
             this.Text = "ConfigureServer";
             this.panel1.ResumeLayout(false);

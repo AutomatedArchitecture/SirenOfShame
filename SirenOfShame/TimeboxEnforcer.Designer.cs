@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeboxEnforcer));
             this._close = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this._duration = new System.Windows.Forms.TrackBar();
@@ -37,6 +38,12 @@
             this._timeboxLights = new System.Windows.Forms.ComboBox();
             this._start = new System.Windows.Forms.Button();
             this._countdown = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this._lightDuration = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this._audioDuration = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this._duration)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,7 +102,7 @@
             // 
             this._timeboxAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._timeboxAudio.FormattingEnabled = true;
-            this._timeboxAudio.Location = new System.Drawing.Point(195, 75);
+            this._timeboxAudio.Location = new System.Drawing.Point(68, 102);
             this._timeboxAudio.Name = "_timeboxAudio";
             this._timeboxAudio.Size = new System.Drawing.Size(121, 21);
             this._timeboxAudio.TabIndex = 12;
@@ -131,11 +138,69 @@
             this._countdown.TabIndex = 14;
             this._countdown.Text = "0:00";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(196, 78);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 13);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "for";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(196, 105);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(19, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "for";
+            // 
+            // _lightDuration
+            // 
+            this._lightDuration.Location = new System.Drawing.Point(222, 75);
+            this._lightDuration.Name = "_lightDuration";
+            this._lightDuration.Size = new System.Drawing.Size(29, 20);
+            this._lightDuration.TabIndex = 17;
+            this._lightDuration.Text = "10";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(257, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 13);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "seconds";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(257, 105);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 13);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "seconds";
+            // 
+            // _audioDuration
+            // 
+            this._audioDuration.Location = new System.Drawing.Point(222, 102);
+            this._audioDuration.Name = "_audioDuration";
+            this._audioDuration.Size = new System.Drawing.Size(29, 20);
+            this._audioDuration.TabIndex = 19;
+            this._audioDuration.Text = "10";
+            // 
             // TimeboxEnforcer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(641, 215);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this._audioDuration);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this._lightDuration);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this._countdown);
             this.Controls.Add(this._start);
             this.Controls.Add(this._timeboxAudio);
@@ -145,6 +210,7 @@
             this.Controls.Add(this._duration);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._close);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TimeboxEnforcer";
             this.Text = "Timebox Enforcer";
             ((System.ComponentModel.ISupportInitialize)(this._duration)).EndInit();
@@ -164,5 +230,11 @@
         private System.Windows.Forms.ComboBox _timeboxLights;
         private System.Windows.Forms.Button _start;
         private System.Windows.Forms.Label _countdown;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox _lightDuration;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox _audioDuration;
     }
 }

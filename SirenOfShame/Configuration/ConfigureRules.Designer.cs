@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureRules));
             this.panel1 = new System.Windows.Forms.Panel();
+            this._reset = new System.Windows.Forms.Button();
             this._down = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._up = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.NotificationType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this._reset = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +61,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(735, 30);
             this.panel1.TabIndex = 0;
+            // 
+            // _reset
+            // 
+            this._reset.FlatAppearance.BorderSize = 0;
+            this._reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._reset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._reset.Location = new System.Drawing.Point(158, 4);
+            this._reset.Name = "_reset";
+            this._reset.Size = new System.Drawing.Size(44, 23);
+            this._reset.TabIndex = 4;
+            this._reset.Text = "Reset";
+            this._reset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._reset.UseVisualStyleBackColor = true;
+            this._reset.Click += new System.EventHandler(this.ResetClick);
             // 
             // _down
             // 
@@ -190,20 +204,6 @@
                 "er when you right click on the builds on the main screen. #protip";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // _reset
-            // 
-            this._reset.FlatAppearance.BorderSize = 0;
-            this._reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._reset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._reset.Location = new System.Drawing.Point(158, 4);
-            this._reset.Name = "_reset";
-            this._reset.Size = new System.Drawing.Size(44, 23);
-            this._reset.TabIndex = 4;
-            this._reset.Text = "Reset";
-            this._reset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._reset.UseVisualStyleBackColor = true;
-            this._reset.Click += new System.EventHandler(this.ResetClick);
-            // 
             // ConfigureRules
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +212,7 @@
             this.Controls.Add(this._rulesList);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureRules";
             this.Text = "Configure Rules";
             this.Load += new System.EventHandler(this.ConfigureRulesLoad);

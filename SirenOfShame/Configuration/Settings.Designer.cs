@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this._ok = new System.Windows.Forms.Button();
             this._cancel = new System.Windows.Forms.Button();
             this._duration = new System.Windows.Forms.Label();
@@ -113,6 +114,7 @@
             this.Controls.Add(this._ok);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._pollInterval);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.Text = "Settings";
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).EndInit();

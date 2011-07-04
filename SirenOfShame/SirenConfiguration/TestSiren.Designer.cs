@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestSiren));
             this._test = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -134,6 +135,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._audio);
             this.Controls.Add(this._lights);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TestSiren";
             this.Text = "Test Siren";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TestSiren_FormClosing);
