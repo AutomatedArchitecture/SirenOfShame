@@ -297,7 +297,7 @@ namespace SirenOfShame {
             this._timeboxEnforcer.Name = "_timeboxEnforcer";
             this._timeboxEnforcer.Size = new System.Drawing.Size(73, 70);
             this._timeboxEnforcer.TabIndex = 6;
-            this._timeboxEnforcer.Text = "Timebox Enforder";
+            this._timeboxEnforcer.Text = "The Enforder";
             this._timeboxEnforcer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._timeboxEnforcer.UseVisualStyleBackColor = false;
             this._timeboxEnforcer.Click += new System.EventHandler(this.TimeboxEnforcerClick);

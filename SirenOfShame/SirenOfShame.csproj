@@ -109,6 +109,12 @@
     <Compile Include="SirenConfiguration\TestSiren.Designer.cs">
       <DependentUpon>TestSiren.cs</DependentUpon>
     </Compile>
+    <Compile Include="SosMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SosMessageBox.Designer.cs">
+      <DependentUpon>SosMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     </Compile>
     <EmbeddedResource Include="SirenConfiguration\TestSiren.resx">
       <DependentUpon>TestSiren.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SosMessageBox.resx">
+      <DependentUpon>SosMessageBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>

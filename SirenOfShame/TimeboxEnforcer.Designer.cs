@@ -212,7 +212,7 @@
             this.Controls.Add(this._close);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TimeboxEnforcer";
-            this.Text = "Timebox Enforcer";
+            this.Text = "The Enforcer";
             ((System.ComponentModel.ISupportInitialize)(this._duration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
