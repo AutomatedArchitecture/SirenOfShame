@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace SirenOfShame
@@ -26,8 +27,6 @@ namespace SirenOfShame
             msg._button2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             msg.ShowDialog();
-            msg.Activate();
-            msg.Focus();
 
             if (msg.Button1Clicked) return button1DialogResult;
             if (msg.Button2Clicked) return button2DialogResult;
@@ -38,6 +37,9 @@ namespace SirenOfShame
         public SosMessageBox()
         {
             InitializeComponent();
+
+            Activate();
+            Focus();
         }
 
         private void Button1Click(object sender, System.EventArgs e)
