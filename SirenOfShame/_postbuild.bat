@@ -1,2 +1,2 @@
 
-xcopy /Y ..\Releases\wyUpdate\*.* bin\
+xcopy /Y /D ..\Releases\wyUpdate\*.* bin\
