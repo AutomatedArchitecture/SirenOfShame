@@ -29,12 +29,14 @@ namespace SirenOfShame
             _timeboxAudio.Items.Add(new { Name = "None" });
             _timeboxAudio.Items.AddRange(SirenOfShameDevice.AudioPatterns.ToArray());
             _timeboxAudio.DisplayMember = "Name";
-            _timeboxAudio.SelectedIndex = 1;
+            if (_timeboxAudio.Items.Count > 1)
+                _timeboxAudio.SelectedIndex = 1;
 
             _timeboxLights.Items.Add(new {Name = "None"});
             _timeboxLights.Items.AddRange(SirenOfShameDevice.LedPatterns.ToArray());
             _timeboxLights.DisplayMember = "Name";
-            _timeboxLights.SelectedIndex = 1;
+            if (_timeboxLights.Items.Count > 1)
+                _timeboxLights.SelectedIndex = 1;
         }
 
         private TimeSpan GetTimespanOrDefault(TextBox textBox, int defaultSeconds)

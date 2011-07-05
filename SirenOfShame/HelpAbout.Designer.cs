@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpAbout));
             this._ok = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this._url = new System.Windows.Forms.LinkLabel();
@@ -102,7 +103,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this._url);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "HelpAbout";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";
             this.ResumeLayout(false);
             this.PerformLayout();
