@@ -76,7 +76,7 @@ namespace SirenOfShame
                 updatePath = "http://blueink.biz/SoS/updates/";
             }
             string server = updatePath + "wyserver.zip";
-            _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
+            _automaticUpdater.wyUpdateCommandline = " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
         }
 
         protected override void WndProc(ref Message m)
@@ -658,6 +658,7 @@ namespace SirenOfShame
 
         public void CheckForUpdates()
         {
+            SetAutomaticUpdaterSettings();
             _automaticUpdater.ForceCheckForUpdate(true);
         }
 

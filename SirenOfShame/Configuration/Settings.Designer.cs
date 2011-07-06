@@ -144,7 +144,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(378, 44);
             this.textBox1.TabIndex = 12;
-            this.textBox1.Text = "Examples:\r\nfile:///c|/temp/wyserver.zip\r\nhttp://myupdate.com/wyserver.zip";
+            this.textBox1.Text = "Examples:\r\nfile:///c|/temp/\r\nhttp://myupdate.com/";
             // 
             // _updateLocationOtherLocation
             // 
