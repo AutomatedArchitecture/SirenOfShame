@@ -213,6 +213,7 @@
     <None Include="Resources\RibbonBackground.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
+    <None Include="Resources\splash.png" />
     <Content Include="SirenOfShameTrayBlank.ico" />
     <Content Include="Resources\SirenOfShameTrayGreen.ico" />
     <EmbeddedResource Include="Resources\ball_gray.png" />
