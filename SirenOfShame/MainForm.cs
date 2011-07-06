@@ -175,6 +175,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _testSiren.Enabled = true;
+                _timeboxEnforcer.Enabled = true;
             });
         }
 
@@ -197,6 +198,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _testSiren.Enabled = false;
+                _timeboxEnforcer.Enabled = false;
             });
         }
 
