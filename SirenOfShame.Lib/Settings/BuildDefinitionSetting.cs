@@ -11,12 +11,13 @@ namespace SirenOfShame.Lib.Settings {
 		    People = new List<string>();
 		}
 
-        public BuildDefinitionSetting(MyBuildDefinition buildDefinition) : this()
+        public BuildDefinitionSetting(MyBuildDefinition buildDefinition, string buildServer) : this()
         {
 			Active = false;
 			Id = buildDefinition.Id;
 			Name = buildDefinition.Name;
             AffectsTrayIcon = true;
+            BuildServer = BuildServer;
         }
 
 		public bool Active { get; set; }
@@ -24,6 +25,7 @@ namespace SirenOfShame.Lib.Settings {
 		public string Name { get; set; }
         public bool AffectsTrayIcon { get; set; }
         public List<string> People { get; set; }
+	    public string BuildServer { get; set; }
 
 	    public BuildStatus AsUnknownBuildStatus()
 	    {

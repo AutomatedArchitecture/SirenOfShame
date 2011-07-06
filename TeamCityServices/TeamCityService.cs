@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using log4net;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
 
@@ -10,13 +12,15 @@ namespace TeamCityServices
     // http://confluence.jetbrains.net/display/TW/REST+API+Plugin
     public class TeamCityService
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TeamCityService));
+
         public delegate void GetProjectsCompleteDelegate(TeamCityProject[] projects);
 
         public delegate void GetBuildDefinitionsCompleteDelegate(TeamCityBuildDefinition[] buildDefinitions);
 
         public delegate void GetBuildStatusCompleteDelegate(TeamCityBuildStatus buildStatus);
 
-        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete)
+        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError)
         {
             WebClient webClient = new WebClient
             {
@@ -26,16 +30,23 @@ namespace TeamCityServices
             var projectUrl = new Uri(rootUrl + "/httpAuth/app/rest/projects");
             webClient.DownloadStringCompleted += (s, e) =>
                 {
-                    XDocument doc = XDocument.Parse(e.Result);
-                    if (doc.Root == null)
+                    try
                     {
-                        throw new Exception("Could not get project list");
+                        XDocument doc = XDocument.Parse(e.Result);
+                        if (doc.Root == null)
+                        {
+                            throw new Exception("Could not get project list");
+                        }
+                        TeamCityProject[] projects = doc.Root
+                            .Elements("project")
+                            .Select(projectXml => new TeamCityProject(rootUrl, projectXml))
+                            .ToArray();
+                        complete(projects);
+                    } catch (Exception ex)
+                    {
+                        _log.Error("Error connecting to server", ex);
+                        onError(ex);
                     }
-                    TeamCityProject[] projects = doc.Root
-                        .Elements("project")
-                        .Select(projectXml => new TeamCityProject(rootUrl, projectXml))
-                        .ToArray();
-                    complete(projects);
                 };
             webClient.DownloadStringAsync(projectUrl);
         }
@@ -74,7 +85,7 @@ namespace TeamCityServices
             webClient.DownloadStringAsync(projectDetailsUrl);
         }
 
-        public void GetBuildStatus(string rootUrl, string buildDefinitionId, string userName, string password, GetBuildStatusCompleteDelegate complete)
+        public void GetBuildStatus(string rootUrl, string buildDefinitionId, string userName, string password, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
         {
             WebClient webClient = new WebClient
             {
@@ -84,12 +95,19 @@ namespace TeamCityServices
             var buildStatusUrl = new Uri(rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionId);
             webClient.DownloadStringCompleted += (s, e) =>
             {
-                XDocument doc = XDocument.Parse(e.Result);
-                if (doc.Root == null)
+                try
                 {
-                    throw new Exception("Could not get project build status");
+                    XDocument doc = XDocument.Parse(e.Result);
+                    if (doc.Root == null)
+                    {
+                        throw new Exception("Could not get project build status");
+                    }
+                    complete(new TeamCityBuildStatus(buildDefinitionId, doc));
+                } catch (Exception ex)
+                {
+                    _log.Error("Error connecting to team city", ex);
+                    onError(ex);
                 }
-                complete(new TeamCityBuildStatus(buildDefinitionId, doc));
             };
             webClient.DownloadStringAsync(buildStatusUrl);
         }

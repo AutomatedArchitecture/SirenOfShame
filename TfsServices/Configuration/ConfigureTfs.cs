@@ -55,7 +55,7 @@ namespace TfsServices.Configuration
                             var projectNode = projectCollectionNode.Nodes.Add(project.Name);
                             foreach (var buildDefinition in project.BuildDefinitions)
                             {
-                                var buildDefinitionSetting = Settings.FindAddBuildDefinition(buildDefinition);
+                                var buildDefinitionSetting = Settings.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
                                 projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
                             }
                         }

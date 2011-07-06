@@ -40,7 +40,13 @@ namespace TeamCityServices.ServerConfiguration
         {
             _projects.Nodes.Clear();
             _projects.Nodes.Add("Loading...");
-            _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete);
+            _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
+        }
+
+        private void GetProjectsError(Exception ex)
+        {
+            _projects.Nodes.Clear();
+            MessageBox.Show("Error connecting to server: " + ex.Message);
         }
 
         private void GetProjectsComplete(TeamCityProject[] projects)
@@ -102,7 +108,7 @@ namespace TeamCityServices.ServerConfiguration
             if (e.Node.Tag is TeamCityBuildDefinition)
             {
                 var buildDefinition = (TeamCityBuildDefinition)e.Node.Tag;
-                var buildDefSetting = Settings.FindAddBuildDefinition(buildDefinition);
+                var buildDefSetting = Settings.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();
             }

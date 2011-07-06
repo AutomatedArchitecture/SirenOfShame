@@ -97,6 +97,7 @@ namespace SirenOfShame.Lib.Settings
                     myFileStream = fi.OpenRead();
                     SirenOfShameSettings settings = (SirenOfShameSettings)mySerializer.Deserialize(myFileStream);
                     settings.InitializeCiEntryPointSettings();
+                    settings.ErrorIfAnythingLooksBad();
                     return settings;
                 }
             }
@@ -116,6 +117,12 @@ namespace SirenOfShame.Lib.Settings
 
             defaultSettings.Save();
             return defaultSettings;
+        }
+
+        private void ErrorIfAnythingLooksBad()
+        {
+            if (BuildDefinitionSettings.Any(bds => string.IsNullOrEmpty(bds.BuildServer)))
+                throw new Exception("A BuildDefinitionSetting.BuildServer was null or empty");
         }
 
         private static SirenOfShameSettings GetDefaultSettings()
@@ -138,11 +145,11 @@ namespace SirenOfShame.Lib.Settings
             return entryPoint.GetWatcher(this);
         }
 
-        public BuildDefinitionSetting FindAddBuildDefinition(MyBuildDefinition buildDefinition)
+        public BuildDefinitionSetting FindAddBuildDefinition(MyBuildDefinition buildDefinition, string buildServer)
         {
             BuildDefinitionSetting buildDefinitionSetting = BuildDefinitionSettings.FirstOrDefault(bd => bd.Id == buildDefinition.Id);
             if (buildDefinitionSetting != null) return buildDefinitionSetting;
-            buildDefinitionSetting = new BuildDefinitionSetting(buildDefinition);
+            buildDefinitionSetting = new BuildDefinitionSetting(buildDefinition, buildServer);
             BuildDefinitionSettings.Add(buildDefinitionSetting);
             return buildDefinitionSetting;
         }

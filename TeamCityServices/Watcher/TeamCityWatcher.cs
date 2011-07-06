@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -25,29 +26,39 @@ namespace TeamCityServices.Watcher
             foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
             {
                 BuildDefinitionSetting definition = watchedBuildDefinition;
-                _service.GetBuildStatus(settings.Url, watchedBuildDefinition.Id, settings.UserName, settings.Password, bs =>
-                {
-                    var mostRecentBuildStatus = _mostRecentBuildStatus.FirstOrDefault(mrbs => mrbs.Id == bs.BuildDefinitionId);
-                    if (mostRecentBuildStatus == null)
-                    {
-                        mostRecentBuildStatus = new BuildStatus
-                        {
-                            Id = bs.BuildDefinitionId,
-                            Name = definition.Name
-                        };
-                        _mostRecentBuildStatus.Add(mostRecentBuildStatus);
-                    }
-                    mostRecentBuildStatus.BuildStatusEnum = bs.BuildStatus;
-                    mostRecentBuildStatus.RequestedBy = bs.RequestedBy;
-                    mostRecentBuildStatus.StartedTime = bs.StartedTime;
-                });
+                _service.GetBuildStatus(settings.Url, watchedBuildDefinition.Id, settings.UserName, settings.Password, GetBuildStatusComplete(definition), OnGetBuildStatusError);
             }
             return _mostRecentBuildStatus;
         }
 
+        private void OnGetBuildStatusError(Exception ex)
+        {
+            MessageBox.Show("Error connecting to server: " + ex.Message);
+        }
+
+        private TeamCityService.GetBuildStatusCompleteDelegate GetBuildStatusComplete(BuildDefinitionSetting definition)
+        {
+            return bs =>
+            {
+                var mostRecentBuildStatus = _mostRecentBuildStatus.FirstOrDefault(mrbs => mrbs.Id == bs.BuildDefinitionId);
+                if (mostRecentBuildStatus == null)
+                {
+                    mostRecentBuildStatus = new BuildStatus
+                    {
+                        Id = bs.BuildDefinitionId,
+                        Name = definition.Name
+                    };
+                    _mostRecentBuildStatus.Add(mostRecentBuildStatus);
+                }
+                mostRecentBuildStatus.BuildStatusEnum = bs.BuildStatus;
+                mostRecentBuildStatus.RequestedBy = bs.RequestedBy;
+                mostRecentBuildStatus.StartedTime = bs.StartedTime;
+            };
+        }
+
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()
         {
-            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active);
+            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _teamCityCiEntryPoint.Name );
             return activeBuildDefinitionSettings;
         }
 
