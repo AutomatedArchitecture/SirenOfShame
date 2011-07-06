@@ -46,16 +46,21 @@ namespace SirenOfShame
 
         private void SetAutomaticUpdaterSettings()
         {
+            string updatePath;
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
-                string updatePath = _settings.UpdateLocationOther;
+                updatePath = _settings.UpdateLocationOther;
                 if (!updatePath.EndsWith("/") || !updatePath.EndsWith("\\"))
                 {
                     _settings.UpdateLocationOther += "/";
                 }
-                string server = updatePath + "wyserver.zip";
-                _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
             }
+            else
+            {
+                updatePath = "http://blueink.biz/SoS/updates/";
+            }
+            string server = updatePath + "wyserver.zip";
+            _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
         }
 
         protected override void WndProc(ref Message m)
