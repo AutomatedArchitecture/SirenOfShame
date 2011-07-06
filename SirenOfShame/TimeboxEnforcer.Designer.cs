@@ -75,7 +75,7 @@
             this._duration.Maximum = 60;
             this._duration.Minimum = 1;
             this._duration.Name = "_duration";
-            this._duration.Size = new System.Drawing.Size(564, 45);
+            this._duration.Size = new System.Drawing.Size(564, 42);
             this._duration.TabIndex = 3;
             this._duration.Value = 5;
             this._duration.ValueChanged += new System.EventHandler(this.DurationValueChanged);
