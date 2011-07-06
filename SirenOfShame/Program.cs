@@ -16,6 +16,7 @@ namespace SirenOfShame
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(Program));
         private bool _startMinimized;
+        private static MainForm _form;
 
         [STAThread]
         public static void Main(string[] args)
@@ -31,6 +32,11 @@ namespace SirenOfShame
         {
             _log.Error("Global error", e.Exception);
             ExceptionMessageBox.Show(null, "Drat", "Something crazy just happened.", e.Exception);
+        }
+
+        public static MainForm Form
+        {
+            get { return _form; }
         }
 
         public Program()
@@ -90,7 +96,7 @@ namespace SirenOfShame
 
         protected override void OnCreateMainForm()
         {
-            MainForm = new MainForm();
+            MainForm = _form = new MainForm();
             if (_startMinimized)
             {
                 MainForm.WindowState = FormWindowState.Minimized;

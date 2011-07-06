@@ -85,5 +85,11 @@ namespace SirenOfShame.Configuration
         {
             _updateLocationOtherLocation.Enabled = _updateLocationOther.Checked;
         }
+
+        private void _checkForUpdates_Click(object sender, EventArgs e)
+        {
+            Close();
+            Program.Form.AutomaticUpdater.ForceCheckForUpdate(true);
+        }
     }
 }

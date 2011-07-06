@@ -11,6 +11,7 @@ using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.SirenConfiguration;
+using wyDay.Controls;
 
 namespace SirenOfShame
 {
@@ -61,6 +62,11 @@ namespace SirenOfShame
             }
             string server = updatePath + "wyserver.zip";
             _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
+        }
+
+        public AutomaticUpdater AutomaticUpdater
+        {
+            get { return _automaticUpdater; }
         }
 
         protected override void WndProc(ref Message m)

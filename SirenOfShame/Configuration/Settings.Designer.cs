@@ -41,6 +41,7 @@
             this._updateLocationOtherLocation = new System.Windows.Forms.TextBox();
             this._updateLocationOther = new System.Windows.Forms.RadioButton();
             this._updateLocationAuto = new System.Windows.Forms.RadioButton();
+            this._checkForUpdates = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.SuspendLayout();
@@ -178,6 +179,17 @@
             this._updateLocationAuto.Text = "Update from SirenOfShame.com";
             this._updateLocationAuto.UseVisualStyleBackColor = true;
             // 
+            // _checkForUpdates
+            // 
+            this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkForUpdates.Location = new System.Drawing.Point(189, 169);
+            this._checkForUpdates.Name = "_checkForUpdates";
+            this._checkForUpdates.Size = new System.Drawing.Size(113, 23);
+            this._checkForUpdates.TabIndex = 12;
+            this._checkForUpdates.Text = "Check for Updates";
+            this._checkForUpdates.UseVisualStyleBackColor = true;
+            this._checkForUpdates.Click += new System.EventHandler(this._checkForUpdates_Click);
+            // 
             // Settings
             // 
             this.AcceptButton = this._ok;
@@ -185,6 +197,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(557, 204);
+            this.Controls.Add(this._checkForUpdates);
             this.Controls.Add(this._updateLocations);
             this.Controls.Add(this.label2);
             this.Controls.Add(this._viewLog);
@@ -218,5 +231,6 @@
         private System.Windows.Forms.TextBox _updateLocationOtherLocation;
         private System.Windows.Forms.RadioButton _updateLocationOther;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button _checkForUpdates;
     }
 }
