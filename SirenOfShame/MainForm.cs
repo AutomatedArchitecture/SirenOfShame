@@ -48,7 +48,13 @@ namespace SirenOfShame
         {
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
-                _automaticUpdater.wyUpdateCommandline += " \"/server:" + _settings.UpdateLocationOther + "\"";
+                string updatePath = _settings.UpdateLocationOther;
+                if (!updatePath.EndsWith("/") || !updatePath.EndsWith("\\"))
+                {
+                    _settings.UpdateLocationOther += "/";
+                }
+                string server = updatePath + "wyserver.zip";
+                _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
             }
         }
 
