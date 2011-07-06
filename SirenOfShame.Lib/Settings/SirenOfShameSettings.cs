@@ -52,6 +52,10 @@ namespace SirenOfShame.Lib.Settings
 
         public bool SirenEverConnected { get; set; }
 
+        public UpdateLocation UpdateLocation { get; set; }
+
+        public string UpdateLocationOther { get; set; }
+
         /// <summary>
         /// In seconds
         /// </summary>

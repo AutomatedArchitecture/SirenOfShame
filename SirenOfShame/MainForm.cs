@@ -40,6 +40,16 @@ namespace SirenOfShame
             {
                 SirenofShameDeviceDisconnected(this, new EventArgs());
             }
+
+            SetAutomaticUpdaterSettings();
+        }
+
+        private void SetAutomaticUpdaterSettings()
+        {
+            if (_settings.UpdateLocation == UpdateLocation.Other)
+            {
+                _automaticUpdater.wyUpdateCommandline += " \"/server:" + _settings.UpdateLocationOther + "\"";
+            }
         }
 
         protected override void WndProc(ref Message m)
@@ -72,9 +82,9 @@ namespace SirenOfShame
         {
             var subItem = lvi.SubItems.Cast<ListViewItem.ListViewSubItem>().FirstOrDefault(i => i.Name == name);
             if (subItem == null) throw new Exception("Unable to find list view sub item" + name);
-// ReSharper disable RedundantCheckBeforeAssignment
+            // ReSharper disable RedundantCheckBeforeAssignment
             if (value != subItem.Text)
-// ReSharper restore RedundantCheckBeforeAssignment
+                // ReSharper restore RedundantCheckBeforeAssignment
                 subItem.Text = value;
         }
 
@@ -109,7 +119,8 @@ namespace SirenOfShame
                 {
                     var listViewItems = buildStatusListViewItems.Select(AsListViewItem).ToArray();
                     listView1.Items.AddRange(listViewItems);
-                } else
+                }
+                else
                 {
                     var listViewItemsJoinedStatus = from listViewItem in listView1.Items.Cast<ListViewItem>()
                                                     join buildStatus in buildStatusListViewItems on listViewItem.Text equals buildStatus.Name
@@ -421,12 +432,12 @@ namespace SirenOfShame
 
             menuItem.DropDownItems.Add(trayAlertMenu);
             menuItem.DropDownItems.Add(modalDialogMenu);
-            
+
             bool isConnected = SirenOfShameDevice.IsConnected;
-            
+
             var playAudioMenu = new ToolStripMenuItem("Play the following audio") { Enabled = isConnected };
             var playLightsMenu = new ToolStripMenuItem("Turn on the following light pattern") { Enabled = isConnected };
-            
+
             if (isConnected)
             {
                 playAudioMenu.DropDownItems.AddRange(SirenOfShameDevice.AudioPatterns.Select(ap => AudioPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
@@ -484,15 +495,15 @@ namespace SirenOfShame
             int? duration = null;
             if (rule != null)
                 duration = ledPattern == null ? rule.AudioDuration : rule.LightsDuration;
-            
+
             var durations = _durations.Select(d => new ToolStripMenuItem(d.Value)
             {
                 Checked = patternIsMatch && duration == d.Key,
                 Tag = new RuleDropDownItemTag
                 {
-                    AlertType = null, 
+                    AlertType = null,
                     BuildDefinitionId = buildDefinitionId,
-                    TriggerPerson = person, 
+                    TriggerPerson = person,
                     TriggerType = triggerType,
                     LedPattern = ledPattern,
                     AudioPattern = audioPattern,
@@ -557,7 +568,7 @@ namespace SirenOfShame
                 bool uncheckedAlertType = rule.AlertType == tag.AlertType.Value;
                 rule.AlertType = uncheckedAlertType ? AlertType.NoAlert : tag.AlertType.Value;
             }
-            
+
             if (tag.AudioPattern != null)
             {
                 bool uncheckAudioPattern = tag.AudioPattern.Equals(rule.AudioPattern) && tag.Duration == rule.AudioDuration;

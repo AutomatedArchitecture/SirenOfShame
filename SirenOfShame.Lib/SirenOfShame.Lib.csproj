@@ -108,6 +108,7 @@
     <Compile Include="Settings\MyBuildDefinition.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
+    <Compile Include="Settings\UpdateLocation.cs" />
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />

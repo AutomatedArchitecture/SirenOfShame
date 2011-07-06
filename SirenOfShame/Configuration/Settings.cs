@@ -18,6 +18,10 @@ namespace SirenOfShame.Configuration
             _pollInterval.Value = _settings.PollInterval;
             RefreshDurationText();
 
+            _updateLocationAuto.Checked = _settings.UpdateLocation == UpdateLocation.Auto;
+            _updateLocationOther.Checked = _settings.UpdateLocation == UpdateLocation.Other;
+            _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other ? _settings.UpdateLocationOther : "";
+
             try
             {
                 _logFilename = MyLogManager.GetLogFilename();
@@ -32,6 +36,22 @@ namespace SirenOfShame.Configuration
         private void OkClick(object sender, EventArgs e)
         {
             _settings.PollInterval = _pollInterval.Value;
+            UpdateLocation updateLocation;
+            _settings.UpdateLocationOther = null;
+            if (_updateLocationAuto.Checked)
+            {
+                updateLocation = UpdateLocation.Auto;
+            }
+            else if (_updateLocationOther.Checked)
+            {
+                updateLocation = UpdateLocation.Other;
+                _settings.UpdateLocationOther = _updateLocationOtherLocation.Text;
+            }
+            else
+            {
+                throw new NotImplementedException("One of the update locations needs to be checked");
+            }
+            _settings.UpdateLocation = updateLocation;
             _settings.Save();
             Close();
         }
@@ -59,6 +79,11 @@ namespace SirenOfShame.Configuration
         private void ViewLogClick(object sender, EventArgs e)
         {
             Process.Start(_logFilename);
+        }
+
+        private void _updateLocationOther_CheckedChanged(object sender, EventArgs e)
+        {
+            _updateLocationOtherLocation.Enabled = _updateLocationOther.Checked;
         }
     }
 }
