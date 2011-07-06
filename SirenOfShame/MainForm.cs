@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using log4net;
@@ -11,7 +13,6 @@ using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.SirenConfiguration;
-using wyDay.Controls;
 
 namespace SirenOfShame
 {
@@ -21,6 +22,8 @@ namespace SirenOfShame
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(MainForm));
         SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
         private RulesEngine _rulesEngine;
+        private readonly string _logFilename;
+        private readonly bool _canViewLogs;
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
@@ -43,6 +46,18 @@ namespace SirenOfShame
             }
 
             SetAutomaticUpdaterSettings();
+
+            try
+            {
+                _logFilename = MyLogManager.GetLogFilename();
+                _viewLog.Enabled = true;
+                _canViewLogs = true;
+            }
+            catch (Exception)
+            {
+                _viewLog.Enabled = false;
+                _canViewLogs = false;
+            }
         }
 
         private void SetAutomaticUpdaterSettings()
@@ -62,11 +77,6 @@ namespace SirenOfShame
             }
             string server = updatePath + "wyserver.zip";
             _automaticUpdater.wyUpdateCommandline += " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
-        }
-
-        public AutomaticUpdater AutomaticUpdater
-        {
-            get { return _automaticUpdater; }
         }
 
         protected override void WndProc(ref Message m)
@@ -631,6 +641,39 @@ namespace SirenOfShame
         {
             HelpAbout helpAbout = new HelpAbout();
             helpAbout.ShowDialog();
+        }
+
+        private void _configurationMore_Click(object sender, EventArgs e)
+        {
+            Point pt = _configurationMore.Location;
+            pt.X += _configurationMore.Width;
+            pt.Y += _configurationMore.Height;
+            _configurationMenu.Show(this, pt);
+        }
+
+        private void _checkForUpdates_Click(object sender, EventArgs e)
+        {
+            CheckForUpdates();
+        }
+
+        public void CheckForUpdates()
+        {
+            _automaticUpdater.ForceCheckForUpdate(true);
+        }
+
+        private void _viewLog_Click(object sender, EventArgs e)
+        {
+            ViewLogs();
+        }
+
+        public void ViewLogs()
+        {
+            Process.Start(_logFilename);
+        }
+
+        public bool CanViewLogs
+        {
+            get { return _canViewLogs; }
         }
     }
 }

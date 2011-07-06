@@ -52,10 +52,10 @@ namespace SirenOfShame {
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this._help = new System.Windows.Forms.Button();
             this.bigIcons = new System.Windows.Forms.ImageList(this.components);
+            this._configurationMore = new System.Windows.Forms.Button();
             this._configureRules = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this._timeboxEnforcer = new System.Windows.Forms.Button();
@@ -64,12 +64,16 @@ namespace SirenOfShame {
             this._configureSiren = new System.Windows.Forms.Button();
             this._testSiren = new System.Windows.Forms.Button();
             this._configureServers = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._configurationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._checkForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this._viewLog = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -79,6 +83,7 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this._buildMenu.SuspendLayout();
+            this._configurationMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -192,10 +197,10 @@ namespace SirenOfShame {
             this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.RibbonBackground;
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this._help);
+            this.panel1.Controls.Add(this._configurationMore);
             this.panel1.Controls.Add(this._configureRules);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this._timeboxEnforcer);
@@ -204,6 +209,7 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._testSiren);
             this.panel1.Controls.Add(this._configureServers);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -247,6 +253,22 @@ namespace SirenOfShame {
             this.bigIcons.Images.SetKeyName(2, "TestSirenBig.png");
             this.bigIcons.Images.SetKeyName(3, "Towlie.png");
             // 
+            // _configurationMore
+            // 
+            this._configurationMore.BackColor = System.Drawing.Color.Transparent;
+            this._configurationMore.FlatAppearance.BorderSize = 0;
+            this._configurationMore.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configurationMore.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configurationMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._configurationMore.Image = global::SirenOfShame.Properties.Resources.RibbonMore;
+            this._configurationMore.Location = new System.Drawing.Point(177, 70);
+            this._configurationMore.Name = "_configurationMore";
+            this._configurationMore.Size = new System.Drawing.Size(12, 12);
+            this._configurationMore.TabIndex = 14;
+            this._configurationMore.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._configurationMore.UseVisualStyleBackColor = false;
+            this._configurationMore.Click += new System.EventHandler(this._configurationMore_Click);
+            // 
             // _configureRules
             // 
             this._configureRules.BackColor = System.Drawing.Color.Transparent;
@@ -287,17 +309,6 @@ namespace SirenOfShame {
             this.label2.TabIndex = 10;
             this.label2.Text = "Test";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label1.Location = new System.Drawing.Point(3, 69);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(186, 16);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Configuration";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox2
             // 
@@ -425,6 +436,17 @@ namespace SirenOfShame {
             this._configureServers.UseVisualStyleBackColor = false;
             this._configureServers.Click += new System.EventHandler(this.ConfigureServersClick);
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label1.Location = new System.Drawing.Point(3, 69);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(186, 16);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Configuration";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // buildStatusBindingSource
             // 
             this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
@@ -468,6 +490,28 @@ namespace SirenOfShame {
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
             this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
+            // _configurationMenu
+            // 
+            this._configurationMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._checkForUpdates,
+            this._viewLog});
+            this._configurationMenu.Name = "_configurationMenu";
+            this._configurationMenu.Size = new System.Drawing.Size(174, 70);
+            // 
+            // _checkForUpdates
+            // 
+            this._checkForUpdates.Name = "_checkForUpdates";
+            this._checkForUpdates.Size = new System.Drawing.Size(173, 22);
+            this._checkForUpdates.Text = "Check For Updates";
+            this._checkForUpdates.Click += new System.EventHandler(this._checkForUpdates_Click);
+            // 
+            // _viewLog
+            // 
+            this._viewLog.Name = "_viewLog";
+            this._viewLog.Size = new System.Drawing.Size(173, 22);
+            this._viewLog.Text = "View Logs...";
+            this._viewLog.Click += new System.EventHandler(this._viewLog_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -493,6 +537,7 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this._buildMenu.ResumeLayout(false);
+            this._configurationMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -536,6 +581,10 @@ namespace SirenOfShame {
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Button _help;
       private System.Windows.Forms.PictureBox pictureBox3;
+      private System.Windows.Forms.Button _configurationMore;
+      private System.Windows.Forms.ContextMenuStrip _configurationMenu;
+      private System.Windows.Forms.ToolStripMenuItem _checkForUpdates;
+      private System.Windows.Forms.ToolStripMenuItem _viewLog;
 
 	}
 }

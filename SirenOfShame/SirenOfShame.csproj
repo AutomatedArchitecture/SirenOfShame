@@ -211,6 +211,7 @@
     <None Include="Resources\Play.png" />
     <None Include="Resources\separater.png" />
     <None Include="Resources\RibbonBackground.png" />
+    <Content Include="Resources\RibbonMore.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
     <None Include="Resources\splash.png" />

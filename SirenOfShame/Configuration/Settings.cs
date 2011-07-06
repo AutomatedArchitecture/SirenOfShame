@@ -22,15 +22,7 @@ namespace SirenOfShame.Configuration
             _updateLocationOther.Checked = _settings.UpdateLocation == UpdateLocation.Other;
             _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other ? _settings.UpdateLocationOther : "";
 
-            try
-            {
-                _logFilename = MyLogManager.GetLogFilename();
-                _viewLog.Enabled = true;
-            }
-            catch (Exception)
-            {
-                _viewLog.Enabled = false;
-            }
+            _viewLog.Enabled = Program.Form.CanViewLogs;
         }
 
         private void OkClick(object sender, EventArgs e)
@@ -78,7 +70,7 @@ namespace SirenOfShame.Configuration
 
         private void ViewLogClick(object sender, EventArgs e)
         {
-            Process.Start(_logFilename);
+            Program.Form.ViewLogs();
         }
 
         private void _updateLocationOther_CheckedChanged(object sender, EventArgs e)
@@ -89,7 +81,7 @@ namespace SirenOfShame.Configuration
         private void _checkForUpdates_Click(object sender, EventArgs e)
         {
             Close();
-            Program.Form.AutomaticUpdater.ForceCheckForUpdate(true);
+            Program.Form.CheckForUpdates();
         }
     }
 }
