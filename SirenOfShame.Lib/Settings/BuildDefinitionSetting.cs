@@ -17,7 +17,7 @@ namespace SirenOfShame.Lib.Settings {
 			Id = buildDefinition.Id;
 			Name = buildDefinition.Name;
             AffectsTrayIcon = true;
-            BuildServer = BuildServer;
+            BuildServer = buildServer;
         }
 
 		public bool Active { get; set; }
