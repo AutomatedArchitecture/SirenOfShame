@@ -20,8 +20,7 @@ namespace TeamCityServices
 
         public delegate void GetBuildStatusCompleteDelegate(TeamCityBuildStatus buildStatus);
 
-        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError)
-        {
+        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError){
             WebClient webClient = new WebClient
             {
                 Credentials = new NetworkCredential(userName, password)

@@ -71,7 +71,7 @@ namespace SirenOfShame.Lib.Settings
             try
             {
                 mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-                myWriter = new StreamWriter(Path.Combine(Application.LocalUserAppDataPath, _sirenofshameConfig), false);
+                myWriter = new StreamWriter(GetConfigFileName(), false);
                 mySerializer.Serialize(myWriter, this);
             }
             finally
@@ -83,6 +83,13 @@ namespace SirenOfShame.Lib.Settings
             }
         }
 
+        private static string GetConfigFileName()
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
+            Directory.CreateDirectory(path);
+            return Path.Combine(path, _sirenofshameConfig);
+        }
+
         public static SirenOfShameSettings GetAppSettings()
         {
             XmlSerializer mySerializer;
@@ -91,7 +98,7 @@ namespace SirenOfShame.Lib.Settings
             try
             {
                 mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-                FileInfo fi = new FileInfo(Path.Combine(Application.LocalUserAppDataPath, _sirenofshameConfig));
+                FileInfo fi = new FileInfo(GetConfigFileName());
                 if (fi.Exists)
                 {
                     myFileStream = fi.OpenRead();
