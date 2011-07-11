@@ -126,7 +126,6 @@ namespace SirenOfShame.Lib.Watcher
         {
             if (_buildStatus.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
             {
-                _log.Debug("Tick: some build is in progress");
                 InvokeRefreshStatus(_buildStatus);
             }
         }

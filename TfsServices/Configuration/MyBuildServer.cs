@@ -25,15 +25,22 @@ namespace TfsServices.Configuration
 
         public IEnumerable<BuildStatus> GetBuildStatuses(IEnumerable<MyTfsBuildDefinition> buildDefinitions)
         {
-            var buildDefinitionUris = buildDefinitions.Select(bd => bd.Uri);
-            IBuildDetailSpec buildDetailSpec = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec.MaxBuildsPerDefinition = 1;
-            buildDetailSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
-
-            IBuildQueryResult buildQueryResults;
             try
             {
-                buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
+                var buildDefinitionUris = buildDefinitions.Select(bd => bd.Uri);
+                IBuildDetailSpec buildDetailSpec = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+                buildDetailSpec.MaxBuildsPerDefinition = 1;
+                buildDetailSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
+
+                IBuildQueryResult buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
+                var latestChangesets = buildDefinitions.Select(bd => bd.GetLatestChangeset());
+                var successfulChangesets = latestChangesets.Where(c => c != null);
+
+                var buildStatusResultsJoined = from buildQueryResult in buildQueryResults.Builds
+                                               from changeset in successfulChangesets.Where(sc => sc.BuildDefinitionId == buildQueryResult.BuildDefinition.Name).DefaultIfEmpty()
+                                               select CreateBuildStatus(buildQueryResult, changeset);
+
+                return buildStatusResultsJoined;
             }
             catch (ThreadAbortException)
             {
@@ -57,15 +64,6 @@ namespace TfsServices.Configuration
                 Log.Error("Error connecting to server", ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
-
-            var latestChangesets = buildDefinitions.Select(bd => bd.GetLatestChangeset());
-            var successfulChangesets = latestChangesets.Where(c => c != null);
-
-            var buildStatusResultsJoined = from buildQueryResult in buildQueryResults.Builds
-                                           from changeset in successfulChangesets.Where(sc => sc.BuildDefinitionId == buildQueryResult.BuildDefinition.Name).DefaultIfEmpty()
-                                           select CreateBuildStatus(buildQueryResult, changeset);
-
-            return buildStatusResultsJoined;
         }
 
         private static BuildStatusEnum GetBuildStatusEnum(Microsoft.TeamFoundation.Build.Client.BuildStatus status)
