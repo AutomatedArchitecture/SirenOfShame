@@ -22,9 +22,9 @@ namespace SirenOfShame.Lib
             };
             dlg._exception.Visible = false;
             if (owner != null)
-                dlg.Show(owner);
+                dlg.ShowDialog(owner);
             else
-                dlg.Show();
+                dlg.ShowDialog();
         }
 
         private void OkClick(object sender, EventArgs e)

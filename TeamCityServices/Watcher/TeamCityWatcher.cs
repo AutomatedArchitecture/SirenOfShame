@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -12,6 +14,7 @@ namespace TeamCityServices.Watcher
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly List<BuildStatus> _mostRecentBuildStatus = new List<BuildStatus>();
+        private static Exception _lastError;
 
         public TeamCityWatcher(SirenOfShameSettings settings, TeamCityCiEntryPoint teamCityCiEntryPoint)
             : base(settings)
@@ -21,6 +24,11 @@ namespace TeamCityServices.Watcher
 
         protected override IEnumerable<BuildStatus> GetBuildStatus()
         {
+            if (_lastError != null)
+            {
+                throw _lastError;
+            }
+
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
             foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
@@ -31,9 +39,9 @@ namespace TeamCityServices.Watcher
             return _mostRecentBuildStatus;
         }
 
-        private void OnGetBuildStatusError(Exception ex)
+        private static void OnGetBuildStatusError(Exception ex)
         {
-            MessageBox.Show("Error connecting to server: " + ex.Message);
+            _lastError = ex;
         }
 
         private TeamCityService.GetBuildStatusCompleteDelegate GetBuildStatusComplete(BuildDefinitionSetting definition)
@@ -58,7 +66,7 @@ namespace TeamCityServices.Watcher
 
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()
         {
-            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _teamCityCiEntryPoint.Name );
+            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _teamCityCiEntryPoint.Name && bd.BuildServer == Settings.ServerType);
             return activeBuildDefinitionSettings;
         }
 
