@@ -14,7 +14,7 @@ namespace TeamCityServices.Watcher
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly List<BuildStatus> _mostRecentBuildStatus = new List<BuildStatus>();
-        private static Exception _lastError;
+        private static Exception _lastServerUnavailableError;
 
         public TeamCityWatcher(SirenOfShameSettings settings, TeamCityCiEntryPoint teamCityCiEntryPoint)
             : base(settings)
@@ -24,9 +24,9 @@ namespace TeamCityServices.Watcher
 
         protected override IEnumerable<BuildStatus> GetBuildStatus()
         {
-            if (_lastError != null)
+            if (_lastServerUnavailableError != null)
             {
-                throw _lastError;
+                throw new ServerUnavailableException("Unable to connect to server", _lastServerUnavailableError);
             }
 
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
@@ -41,7 +41,7 @@ namespace TeamCityServices.Watcher
 
         private static void OnGetBuildStatusError(Exception ex)
         {
-            _lastError = ex;
+            _lastServerUnavailableError = ex;
         }
 
         private TeamCityService.GetBuildStatusCompleteDelegate GetBuildStatusComplete(BuildDefinitionSetting definition)

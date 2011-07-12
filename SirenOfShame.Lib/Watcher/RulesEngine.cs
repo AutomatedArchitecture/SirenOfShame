@@ -68,6 +68,8 @@ namespace SirenOfShame.Lib.Watcher
             });
             ResetPreviousWorkingOrBrokenStatuses();
             _serverPreviouslyUnavailable = true;
+
+            ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", args.Exception);
         }
 
         private void ResetPreviousWorkingOrBrokenStatuses()

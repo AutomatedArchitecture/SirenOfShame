@@ -41,8 +41,6 @@ namespace SirenOfShame.Lib.Watcher
             }
             catch (ServerUnavailableException ex)
             {
-                ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", ex);
-
                 if (ServerUnavailable != null)
                 {
                     InvokeServerUnavailable(new ServerUnavailableEventArgs(ex));
