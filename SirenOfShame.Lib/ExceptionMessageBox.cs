@@ -36,7 +36,7 @@ namespace SirenOfShame.Lib
         {
             _exception.Visible = true;
             _showMore.Visible = false;
-            ClientSize = new Size(ClientSize.Width, _exception.Bottom + 10);
+            ClientSize = new Size(ClientSize.Width, 270);
         }
     }
 }

@@ -44,7 +44,8 @@
             // 
             // _ok
             // 
-            this._ok.Location = new System.Drawing.Point(164, 53);
+            this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._ok.Location = new System.Drawing.Point(313, 60);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 1;
@@ -54,7 +55,8 @@
             // 
             // _showMore
             // 
-            this._showMore.Location = new System.Drawing.Point(313, 53);
+            this._showMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._showMore.Location = new System.Drawing.Point(232, 59);
             this._showMore.Name = "_showMore";
             this._showMore.Size = new System.Drawing.Size(75, 23);
             this._showMore.TabIndex = 2;
@@ -64,12 +66,15 @@
             // 
             // _exception
             // 
+            this._exception.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._exception.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._exception.Location = new System.Drawing.Point(12, 82);
+            this._exception.Location = new System.Drawing.Point(12, 53);
             this._exception.Multiline = true;
             this._exception.Name = "_exception";
             this._exception.ReadOnly = true;
-            this._exception.Size = new System.Drawing.Size(376, 140);
+            this._exception.Size = new System.Drawing.Size(376, 0);
             this._exception.TabIndex = 3;
             this._exception.WordWrap = false;
             // 
@@ -77,14 +82,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 235);
+            this.ClientSize = new System.Drawing.Size(400, 95);
             this.Controls.Add(this._exception);
             this.Controls.Add(this._showMore);
             this.Controls.Add(this._ok);
             this.Controls.Add(this._message);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ExceptionMessageBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExceptionMessageBox";
