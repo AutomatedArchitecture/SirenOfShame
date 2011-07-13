@@ -63,13 +63,11 @@ namespace SirenOfShame.Lib.Watcher
             InvokeTrayNotify(new TrayNotifyEventArgs
             {
                 Title = "Build Server Unavailable",
-                TipText = args.Exception.Message,
+                TipText = "We will continue to check the availability of the server in the background and notify you when the status changes.",
                 TipIcon = ToolTipIcon.Error
             });
             ResetPreviousWorkingOrBrokenStatuses();
             _serverPreviouslyUnavailable = true;
-
-            ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", args.Exception);
         }
 
         private void ResetPreviousWorkingOrBrokenStatuses()

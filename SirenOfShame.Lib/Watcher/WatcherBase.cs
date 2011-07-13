@@ -34,10 +34,10 @@ namespace SirenOfShame.Lib.Watcher
 
         protected void GetBuildStatusAndFireEvents()
         {
-            BuildStatus[] newBuildStatus;
             try
             {
-                newBuildStatus = GetBuildStatus().ToArray();
+                BuildStatus[] newBuildStatus = GetBuildStatus().ToArray();
+                InvokeStatusChecked(newBuildStatus);
             }
             catch (ServerUnavailableException ex)
             {
@@ -47,8 +47,6 @@ namespace SirenOfShame.Lib.Watcher
                 }
                 return;
             }
-
-            InvokeStatusChecked(newBuildStatus);
         }
 
         protected abstract IEnumerable<BuildStatus> GetBuildStatus();

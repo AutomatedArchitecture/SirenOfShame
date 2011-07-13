@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using SirenOfShame.Lib;
+using System.Net;
+using System.Reflection;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -14,7 +14,8 @@ namespace TeamCityServices.Watcher
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly List<BuildStatus> _mostRecentBuildStatus = new List<BuildStatus>();
-        private static Exception _lastServerUnavailableError;
+        private static Exception _lastError;
+        private static ServerUnavailableException _serverUnavailableException;
 
         public TeamCityWatcher(SirenOfShameSettings settings, TeamCityCiEntryPoint teamCityCiEntryPoint)
             : base(settings)
@@ -24,11 +25,7 @@ namespace TeamCityServices.Watcher
 
         protected override IEnumerable<BuildStatus> GetBuildStatus()
         {
-            if (_lastServerUnavailableError != null)
-            {
-                throw new ServerUnavailableException("Unable to connect to server", _lastServerUnavailableError);
-            }
-
+            // 1. Perform async request
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
             foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
@@ -36,18 +33,44 @@ namespace TeamCityServices.Watcher
                 BuildDefinitionSetting definition = watchedBuildDefinition;
                 _service.GetBuildStatus(settings.Url, watchedBuildDefinition.Id, settings.UserName, settings.Password, GetBuildStatusComplete(definition), OnGetBuildStatusError);
             }
+
+            // 2. Return result of any previous call to GetBuildStatus
+            if (_serverUnavailableException != null)
+            {
+                throw _serverUnavailableException;
+            }
+            if (_lastError != null)
+            {
+                var ex = _lastError;
+                _lastError = null;
+                throw ex;
+            }
+
             return _mostRecentBuildStatus;
         }
 
         private static void OnGetBuildStatusError(Exception ex)
         {
-            _lastServerUnavailableError = ex;
+            if (
+                typeof(TargetInvocationException).IsAssignableFrom(ex.GetType()) && 
+                ex.InnerException != null && 
+                (typeof(WebException).IsAssignableFrom(ex.InnerException.GetType())) &&
+                ex.InnerException.Message.StartsWith("The remote name could not be resolved:")
+                )
+            {
+                _serverUnavailableException = new ServerUnavailableException();
+            }
+            else
+            {
+                _lastError = ex;
+            }
         }
 
         private TeamCityService.GetBuildStatusCompleteDelegate GetBuildStatusComplete(BuildDefinitionSetting definition)
         {
             return bs =>
             {
+                _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
                 var mostRecentBuildStatus = _mostRecentBuildStatus.FirstOrDefault(mrbs => mrbs.Id == bs.BuildDefinitionId);
                 if (mostRecentBuildStatus == null)
                 {
