@@ -37,7 +37,8 @@ namespace SirenOfShame.Lib.Watcher
             try
             {
                 BuildStatus[] newBuildStatus = GetBuildStatus().ToArray();
-                InvokeStatusChecked(newBuildStatus);
+                if (newBuildStatus.Length != 0)
+                    InvokeStatusChecked(newBuildStatus);
             }
             catch (ServerUnavailableException ex)
             {

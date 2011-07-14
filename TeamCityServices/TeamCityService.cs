@@ -1,11 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Xml.Linq;
+using SirenOfShame.Lib.Exceptions;
 using log4net;
 using SirenOfShame.Lib;
-using SirenOfShame.Lib.Helpers;
-using SirenOfShame.Lib.Watcher;
 
 namespace TeamCityServices
 {
@@ -90,10 +90,34 @@ namespace TeamCityServices
             {
                 Credentials = new NetworkCredential(userName, password)
             };
+
             rootUrl = GetRootUrl(rootUrl);
             var buildStatusUrl = new Uri(rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionId);
+
             webClient.DownloadStringCompleted += (s, e) =>
             {
+                if (e.Error != null)
+                {
+                    WebException webException = e.Error as WebException;
+                    if (webException == null || webException.Response == null)
+                    {
+                        _log.Error("Error connecting to server", e.Error);
+                        onError(e.Error);
+                    } 
+                    else 
+                    {
+                        var response = webException.Response;
+                        using (Stream s1 = response.GetResponseStream())
+                        using (StreamReader sr = new StreamReader(s1))
+                        {
+                            var result = sr.ReadToEnd();
+                            _log.Error(result, webException);
+                            onError(new SosException(result, e.Error));
+                        }
+                    }
+                    return;
+                }
+
                 try
                 {
                     XDocument doc = XDocument.Parse(e.Result);
@@ -104,7 +128,7 @@ namespace TeamCityServices
                     complete(new TeamCityBuildStatus(buildDefinitionId, doc));
                 } catch (Exception ex)
                 {
-                    _log.Error("Error connecting to team city", ex);
+                    _log.Error("Error connecting to team city.", ex);
                     onError(ex);
                 }
             };

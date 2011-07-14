@@ -52,16 +52,16 @@ namespace TeamCityServices.Watcher
         private static void OnGetBuildStatusError(Exception ex)
         {
             if (
-                typeof(TargetInvocationException).IsAssignableFrom(ex.GetType()) && 
-                ex.InnerException != null && 
-                (typeof(WebException).IsAssignableFrom(ex.InnerException.GetType())) &&
-                ex.InnerException.Message.StartsWith("The remote name could not be resolved:")
+                (typeof(WebException).IsAssignableFrom(ex.GetType())) &&
+                ex.Message.StartsWith("The remote name could not be resolved:")
                 )
             {
+                _lastError = null;
                 _serverUnavailableException = new ServerUnavailableException();
             }
             else
             {
+                _serverUnavailableException = null;
                 _lastError = ex;
             }
         }
