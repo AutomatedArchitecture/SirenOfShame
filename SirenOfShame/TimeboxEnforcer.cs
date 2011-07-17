@@ -16,6 +16,13 @@ namespace SirenOfShame
         private Timer _timer = new Timer();
         private DateTime _startTimer;
 
+        private static Dictionary<int, string> _warningDurations = new Dictionary<int, string>
+        {
+            { 1, "1 Minute" },
+            { 2, "2 Minutes" },
+            { 5, "5 Minutes" },
+        };
+
         public TimeboxEnforcer()
         {
             _timer.Interval = 500;
@@ -31,6 +38,8 @@ namespace SirenOfShame
             InitializeCombobox(_timeboxLights, SirenOfShameDevice.LedPatterns);
             InitializeCombobox(_warningAudio, SirenOfShameDevice.AudioPatterns);
             InitializeCombobox(_warningLights, SirenOfShameDevice.LedPatterns);
+            _warningDuration.Items.AddRange(_warningDurations.Cast<object>().ToArray());
+            _warningDuration.SelectedIndex = 2;
         }
 
         private void InitializeCombobox(ComboBox combobox, IEnumerable<object> patterns)
@@ -59,7 +68,7 @@ namespace SirenOfShame
 
         private void TimerTick(object sender, EventArgs e)
         {
-            TimeSpan newTimeSpan = new TimeSpan(0, 0, _duration.Value) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
+            TimeSpan newTimeSpan = new TimeSpan(0, _duration.Value, 0) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
             UpdateDuration(newTimeSpan);
             if (newTimeSpan.Ticks < 0 && !_timerHitZero)
             {
@@ -77,7 +86,8 @@ namespace SirenOfShame
                 SosMessageBox.Show("Meeting adjourned", "This meeting is officially over.", "Ok");
             }
 
-            if (newTimeSpan.TotalMinutes < 5 && !_timerWarningHit)
+            int warningDuration = ((KeyValuePair<int, string>) _warningDuration.SelectedItem).Key;
+            if (newTimeSpan.TotalMinutes < warningDuration && !_timerWarningHit)
             {
                 _timerWarningHit = true;
                 if (_warningAudio.SelectedIndex != 0)
