@@ -13,11 +13,11 @@ namespace SirenOfShame
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
         private Timer _timer = new Timer();
-        private TimeSpan _timeSpan;
+        private DateTime _startTimer;
 
         public TimeboxEnforcer()
         {
-            _timer.Interval = 1000;
+            _timer.Interval = 500;
             _timer.Tick += TimerTick;
             IocContainer.Instance.Compose(this); 
             InitializeComponent();
@@ -51,7 +51,7 @@ namespace SirenOfShame
 
         private void TimerTick(object sender, EventArgs e)
         {
-            TimeSpan newTimeSpan = _timeSpan - new TimeSpan(0, 0, 0, 1);
+            TimeSpan newTimeSpan = new TimeSpan(0, _duration.Value, 0) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
             if (newTimeSpan.Ticks == 0)
             {
                 if (_timeboxAudio.SelectedIndex != 0)
@@ -70,8 +70,7 @@ namespace SirenOfShame
 
         private void UpdateDuration(TimeSpan newTimeSpan)
         {
-            _timeSpan = newTimeSpan;
-            _countdown.Text = string.Format("{0}:{1:00}", Math.Abs((int)_timeSpan.TotalMinutes), Math.Abs(_timeSpan.Seconds));
+            _countdown.Text = string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
         }
         
         private void CloseClick(object sender, EventArgs e)
@@ -92,13 +91,15 @@ namespace SirenOfShame
 
         private void UpdateTimer(bool start)
         {
-            _start.Text = start ? "Stop" : "Start";
+            _start.Text = start ? "Reset" : "Start";
             if (start)
             {
+                _startTimer = DateTime.Now;
                 _timer.Start();
             } else
             {
                 _timer.Stop();
+                UpdateDurationText();
             }
         }
         
