@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Forms;
@@ -26,17 +27,21 @@ namespace SirenOfShame
 
             UpdateTimer(false);
 
-            _timeboxAudio.Items.Add(new { Name = "None" });
-            _timeboxAudio.Items.AddRange(SirenOfShameDevice.AudioPatterns.ToArray());
-            _timeboxAudio.DisplayMember = "Name";
-            if (_timeboxAudio.Items.Count > 1)
-                _timeboxAudio.SelectedIndex = 1;
+            InitializeCombobox(_timeboxAudio, SirenOfShameDevice.AudioPatterns);
+            InitializeCombobox(_timeboxLights, SirenOfShameDevice.LedPatterns);
+            InitializeCombobox(_warningAudio, SirenOfShameDevice.AudioPatterns);
+            InitializeCombobox(_warningLights, SirenOfShameDevice.LedPatterns);
+        }
 
-            _timeboxLights.Items.Add(new {Name = "None"});
-            _timeboxLights.Items.AddRange(SirenOfShameDevice.LedPatterns.ToArray());
-            _timeboxLights.DisplayMember = "Name";
-            if (_timeboxLights.Items.Count > 1)
-                _timeboxLights.SelectedIndex = 1;
+        private void InitializeCombobox(ComboBox combobox, IEnumerable<object> patterns)
+        {
+            combobox.Items.Add(new {Name = "None"});
+            combobox.Items.AddRange(patterns.ToArray());
+            combobox.DisplayMember = "Name";
+            if (combobox.Items.Count > 1)
+            {
+                combobox.SelectedIndex = 1;
+            }
         }
 
         private TimeSpan GetTimespanOrDefault(TextBox textBox, int defaultSeconds)
@@ -49,23 +54,43 @@ namespace SirenOfShame
             return new TimeSpan(0, 0, 0, duration);
         }
 
+        private bool _timerHitZero = false;
+        private bool _timerWarningHit = false;
+
         private void TimerTick(object sender, EventArgs e)
         {
-            TimeSpan newTimeSpan = new TimeSpan(0, _duration.Value, 0) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
-            if (newTimeSpan.Ticks == 0)
+            TimeSpan newTimeSpan = new TimeSpan(0, 0, _duration.Value) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
+            UpdateDuration(newTimeSpan);
+            if (newTimeSpan.Ticks < 0 && !_timerHitZero)
             {
+                _timerHitZero = true;
                 if (_timeboxAudio.SelectedIndex != 0)
                 {
-                    var duration = GetTimespanOrDefault(_audioDuration, 10);
+                    var duration = GetTimespanOrDefault(_timeboxAudioDuration, 10);
                     SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, duration);
                 }
                 if (_timeboxLights.SelectedIndex != 0)
                 {
-                    var duration = GetTimespanOrDefault(_lightDuration, 10);
+                    var duration = GetTimespanOrDefault(_timeboxLightDuration, 10);
                     SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, duration);
                 }
+                SosMessageBox.Show("Meeting adjourned", "This meeting is officially over.", "Ok");
             }
-            UpdateDuration(newTimeSpan);
+
+            if (newTimeSpan.TotalMinutes < 5 && !_timerWarningHit)
+            {
+                _timerWarningHit = true;
+                if (_warningAudio.SelectedIndex != 0)
+                {
+                    var duration = GetTimespanOrDefault(_warningAudioDuration, 10);
+                    SirenOfShameDevice.SetAudio((AudioPattern)_warningAudio.SelectedItem, duration);
+                }
+                if (_warningLights.SelectedIndex != 0)
+                {
+                    var duration = GetTimespanOrDefault(_warningLightDuration, 10);
+                    SirenOfShameDevice.SetLight((LedPattern)_warningLights.SelectedItem, duration);
+                }
+            }
         }
 
         private void UpdateDuration(TimeSpan newTimeSpan)
@@ -95,6 +120,8 @@ namespace SirenOfShame
             if (start)
             {
                 _startTimer = DateTime.Now;
+                _timerHitZero = false;
+                _timerWarningHit = false;
                 _timer.Start();
             } else
             {

@@ -40,19 +40,19 @@
             this._countdown = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this._lightDuration = new System.Windows.Forms.TextBox();
+            this._timeboxLightDuration = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this._audioDuration = new System.Windows.Forms.TextBox();
+            this._timeboxAudioDuration = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this._warningAudioDuration = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this._warningLightDuration = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this._warningAudio = new System.Windows.Forms.ComboBox();
+            this._warningLights = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this._duration)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,13 +165,13 @@
             this.label4.TabIndex = 16;
             this.label4.Text = "for";
             // 
-            // _lightDuration
+            // _timeboxLightDuration
             // 
-            this._lightDuration.Location = new System.Drawing.Point(260, 128);
-            this._lightDuration.Name = "_lightDuration";
-            this._lightDuration.Size = new System.Drawing.Size(29, 20);
-            this._lightDuration.TabIndex = 17;
-            this._lightDuration.Text = "10";
+            this._timeboxLightDuration.Location = new System.Drawing.Point(260, 128);
+            this._timeboxLightDuration.Name = "_timeboxLightDuration";
+            this._timeboxLightDuration.Size = new System.Drawing.Size(29, 20);
+            this._timeboxLightDuration.TabIndex = 17;
+            this._timeboxLightDuration.Text = "10";
             // 
             // label5
             // 
@@ -191,22 +191,22 @@
             this.label6.TabIndex = 20;
             this.label6.Text = "seconds";
             // 
-            // _audioDuration
+            // _timeboxAudioDuration
             // 
-            this._audioDuration.Location = new System.Drawing.Point(523, 128);
-            this._audioDuration.Name = "_audioDuration";
-            this._audioDuration.Size = new System.Drawing.Size(29, 20);
-            this._audioDuration.TabIndex = 19;
-            this._audioDuration.Text = "10";
+            this._timeboxAudioDuration.Location = new System.Drawing.Point(523, 128);
+            this._timeboxAudioDuration.Name = "_timeboxAudioDuration";
+            this._timeboxAudioDuration.Size = new System.Drawing.Size(29, 20);
+            this._timeboxAudioDuration.TabIndex = 19;
+            this._timeboxAudioDuration.Text = "10";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(14, 86);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.Size = new System.Drawing.Size(94, 13);
             this.label7.TabIndex = 21;
-            this.label7.Text = "Warning:";
+            this.label7.Text = "5 Minute Warning:";
             // 
             // label8
             // 
@@ -217,13 +217,13 @@
             this.label8.TabIndex = 29;
             this.label8.Text = "seconds";
             // 
-            // textBox1
+            // _warningAudioDuration
             // 
-            this.textBox1.Location = new System.Drawing.Point(523, 83);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(29, 20);
-            this.textBox1.TabIndex = 28;
-            this.textBox1.Text = "10";
+            this._warningAudioDuration.Location = new System.Drawing.Point(523, 83);
+            this._warningAudioDuration.Name = "_warningAudioDuration";
+            this._warningAudioDuration.Size = new System.Drawing.Size(29, 20);
+            this._warningAudioDuration.TabIndex = 28;
+            this._warningAudioDuration.Text = "10";
             // 
             // label9
             // 
@@ -234,13 +234,13 @@
             this.label9.TabIndex = 27;
             this.label9.Text = "seconds and";
             // 
-            // textBox2
+            // _warningLightDuration
             // 
-            this.textBox2.Location = new System.Drawing.Point(260, 83);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(29, 20);
-            this.textBox2.TabIndex = 26;
-            this.textBox2.Text = "10";
+            this._warningLightDuration.Location = new System.Drawing.Point(260, 83);
+            this._warningLightDuration.Name = "_warningLightDuration";
+            this._warningLightDuration.Size = new System.Drawing.Size(29, 20);
+            this._warningLightDuration.TabIndex = 26;
+            this._warningLightDuration.Text = "10";
             // 
             // label10
             // 
@@ -260,23 +260,23 @@
             this.label11.TabIndex = 24;
             this.label11.Text = "for";
             // 
-            // comboBox1
+            // _warningAudio
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(369, 83);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 23;
+            this._warningAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._warningAudio.FormattingEnabled = true;
+            this._warningAudio.Location = new System.Drawing.Point(369, 83);
+            this._warningAudio.Name = "_warningAudio";
+            this._warningAudio.Size = new System.Drawing.Size(121, 21);
+            this._warningAudio.TabIndex = 23;
             // 
-            // comboBox2
+            // _warningLights
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(106, 83);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 22;
+            this._warningLights.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._warningLights.FormattingEnabled = true;
+            this._warningLights.Location = new System.Drawing.Point(106, 83);
+            this._warningLights.Name = "_warningLights";
+            this._warningLights.Size = new System.Drawing.Size(121, 21);
+            this._warningLights.TabIndex = 22;
             // 
             // TimeboxEnforcer
             // 
@@ -284,18 +284,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(771, 249);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this._warningAudioDuration);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this._warningLightDuration);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this._warningAudio);
+            this.Controls.Add(this._warningLights);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this._audioDuration);
+            this.Controls.Add(this._timeboxAudioDuration);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this._lightDuration);
+            this.Controls.Add(this._timeboxLightDuration);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this._countdown);
@@ -329,18 +329,18 @@
         private System.Windows.Forms.Label _countdown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox _lightDuration;
+        private System.Windows.Forms.TextBox _timeboxLightDuration;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox _audioDuration;
+        private System.Windows.Forms.TextBox _timeboxAudioDuration;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox _warningAudioDuration;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox _warningLightDuration;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox _warningAudio;
+        private System.Windows.Forms.ComboBox _warningLights;
     }
 }
