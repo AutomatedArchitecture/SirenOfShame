@@ -82,6 +82,12 @@
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FullScreenEnforcer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FullScreenEnforcer.Designer.cs">
+      <DependentUpon>FullScreenEnforcer.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelpAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FullScreenEnforcer.resx">
+      <DependentUpon>FullScreenEnforcer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpAbout.resx">
       <DependentUpon>HelpAbout.cs</DependentUpon>

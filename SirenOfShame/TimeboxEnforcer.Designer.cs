@@ -55,6 +55,7 @@
             this._warningLights = new System.Windows.Forms.ComboBox();
             this._warningDuration = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
+            this._fullScreen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._duration)).BeginInit();
             this.SuspendLayout();
             // 
@@ -299,11 +300,24 @@
             this.label12.TabIndex = 31;
             this.label12.Text = "Show:";
             // 
+            // _fullScreen
+            // 
+            this._fullScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._fullScreen.Enabled = false;
+            this._fullScreen.Location = new System.Drawing.Point(524, 214);
+            this._fullScreen.Name = "_fullScreen";
+            this._fullScreen.Size = new System.Drawing.Size(75, 23);
+            this._fullScreen.TabIndex = 32;
+            this._fullScreen.Text = "Full Screen";
+            this._fullScreen.UseVisualStyleBackColor = true;
+            this._fullScreen.Click += new System.EventHandler(this.FullScreenClick);
+            // 
             // TimeboxEnforcer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(771, 249);
+            this.Controls.Add(this._fullScreen);
             this.Controls.Add(this.label12);
             this.Controls.Add(this._warningDuration);
             this.Controls.Add(this.label8);
@@ -367,5 +381,6 @@
         private System.Windows.Forms.ComboBox _warningLights;
         private System.Windows.Forms.ComboBox _warningDuration;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button _fullScreen;
     }
 }

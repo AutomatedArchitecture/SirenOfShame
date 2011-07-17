@@ -66,9 +66,14 @@ namespace SirenOfShame
         private bool _timerHitZero = false;
         private bool _timerWarningHit = false;
 
+        public void UpdateDuration()
+        {
+            UpdateDuration(GetCountdownValue());
+        }
+
         private void TimerTick(object sender, EventArgs e)
         {
-            TimeSpan newTimeSpan = new TimeSpan(0, _duration.Value, 0) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
+            TimeSpan newTimeSpan = GetCountdownValue();
             UpdateDuration(newTimeSpan);
             if (newTimeSpan.Ticks < 0 && !_timerHitZero)
             {
@@ -103,11 +108,19 @@ namespace SirenOfShame
             }
         }
 
+        private TimeSpan GetCountdownValue()
+        {
+            return new TimeSpan(0, _duration.Value, 0) - new TimeSpan(0, 0, (int)(DateTime.Now - _startTimer).TotalSeconds);
+        }
+
         private void UpdateDuration(TimeSpan newTimeSpan)
         {
-            _countdown.Text = string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
+            string durationAsText = string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
+            _countdown.Text = durationAsText;
+            if (_fullScreenEnforcer.Visible)
+                _fullScreenEnforcer.UpdateText(durationAsText);
         }
-        
+
         private void CloseClick(object sender, EventArgs e)
         {
             Close();
@@ -127,6 +140,7 @@ namespace SirenOfShame
         private void UpdateTimer(bool start)
         {
             _start.Text = start ? "Reset" : "Start";
+            _fullScreen.Enabled = start;
             if (start)
             {
                 _startTimer = DateTime.Now;
@@ -144,6 +158,19 @@ namespace SirenOfShame
         {
             bool running = _timer.Enabled;
             UpdateTimer(!running);
+        }
+
+        FullScreenEnforcer _fullScreenEnforcer = new FullScreenEnforcer();
+
+        private void FullScreenClick(object sender, EventArgs e)
+        {
+            if (_fullScreenEnforcer.Visible)
+                _fullScreenEnforcer.Hide();
+            else
+            {
+                _fullScreenEnforcer.Show();
+                UpdateDuration();
+            }
         }
     }
 }
