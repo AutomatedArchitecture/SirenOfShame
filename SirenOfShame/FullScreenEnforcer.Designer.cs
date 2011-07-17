@@ -42,7 +42,7 @@
             this._label.TabIndex = 0;
             this._label.Text = "0:00";
             this._label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this._label.Click += new System.EventHandler(this._label_Click);
+            this._label.Click += new System.EventHandler(this.LabelClick);
             // 
             // FullScreenEnforcer
             // 
@@ -58,7 +58,7 @@
             this.Text = "FullScreenEnforcer";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FullScreenEnforcer_KeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FullScreenEnforcerKeyDown);
             this.ResumeLayout(false);
 
         }

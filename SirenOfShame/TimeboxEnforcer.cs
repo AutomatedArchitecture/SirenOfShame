@@ -8,6 +8,13 @@ using SirenOfShame.Lib.Helpers;
 
 namespace SirenOfShame
 {
+    public enum OvertimeStatus
+    {
+        Normal,
+        Warning,
+        Overtime
+    }
+    
     public partial class TimeboxEnforcer : FormBase
     {
         [Import(typeof(ISirenOfShameDevice))]
@@ -118,7 +125,16 @@ namespace SirenOfShame
             string durationAsText = string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
             _countdown.Text = durationAsText;
             if (_fullScreenEnforcer.Visible)
-                _fullScreenEnforcer.UpdateText(durationAsText);
+                _fullScreenEnforcer.UpdateText(durationAsText, GetOverTimeStatus());
+        }
+
+        private OvertimeStatus GetOverTimeStatus()
+        {
+            if (_timerHitZero) 
+                return OvertimeStatus.Overtime;
+            if (_timerWarningHit) 
+                return OvertimeStatus.Warning;
+            return OvertimeStatus.Normal;
         }
 
         private void CloseClick(object sender, EventArgs e)
