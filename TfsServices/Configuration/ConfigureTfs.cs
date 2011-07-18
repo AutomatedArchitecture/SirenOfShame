@@ -90,5 +90,11 @@ namespace TfsServices.Configuration
             Settings.GetBuildDefinition(buildDefinitionId).Active = e.Node.Checked;
             Settings.Save();
         }
+
+        private void UrlTextChanged(object sender, EventArgs e)
+        {
+            Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url = _url.Text;
+            Settings.Save();
+        }
     }
 }

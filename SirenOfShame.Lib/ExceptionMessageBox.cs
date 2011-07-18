@@ -22,9 +22,9 @@ namespace SirenOfShame.Lib
             };
             dlg._exception.Visible = false;
             if (owner != null)
-                dlg.Show(owner);
+                dlg.ShowDialog(owner);
             else
-                dlg.Show();
+                dlg.ShowDialog();
         }
 
         private void OkClick(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace SirenOfShame.Lib
         {
             _exception.Visible = true;
             _showMore.Visible = false;
-            ClientSize = new Size(ClientSize.Width, _exception.Bottom + 10);
+            ClientSize = new Size(ClientSize.Width, 270);
         }
     }
 }

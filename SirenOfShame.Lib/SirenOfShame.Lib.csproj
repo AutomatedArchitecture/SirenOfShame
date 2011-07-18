@@ -85,6 +85,7 @@
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
+    <Compile Include="Exceptions\SosException.cs" />
     <Compile Include="Helpers\AssemblyHelpers.cs" />
     <Compile Include="Helpers\FactoryExportProvider.cs" />
     <Compile Include="Helpers\IEnumerableHelpers.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
     <Compile Include="Watcher\BuildStatusListViewItem.cs" />
-    <Compile Include="Watcher\CruiseControlWatcher.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />

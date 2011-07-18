@@ -36,7 +36,7 @@ namespace TfsServices
                 .SelectMany(pc => pc.Projects)
                 .SelectMany(p => p.BuildDefinitions);
 
-            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _tfsCiEntryPoint.Name);
+            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _tfsCiEntryPoint.Name && bd.BuildServer == Settings.ServerType);
             return from buildDef in allTfsBuildDefinitions
                    join buildDefSetting in activeBuildDefinitionSettings on
                        buildDef.Id equals buildDefSetting.Id

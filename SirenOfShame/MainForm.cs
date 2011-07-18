@@ -300,9 +300,9 @@ namespace SirenOfShame
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
                 notifyIcon.ShowBalloonTip(TIMEOUT, "Siren of Shame",
-                     "You have not closed this appliation." +
-                     (Char)(13) + "It has be moved to the tray." +
-                     (Char)(13) + "Right click the Icon to exit.",
+                     "Don't you hate it when apps override the close button?" +
+                     (Char)(13) + "... yea, we just did that." +
+                     (Char)(13) + "But s'ok you can right click really exit.",
                      ToolTipIcon.Info);
             }
             else
@@ -381,10 +381,9 @@ namespace SirenOfShame
             if (e.Button == MouseButtons.Right)
             {
                 BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-                if (buildDefinitionSetting == null) return;
 
                 _buildMenu.Show(listView1, e.X, e.Y);
-                _affectsTrayIcon.Checked = buildDefinitionSetting.AffectsTrayIcon;
+                _affectsTrayIcon.Checked = buildDefinitionSetting == null ? true : buildDefinitionSetting.AffectsTrayIcon;
             }
         }
 
@@ -416,18 +415,23 @@ namespace SirenOfShame
         private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            if (buildDefinitionSetting == null) return;
 
             var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person: null));
             _when.DropDownItems.Clear();
             _when.DropDownItems.AddRange(toolStripItems.ToArray());
 
             _buildMenu.Items.Clear();
-            _buildMenu.Items.Add(_affectsTrayIcon);
-            _buildMenu.Items.Add(_stopWatching);
+            if (buildDefinitionSetting != null)
+            {
+                _buildMenu.Items.Add(_affectsTrayIcon);
+                _buildMenu.Items.Add(_stopWatching);
+            }
             _buildMenu.Items.Add(_when);
-            _buildMenu.Items.Add(_toolStripSeparator1);
-            _buildMenu.Items.AddRange(buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
+            if (buildDefinitionSetting != null)
+            {
+                _buildMenu.Items.Add(_toolStripSeparator1);
+                _buildMenu.Items.AddRange(buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
+            }
         }
 
         private ToolStripMenuItem PersonMenu(string person, BuildDefinitionSetting buildDefinitionSetting)
@@ -441,7 +445,7 @@ namespace SirenOfShame
         private ToolStripMenuItem WhenMenu(KeyValuePair<TriggerType, string> triggerTypeDescription, BuildDefinitionSetting buildDefinitionSetting, string person)
         {
             var triggerType = triggerTypeDescription.Key;
-            string buildDefinitionId = buildDefinitionSetting.Id;
+            string buildDefinitionId = buildDefinitionSetting == null ? null : buildDefinitionSetting.Id;
             var rule = _settings.FindRule(triggerType, buildDefinitionId, person);
 
             var menuItem = new ToolStripMenuItem(triggerTypeDescription.Value);

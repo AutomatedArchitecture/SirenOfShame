@@ -21,10 +21,18 @@ namespace SirenOfShame.Configuration
             configureServer.Settings = settings;
 
             configureServer._serverType.DisplayMember = "Name";
-            configureServer._serverType.DataSource = configureServer.CIEntryPoints.ToArray();
-            configureServer._serverType.SelectedText = settings.ServerType;
+            ICiEntryPoint[] ciEntryPoints = configureServer.CIEntryPoints.ToArray();
+            configureServer._serverType.DataSource = ciEntryPoints;
+
+            if (string.IsNullOrEmpty(settings.ServerType))
+            {
+                settings.ServerType = ciEntryPoints.First().Name;
+                settings.Save();
+            }
+            configureServer._serverType.SelectedIndex = ciEntryPoints.Select((cep, i) => new {cep, i}).First(i => i.cep.Name == settings.ServerType).i;
 
             configureServer._initializing = false;
+
             configureServer.ShowDialog();
         }
 

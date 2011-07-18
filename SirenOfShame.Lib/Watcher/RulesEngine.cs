@@ -63,7 +63,7 @@ namespace SirenOfShame.Lib.Watcher
             InvokeTrayNotify(new TrayNotifyEventArgs
             {
                 Title = "Build Server Unavailable",
-                TipText = args.Exception.Message,
+                TipText = "The connection will be restored when possible.",
                 TipIcon = ToolTipIcon.Error
             });
             ResetPreviousWorkingOrBrokenStatuses();

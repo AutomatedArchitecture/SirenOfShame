@@ -49,6 +49,7 @@
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(384, 20);
             this._url.TabIndex = 3;
+            this._url.TextChanged += new System.EventHandler(this.UrlTextChanged);
             // 
             // panel1
             // 
