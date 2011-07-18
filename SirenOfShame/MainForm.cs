@@ -300,9 +300,9 @@ namespace SirenOfShame
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
                 notifyIcon.ShowBalloonTip(TIMEOUT, "Siren of Shame",
-                     "You have not closed this appliation." +
-                     (Char)(13) + "It has be moved to the tray." +
-                     (Char)(13) + "Right click the Icon to exit.",
+                     "Don't you hate it when apps override the close button?" +
+                     (Char)(13) + "... yea, we just did that." +
+                     (Char)(13) + "But s'ok you can right click really exit.",
                      ToolTipIcon.Info);
             }
             else
