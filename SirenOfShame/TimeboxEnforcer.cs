@@ -122,10 +122,15 @@ namespace SirenOfShame
 
         private void UpdateDuration(TimeSpan newTimeSpan)
         {
-            string durationAsText = string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
+            string durationAsText = DurationAsText(newTimeSpan);
             _countdown.Text = durationAsText;
             if (_fullScreenEnforcer.Visible)
-                _fullScreenEnforcer.UpdateText(durationAsText, GetOverTimeStatus());
+                _fullScreenEnforcer.UpdateText(newTimeSpan, GetOverTimeStatus());
+        }
+
+        public static string DurationAsText(TimeSpan newTimeSpan)
+        {
+            return string.Format("{0}:{1:00}", Math.Abs((int)newTimeSpan.TotalMinutes), Math.Abs(newTimeSpan.Seconds));
         }
 
         private OvertimeStatus GetOverTimeStatus()

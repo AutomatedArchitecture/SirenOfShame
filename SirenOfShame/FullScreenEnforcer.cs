@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
 
@@ -11,9 +12,18 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        public void UpdateText(string durationAsText, OvertimeStatus overtimeStatus)
+        private string TimeSpanAsText(TimeSpan timespan, OvertimeStatus overtimeStatus)
         {
-            _label.Text = durationAsText;
+            if (overtimeStatus == OvertimeStatus.Normal)
+            {
+                return ((int)timespan.TotalMinutes).ToString();
+            }
+            return TimeboxEnforcer.DurationAsText(timespan);
+        }
+
+        public void UpdateText(TimeSpan timespan, OvertimeStatus overtimeStatus)
+        {
+            _label.Text = TimeSpanAsText(timespan, overtimeStatus);
             _label.ForeColor = GetForecolor(overtimeStatus);
         }
 
@@ -37,7 +47,7 @@ namespace SirenOfShame
             Hide();
         }
 
-        private void LabelClick(object sender, System.EventArgs e)
+        private void LabelClick(object sender, EventArgs e)
         {
             Hide();
         }
