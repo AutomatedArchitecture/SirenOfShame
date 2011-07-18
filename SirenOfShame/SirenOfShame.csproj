@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildFailedMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuildFailedMessageBox.Designer.cs">
+      <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\AddRule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +139,9 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BuildFailedMessageBox.resx">
+      <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\AddRule.resx">
       <DependentUpon>AddRule.cs</DependentUpon>
     </EmbeddedResource>

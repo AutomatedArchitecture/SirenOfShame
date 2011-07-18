@@ -5,7 +5,7 @@ namespace SirenOfShame
 {
     public class FormBase : Form
     {
-        protected void Invoke(Action a)
+        public void Invoke(Action a)
         {
             if (InvokeRequired)
             {
