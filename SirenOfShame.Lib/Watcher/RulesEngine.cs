@@ -104,7 +104,7 @@ namespace SirenOfShame.Lib.Watcher
             //  oldStatus and in newStatus and the BuildStatusEnum is different then return it.
             var changedBuildStatuses = from newStatus in newBuildStatus
                                        from oldStatus in oldBuildStatus.Where(s => s.Id == newStatus.Id).DefaultIfEmpty()
-                                       where oldStatus == null || (oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum)
+                                       where oldStatus == null || (oldStatus.StartedTime != newStatus.StartedTime)
                                        select newStatus;
             changedBuildStatuses = changedBuildStatuses.ToList();
 
