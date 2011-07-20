@@ -56,15 +56,20 @@ namespace TeamCityServices
         public TeamCityBuildStatus(string buildDefinitionId, XDocument doc)
         {
             string status = doc.Root.AttributeValueOrDefault("status");
-            string requestedBy = null; // todo: not sure how to get this
             string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
             string finishedTimeStr = doc.Root.ElementValueOrDefault("finishDate");
 
             BuildDefinitionId = buildDefinitionId;
-            RequestedBy = requestedBy;
+            RequestedBy = null; // todo: not sure how to get this
             StartedTime = GetTeamCityDate(startedTimeStr);
-            FinishedTime = GetTeamCityDate(finishedTimeStr);
-            BuildStatus = ToBuildStatusEnum(status);
+            if (string.IsNullOrEmpty(finishedTimeStr))
+            {
+                BuildStatus = BuildStatusEnum.InProgress;
+            } else
+            {
+                FinishedTime = GetTeamCityDate(finishedTimeStr);
+                BuildStatus = ToBuildStatusEnum(status);
+            }
         }
 
         private BuildStatusEnum ToBuildStatusEnum(string status)
