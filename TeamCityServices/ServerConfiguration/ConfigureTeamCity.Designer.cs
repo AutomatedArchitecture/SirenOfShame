@@ -105,7 +105,7 @@
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(389, 120);
             this._projects.TabIndex = 44;
-            this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this._projects_AfterCheck);
+            this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this._projects_BeforeExpand);
             // 
             // ConfigureTeamCity

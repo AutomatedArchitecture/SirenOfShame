@@ -103,7 +103,7 @@ namespace TeamCityServices.ServerConfiguration
             }
         }
 
-        private void _projects_AfterCheck(object sender, TreeViewEventArgs e)
+        private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Tag is TeamCityBuildDefinition)
             {
