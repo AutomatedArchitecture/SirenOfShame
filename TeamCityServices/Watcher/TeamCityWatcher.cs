@@ -84,6 +84,7 @@ namespace TeamCityServices.Watcher
                 mostRecentBuildStatus.BuildStatusEnum = bs.BuildStatus;
                 mostRecentBuildStatus.RequestedBy = bs.RequestedBy;
                 mostRecentBuildStatus.StartedTime = bs.StartedTime;
+                mostRecentBuildStatus.FinishedTime = bs.FinishedTime;
             };
         }
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Xml.Linq;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
+using log4net;
 
 namespace TeamCityServices
 {
@@ -26,18 +28,17 @@ namespace TeamCityServices
      */
     public class TeamCityBuildStatus
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TeamCityBuildStatus));
+
         public string BuildDefinitionId { get; set; }
         public string RequestedBy { get; set; }
         public DateTime StartedTime { get; set; }
+        public DateTime FinishedTime { get; set; }
         public BuildStatusEnum BuildStatus { get; set; }
 
-        public TeamCityBuildStatus(string buildDefinitionId, XDocument doc)
+        // todo: parse this better
+        private static DateTime GetTeamCityDate(string startedTimeStr)
         {
-            string statusText = doc.Root.ElementValueOrDefault("statusText");
-            string requestedBy = "UNKNOWN"; // todo: not sure how to get this
-            string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
-
-            // todo: parse this better
             startedTimeStr = startedTimeStr.Replace('T', ' ');
             int i = startedTimeStr.IndexOf('+');
             if (i > 0)
@@ -49,24 +50,33 @@ namespace TeamCityServices
             {
                 startedTimeStr = startedTimeStr.Substring(0, i);
             }
-            DateTime startedTime = DateTime.ParseExact(startedTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
+            return DateTime.ParseExact(startedTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
+        }
+        
+        public TeamCityBuildStatus(string buildDefinitionId, XDocument doc)
+        {
+            string status = doc.Root.AttributeValueOrDefault("status");
+            string requestedBy = null; // todo: not sure how to get this
+            string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
+            string finishedTimeStr = doc.Root.ElementValueOrDefault("finishDate");
 
             BuildDefinitionId = buildDefinitionId;
             RequestedBy = requestedBy;
-            StartedTime = startedTime;
-            BuildStatus = ToBuildStatusEnum(statusText);
+            StartedTime = GetTeamCityDate(startedTimeStr);
+            FinishedTime = GetTeamCityDate(finishedTimeStr);
+            BuildStatus = ToBuildStatusEnum(status);
         }
 
-        private BuildStatusEnum ToBuildStatusEnum(string statusText)
+        private BuildStatusEnum ToBuildStatusEnum(string status)
         {
-            statusText = statusText.ToLowerInvariant();
-            switch (statusText)
+            switch (status)
             {
-                case "success":
+                case "SUCCESS":
                     return BuildStatusEnum.Working;
-                case "failure":
+                case "FAILURE":
                     return BuildStatusEnum.Broken;
                 default:
+                    _log.Warn("Unknown build status: " + status);
                     return BuildStatusEnum.Unknown;
             }
         }
