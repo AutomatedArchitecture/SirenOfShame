@@ -31,3 +31,5 @@ FirmwareBootloader/BootloaderHID.sym
 *.avrsuo
 *.tmp
 *.orig
+Releases/Updates/*
+Releases/wyUpdate/*
