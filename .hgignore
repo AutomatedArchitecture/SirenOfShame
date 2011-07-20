@@ -32,4 +32,3 @@ FirmwareBootloader/BootloaderHID.sym
 *.tmp
 *.orig
 Releases/Updates/*
-Releases/wyUpdate/*
