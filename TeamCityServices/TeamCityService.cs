@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Cache;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Settings;
 using log4net;
 using SirenOfShame.Lib;
 
@@ -87,7 +88,7 @@ namespace TeamCityServices
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
         
-        public void GetBuildStatus(string rootUrl, string buildDefinitionId, string userName, string password, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        public void GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
         {
             rootUrl = GetRootUrl(rootUrl);
 
@@ -95,16 +96,16 @@ namespace TeamCityServices
             //  but that format requires far fewer http requests
             if (_supportsGetLatestBuildByBuildTypeId)
             {
-                GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionId, complete, onError);
+                GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionSetting, complete, onError);
             } else
             {
-                GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionId, complete, onError);
+                GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting, complete, onError);
             }
         }
 
-        private static void GetLatestBuildByBuildId(string rootUrl, string userName, string password, string buildDefinitionId, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static void GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
         {
-            string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionId + "/builds?count=1";
+            string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionSetting.Id + "/builds?count=1";
             MakeAsyncWebRequest(getLatestBuildIdByBuildTypeUrl, userName, password, onError, latestBuildIdResult =>
             {
                 XDocument latestBuildIdXDoc = XDocument.Parse(latestBuildIdResult);
@@ -114,20 +115,20 @@ namespace TeamCityServices
                 {
                     XDocument buildResultXDoc = XDocument.Parse(buildResult);
                     if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
-                    var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionId, buildResultXDoc);
+                    var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc);
                     complete(teamCityBuildStatus);
                 });
             });
         }
 
-        private static void GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, string buildDefinitionId, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static void GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
         {
-            string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionId;
+            string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
             MakeAsyncWebRequest(url, userName, password, onError, result =>
             {
                 XDocument doc = XDocument.Parse(result);
                 if (doc.Root == null) throw new Exception("Could not get project build status");
-                var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionId, doc);
+                var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionSetting, doc);
                 complete(teamCityBuildStatus);
             }, errorMessage =>
             {
@@ -135,7 +136,7 @@ namespace TeamCityServices
                 {
                     _log.Debug("_supportsGetLatestBuildByBuildTypeId = false");
                     _supportsGetLatestBuildByBuildTypeId = false;
-                    GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionId, complete, onError);
+                    GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting, complete, onError);
                     return true;
                 }
                 return false;

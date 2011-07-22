@@ -36,6 +36,8 @@ namespace TeamCityServices
         public DateTime StartedTime { get; set; }
         public DateTime FinishedTime { get; set; }
         public BuildStatusEnum BuildStatus { get; set; }
+        public string BuildDefinitionName { get; set; }
+        public string Comment { get; set; }
 
         // todo: parse this better
         private static DateTime GetTeamCityDate(string startedTimeStr)
@@ -53,15 +55,17 @@ namespace TeamCityServices
             }
             return DateTime.ParseExact(startedTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
         }
-        
-        public TeamCityBuildStatus(string buildDefinitionId, XDocument doc)
+
+        public TeamCityBuildStatus(BuildDefinitionSetting definition, XDocument doc)
         {
             string status = doc.Root.AttributeValueOrDefault("status");
             string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
             string finishedTimeStr = doc.Root.ElementValueOrDefault("finishDate");
 
-            BuildDefinitionId = buildDefinitionId;
-            RequestedBy = null; // todo: not sure how to get this
+            BuildDefinitionId = definition.Id;
+            BuildDefinitionName = definition.Name;
+            RequestedBy = null;
+            Comment = null; // todo: get comments & requested by's
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
@@ -87,16 +91,15 @@ namespace TeamCityServices
             }
         }
 
-        public BuildStatus ToBuildStatus(BuildDefinitionSetting definition)
+        public BuildStatus ToBuildStatus()
         {
             return new BuildStatus
             {
                 BuildStatusEnum = BuildStatus,
                 FinishedTime = FinishedTime,
-                Comment = null,
-                // todo: get comments
+                Comment = Comment,
                 Id = BuildDefinitionId,
-                Name = definition.Name,
+                Name = BuildDefinitionName,
                 RequestedBy = RequestedBy,
                 StartedTime = StartedTime
             };

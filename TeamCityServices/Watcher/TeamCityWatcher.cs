@@ -12,9 +12,11 @@ namespace TeamCityServices.Watcher
     {
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
-        private readonly Dictionary<string, BuildStatus> _mostRecentBuildStatus = new Dictionary<string, BuildStatus>();
+        private readonly Dictionary<string, TeamCityBuildStatus> _mostRecentPassOrFailBuildStatus = new Dictionary<string, TeamCityBuildStatus>();
+        private List<BuildStatus>  _mostRecentBuildStatus = new List<BuildStatus>();
         private static Exception _lastError;
         private static ServerUnavailableException _serverUnavailableException;
+        private int _outstandingPassOrFailBuildStatusRequests = 0;
 
         public TeamCityWatcher(SirenOfShameSettings settings, TeamCityCiEntryPoint teamCityCiEntryPoint)
             : base(settings)
@@ -27,10 +29,20 @@ namespace TeamCityServices.Watcher
             // 1. Perform async request
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
-            foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
+            // only initiate new requests if there aren't any outstanding
+            if (_outstandingPassOrFailBuildStatusRequests == 0)
             {
-                BuildDefinitionSetting definition = watchedBuildDefinition;
-                _service.GetBuildStatus(settings.Url, watchedBuildDefinition.Id, settings.UserName, settings.Password, GetBuildStatusComplete(definition), OnGetBuildStatusError);
+                _outstandingPassOrFailBuildStatusRequests = watchedBuildDefinitions.Length;
+                foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
+                {
+                    BuildDefinitionSetting definition = watchedBuildDefinition;
+                    _service.GetBuildStatus(settings.Url,
+                                            watchedBuildDefinition,
+                                            settings.UserName,
+                                            settings.Password,
+                                            GetBuildStatusComplete(definition),
+                                            OnGetBuildStatusError);
+                }
             }
 
             // 2. Return result of any previous call to GetBuildStatus
@@ -45,7 +57,7 @@ namespace TeamCityServices.Watcher
                 throw ex;
             }
 
-            return _mostRecentBuildStatus.Values;
+            return _mostRecentBuildStatus;
         }
 
         private static void OnGetBuildStatusError(Exception ex)
@@ -70,7 +82,13 @@ namespace TeamCityServices.Watcher
             return bs =>
             {
                 _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
-                _mostRecentBuildStatus[bs.BuildDefinitionId] = bs.ToBuildStatus(definition);
+                _mostRecentPassOrFailBuildStatus[bs.BuildDefinitionId] = bs;
+                // todo: This is NOT thread safe
+                int newOutstandingPassFailRequests = --_outstandingPassOrFailBuildStatusRequests;
+                if (newOutstandingPassFailRequests == 0)
+                {
+                    _mostRecentBuildStatus = _mostRecentPassOrFailBuildStatus.Values.Select(i => i.ToBuildStatus()).ToList();
+                }
             };
         }
 
