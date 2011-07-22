@@ -13,10 +13,12 @@ namespace TeamCityServices.Watcher
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly Dictionary<string, TeamCityBuildStatus> _mostRecentPassOrFailBuildStatus = new Dictionary<string, TeamCityBuildStatus>();
+        readonly List<TeamCityBuildStatus> _mostRecentInProgressBuildStatus = new List<TeamCityBuildStatus>();
         private List<BuildStatus>  _mostRecentBuildStatus = new List<BuildStatus>();
         private static Exception _lastError;
         private static ServerUnavailableException _serverUnavailableException;
         private int _outstandingPassOrFailBuildStatusRequests = 0;
+        private int? _outstandingInProgressBuildStatusRequests = null;
 
         public TeamCityWatcher(SirenOfShameSettings settings, TeamCityCiEntryPoint teamCityCiEntryPoint)
             : base(settings)
@@ -33,14 +35,22 @@ namespace TeamCityServices.Watcher
             if (_outstandingPassOrFailBuildStatusRequests == 0)
             {
                 _outstandingPassOrFailBuildStatusRequests = watchedBuildDefinitions.Length;
+                _mostRecentInProgressBuildStatus.Clear();
+                _outstandingInProgressBuildStatusRequests = null; // null = don't know On
                 foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
                 {
                     _service.GetBuildStatus(settings.Url,
                                             watchedBuildDefinition,
                                             settings.UserName,
                                             settings.Password,
-                                            GetPassOrFailBuildStatusComplete,
+                                            OnGetPassOrFailBuildStatusComplete,
                                             OnGetBuildStatusError);
+                    _service.GetInProgressBuilds(settings.Url,
+                                                 settings.UserName,
+                                                 settings.Password,
+                                                 OnGetOutstandingInProgressBuildCount,
+                                                 OnGetInProgressBuildStatuses,
+                                                 OnGetBuildStatusError);
                 }
             }
 
@@ -57,6 +67,21 @@ namespace TeamCityServices.Watcher
             }
 
             return _mostRecentBuildStatus;
+        }
+
+        private void OnGetOutstandingInProgressBuildCount(int outstandingInProgressBuildCount)
+        {
+            _outstandingInProgressBuildStatusRequests = outstandingInProgressBuildCount;
+            if (AllOutstandingAsyncRequestsCompleted)
+                MergeBuildStatuses();
+        }
+
+        /// <summary>
+        /// ToDo: This is NOT thread safe!  Help!
+        /// </summary>
+        protected bool AllOutstandingAsyncRequestsCompleted
+        {
+            get { return _outstandingInProgressBuildStatusRequests == 0 && _outstandingPassOrFailBuildStatusRequests == 0; }
         }
 
         private static void OnGetBuildStatusError(Exception ex)
@@ -76,16 +101,28 @@ namespace TeamCityServices.Watcher
             }
         }
 
-        private void GetPassOrFailBuildStatusComplete(TeamCityBuildStatus bs)
+        private void OnGetInProgressBuildStatuses(TeamCityBuildStatus bs)
+        {
+            _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
+            _mostRecentInProgressBuildStatus.Add(bs);
+            _outstandingInProgressBuildStatusRequests--;
+            if (AllOutstandingAsyncRequestsCompleted)
+                MergeBuildStatuses();
+        }
+        
+        private void OnGetPassOrFailBuildStatusComplete(TeamCityBuildStatus bs)
         {
             _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
             _mostRecentPassOrFailBuildStatus[bs.BuildDefinitionId] = bs;
             // todo: This is NOT thread safe
-            int newOutstandingPassFailRequests = --_outstandingPassOrFailBuildStatusRequests;
-            if (newOutstandingPassFailRequests == 0)
-            {
-                _mostRecentBuildStatus = _mostRecentPassOrFailBuildStatus.Values.Select(i => i.ToBuildStatus()).ToList();
-            }
+            _outstandingPassOrFailBuildStatusRequests--;
+            if (AllOutstandingAsyncRequestsCompleted)
+                MergeBuildStatuses();
+        }
+
+        private void MergeBuildStatuses()
+        {
+            _mostRecentBuildStatus = _mostRecentPassOrFailBuildStatus.Values.Select(i => i.ToBuildStatus()).ToList();
         }
 
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()

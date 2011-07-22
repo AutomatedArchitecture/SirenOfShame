@@ -85,7 +85,12 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        
+
+        public void GetInProgressBuilds(string url, string userName, string password, Action<int> onGetOutstandingInProgressBuildCount, Action<TeamCityBuildStatus> onGetInProgressBuildStatuses, Action<Exception> onGetBuildStatusError)
+        {
+            onGetOutstandingInProgressBuildCount(0);
+        }
+
         public void GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
         {
             rootUrl = GetRootUrl(rootUrl);
@@ -192,8 +197,6 @@ namespace TeamCityServices
                 }
             };
             webClient.DownloadStringAsync(new Uri(url));
-
-
         }
     }
 }
