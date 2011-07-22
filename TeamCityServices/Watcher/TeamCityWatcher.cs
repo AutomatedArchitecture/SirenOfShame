@@ -35,12 +35,11 @@ namespace TeamCityServices.Watcher
                 _outstandingPassOrFailBuildStatusRequests = watchedBuildDefinitions.Length;
                 foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
                 {
-                    BuildDefinitionSetting definition = watchedBuildDefinition;
                     _service.GetBuildStatus(settings.Url,
                                             watchedBuildDefinition,
                                             settings.UserName,
                                             settings.Password,
-                                            GetBuildStatusComplete(definition),
+                                            GetPassOrFailBuildStatusComplete,
                                             OnGetBuildStatusError);
                 }
             }
@@ -77,19 +76,16 @@ namespace TeamCityServices.Watcher
             }
         }
 
-        private TeamCityService.GetBuildStatusCompleteDelegate GetBuildStatusComplete(BuildDefinitionSetting definition)
+        private void GetPassOrFailBuildStatusComplete(TeamCityBuildStatus bs)
         {
-            return bs =>
+            _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
+            _mostRecentPassOrFailBuildStatus[bs.BuildDefinitionId] = bs;
+            // todo: This is NOT thread safe
+            int newOutstandingPassFailRequests = --_outstandingPassOrFailBuildStatusRequests;
+            if (newOutstandingPassFailRequests == 0)
             {
-                _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
-                _mostRecentPassOrFailBuildStatus[bs.BuildDefinitionId] = bs;
-                // todo: This is NOT thread safe
-                int newOutstandingPassFailRequests = --_outstandingPassOrFailBuildStatusRequests;
-                if (newOutstandingPassFailRequests == 0)
-                {
-                    _mostRecentBuildStatus = _mostRecentPassOrFailBuildStatus.Values.Select(i => i.ToBuildStatus()).ToList();
-                }
-            };
+                _mostRecentBuildStatus = _mostRecentPassOrFailBuildStatus.Values.Select(i => i.ToBuildStatus()).ToList();
+            }
         }
 
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()

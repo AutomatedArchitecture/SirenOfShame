@@ -20,8 +20,6 @@ namespace TeamCityServices
 
         public delegate void GetBuildDefinitionsCompleteDelegate(TeamCityBuildDefinition[] buildDefinitions);
 
-        public delegate void GetBuildStatusCompleteDelegate(TeamCityBuildStatus buildStatus);
-
         public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError){
             WebClient webClient = new WebClient
             {
@@ -88,7 +86,7 @@ namespace TeamCityServices
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
         
-        public void GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        public void GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
         {
             rootUrl = GetRootUrl(rootUrl);
 
@@ -103,7 +101,7 @@ namespace TeamCityServices
             }
         }
 
-        private static void GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static void GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
         {
             string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionSetting.Id + "/builds?count=1";
             MakeAsyncWebRequest(getLatestBuildIdByBuildTypeUrl, userName, password, onError, latestBuildIdResult =>
@@ -121,7 +119,7 @@ namespace TeamCityServices
             });
         }
 
-        private static void GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static void GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
         {
             string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
             MakeAsyncWebRequest(url, userName, password, onError, result =>
