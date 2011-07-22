@@ -37,6 +37,7 @@ namespace TeamCityServices.Watcher
                 _outstandingPassOrFailBuildStatusRequests = watchedBuildDefinitions.Length;
                 _mostRecentInProgressBuildStatus.Clear();
                 _outstandingInProgressBuildStatusRequests = null; // null = don't know On
+                
                 foreach (BuildDefinitionSetting watchedBuildDefinition in watchedBuildDefinitions)
                 {
                     _service.GetBuildStatus(settings.Url,
@@ -45,13 +46,13 @@ namespace TeamCityServices.Watcher
                                             settings.Password,
                                             OnGetPassOrFailBuildStatusComplete,
                                             OnGetBuildStatusError);
-                    _service.GetInProgressBuilds(settings.Url,
-                                                 settings.UserName,
-                                                 settings.Password,
-                                                 OnGetOutstandingInProgressBuildCount,
-                                                 OnGetInProgressBuildStatuses,
-                                                 OnGetBuildStatusError);
                 }
+                _service.GetInProgressBuilds(settings.Url,
+                                             settings.UserName,
+                                             settings.Password,
+                                             OnGetOutstandingInProgressBuildCount,
+                                             OnGetInProgressBuildStatuses,
+                                             OnGetBuildStatusError);
             }
 
             // 2. Return result of any previous call to GetBuildStatus
@@ -112,6 +113,7 @@ namespace TeamCityServices.Watcher
         
         private void OnGetPassOrFailBuildStatusComplete(TeamCityBuildStatus bs)
         {
+            if (bs == null) throw new ArgumentNullException("bs");
             _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
             _mostRecentPassOrFailBuildStatus[bs.BuildDefinitionId] = bs;
             // todo: This is NOT thread safe

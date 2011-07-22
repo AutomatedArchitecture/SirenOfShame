@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
+using System.Text;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -86,9 +87,16 @@ namespace TeamCityServices
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
 
-        public void GetInProgressBuilds(string url, string userName, string password, Action<int> onGetOutstandingInProgressBuildCount, Action<TeamCityBuildStatus> onGetInProgressBuildStatuses, Action<Exception> onGetBuildStatusError)
+        public void GetInProgressBuilds(string rootUrl, string userName, string password, Action<int> onGetOutstandingInProgressBuildCount, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
         {
-            onGetOutstandingInProgressBuildCount(0);
+            rootUrl = GetRootUrl(rootUrl);
+            string url = rootUrl + "/ajax.html?getRunningBuilds=1";
+            MakeAsyncWebRequest(url, userName, password, onError, result =>
+            {
+                //var xDocResult = XDocument.Parse(result);
+                //_log.Debug(result);
+                onGetOutstandingInProgressBuildCount(0);
+            }, post: true);
         }
 
         public void GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password, Action<TeamCityBuildStatus> complete, Action<Exception> onError)
@@ -146,57 +154,69 @@ namespace TeamCityServices
             });
         }
 
-        private static void MakeAsyncWebRequest(string url, string userName, string password, Action<Exception> onError, Action<string> onSuccess, Func<string, bool> customOnError = null)
+        private static void MakeAsyncWebRequest(string url, string userName, string password, Action<Exception> onError, Action<string> onSuccess, Func<string, bool> customOnError = null, bool post = false)
         {
             WebClient webClient = new WebClient
             {
                 Credentials = new NetworkCredential(userName, password),
-                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
             };
 
-            webClient.DownloadStringCompleted += (s, e) =>
+            if (post)
             {
-                if (e.Error != null)
-                {
-                    WebException webException = e.Error as WebException;
-                    if (webException != null && webException.Response != null)
-                    {
-                        var response = webException.Response;
-                        using (Stream s1 = response.GetResponseStream())
-                        {
-                            if (s1 != null)
-                            {
-                                using (StreamReader sr = new StreamReader(s1))
-                                {
-                                    var result = sr.ReadToEnd();
-                                    if (customOnError != null && customOnError(result))
-                                        return;
+                // todo: do forms authentication + cookies, yuck
+                webClient.Headers.Add("Content-type", "application/x-www-form-urlencoded");
+                webClient.Encoding = Encoding.UTF8;
+                webClient.UploadStringCompleted += (s, e) => OnRequestComplete(e.Error, () => e.Result, url, onError, onSuccess, customOnError);
+                webClient.UploadStringAsync(new Uri(url), "POST", "getRunningBuilds:1");
+            } else
+            {
+                webClient.DownloadStringCompleted += (s, e) => OnRequestComplete(e.Error, () => e.Result, url, onError, onSuccess, customOnError);
+                webClient.DownloadStringAsync(new Uri(url));
+            }
+        }
 
-                                    _log.Error("Error connecting to server with the following url: " + url + "\n\n" + result, webException);
-                                    onError(new SosException(result, e.Error));
+        private static void OnRequestComplete(Exception error, Func<string> result, string url, Action<Exception> onError, Action<string> onSuccess, Func<string, bool> customOnError)
+        {
+            if (error != null)
+            {
+                WebException webException = error as WebException;
+                if (webException != null && webException.Response != null)
+                {
+                    var response = webException.Response;
+                    using (Stream s1 = response.GetResponseStream())
+                    {
+                        if (s1 != null)
+                        {
+                            using (StreamReader sr = new StreamReader(s1))
+                            {
+                                var errorResult = sr.ReadToEnd();
+                                if (customOnError != null && customOnError(errorResult))
                                     return;
-                                }
+
+                                _log.Error("Error connecting to server with the following url: " + url + "\n\n" + errorResult, webException);
+                                onError(new SosException(errorResult, error));
+                                return;
                             }
                         }
                     }
-
-                    _log.Error("Error connecting to server with the following url: " + url, e.Error);
-                    onError(e.Error);
-
-                    return;
                 }
 
-                try
-                {
-                    onSuccess(e.Result);
-                }
-                catch (Exception ex)
-                {
-                    _log.Error("Error connecting to team city with the following url: " + url, ex);
-                    onError(ex);
-                }
-            };
-            webClient.DownloadStringAsync(new Uri(url));
+                _log.Error("Error connecting to server with the following url: " + url, error);
+                onError(error);
+
+                return;
+            }
+
+            try
+            {
+                onSuccess(result());
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error connecting to team city with the following url: " + url, ex);
+                onError(ex);
+            }
         }
     }
 }
