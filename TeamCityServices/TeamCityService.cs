@@ -6,6 +6,7 @@ using System.Net.Cache;
 using System.Text;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using log4net;
 using SirenOfShame.Lib;
@@ -107,9 +108,11 @@ namespace TeamCityServices
             //  but that format requires far fewer http requests
             if (_supportsGetLatestBuildByBuildTypeId)
             {
+                // TeamCity 6.X
                 GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionSetting, complete, onError);
             } else
             {
+                // TeamCity 5.X
                 GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting, complete, onError);
             }
         }
@@ -126,8 +129,30 @@ namespace TeamCityServices
                 {
                     XDocument buildResultXDoc = XDocument.Parse(buildResult);
                     if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
-                    var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc);
-                    complete(teamCityBuildStatus);
+                    var changesNode = buildResultXDoc.Descendants("changes").First();
+                    var count = changesNode.AttributeValueOrDefault("count");
+                    if (string.IsNullOrEmpty(count) || count == "0")
+                    {
+                        // no comments are available, probably triggered by another build
+                        var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc);
+                        complete(teamCityBuildStatus);
+                        return;
+                    }
+
+                    var changesHref = changesNode.AttributeValueOrDefault("href");
+                    var changesUrl = rootUrl + changesHref;
+                    MakeAsyncWebRequest(changesUrl, userName, password, onError, changesResult => {
+                        XDocument changesResultXDoc = XDocument.Parse(changesResult);
+                        var changeNode = changesResultXDoc.Descendants("change").First();
+                        var changeHref = changeNode.AttributeValueOrDefault("href");
+                        var changeUrl = rootUrl + changeHref;
+                        MakeAsyncWebRequest(changeUrl, userName, password, onError, changeResult =>
+                        {
+                            XDocument changeResultXDoc = XDocument.Parse(changeResult);
+                            var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc, changeResultXDoc);
+                            complete(teamCityBuildStatus);
+                        });
+                    });
                 });
             });
         }

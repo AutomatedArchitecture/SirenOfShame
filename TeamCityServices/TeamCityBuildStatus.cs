@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
@@ -64,8 +65,6 @@ namespace TeamCityServices
 
             BuildDefinitionId = definition.Id;
             BuildDefinitionName = definition.Name;
-            RequestedBy = null;
-            Comment = null; // todo: get comments & requested by's
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
@@ -75,6 +74,13 @@ namespace TeamCityServices
                 FinishedTime = GetTeamCityDate(finishedTimeStr);
                 BuildStatus = ToBuildStatusEnum(status);
             }
+        }
+
+        public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
+            : this(buildDefinitionSetting, buildResultXDoc)
+        {
+            Comment = changeResultXDoc.Descendants("comment").First().Value;
+            RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
         }
 
         private BuildStatusEnum ToBuildStatusEnum(string status)
