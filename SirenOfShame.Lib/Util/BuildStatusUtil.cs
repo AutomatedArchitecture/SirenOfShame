@@ -19,7 +19,7 @@ namespace SirenOfShame.Lib.Util
             foreach (var newBuildStatus in newBuildStatuses)
             {
                 var matchingOldBuildStatus = oldBuildStatuses
-                    .FirstOrDefault(bs => bs.Id == newBuildStatus.Id && bs.BuildStatusEnum == newBuildStatus.BuildStatusEnum);
+                    .FirstOrDefault(bs => bs.Id == newBuildStatus.Id && bs.BuildStatusEnum == newBuildStatus.BuildStatusEnum && bs.StartedTime == newBuildStatus.StartedTime);
 
                 result[i] = matchingOldBuildStatus ?? newBuildStatus;
                 i++;

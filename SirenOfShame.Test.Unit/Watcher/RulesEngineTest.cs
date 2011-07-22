@@ -20,7 +20,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
             var trayNotification = rulesEngine.TrayNotificationEvents[0];
             Assert.AreEqual("Build Server Unavailable", trayNotification.Title);
-            Assert.AreEqual("The network is down.", trayNotification.TipText);
+            Assert.AreEqual("The connection will be restored when possible.", trayNotification.TipText);
             Assert.AreEqual(ToolTipIcon.Error, trayNotification.TipIcon);
         }
 
@@ -615,6 +615,57 @@ namespace SirenOfShame.Test.Unit.Watcher
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(0, build1Setting.People.Count);
+        }
+        
+        [TestMethod]
+        public void BuildChangesNothingChanged_NoAdditionalInvokeRefreshStatus()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2010, 1, 1)
+            });
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2010, 1, 1)
+            });
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+        }
+        
+        [TestMethod]
+        public void BuildStartTimeChanged_RefreshStatus()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
+            });
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2022, 2, 2, 2, 2, 2)
+            });
+            Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
         }
     }
 }

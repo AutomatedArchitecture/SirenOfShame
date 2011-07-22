@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
 using log4net;
@@ -145,7 +146,8 @@ namespace TeamCityServices
         {
             WebClient webClient = new WebClient
             {
-                Credentials = new NetworkCredential(userName, password)
+                Credentials = new NetworkCredential(userName, password),
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
             };
 
             webClient.DownloadStringCompleted += (s, e) =>
