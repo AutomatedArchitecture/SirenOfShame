@@ -666,6 +666,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 StartedTime = new DateTime(2022, 2, 2, 2, 2, 2)
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
+            Assert.AreEqual("2/2 2:02 AM", rulesEngine.RefreshStatusEvents.Last().BuildStatusListViewItems.First().StartTime);
         }
     }
 }

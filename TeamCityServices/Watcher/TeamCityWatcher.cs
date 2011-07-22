@@ -12,7 +12,7 @@ namespace TeamCityServices.Watcher
     {
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
-        private readonly List<BuildStatus> _mostRecentBuildStatus = new List<BuildStatus>();
+        private readonly Dictionary<string, BuildStatus> _mostRecentBuildStatus = new Dictionary<string, BuildStatus>();
         private static Exception _lastError;
         private static ServerUnavailableException _serverUnavailableException;
 
@@ -45,7 +45,7 @@ namespace TeamCityServices.Watcher
                 throw ex;
             }
 
-            return _mostRecentBuildStatus;
+            return _mostRecentBuildStatus.Values;
         }
 
         private static void OnGetBuildStatusError(Exception ex)
@@ -70,20 +70,7 @@ namespace TeamCityServices.Watcher
             return bs =>
             {
                 _serverUnavailableException = null; // if anything returns successfully clear the server unavailable exception
-                var mostRecentBuildStatus = _mostRecentBuildStatus.FirstOrDefault(mrbs => mrbs.Id == bs.BuildDefinitionId);
-                if (mostRecentBuildStatus == null)
-                {
-                    mostRecentBuildStatus = new BuildStatus
-                    {
-                        Id = bs.BuildDefinitionId,
-                        Name = definition.Name
-                    };
-                    _mostRecentBuildStatus.Add(mostRecentBuildStatus);
-                }
-                mostRecentBuildStatus.BuildStatusEnum = bs.BuildStatus;
-                mostRecentBuildStatus.RequestedBy = bs.RequestedBy;
-                mostRecentBuildStatus.StartedTime = bs.StartedTime;
-                mostRecentBuildStatus.FinishedTime = bs.FinishedTime;
+                _mostRecentBuildStatus[bs.BuildDefinitionId] = bs.ToBuildStatus(definition);
             };
         }
 

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using log4net;
 
@@ -84,6 +85,21 @@ namespace TeamCityServices
                     _log.Warn("Unknown build status: " + status);
                     return BuildStatusEnum.Unknown;
             }
+        }
+
+        public BuildStatus ToBuildStatus(BuildDefinitionSetting definition)
+        {
+            return new BuildStatus
+            {
+                BuildStatusEnum = BuildStatus,
+                FinishedTime = FinishedTime,
+                Comment = null,
+                // todo: get comments
+                Id = BuildDefinitionId,
+                Name = definition.Name,
+                RequestedBy = RequestedBy,
+                StartedTime = StartedTime
+            };
         }
     }
 }
