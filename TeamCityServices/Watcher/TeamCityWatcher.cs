@@ -26,12 +26,11 @@ namespace TeamCityServices.Watcher
 
             try
             {
-                var buildStatuses = _service.GetBuilds(settings.Url,
+                return _service.GetBuildsStatuses(settings.Url,
                                                        settings.UserName,
                                                        settings.Password,
                                                        watchedBuildDefinitions
                     );
-                return buildStatuses.Select(i => i.ToBuildStatus());
             } catch (WebException ex)
             {
                 if (

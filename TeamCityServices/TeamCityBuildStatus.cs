@@ -28,17 +28,9 @@ namespace TeamCityServices
     <relatedIssues/>
 </build>
      */
-    public class TeamCityBuildStatus
+    public class TeamCityBuildStatus : BuildStatus
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(TeamCityBuildStatus));
-
-        public string BuildDefinitionId { get; set; }
-        public string RequestedBy { get; set; }
-        public DateTime StartedTime { get; set; }
-        public DateTime FinishedTime { get; set; }
-        public BuildStatusEnum BuildStatus { get; set; }
-        public string BuildDefinitionName { get; set; }
-        public string Comment { get; set; }
 
         // todo: parse this better
         private static DateTime GetTeamCityDate(string startedTimeStr)
@@ -69,17 +61,17 @@ namespace TeamCityServices
             string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
             string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
 
-            BuildDefinitionId = buildDefinitionSetting.Id;
-            BuildDefinitionName = buildDefinitionSetting.Name;
+            Id = buildDefinitionSetting.Id;
+            Name = buildDefinitionSetting.Name;
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
-                BuildStatus = BuildStatusEnum.InProgress;
+                BuildStatusEnum = BuildStatusEnum.InProgress;
             }
             else
             {
                 FinishedTime = GetTeamCityDate(finishedTimeStr);
-                BuildStatus = ToBuildStatusEnum(status);
+                BuildStatusEnum = ToBuildStatusEnum(status);
             }
         }
 
@@ -95,20 +87,6 @@ namespace TeamCityServices
                     _log.Warn("Unknown build status: " + status);
                     return BuildStatusEnum.Unknown;
             }
-        }
-
-        public BuildStatus ToBuildStatus()
-        {
-            return new BuildStatus
-            {
-                BuildStatusEnum = BuildStatus,
-                FinishedTime = FinishedTime,
-                Comment = Comment,
-                Id = BuildDefinitionId,
-                Name = BuildDefinitionName,
-                RequestedBy = RequestedBy,
-                StartedTime = StartedTime
-            };
         }
     }
 }
