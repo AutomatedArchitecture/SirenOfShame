@@ -57,30 +57,30 @@ namespace TeamCityServices
             return DateTime.ParseExact(startedTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
         }
 
-        public TeamCityBuildStatus(BuildDefinitionSetting definition, XDocument doc)
+        public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
         {
-            string status = doc.Root.AttributeValueOrDefault("status");
-            string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
-            string finishedTimeStr = doc.Root.ElementValueOrDefault("finishDate");
+            if (changeResultXDoc != null)
+            {
+                Comment = changeResultXDoc.Descendants("comment").First().Value;
+                RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
+            }
 
-            BuildDefinitionId = definition.Id;
-            BuildDefinitionName = definition.Name;
+            string status = buildResultXDoc.Root.AttributeValueOrDefault("status");
+            string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
+            string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
+
+            BuildDefinitionId = buildDefinitionSetting.Id;
+            BuildDefinitionName = buildDefinitionSetting.Name;
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
                 BuildStatus = BuildStatusEnum.InProgress;
-            } else
+            }
+            else
             {
                 FinishedTime = GetTeamCityDate(finishedTimeStr);
                 BuildStatus = ToBuildStatusEnum(status);
             }
-        }
-
-        public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
-            : this(buildDefinitionSetting, buildResultXDoc)
-        {
-            Comment = changeResultXDoc.Descendants("comment").First().Value;
-            RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
         }
 
         private BuildStatusEnum ToBuildStatusEnum(string status)
