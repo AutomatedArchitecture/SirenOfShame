@@ -122,6 +122,7 @@ namespace TeamCityServices
         private static void SetCookie(string rootUrl, string userName, string password)
         {
             int state = 0;
+            bool serverUnavailable = false;
             // WebBrowser needs to run in a single threaded apartment thread, see http://www.beansoftware.com/ASP.NET-Tutorials/Get-Web-Site-Thumbnail-Image.aspx
             Thread staThread = new Thread(() =>
             {
@@ -131,12 +132,20 @@ namespace TeamCityServices
                 string loginPage = rootUrl + "/login.html";
                 webBrowser.DocumentCompleted += (o, evt) =>
                 {
+                    if (webBrowser.DocumentTitle == "Navigation Canceled")
+                    {
+                        serverUnavailable = true;
+                        return;
+                    }
+
                     if (state == 0)
                     {
-                        webBrowser.Document.All["username"].SetAttribute("value", userName);
+                        webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
+                        webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
                         webBrowser.Document.All["password"].SetAttribute("value", password);
 
-                        var submitButton = webBrowser.Document.GetElementsByTagName("input").Cast<HtmlElement>()
+                        var submitButton = webBrowser.Document.GetElementsByTagName("input")
+                            .Cast<HtmlElement>()
                             .FirstOrDefault(e => e.GetAttribute("type") == "submit");
                         submitButton.InvokeMember("click");
                     }
@@ -149,7 +158,7 @@ namespace TeamCityServices
                 };
                 webBrowser.Navigate(new Uri(loginPage));
 
-                while (state <= 1)
+                while (state <= 1 && !serverUnavailable)
                 {
                     Application.DoEvents();
                 }
@@ -159,6 +168,9 @@ namespace TeamCityServices
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
             staThread.Join();
+
+            if (serverUnavailable)
+                throw new ServerUnavailableException();
         }
 
         public TeamCityBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)

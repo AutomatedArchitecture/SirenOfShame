@@ -32,11 +32,11 @@ namespace TeamCityServices.Watcher
                                                        watchedBuildDefinitions
                     );
                 return buildStatuses.Select(i => i.ToBuildStatus());
-            } catch (Exception ex)
+            } catch (WebException ex)
             {
                 if (
-                    (typeof(WebException).IsAssignableFrom(ex.GetType())) &&
-                    ex.Message.StartsWith("The remote name could not be resolved:")
+                    ex.Message.StartsWith("The remote name could not be resolved:") ||
+                    ex.Message.Contains("Unable to connect to the remote server")
                     )
                 {
                     throw new ServerUnavailableException();
