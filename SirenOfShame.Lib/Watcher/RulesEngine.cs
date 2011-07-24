@@ -242,7 +242,7 @@ namespace SirenOfShame.Lib.Watcher
         private void SetStatusUnknown()
         {
             InvokeSetTrayIcon(TrayIcon.Question);
-            InvokeRefreshStatus(_settings.BuildDefinitionSettings.Where(bd => bd.Active).Select(bd => bd.AsUnknownBuildStatus()));
+            InvokeRefreshStatus(_settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _settings.ServerType).Select(bd => bd.AsUnknownBuildStatus()));
         }
 
         public void Stop()
