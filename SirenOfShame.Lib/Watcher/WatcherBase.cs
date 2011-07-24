@@ -17,10 +17,16 @@ namespace SirenOfShame.Lib.Watcher
             Settings = settings;
         }
 
-        protected void InvokeServerUnavailable(ServerUnavailableEventArgs args)
+        protected void InvokeServerUnavailable(ServerUnavailableException args)
         {
             var e = ServerUnavailable;
-            if (e != null) e(this, args);
+            if (e != null) e(this, new ServerUnavailableEventArgs(args));
+        }
+        
+        protected void InvokeBuildDefinitionNotFound(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            var e = BuildDefinitionNotFound;
+            if (e != null) e(this, new BuildDefinitionNotFoundArgs(buildDefinitionSetting));
         }
 
         protected void InvokeStatusChecked(BuildStatus[] args)
@@ -42,11 +48,11 @@ namespace SirenOfShame.Lib.Watcher
             }
             catch (ServerUnavailableException ex)
             {
-                if (ServerUnavailable != null)
-                {
-                    InvokeServerUnavailable(new ServerUnavailableEventArgs(ex));
-                }
-                return;
+                InvokeServerUnavailable(ex);
+            }
+            catch (BuildDefinitionNotFoundException ex)
+            {
+                InvokeBuildDefinitionNotFound(ex.BuildDefinitionSetting);
             }
         }
 
@@ -78,10 +84,23 @@ namespace SirenOfShame.Lib.Watcher
 
         public event StatusCheckedEvent StatusChecked;
         public event ServerUnavailableEvent ServerUnavailable;
+        public event BuildDefinitionNotFoundEvent BuildDefinitionNotFound;
         public SirenOfShameSettings Settings { get; set; }
         public abstract void StopWatching();
 
         public abstract void Dispose();
+    }
+
+    public delegate void BuildDefinitionNotFoundEvent(object sender, BuildDefinitionNotFoundArgs args);
+
+    public class BuildDefinitionNotFoundArgs : EventArgs
+    {
+        public BuildDefinitionSetting BuildDefinitionSetting { get; set; }
+
+        public BuildDefinitionNotFoundArgs(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            BuildDefinitionSetting = buildDefinitionSetting;
+        }
     }
 
     public delegate void ServerUnavailableEvent(object sender, ServerUnavailableEventArgs args);

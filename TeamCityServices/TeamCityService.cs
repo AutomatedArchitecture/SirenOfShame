@@ -183,11 +183,9 @@ namespace TeamCityServices
             {
                 // TeamCity 5.X
                 return GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting);
-            } else
-            {
-                // TeamCity 6.X
-                return GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionSetting);
             }
+            // TeamCity 6.X
+            return GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionSetting);
         }
 
         private static TeamCityBuildStatus GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting)
@@ -248,6 +246,10 @@ namespace TeamCityServices
                     _log.Debug("_supportsGetLatestBuildByBuildTypeId = false");
                     _supportsGetLatestBuildByBuildTypeId = false;
                     return GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting);
+                }
+                if (ex.Message.Contains("No build type is found by id "))
+                {
+                    throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
                 }
                 throw;
             }

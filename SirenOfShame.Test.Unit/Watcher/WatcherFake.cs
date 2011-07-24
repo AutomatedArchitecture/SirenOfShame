@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -32,7 +33,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             // do nothing
         }
 
-        public new void InvokeServerUnavailable(ServerUnavailableEventArgs ex)
+        public new void InvokeServerUnavailable(ServerUnavailableException ex)
         {
             base.InvokeServerUnavailable(ex);
         }

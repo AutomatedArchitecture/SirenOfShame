@@ -34,10 +34,10 @@ namespace SirenOfShame.Lib.Watcher
             if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
         }
 
-        public void InvokeTrayNotify(TrayNotifyEventArgs args)
+        public void InvokeTrayNotify(ToolTipIcon tipIcon, string title, string tipText)
         {
             TrayNotifyEvent handler = TrayNotify;
-            if (handler != null) handler(this, args);
+            if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title});
         }
 
         public RulesEngine(SirenOfShameSettings settings)
@@ -60,12 +60,7 @@ namespace SirenOfShame.Lib.Watcher
                 return;
             }
 
-            InvokeTrayNotify(new TrayNotifyEventArgs
-            {
-                Title = "Build Server Unavailable",
-                TipText = "The connection will be restored when possible.",
-                TipIcon = ToolTipIcon.Error
-            });
+            InvokeTrayNotify(ToolTipIcon.Error, "Build Server Unavailable", "The connection will be restored when possible.");
             ResetPreviousWorkingOrBrokenStatuses();
             _serverPreviouslyUnavailable = true;
         }
@@ -90,7 +85,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             if (_serverPreviouslyUnavailable)
             {
-                InvokeTrayNotify(new TrayNotifyEventArgs { Title = "Reconnected", TipText = "Reconnected to server.", TipIcon = ToolTipIcon.Info });
+                InvokeTrayNotify(ToolTipIcon.Info, "Reconnected", "Reconnected to server.");
             }
             _serverPreviouslyUnavailable = false;
 
@@ -108,7 +103,7 @@ namespace SirenOfShame.Lib.Watcher
                                        select newStatus;
             changedBuildStatuses = changedBuildStatuses.ToList();
 
-            BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses);
+            BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses.ToList());
         }
 
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
@@ -130,7 +125,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void BuildWatcherStatusChanged(IEnumerable<BuildStatus> allBuildStatuses, IEnumerable<BuildStatus> changedBuildStatuses)
+        private void BuildWatcherStatusChanged(BuildStatus[] allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
         {
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
@@ -216,7 +211,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private Thread _watcherThread;
 
-        Timer _timer = new Timer();
+        readonly Timer _timer = new Timer();
 
         public void Start()
         {
@@ -229,11 +224,19 @@ namespace SirenOfShame.Lib.Watcher
 
                 _watcher.StatusChecked += BuildWatcherStatusChecked;
                 _watcher.ServerUnavailable += BuildWatcherServerUnavailable;
+                _watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
                 _watcher.Settings = _settings;
                 _watcherThread = new Thread(_watcher.StartWatching) { IsBackground = true };
                 _watcherThread.Start();
             }
             _timer.Start();
+        }
+
+        private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)
+        {
+            args.BuildDefinitionSetting.Active = false;
+            _settings.Save();
+            InvokeTrayNotify(ToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");
         }
 
         private void SetStatusUnknown()
