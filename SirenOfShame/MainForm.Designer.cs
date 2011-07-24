@@ -99,7 +99,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
