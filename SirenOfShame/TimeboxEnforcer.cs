@@ -41,12 +41,23 @@ namespace SirenOfShame
 
             UpdateTimer(false);
 
+            bool isConnected = SirenOfShameDevice.IsConnected;
+
             InitializeCombobox(_timeboxAudio, SirenOfShameDevice.AudioPatterns);
             InitializeCombobox(_timeboxLights, SirenOfShameDevice.LedPatterns);
             InitializeCombobox(_warningAudio, SirenOfShameDevice.AudioPatterns);
             InitializeCombobox(_warningLights, SirenOfShameDevice.LedPatterns);
             _warningDuration.Items.AddRange(_warningDurations.Cast<object>().ToArray());
             _warningDuration.SelectedIndex = 2;
+
+            _warningLights.Enabled = isConnected;
+            _warningAudio.Enabled = isConnected;
+            _warningAudioDuration.Enabled = isConnected;
+            _warningLightDuration.Enabled = isConnected;
+            _timeboxLights.Enabled = isConnected;
+            _timeboxLightDuration.Enabled = isConnected;
+            _timeboxAudio.Enabled = isConnected;
+            _timeboxAudioDuration.Enabled = isConnected;
         }
 
         private void InitializeCombobox(ComboBox combobox, IEnumerable<object> patterns)
@@ -88,12 +99,14 @@ namespace SirenOfShame
                 if (_timeboxAudio.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_timeboxAudioDuration, 10);
-                    SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, duration);
+                    if (SirenOfShameDevice.IsConnected)
+                        SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, duration);
                 }
                 if (_timeboxLights.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_timeboxLightDuration, 10);
-                    SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, duration);
+                    if (SirenOfShameDevice.IsConnected)
+                        SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, duration);
                 }
                 SosMessageBox.Show("Meeting adjourned", "This meeting is officially over.", "Ok");
             }
@@ -105,12 +118,14 @@ namespace SirenOfShame
                 if (_warningAudio.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_warningAudioDuration, 10);
-                    SirenOfShameDevice.SetAudio((AudioPattern)_warningAudio.SelectedItem, duration);
+                    if (SirenOfShameDevice.IsConnected)
+                        SirenOfShameDevice.SetAudio((AudioPattern)_warningAudio.SelectedItem, duration);
                 }
                 if (_warningLights.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_warningLightDuration, 10);
-                    SirenOfShameDevice.SetLight((LedPattern)_warningLights.SelectedItem, duration);
+                    if (SirenOfShameDevice.IsConnected)
+                        SirenOfShameDevice.SetLight((LedPattern)_warningLights.SelectedItem, duration);
                 }
             }
         }
