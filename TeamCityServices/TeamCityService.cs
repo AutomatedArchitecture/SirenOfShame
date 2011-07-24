@@ -191,8 +191,7 @@ namespace TeamCityServices
         private static TeamCityBuildStatus GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting)
         {
             string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionSetting.Id + "/builds?count=1";
-            var latestBuildIdResult = DownloadString(getLatestBuildIdByBuildTypeUrl, userName, password);
-            XDocument latestBuildIdXDoc = XDocument.Parse(latestBuildIdResult);
+            XDocument latestBuildIdXDoc = DownloadString(getLatestBuildIdByBuildTypeUrl, userName, password);
             var id = latestBuildIdXDoc.Descendants("build").Attributes("id").First().Value;
             return GetBuildStatusByBuildId(rootUrl, userName, password, buildDefinitionSetting, id);
         }
@@ -205,10 +204,19 @@ namespace TeamCityServices
             string buildId)
         {
 
-            XDocument changeResultXDoc = null;
             string getBuildByBuildIdIdUrl = rootUrl + "/httpAuth/app/rest/builds/id:" + buildId;
-            var buildResult = DownloadString(getBuildByBuildIdIdUrl, userName, password);
-            XDocument buildResultXDoc = XDocument.Parse(buildResult);
+            XDocument buildResultXDoc = DownloadString(getBuildByBuildIdIdUrl, userName, password);
+            return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, buildResultXDoc);
+        }
+
+        private static TeamCityBuildStatus GetBuildStatusAndCommentsFromXDocument(
+            string rootUrl,
+            string userName,
+            string password,
+            BuildDefinitionSetting buildDefinitionSetting,
+            XDocument buildResultXDoc)
+        {
+            XDocument changeResultXDoc = null;
             if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
             var changesNode = buildResultXDoc.Descendants("changes").First();
             var count = changesNode.AttributeValueOrDefault("count");
@@ -217,13 +225,11 @@ namespace TeamCityServices
             {
                 var changesHref = changesNode.AttributeValueOrDefault("href");
                 var changesUrl = rootUrl + changesHref;
-                var changesResult = DownloadString(changesUrl, userName, password);
-                XDocument changesResultXDoc = XDocument.Parse(changesResult);
+                XDocument changesResultXDoc = DownloadString(changesUrl, userName, password);
                 var changeNode = changesResultXDoc.Descendants("change").First();
                 var changeHref = changeNode.AttributeValueOrDefault("href");
                 var changeUrl = rootUrl + changeHref;
-                var changeResult = DownloadString(changeUrl, userName, password);
-                changeResultXDoc = XDocument.Parse(changeResult);
+                changeResultXDoc = DownloadString(changeUrl, userName, password);
             }
             return new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc, changeResultXDoc);
         }
@@ -233,11 +239,9 @@ namespace TeamCityServices
             string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
             try
             {
-                var result = DownloadString(url, userName, password);
-                XDocument doc = XDocument.Parse(result);
+                XDocument doc = DownloadString(url, userName, password);
                 if (doc.Root == null) throw new Exception("Could not get project build status");
-                // todo: get comments for TeamCity 6.X
-                return new TeamCityBuildStatus(buildDefinitionSetting, doc, null);
+                return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, doc);
             } 
             catch (Exception ex)
             {
@@ -255,7 +259,7 @@ namespace TeamCityServices
             }
         }
         
-        private static string DownloadString(string url, string userName, string password)
+        private static XDocument DownloadString(string url, string userName, string password)
         {
             var webClient = new WebClient
             {
@@ -265,7 +269,8 @@ namespace TeamCityServices
 
             try
             {
-                return webClient.DownloadString(url);
+                var resultString = webClient.DownloadString(url);
+                return XDocument.Parse(resultString);
             } catch (WebException webException)
             {
                 if (webException.Response != null)
