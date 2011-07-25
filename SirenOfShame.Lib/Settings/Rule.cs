@@ -203,12 +203,7 @@ namespace SirenOfShame.Lib.Settings
 
             if (AlertType == AlertType.TrayAlert)
             {
-                rulesEngine.InvokeTrayNotify(new TrayNotifyEventArgs
-                {
-                    TipIcon = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info,
-                    Title = string.Format("Build {0}", buildStatus.BuildStatusDescription),
-                    TipText = message,
-                });
+                rulesEngine.InvokeTrayNotify(buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
             }
 
             if (LedPattern != null)

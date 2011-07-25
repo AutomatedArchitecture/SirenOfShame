@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using log4net;
 
@@ -26,15 +28,9 @@ namespace TeamCityServices
     <relatedIssues/>
 </build>
      */
-    public class TeamCityBuildStatus
+    public class TeamCityBuildStatus : BuildStatus
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(TeamCityBuildStatus));
-
-        public string BuildDefinitionId { get; set; }
-        public string RequestedBy { get; set; }
-        public DateTime StartedTime { get; set; }
-        public DateTime FinishedTime { get; set; }
-        public BuildStatusEnum BuildStatus { get; set; }
 
         // todo: parse this better
         private static DateTime GetTeamCityDate(string startedTimeStr)
@@ -52,23 +48,30 @@ namespace TeamCityServices
             }
             return DateTime.ParseExact(startedTimeStr, "yyyyMMdd HHmmss", CultureInfo.InvariantCulture);
         }
-        
-        public TeamCityBuildStatus(string buildDefinitionId, XDocument doc)
-        {
-            string status = doc.Root.AttributeValueOrDefault("status");
-            string startedTimeStr = doc.Root.ElementValueOrDefault("startDate");
-            string finishedTimeStr = doc.Root.ElementValueOrDefault("finishDate");
 
-            BuildDefinitionId = buildDefinitionId;
-            RequestedBy = null; // todo: not sure how to get this
+        public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
+        {
+            if (changeResultXDoc != null)
+            {
+                Comment = changeResultXDoc.Descendants("comment").First().Value;
+                RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
+            }
+
+            string status = buildResultXDoc.Root.AttributeValueOrDefault("status");
+            string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
+            string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
+
+            Id = buildDefinitionSetting.Id;
+            Name = buildDefinitionSetting.Name;
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
-                BuildStatus = BuildStatusEnum.InProgress;
-            } else
+                BuildStatusEnum = BuildStatusEnum.InProgress;
+            }
+            else
             {
                 FinishedTime = GetTeamCityDate(finishedTimeStr);
-                BuildStatus = ToBuildStatusEnum(status);
+                BuildStatusEnum = ToBuildStatusEnum(status);
             }
         }
 

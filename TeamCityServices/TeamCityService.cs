@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
+using System.Threading;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using log4net;
 using SirenOfShame.Lib;
 
@@ -18,9 +24,8 @@ namespace TeamCityServices
 
         public delegate void GetBuildDefinitionsCompleteDelegate(TeamCityBuildDefinition[] buildDefinitions);
 
-        public delegate void GetBuildStatusCompleteDelegate(TeamCityBuildStatus buildStatus);
-
-        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError){
+        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError)
+        {
             WebClient webClient = new WebClient
             {
                 Credentials = new NetworkCredential(userName, password)
@@ -41,7 +46,8 @@ namespace TeamCityServices
                             .Select(projectXml => new TeamCityProject(rootUrl, projectXml))
                             .ToArray();
                         complete(projects);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         _log.Error("Error connecting to server", ex);
                         onError(ex);
@@ -85,114 +91,240 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        
-        public void GetBuildStatus(string rootUrl, string buildDefinitionId, string userName, string password, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static string _cookie = null;
+
+        public List<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
+        {
+            rootUrl = GetRootUrl(rootUrl);
+
+            if (_cookie == null)
+            {
+                SetCookie(rootUrl, userName, password);
+            }
+
+            XDocument document = DownloadXml(rootUrl + "/ajax.html?getRunningBuilds=1", userName, password, _cookie);
+
+            var inProgressBuilds = document.Descendants("build").Select(b => new
+            {
+                buildTypeId = b.AttributeValueOrDefault("buildTypeId"),
+                buildId = b.AttributeValueOrDefault("buildId")
+            }).ToArray();
+
+            var parallelResult = from buildDefinitionSetting in watchedBuildDefinitions
+                                 from inProgressBuild in inProgressBuilds.Where(b => b.buildTypeId == buildDefinitionSetting.Id).DefaultIfEmpty()
+                                 select inProgressBuild != null ?
+                                    GetBuildStatusByBuildId(rootUrl, userName, password, buildDefinitionSetting, inProgressBuild.buildId)
+                                    : GetBuildStatus(rootUrl, buildDefinitionSetting, userName, password);
+            return parallelResult.AsParallel().ToList();
+        }
+
+        private static void SetCookie(string rootUrl, string userName, string password)
+        {
+            int state = 0;
+            bool serverUnavailable = false;
+            Exception documentCompleteException = null;
+            // WebBrowser needs to run in a single threaded apartment thread, see http://www.beansoftware.com/ASP.NET-Tutorials/Get-Web-Site-Thumbnail-Image.aspx
+            Thread staThread = new Thread(() =>
+            {
+                // ajax.html is required to get in progress builds in TC 5.X, ajax.html requires forms auth, and TC encrypts
+                //      its password on login.html, so WebBrowser is  required to get an authentication cookie
+                WebBrowser webBrowser = new WebBrowser { Visible = true };
+                string loginPage = rootUrl + "/login.html";
+                webBrowser.DocumentCompleted += (o, evt) =>
+                {
+                    try
+                    {
+                        if (webBrowser.DocumentTitle == "Navigation Canceled")
+                        {
+                            serverUnavailable = true;
+                            return;
+                        }
+
+                        if (state == 0)
+                        {
+                            webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
+                            webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
+                            webBrowser.Document.All["password"].SetAttribute("value", password);
+
+                            var submitButton = webBrowser.Document.GetElementsByTagName("input")
+                                .Cast<HtmlElement>()
+                                .FirstOrDefault(e => e.GetAttribute("type") == "submit");
+                            submitButton.InvokeMember("click");
+                        }
+                        if (state == 1)
+                        {
+                            _cookie = webBrowser.Document.Cookie;
+                        }
+
+                        state++;
+                    }
+                    catch (Exception ex)
+                    {
+                        documentCompleteException = ex;
+                    }
+                };
+                webBrowser.Navigate(new Uri(loginPage));
+
+                while (state <= 1 && !serverUnavailable && documentCompleteException == null)
+                {
+                    Application.DoEvents();
+                }
+
+                webBrowser.Dispose();
+            });
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+
+            if (serverUnavailable)
+                throw new ServerUnavailableException();
+            if (documentCompleteException != null)
+                throw documentCompleteException;
+        }
+
+        public TeamCityBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)
         {
             rootUrl = GetRootUrl(rootUrl);
 
             // older versions of team city don't support this format: httpAuth/app/rest/builds/buildType:bt2
             //  but that format requires far fewer http requests
-            if (_supportsGetLatestBuildByBuildTypeId)
+            if (!_supportsGetLatestBuildByBuildTypeId)
             {
-                GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionId, complete, onError);
-            } else
+                // TeamCity 5.X
+                return GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting);
+            }
+            // TeamCity 6.X
+            return GetLatestBuildByBuildTypeId(rootUrl, userName, password, buildDefinitionSetting);
+        }
+
+        private static TeamCityBuildStatus GetLatestBuildByBuildId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionSetting.Id + "/builds?count=1";
+            try
             {
-                GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionId, complete, onError);
+                XDocument latestBuildIdXDoc = DownloadXml(getLatestBuildIdByBuildTypeUrl, userName, password);
+                var id = latestBuildIdXDoc.Descendants("build").Attributes("id").First().Value;
+                return GetBuildStatusByBuildId(rootUrl, userName, password, buildDefinitionSetting, id);
+            }
+            catch (SosException ex)
+            {
+                if (ex.Message.Contains("No build type is found by id "))
+                {
+                    throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
+                }
+                throw;
             }
         }
 
-        private static void GetLatestBuildByBuildId(string rootUrl, string userName, string password, string buildDefinitionId, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static TeamCityBuildStatus GetBuildStatusByBuildId(
+            string rootUrl,
+            string userName,
+            string password,
+            BuildDefinitionSetting buildDefinitionSetting,
+            string buildId)
         {
-            string getLatestBuildIdByBuildTypeUrl = rootUrl + "/httpAuth/app/rest/buildTypes/" + buildDefinitionId + "/builds?count=1";
-            MakeAsyncWebRequest(getLatestBuildIdByBuildTypeUrl, userName, password, onError, latestBuildIdResult =>
-            {
-                XDocument latestBuildIdXDoc = XDocument.Parse(latestBuildIdResult);
-                var id = latestBuildIdXDoc.Descendants("build").Attributes("id").First().Value;
-                string getBuildByBuildIdIdUrl = rootUrl + "/httpAuth/app/rest/builds/id:" + id;
-                MakeAsyncWebRequest(getBuildByBuildIdIdUrl, userName, password, onError, buildResult =>
-                {
-                    XDocument buildResultXDoc = XDocument.Parse(buildResult);
-                    if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
-                    var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionId, buildResultXDoc);
-                    complete(teamCityBuildStatus);
-                });
-            });
+
+            string getBuildByBuildIdIdUrl = rootUrl + "/httpAuth/app/rest/builds/id:" + buildId;
+            XDocument buildResultXDoc = DownloadXml(getBuildByBuildIdIdUrl, userName, password);
+            return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, buildResultXDoc);
         }
 
-        private static void GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, string buildDefinitionId, GetBuildStatusCompleteDelegate complete, Action<Exception> onError)
+        private static TeamCityBuildStatus GetBuildStatusAndCommentsFromXDocument(
+            string rootUrl,
+            string userName,
+            string password,
+            BuildDefinitionSetting buildDefinitionSetting,
+            XDocument buildResultXDoc)
         {
-            string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionId;
-            MakeAsyncWebRequest(url, userName, password, onError, result =>
+            XDocument changeResultXDoc = null;
+            if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
+            var changesNode = buildResultXDoc.Descendants("changes").First();
+            var count = changesNode.AttributeValueOrDefault("count");
+            bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
+            if (commentsExist)
             {
-                XDocument doc = XDocument.Parse(result);
+                var changesHref = changesNode.AttributeValueOrDefault("href");
+                var changesUrl = rootUrl + changesHref;
+                XDocument changesResultXDoc = DownloadXml(changesUrl, userName, password);
+                var changeNode = changesResultXDoc.Descendants("change").First();
+                var changeHref = changeNode.AttributeValueOrDefault("href");
+                var changeUrl = rootUrl + changeHref;
+                changeResultXDoc = DownloadXml(changeUrl, userName, password);
+            }
+            return new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc, changeResultXDoc);
+        }
+
+        private static TeamCityBuildStatus GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
+            try
+            {
+                XDocument doc = DownloadXml(url, userName, password);
                 if (doc.Root == null) throw new Exception("Could not get project build status");
-                var teamCityBuildStatus = new TeamCityBuildStatus(buildDefinitionId, doc);
-                complete(teamCityBuildStatus);
-            }, errorMessage =>
+                return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, doc);
+            }
+            catch (SosException ex)
             {
-                if (errorMessage.Contains("BadRequestException: Cannot find build by other locator then 'id' without build type specified."))
+                if (ex.Message.Contains("BadRequestException: Cannot find build by other locator then 'id' without build type specified."))
                 {
                     _log.Debug("_supportsGetLatestBuildByBuildTypeId = false");
                     _supportsGetLatestBuildByBuildTypeId = false;
-                    GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionId, complete, onError);
-                    return true;
+                    return GetLatestBuildByBuildId(rootUrl, userName, password, buildDefinitionSetting);
                 }
-                return false;
-            });
+                if (ex.Message.Contains("No build type is found by id "))
+                {
+                    throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
+                }
+                throw;
+            }
         }
 
-        private static void MakeAsyncWebRequest(string url, string userName, string password, Action<Exception> onError, Action<string> onSuccess, Func<string, bool> customOnError = null)
+        private static XDocument DownloadXml(string url, string userName, string password, string cookie = null)
         {
-            WebClient webClient = new WebClient
+            var webClient = new WebClient
             {
-                Credentials = new NetworkCredential(userName, password)
+                Credentials = new NetworkCredential(userName, password),
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
             };
 
-            webClient.DownloadStringCompleted += (s, e) =>
+            if (cookie != null)
+                webClient.Headers.Add("Cookie", _cookie);
+
+            try
             {
-                if (e.Error != null)
-                {
-                    WebException webException = e.Error as WebException;
-                    if (webException != null && webException.Response != null)
-                    {
-                        var response = webException.Response;
-                        using (Stream s1 = response.GetResponseStream())
-                        {
-                            if (s1 != null)
-                            {
-                                using (StreamReader sr = new StreamReader(s1))
-                                {
-                                    var result = sr.ReadToEnd();
-                                    if (customOnError != null && customOnError(result))
-                                        return;
-
-                                    _log.Error("Error connecting to server with the following url: " + url + "\n\n" + result, webException);
-                                    onError(new SosException(result, e.Error));
-                                    return;
-                                }
-                            }
-                        }
-                    }
-
-                    _log.Error("Error connecting to server with the following url: " + url, e.Error);
-                    onError(e.Error);
-
-                    return;
-                }
-
+                var resultString = webClient.DownloadString(url);
                 try
                 {
-                    onSuccess(e.Result);
+                    return XDocument.Parse(resultString);
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Error connecting to team city with the following url: " + url, ex);
-                    onError(ex);
+                    string message = "Couldn't parse XML:\n" + resultString;
+                    _log.Error(message, ex);
+                    throw new SosException(message, ex);
                 }
-            };
-            webClient.DownloadStringAsync(new Uri(url));
-
-
+            }
+            catch (WebException webException)
+            {
+                if (webException.Response != null)
+                {
+                    var response = webException.Response;
+                    using (Stream s1 = response.GetResponseStream())
+                    {
+                        if (s1 != null)
+                        {
+                            using (StreamReader sr = new StreamReader(s1))
+                            {
+                                var errorResult = sr.ReadToEnd();
+                                string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
+                                _log.Error(message, webException);
+                                throw new SosException(message, webException);
+                            }
+                        }
+                    }
+                }
+                throw;
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public void InvokeServerUnavailable(ServerUnavailableException serverUnavailableException)
         {
-            Settings.WatcherFake.InvokeServerUnavailable(new ServerUnavailableEventArgs(serverUnavailableException));
+            Settings.WatcherFake.InvokeServerUnavailable(serverUnavailableException);
         }
 
         public void InvokeStatusChecked(BuildStatus[] args)
@@ -83,7 +83,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     RequestedBy = CURRENT_USER, 
                     Id = BUILD1_ID, 
                     StartedTime = new DateTime(2010, 1, 1)
-                }, 
+                } 
         });
         }
     }
