@@ -65,8 +65,8 @@ namespace SirenOfShame.Lib.Watcher
             }
             catch (ThreadAbortException)
             {
-                StopWatching();
                 _log.Debug("Stopped watching build status (ThreadAbortException)");
+                StopWatching();
             }
             catch (Exception ex)
             {
