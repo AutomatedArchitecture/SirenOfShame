@@ -19,7 +19,7 @@ namespace TeamCityServices.Watcher
             _teamCityCiEntryPoint = teamCityCiEntryPoint;
         }
 
-        protected override IEnumerable<BuildStatus> GetBuildStatus()
+        protected override IList<BuildStatus> GetBuildStatus()
         {
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
@@ -30,7 +30,7 @@ namespace TeamCityServices.Watcher
                                                        settings.UserName,
                                                        settings.Password,
                                                        watchedBuildDefinitions
-                    );
+                    ).Cast<BuildStatus>().ToList();
             } catch (WebException ex)
             {
                 if (

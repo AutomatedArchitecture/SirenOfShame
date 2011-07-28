@@ -1,7 +1,9 @@
-﻿namespace SirenOfShame.Lib.Watcher
+﻿using System.Collections.Generic;
+
+namespace SirenOfShame.Lib.Watcher
 {
     public class StatusCheckedEventArgsArgs
     {
-        public BuildStatus[] BuildStatuses { get; set; }
+        public IList<BuildStatus> BuildStatuses { get; set; }
     }
 }

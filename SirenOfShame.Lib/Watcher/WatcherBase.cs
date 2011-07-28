@@ -29,7 +29,7 @@ namespace SirenOfShame.Lib.Watcher
             if (e != null) e(this, new BuildDefinitionNotFoundArgs(buildDefinitionSetting));
         }
 
-        protected void InvokeStatusChecked(BuildStatus[] args)
+        protected void InvokeStatusChecked(IList<BuildStatus> args)
         {
             var e = StatusChecked;
             if (e != null) e(this, new StatusCheckedEventArgsArgs
@@ -42,8 +42,8 @@ namespace SirenOfShame.Lib.Watcher
         {
             try
             {
-                BuildStatus[] newBuildStatus = GetBuildStatus().ToArray();
-                if (newBuildStatus.Length != 0)
+                var newBuildStatus = GetBuildStatus();
+                if (newBuildStatus.Count != 0)
                     InvokeStatusChecked(newBuildStatus);
             }
             catch (ServerUnavailableException ex)
@@ -56,7 +56,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        protected abstract IEnumerable<BuildStatus> GetBuildStatus();
+        protected abstract IList<BuildStatus> GetBuildStatus();
 
         public virtual void StartWatching()
         {
