@@ -9,6 +9,16 @@ namespace SirenOfShame.Lib.Settings
 
         public string UserName { get; set; }
 
-        public string Password { get; set; }
+        public string EncryptedPassword { get; set; }
+
+        public void SetPassword(string value)
+        {
+            EncryptedPassword = new TripleDESStringEncryptor().EncryptString(value);
+        }
+
+        public string GetPassword()
+        {
+            return new TripleDESStringEncryptor().DecryptString(EncryptedPassword);
+        }
     }
 }

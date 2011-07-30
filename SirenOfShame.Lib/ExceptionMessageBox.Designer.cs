@@ -90,6 +90,7 @@
             this.Name = "ExceptionMessageBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExceptionMessageBox";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

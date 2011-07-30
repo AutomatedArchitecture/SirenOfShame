@@ -24,11 +24,14 @@ namespace TeamCityServices.Watcher
             var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
 
+            if (string.IsNullOrEmpty(settings.Url))
+                throw new SosException("Team City URL is null or empty");
+
             try
             {
                 return _service.GetBuildsStatuses(settings.Url,
                                                        settings.UserName,
-                                                       settings.Password,
+                                                       settings.GetPassword(),
                                                        watchedBuildDefinitions
                     );
             } catch (WebException ex)

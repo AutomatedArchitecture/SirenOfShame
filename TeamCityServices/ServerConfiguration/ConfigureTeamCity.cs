@@ -24,7 +24,7 @@ namespace TeamCityServices.ServerConfiguration
             CiEntryPointSettings settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             _url.Text = settings.Url;
             _userName.Text = settings.UserName;
-            _password.Text = settings.Password;
+            _password.Text = settings.GetPassword();
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();
@@ -38,9 +38,15 @@ namespace TeamCityServices.ServerConfiguration
 
         private void ReloadProjects()
         {
-            _projects.Nodes.Clear();
-            _projects.Nodes.Add("Loading...");
-            _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
+            try
+            {
+                _projects.Nodes.Clear();
+                _projects.Nodes.Add("Loading...");
+                _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void GetProjectsError(Exception ex)
@@ -54,7 +60,7 @@ namespace TeamCityServices.ServerConfiguration
             CiEntryPointSettings settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
             settings.Url = _url.Text;
             settings.UserName = _userName.Text;
-            settings.Password = _password.Text;
+            settings.SetPassword(_password.Text);
             Settings.Save();
 
             _projects.Nodes.Clear();
