@@ -94,7 +94,7 @@ namespace TeamCityServices
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
         private static string _cookie = null;
 
-        public List<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
+        public IList<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             rootUrl = GetRootUrl(rootUrl);
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using log4net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
@@ -26,7 +27,7 @@ namespace TfsServices
         private MyTfsServer _myTfsServer;
         private MyTfsBuildDefinition[] _watchedBuildDefinitions;
 
-        protected override IEnumerable<BuildStatus> GetBuildStatus()
+        protected override IList<BuildStatus> GetBuildStatus()
         {
             try {
                 if (_myTfsServer == null) _myTfsServer = new MyTfsServer(Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url);
@@ -36,7 +37,7 @@ namespace TfsServices
                 }
 
                 var buildDefinitionsByServer = _watchedBuildDefinitions.GroupBy(bd => bd.BuildServer);
-                return buildDefinitionsByServer.SelectMany(g => g.Key.GetBuildStatuses(g));
+                return buildDefinitionsByServer.SelectMany(g => g.Key.GetBuildStatuses(g)).ToList();
             }
             catch (DatabaseConnectionException ex)
             {

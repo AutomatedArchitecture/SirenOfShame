@@ -13,9 +13,9 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
         }
 
-        protected override IEnumerable<BuildStatus> GetBuildStatus()
+        protected override IList<BuildStatus> GetBuildStatus()
         {
-            return Enumerable.Empty<BuildStatus>();
+            return new List<BuildStatus>();
         }
 
         public override void Dispose()
@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             base.InvokeServerUnavailable(ex);
         }
 
-        public new void InvokeStatusChecked(BuildStatus[] args) {
+        public new void InvokeStatusChecked(IList<BuildStatus> args) {
             base.InvokeStatusChecked(args);
         }
     }
