@@ -16,6 +16,16 @@ namespace SirenOfShame.Lib.Device
         private readonly MockSirenOfShameDeviceDialog _dlg;
         private bool _isConnected;
 
+        public int Version
+        {
+            get { return 1; }
+        }
+
+        public HardwareType HardwareType
+        {
+            get { return HardwareType.Pro; }
+        }
+
         public event EventHandler Connected;
         public event EventHandler Disconnected;
 
@@ -90,13 +100,14 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
-        public void TryConnect()
+        public bool TryConnect()
         {
             _isConnected = true;
             if (Connected != null)
             {
                 Connected(this, new EventArgs());
             }
+            return true;
         }
 
         public void Disconnect()

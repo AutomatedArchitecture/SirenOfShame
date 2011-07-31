@@ -85,9 +85,6 @@
     <Compile Include="Configuration\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormBase.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FullScreenEnforcer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +123,12 @@
     </Compile>
     <Compile Include="SirenConfiguration\TestSiren.Designer.cs">
       <DependentUpon>TestSiren.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SirenFirmwareUpgrade.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SirenFirmwareUpgrade.Designer.cs">
+      <DependentUpon>SirenFirmwareUpgrade.cs</DependentUpon>
     </Compile>
     <Compile Include="SosMessageBox.cs">
       <SubType>Form</SubType>
@@ -185,6 +188,9 @@
     <EmbeddedResource Include="SirenConfiguration\TestSiren.resx">
       <DependentUpon>TestSiren.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SirenFirmwareUpgrade.resx">
+      <DependentUpon>SirenFirmwareUpgrade.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SosMessageBox.resx">
       <DependentUpon>SosMessageBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -229,6 +235,9 @@
     <None Include="Resources\Play.png" />
     <None Include="Resources\separater.png" />
     <None Include="Resources\RibbonBackground.png" />
+    <Content Include="FirmwareUpgrade.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\RibbonMore.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />

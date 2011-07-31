@@ -87,6 +87,9 @@
     <Compile Include="Exceptions\BuildDefinitionNotFoundException.cs" />
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
     <Compile Include="Exceptions\SosException.cs" />
+    <Compile Include="FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Helpers\AssemblyHelpers.cs" />
     <Compile Include="Helpers\FactoryExportProvider.cs" />
     <Compile Include="Helpers\IEnumerableHelpers.cs" />

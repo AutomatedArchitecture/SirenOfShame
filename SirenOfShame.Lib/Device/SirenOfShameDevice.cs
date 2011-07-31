@@ -37,6 +37,8 @@ namespace SirenOfShame.Lib.Device
         private const UInt16 Duration_Forever = 0xfffe;
 
         public bool IsConnected { get; private set; }
+        public int Version { get; private set; }
+        public HardwareType HardwareType { get; private set; }
 
         public event EventHandler Connected;
         public event EventHandler Disconnected;
@@ -91,12 +93,12 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
-        public void TryConnect()
+        public bool TryConnect()
         {
             _disconnecting = false;
             if (_connecting)
             {
-                return;
+                return true;
             }
             _connecting = true;
             try
@@ -104,7 +106,7 @@ namespace SirenOfShame.Lib.Device
                 DeviceInterface deviceInterface = FindDevice();
                 if (deviceInterface == null)
                 {
-                    return;
+                    return false;
                 }
                 Thread.Sleep(500);
                 _deviceInterfaceFile = deviceInterface.OpenFile(PacketSize);
@@ -113,9 +115,11 @@ namespace SirenOfShame.Lib.Device
                 _log.Debug("OutputReportByteLength: " + caps.NumberOutputDataIndices);
                 _log.Debug("OutputReportByteLength: " + caps.OutputReportByteLength);
                 BeginAsyncRead();
+                ReadDeviceInfo();
                 ReadAudioPatterns();
                 ReadLedPatterns();
                 OnConnected();
+                return true;
             }
             finally
             {
@@ -137,8 +141,8 @@ namespace SirenOfShame.Lib.Device
                 SendControlPacket(controlByte: ControlByte1Flags.FirmwareUpgrade);
             }
             progressFunc(10);
-            var programmer = new TeensyHidBootloaderProgrammer(McuType.ATMega32u4);
-            programmer.Program(hexFileStream, true, true, new TimeSpan(0, 0, 1, 0), (i) => progressFunc((int)(10 + (int)(i * 90.0 / 100.0))));
+            var programmer = new TeensyHidBootloaderProgrammer(McuType.ATMega32u2);
+            programmer.Program(hexFileStream, true, true, new TimeSpan(0, 0, 1, 0), i => progressFunc(10 + (int)(i * 90.0 / 100.0)));
         }
 
         public SirenOfShameInfo ReadDeviceInfo()
@@ -152,6 +156,8 @@ namespace SirenOfShame.Lib.Device
             _log.Debug("\tAudioPlayDuration: " + infoPacket.AudioPlayDuration);
             _log.Debug("\tLedMode: " + infoPacket.LedMode);
             _log.Debug("\tLedPlayDuration: " + infoPacket.LedPlayDuration);
+            Version = infoPacket.Version;
+            HardwareType = infoPacket.HardwareType;
             return new SirenOfShameInfo(infoPacket);
         }
 

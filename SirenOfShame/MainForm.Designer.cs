@@ -49,6 +49,7 @@ namespace SirenOfShame {
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.balls = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this._sirenMore = new System.Windows.Forms.Button();
             this._refresh = new System.Windows.Forms.Button();
             this.bigIcons = new System.Windows.Forms.ImageList(this.components);
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -62,7 +63,6 @@ namespace SirenOfShame {
             this._timeboxEnforcer = new System.Windows.Forms.Button();
             this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this._openSettings = new System.Windows.Forms.Button();
-            this._configureSiren = new System.Windows.Forms.Button();
             this._testSiren = new System.Windows.Forms.Button();
             this._configureServers = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -75,6 +75,9 @@ namespace SirenOfShame {
             this._configurationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._checkForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this._viewLog = new System.Windows.Forms.ToolStripMenuItem();
+            this._sirenMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._configureSirenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._upgradeFirmwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -85,6 +88,7 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this._buildMenu.SuspendLayout();
             this._configurationMenu.SuspendLayout();
+            this._sirenMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -196,6 +200,7 @@ namespace SirenOfShame {
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.RibbonBackground;
+            this.panel1.Controls.Add(this._sirenMore);
             this.panel1.Controls.Add(this._refresh);
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this._help);
@@ -208,7 +213,6 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this._timeboxEnforcer);
             this.panel1.Controls.Add(this._automaticUpdater);
             this.panel1.Controls.Add(this._openSettings);
-            this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._testSiren);
             this.panel1.Controls.Add(this._configureServers);
             this.panel1.Controls.Add(this.label1);
@@ -217,6 +221,22 @@ namespace SirenOfShame {
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(909, 85);
             this.panel1.TabIndex = 37;
+            // 
+            // _sirenMore
+            // 
+            this._sirenMore.BackColor = System.Drawing.Color.Transparent;
+            this._sirenMore.FlatAppearance.BorderSize = 0;
+            this._sirenMore.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._sirenMore.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._sirenMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._sirenMore.Image = global::SirenOfShame.Properties.Resources.RibbonMore;
+            this._sirenMore.Location = new System.Drawing.Point(321, 67);
+            this._sirenMore.Name = "_sirenMore";
+            this._sirenMore.Size = new System.Drawing.Size(12, 12);
+            this._sirenMore.TabIndex = 16;
+            this._sirenMore.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._sirenMore.UseVisualStyleBackColor = false;
+            this._sirenMore.Click += new System.EventHandler(this.SirenMoreClick);
             // 
             // _refresh
             // 
@@ -329,7 +349,7 @@ namespace SirenOfShame {
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 16);
             this.label2.TabIndex = 10;
-            this.label2.Text = "Test";
+            this.label2.Text = "Siren";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox2
@@ -391,7 +411,8 @@ namespace SirenOfShame {
             this._openSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._openSettings.ImageIndex = 8;
             this._openSettings.ImageList = this.balls;
-            this._openSettings.Location = new System.Drawing.Point(122, 47);
+            this._openSettings.Location = new System.Drawing.Point(122, 25);
+            this._openSettings.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._openSettings.Name = "_openSettings";
             this._openSettings.Size = new System.Drawing.Size(70, 23);
             this._openSettings.TabIndex = 4;
@@ -399,25 +420,6 @@ namespace SirenOfShame {
             this._openSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._openSettings.UseVisualStyleBackColor = false;
             this._openSettings.Click += new System.EventHandler(this.OpenSettingsClick);
-            // 
-            // _configureSiren
-            // 
-            this._configureSiren.BackColor = System.Drawing.Color.Transparent;
-            this._configureSiren.FlatAppearance.BorderSize = 0;
-            this._configureSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._configureSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._configureSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._configureSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._configureSiren.ImageIndex = 6;
-            this._configureSiren.ImageList = this.balls;
-            this._configureSiren.Location = new System.Drawing.Point(122, 24);
-            this._configureSiren.Name = "_configureSiren";
-            this._configureSiren.Size = new System.Drawing.Size(104, 23);
-            this._configureSiren.TabIndex = 3;
-            this._configureSiren.Text = "Configure Siren";
-            this._configureSiren.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._configureSiren.UseVisualStyleBackColor = false;
-            this._configureSiren.Click += new System.EventHandler(this.ConfigureSirenClick);
             // 
             // _testSiren
             // 
@@ -434,7 +436,7 @@ namespace SirenOfShame {
             this._testSiren.Name = "_testSiren";
             this._testSiren.Size = new System.Drawing.Size(68, 68);
             this._testSiren.TabIndex = 2;
-            this._testSiren.Text = "Show Off Siren";
+            this._testSiren.Text = "Show Off";
             this._testSiren.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._testSiren.UseVisualStyleBackColor = false;
             this._testSiren.Click += new System.EventHandler(this.TestSirenClick);
@@ -450,6 +452,7 @@ namespace SirenOfShame {
             this._configureServers.ImageIndex = 4;
             this._configureServers.ImageList = this.balls;
             this._configureServers.Location = new System.Drawing.Point(122, 2);
+            this._configureServers.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this._configureServers.Name = "_configureServers";
             this._configureServers.Size = new System.Drawing.Size(123, 23);
             this._configureServers.TabIndex = 1;
@@ -518,7 +521,7 @@ namespace SirenOfShame {
             this._checkForUpdates,
             this._viewLog});
             this._configurationMenu.Name = "_configurationMenu";
-            this._configurationMenu.Size = new System.Drawing.Size(174, 70);
+            this._configurationMenu.Size = new System.Drawing.Size(174, 48);
             // 
             // _checkForUpdates
             // 
@@ -533,6 +536,29 @@ namespace SirenOfShame {
             this._viewLog.Size = new System.Drawing.Size(173, 22);
             this._viewLog.Text = "View Logs...";
             this._viewLog.Click += new System.EventHandler(this._viewLog_Click);
+            // 
+            // _sirenMenu
+            // 
+            this._sirenMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._configureSirenMenuItem,
+            this._upgradeFirmwareMenuItem});
+            this._sirenMenu.Name = "_configurationMenu";
+            this._sirenMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // _configureSirenMenuItem
+            // 
+            this._configureSirenMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("_configureSirenMenuItem.Image")));
+            this._configureSirenMenuItem.Name = "_configureSirenMenuItem";
+            this._configureSirenMenuItem.Size = new System.Drawing.Size(180, 22);
+            this._configureSirenMenuItem.Text = "Configure Siren...";
+            this._configureSirenMenuItem.Click += new System.EventHandler(this.ConfigureSirenClick);
+            // 
+            // _upgradeFirmwareMenuItem
+            // 
+            this._upgradeFirmwareMenuItem.Name = "_upgradeFirmwareMenuItem";
+            this._upgradeFirmwareMenuItem.Size = new System.Drawing.Size(180, 22);
+            this._upgradeFirmwareMenuItem.Text = "Upgrade Firmware...";
+            this._upgradeFirmwareMenuItem.Click += new System.EventHandler(this.SirenUpgradeFirmwareClick);
             // 
             // MainForm
             // 
@@ -560,6 +586,7 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this._buildMenu.ResumeLayout(false);
             this._configurationMenu.ResumeLayout(false);
+            this._sirenMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -584,7 +611,6 @@ namespace SirenOfShame {
         private System.Windows.Forms.Button _configureRules;
         private System.Windows.Forms.Button _configureServers;
         private System.Windows.Forms.Button _testSiren;
-        private System.Windows.Forms.Button _configureSiren;
         private System.Windows.Forms.ContextMenuStrip _buildMenu;
         private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
         private System.Windows.Forms.ToolStripMenuItem _when;
@@ -608,6 +634,10 @@ namespace SirenOfShame {
       private System.Windows.Forms.ToolStripMenuItem _checkForUpdates;
       private System.Windows.Forms.ToolStripMenuItem _viewLog;
       private System.Windows.Forms.Button _refresh;
+      private System.Windows.Forms.Button _sirenMore;
+      private System.Windows.Forms.ContextMenuStrip _sirenMenu;
+      private System.Windows.Forms.ToolStripMenuItem _configureSirenMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem _upgradeFirmwareMenuItem;
 
 	}
 }

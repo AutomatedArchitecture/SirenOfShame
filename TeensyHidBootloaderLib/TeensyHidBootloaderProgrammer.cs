@@ -15,13 +15,13 @@ namespace TeensyHidBootloaderLib
             GetMcuParameters(mcuType, out _codeSize, out _blockSize);
         }
 
-        public void Program(Stream hexFileStream, bool wiatForDeviceToAppear, bool rebootAfterProgramming, TimeSpan timeOut, Action<int> progressFunc)
+        public void Program(Stream hexFileStream, bool waitForDeviceToAppear, bool rebootAfterProgramming, TimeSpan timeOut, Action<int> progressFunc)
         {
             IntelHexFile hexFile = new IntelHexFile(hexFileStream);
             Log.DebugFormat("Read: {0} bytes, {1}% usage", hexFile.ByteCount, (double)hexFile.ByteCount / _codeSize * 100.0);
 
             Log.Debug("Opening device");
-            using (var teensyDevice = new TeensyDevice(wiatForDeviceToAppear, _blockSize, timeOut))
+            using (var teensyDevice = new TeensyDevice(waitForDeviceToAppear, _blockSize, timeOut))
             {
                 progressFunc(10);
                 Log.Debug("Programming");

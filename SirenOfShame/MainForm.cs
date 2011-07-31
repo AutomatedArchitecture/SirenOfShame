@@ -172,9 +172,22 @@ namespace SirenOfShame
                 _settings.Save();
             }
 
+            EnableSirenMenuItem(true);
+        }
+
+        private void EnableSirenMenuItem(bool enable)
+        {
             Invoke(() =>
             {
-                _testSiren.Enabled = true;
+                _testSiren.Enabled = enable;
+                if (enable)
+                {
+                    _configureSirenMenuItem.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
+                }
+                else
+                {
+                    _configureSirenMenuItem.Enabled = false;
+                }
             });
         }
 
@@ -194,10 +207,7 @@ namespace SirenOfShame
 
         private void SirenofShameDeviceDisconnected(object sender, EventArgs args)
         {
-            Invoke(() =>
-            {
-                _testSiren.Enabled = false;
-            });
+            EnableSirenMenuItem(false);
         }
 
         private void Form1Load(object sender, EventArgs e)
@@ -655,6 +665,14 @@ namespace SirenOfShame
             _configurationMenu.Show(this, pt);
         }
 
+        private void SirenMoreClick(object sender, EventArgs e)
+        {
+            Point pt = _sirenMore.Location;
+            pt.X += _sirenMore.Width;
+            pt.Y += _sirenMore.Height;
+            _sirenMenu.Show(this, pt);
+        }
+
         private void _checkForUpdates_Click(object sender, EventArgs e)
         {
             CheckForUpdates();
@@ -685,5 +703,11 @@ namespace SirenOfShame
         {
             RulesEngine.RefreshAll();
         }
-     }
+
+        private void SirenUpgradeFirmwareClick(object sender, EventArgs e)
+        {
+            SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
+            upgrade.ShowDialog(this);
+        }
+    }
 }

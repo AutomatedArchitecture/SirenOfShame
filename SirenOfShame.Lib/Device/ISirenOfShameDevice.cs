@@ -11,13 +11,15 @@ namespace SirenOfShame.Lib.Device
         bool IsConnected { get; }
         IEnumerable<AudioPattern> AudioPatterns { get; }
         IEnumerable<LedPattern> LedPatterns { get; }
+        int Version { get; }
+        HardwareType HardwareType { get; }
         event EventHandler Connected;
         event EventHandler Disconnected;
         void SetAudio(AudioPattern pattern, TimeSpan? duration);
         void SetLight(LedPattern pattern, TimeSpan? duration);
         void WndProc(ref Message message);
         void UploadCustomPatterns(IEnumerable<UploadAudioPattern> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc);
-        void TryConnect();
+        bool TryConnect();
         void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc);
         SirenOfShameInfo ReadDeviceInfo();
         void Disconnect();
