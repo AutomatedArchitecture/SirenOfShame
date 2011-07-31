@@ -18,7 +18,7 @@ namespace SirenOfShame.Lib.Device
         void WndProc(ref Message message);
         void UploadCustomPatterns(IEnumerable<UploadAudioPattern> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc);
         void TryConnect();
-        void PerformFirmwareUpgrade(Stream hexFileStream);
+        void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc);
         SirenOfShameInfo ReadDeviceInfo();
         void Disconnect();
     }

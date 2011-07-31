@@ -108,7 +108,7 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
-        public void PerformFirmwareUpgrade(Stream hexFileStream)
+        public void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc)
         {
 
         }

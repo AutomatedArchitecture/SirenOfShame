@@ -128,7 +128,7 @@ namespace SirenOfShame.Lib.Device
             OnDisconnected();
         }
 
-        public void PerformFirmwareUpgrade(Stream hexFileStream)
+        public void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc)
         {
             _log.Info("Starting firmware upgrade");
             TryConnect();
@@ -136,8 +136,9 @@ namespace SirenOfShame.Lib.Device
             {
                 SendControlPacket(controlByte: ControlByte1Flags.FirmwareUpgrade);
             }
+            progressFunc(10);
             var programmer = new TeensyHidBootloaderProgrammer(McuType.ATMega32u4);
-            programmer.Program(hexFileStream, true, true, new TimeSpan(0, 0, 1, 0));
+            programmer.Program(hexFileStream, true, true, new TimeSpan(0, 0, 1, 0), (i) => progressFunc((int)(10 + (int)(i * 90.0 / 100.0))));
         }
 
         public SirenOfShameInfo ReadDeviceInfo()

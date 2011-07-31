@@ -148,7 +148,11 @@ namespace SirenOfShame.HardwareTestGui
             {
                 using (Stream stream = File.OpenRead(dlg.FileName))
                 {
-                    _sirenOfShameDevice.PerformFirmwareUpgrade(stream);
+                    _sirenOfShameDevice.PerformFirmwareUpgrade(stream, progress => BeginInvoke((Action)(() =>
+                    {
+                        _uploadProgress.Value = progress;
+                    })));
+                    MessageBox.Show("Firmware upgrade complete");
                 }
             }
         }
