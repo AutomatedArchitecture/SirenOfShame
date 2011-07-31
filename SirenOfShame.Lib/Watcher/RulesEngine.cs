@@ -213,14 +213,17 @@ namespace SirenOfShame.Lib.Watcher
 
         readonly Timer _timer = new Timer();
 
-        public void Start()
+        public void Start(bool initialStart = true)
         {
             _watcher = _settings.GetWatcher();
             
             if (_watcher != null)
             {
-                InvokeUpdateStatusBar("Attempting to connect to server");
-                SetStatusUnknown();
+                if (initialStart)
+                {
+                    InvokeUpdateStatusBar("Attempting to connect to server");
+                    SetStatusUnknown();
+                }
 
                 _watcher.StatusChecked += BuildWatcherStatusChecked;
                 _watcher.ServerUnavailable += BuildWatcherServerUnavailable;
@@ -243,6 +246,12 @@ namespace SirenOfShame.Lib.Watcher
         {
             InvokeSetTrayIcon(TrayIcon.Question);
             InvokeRefreshStatus(_settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _settings.ServerType).Select(bd => bd.AsUnknownBuildStatus()));
+        }
+
+        public void RefreshAll()
+        {
+            Stop();
+            Start(initialStart: false);
         }
 
         public void Stop()

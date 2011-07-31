@@ -680,5 +680,10 @@ namespace SirenOfShame
         {
             get { return _canViewLogs; }
         }
+
+        private void RefreshClick(object sender, EventArgs e)
+        {
+            RulesEngine.RefreshAll();
+        }
      }
 }
