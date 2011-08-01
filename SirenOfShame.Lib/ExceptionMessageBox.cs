@@ -14,7 +14,7 @@ namespace SirenOfShame.Lib
 
         public static void Show(Form owner, string title, string message, Exception exception)
         {
-            if (owner.InvokeRequired)
+            if (owner != null && owner.InvokeRequired)
             {
                 owner.Invoke((Action)(() => DoShow(owner, title, message, exception)));
             }
