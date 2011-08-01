@@ -17,7 +17,6 @@ namespace SirenOfShame
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(SirenFirmwareUpgrade));
 
         private byte[] _hexFileData;
-        private bool _continue;
         private bool _upgrading;
         private int _newVersionNumber;
 
@@ -69,6 +68,8 @@ namespace SirenOfShame
                     {
                         throw new Exception("No root element");
                     }
+
+                    // version
                     var versionElem = xml.Root.Element("version");
                     if (versionElem == null)
                     {
@@ -80,13 +81,27 @@ namespace SirenOfShame
                         throw new Exception("Could not parse version number '" + versionElem.Value + "'");
                     }
 
+                    // date
+                    var dateElem = xml.Root.Element("date");
+                    if (dateElem == null)
+                    {
+                        throw new Exception("Could not find 'date' element in XML");
+                    }
+                    DateTime date;
+                    if (!DateTime.TryParse(dateElem.Value, out date))
+                    {
+                        throw new Exception("Could not parse date '" + dateElem.Value + "'");
+                    }
+
+                    // hex
                     var hexElem = xml.Root.Element("hex");
                     if (hexElem == null)
                     {
                         throw new Exception("Could not find 'hex' element in XML");
                     }
                     _hexFileData = Encoding.ASCII.GetBytes(hexElem.Value.Trim());
-                    _newVersion.Text = version.ToString();
+                    _newVersion.Text = version + " (" + date + ")";
+
                     return version;
                 }
             }
@@ -110,7 +125,6 @@ namespace SirenOfShame
         private void DoUpgrade()
         {
             _upgrading = true;
-            _continue = true;
             var t = new Thread(DoUpgradeThread);
             t.Start();
         }
@@ -182,11 +196,7 @@ namespace SirenOfShame
 
         private void _cancel_Click(object sender, EventArgs e)
         {
-            if (_upgrading)
-            {
-                _continue = false;
-            }
-            else
+            if (!_upgrading)
             {
                 DialogResult = DialogResult.Cancel;
                 Close();
