@@ -10,6 +10,8 @@ namespace SirenOfShame.Configuration
         {
             _settings = settings;
             InitializeComponent();
+            _servers.DataSource = settings.CiEntryPointSettings;
+            _servers.DisplayMember = "Url";
         }
 
         public static void Show(SirenOfShameSettings settings)
@@ -23,9 +25,18 @@ namespace SirenOfShame.Configuration
             ConfigureServer.Show(_settings, null);
         }
 
-        private void _close_Click(object sender, System.EventArgs e)
+        private void CloseClick(object sender, System.EventArgs e)
         {
             Close();
+        }
+
+        private void ServersDoubleClick(object sender, System.EventArgs e)
+        {
+            if (_servers.SelectedItem != null)
+            {
+                var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
+                ConfigureServer.Show(_settings, ciEntryPointSetting);
+            }
         }
     }
 }
