@@ -44,6 +44,7 @@ namespace SirenOfShame.Configuration
             _serverType.DataSource = ciEntryPoints;
 
             _add.Text = _adding ? "Add" : "Update";
+            _cancel.Visible = _adding;
 
             _initializing = false;
         }

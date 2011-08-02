@@ -23,6 +23,7 @@ namespace SirenOfShame.Configuration
         private void AddClick(object sender, System.EventArgs e)
         {
             ConfigureServer.Show(_settings, null);
+            Close();
         }
 
         private void CloseClick(object sender, System.EventArgs e)
@@ -36,6 +37,7 @@ namespace SirenOfShame.Configuration
             {
                 var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
                 ConfigureServer.Show(_settings, ciEntryPointSetting);
+                Close();
             }
         }
     }
