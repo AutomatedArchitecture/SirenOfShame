@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Lib.Settings;
+﻿using System.Linq;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
 {
@@ -17,10 +18,21 @@ namespace SirenOfShame.Configuration
         public static void Show(SirenOfShameSettings settings)
         {
             ConfigureServers configureServers = new ConfigureServers(settings);
-            configureServers.ShowDialog();
+            if (!settings.CiEntryPointSettings.Any())
+            {
+                 configureServers.AddServer();
+            } else
+            {
+                configureServers.ShowDialog();
+            }
         }
 
         private void AddClick(object sender, System.EventArgs e)
+        {
+            AddServer();
+        }
+
+        private void AddServer()
         {
             ConfigureServer.Show(_settings, null);
             Close();
