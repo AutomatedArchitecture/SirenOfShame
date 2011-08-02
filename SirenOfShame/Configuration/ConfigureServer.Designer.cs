@@ -26,10 +26,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureServer));
             this._serverType = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
-            this._close = new System.Windows.Forms.Button();
+            this._cancel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this._ciServerPanel = new System.Windows.Forms.Panel();
             this._configurationContainer = new System.Windows.Forms.Panel();
+            this._add = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this._ciServerPanel.SuspendLayout();
             this.SuspendLayout();
@@ -38,6 +40,7 @@
             // 
             this._serverType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._serverType.DisplayMember = "Name";
             this._serverType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._serverType.FormattingEnabled = true;
             this._serverType.Location = new System.Drawing.Point(63, 3);
@@ -55,20 +58,21 @@
             this.label5.TabIndex = 29;
             this.label5.Text = "CI Server:";
             // 
-            // _close
+            // _cancel
             // 
-            this._close.Dock = System.Windows.Forms.DockStyle.Top;
-            this._close.Location = new System.Drawing.Point(0, 0);
-            this._close.Name = "_close";
-            this._close.Size = new System.Drawing.Size(482, 23);
-            this._close.TabIndex = 34;
-            this._close.Text = "Close";
-            this._close.UseVisualStyleBackColor = true;
-            this._close.Click += new System.EventHandler(this.CloseClick);
+            this._cancel.Dock = System.Windows.Forms.DockStyle.Right;
+            this._cancel.Location = new System.Drawing.Point(257, 0);
+            this._cancel.Name = "_cancel";
+            this._cancel.Size = new System.Drawing.Size(225, 22);
+            this._cancel.TabIndex = 34;
+            this._cancel.Text = "Cancel";
+            this._cancel.UseVisualStyleBackColor = true;
+            this._cancel.Click += new System.EventHandler(this.CloseClick);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this._close);
+            this.panel1.Controls.Add(this._add);
+            this.panel1.Controls.Add(this._cancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 235);
             this.panel1.Name = "panel1";
@@ -93,6 +97,17 @@
             this._configurationContainer.Size = new System.Drawing.Size(482, 207);
             this._configurationContainer.TabIndex = 37;
             // 
+            // _add
+            // 
+            this._add.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._add.Location = new System.Drawing.Point(0, 0);
+            this._add.Name = "_add";
+            this._add.Size = new System.Drawing.Size(257, 22);
+            this._add.TabIndex = 35;
+            this._add.Text = "Add";
+            this._add.UseVisualStyleBackColor = true;
+            this._add.Click += new System.EventHandler(this.AddClick);
+            // 
             // ConfigureServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,9 +130,11 @@
 
 		private System.Windows.Forms.ComboBox _serverType;
         private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Button _close;
+		private System.Windows.Forms.Button _cancel;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel _ciServerPanel;
 		private System.Windows.Forms.Panel _configurationContainer;
+        private System.Windows.Forms.Button _add;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
 	}
 }

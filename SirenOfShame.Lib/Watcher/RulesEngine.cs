@@ -231,13 +231,16 @@ namespace SirenOfShame.Lib.Watcher
                 _watcherThread.Start();
             }
 
-            if (initialStart)
+            if (ciEntryPointSettings.Any())
             {
-                InvokeUpdateStatusBar("Attempting to connect to server");
-                SetStatusUnknown();
-            }
+                if (initialStart)
+                {
+                    InvokeUpdateStatusBar("Attempting to connect to server");
+                    SetStatusUnknown();
+                }
 
-            _timer.Start();
+                _timer.Start();
+            }
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)

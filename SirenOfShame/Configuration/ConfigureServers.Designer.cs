@@ -47,6 +47,7 @@
             this._add.TabIndex = 0;
             this._add.Text = "Add";
             this._add.UseVisualStyleBackColor = true;
+            this._add.Click += new System.EventHandler(this.AddClick);
             // 
             // listBox1
             // 
@@ -68,6 +69,7 @@
             this._close.TabIndex = 2;
             this._close.Text = "Close";
             this._close.UseVisualStyleBackColor = true;
+            this._close.Click += new System.EventHandler(this._close_Click);
             // 
             // ConfigureServers
             // 

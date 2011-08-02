@@ -14,39 +14,38 @@ namespace SirenOfShame.Configuration
         [ImportMany(typeof(ICiEntryPoint))]
         public List<ICiEntryPoint> CIEntryPoints { get; set; }
 
-        private CiEntryPointSetting _ciEntryPointSetting;
+        private readonly CiEntryPointSetting _ciEntryPointSetting;
 
         public static void Show(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
-            ConfigureServer configureServer = new ConfigureServer { Settings = settings };
-            IocContainer.Instance.Compose(configureServer);
-            configureServer.Settings = settings;
-
-            configureServer._serverType.DisplayMember = "Name";
-            ICiEntryPoint[] ciEntryPoints = configureServer.CIEntryPoints.ToArray();
-            configureServer._serverType.DataSource = ciEntryPoints;
-
-            bool adding = ciEntryPointSetting == null;
-            configureServer._ciServerPanel.Visible = adding;
-            if (adding)
-            {
-                var newCiEntryPointSetting = new CiEntryPointSetting();
-                configureServer._ciEntryPointSetting = newCiEntryPointSetting;
-                settings.CiEntryPointSettings.Add(newCiEntryPointSetting);
-                settings.Save();
-            } else
-            {
-                configureServer._ciEntryPointSetting = ciEntryPointSetting;
-            }
-
-            configureServer._initializing = false;
-
+            ConfigureServer configureServer = new ConfigureServer(settings, ciEntryPointSetting);
             configureServer.ShowDialog();
         }
 
-        public ConfigureServer()
+        private bool _adding;
+        
+        public ConfigureServer(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
+            _adding = ciEntryPointSetting == null;
+            if (_adding)
+            {
+                ciEntryPointSetting = new CiEntryPointSetting();
+            }
+            
+            Settings = settings;
+            _ciEntryPointSetting = ciEntryPointSetting;
+
+            IocContainer.Instance.Compose(this);
+
             InitializeComponent();
+            
+            _ciServerPanel.Visible = _adding;
+            ICiEntryPoint[] ciEntryPoints = CIEntryPoints.ToArray();
+            _serverType.DataSource = ciEntryPoints;
+
+            _add.Text = _adding ? "Add" : "Update";
+
+            _initializing = false;
         }
 
         private bool _initializing = true;
@@ -64,12 +63,24 @@ namespace SirenOfShame.Configuration
             ClearConfigurePanel();
             var configureServerControl = newServerType.CreateConfigurationWindow(Settings, _ciEntryPointSetting);
             _configurationContainer.Controls.Add(configureServerControl);
+            _ciEntryPointSetting.Name = newServerType.Name;
 
             if (_initializing) return;
         }
 
         private void CloseClick(object sender, EventArgs e)
         {
+            Close();
+            Dispose();
+        }
+
+        private void AddClick(object sender, EventArgs e)
+        {
+            if (_adding)
+            {
+                 Settings.CiEntryPointSettings.Add(_ciEntryPointSetting);
+            }
+            Settings.Save();
             Close();
             Dispose();
         }
