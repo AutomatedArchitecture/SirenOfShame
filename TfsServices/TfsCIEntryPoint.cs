@@ -10,9 +10,9 @@ namespace TfsServices
     [Export(typeof(ICiEntryPoint))]
     public class TfsCiEntryPoint : ICiEntryPoint
     {
-        public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings)
+        public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
-            return new ConfigureTfs(settings, this);
+            return new ConfigureTfs(settings, this, ciEntryPointSetting);
         }
 
         public string Name

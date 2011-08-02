@@ -14,7 +14,9 @@ namespace SirenOfShame.Configuration
         [ImportMany(typeof(ICiEntryPoint))]
         public List<ICiEntryPoint> CIEntryPoints { get; set; }
 
-        public static void Show(SirenOfShameSettings settings)
+        private CiEntryPointSetting _ciEntryPointSetting;
+
+        public static void Show(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
             ConfigureServer configureServer = new ConfigureServer { Settings = settings };
             IocContainer.Instance.Compose(configureServer);
@@ -24,12 +26,18 @@ namespace SirenOfShame.Configuration
             ICiEntryPoint[] ciEntryPoints = configureServer.CIEntryPoints.ToArray();
             configureServer._serverType.DataSource = ciEntryPoints;
 
-            if (string.IsNullOrEmpty(settings.ServerType))
+            bool adding = ciEntryPointSetting == null;
+            configureServer._ciServerPanel.Visible = adding;
+            if (adding)
             {
-                settings.ServerType = ciEntryPoints.First().Name;
+                var newCiEntryPointSetting = new CiEntryPointSetting();
+                configureServer._ciEntryPointSetting = newCiEntryPointSetting;
+                settings.CiEntryPointSettings.Add(newCiEntryPointSetting);
                 settings.Save();
+            } else
+            {
+                configureServer._ciEntryPointSetting = ciEntryPointSetting;
             }
-            configureServer._serverType.SelectedIndex = ciEntryPoints.Select((cep, i) => new {cep, i}).First(i => i.cep.Name == settings.ServerType).i;
 
             configureServer._initializing = false;
 
@@ -54,13 +62,10 @@ namespace SirenOfShame.Configuration
             var newServerType = (ICiEntryPoint)_serverType.SelectedItem;
 
             ClearConfigurePanel();
-            var configureServerControl = newServerType.CreateConfigurationWindow(Settings);
+            var configureServerControl = newServerType.CreateConfigurationWindow(Settings, _ciEntryPointSetting);
             _configurationContainer.Controls.Add(configureServerControl);
 
             if (_initializing) return;
-
-            Settings.ServerType = newServerType.Name;
-            Settings.Save();
         }
 
         private void CloseClick(object sender, EventArgs e)

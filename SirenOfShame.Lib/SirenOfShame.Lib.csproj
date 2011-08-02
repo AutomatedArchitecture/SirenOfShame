@@ -109,7 +109,7 @@
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
     <Compile Include="Settings\BuildDefinitionSetting.cs" />
-    <Compile Include="Settings\CIEntryPointSettings.cs" />
+    <Compile Include="Settings\CiEntryPointSetting.cs" />
     <Compile Include="Settings\MyBuildDefinition.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />

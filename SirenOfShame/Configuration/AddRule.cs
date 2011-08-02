@@ -47,7 +47,9 @@ namespace SirenOfShame.Configuration
             }
             else
             {
-                BuildDefinitionSetting buildDefinitionSetting = _settings.BuildDefinitionSettings.FirstOrDefault(bds => bds.Id == rule.BuildDefinitionId);
+                BuildDefinitionSetting buildDefinitionSetting = _settings.CiEntryPointSettings
+                    .SelectMany(i => i.BuildDefinitionSettings)
+                    .FirstOrDefault(bds => bds.Id == rule.BuildDefinitionId);
                 _build.SelectedItem = buildDefinitionSetting;
             }
 
@@ -67,7 +69,8 @@ namespace SirenOfShame.Configuration
             _when.DataSource = Rule.TriggerTypes.Select(i => new KeyValuePair<TriggerType, string>(i.Key, i.Value )).ToList();
             _when.DisplayMember = "Value";
             
-            var buildDefinitions = _settings.BuildDefinitionSettings
+            var buildDefinitions = _settings.CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
                 .Where(bd => bd.Active)
                 .ToList();
             buildDefinitions.Insert(0, _anyBuild);
@@ -80,7 +83,11 @@ namespace SirenOfShame.Configuration
             _lights.DataSource = SirenOfShameDevice.LedPatterns.ToList();
             _lights.DisplayMember = "Name";
 
-            _who.DataSource = _settings.BuildDefinitionSettings.SelectMany(bds => bds.People).Distinct().ToList();
+            _who.DataSource = _settings.CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .SelectMany(bds => bds.People)
+                .Distinct()
+                .ToList();
         }
 
         private AlertType GetAlertType()

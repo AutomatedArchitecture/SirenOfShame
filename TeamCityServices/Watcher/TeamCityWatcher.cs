@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using SirenOfShame.Lib.Exceptions;
@@ -21,17 +20,17 @@ namespace TeamCityServices.Watcher
 
         protected override IList<BuildStatus> GetBuildStatus()
         {
-            var settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
+            CiEntryPointSetting ciEntryPointSetting = CiEntryPointSetting;
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
 
-            if (string.IsNullOrEmpty(settings.Url))
+            if (string.IsNullOrEmpty(ciEntryPointSetting.Url))
                 throw new SosException("Team City URL is null or empty");
 
             try
             {
-                return _service.GetBuildsStatuses(settings.Url,
-                                                       settings.UserName,
-                                                       settings.GetPassword(),
+                return _service.GetBuildsStatuses(ciEntryPointSetting.Url,
+                                                       ciEntryPointSetting.UserName,
+                                                       ciEntryPointSetting.GetPassword(),
                                                        watchedBuildDefinitions
                     ).Cast<BuildStatus>().ToList();
             } catch (WebException ex)
@@ -49,7 +48,7 @@ namespace TeamCityServices.Watcher
 
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()
         {
-            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _teamCityCiEntryPoint.Name && bd.BuildServer == Settings.ServerType);
+            var activeBuildDefinitionSettings = CiEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _teamCityCiEntryPoint.Name);
             return activeBuildDefinitionSettings;
         }
 

@@ -28,28 +28,28 @@
             this.label5 = new System.Windows.Forms.Label();
             this._close = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this._ciServerPanel = new System.Windows.Forms.Panel();
             this._configurationContainer = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this._ciServerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // _serverType
             // 
-            this._serverType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._serverType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._serverType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._serverType.FormattingEnabled = true;
-            this._serverType.Location = new System.Drawing.Point(90, 12);
+            this._serverType.Location = new System.Drawing.Point(63, 3);
             this._serverType.Name = "_serverType";
-            this._serverType.Size = new System.Drawing.Size(380, 21);
+            this._serverType.Size = new System.Drawing.Size(419, 21);
             this._serverType.TabIndex = 30;
             this._serverType.SelectedIndexChanged += new System.EventHandler(this.ServerTypeSelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 15);
+            this.label5.Location = new System.Drawing.Point(3, 6);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(54, 13);
             this.label5.TabIndex = 29;
@@ -57,10 +57,10 @@
             // 
             // _close
             // 
-            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._close.Location = new System.Drawing.Point(395, 8);
+            this._close.Dock = System.Windows.Forms.DockStyle.Top;
+            this._close.Location = new System.Drawing.Point(0, 0);
             this._close.Name = "_close";
-            this._close.Size = new System.Drawing.Size(75, 23);
+            this._close.Size = new System.Drawing.Size(482, 23);
             this._close.TabIndex = 34;
             this._close.Text = "Close";
             this._close.UseVisualStyleBackColor = true;
@@ -70,27 +70,27 @@
             // 
             this.panel1.Controls.Add(this._close);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 214);
+            this.panel1.Location = new System.Drawing.Point(0, 235);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(482, 43);
+            this.panel1.Size = new System.Drawing.Size(482, 22);
             this.panel1.TabIndex = 35;
             // 
-            // panel2
+            // _ciServerPanel
             // 
-            this.panel2.Controls.Add(this._serverType);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(482, 47);
-            this.panel2.TabIndex = 36;
+            this._ciServerPanel.Controls.Add(this._serverType);
+            this._ciServerPanel.Controls.Add(this.label5);
+            this._ciServerPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this._ciServerPanel.Location = new System.Drawing.Point(0, 0);
+            this._ciServerPanel.Name = "_ciServerPanel";
+            this._ciServerPanel.Size = new System.Drawing.Size(482, 28);
+            this._ciServerPanel.TabIndex = 36;
             // 
             // _configurationContainer
             // 
             this._configurationContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._configurationContainer.Location = new System.Drawing.Point(0, 47);
+            this._configurationContainer.Location = new System.Drawing.Point(0, 28);
             this._configurationContainer.Name = "_configurationContainer";
-            this._configurationContainer.Size = new System.Drawing.Size(482, 167);
+            this._configurationContainer.Size = new System.Drawing.Size(482, 207);
             this._configurationContainer.TabIndex = 37;
             // 
             // ConfigureServer
@@ -99,14 +99,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 257);
             this.Controls.Add(this._configurationContainer);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this._ciServerPanel);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServer";
             this.Text = "ConfigureServer";
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this._ciServerPanel.ResumeLayout(false);
+            this._ciServerPanel.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -117,7 +117,7 @@
         private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button _close;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Panel _ciServerPanel;
 		private System.Windows.Forms.Panel _configurationContainer;
 	}
 }
