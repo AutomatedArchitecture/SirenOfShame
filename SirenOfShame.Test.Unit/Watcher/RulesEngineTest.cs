@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
             var trayNotification = rulesEngine.TrayNotificationEvents[1];
             Assert.AreEqual("Reconnected", trayNotification.Title);
@@ -51,10 +51,12 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
             Assert.AreEqual(3, rulesEngine.TrayNotificationEvents.Count);
-            Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Where(tn => tn.Title == "Build Server Unavailable").Count());
+            Assert.AreEqual(2,
+                            rulesEngine.TrayNotificationEvents.Where(tn => tn.Title == "Build Server Unavailable").Count
+                                ());
         }
 
         [TestMethod]
@@ -62,8 +64,8 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
         }
 
@@ -71,16 +73,17 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void InitialStatusChecked_RefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
 
-            rulesEngine.InvokeStatusChecked(new[] {
-                new BuildStatus 
+            rulesEngine.InvokeStatusChecked(new[]
+            {
+                new BuildStatus
                 {
-                    BuildStatusEnum = BuildStatusEnum.Working, 
-                    Name = "Build Def 1", 
-                    RequestedBy = "User1", 
-                    Id = "Build Def 1", 
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = "Build Def 1",
+                    RequestedBy = "User1",
+                    Id = "Build Def 1",
                     StartedTime = new DateTime(2010, 1, 2, 1, 1, 1),
                     FinishedTime = new DateTime(2010, 1, 2, 1, 2, 2)
                 },
@@ -89,14 +92,14 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
             BuildStatusListViewItem buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
-            Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
+            Assert.AreEqual((int) BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
             Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTime);
             Assert.AreEqual("1:01", buildStatus.Duration);
         }
-        
+
         [TestMethod]
         public void StatusCheckedTwiceWithIdenticalResults_OnlyOneRefreshStatusEvent()
         {
@@ -114,7 +117,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual(1, rulesEngine.StatusBarUpdateEvents.Count);
-            
+
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
@@ -125,12 +128,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.SetLightsEvents.Count);
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuildInitiallyBrokenWithGlobalModalDialogRule_ModalDialog()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -141,12 +144,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
             Assert.AreEqual("Build newly broken by User1 for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
-        
+
         [TestMethod]
         public void BuildInitiallyWorkingWithGlobalInitialSuccessDialog_NoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialSuccess,
@@ -159,12 +162,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.SetAudioEvents.Count);
             Assert.AreEqual(0, rulesEngine.SetLightsEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuildFailsThenSucceedsWithGlobalInitialSuccessDialog_Alert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialSuccess,
@@ -176,12 +179,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
             Assert.AreEqual("Build is passing again for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
-        
+
         [TestMethod]
         public void BuildFailsThenInProgressThenFailsWithGlobalInitialFailDialog_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -194,12 +197,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
             Assert.AreEqual("Build newly broken by User1 for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
-        
+
         [TestMethod]
         public void BuildSucceedsTwiceAfterFailWithGlobalInitialSuccessDialog_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialSuccess,
@@ -214,12 +217,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
             Assert.AreEqual("Build is passing again for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
-        
+
         [TestMethod]
         public void BuildInitiallyInProgressWithGlobalBuildTriggeredRule_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.BuildTriggered,
@@ -232,12 +235,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build triggered by User1 for Build Def 1", rulesEngine.TrayNotificationEvents[0].TipText);
             Assert.AreEqual(ToolTipIcon.Info, rulesEngine.TrayNotificationEvents[0].TipIcon);
         }
-        
+
         [TestMethod]
         public void BuildInProgressTwiceWithGlobalBuildTriggeredRule_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.BuildTriggered,
@@ -248,12 +251,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuildInProgressThenPassThenInProgressWithGlobalBuildTriggeredRule_TwoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.BuildTriggered,
@@ -266,12 +269,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
             Assert.AreEqual(rulesEngine.TrayNotificationEvents[0].Title, rulesEngine.TrayNotificationEvents[1].Title);
         }
-        
+
         [TestMethod]
         public void BuildFailsThenFailsAgainWithGlobalInitialAndSubsequentFailAlerts_TwoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -298,7 +301,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void BuidFailsThenSucceedsWithGlobalSubsequentSuccessAlerts_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.SuccessfulBuild,
@@ -310,12 +313,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuidInitiallySucceedsWithGlobalSubsequentSuccessAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.SuccessfulBuild,
@@ -328,12 +331,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build passed for Build Def 1", rulesEngine.TrayNotificationEvents[0].TipText);
             Assert.AreEqual(ToolTipIcon.Info, rulesEngine.TrayNotificationEvents[0].TipIcon);
         }
-        
+
         [TestMethod]
         public void BuidInitiallyFailsThenSucceedsThenFailsThenSucceedsWithGlobalSubsequentSuccessAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
-            
+
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.SuccessfulBuild,
@@ -354,7 +357,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var ledPattern = new LedPattern { Id = 2, Name = "Sally" };
+            var ledPattern = new LedPattern {Id = 2, Name = "Sally"};
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -368,13 +371,13 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(new TimeSpan(0, 0, 0, 60), rulesEngine.SetLightsEvents[0].TimeSpan);
             Assert.AreEqual(ledPattern, rulesEngine.SetLightsEvents[0].LedPattern);
         }
-        
+
         [TestMethod]
         public void BuildInitiallyFailsWithGlobalPlayAudioAlert_SetAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var audioPattern = new AudioPattern { Id = 2, Name = "Sally" };
+            var audioPattern = new AudioPattern {Id = 2, Name = "Sally"};
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -394,12 +397,13 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var ledPattern = new LedPattern { Id = 2, Name = "Real Fast" };
+            var ledPattern = new LedPattern {Id = 2, Name = "Real Fast"};
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
                 LedPattern = ledPattern,
-                LightsDuration = null, // until the build passes
+                LightsDuration = null,
+                // until the build passes
             });
 
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
@@ -429,7 +433,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuidFailsWithSomeoneElseBuildFailAlert_NoAlert()
         {
@@ -445,7 +449,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(0, rulesEngine.ModalDialogEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuidFailsWithMeBuildFailAlert_OneAlert()
         {
@@ -477,7 +481,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(0, rulesEngine.ModalDialogEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuidFailsForMyBuild_OneAlert()
         {
@@ -536,7 +540,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
-        
+
         [TestMethod]
         public void InitialFailedBuildConflictsWithBuildFailedOrder2_InitialFailedBuildWins()
         {
@@ -572,7 +576,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
-            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER,
+                            rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
         [TestMethod]
@@ -592,7 +597,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
         }
-        
+
         [TestMethod]
         public void NewBuildOnProject2_RequestByNotAddedToProject1()
         {
@@ -616,7 +621,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             });
             Assert.AreEqual(0, build1Setting.People.Count);
         }
-        
+
         [TestMethod]
         public void BuildChangesNothingChanged_NoAdditionalInvokeRefreshStatus()
         {
@@ -642,7 +647,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
         }
-        
+
         [TestMethod]
         public void BuildStartTimeChanged_RefreshStatus()
         {
@@ -666,7 +671,35 @@ namespace SirenOfShame.Test.Unit.Watcher
                 StartedTime = new DateTime(2022, 2, 2, 2, 2, 2)
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
-            Assert.AreEqual("2/2 2:02 AM", rulesEngine.RefreshStatusEvents.Last().BuildStatusListViewItems.First().StartTime);
+            Assert.AreEqual("2/2 2:02 AM",
+                            rulesEngine.RefreshStatusEvents.Last().BuildStatusListViewItems.First().StartTime);
         }
-    }
+
+        [TestMethod]
+        public void InvokeStatusOnceForBuildAThenForBuildB_SecondRefreshStatusReturnsBuildAAndBuildB()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD1_ID,
+                StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
+            });
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                Id = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
+            });
+            Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
+            var lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusListViewItems.Count());
+        }
+}
 }
