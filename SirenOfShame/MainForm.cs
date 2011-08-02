@@ -360,7 +360,7 @@ namespace SirenOfShame
         private void ConfigureServersClick(object sender, EventArgs e)
         {
             StopWatchingBuild();
-            ConfigureServer.Show(_settings);
+            ConfigureServers.Show(_settings);
             _rulesEngine = null; // reset the rules engine in case it changed (e.g. from TFS to Team City)
             StartWatchingBuild();
             Activate();
@@ -402,11 +402,11 @@ namespace SirenOfShame
 
             string buildId = (string)listViewItem.Tag;
 
-            var buildDefinitionSetting = _settings.BuildDefinitionSettings.FirstOrDefault(bds => bds.Id == buildId);
+            var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
             if (buildDefinitionSetting == null)
             {
                 Log.Error("Could not find a build definition settings for id " + buildId);
-                return buildDefinitionSetting;
+                return null;
             }
             return buildDefinitionSetting;
         }
@@ -636,7 +636,7 @@ namespace SirenOfShame
             buildDefinitionSetting.Active = false;
             _settings.Save();
             var listViewItem = listView1.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            listViewItem.Remove();
+            if (listViewItem != null) listViewItem.Remove();
         }
 
         private void OpenSettingsClick(object sender, EventArgs e)

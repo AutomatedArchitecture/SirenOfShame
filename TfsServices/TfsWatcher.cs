@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using log4net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
@@ -30,7 +29,7 @@ namespace TfsServices
         protected override IList<BuildStatus> GetBuildStatus()
         {
             try {
-                if (_myTfsServer == null) _myTfsServer = new MyTfsServer(Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url);
+                if (_myTfsServer == null) _myTfsServer = new MyTfsServer(CiEntryPointSetting.Url);
                 if (_watchedBuildDefinitions == null)
                 {
                     _watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
@@ -60,7 +59,7 @@ namespace TfsServices
                 .SelectMany(pc => pc.Projects)
                 .SelectMany(p => p.BuildDefinitions);
 
-            var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _tfsCiEntryPoint.Name && bd.BuildServer == Settings.ServerType);
+            var activeBuildDefinitionSettings = CiEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _tfsCiEntryPoint.Name);
             return from buildDef in allTfsBuildDefinitions
                    join buildDefSetting in activeBuildDefinitionSettings on
                        buildDef.Id equals buildDefSetting.Id

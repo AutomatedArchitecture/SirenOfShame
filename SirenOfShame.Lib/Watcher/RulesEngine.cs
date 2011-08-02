@@ -18,7 +18,7 @@ namespace SirenOfShame.Lib.Watcher
         protected IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
 
         private readonly SirenOfShameSettings _settings;
-        private WatcherBase _watcher;
+        private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
@@ -166,7 +166,7 @@ namespace SirenOfShame.Lib.Watcher
         private void InvokeSetTrayIconForChangedBuildStatuses(IEnumerable<BuildStatus> allBuildStatuses)
         {
             var buildStatusesAndSettings = from buildStatus in allBuildStatuses
-                                           join setting in _settings.BuildDefinitionSettings on buildStatus.Id
+                                           join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.Id
                                                equals setting.Id
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
@@ -178,7 +178,7 @@ namespace SirenOfShame.Lib.Watcher
         private void AddRequestedByPersonToBuildStatusSettings(IEnumerable<BuildStatus> changedBuildStatuses)
         {
             var buildStatusesWithNewPeople = from buildStatus in changedBuildStatuses
-                                             join setting in _settings.BuildDefinitionSettings on buildStatus.Id equals setting.Id
+                                             join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.Id equals setting.Id
                                              where !setting.ContainsPerson(buildStatus)
                                              select new { buildStatus, setting };
 
@@ -215,9 +215,24 @@ namespace SirenOfShame.Lib.Watcher
 
         public void Start(bool initialStart = true)
         {
-            _watcher = _settings.GetWatcher();
-            
-            if (_watcher != null)
+            var ciEntryPointSettings = _settings.CiEntryPointSettings;
+
+            _watchers.Clear();
+            foreach (var ciEntryPointSetting in ciEntryPointSettings)
+            {
+                var ciEntryPoint = ciEntryPointSetting.GetCiEntryPoint(_settings);
+                var watcher = ciEntryPoint.GetWatcher(_settings);
+                _watchers.Add(watcher);
+                watcher.StatusChecked += BuildWatcherStatusChecked;
+                watcher.ServerUnavailable += BuildWatcherServerUnavailable;
+                watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
+                watcher.Settings = _settings;
+                watcher.CiEntryPointSetting = ciEntryPointSetting;
+                _watcherThread = new Thread(watcher.StartWatching) { IsBackground = true };
+                _watcherThread.Start();
+            }
+
+            if (ciEntryPointSettings.Any())
             {
                 if (initialStart)
                 {
@@ -225,14 +240,8 @@ namespace SirenOfShame.Lib.Watcher
                     SetStatusUnknown();
                 }
 
-                _watcher.StatusChecked += BuildWatcherStatusChecked;
-                _watcher.ServerUnavailable += BuildWatcherServerUnavailable;
-                _watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
-                _watcher.Settings = _settings;
-                _watcherThread = new Thread(_watcher.StartWatching) { IsBackground = true };
-                _watcherThread.Start();
+                _timer.Start();
             }
-            _timer.Start();
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)
@@ -245,7 +254,11 @@ namespace SirenOfShame.Lib.Watcher
         private void SetStatusUnknown()
         {
             InvokeSetTrayIcon(TrayIcon.Question);
-            InvokeRefreshStatus(_settings.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _settings.ServerType).Select(bd => bd.AsUnknownBuildStatus()));
+            IEnumerable<BuildStatus> buildStatuses = _settings.CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .Where(bd => bd.Active)
+                .Select(bd => bd.AsUnknownBuildStatus());
+            InvokeRefreshStatus(buildStatuses);
         }
 
         public void RefreshAll()

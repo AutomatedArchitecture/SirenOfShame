@@ -1,5 +1,4 @@
 ﻿using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
@@ -14,11 +13,6 @@ namespace SirenOfShame.Test.Unit.Watcher
             get { return _watcherFake; }
         }
         
-        public override WatcherBase GetWatcher()
-        {
-            return _watcherFake;
-        }
-
         public override void Save()
         {
             // do nothing

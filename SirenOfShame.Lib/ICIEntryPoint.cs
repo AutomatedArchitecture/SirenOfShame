@@ -6,7 +6,7 @@ namespace SirenOfShame.Lib
 {
     public interface ICiEntryPoint
     {
-        ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings);
+        ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting);
         string Name { get; }
         WatcherBase GetWatcher(SirenOfShameSettings settings);
     }

@@ -569,10 +569,10 @@ namespace SirenOfShame.Test.Unit.Watcher
                 AlertType = AlertType.NoAlert,
             });
 
-            Assert.AreEqual(0, rulesEngine.Settings.BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual(0, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
-            Assert.AreEqual(1, rulesEngine.Settings.BuildDefinitionSettings[0].People.Count);
-            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.BuildDefinitionSettings[0].People[0]);
+            Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
         [TestMethod]
@@ -586,11 +586,11 @@ namespace SirenOfShame.Test.Unit.Watcher
                 AlertType = AlertType.NoAlert,
             });
 
-            Assert.AreEqual(0, rulesEngine.Settings.BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual(0, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
-            Assert.AreEqual(1, rulesEngine.Settings.BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
-            Assert.AreEqual(1, rulesEngine.Settings.BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
         }
         
         [TestMethod]

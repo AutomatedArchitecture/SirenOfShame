@@ -14,19 +14,21 @@ namespace TfsServices.Configuration
     {
         private readonly TfsCiEntryPoint _tfsCiEntryPoint;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTfs));
+        private readonly CiEntryPointSetting _ciEntryPointSetting;
         
-        public ConfigureTfs(SirenOfShameSettings settings, TfsCiEntryPoint tfsCiEntryPoint)
+        public ConfigureTfs(SirenOfShameSettings settings, TfsCiEntryPoint tfsCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
             : base(settings)
         {
             _tfsCiEntryPoint = tfsCiEntryPoint;
             InitializeComponent();
-            _url.Text = settings.FindAddSettings(_tfsCiEntryPoint.Name).Url;
+            _ciEntryPointSetting = ciEntryPointSetting;
+            _url.Text = _ciEntryPointSetting.Url;
             DataBindAsync();
         }
 
         private void DataBindAsync()
         {
-            if (Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url == null)
+            if (_ciEntryPointSetting.Url == null)
             {
                 // ToDo: dynamically try to find the url
                 return;
@@ -43,7 +45,7 @@ namespace TfsServices.Configuration
         {
             try
             {
-                using (var tfs = new MyTfsServer(Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url))
+                using (var tfs = new MyTfsServer(_ciEntryPointSetting.Url))
                 {
                     IList<TreeNode> projectCollectionNodes = new List<TreeNode>();
 
@@ -55,7 +57,7 @@ namespace TfsServices.Configuration
                             var projectNode = projectCollectionNode.Nodes.Add(project.Name);
                             foreach (var buildDefinition in project.BuildDefinitions)
                             {
-                                var buildDefinitionSetting = Settings.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
+                                var buildDefinitionSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
                                 projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
                             }
                         }
@@ -78,7 +80,7 @@ namespace TfsServices.Configuration
 
         private void GoClick(object sender, EventArgs e)
         {
-            Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url = _url.Text;
+            _ciEntryPointSetting.Url = _url.Text;
             Settings.Save();
             DataBindAsync();
         }
@@ -87,13 +89,13 @@ namespace TfsServices.Configuration
         {
             if (e.Node.Tag == null) return;
             var buildDefinitionId = (string)e.Node.Tag;
-            Settings.GetBuildDefinition(buildDefinitionId).Active = e.Node.Checked;
+            _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId).Active = e.Node.Checked;
             Settings.Save();
         }
 
         private void UrlTextChanged(object sender, EventArgs e)
         {
-            Settings.FindAddSettings(_tfsCiEntryPoint.Name).Url = _url.Text;
+            _ciEntryPointSetting.Url = _url.Text;
             Settings.Save();
         }
     }

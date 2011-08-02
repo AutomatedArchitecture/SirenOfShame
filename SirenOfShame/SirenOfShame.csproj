@@ -79,6 +79,12 @@
     <Compile Include="Configuration\ConfigureRules.Designer.cs">
       <DependentUpon>ConfigureRules.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ConfigureServers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigureServers.Designer.cs">
+      <DependentUpon>ConfigureServers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureRules.resx">
       <DependentUpon>ConfigureRules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\ConfigureServers.resx">
+      <DependentUpon>ConfigureServers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

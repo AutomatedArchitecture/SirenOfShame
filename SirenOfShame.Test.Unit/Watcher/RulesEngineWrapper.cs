@@ -23,8 +23,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             SetLightsEvents = new List<SetLightsEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
-            Settings.BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1"});
-            Settings.BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2"});
+            Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1"});
+            Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
             _rulesEngine = new RulesEngine(Settings);
 
@@ -54,7 +54,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public BuildDefinitionSetting GetBuildDefinitionSetting(string buildDefinitionSetting)
         {
-            return Settings.BuildDefinitionSettings.SingleOrDefault(bds => bds.Id == buildDefinitionSetting);
+            return Settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).SingleOrDefault(bds => bds.Id == buildDefinitionSetting);
         }
 
         public void InvokeServerUnavailable(ServerUnavailableException serverUnavailableException)
