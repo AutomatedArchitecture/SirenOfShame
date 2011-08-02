@@ -35,8 +35,19 @@ namespace SirenOfShame.Configuration
         {
             if (_servers.SelectedItem != null)
             {
-                var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
+                var ciEntryPointSetting = (CiEntryPointSetting) _servers.SelectedItem;
                 ConfigureServer.Show(_settings, ciEntryPointSetting);
+                Close();
+            }
+        }
+
+        private void DeleteClick(object sender, System.EventArgs e)
+        {
+            if (_servers.SelectedItem != null)
+            {
+                var ciEntryPointSetting = (CiEntryPointSetting) _servers.SelectedItem;
+                _settings.CiEntryPointSettings.Remove(ciEntryPointSetting);
+                _settings.Save();
                 Close();
             }
         }

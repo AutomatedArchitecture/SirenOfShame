@@ -37,6 +37,7 @@
             this.backgroundWorker4 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.backgroundWorker5 = new System.ComponentModel.BackgroundWorker();
+            this._delete = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +47,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._add.Location = new System.Drawing.Point(0, 1);
             this._add.Name = "_add";
-            this._add.Size = new System.Drawing.Size(126, 23);
+            this._add.Size = new System.Drawing.Size(112, 23);
             this._add.TabIndex = 0;
             this._add.Text = "Add";
             this._add.UseVisualStyleBackColor = true;
@@ -58,14 +59,14 @@
             this._servers.FormattingEnabled = true;
             this._servers.Location = new System.Drawing.Point(0, 0);
             this._servers.Name = "_servers";
-            this._servers.Size = new System.Drawing.Size(243, 130);
+            this._servers.Size = new System.Drawing.Size(340, 130);
             this._servers.TabIndex = 1;
             this._servers.DoubleClick += new System.EventHandler(this.ServersDoubleClick);
             // 
             // _close
             // 
             this._close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._close.Location = new System.Drawing.Point(126, 1);
+            this._close.Location = new System.Drawing.Point(223, 1);
             this._close.Name = "_close";
             this._close.Size = new System.Drawing.Size(116, 23);
             this._close.TabIndex = 2;
@@ -75,19 +76,30 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._delete);
             this.panel1.Controls.Add(this._close);
             this.panel1.Controls.Add(this._add);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 130);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(243, 24);
+            this.panel1.Size = new System.Drawing.Size(340, 24);
             this.panel1.TabIndex = 3;
+            // 
+            // _delete
+            // 
+            this._delete.Location = new System.Drawing.Point(112, 1);
+            this._delete.Name = "_delete";
+            this._delete.Size = new System.Drawing.Size(112, 23);
+            this._delete.TabIndex = 3;
+            this._delete.Text = "Delete";
+            this._delete.UseVisualStyleBackColor = true;
+            this._delete.Click += new System.EventHandler(this.DeleteClick);
             // 
             // ConfigureServers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(243, 154);
+            this.ClientSize = new System.Drawing.Size(340, 154);
             this.Controls.Add(this._servers);
             this.Controls.Add(this.panel1);
             this.Name = "ConfigureServers";
@@ -108,5 +120,6 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker4;
         private System.Windows.Forms.Panel panel1;
         private System.ComponentModel.BackgroundWorker backgroundWorker5;
+        private System.Windows.Forms.Button _delete;
     }
 }

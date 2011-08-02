@@ -217,6 +217,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             var ciEntryPointSettings = _settings.CiEntryPointSettings;
 
+            _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)
             {
                 var ciEntryPoint = ciEntryPointSetting.GetCiEntryPoint(_settings);
