@@ -224,8 +224,7 @@ namespace SirenOfShame.Lib.Watcher
             _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)
             {
-                var ciEntryPoint = ciEntryPointSetting.GetCiEntryPoint(_settings);
-                var watcher = ciEntryPoint.GetWatcher(_settings);
+                var watcher = ciEntryPointSetting.GetWatcher(_settings);
                 _watchers.Add(watcher);
                 watcher.StatusChecked += BuildWatcherStatusChecked;
                 watcher.ServerUnavailable += BuildWatcherServerUnavailable;

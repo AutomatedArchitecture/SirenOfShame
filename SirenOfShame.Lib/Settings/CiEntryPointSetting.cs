@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Settings
 {
@@ -51,5 +52,10 @@ namespace SirenOfShame.Lib.Settings
             return BuildDefinitionSettings.First(bd => bd.Id == buildDefinitionId);
         }
 
+        public virtual WatcherBase GetWatcher(SirenOfShameSettings settings)
+        {
+            var ciEntryPoint = GetCiEntryPoint(settings);
+            return ciEntryPoint.GetWatcher(settings);
+        }
     }
 }
