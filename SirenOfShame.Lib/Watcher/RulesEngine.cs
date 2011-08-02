@@ -75,7 +75,11 @@ namespace SirenOfShame.Lib.Watcher
 
         private void InvokeUpdateStatusBar(string statusText)
         {
-            var datedStatusText = string.Format("{0:G} - {1}", DateTime.Now, statusText);
+            string datedStatusText = null;
+            if (!string.IsNullOrEmpty(statusText))
+            {
+                datedStatusText = string.Format("{0:G} - {1}", DateTime.Now, statusText);
+            }
             var updateStatusBar = UpdateStatusBar;
             if (updateStatusBar == null) return;
             updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText });
@@ -241,6 +245,10 @@ namespace SirenOfShame.Lib.Watcher
                 }
 
                 _timer.Start();
+            } else
+            {
+                InvokeUpdateStatusBar("");
+                InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
             }
         }
 
