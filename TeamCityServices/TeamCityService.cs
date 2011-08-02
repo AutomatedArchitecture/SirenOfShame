@@ -92,7 +92,7 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        private static string _cookie = null;
+        private string _cookie = null;
 
         public IList<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
@@ -119,7 +119,7 @@ namespace TeamCityServices
             return parallelResult.AsParallel().ToList();
         }
 
-        private static void SetCookie(string rootUrl, string userName, string password)
+        private void SetCookie(string rootUrl, string userName, string password)
         {
             int state = 0;
             DateTime initialRequest = DateTime.Now;
@@ -300,7 +300,7 @@ namespace TeamCityServices
             };
 
             if (cookie != null)
-                webClient.Headers.Add("Cookie", _cookie);
+                webClient.Headers.Add("Cookie", cookie);
 
             try
             {
@@ -311,7 +311,7 @@ namespace TeamCityServices
                 }
                 catch (Exception ex)
                 {
-                    string message = "Couldn't parse XML:\n" + resultString;
+                    string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
                     _log.Error(message, ex);
                     throw new SosException(message, ex);
                 }
