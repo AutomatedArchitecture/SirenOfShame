@@ -23,5 +23,6 @@ namespace SirenOfShame.Lib.Device
         void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc);
         SirenOfShameInfo ReadDeviceInfo();
         void Disconnect();
+        void ManualControl(ManualControlData manualControlData);
     }
 }

@@ -12,7 +12,7 @@ namespace SirenOfShame.Lib
             ClientSize = new Size(ClientSize.Width, _ok.Bottom + 10);
         }
 
-        public static void Show(Form owner, string title, string message, Exception exception)
+        public static void Show(Control owner, string title, string message, Exception exception)
         {
             if (owner != null && owner.InvokeRequired)
             {
@@ -24,7 +24,7 @@ namespace SirenOfShame.Lib
             }
         }
 
-        private static void DoShow(Form owner, string title, string message, Exception exception)
+        private static void DoShow(Control owner, string title, string message, Exception exception)
         {
             var dlg = new ExceptionMessageBox
             {

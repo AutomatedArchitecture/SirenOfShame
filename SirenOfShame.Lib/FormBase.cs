@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Helpers;
 
 namespace SirenOfShame
 {
@@ -7,14 +8,7 @@ namespace SirenOfShame
     {
         public void Invoke(Action a)
         {
-            if (InvokeRequired)
-            {
-                Invoke((Delegate)a);
-            }
-            else
-            {
-                a();
-            }
+            ControlHelpers.Invoke(this, a);
         }
 
     }

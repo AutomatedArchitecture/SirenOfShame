@@ -119,6 +119,10 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
+        public void ManualControl(ManualControlData manualControlData)
+        {
+        }
+
         public void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc)
         {
 

@@ -10,6 +10,7 @@ namespace SirenOfShame.Lib.Device
         public TimeSpan AudioPlayDuration { get; private set; }
         public byte LedMode { get; private set; }
         public TimeSpan LedPlayDuration { get; private set; }
+        public uint ExternalMemorySize { get; set; }
 
         public SirenOfShameInfo(UsbInfoPacket infoPacket)
         {
@@ -19,6 +20,7 @@ namespace SirenOfShame.Lib.Device
             AudioPlayDuration = new TimeSpan(0, 0, 0, 0, infoPacket.AudioPlayDuration * 100);
             LedMode = infoPacket.LedMode;
             LedPlayDuration = new TimeSpan(0, 0, 0, 0, infoPacket.LedPlayDuration * 100);
+            ExternalMemorySize = infoPacket.ExternalMemorySize;
         }
     }
 }

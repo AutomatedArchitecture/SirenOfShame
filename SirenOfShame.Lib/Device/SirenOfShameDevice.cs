@@ -132,6 +132,22 @@ namespace SirenOfShame.Lib.Device
             OnDisconnected();
         }
 
+        public void ManualControl(ManualControlData manualControlData)
+        {
+            byte manualSiren = (byte)(manualControlData.Siren ? 1 : 0);
+            byte manualLeds = 0;
+            manualLeds |= (byte)(manualControlData.Led1 ? 0x01 : 0x00);
+            manualLeds |= (byte)(manualControlData.Led2 ? 0x02 : 0x00);
+            manualLeds |= (byte)(manualControlData.Led3 ? 0x04 : 0x00);
+            manualLeds |= (byte)(manualControlData.Led4 ? 0x08 : 0x00);
+            manualLeds |= (byte)(manualControlData.Led5 ? 0x10 : 0x00);
+            SendControlPacket(
+                ledMode: 0,
+                audioMode: 0,
+                manualLeds: manualLeds,
+                manualSiren: manualSiren);
+        }
+
         public void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc)
         {
             _log.Info("Starting firmware upgrade");
@@ -364,7 +380,9 @@ namespace SirenOfShame.Lib.Device
             byte audioMode = (byte)0xff, UInt16 audioDuration = (UInt16) 0xffff,
             byte ledMode = (byte)0xff, UInt16 ledDuration = (UInt16)0xffff,
             byte readAudioIndex = (byte)0xff,
-            byte readLedIndex = (byte)0xff)
+            byte readLedIndex = (byte)0xff,
+            byte manualLeds = (byte)0xff,
+            byte manualSiren = (byte)0xff)
         {
             UsbControlPacket usbControlPacket = new UsbControlPacket
             {
@@ -375,7 +393,9 @@ namespace SirenOfShame.Lib.Device
                 LedMode = ledMode,
                 LedDuration = ledDuration,
                 ReadAudioIndex = readAudioIndex,
-                ReadLedIndex = readLedIndex
+                ReadLedIndex = readLedIndex,
+                ManualLeds = manualLeds,
+                ManualSiren = manualSiren
             };
             _deviceInterfaceFile.SetOutputReport(usbControlPacket, PacketSize);
         }
