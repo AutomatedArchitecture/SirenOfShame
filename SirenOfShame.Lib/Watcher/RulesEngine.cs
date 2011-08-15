@@ -219,7 +219,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public void Start(bool initialStart = true)
         {
-            var ciEntryPointSettings = _settings.CiEntryPointSettings;
+            var ciEntryPointSettings = _settings.CiEntryPointSettings.Where(s => !string.IsNullOrEmpty(s.Url));
 
             _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)

@@ -31,12 +31,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this._projects = new SirenOfShame.Lib.Helpers.ThreeStateTreeView();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _url
             // 
-            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._url.Location = new System.Drawing.Point(72, 3);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(320, 20);
@@ -97,9 +98,9 @@
             // 
             // _projects
             // 
-            this._projects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._projects.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._projects.CheckBoxes = true;
             this._projects.Location = new System.Drawing.Point(3, 111);
             this._projects.Name = "_projects";
@@ -108,10 +109,20 @@
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this._projects_BeforeExpand);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(220, 58);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 13);
+            this.label4.TabIndex = 45;
+            this.label4.Text = "(stored encrypted)";
+            // 
             // ConfigureTeamCity
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
             this.Controls.Add(this._projects);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -137,5 +148,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private SirenOfShame.Lib.Helpers.ThreeStateTreeView _projects;
+        private System.Windows.Forms.Label label4;
 	}
 }
