@@ -34,6 +34,7 @@ namespace SirenOfShame.Lib.Device
         private byte[] _buffer;
         private bool _connecting;
         private bool _disconnecting;
+        private const byte LED_MODE_MANUAL = 1;
         private const UInt16 Duration_Forever = 0xfffe;
 
         public bool IsConnected { get; private set; }
@@ -135,17 +136,14 @@ namespace SirenOfShame.Lib.Device
         public void ManualControl(ManualControlData manualControlData)
         {
             byte manualSiren = (byte)(manualControlData.Siren ? 1 : 0);
-            byte manualLeds = 0;
-            manualLeds |= (byte)(manualControlData.Led1 ? 0x01 : 0x00);
-            manualLeds |= (byte)(manualControlData.Led2 ? 0x02 : 0x00);
-            manualLeds |= (byte)(manualControlData.Led3 ? 0x04 : 0x00);
-            manualLeds |= (byte)(manualControlData.Led4 ? 0x08 : 0x00);
-            manualLeds |= (byte)(manualControlData.Led5 ? 0x10 : 0x00);
             SendControlPacket(
-                ledMode: 0,
-                audioMode: 0,
-                manualLeds: manualLeds,
-                manualSiren: manualSiren);
+                ledMode: LED_MODE_MANUAL,
+                audioMode: manualSiren,
+                manualLeds0: manualControlData.Led0,
+                manualLeds1: manualControlData.Led1,
+                manualLeds2: manualControlData.Led2,
+                manualLeds3: manualControlData.Led3,
+                manualLeds4: manualControlData.Led4);
         }
 
         public void PerformFirmwareUpgrade(Stream hexFileStream, Action<int> progressFunc)
@@ -381,8 +379,11 @@ namespace SirenOfShame.Lib.Device
             byte ledMode = (byte)0xff, UInt16 ledDuration = (UInt16)0xffff,
             byte readAudioIndex = (byte)0xff,
             byte readLedIndex = (byte)0xff,
-            byte manualLeds = (byte)0xff,
-            byte manualSiren = (byte)0xff)
+            byte manualLeds0 = (byte)0xff,
+            byte manualLeds1 = (byte)0xff,
+            byte manualLeds2 = (byte)0xff,
+            byte manualLeds3 = (byte)0xff,
+            byte manualLeds4 = (byte)0xff)
         {
             UsbControlPacket usbControlPacket = new UsbControlPacket
             {
@@ -394,8 +395,11 @@ namespace SirenOfShame.Lib.Device
                 LedDuration = ledDuration,
                 ReadAudioIndex = readAudioIndex,
                 ReadLedIndex = readLedIndex,
-                ManualLeds = manualLeds,
-                ManualSiren = manualSiren
+                ManualLeds0 = manualLeds0,
+                ManualLeds1 = manualLeds1,
+                ManualLeds2 = manualLeds2,
+                ManualLeds3 = manualLeds3,
+                ManualLeds4 = manualLeds4
             };
             _deviceInterfaceFile.SetOutputReport(usbControlPacket, PacketSize);
         }

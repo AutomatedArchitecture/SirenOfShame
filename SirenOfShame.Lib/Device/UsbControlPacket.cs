@@ -31,10 +31,19 @@ namespace SirenOfShame.Lib.Device
         public byte ReadLedIndex;
 
         [MarshalAs(UnmanagedType.U1)]
-        public byte ManualLeds;
+        public byte ManualLeds0;
 
         [MarshalAs(UnmanagedType.U1)]
-        public byte ManualSiren;
+        public byte ManualLeds1;
+
+        [MarshalAs(UnmanagedType.U1)]
+        public byte ManualLeds2;
+
+        [MarshalAs(UnmanagedType.U1)]
+        public byte ManualLeds3;
+
+        [MarshalAs(UnmanagedType.U1)]
+        public byte ManualLeds4;
     }
 
     [Flags]

@@ -39,20 +39,15 @@ namespace SirenOfShame.HardwareTestGui
             });
         }
 
-        private void _led_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateDevice();
-        }
-
         private void UpdateDevice()
         {
             Program.SirenOfShameDevice.ManualControl(new ManualControlData
             {
-                Led1 = _led1.Checked,
-                Led2 = _led2.Checked,
-                Led3 = _led3.Checked,
-                Led4 = _led4.Checked,
-                Led5 = _led5.Checked,
+                Led0 = (byte)(_led1.Checked ? _led1Value.Value : 0x00),
+                Led1 = (byte)(_led2.Checked ? _led2Value.Value : 0x00),
+                Led2 = (byte)(_led3.Checked ? _led3Value.Value : 0x00),
+                Led3 = (byte)(_led4.Checked ? _led4Value.Value : 0x00),
+                Led4 = (byte)(_led5.Checked ? _led5Value.Value : 0x00),
                 Siren = _siren.Checked
             });
         }
@@ -78,6 +73,51 @@ namespace SirenOfShame.HardwareTestGui
             _led3.Checked = false;
             _led4.Checked = false;
             _led5.Checked = false;
+        }
+
+        private void _led1_CheckedChanged(object sender, EventArgs e)
+        {
+            ProcessCheckedChanged(_led1, _led1Value);
+        }
+
+        private void _led2_CheckedChanged(object sender, EventArgs e)
+        {
+            ProcessCheckedChanged(_led2, _led2Value);
+        }
+
+        private void _led3_CheckedChanged(object sender, EventArgs e)
+        {
+            ProcessCheckedChanged(_led3, _led3Value);
+        }
+
+        private void _led4_CheckedChanged(object sender, EventArgs e)
+        {
+            ProcessCheckedChanged(_led4, _led4Value);
+        }
+
+        private void _led5_CheckedChanged(object sender, EventArgs e)
+        {
+            ProcessCheckedChanged(_led5, _led5Value);
+        }
+
+        private void ProcessCheckedChanged(CheckBox check, TrackBar val)
+        {
+            if (check.Checked)
+            {
+                val.Enabled = true;
+                val.Value = 0xfe;
+            }
+            else
+            {
+                val.Enabled = false;
+                val.Value = 0;
+            }
+            UpdateDevice();
+        }
+
+        private void _ledValue_Scroll(object sender, EventArgs e)
+        {
+            UpdateDevice();
         }
     }
 }
