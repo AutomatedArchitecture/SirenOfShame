@@ -130,16 +130,23 @@ namespace SirenOfShame.HardwareTestGui
         {
             if (Program.SirenOfShameDevice.IsConnected)
             {
-                var deviceInfo = Program.SirenOfShameDevice.ReadDeviceInfo();
-                if (deviceInfo.AudioMode == 0)
+                try
                 {
-                    _audioEndTime = null;
+                    var deviceInfo = Program.SirenOfShameDevice.ReadDeviceInfo();
+                    if (deviceInfo.AudioMode == 0)
+                    {
+                        _audioEndTime = null;
+                    }
+                    if (deviceInfo.LedMode == 0)
+                    {
+                        _ledEndTime = null;
+                    }
+                    _deviceInfo.Text = Program.GetDeviceInfoAsString(deviceInfo);
                 }
-                if (deviceInfo.LedMode == 0)
+                catch (Exception ex)
                 {
-                    _ledEndTime = null;
+                    _deviceInfo.Text = "Lost connection with device...\n" + ex;
                 }
-                _deviceInfo.Text = Program.GetDeviceInfoAsString(deviceInfo);
             }
 
             if (_audioEndTime != null)
