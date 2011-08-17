@@ -15,22 +15,25 @@ namespace TeensyHidBootloaderLib
             GetMcuParameters(mcuType, out _codeSize, out _blockSize);
         }
 
-        public void Program(Stream hexFileStream, bool wiatForDeviceToAppear, bool rebootAfterProgramming, TimeSpan timeOut)
+        public void Program(Stream hexFileStream, bool waitForDeviceToAppear, bool rebootAfterProgramming, TimeSpan timeOut, Action<int> progressFunc)
         {
             IntelHexFile hexFile = new IntelHexFile(hexFileStream);
             Log.DebugFormat("Read: {0} bytes, {1}% usage", hexFile.ByteCount, (double)hexFile.ByteCount / _codeSize * 100.0);
 
             Log.Debug("Opening device");
-            using (var teensyDevice = new TeensyDevice(wiatForDeviceToAppear, _blockSize, timeOut))
+            using (var teensyDevice = new TeensyDevice(waitForDeviceToAppear, _blockSize, timeOut))
             {
+                progressFunc(10);
                 Log.Debug("Programming");
-                Program(teensyDevice, hexFile);
+                Program(teensyDevice, hexFile, i => progressFunc(10 + (int)(i * 80.0 / 100.0)));
+                progressFunc(90);
 
                 // reboot to the user's new code
                 if (rebootAfterProgramming)
                 {
                     Reboot(teensyDevice);
                 }
+                progressFunc(100);
             }
         }
 
@@ -43,7 +46,7 @@ namespace TeensyHidBootloaderLib
             teensyDevice.Write(buf, _blockSize + 2, 250);
         }
 
-        private void Program(TeensyDevice teensyDevice, IntelHexFile hexFile)
+        private void Program(TeensyDevice teensyDevice, IntelHexFile hexFile, Action<int> progressFunc)
         {
             byte[] buf = new byte[260];
             int addr;
@@ -70,6 +73,8 @@ namespace TeensyHidBootloaderLib
                 hexFile.GetData(addr, _blockSize, buf, 2);
                 teensyDevice.Write(buf, _blockSize + 2, first_block ? 3000 : 250);
                 first_block = false;
+
+                progressFunc((int)((double)addr / _codeSize * 100.0));
             }
         }
 

@@ -21,12 +21,12 @@ namespace SirenOfShame.Test.Unit.Util
         }
         
         [TestMethod]
-        public void Merge_RemovedBuildStatus_Removed()
+        public void Merge_RemovedBuildStatus_Retained()
         {
             var oldStatus = new[] {new BuildStatus {Id = "1", BuildStatusEnum = BuildStatusEnum.Working}};
             var newStatuses = new BuildStatus[] {};
             var result = BuildStatusUtil.Merge(oldStatus, newStatuses);
-            Assert.AreEqual(0, result.Count());
+            Assert.AreEqual(1, result.Count());
         }
 
         [TestMethod]

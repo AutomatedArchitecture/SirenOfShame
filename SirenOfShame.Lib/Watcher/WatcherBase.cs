@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using log4net;
 using SirenOfShame.Lib.Exceptions;
@@ -86,6 +85,8 @@ namespace SirenOfShame.Lib.Watcher
         public event ServerUnavailableEvent ServerUnavailable;
         public event BuildDefinitionNotFoundEvent BuildDefinitionNotFound;
         public SirenOfShameSettings Settings { get; set; }
+        public CiEntryPointSetting CiEntryPointSetting { get; set; }
+
         public abstract void StopWatching();
 
         public abstract void Dispose();

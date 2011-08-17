@@ -4,27 +4,40 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Util
 {
+
     public static class BuildStatusUtil
     {
         /// <summary>
         /// Will return a build status list that looks identical to the new build status list except
         /// any build statuses with the same Id and BuildStatus will not be overwritten.
         /// </summary>
-        /// <param name="buildStatuses"></param>
-        /// <returns></returns>
-        public static BuildStatus[] Merge(IEnumerable<BuildStatus> oldBuildStatuses, IEnumerable<BuildStatus> newBuildStatuses)
+        public static BuildStatus[] Merge(IList<BuildStatus> oldBuildStatuses, IList<BuildStatus> newBuildStatuses)
         {
-            BuildStatus[] result = new BuildStatus[newBuildStatuses.Count()];
-            int i = 0;
-            foreach (var newBuildStatus in newBuildStatuses)
-            {
-                var matchingOldBuildStatus = oldBuildStatuses
-                    .FirstOrDefault(bs => bs.Id == newBuildStatus.Id && bs.BuildStatusEnum == newBuildStatus.BuildStatusEnum && bs.StartedTime == newBuildStatus.StartedTime);
+            var buildStatusComparer = new BuildStatusComparer();
+            var oldBuildStatusesToRetain = oldBuildStatuses.Except(newBuildStatuses, buildStatusComparer);
+            var newBuildStatusesToAdd = newBuildStatuses.Except(oldBuildStatuses, buildStatusComparer);
+            var unchangedBuildStatuses = from oldStatus in oldBuildStatuses
+                                         join newStatus in newBuildStatuses on oldStatus.Id equals newStatus.Id
+                                         where newStatus.BuildStatusEnum == oldStatus.BuildStatusEnum && newStatus.StartedTime == oldStatus.StartedTime
+                                         select oldStatus;
+            var changedBuildStatuses = from oldStatus in oldBuildStatuses
+                                       join newStatus in newBuildStatuses on oldStatus.Id equals newStatus.Id
+                                       where newStatus.BuildStatusEnum != oldStatus.BuildStatusEnum || newStatus.StartedTime != oldStatus.StartedTime
+                                       select newStatus;
+            return oldBuildStatusesToRetain.Union(newBuildStatusesToAdd).Union(unchangedBuildStatuses).Union(changedBuildStatuses).ToArray();
+        }
+    }
 
-                result[i] = matchingOldBuildStatus ?? newBuildStatus;
-                i++;
-            }
-            return result;
+    public class BuildStatusComparer : IEqualityComparer<BuildStatus>
+    {
+        public bool Equals(BuildStatus x, BuildStatus y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode(BuildStatus obj)
+        {
+            return 0;
         }
     }
 }

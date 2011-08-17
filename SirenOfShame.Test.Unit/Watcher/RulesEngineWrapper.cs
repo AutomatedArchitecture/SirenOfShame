@@ -23,8 +23,10 @@ namespace SirenOfShame.Test.Unit.Watcher
             SetLightsEvents = new List<SetLightsEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
-            Settings.BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1"});
-            Settings.BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2"});
+            CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
+            Settings.CiEntryPointSettings.Add(CiEntryPointSetting);
+            Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1" });
+            Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
             _rulesEngine = new RulesEngine(Settings);
 
@@ -40,6 +42,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         private readonly RulesEngine _rulesEngine;
         public SirenOfShameSettingsFake Settings { get; set; }
+        public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
         public List<TrayNotifyEventArgs> TrayNotificationEvents { get; set; }
         public List<RefreshStatusEventArgs> RefreshStatusEvents { get; set; }
         public List<UpdateStatusBarEventArgs> StatusBarUpdateEvents { get; set; }
@@ -54,22 +57,22 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public BuildDefinitionSetting GetBuildDefinitionSetting(string buildDefinitionSetting)
         {
-            return Settings.BuildDefinitionSettings.SingleOrDefault(bds => bds.Id == buildDefinitionSetting);
+            return Settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).SingleOrDefault(bds => bds.Id == buildDefinitionSetting);
         }
 
         public void InvokeServerUnavailable(ServerUnavailableException serverUnavailableException)
         {
-            Settings.WatcherFake.InvokeServerUnavailable(serverUnavailableException);
+            ((WatcherFake)CiEntryPointSetting.GetWatcher(Settings)).InvokeServerUnavailable(serverUnavailableException);
         }
 
         public void InvokeStatusChecked(BuildStatus[] args)
         {
-            Settings.WatcherFake.InvokeStatusChecked(args);
+            ((WatcherFake)CiEntryPointSetting.GetWatcher(Settings)).InvokeStatusChecked(args);
         }
 
         public void InvokeStatusChecked(BuildStatus args)
         {
-            Settings.WatcherFake.InvokeStatusChecked(new[] { args });
+            ((WatcherFake)CiEntryPointSetting.GetWatcher(Settings)).InvokeStatusChecked(new[] { args });
         }
 
         public void InvokeStatusChecked(BuildStatusEnum status)

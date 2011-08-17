@@ -49,16 +49,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceConnect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviceConnect.Designer.cs">
+      <DependentUpon>DeviceConnect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviceSetup.Designer.cs">
+      <DependentUpon>DeviceSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FullTest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FullTest.Designer.cs">
+      <DependentUpon>FullTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="HardwareTest.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HardwareTest.Designer.cs">
       <DependentUpon>HardwareTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="InstallFirmware.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InstallFirmware.Designer.cs">
+      <DependentUpon>InstallFirmware.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManualControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ManualControl.Designer.cs">
+      <DependentUpon>ManualControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DeviceConnect.resx">
+      <DependentUpon>DeviceConnect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviceSetup.resx">
+      <DependentUpon>DeviceSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FullTest.resx">
+      <DependentUpon>FullTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HardwareTest.resx">
       <DependentUpon>HardwareTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InstallFirmware.resx">
+      <DependentUpon>InstallFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualControl.resx">
+      <DependentUpon>ManualControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -58,6 +58,7 @@ namespace TeamCityServices
 
         private string GetRootUrl(string rootUrl)
         {
+            if (string.IsNullOrEmpty(rootUrl)) return null;
             rootUrl = rootUrl.TrimEnd('/');
             return rootUrl;
         }
@@ -91,7 +92,7 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        private static string _cookie = null;
+        private string _cookie = null;
 
         public IList<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
@@ -118,9 +119,10 @@ namespace TeamCityServices
             return parallelResult.AsParallel().ToList();
         }
 
-        private static void SetCookie(string rootUrl, string userName, string password)
+        private void SetCookie(string rootUrl, string userName, string password)
         {
             int state = 0;
+            DateTime initialRequest = DateTime.Now;
             bool serverUnavailable = false;
             Exception documentCompleteException = null;
             // WebBrowser needs to run in a single threaded apartment thread, see http://www.beansoftware.com/ASP.NET-Tutorials/Get-Web-Site-Thumbnail-Image.aspx
@@ -163,9 +165,11 @@ namespace TeamCityServices
                         documentCompleteException = ex;
                     }
                 };
+                
+                
                 webBrowser.Navigate(new Uri(loginPage));
 
-                while (state <= 1 && !serverUnavailable && documentCompleteException == null)
+                while (state <= 1 && !serverUnavailable && documentCompleteException == null && !IsTimeout(initialRequest))
                 {
                     Application.DoEvents();
                 }
@@ -180,6 +184,14 @@ namespace TeamCityServices
                 throw new ServerUnavailableException();
             if (documentCompleteException != null)
                 throw documentCompleteException;
+            if (IsTimeout(initialRequest))
+                throw new SosException("Timed out waiting for authentication, possible authentication error");
+        }
+
+        private static bool IsTimeout(DateTime initialRequest)
+        {
+            const int timeoutSeconds = 30;
+            return (DateTime.Now - initialRequest).TotalSeconds >= timeoutSeconds;
         }
 
         public TeamCityBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)
@@ -288,7 +300,7 @@ namespace TeamCityServices
             };
 
             if (cookie != null)
-                webClient.Headers.Add("Cookie", _cookie);
+                webClient.Headers.Add("Cookie", cookie);
 
             try
             {
@@ -299,7 +311,7 @@ namespace TeamCityServices
                 }
                 catch (Exception ex)
                 {
-                    string message = "Couldn't parse XML:\n" + resultString;
+                    string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
                     _log.Error(message, ex);
                     throw new SosException(message, ex);
                 }

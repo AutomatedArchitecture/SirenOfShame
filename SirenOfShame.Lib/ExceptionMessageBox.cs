@@ -12,7 +12,19 @@ namespace SirenOfShame.Lib
             ClientSize = new Size(ClientSize.Width, _ok.Bottom + 10);
         }
 
-        public static void Show(IWin32Window owner, string title, string message, Exception exception)
+        public static void Show(Control owner, string title, string message, Exception exception)
+        {
+            if (owner != null && owner.InvokeRequired)
+            {
+                owner.Invoke((Action)(() => DoShow(owner, title, message, exception)));
+            }
+            else
+            {
+                DoShow(owner, title, message, exception);
+            }
+        }
+
+        private static void DoShow(Control owner, string title, string message, Exception exception)
         {
             var dlg = new ExceptionMessageBox
             {

@@ -11,9 +11,9 @@ namespace TeamCityServices
     [Export(typeof(ICiEntryPoint))]
     public class TeamCityCiEntryPoint : ICiEntryPoint
     {
-        public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings)
+        public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
-            return new ConfigureTeamCity(settings, this);
+            return new ConfigureTeamCity(settings, this, ciEntryPointSetting);
         }
 
         public string Name

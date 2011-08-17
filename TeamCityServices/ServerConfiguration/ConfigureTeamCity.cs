@@ -13,18 +13,19 @@ namespace TeamCityServices.ServerConfiguration
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private bool _updatingTree;
+        private readonly CiEntryPointSetting _ciEntryPointSetting;
 
         public ConfigureTeamCity() { }
 
-        public ConfigureTeamCity(SirenOfShameSettings sosSettings, TeamCityCiEntryPoint teamCityCiEntryPoint)
+        public ConfigureTeamCity(SirenOfShameSettings sosSettings, TeamCityCiEntryPoint teamCityCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
             : base(sosSettings)
         {
             _teamCityCiEntryPoint = teamCityCiEntryPoint;
             InitializeComponent();
-            CiEntryPointSettings settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
-            _url.Text = settings.Url;
-            _userName.Text = settings.UserName;
-            _password.Text = settings.Password;
+            _ciEntryPointSetting = ciEntryPointSetting;
+            _url.Text = _ciEntryPointSetting.Url;
+            _userName.Text = _ciEntryPointSetting.UserName;
+            _password.Text = _ciEntryPointSetting.GetPassword();
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();
@@ -38,9 +39,15 @@ namespace TeamCityServices.ServerConfiguration
 
         private void ReloadProjects()
         {
-            _projects.Nodes.Clear();
-            _projects.Nodes.Add("Loading...");
-            _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
+            try
+            {
+                _projects.Nodes.Clear();
+                _projects.Nodes.Add("Loading...");
+                _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void GetProjectsError(Exception ex)
@@ -51,10 +58,9 @@ namespace TeamCityServices.ServerConfiguration
 
         private void GetProjectsComplete(TeamCityProject[] projects)
         {
-            CiEntryPointSettings settings = Settings.FindAddSettings(_teamCityCiEntryPoint.Name);
-            settings.Url = _url.Text;
-            settings.UserName = _userName.Text;
-            settings.Password = _password.Text;
+            _ciEntryPointSetting.Url = _url.Text;
+            _ciEntryPointSetting.UserName = _userName.Text;
+            _ciEntryPointSetting.SetPassword(_password.Text);
             Settings.Save();
 
             _projects.Nodes.Clear();
@@ -83,7 +89,7 @@ namespace TeamCityServices.ServerConfiguration
                 _service.GetBuildDefinitions((TeamCityProject)node.Tag, _userName.Text, _password.Text, buildDefinitions =>
                 {
                     node.Nodes.Clear();
-                    var activeBuildDefinitionSettings = Settings.BuildDefinitionSettings.Where(bd => bd.Active);
+                    var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active);
                     foreach (TeamCityBuildDefinition buildDefinition in buildDefinitions)
                     {
                         TeamCityBuildDefinition definition = buildDefinition;
@@ -108,7 +114,7 @@ namespace TeamCityServices.ServerConfiguration
             if (e.Node.Tag is TeamCityBuildDefinition)
             {
                 var buildDefinition = (TeamCityBuildDefinition)e.Node.Tag;
-                var buildDefSetting = Settings.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
+                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();
             }

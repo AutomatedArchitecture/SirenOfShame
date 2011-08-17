@@ -171,9 +171,22 @@ namespace SirenOfShame
                 _settings.Save();
             }
 
+            EnableSirenMenuItem(true);
+        }
+
+        private void EnableSirenMenuItem(bool enable)
+        {
             Invoke(() =>
             {
-                _testSiren.Enabled = true;
+                _testSiren.Enabled = enable;
+                if (enable)
+                {
+                    _configureSirenMenuItem.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
+                }
+                else
+                {
+                    _configureSirenMenuItem.Enabled = false;
+                }
             });
         }
 
@@ -193,10 +206,7 @@ namespace SirenOfShame
 
         private void SirenofShameDeviceDisconnected(object sender, EventArgs args)
         {
-            Invoke(() =>
-            {
-                _testSiren.Enabled = false;
-            });
+            EnableSirenMenuItem(false);
         }
 
         private void Form1Load(object sender, EventArgs e)
@@ -349,7 +359,7 @@ namespace SirenOfShame
         private void ConfigureServersClick(object sender, EventArgs e)
         {
             StopWatchingBuild();
-            ConfigureServer.Show(_settings);
+            ConfigureServers.Show(_settings);
             _rulesEngine = null; // reset the rules engine in case it changed (e.g. from TFS to Team City)
             StartWatchingBuild();
             Activate();
@@ -391,11 +401,11 @@ namespace SirenOfShame
 
             string buildId = (string)listViewItem.Tag;
 
-            var buildDefinitionSetting = _settings.BuildDefinitionSettings.FirstOrDefault(bds => bds.Id == buildId);
+            var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
             if (buildDefinitionSetting == null)
             {
                 Log.Error("Could not find a build definition settings for id " + buildId);
-                return buildDefinitionSetting;
+                return null;
             }
             return buildDefinitionSetting;
         }
@@ -625,7 +635,7 @@ namespace SirenOfShame
             buildDefinitionSetting.Active = false;
             _settings.Save();
             var listViewItem = listView1.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            listViewItem.Remove();
+            if (listViewItem != null) listViewItem.Remove();
         }
 
         private void OpenSettingsClick(object sender, EventArgs e)
@@ -654,6 +664,14 @@ namespace SirenOfShame
             _configurationMenu.Show(this, pt);
         }
 
+        private void SirenMoreClick(object sender, EventArgs e)
+        {
+            Point pt = _sirenMore.Location;
+            pt.X += _sirenMore.Width;
+            pt.Y += _sirenMore.Height;
+            _sirenMenu.Show(this, pt);
+        }
+
         private void _checkForUpdates_Click(object sender, EventArgs e)
         {
             CheckForUpdates();
@@ -679,5 +697,16 @@ namespace SirenOfShame
         {
             get { return _canViewLogs; }
         }
-     }
+
+        private void RefreshClick(object sender, EventArgs e)
+        {
+            RulesEngine.RefreshAll();
+        }
+
+        private void SirenUpgradeFirmwareClick(object sender, EventArgs e)
+        {
+            SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
+            upgrade.ShowDialog(this);
+        }
+    }
 }

@@ -15,7 +15,7 @@ namespace SirenOfShame.Lib.Services
         {
             _sox = new Sox
             {
-                SoxDirectory = @"..\..\..\libs\sox-14.3.2\" // todo: figure this out
+                SoxDirectory = @"..\..\libs\sox-14.3.2\" // todo: figure this out
             };
         }
 
