@@ -107,8 +107,8 @@
             // 
             // _deviceInfo
             // 
-            this._deviceInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._deviceInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._deviceInfo.Location = new System.Drawing.Point(259, 52);
             this._deviceInfo.Multiline = true;
             this._deviceInfo.Name = "_deviceInfo";
@@ -167,7 +167,6 @@
             // 
             // _timer
             // 
-            this._timer.Enabled = true;
             this._timer.Tick += new System.EventHandler(this._timer_Tick);
             // 
             // _audioDuration

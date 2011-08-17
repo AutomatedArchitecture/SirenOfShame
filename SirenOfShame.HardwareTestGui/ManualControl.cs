@@ -10,7 +10,7 @@ namespace SirenOfShame.HardwareTestGui
         public ManualControl()
         {
             InitializeComponent();
-            if (Program.SirenOfShameDevice != null)
+            if (!DesignMode && Program.SirenOfShameDevice != null)
             {
                 Program.SirenOfShameDevice.Connected += SirenOfShameDevice_Connected;
                 Program.SirenOfShameDevice.Disconnected += SirenOfShameDevice_Disconnected;

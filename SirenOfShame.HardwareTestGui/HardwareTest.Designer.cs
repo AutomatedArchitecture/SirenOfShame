@@ -32,17 +32,21 @@
             this._installFirmwareTab = new System.Windows.Forms.TabPage();
             this._manualControlTab = new System.Windows.Forms.TabPage();
             this._fullTestTab = new System.Windows.Forms.TabPage();
+            this._deviceSetupTab = new System.Windows.Forms.TabPage();
             this._installFirmwarePage = new SirenOfShame.HardwareTestGui.InstallFirmware();
             this._manualControl = new SirenOfShame.HardwareTestGui.ManualControl();
             this._fullTest = new SirenOfShame.HardwareTestGui.FullTest();
+            this._deviceSetup = new SirenOfShame.HardwareTestGui.DeviceSetup();
             this._tabControl.SuspendLayout();
             this._installFirmwareTab.SuspendLayout();
             this._manualControlTab.SuspendLayout();
             this._fullTestTab.SuspendLayout();
+            this._deviceSetupTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // _tabControl
             // 
+            this._tabControl.Controls.Add(this._deviceSetupTab);
             this._tabControl.Controls.Add(this._installFirmwareTab);
             this._tabControl.Controls.Add(this._manualControlTab);
             this._tabControl.Controls.Add(this._fullTestTab);
@@ -84,6 +88,16 @@
             this._fullTestTab.Text = "Full Test";
             this._fullTestTab.UseVisualStyleBackColor = true;
             // 
+            // _deviceSetupTab
+            // 
+            this._deviceSetupTab.Controls.Add(this._deviceSetup);
+            this._deviceSetupTab.Location = new System.Drawing.Point(4, 22);
+            this._deviceSetupTab.Name = "_deviceSetupTab";
+            this._deviceSetupTab.Size = new System.Drawing.Size(855, 377);
+            this._deviceSetupTab.TabIndex = 3;
+            this._deviceSetupTab.Text = "Device Setup";
+            this._deviceSetupTab.UseVisualStyleBackColor = true;
+            // 
             // _installFirmwarePage
             // 
             this._installFirmwarePage.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -108,6 +122,14 @@
             this._fullTest.Size = new System.Drawing.Size(855, 377);
             this._fullTest.TabIndex = 0;
             // 
+            // _deviceSetup
+            // 
+            this._deviceSetup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._deviceSetup.Location = new System.Drawing.Point(0, 0);
+            this._deviceSetup.Name = "_deviceSetup";
+            this._deviceSetup.Size = new System.Drawing.Size(855, 377);
+            this._deviceSetup.TabIndex = 0;
+            // 
             // HardwareTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -120,6 +142,7 @@
             this._installFirmwareTab.ResumeLayout(false);
             this._manualControlTab.ResumeLayout(false);
             this._fullTestTab.ResumeLayout(false);
+            this._deviceSetupTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -133,6 +156,8 @@
         private ManualControl _manualControl;
         private System.Windows.Forms.TabPage _fullTestTab;
         private FullTest _fullTest;
+        private System.Windows.Forms.TabPage _deviceSetupTab;
+        private DeviceSetup _deviceSetup;
 
     }
 }

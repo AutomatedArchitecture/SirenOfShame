@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.HardwareTestGui.Properties;
 using SirenOfShame.Lib;
-using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
 using log4net;
 
@@ -23,9 +16,10 @@ namespace SirenOfShame.HardwareTestGui
         public InstallFirmware()
         {
             InitializeComponent();
-            _firmwareFile.Text = Settings.Default.InstallFirmwareLocation;
-            if (Program.SirenOfShameDevice != null)
+            if (!DesignMode && Program.SirenOfShameDevice != null)
             {
+                _firmwareFile.Text = Settings.Default.InstallFirmwareLocation;
+
                 Program.SirenOfShameDevice.Connected += SirenOfShameDevice_Connected;
                 Program.SirenOfShameDevice.Disconnected += SirenOfShameDevice_Disconnected;
             }

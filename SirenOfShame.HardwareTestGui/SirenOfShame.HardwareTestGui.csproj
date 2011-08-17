@@ -55,6 +55,12 @@
     <Compile Include="DeviceConnect.Designer.cs">
       <DependentUpon>DeviceConnect.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviceSetup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviceSetup.Designer.cs">
+      <DependentUpon>DeviceSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="FullTest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DeviceConnect.resx">
       <DependentUpon>DeviceConnect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviceSetup.resx">
+      <DependentUpon>DeviceSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FullTest.resx">
       <DependentUpon>FullTest.cs</DependentUpon>

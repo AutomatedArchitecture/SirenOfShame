@@ -12,10 +12,12 @@ namespace SirenOfShame.HardwareTestGui
         public FullTest()
         {
             InitializeComponent();
-            if (Program.SirenOfShameDevice != null)
+            if (!DesignMode && Program.SirenOfShameDevice != null)
             {
                 Program.SirenOfShameDevice.Connected += SirenOfShameDevice_Connected;
                 Program.SirenOfShameDevice.Disconnected += SirenOfShameDevice_Disconnected;
+
+                _timer.Enabled = true;
             }
         }
 

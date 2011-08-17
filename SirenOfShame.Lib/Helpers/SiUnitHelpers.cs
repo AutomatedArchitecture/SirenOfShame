@@ -6,17 +6,17 @@
         {
             if (i > 1024 * 1024 * 1024)
             {
-                return (i / (1024 * 1024 * 1024.0)).ToString("#,###.##") + " Gi";
+                return (i / (1024 * 1024 * 1024.0)).ToString("#,##0.##") + " Gi";
             }
             if (i > 1024 * 1024)
             {
-                return (i / (1024 * 1024.0)).ToString("#,###.##") + " Mi";
+                return (i / (1024 * 1024.0)).ToString("#,##0.##") + " Mi";
             }
             if (i > 1024)
             {
-                return (i / 1024.0).ToString("#,###.##") + " Ki";
+                return (i / 1024.0).ToString("#,##0.##") + " Ki";
             }
-            return i.ToString("#,###.##");
+            return i.ToString("#,##0.##");
         }
     }
 }
