@@ -39,11 +39,13 @@ namespace SirenOfShame.Lib.Services
                 .Split('\n')
                 .Where(i => !string.IsNullOrWhiteSpace(i))
                 .Select(i => i.Trim(new[] { '\r', ' ' }))
-                .Select(r => r.Split(',')
+                .Select(r => r
+                    .Split(',')
                     .Where(z => !string.IsNullOrWhiteSpace(z))
                     .Select(r2 => Convert.ToByte(r2.Trim()))
                     .ToArray())
-                .Where(i => i.Length == 5);
+                    .Select(r => r.Length == 5 ? r.Concat(new byte[] { 0 }).ToArray() : r)
+                .Where(i => i.Length == 6);
         }
 
         public int GetLength(string fileName)
