@@ -15,6 +15,8 @@ namespace SirenOfShame.Lib.Device
     [Export(typeof(ISirenOfShameDevice))]
     public class SirenOfShameDevice : ISirenOfShameDevice
     {
+        public const int LedPatternBufferSize = 24;
+
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameDevice));
         public const string VendorId = "16d0";
         public const string ProductId = "0646";

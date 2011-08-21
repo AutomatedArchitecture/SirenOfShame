@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.HardwareTestGui
@@ -54,34 +55,40 @@ namespace SirenOfShame.HardwareTestGui
 
         private void ReloadLedPatterns()
         {
-            _ledPatterns.Items.Clear();
-            foreach (LedPattern ledPattern in Program.SirenOfShameDevice.LedPatterns)
+            this.Invoke(() =>
             {
-                ListViewItem lvi = new ListViewItem(ledPattern.Name);
-                lvi.SubItems.Add(ledPattern.Name);
-                lvi.Tag = ledPattern;
-                _ledPatterns.Items.Add(lvi);
-            }
-            if (_ledPatterns.Items.Count > 0)
-            {
-                _ledPatterns.Items[0].Selected = true;
-            }
+                _ledPatterns.Items.Clear();
+                foreach (LedPattern ledPattern in Program.SirenOfShameDevice.LedPatterns)
+                {
+                    ListViewItem lvi = new ListViewItem(ledPattern.Name);
+                    lvi.SubItems.Add(ledPattern.Name);
+                    lvi.Tag = ledPattern;
+                    _ledPatterns.Items.Add(lvi);
+                }
+                if (_ledPatterns.Items.Count > 0)
+                {
+                    _ledPatterns.Items[0].Selected = true;
+                }
+            });
         }
 
         private void ReloadAudioPatterns()
         {
-            _audioPatterns.Items.Clear();
-            foreach (AudioPattern audioPattern in Program.SirenOfShameDevice.AudioPatterns)
+            this.Invoke(() =>
             {
-                ListViewItem lvi = new ListViewItem(audioPattern.Name);
-                lvi.SubItems.Add(audioPattern.Name);
-                lvi.Tag = audioPattern;
-                _audioPatterns.Items.Add(lvi);
-            }
-            if (_audioPatterns.Items.Count > 0)
-            {
-                _audioPatterns.Items[0].Selected = true;
-            }
+                _audioPatterns.Items.Clear();
+                foreach (AudioPattern audioPattern in Program.SirenOfShameDevice.AudioPatterns)
+                {
+                    ListViewItem lvi = new ListViewItem(audioPattern.Name);
+                    lvi.SubItems.Add(audioPattern.Name);
+                    lvi.Tag = audioPattern;
+                    _audioPatterns.Items.Add(lvi);
+                }
+                if (_audioPatterns.Items.Count > 0)
+                {
+                    _audioPatterns.Items[0].Selected = true;
+                }
+            });
         }
 
         private void _audioStart_Click(object sender, EventArgs e)

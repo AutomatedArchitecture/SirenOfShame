@@ -42,6 +42,7 @@
             this._ledAdd = new System.Windows.Forms.Button();
             this._ledPatterns = new System.Windows.Forms.ListView();
             this._ledPatternNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._ledPatternCountColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._upload = new System.Windows.Forms.Button();
             this._progress = new System.Windows.Forms.ProgressBar();
             this._audioContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -52,7 +53,6 @@
             this._ledPlay = new System.Windows.Forms.ToolStripMenuItem();
             this._ledRename = new System.Windows.Forms.ToolStripMenuItem();
             this._ledRemove = new System.Windows.Forms.ToolStripMenuItem();
-            this._ledPatternCountColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this._audioContextMenu.SuspendLayout();
@@ -191,6 +191,11 @@
             this._ledPatternNameColumn.Text = "Name";
             this._ledPatternNameColumn.Width = 200;
             // 
+            // _ledPatternCountColumn
+            // 
+            this._ledPatternCountColumn.Text = "Length";
+            this._ledPatternCountColumn.Width = 80;
+            // 
             // _upload
             // 
             this._upload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -269,11 +274,6 @@
             this._ledRemove.Size = new System.Drawing.Size(117, 22);
             this._ledRemove.Text = "Remove";
             this._ledRemove.Click += new System.EventHandler(this._ledRemove_Click);
-            // 
-            // _ledPatternCountColumn
-            // 
-            this._ledPatternCountColumn.Text = "Pattern Length";
-            this._ledPatternCountColumn.Width = 100;
             // 
             // ConfigureSirenDialog
             // 

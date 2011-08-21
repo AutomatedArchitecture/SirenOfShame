@@ -84,6 +84,7 @@ namespace SirenOfShame.Lib
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 string outputFileName = Path.Combine(Path.GetDirectoryName(_settings.FileName), Path.GetFileNameWithoutExtension(dlg.FileName) + ".sosled");
+                File.Delete(outputFileName);
                 File.Copy(dlg.FileName, outputFileName);
                 var setting = new LedPatternSetting
                 {
@@ -101,7 +102,7 @@ namespace SirenOfShame.Lib
                 Text = setting.Name,
                 Tag = setting
             };
-            item.SubItems.Add("" + _ledFileService.GetLength(setting.FileName));
+            item.SubItems.Add(_ledFileService.GetLength(setting.FileName).ToString(@"mm\:ss\.fff"));
             _ledPatterns.Items.Add(item);
         }
 

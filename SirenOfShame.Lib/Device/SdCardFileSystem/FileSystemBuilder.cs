@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -40,7 +41,8 @@ namespace SirenOfShame.Lib.Device.SdCardFileSystem
         {
             foreach (var uploadLedPattern in ledPatterns)
             {
-                result.Write(uploadLedPattern.Pattern, 0, uploadLedPattern.Pattern.Length);
+                var pattern = uploadLedPattern.Pattern;
+                result.Write(pattern, 0, pattern.Length);
                 Write32BytePadding(result);
             }
         }

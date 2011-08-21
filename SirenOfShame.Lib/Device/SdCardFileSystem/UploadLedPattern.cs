@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SirenOfShame.Lib.Device.SdCardFileSystem
 {
@@ -14,6 +15,14 @@ namespace SirenOfShame.Lib.Device.SdCardFileSystem
         {
             _name = name;
             _pattern = pattern;
+
+            while (_pattern.Length < SirenOfShameDevice.LedPatternBufferSize * 2)
+            {
+                var newPattern = new byte[_pattern.Length * 2];
+                Array.Copy(_pattern, 0, newPattern, 0, _pattern.Length);
+                Array.Copy(_pattern, 0, newPattern, _pattern.Length, _pattern.Length);
+                _pattern = newPattern;
+            }
         }
     }
 }

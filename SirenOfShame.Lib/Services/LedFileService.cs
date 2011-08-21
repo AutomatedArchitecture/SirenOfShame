@@ -48,10 +48,10 @@ namespace SirenOfShame.Lib.Services
                 .Where(i => i.Length == 6);
         }
 
-        public int GetLength(string fileName)
+        public TimeSpan GetLength(string fileName)
         {
             string fileData = File.ReadAllText(fileName);
-            return GetRows(fileData).Count();
+            return TimeSpan.FromSeconds(GetRows(fileData).Count() * 0.1);
         }
     }
 }
