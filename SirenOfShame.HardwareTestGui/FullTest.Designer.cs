@@ -47,6 +47,7 @@
             this._audioRunTime = new System.Windows.Forms.Label();
             this._ledRunTime = new System.Windows.Forms.Label();
             this._deviceConnect = new SirenOfShame.HardwareTestGui.DeviceConnect();
+            this._configureSiren = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._audioDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._ledDuration)).BeginInit();
             this.SuspendLayout();
@@ -230,10 +231,21 @@
             this._deviceConnect.Size = new System.Drawing.Size(162, 30);
             this._deviceConnect.TabIndex = 0;
             // 
+            // _configureSiren
+            // 
+            this._configureSiren.Location = new System.Drawing.Point(259, 208);
+            this._configureSiren.Name = "_configureSiren";
+            this._configureSiren.Size = new System.Drawing.Size(124, 23);
+            this._configureSiren.TabIndex = 18;
+            this._configureSiren.Text = "Configure Siren...";
+            this._configureSiren.UseVisualStyleBackColor = true;
+            this._configureSiren.Click += new System.EventHandler(this._configureSiren_Click);
+            // 
             // FullTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._configureSiren);
             this.Controls.Add(this._ledRunTime);
             this.Controls.Add(this._audioRunTime);
             this.Controls.Add(this._ledDuration);
@@ -278,5 +290,6 @@
         private System.Windows.Forms.NumericUpDown _ledDuration;
         private System.Windows.Forms.Label _audioRunTime;
         private System.Windows.Forms.Label _ledRunTime;
+        private System.Windows.Forms.Button _configureSiren;
     }
 }

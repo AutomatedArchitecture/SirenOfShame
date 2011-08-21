@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.HardwareTestGui
 {
@@ -167,6 +169,17 @@ namespace SirenOfShame.HardwareTestGui
             else
             {
                 _ledRunTime.Text = "Stopped";
+            }
+        }
+
+        private void _configureSiren_Click(object sender, EventArgs e)
+        {
+            const string fileName = "HardwareTestGui.Settings.xml";
+            SirenOfShameSettings settings = SirenOfShameSettings.GetAppSettings(fileName);
+            ConfigureSirenDialog dlg = new ConfigureSirenDialog(settings, Program.SirenOfShameDevice);
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+            {
+                settings.Save(fileName);
             }
         }
     }

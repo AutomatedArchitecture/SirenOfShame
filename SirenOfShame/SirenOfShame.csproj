@@ -104,12 +104,6 @@
       <DependentUpon>HelpAbout.cs</DependentUpon>
     </Compile>
     <Compile Include="RuleDropDownItemTag.cs" />
-    <Compile Include="SirenConfiguration\ConfigureSirenDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SirenConfiguration\ConfigureSirenDialog.Designer.cs">
-      <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Configuration\ConfigureServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,9 +168,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HelpAbout.resx">
       <DependentUpon>HelpAbout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SirenConfiguration\ConfigureSirenDialog.resx">
-      <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureServer.resx">
       <DependentUpon>ConfigureServer.cs</DependentUpon>

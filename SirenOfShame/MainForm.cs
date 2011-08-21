@@ -375,7 +375,7 @@ namespace SirenOfShame
 
         private void ConfigureSirenClick(object sender, EventArgs e)
         {
-            var configureSiren = new ConfigureSirenDialog(_settings);
+            var configureSiren = new ConfigureSirenDialog(_settings, SirenOfShameDevice);
             configureSiren.ShowDialog(this);
         }
 

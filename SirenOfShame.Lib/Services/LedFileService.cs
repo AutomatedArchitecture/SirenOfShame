@@ -22,19 +22,34 @@ namespace SirenOfShame.Lib.Services
             }
         }
 
-        public static byte[] TextToPattern(string text)
+        public byte[] TextToPattern(string text)
         {
-            IEnumerable<string> rows = text.Split('\n').Select(i => i.Trim(new[] { '\r', ' ' }));
-            var data = rows
-                .Select(r => r.Split(',')
-                    .Where(z => !string.IsNullOrWhiteSpace(z))
-                    .Select(r2 => Convert.ToByte(r2.Trim())).ToArray());
+            IEnumerable<byte[]> data = GetRows(text);
             MemoryStream result = new MemoryStream();
             foreach (var d in data)
             {
                 result.Write(d, 0, d.Length);
             }
             return result.ToArray();
+        }
+
+        public IEnumerable<byte[]> GetRows(string text)
+        {
+            return text
+                .Split('\n')
+                .Where(i => !string.IsNullOrWhiteSpace(i))
+                .Select(i => i.Trim(new[] { '\r', ' ' }))
+                .Select(r => r.Split(',')
+                    .Where(z => !string.IsNullOrWhiteSpace(z))
+                    .Select(r2 => Convert.ToByte(r2.Trim()))
+                    .ToArray())
+                .Where(i => i.Length == 5);
+        }
+
+        public int GetLength(string fileName)
+        {
+            string fileData = File.ReadAllText(fileName);
+            return GetRows(fileData).Count();
         }
     }
 }

@@ -53,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigureSirenDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigureSirenDialog.Designer.cs">
+      <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Device\AudioPattern.cs" />
     <Compile Include="Device\ManualControlData.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilder.cs" />
@@ -111,8 +117,10 @@
     </Compile>
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Settings\AudioPatternSetting.cs" />
     <Compile Include="Settings\BuildDefinitionSetting.cs" />
     <Compile Include="Settings\CiEntryPointSetting.cs" />
+    <Compile Include="Settings\LedPatternSetting.cs" />
     <Compile Include="Settings\MyBuildDefinition.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
@@ -156,6 +164,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConfigureSirenDialog.resx">
+      <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Device\MockSirenOfShameDeviceDialog.resx">
       <DependentUpon>MockSirenOfShameDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>

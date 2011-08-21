@@ -31,8 +31,8 @@ namespace SirenOfShame.Lib.Settings
         {
             Rules = new List<Rule>();
             CiEntryPointSettings = new List<CiEntryPointSetting>();
-            AudioPatterns = new List<string>();
-            LedPatterns = new List<string>();
+            AudioPatterns = new List<AudioPatternSetting>();
+            LedPatterns = new List<LedPatternSetting>();
         }
 
         public List<Rule> Rules { get; set; }
@@ -54,16 +54,26 @@ namespace SirenOfShame.Lib.Settings
         /// </summary>
         public int PollInterval { get; set; }
 
-        public List<string> AudioPatterns { get; set; }
-        public List<string> LedPatterns { get; set; }
+        public List<AudioPatternSetting> AudioPatterns { get; set; }
+        public List<LedPatternSetting> LedPatterns { get; set; }
+
+        public volatile string _fileName;
+
+        public string FileName { get { return _fileName; } }
 
         public virtual void Save()
+        {
+            string fileName = GetConfigFileName();
+            Save(fileName);
+        }
+
+        public virtual void Save(string fileName)
         {
             StreamWriter myWriter = null;
             try
             {
                 XmlSerializer mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-                myWriter = new StreamWriter(GetConfigFileName(), false);
+                myWriter = new StreamWriter(fileName, false);
                 mySerializer.Serialize(myWriter, this);
             }
             finally
@@ -84,16 +94,22 @@ namespace SirenOfShame.Lib.Settings
 
         public static SirenOfShameSettings GetAppSettings()
         {
-            FileStream myFileStream = null;
+            string fileName = GetConfigFileName();
+            return GetAppSettings(fileName);
+        }
 
+        public static SirenOfShameSettings GetAppSettings(string fileName)
+        {
+            FileStream myFileStream = null;
             try
             {
                 XmlSerializer mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-                FileInfo fi = new FileInfo(GetConfigFileName());
+                FileInfo fi = new FileInfo(fileName);
                 if (fi.Exists)
                 {
                     myFileStream = fi.OpenRead();
                     SirenOfShameSettings settings = (SirenOfShameSettings)mySerializer.Deserialize(myFileStream);
+                    settings._fileName = fileName;
                     settings.ErrorIfAnythingLooksBad();
                     return settings;
                 }
@@ -101,7 +117,9 @@ namespace SirenOfShame.Lib.Settings
             catch (Exception ex)
             {
                 _log.Error("Unable to deserialize settings file, so reverting", ex);
-                ExceptionMessageBox.Show(null, "Drat", "Hate to tell you this, but there was an error deserializing the settings file so we took the liberty of reverting the settings to the factory defaults to get everything up and running.  Sorry about your luck.", ex);
+                ExceptionMessageBox.Show(null, "Drat",
+                                         "Hate to tell you this, but there was an error deserializing the settings file so we took the liberty of reverting the settings to the factory defaults to get everything up and running.  Sorry about your luck.",
+                                         ex);
             }
             finally
             {
@@ -111,7 +129,7 @@ namespace SirenOfShame.Lib.Settings
                 }
             }
             SirenOfShameSettings defaultSettings = GetDefaultSettings();
-
+            defaultSettings._fileName = fileName;
             defaultSettings.Save();
             return defaultSettings;
         }

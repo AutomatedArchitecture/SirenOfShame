@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
+using System.Windows.Forms;
 using SoxLib;
+using SoxLib.Helpers;
 using FileInfo = SoxLib.FileInfo;
 
 namespace SirenOfShame.Lib.Services
@@ -17,6 +20,34 @@ namespace SirenOfShame.Lib.Services
             {
                 SoxDirectory = @"..\..\libs\sox-14.3.2\" // todo: figure this out
             };
+        }
+
+        public string ConvertToWav(string fileName)
+        {
+            FileInfo outputFormat = new FileInfo
+            {
+                FileType = FileType.Wav,
+                Channels = 1,
+                SampleSizeInBits = 8,
+                SamplingRate = _samplingRate,
+                EncodingType = EncodingType.UnsignedInteger
+            };
+
+            var fileNameExt = Path.GetExtension(fileName);
+            ConvertOptions convertOptions = new ConvertOptions
+            {
+                InputFileInfo = new FileInfo
+                {
+                    FileType = Sox.GetFileTypeFromExtension(fileNameExt)
+                },
+                OutputFileInfo = outputFormat
+            };
+            using (Stream input = File.OpenRead(fileName))
+            {
+                string resultFileName = Path.GetTempFileName();
+                _sox.Convert(input, convertOptions).WriteToFile(resultFileName);
+                return resultFileName;
+            }
         }
 
         public Stream Convert(string fileName)
@@ -43,6 +74,12 @@ namespace SirenOfShame.Lib.Services
             {
                 return _sox.Convert(input, convertOptions);
             }
+        }
+
+        public TimeSpan GetLength(string fileName)
+        {
+            var fi = new System.IO.FileInfo(fileName);
+            return TimeSpan.FromSeconds((double)fi.Length / _samplingRate);
         }
     }
 }
