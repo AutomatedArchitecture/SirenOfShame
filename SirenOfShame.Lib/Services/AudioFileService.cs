@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Device;
 using SoxLib;
 using SoxLib.Helpers;
 using FileInfo = SoxLib.FileInfo;
@@ -12,7 +13,7 @@ namespace SirenOfShame.Lib.Services
     public class AudioFileService
     {
         private readonly Sox _sox;
-        private const int _samplingRate = 7650; // see Firmware/Settings.h
+        private const int _samplingRate = SirenOfShameDevice.AudioSampleRate;
 
         public AudioFileService()
         {

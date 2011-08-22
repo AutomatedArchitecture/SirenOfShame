@@ -16,6 +16,8 @@ namespace SirenOfShame.Lib.Device
     public class SirenOfShameDevice : ISirenOfShameDevice
     {
         public const int LedPatternBufferSize = 24;
+        public const int AudioPatternBufferSize = 32;
+        public const int AudioSampleRate = 7650;
 
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameDevice));
         public const string VendorId = "16d0";
