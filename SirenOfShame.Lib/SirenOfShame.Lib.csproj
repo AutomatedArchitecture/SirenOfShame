@@ -97,6 +97,7 @@
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Helpers\ArrayHelpers.cs" />
     <Compile Include="Helpers\AssemblyHelpers.cs" />
     <Compile Include="Helpers\ControlHelpers.cs" />
     <Compile Include="Helpers\FactoryExportProvider.cs" />
@@ -148,6 +149,18 @@
     <Compile Include="Watcher\UpdateStatusBarEvent.cs" />
     <Compile Include="Watcher\UpdateStatusBarEventArgs.cs" />
     <Compile Include="Watcher\WatcherBase.cs" />
+    <Compile Include="WavEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WavEditor.Designer.cs">
+      <DependentUpon>WavEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WavViewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WavViewControl.Designer.cs">
+      <DependentUpon>WavViewControl.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoxLib\SoxLib.csproj">
@@ -172,6 +185,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionMessageBox.resx">
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WavEditor.resx">
+      <DependentUpon>WavEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WavViewControl.resx">
+      <DependentUpon>WavViewControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

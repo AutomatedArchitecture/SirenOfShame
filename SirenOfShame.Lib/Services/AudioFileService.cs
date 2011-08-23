@@ -51,6 +51,30 @@ namespace SirenOfShame.Lib.Services
             }
         }
 
+        public byte[] ConvertToWav(byte[] data)
+        {
+            const Int16 bitsPerSample = 8;
+            const Int16 channels = 1;
+            MemoryStream stream = new MemoryStream();
+            using (BinaryWriter bw = new BinaryWriter(stream))
+            {
+                bw.Write(new[] { 'R', 'I', 'F', 'F' });
+                bw.Write(data.Length + 44);
+                bw.Write(new[] { 'W', 'A', 'V', 'E', 'f', 'm', 't', ' ' });
+                bw.Write(16);
+                bw.Write((short)1);
+                bw.Write(channels);
+                bw.Write(_samplingRate);
+                bw.Write(_samplingRate * ((bitsPerSample * channels) / 8));
+                bw.Write((short)((bitsPerSample * channels) / 8));
+                bw.Write(bitsPerSample);
+                bw.Write(new[] { 'd', 'a', 't', 'a' });
+                bw.Write(data.Length);
+                bw.Write(data, 0, data.Length);
+            }
+            return stream.ToArray();
+        }
+
         public Stream Convert(string fileName)
         {
             FileInfo rawFileFormat = new FileInfo

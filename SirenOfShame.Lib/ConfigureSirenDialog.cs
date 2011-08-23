@@ -31,7 +31,7 @@ namespace SirenOfShame.Lib
             _audioPatterns.Items.Clear();
             foreach (var audioPattern in _settings.AudioPatterns)
             {
-                AddAudioPattern(audioPattern);
+                AddOrUpdateAudioPattern(audioPattern);
             }
 
             _ledPatterns.Items.Clear();
@@ -55,7 +55,7 @@ namespace SirenOfShame.Lib
                         FileName = outputFileName,
                         Name = Path.GetFileNameWithoutExtension(outputFileName)
                     };
-                    AddAudioPattern(setting);
+                    AddOrUpdateAudioPattern(setting);
                 }
                 catch (Exception ex)
                 {
@@ -64,15 +64,25 @@ namespace SirenOfShame.Lib
             }
         }
 
-        private void AddAudioPattern(AudioPatternSetting setting)
+        private void AddOrUpdateAudioPattern(AudioPatternSetting setting)
         {
-            ListViewItem item = new ListViewItem
+            string lengthStr = _audioFileService.GetLength(setting.FileName).ToString(@"mm\:ss\.fff");
+            ListViewItem item = _audioPatterns.Items.Cast<ListViewItem>().FirstOrDefault(lvi => string.Equals(((AudioPatternSetting)lvi.Tag).FileName, setting.FileName, StringComparison.InvariantCultureIgnoreCase));
+            if (item != null)
             {
-                Text = setting.Name,
-                Tag = setting
-            };
-            item.SubItems.Add(_audioFileService.GetLength(setting.FileName).ToString(@"mm\:ss\.fff"));
-            _audioPatterns.Items.Add(item);
+                item.Text = setting.Name;
+                item.SubItems[1].Text = lengthStr;
+            }
+            else
+            {
+                item = new ListViewItem
+                {
+                    Text = setting.Name,
+                    Tag = setting
+                };
+                item.SubItems.Add(lengthStr);
+                _audioPatterns.Items.Add(item);
+            }
         }
 
         private void _ledAdd_Click(object sender, EventArgs e)
@@ -241,6 +251,17 @@ namespace SirenOfShame.Lib
                 player.PlayLooping();
                 Thread.Sleep(5000);
                 player.Stop();
+            }
+        }
+
+        private void _audioEdit_Click(object sender, EventArgs e)
+        {
+            var lvi = _audioPatterns.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            if (lvi != null)
+            {
+                var setting = (AudioPatternSetting)lvi.Tag;
+                new WavEditor(setting).ShowDialog(this);
+                AddOrUpdateAudioPattern(setting);
             }
         }
 

@@ -48,6 +48,7 @@
             this._audioContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._audioPlay = new System.Windows.Forms.ToolStripMenuItem();
             this._audioRename = new System.Windows.Forms.ToolStripMenuItem();
+            this._audioEdit = new System.Windows.Forms.ToolStripMenuItem();
             this._audioRemove = new System.Windows.Forms.ToolStripMenuItem();
             this._ledContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._ledPlay = new System.Windows.Forms.ToolStripMenuItem();
@@ -220,28 +221,36 @@
             this._audioContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._audioPlay,
             this._audioRename,
+            this._audioEdit,
             this._audioRemove});
             this._audioContextMenu.Name = "_audioContextMenu";
-            this._audioContextMenu.Size = new System.Drawing.Size(118, 70);
+            this._audioContextMenu.Size = new System.Drawing.Size(153, 114);
             // 
             // _audioPlay
             // 
             this._audioPlay.Name = "_audioPlay";
-            this._audioPlay.Size = new System.Drawing.Size(117, 22);
+            this._audioPlay.Size = new System.Drawing.Size(152, 22);
             this._audioPlay.Text = "&Play";
             this._audioPlay.Click += new System.EventHandler(this._audioPlay_Click);
             // 
             // _audioRename
             // 
             this._audioRename.Name = "_audioRename";
-            this._audioRename.Size = new System.Drawing.Size(117, 22);
+            this._audioRename.Size = new System.Drawing.Size(152, 22);
             this._audioRename.Text = "&Rename";
             this._audioRename.Click += new System.EventHandler(this._audioRename_Click);
+            // 
+            // _audioEdit
+            // 
+            this._audioEdit.Name = "_audioEdit";
+            this._audioEdit.Size = new System.Drawing.Size(152, 22);
+            this._audioEdit.Text = "&Edit...";
+            this._audioEdit.Click += new System.EventHandler(this._audioEdit_Click);
             // 
             // _audioRemove
             // 
             this._audioRemove.Name = "_audioRemove";
-            this._audioRemove.Size = new System.Drawing.Size(117, 22);
+            this._audioRemove.Size = new System.Drawing.Size(152, 22);
             this._audioRemove.Text = "Remove";
             this._audioRemove.Click += new System.EventHandler(this._audioRemove_Click);
             // 
@@ -287,6 +296,7 @@
             this.Controls.Add(this.panel2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureSirenDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Audio Upload";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureSirenDialog_FormClosing);
             this.panel1.ResumeLayout(false);
@@ -324,5 +334,6 @@
         private System.Windows.Forms.ToolStripMenuItem _ledRename;
         private System.Windows.Forms.ToolStripMenuItem _ledRemove;
         private System.Windows.Forms.ColumnHeader _ledPatternCountColumn;
+        private System.Windows.Forms.ToolStripMenuItem _audioEdit;
     }
 }
