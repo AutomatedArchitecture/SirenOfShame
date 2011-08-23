@@ -167,7 +167,6 @@ namespace SirenOfShame
                 TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
                 TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
                 TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
-                TrySetDefaultRule(TriggerType.SuccessfulBuild, 1, false);
 
                 _settings.Save();
             }
