@@ -88,13 +88,19 @@ namespace SirenOfShame.Lib
 
         private void _appendSilence_Click(object sender, EventArgs e)
         {
-            byte[] newData = new byte[_viewer.Data.Length + _sampleRate];
-            Array.Copy(_viewer.Data, 0, newData, 0, _viewer.Data.Length);
-            for (int i = _viewer.Data.Length; i < newData.Length; i++)
+            AppendTimeDialog dlg = new AppendTimeDialog();
+
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
-                newData[i] = 0xff / 2;
+                int samplesToAdd = (int)(dlg.TimeSpan.TotalSeconds * _sampleRate);
+                byte[] newData = new byte[_viewer.Data.Length + samplesToAdd];
+                Array.Copy(_viewer.Data, 0, newData, 0, _viewer.Data.Length);
+                for (int i = _viewer.Data.Length; i < newData.Length; i++)
+                {
+                    newData[i] = 0xff / 2;
+                }
+                _viewer.Data = newData;
             }
-            _viewer.Data = newData;
         }
     }
 }

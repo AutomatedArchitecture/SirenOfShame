@@ -53,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppendTimeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppendTimeDialog.Designer.cs">
+      <DependentUpon>AppendTimeDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigureSirenDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AppendTimeDialog.resx">
+      <DependentUpon>AppendTimeDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigureSirenDialog.resx">
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </EmbeddedResource>
