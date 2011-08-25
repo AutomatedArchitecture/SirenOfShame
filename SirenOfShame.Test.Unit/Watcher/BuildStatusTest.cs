@@ -13,7 +13,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             BuildStatus buildStatus = new BuildStatus
             {
-                Id = "MyBuild",
+                BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 BuildStatusEnum = BuildStatusEnum.InProgress
             };
@@ -28,7 +28,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             BuildStatus buildStatus = new BuildStatus
             {
-                Id = "MyBuild",
+                BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 BuildStatusEnum = BuildStatusEnum.InProgress
             };
@@ -51,7 +51,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             // current duration: 2 minute, 1 second
             BuildStatus buildStatus = new BuildStatus
             {
-                Id = "MyBuild",
+                BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 BuildStatusEnum = BuildStatusEnum.InProgress
             };

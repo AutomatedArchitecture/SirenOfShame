@@ -84,7 +84,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     BuildStatusEnum = status,
                     Name = BUILD1_ID, 
                     RequestedBy = CURRENT_USER, 
-                    Id = BUILD1_ID, 
+                    BuildDefinitionId = BUILD1_ID, 
                     StartedTime = new DateTime(2010, 1, 1)
                 } 
         });

@@ -32,7 +32,7 @@ namespace HudsonServices
                 }
             }
 
-            Id = buildDefinitionSetting.Id;
+            BuildDefinitionId = buildDefinitionSetting.Id;
             Name = buildDefinitionSetting.Name;
 
             var changeSetItem = changeSet.Element("item");

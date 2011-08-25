@@ -83,7 +83,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     BuildStatusEnum = BuildStatusEnum.Working,
                     Name = "Build Def 1",
                     RequestedBy = "User1",
-                    Id = "Build Def 1",
+                    BuildDefinitionId = "Build Def 1",
                     StartedTime = new DateTime(2010, 1, 2, 1, 1, 1),
                     FinishedTime = new DateTime(2010, 1, 2, 1, 2, 2)
                 },
@@ -616,7 +616,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Broken,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(0, build1Setting.People.Count);
@@ -633,7 +633,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
@@ -642,7 +642,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
@@ -658,7 +658,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
@@ -667,7 +667,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2022, 2, 2, 2, 2, 2)
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
@@ -685,7 +685,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD1_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD1_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
                 StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
@@ -694,7 +694,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
-                Id = RulesEngineWrapper.BUILD2_ID,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
                 StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);

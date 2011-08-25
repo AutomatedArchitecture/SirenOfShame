@@ -60,7 +60,7 @@ namespace TfsServices.Configuration
         {
             return new BuildStatus
             {
-                Id = buildDetail.BuildDefinition.Name,
+                BuildDefinitionId = buildDetail.BuildDefinition.Name,
                 Name = buildDetail.BuildDefinition.Name,
                 BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
                 RequestedBy = buildDetail.RequestedFor,

@@ -148,7 +148,7 @@ namespace SirenOfShame.Lib.Settings
 
         public bool IsMatch(BuildStatus buildStatus, BuildStatusEnum? previousStatus)
         {
-            bool isBuildDefinitionMatch = BuildDefinitionId == null || BuildDefinitionId == buildStatus.Id;
+            bool isBuildDefinitionMatch = BuildDefinitionId == null || BuildDefinitionId == buildStatus.BuildDefinitionId;
             if (!isBuildDefinitionMatch) return false;
             bool isPersonMatch = string.IsNullOrEmpty(TriggerPerson) || TriggerPerson == buildStatus.RequestedBy;
             if (!isPersonMatch) return false;

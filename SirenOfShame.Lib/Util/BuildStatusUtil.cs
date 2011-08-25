@@ -17,11 +17,11 @@ namespace SirenOfShame.Lib.Util
             var oldBuildStatusesToRetain = oldBuildStatuses.Except(newBuildStatuses, buildStatusComparer);
             var newBuildStatusesToAdd = newBuildStatuses.Except(oldBuildStatuses, buildStatusComparer);
             var unchangedBuildStatuses = from oldStatus in oldBuildStatuses
-                                         join newStatus in newBuildStatuses on oldStatus.Id equals newStatus.Id
+                                         join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
                                          where newStatus.BuildStatusEnum == oldStatus.BuildStatusEnum && newStatus.StartedTime == oldStatus.StartedTime
                                          select oldStatus;
             var changedBuildStatuses = from oldStatus in oldBuildStatuses
-                                       join newStatus in newBuildStatuses on oldStatus.Id equals newStatus.Id
+                                       join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
                                        where newStatus.BuildStatusEnum != oldStatus.BuildStatusEnum || newStatus.StartedTime != oldStatus.StartedTime
                                        select newStatus;
             return oldBuildStatusesToRetain.Union(newBuildStatusesToAdd).Union(unchangedBuildStatuses).Union(changedBuildStatuses).ToArray();
@@ -32,7 +32,7 @@ namespace SirenOfShame.Lib.Util
     {
         public bool Equals(BuildStatus x, BuildStatus y)
         {
-            return x.Id == y.Id;
+            return x.BuildDefinitionId == y.BuildDefinitionId;
         }
 
         public int GetHashCode(BuildStatus obj)

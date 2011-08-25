@@ -32,7 +32,7 @@ namespace SirenOfShame.Lib.Settings {
 	        return new BuildStatus
 	        {
 	            BuildStatusEnum = BuildStatusEnum.Unknown,
-	            Id = Id,
+	            BuildDefinitionId = Id,
 	            Name = Name,
                 StartedTime = DateTime.MinValue
 	        };

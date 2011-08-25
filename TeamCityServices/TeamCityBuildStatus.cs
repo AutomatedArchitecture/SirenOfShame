@@ -61,7 +61,7 @@ namespace TeamCityServices
             string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
             string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
 
-            Id = buildDefinitionSetting.Id;
+            BuildDefinitionId = buildDefinitionSetting.Id;
             Name = buildDefinitionSetting.Name;
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))

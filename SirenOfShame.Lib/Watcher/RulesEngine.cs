@@ -102,7 +102,7 @@ namespace SirenOfShame.Lib.Watcher
             // e.g. if a build exists in newStatus but doesn't exit in oldStatus, return it.  If a build exists in
             //  oldStatus and in newStatus and the BuildStatusEnum is different then return it.
             var changedBuildStatuses = from newStatus in newBuildStatus
-                                       from oldStatus in oldBuildStatus.Where(s => s.Id == newStatus.Id).DefaultIfEmpty()
+                                       from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
                                        where oldStatus == null || (oldStatus.StartedTime != newStatus.StartedTime) || oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum
                                        select newStatus;
             changedBuildStatuses = changedBuildStatuses.ToList();
@@ -146,7 +146,7 @@ namespace SirenOfShame.Lib.Watcher
             foreach (var changedBuildStatus in changedBuildStatuses)
             {
                 BuildStatus previousWorkingOrBrokenBuildStatus;
-                PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.Id, out previousWorkingOrBrokenBuildStatus);
+                PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out previousWorkingOrBrokenBuildStatus);
 
                 BuildStatusEnum? previousStatus = previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
                 changedBuildStatus.Changed(previousStatus, this, _settings.Rules);
@@ -154,14 +154,14 @@ namespace SirenOfShame.Lib.Watcher
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
                     BuildStatus status;
-                    bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.Id, out status);
+                    bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
                     if (!exists)
                     {
-                        PreviousWorkingOrBrokenBuildStatus.Add(changedBuildStatus.Id, changedBuildStatus);
+                        PreviousWorkingOrBrokenBuildStatus.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
                     }
                     else
                     {
-                        PreviousWorkingOrBrokenBuildStatus[changedBuildStatus.Id] = changedBuildStatus;
+                        PreviousWorkingOrBrokenBuildStatus[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
                     }
                 }
             }
@@ -170,7 +170,7 @@ namespace SirenOfShame.Lib.Watcher
         private void InvokeSetTrayIconForChangedBuildStatuses(IEnumerable<BuildStatus> allBuildStatuses)
         {
             var buildStatusesAndSettings = from buildStatus in allBuildStatuses
-                                           join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.Id
+                                           join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId
                                                equals setting.Id
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
@@ -182,7 +182,7 @@ namespace SirenOfShame.Lib.Watcher
         private void AddRequestedByPersonToBuildStatusSettings(IEnumerable<BuildStatus> changedBuildStatuses)
         {
             var buildStatusesWithNewPeople = from buildStatus in changedBuildStatuses
-                                             join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.Id equals setting.Id
+                                             join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
                                              where !setting.ContainsPerson(buildStatus)
                                              select new { buildStatus, setting };
 

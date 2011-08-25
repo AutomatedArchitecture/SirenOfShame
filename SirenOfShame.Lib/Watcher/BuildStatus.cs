@@ -45,7 +45,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public string RequestedBy { get; set; }
         public DateTime LocalStartTime { get; set; }
-        public string Id { get; set; }
+        public string BuildDefinitionId { get; set; }
         public string Name { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
         public string Comment { get; set; }
@@ -74,7 +74,7 @@ namespace SirenOfShame.Lib.Watcher
         public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus)
         {
             BuildStatus previousStatus;
-            previousWorkingOrBrokenBuildStatus.TryGetValue(Id, out previousStatus);
+            previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             bool noStartTime = StartedTime == DateTime.MinValue;
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
@@ -88,7 +88,7 @@ namespace SirenOfShame.Lib.Watcher
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
-                Id = Id,
+                Id = BuildDefinitionId,
                 Name = Name
             };
         }
@@ -107,7 +107,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 if (startedTime == DateTime.MinValue || finishedTime == DateTime.MinValue)
                 {
-                    _log.Warn("Start time or stop time was null for " + Id + ", and the build was not in progress, this should only happen at startup");
+                    _log.Warn("Start time or stop time was null for " + BuildDefinitionId + ", and the build was not in progress, this should only happen at startup");
                     return null;
                 }
                 return finishedTime - startedTime;
