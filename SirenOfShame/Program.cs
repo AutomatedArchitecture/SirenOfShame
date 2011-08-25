@@ -27,7 +27,7 @@ namespace SirenOfShame
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
