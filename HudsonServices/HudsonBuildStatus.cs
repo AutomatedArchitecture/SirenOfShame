@@ -49,8 +49,16 @@ namespace HudsonServices
             else
             {
                 var changeSetAuthor = changeSetItem.Element("author");
-                if (changeSetAuthor == null) throw new Exception("Could not find changeSet item 'author'");
-                RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
+                if (changeSetAuthor != null)
+                {
+                    RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
+                }
+                else
+                {
+                    var userElem = changeSetItem.Element("user");
+                    if (userElem == null) throw new Exception("Could not find author or user on changeset");
+                    RequestedBy = userElem.Value;
+                }
 
                 Comment = changeSetItem.ElementValueOrDefault("msg");
 
