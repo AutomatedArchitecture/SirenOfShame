@@ -14,18 +14,39 @@ namespace SirenOfShame
 {
     public class Program : WindowsFormsApplicationBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(Program));
+        private static ILog _log;
         private bool _startMinimized;
         private static MainForm _form;
 
         [STAThread]
         public static void Main(string[] args)
         {
-            Application.ThreadException += ApplicationThreadException;
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                RealMain(args);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-            new Program().Run(args);
+        private static void RealMain(string[] args)
+        {
+            try
+            {
+                _log = MyLogManager.GetLogger(typeof(Program));
+                Application.ThreadException += ApplicationThreadException;
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                new Program().Run(args);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                throw;
+            }
         }
 
         private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
