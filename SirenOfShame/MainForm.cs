@@ -302,7 +302,9 @@ namespace SirenOfShame
 
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (WindowState != FormWindowState.Minimized)
+            var isWyUpdateClosingUs = CheckIfWyUpdateIsClosingUs();
+            Log.Debug("ClosingForInstall: " + _automaticUpdater.ClosingForInstall);
+            if (!_automaticUpdater.ClosingForInstall && !isWyUpdateClosingUs && WindowState != FormWindowState.Minimized)
             {
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
@@ -316,6 +318,23 @@ namespace SirenOfShame
             {
                 RulesEngine.Stop();
             }
+        }
+
+        // this is a hack to determine if we are being called by wyUpdate
+        private bool CheckIfWyUpdateIsClosingUs()
+        {
+            try
+            {
+                if (new StackTrace().ToString().Contains("auBackend_CloseAppNow"))
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Could not determine if wyUpdate is closing us", ex);
+            }
+            return false;
         }
 
         private void OpenToolStripMenuItemClick(object sender, EventArgs e)
