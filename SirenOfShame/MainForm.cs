@@ -177,11 +177,11 @@ namespace SirenOfShame
                 _testSiren.Enabled = enable;
                 if (enable)
                 {
-                    _configureSirenMenuItem.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
+                    _configureSiren.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
                 }
                 else
                 {
-                    _configureSirenMenuItem.Enabled = false;
+                    _configureSiren.Enabled = false;
                 }
             });
         }
@@ -722,5 +722,5 @@ namespace SirenOfShame
             SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
             upgrade.ShowDialog(this);
         }
-    }
+     }
 }
