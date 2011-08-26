@@ -2033,7 +2033,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Siren of Shame"
         "ProductCode" = "8:{A027C90C-3F0B-47A0-9E85-D34AB7D28D10}"
-        "PackageCode" = "8:{E750561D-939A-4EF4-B3F6-1FA0A0B6452C}"
+        "PackageCode" = "8:{4CEE8641-81D4-4983-909D-9ADF7784F8E8}"
         "UpgradeCode" = "8:{F069A490-0830-4288-9AB3-508DB7FC406C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
