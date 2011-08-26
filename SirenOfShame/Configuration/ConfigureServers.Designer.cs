@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureServers));
             this._add = new System.Windows.Forms.Button();
             this._servers = new System.Windows.Forms.ListBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -36,8 +37,8 @@
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker4 = new System.ComponentModel.BackgroundWorker();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.backgroundWorker5 = new System.ComponentModel.BackgroundWorker();
             this._delete = new System.Windows.Forms.Button();
+            this.backgroundWorker5 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,7 +103,9 @@
             this.ClientSize = new System.Drawing.Size(340, 154);
             this.Controls.Add(this._servers);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServers";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ConfigureServers";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

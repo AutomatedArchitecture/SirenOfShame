@@ -28,9 +28,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this._cancel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._add = new System.Windows.Forms.Button();
             this._ciServerPanel = new System.Windows.Forms.Panel();
             this._configurationContainer = new System.Windows.Forms.Panel();
-            this._add = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             this._ciServerPanel.SuspendLayout();
@@ -79,6 +79,17 @@
             this.panel1.Size = new System.Drawing.Size(482, 22);
             this.panel1.TabIndex = 35;
             // 
+            // _add
+            // 
+            this._add.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._add.Location = new System.Drawing.Point(0, 0);
+            this._add.Name = "_add";
+            this._add.Size = new System.Drawing.Size(257, 22);
+            this._add.TabIndex = 35;
+            this._add.Text = "Add";
+            this._add.UseVisualStyleBackColor = true;
+            this._add.Click += new System.EventHandler(this.AddClick);
+            // 
             // _ciServerPanel
             // 
             this._ciServerPanel.Controls.Add(this._serverType);
@@ -97,17 +108,6 @@
             this._configurationContainer.Size = new System.Drawing.Size(482, 207);
             this._configurationContainer.TabIndex = 37;
             // 
-            // _add
-            // 
-            this._add.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._add.Location = new System.Drawing.Point(0, 0);
-            this._add.Name = "_add";
-            this._add.Size = new System.Drawing.Size(257, 22);
-            this._add.TabIndex = 35;
-            this._add.Text = "Add";
-            this._add.UseVisualStyleBackColor = true;
-            this._add.Click += new System.EventHandler(this.AddClick);
-            // 
             // ConfigureServer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -118,6 +118,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ConfigureServer";
             this.panel1.ResumeLayout(false);
             this._ciServerPanel.ResumeLayout(false);

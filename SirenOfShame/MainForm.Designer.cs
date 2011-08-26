@@ -41,7 +41,7 @@ namespace SirenOfShame {
             this.minimizedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this._buildDefinitions = new System.Windows.Forms.ListView();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.duration2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -138,24 +138,24 @@ namespace SirenOfShame {
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
-            // listView1
+            // _buildDefinitions
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this._buildDefinitions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.name,
             this.date,
             this.duration2,
             this.checkedInBy,
             this.comment});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(0, 85);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(909, 176);
-            this.listView1.SmallImageList = this.balls;
-            this.listView1.TabIndex = 36;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.DoubleClick += new System.EventHandler(this.ListView1DoubleClick);
-            this.listView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ListView1MouseUp);
+            this._buildDefinitions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildDefinitions.Location = new System.Drawing.Point(0, 85);
+            this._buildDefinitions.Name = "_buildDefinitions";
+            this._buildDefinitions.Size = new System.Drawing.Size(909, 176);
+            this._buildDefinitions.SmallImageList = this.balls;
+            this._buildDefinitions.TabIndex = 36;
+            this._buildDefinitions.UseCompatibleStateImageBehavior = false;
+            this._buildDefinitions.View = System.Windows.Forms.View.Details;
+            this._buildDefinitions.DoubleClick += new System.EventHandler(this.BuildDefinitionsDoubleClick);
+            this._buildDefinitions.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BuildDefinitionsMouseUp);
             // 
             // name
             // 
@@ -565,7 +565,7 @@ namespace SirenOfShame {
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 283);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this._buildDefinitions);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -601,7 +601,7 @@ namespace SirenOfShame {
         private System.Windows.Forms.ContextMenuStrip minimizedMenu;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView _buildDefinitions;
         //private System.Windows.Forms.ColumnHeader Name;
         private System.Windows.Forms.ColumnHeader name;
         private System.Windows.Forms.ColumnHeader date;

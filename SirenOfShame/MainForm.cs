@@ -134,18 +134,18 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 var buildStatusListViewItems = args.BuildStatusListViewItems;
-                if (listView1.Items.Count != 0 && listView1.Items.Count != buildStatusListViewItems.Count())
+                if (_buildDefinitions.Items.Count != 0 && _buildDefinitions.Items.Count != buildStatusListViewItems.Count())
                 {
-                    listView1.Items.Clear();
+                    _buildDefinitions.Items.Clear();
                 }
-                if (listView1.Items.Count == 0)
+                if (_buildDefinitions.Items.Count == 0)
                 {
                     var listViewItems = buildStatusListViewItems.Select(AsListViewItem).ToArray();
-                    listView1.Items.AddRange(listViewItems);
+                    _buildDefinitions.Items.AddRange(listViewItems);
                 }
                 else
                 {
-                    var listViewItemsJoinedStatus = from listViewItem in listView1.Items.Cast<ListViewItem>()
+                    var listViewItemsJoinedStatus = from listViewItem in _buildDefinitions.Items.Cast<ListViewItem>()
                                                     join buildStatus in buildStatusListViewItems on listViewItem.Text equals buildStatus.Name
                                                     select new { listViewItem, buildStatus };
                     listViewItemsJoinedStatus.ToList().ForEach(i => UpdateListItem(i.listViewItem, i.buildStatus));
@@ -393,25 +393,25 @@ namespace SirenOfShame
             configureSiren.ShowDialog(this);
         }
 
-        private void ListView1DoubleClick(object sender, EventArgs e)
+        private void BuildDefinitionsDoubleClick(object sender, EventArgs e)
         {
             OpenConfigureRulesDialog();
         }
 
-        private void ListView1MouseUp(object sender, MouseEventArgs e)
+        private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
-                _buildMenu.Show(listView1, e.X, e.Y);
+                _buildMenu.Show(_buildDefinitions, e.X, e.Y);
                 _affectsTrayIcon.Checked = buildDefinitionSetting == null ? true : buildDefinitionSetting.AffectsTrayIcon;
             }
         }
 
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
-            var listViewItem = listView1.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
             if (listViewItem == null) return null;
 
             string buildId = (string)listViewItem.Tag;
@@ -649,7 +649,7 @@ namespace SirenOfShame
             if (buildDefinitionSetting == null) return;
             buildDefinitionSetting.Active = false;
             _settings.Save();
-            var listViewItem = listView1.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
             if (listViewItem != null) listViewItem.Remove();
         }
 
