@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 
 namespace SirenOfShame.Lib.Helpers
 {
@@ -14,6 +15,21 @@ namespace SirenOfShame.Lib.Helpers
         {
             var childEleme = elem.Element(name);
             return childEleme == null ? null : childEleme.Value;
+        }
+
+        public static bool? ElementValueAsBool(this XElement elem, XName name, bool? defaultVal)
+        {
+            var val = ElementValueOrDefault(elem, name);
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                return defaultVal;
+            }
+            bool result;
+            if (bool.TryParse(val, out result))
+            {
+                return result;
+            }
+            throw new Exception("Could not parse or read element " + name);
         }
     }
 }
