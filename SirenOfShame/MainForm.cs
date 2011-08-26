@@ -306,8 +306,7 @@ namespace SirenOfShame
                 WindowState = FormWindowState.Minimized;
                 notifyIcon.ShowBalloonTip(TIMEOUT, "Siren of Shame",
                      "Don't you hate it when apps override the close button?" +
-                     (Char)(13) + "... yea, we just did that." +
-                     (Char)(13) + "But s'ok you can right click really exit.",
+                     (Char)(13) + "... yea, we just did that.",
                      ToolTipIcon.Info);
             }
             else
