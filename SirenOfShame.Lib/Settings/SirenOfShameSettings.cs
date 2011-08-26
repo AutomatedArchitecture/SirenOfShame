@@ -12,6 +12,7 @@ namespace SirenOfShame.Lib.Settings
     public class SirenOfShameSettings
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
+        private string _updateLocationOther;
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true },
@@ -47,7 +48,36 @@ namespace SirenOfShame.Lib.Settings
 
         public UpdateLocation UpdateLocation { get; set; }
 
-        public string UpdateLocationOther { get; set; }
+        public string UpdateLocationOther
+        {
+            get { return _updateLocationOther; }
+            set
+            {
+                _updateLocationOther = value;
+
+                // file:///c|/temp/
+
+                if (!string.IsNullOrWhiteSpace(_updateLocationOther))
+                {
+                    _updateLocationOther = _updateLocationOther.Trim();
+
+                    if (_updateLocationOther.Length > 2)
+                    {
+                        if (char.IsLetter(_updateLocationOther[0]) && _updateLocationOther[1] == ':')
+                        {
+                            _updateLocationOther = _updateLocationOther.Replace('\\', '/');
+                            _updateLocationOther = _updateLocationOther.Substring(0, 1).ToLowerInvariant() + "|" + _updateLocationOther.Substring(2);
+                            _updateLocationOther = "file:///" + _updateLocationOther;
+                        }
+                    }
+
+                    if (!_updateLocationOther.EndsWith("/") && !_updateLocationOther.EndsWith("\\"))
+                    {
+                        _updateLocationOther += "/";
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// In seconds

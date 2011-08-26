@@ -66,10 +66,6 @@ namespace SirenOfShame
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
                 updatePath = _settings.UpdateLocationOther;
-                if (!updatePath.EndsWith("/") || !updatePath.EndsWith("\\"))
-                {
-                    _settings.UpdateLocationOther += "/";
-                }
             }
             else
             {
