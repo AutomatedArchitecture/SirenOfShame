@@ -58,6 +58,7 @@
             this.Text = "FullScreenEnforcer";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FullScreenEnforcer_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FullScreenEnforcerKeyDown);
             this.ResumeLayout(false);
 
