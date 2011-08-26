@@ -1,14 +1,18 @@
-Update Deploy Instructions
-
 AssemblyInfo.cs: AssemblyVersion++
 Build
-wyBuild Update Package
-	Update Information
-	+
-	New Folder: Releases\BuildArtifacts\[version]
-	Move MINIMUM .Lib & .exe
-	Drag files into Files & Folders\Your program's folder
-	Build wyUpdate & Updates Click both buttons
-Copy \Releases\Updates\* to [update locations]
+
+wyUpdate Deploy Instructions
+	Run wyBuild
+		Update Information
+		+
+		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
+		Move MINIMUM .Lib & .exe
+		Drag files into Files & Folders\Your program's folder
+		Delete everything in \Releases\Updates\*
+		Build wyUpdate & Updates Click both buttons
+		Copy \Releases\Updates\* to [update locations]
+
+Build msi
+
 Commit
 Tag
