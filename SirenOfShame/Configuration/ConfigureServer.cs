@@ -77,6 +77,14 @@ namespace SirenOfShame.Configuration
 
         private void AddClick(object sender, EventArgs e)
         {
+            if (_ciEntryPointSetting.BuildDefinitionSettings.Count < 1)
+            {
+                SosMessageBox.Show(
+                    "Select More Stuff", 
+                    "Please select at least one build definition", 
+                    "Sorry, I'm a Manager, This Stuff Is Complicated");
+                return;
+            }
             if (_adding)
             {
                  Settings.CiEntryPointSettings.Add(_ciEntryPointSetting);
