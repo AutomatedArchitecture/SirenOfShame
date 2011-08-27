@@ -38,11 +38,6 @@ namespace SirenOfShame.Configuration
             Close();
         }
 
-        private void CloseClick(object sender, System.EventArgs e)
-        {
-            Close();
-        }
-
         private void ServersDoubleClick(object sender, System.EventArgs e)
         {
             if (_servers.SelectedItem != null)
