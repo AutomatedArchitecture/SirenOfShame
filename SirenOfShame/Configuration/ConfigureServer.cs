@@ -59,6 +59,7 @@ namespace SirenOfShame.Configuration
 
         private void ServerTypeSelectedIndexChanged(object sender, EventArgs e)
         {
+            if (!_adding) return;
             var newServerType = (ICiEntryPoint)_serverType.SelectedItem;
 
             ClearConfigurePanel();
