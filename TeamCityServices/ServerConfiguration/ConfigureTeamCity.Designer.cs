@@ -41,14 +41,14 @@
             this._url.Location = new System.Drawing.Point(72, 3);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(320, 20);
-            this._url.TabIndex = 33;
+            this._url.TabIndex = 0;
             // 
             // _userName
             // 
             this._userName.Location = new System.Drawing.Point(72, 29);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
-            this._userName.TabIndex = 35;
+            this._userName.TabIndex = 1;
             // 
             // _password
             // 
@@ -56,7 +56,7 @@
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
-            this._password.TabIndex = 37;
+            this._password.TabIndex = 2;
             // 
             // _connect
             // 
@@ -64,8 +64,13 @@
             this._connect.Location = new System.Drawing.Point(317, 82);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
+<<<<<<< local
             this._connect.TabIndex = 39;
             this._connect.Text = "Connect!";
+=======
+            this._connect.TabIndex = 3;
+            this._connect.Text = "Connect";
+>>>>>>> other
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this._connect_Click);
             // 
@@ -105,7 +110,7 @@
             this._projects.Location = new System.Drawing.Point(3, 111);
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(389, 120);
-            this._projects.TabIndex = 44;
+            this._projects.TabIndex = 4;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this._projects_BeforeExpand);
             // 

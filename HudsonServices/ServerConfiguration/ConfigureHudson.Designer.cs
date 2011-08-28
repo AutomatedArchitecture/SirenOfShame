@@ -55,7 +55,7 @@
             this._url.Location = new System.Drawing.Point(76, 3);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(308, 20);
-            this._url.TabIndex = 42;
+            this._url.TabIndex = 0;
             // 
             // _connect
             // 
@@ -63,7 +63,7 @@
             this._connect.Location = new System.Drawing.Point(309, 81);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
-            this._connect.TabIndex = 44;
+            this._connect.TabIndex = 3;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this._connect_Click);
@@ -77,7 +77,7 @@
             this._projects.Location = new System.Drawing.Point(3, 110);
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(381, 167);
-            this._projects.TabIndex = 45;
+            this._projects.TabIndex = 4;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
             // label4
@@ -113,14 +113,14 @@
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
-            this._password.TabIndex = 47;
+            this._password.TabIndex = 2;
             // 
             // _userName
             // 
             this._userName.Location = new System.Drawing.Point(76, 29);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
-            this._userName.TabIndex = 46;
+            this._userName.TabIndex = 1;
             // 
             // ConfigureHudson
             // 

@@ -38,17 +38,17 @@
             this._buildConfigurations.Location = new System.Drawing.Point(0, 32);
             this._buildConfigurations.Name = "_buildConfigurations";
             this._buildConfigurations.Size = new System.Drawing.Size(460, 195);
-            this._buildConfigurations.TabIndex = 2;
+            this._buildConfigurations.TabIndex = 0;
             this._buildConfigurations.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.BuildConfigurationsAfterCheck);
             // 
             // _url
             // 
-            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._url.Location = new System.Drawing.Point(31, 5);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(384, 20);
-            this._url.TabIndex = 3;
+            this._url.TabIndex = 0;
             this._url.TextChanged += new System.EventHandler(this.UrlTextChanged);
             // 
             // panel1
@@ -68,7 +68,7 @@
             this._go.Location = new System.Drawing.Point(421, 3);
             this._go.Name = "_go";
             this._go.Size = new System.Drawing.Size(36, 23);
-            this._go.TabIndex = 5;
+            this._go.TabIndex = 1;
             this._go.Text = "Go";
             this._go.UseVisualStyleBackColor = true;
             this._go.Click += new System.EventHandler(this.GoClick);
