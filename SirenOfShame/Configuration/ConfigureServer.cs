@@ -23,7 +23,7 @@ namespace SirenOfShame.Configuration
         }
 
         private bool _adding;
-        
+
         public ConfigureServer(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
             _adding = ciEntryPointSetting == null;
@@ -31,25 +31,29 @@ namespace SirenOfShame.Configuration
             {
                 ciEntryPointSetting = new CiEntryPointSetting();
             }
-            
+
             Settings = settings;
             _ciEntryPointSetting = ciEntryPointSetting;
 
             IocContainer.Instance.Compose(this);
 
             InitializeComponent();
-            
+
             _ciServerPanel.Visible = _adding;
             ICiEntryPoint[] ciEntryPoints = CIEntryPoints.ToArray();
-            _serverType.DataSource = ciEntryPoints;
+            if (_adding)
+            {
+                _serverType.DataSource = ciEntryPoints;
+            }
+            else
+            {
+                SetServerType(ciEntryPointSetting.GetCiEntryPoint(settings));
+            }
 
             _add.Text = _adding ? "Add" : "Update";
             _cancel.Visible = _adding;
-
-            _initializing = false;
         }
 
-        private bool _initializing = true;
         public SirenOfShameSettings Settings { get; set; }
 
         private void ClearConfigurePanel()
@@ -59,15 +63,16 @@ namespace SirenOfShame.Configuration
 
         private void ServerTypeSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!_adding) return;
             var newServerType = (ICiEntryPoint)_serverType.SelectedItem;
+            SetServerType(newServerType);
+        }
 
+        private void SetServerType(ICiEntryPoint newServerType)
+        {
             ClearConfigurePanel();
             var configureServerControl = newServerType.CreateConfigurationWindow(Settings, _ciEntryPointSetting);
             _configurationContainer.Controls.Add(configureServerControl);
             _ciEntryPointSetting.Name = newServerType.Name;
-
-            if (_initializing) return;
         }
 
         private void CloseClick(object sender, EventArgs e)
@@ -81,14 +86,14 @@ namespace SirenOfShame.Configuration
             if (_ciEntryPointSetting.BuildDefinitionSettings.Count < 1)
             {
                 SosMessageBox.Show(
-                    "Select More Stuff", 
-                    "Please select at least one build definition", 
+                    "Select More Stuff",
+                    "Please select at least one build definition",
                     "Sorry, I'm a Manager, This Stuff Is Complicated");
                 return;
             }
             if (_adding)
             {
-                 Settings.CiEntryPointSettings.Add(_ciEntryPointSetting);
+                Settings.CiEntryPointSettings.Add(_ciEntryPointSetting);
             }
             Settings.Save();
             Close();
