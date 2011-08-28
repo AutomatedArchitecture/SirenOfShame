@@ -57,8 +57,18 @@ namespace CruiseControlNetServices
 
         public IList<CruiseControlNetBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
-            var buildStatuses = GetBuildStatuses(rootUrl, userName, password);
-            return buildStatuses.ToList();
+            var buildStatuses = GetBuildStatuses(rootUrl, userName, password).ToList();
+            var results = new List<CruiseControlNetBuildStatus>();
+            foreach (var watchedBuildDefinition in watchedBuildDefinitions)
+            {
+                var buildStatus = buildStatuses.FirstOrDefault(s => s.BuildDefinitionId == watchedBuildDefinition.Id);
+                if (buildStatus == null)
+                {
+                    throw new BuildDefinitionNotFoundException(watchedBuildDefinition);
+                }
+                results.Add(buildStatus);
+            }
+            return results;
         }
 
         private IEnumerable<CruiseControlNetBuildStatus> GetBuildStatuses(string rootUrl, string userName, string password)
