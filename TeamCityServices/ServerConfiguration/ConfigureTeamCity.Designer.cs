@@ -65,7 +65,7 @@
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
             this._connect.TabIndex = 39;
-            this._connect.Text = "Connect";
+            this._connect.Text = "Connect!";
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this._connect_Click);
             // 

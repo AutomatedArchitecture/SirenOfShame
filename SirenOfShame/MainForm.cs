@@ -159,11 +159,7 @@ namespace SirenOfShame
             if (firstTimeSirenHasEverBeenConnected)
             {
                 _settings.SirenEverConnected = true;
-
-                TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
-                TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
-                TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
-
+                _settings.ResetSirenSettings();
                 _settings.Save();
             }
 
@@ -184,20 +180,6 @@ namespace SirenOfShame
                     _configureSiren.Enabled = false;
                 }
             });
-        }
-
-        private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
-        {
-            Rule rule = _settings.Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
-            if (rule != null)
-            {
-                rule.InheritAudioSettings = false;
-                rule.AudioPattern = SirenOfShameDevice.AudioPatterns.First();
-                rule.AudioDuration = audioDuration;
-                rule.InheritLedSettings = !setLed;
-                rule.LedPattern = setLed ? SirenOfShameDevice.LedPatterns.First() : null;
-                rule.LightsDuration = null;
-            }
         }
 
         private void SirenofShameDeviceDisconnected(object sender, EventArgs args)
