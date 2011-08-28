@@ -45,7 +45,7 @@
             this.label4.Location = new System.Drawing.Point(224, 58);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 13);
-            this.label4.TabIndex = 59;
+            this.label4.TabIndex = 99;
             this.label4.Text = "(stored encrypted)";
             // 
             // label3
@@ -54,7 +54,7 @@
             this.label3.Location = new System.Drawing.Point(14, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 58;
+            this.label3.TabIndex = 8;
             this.label3.Text = "Password:";
             // 
             // label2
@@ -63,7 +63,7 @@
             this.label2.Location = new System.Drawing.Point(7, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 57;
+            this.label2.TabIndex = 7;
             this.label2.Text = "User Name:";
             // 
             // _password
@@ -72,14 +72,14 @@
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
-            this._password.TabIndex = 56;
+            this._password.TabIndex = 2;
             // 
             // _userName
             // 
             this._userName.Location = new System.Drawing.Point(76, 29);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
-            this._userName.TabIndex = 55;
+            this._userName.TabIndex = 1;
             // 
             // _projects
             // 
@@ -90,7 +90,7 @@
             this._projects.Location = new System.Drawing.Point(3, 110);
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(407, 164);
-            this._projects.TabIndex = 54;
+            this._projects.TabIndex = 4;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
             // _connect
@@ -99,7 +99,7 @@
             this._connect.Location = new System.Drawing.Point(335, 81);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
-            this._connect.TabIndex = 53;
+            this._connect.TabIndex = 3;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this._connect_Click);
@@ -110,7 +110,7 @@
             this.label1.Location = new System.Drawing.Point(38, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 52;
+            this.label1.TabIndex = 6;
             this.label1.Text = "URL;";
             // 
             // _url
@@ -120,7 +120,7 @@
             this._url.Location = new System.Drawing.Point(76, 3);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(334, 20);
-            this._url.TabIndex = 51;
+            this._url.TabIndex = 0;
             // 
             // ConfigureBamboo
             // 
