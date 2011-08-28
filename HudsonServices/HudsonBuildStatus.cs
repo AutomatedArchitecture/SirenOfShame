@@ -77,7 +77,7 @@ namespace HudsonServices
             if (!string.IsNullOrWhiteSpace(durationStr))
             {
                 var duration = int.Parse(durationStr);
-                FinishedTime = StartedTime.AddMilliseconds(duration);
+                FinishedTime = StartedTime == null ? (DateTime?)null : StartedTime.Value.AddMilliseconds(duration);
             }
         }
 
