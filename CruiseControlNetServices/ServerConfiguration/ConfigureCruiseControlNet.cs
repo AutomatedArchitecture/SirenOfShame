@@ -4,20 +4,20 @@ using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
 
-namespace BambooServices.ServerConfiguration
+namespace CruiseControlNetServices.ServerConfiguration
 {
-    public partial class ConfigureBamboo : ConfigureServerBase
+    public partial class ConfigureCruiseControlNet : ConfigureServerBase
     {
-        private readonly BambooCIEntryPoint _bambooCiEntryPoint;
+        private readonly CruiseControlNetCIEntryPoint _cruiseControlNetCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
-        private readonly BambooService _service = new BambooService();
+        private readonly CruiseControlNetService _service = new CruiseControlNetService();
 
-        public ConfigureBamboo() { }
+        public ConfigureCruiseControlNet() { }
 
-        public ConfigureBamboo(SirenOfShameSettings sosSettings, BambooCIEntryPoint bambooCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
+        public ConfigureCruiseControlNet(SirenOfShameSettings sosSettings, CruiseControlNetCIEntryPoint cruiseControlNetCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
             : base(sosSettings)
         {
-            _bambooCiEntryPoint = bambooCiEntryPoint;
+            _cruiseControlNetCiEntryPoint = cruiseControlNetCiEntryPoint;
             InitializeComponent();
             _ciEntryPointSetting = ciEntryPointSetting;
             _url.Text = _ciEntryPointSetting.Url;
@@ -54,7 +54,7 @@ namespace BambooServices.ServerConfiguration
             MessageBox.Show("Error connecting to server: " + ex.Message);
         }
 
-        private void GetProjectsComplete(BambooBuildDefinition[] buildDefinitions)
+        private void GetProjectsComplete(CruiseControlNetBuildDefinition[] buildDefinitions)
         {
             _ciEntryPointSetting.Url = _url.Text;
             _ciEntryPointSetting.UserName = _userName.Text;
@@ -62,7 +62,7 @@ namespace BambooServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            foreach (BambooBuildDefinition project in buildDefinitions)
+            foreach (CruiseControlNetBuildDefinition project in buildDefinitions)
             {
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {
@@ -75,10 +75,10 @@ namespace BambooServices.ServerConfiguration
 
         private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is BambooBuildDefinition)
+            if (e.Node.Tag is CruiseControlNetBuildDefinition)
             {
-                var buildDefinition = (BambooBuildDefinition)e.Node.Tag;
-                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _bambooCiEntryPoint.Name);
+                var buildDefinition = (CruiseControlNetBuildDefinition)e.Node.Tag;
+                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _cruiseControlNetCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();
             }

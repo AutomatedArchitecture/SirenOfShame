@@ -11,6 +11,16 @@ namespace SirenOfShame.Lib.Helpers
             return attr == null ? null : attr.Value;
         }
 
+        public static string AttributeValue(this XElement elem, XName name)
+        {
+            var attr = elem.Attribute(name);
+            if (attr == null)
+            {
+                throw new Exception("Attribute '" + name + "' does not exist");
+            }
+            return attr.Value;
+        }
+
         public static string ElementValueOrDefault(this XElement elem, XName name)
         {
             var childEleme = elem.Element(name);
