@@ -9,7 +9,7 @@ using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
 {
-    public partial class ConfigureServer : Form
+    public partial class ConfigureServer : FormBase
     {
         [ImportMany(typeof(ICiEntryPoint))]
         public List<ICiEntryPoint> CIEntryPoints { get; set; }

@@ -5,7 +5,7 @@ using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
 {
-    public partial class ConfigureRules : Form
+    public partial class ConfigureRules : FormBase
     {
         private readonly SirenOfShameSettings _settings;
 

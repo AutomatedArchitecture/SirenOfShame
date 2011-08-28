@@ -9,7 +9,7 @@ using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
 {
-    public sealed partial class AddRule : Form
+    public sealed partial class AddRule : FormBase
     {
         private readonly SirenOfShameSettings _settings;
         private readonly Rule _rule;
