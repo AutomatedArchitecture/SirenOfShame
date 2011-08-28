@@ -31,8 +31,8 @@ namespace TfsServices.Configuration
             var successfulChangesets = latestChangesets.Where(c => c != null);
 
             var buildStatusResultsJoined = from buildQueryResult in buildQueryResults.Builds
-                                            from changeset in successfulChangesets.Where(sc => sc.BuildDefinitionId == buildQueryResult.BuildDefinition.Name).DefaultIfEmpty()
-                                            select CreateBuildStatus(buildQueryResult, changeset);
+                                           from changeset in successfulChangesets.Where(sc => sc.BuildDefinitionId == buildQueryResult.BuildDefinition.Name).DefaultIfEmpty()
+                                           select CreateBuildStatus(buildQueryResult, changeset);
 
             return buildStatusResultsJoined;
         }
@@ -64,8 +64,8 @@ namespace TfsServices.Configuration
                 Name = buildDetail.BuildDefinition.Name,
                 BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
                 RequestedBy = buildDetail.RequestedFor,
-                StartedTime = buildDetail.StartTime,
-                FinishedTime = buildDetail.FinishTime,
+                StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
+                FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
                 Comment = changeset.Comment
             };
         }

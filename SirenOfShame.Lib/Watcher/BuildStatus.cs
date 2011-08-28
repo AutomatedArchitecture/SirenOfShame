@@ -40,8 +40,8 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public DateTime StartedTime { get; set; }
-        public DateTime FinishedTime { get; set; }
+        public DateTime? StartedTime { get; set; }
+        public DateTime? FinishedTime { get; set; }
 
         public string RequestedBy { get; set; }
         public DateTime LocalStartTime { get; set; }
@@ -76,14 +76,13 @@ namespace SirenOfShame.Lib.Watcher
             BuildStatus previousStatus;
             previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
-            bool noStartTime = StartedTime == DateTime.MinValue;
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            string startTime = noStartTime ? "" : StartedTime.ToString("M/d h:mm tt");
+            string startTime = StartedTime == null ? "" : StartedTime.Value.ToString("M/d h:mm tt");
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
 
             return new BuildStatusListViewItem
             {
-                ImageIndex = (int) BallIndex,
+                ImageIndex = (int)BallIndex,
                 StartTime = startTime,
                 Duration = duration,
                 RequestedBy = requestedBy,
@@ -92,8 +91,8 @@ namespace SirenOfShame.Lib.Watcher
                 Name = Name
             };
         }
-        
-        private string GetDurationAsString(DateTime finishedTime, DateTime startedTime, DateTime now, BuildStatus previousStatus)
+
+        private string GetDurationAsString(DateTime? finishedTime, DateTime? startedTime, DateTime now, BuildStatus previousStatus)
         {
             TimeSpan? duration = GetDuration(startedTime, finishedTime, previousStatus, now);
             if (duration == null) return "";
@@ -101,26 +100,26 @@ namespace SirenOfShame.Lib.Watcher
             return string.Format("{0}:{1:00}", (int)duration.Value.TotalMinutes, duration.Value.Seconds);
         }
 
-        private TimeSpan? GetDuration(DateTime startedTime, DateTime finishedTime, BuildStatus previousStatus, DateTime now)
+        private TimeSpan? GetDuration(DateTime? startedTime, DateTime? finishedTime, BuildStatus previousStatus, DateTime now)
         {
             if (BuildStatusEnum != BuildStatusEnum.InProgress)
             {
-                if (startedTime == DateTime.MinValue || finishedTime == DateTime.MinValue)
+                if (startedTime == null || finishedTime == null)
                 {
                     _log.Warn("Start time or stop time was null for " + BuildDefinitionId + ", and the build was not in progress, this should only happen at startup");
                     return null;
                 }
-                return finishedTime - startedTime;
+                return finishedTime.Value - startedTime.Value;
             }
-            
-            if (previousStatus == null || previousStatus.StartedTime == DateTime.MinValue || previousStatus.FinishedTime == DateTime.MinValue)
+
+            if (previousStatus == null || previousStatus.StartedTime == null || previousStatus.FinishedTime == null)
             {
                 // count up
                 return now - LocalStartTime;
             }
-            
+
             // count down
-            var previousDuration = previousStatus.FinishedTime - previousStatus.StartedTime;
+            var previousDuration = previousStatus.FinishedTime.Value - previousStatus.StartedTime.Value;
             var currentDuration = now - LocalStartTime;
             return previousDuration - currentDuration;
         }
@@ -131,10 +130,10 @@ namespace SirenOfShame.Lib.Watcher
                 .Where(r => r.IsMatch(this, previousStatus))
                 .OrderByDescending(r => r.PriorityId)
                 .FirstOrDefault();
-            
+
             if (rule != null)
                 rule.FireEvent(rulesEngine, previousStatus, this);
-            
+
             rules.ForEach(r => r.FireAnyUntilBuildPassesEvents(rulesEngine, this, previousStatus));
         }
 

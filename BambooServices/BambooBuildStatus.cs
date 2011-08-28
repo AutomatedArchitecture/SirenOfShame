@@ -29,7 +29,7 @@ namespace BambooServices
             else
             {
                 result.StartedTime = DateTime.Now;
-                _startTimeLookup.Add(buildDefinitionSetting.Id, result.StartedTime);
+                _startTimeLookup.Add(buildDefinitionSetting.Id, result.StartedTime.Value);
             }
 
             return result;

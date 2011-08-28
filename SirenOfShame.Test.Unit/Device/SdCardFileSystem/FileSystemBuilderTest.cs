@@ -17,7 +17,7 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
         [TestMethod]
         public void Build()
         {
-            var audioPattern0Data = CreateRandomPattern(1000);
+            var audioPattern0Data = CreateRandomPattern(1056);
             var audioPattern1Data = new byte[2000];
             var audioPattern2Data = new byte[5000];
             var audioPattern0 = new UploadAudioPatternMemory("Audio 0", audioPattern0Data);
@@ -26,8 +26,8 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
             var audioPatterns = new[] { audioPattern0, audioPattern1, audioPattern2 };
 
             var ledPattern0Data = new byte[102];
-            var ledPattern1Data = new byte[24];
-            var ledPattern2Data = new byte[30];
+            var ledPattern1Data = new byte[48];
+            var ledPattern2Data = new byte[60];
             var ledPattern0 = new UploadLedPattern("LED 0", ledPattern0Data);
             var ledPattern1 = new UploadLedPattern("LED 1", ledPattern1Data);
             var ledPattern2 = new UploadLedPattern("LED 2", ledPattern2Data);
@@ -37,7 +37,7 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
             byte[] result = resultStream.ReadToEnd();
 
             // 0x20c0 - EOF
-            Assert.AreEqual(0x2100, result.Length);
+            Assert.AreEqual(8672, result.Length);
 
             // 0x0000 - Header
             var header = ObjectHelpers.Deserialize<FileSystemHeader>(result, 0x0000);
@@ -60,26 +60,26 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
             // 0x004c - Allocation Table - LED 2 (30 bytes)
             var led2 = ObjectHelpers.Deserialize<UsbLedFatPacket>(result, 0x004c);
             Assert.AreEqual("LED 2", Encoding.ASCII.GetString(led2.Name).TrimEnd('\0'));
-            Assert.AreEqual(0x0160, (int)led2.Addr);
+            Assert.AreEqual(0x0180, (int)led2.Addr);
             Assert.AreEqual(ledPattern2Data.Length, led2.Length);
 
             // 0x0062 - Allocation Table - Audio 0 (1000 bytes)
             var audio0 = ObjectHelpers.Deserialize<UsbLedFatPacket>(result, 0x0062);
             Assert.AreEqual("Audio 0", Encoding.ASCII.GetString(audio0.Name).TrimEnd('\0'));
-            Assert.AreEqual(0x0180, (int)audio0.Addr);
-            Assert.AreEqual(audioPattern0Data.Length, audio0.Length);
+            Assert.AreEqual(0x01c0, (int)audio0.Addr);
+            Assert.AreEqual(audioPattern0Data.Length + 32, audio0.Length);
 
             // 0x0078 - Allocation Table - Audio 1 (2000 bytes)
             var audio1 = ObjectHelpers.Deserialize<UsbLedFatPacket>(result, 0x0078);
             Assert.AreEqual("Audio 1", Encoding.ASCII.GetString(audio1.Name).TrimEnd('\0'));
-            Assert.AreEqual(0x0580, (int)audio1.Addr);
-            Assert.AreEqual(audioPattern1Data.Length, audio1.Length);
+            Assert.AreEqual(1568, (int)audio1.Addr);
+            Assert.AreEqual(audioPattern1Data.Length + 16, audio1.Length);
 
             // 0x008e - Allocation Table - Audio 2 (5000 bytes)
             var audio2 = ObjectHelpers.Deserialize<UsbLedFatPacket>(result, 0x008e);
             Assert.AreEqual("Audio 2", Encoding.ASCII.GetString(audio2.Name).TrimEnd('\0'));
-            Assert.AreEqual(0x0d60, (int)audio2.Addr);
-            Assert.AreEqual(audioPattern2Data.Length, audio2.Length);
+            Assert.AreEqual(3616, (int)audio2.Addr);
+            Assert.AreEqual(audioPattern2Data.Length + 24, audio2.Length);
 
             // 0x00c0 - LED 0 Data
             AssertHelpers.AreEquals(ledPattern0Data, 0, result, 0x00c0, ledPattern0Data.Length);
@@ -91,13 +91,13 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
             AssertHelpers.AreEquals(ledPattern2Data, 0, result, 0x0160, ledPattern2Data.Length);
 
             // 0x0180 - Audio 0 Data
-            AssertHelpers.AreEquals(audioPattern0Data, 0, result, 0x0180, audioPattern0Data.Length);
+            AssertHelpers.AreEquals(audioPattern0Data, 0, result, 0x01c0, audioPattern0Data.Length);
 
             // 0x0580 - Audio 1 Data
-            AssertHelpers.AreEquals(audioPattern1Data, 0, result, 0x0580, audioPattern1Data.Length);
+            AssertHelpers.AreEquals(audioPattern1Data, 0, result, 1568, audioPattern1Data.Length);
 
             // 0x0d60 - Audio 2 Data
-            AssertHelpers.AreEquals(audioPattern2Data, 0, result, 0x0d60, audioPattern2Data.Length);
+            AssertHelpers.AreEquals(audioPattern2Data, 0, result, 3616, audioPattern2Data.Length);
         }
 
         private byte[] CreateRandomPattern(int length)

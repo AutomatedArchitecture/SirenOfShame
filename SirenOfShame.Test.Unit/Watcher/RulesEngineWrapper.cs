@@ -87,7 +87,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     BuildDefinitionId = BUILD1_ID, 
                     StartedTime = new DateTime(2010, 1, 1)
                 } 
-        });
+            });
         }
     }
 }
