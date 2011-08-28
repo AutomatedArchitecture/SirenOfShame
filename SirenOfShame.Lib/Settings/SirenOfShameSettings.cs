@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using SirenOfShame.Lib.Device;
 using log4net;
 using SirenOfShame.Lib.Helpers;
 
@@ -11,6 +13,8 @@ namespace SirenOfShame.Lib.Settings
     [Serializable]
     public class SirenOfShameSettings
     {
+        [Import(typeof(ISirenOfShameDevice))]
+        private ISirenOfShameDevice SirenOfShameDevice { get; set; }
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
         private string _updateLocationOther;
 
@@ -30,6 +34,7 @@ namespace SirenOfShame.Lib.Settings
 
         public SirenOfShameSettings()
         {
+            IocContainer.Instance.Compose(this);
             Rules = new List<Rule>();
             CiEntryPointSettings = new List<CiEntryPointSetting>();
             AudioPatterns = new List<AudioPatternSetting>();
@@ -192,6 +197,28 @@ namespace SirenOfShame.Lib.Settings
         public IEnumerable<ICiEntryPoint> CiEntryPoints
         {
             get { return IocContainer.Instance.GetExports<ICiEntryPoint>(); }
+        }
+
+        private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
+        {
+            Rule rule = Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
+            if (rule != null)
+            {
+                rule.InheritAudioSettings = false;
+                rule.AudioPattern = SirenOfShameDevice.AudioPatterns.First();
+                rule.AudioDuration = audioDuration;
+                rule.InheritLedSettings = !setLed;
+                rule.LedPattern = setLed ? SirenOfShameDevice.LedPatterns.First() : null;
+                rule.LightsDuration = null;
+            }
+        }
+
+        public void ResetSirenSettings()
+        {
+            if (!SirenOfShameDevice.IsConnected) return;
+            TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
+            TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
+            TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
         }
     }
 }
