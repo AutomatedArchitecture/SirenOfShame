@@ -44,22 +44,32 @@ namespace BambooServices
             };
 
             if (doc.Root == null) throw new Exception("Invalid root element");
-            var buildsElem = doc.Root.Element("builds") ?? doc.Root.Element("results");
-            if (buildsElem == null) throw new Exception("Could not find builds");
-            var buildElem = buildsElem.Element("build") ?? buildsElem.Element("result");
-            if (buildElem == null) throw new Exception("Could not find build");
 
-            var stateStr = buildElem.AttributeValueOrDefault("state");
+            var stateStr = doc.Root.AttributeValueOrDefault("state");
 
-            result.StartedTime = ParseDateTime(buildElem.ElementValueOrDefault("buildStartedTime"));
-            result.FinishedTime = ParseDateTime(buildElem.ElementValueOrDefault("buildCompletedTime"));
+            result.StartedTime = ParseDateTime(doc.Root.ElementValueOrDefault("buildStartedTime"));
+            result.FinishedTime = ParseDateTime(doc.Root.ElementValueOrDefault("buildCompletedTime"));
 
             result.BuildStatusEnum = ToBuildStatusEnum(stateStr);
 
-            var buildReason = buildElem.ElementValueOrDefault("buildReason");
+            var changesElem = doc.Root.Element("changes");
+            if (changesElem != null)
+            {
+                var changeElem = changesElem.Element("change");
+                if (changeElem != null)
+                {
+                    result.RequestedBy = changeElem.AttributeValueOrDefault("author");
+                    result.Comment = changeElem.ElementValueOrDefault("comment");
+                }
+            }
 
-            result.Comment = GetCommentFromBuildReason(buildReason);
-            result.RequestedBy = GetUserFromBuildReason(buildReason);
+            if (string.IsNullOrWhiteSpace(result.RequestedBy) && string.IsNullOrWhiteSpace(result.Comment))
+            {
+                var buildReason = doc.Root.ElementValueOrDefault("buildReason");
+                result.Comment = GetCommentFromBuildReason(buildReason);
+                result.RequestedBy = GetUserFromBuildReason(buildReason);
+            }
+
             return result;
         }
 

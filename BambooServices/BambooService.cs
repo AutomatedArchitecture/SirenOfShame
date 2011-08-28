@@ -81,12 +81,12 @@ namespace BambooServices
                 XDocument buildDoc;
                 try
                 {
-                    string buildUrl = rootUrl + "/rest/api/latest/result/" + buildDefinitionSetting.Id + "?expand=results[0].result&os_authType=basic";
+                    string buildUrl = rootUrl + "/rest/api/latest/result/" + buildDefinitionSetting.Id + "-latest?expand=changes.change&os_authType=basic";
                     buildDoc = DownloadXml(buildUrl, userName, password);
                 }
                 catch (Exception ex)
                 {
-                    string buildUrl = rootUrl + "/rest/api/latest/build/" + buildDefinitionSetting.Id + "?expand=builds[0].build&os_authType=basic";
+                    string buildUrl = rootUrl + "/rest/api/latest/build/" + buildDefinitionSetting.Id + "-latest?expand=changes.change&os_authType=basic";
                     buildDoc = DownloadXml(buildUrl, userName, password);
                 }
                 if (buildDoc.Root == null) throw new Exception("Could not get project status");
