@@ -37,7 +37,7 @@ namespace SirenOfShame.Lib.Watcher
         public void InvokeTrayNotify(ToolTipIcon tipIcon, string title, string tipText)
         {
             TrayNotifyEvent handler = TrayNotify;
-            if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title});
+            if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title });
         }
 
         public RulesEngine(SirenOfShameSettings settings)
@@ -68,7 +68,7 @@ namespace SirenOfShame.Lib.Watcher
         private void ResetPreviousWorkingOrBrokenStatuses()
         {
             PreviousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>();
-            _buildStatus = new BuildStatus[] {};
+            _buildStatus = new BuildStatus[] { };
         }
 
         private BuildStatus[] _buildStatus = new BuildStatus[] { };
@@ -187,7 +187,10 @@ namespace SirenOfShame.Lib.Watcher
                                              select new { buildStatus, setting };
 
             var buildsWithoutRequestedByPerson = buildStatusesWithNewPeople.ToList();
-            buildsWithoutRequestedByPerson.ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
+            buildsWithoutRequestedByPerson
+                .Where(bss => bss.buildStatus.RequestedBy != null)
+                .ToList()
+                .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
             if (buildsWithoutRequestedByPerson.Any())
                 _settings.Save();
         }
@@ -244,7 +247,8 @@ namespace SirenOfShame.Lib.Watcher
                 }
 
                 _timer.Start();
-            } else
+            }
+            else
             {
                 InvokeUpdateStatusBar("");
                 InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
