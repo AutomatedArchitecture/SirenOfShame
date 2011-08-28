@@ -92,18 +92,26 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        private string _cookie = null;
+        
+        private static Dictionary<string, string> _cookies = new Dictionary<string, string>();
+
+        private string GetCookie(string rootUrl)
+        {
+            string cookie;
+            _cookies.TryGetValue(rootUrl, out cookie);
+            return cookie;
+        }
 
         public IList<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             rootUrl = GetRootUrl(rootUrl);
 
-            if (_cookie == null)
+            if (GetCookie(rootUrl) == null)
             {
                 SetCookie(rootUrl, userName, password);
             }
 
-            XDocument document = DownloadXml(rootUrl + "/ajax.html?getRunningBuilds=1", userName, password, _cookie);
+            XDocument document = DownloadXml(rootUrl + "/ajax.html?getRunningBuilds=1", userName, password, GetCookie(rootUrl));
 
             var inProgressBuilds = document.Descendants("build").Select(b => new
             {
@@ -130,51 +138,57 @@ namespace TeamCityServices
             {
                 // ajax.html is required to get in progress builds in TC 5.X, ajax.html requires forms auth, and TC encrypts
                 //      its password on login.html, so WebBrowser is  required to get an authentication cookie
-                WebBrowser webBrowser = new WebBrowser { Visible = true };
-                string loginPage = rootUrl + "/login.html";
-                webBrowser.DocumentCompleted += (o, evt) =>
+                using (WebBrowser webBrowser = new WebBrowser { Visible = true })
                 {
-                    try
+                    webBrowser.DocumentCompleted += (o, evt) =>
                     {
-                        if (webBrowser.DocumentTitle == "Navigation Canceled")
+                        _log.Debug("login.html State: " + state + " Cookie: " + webBrowser.Document.Cookie);
+                        try
                         {
-                            serverUnavailable = true;
-                            return;
-                        }
+                            if (webBrowser.DocumentTitle == "Navigation Canceled")
+                            {
+                                serverUnavailable = true;
+                                return;
+                            }
 
-                        if (state == 0)
+                            if (state == 0)
+                            {
+                                webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
+                                webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
+                                webBrowser.Document.All["password"].SetAttribute("value", password);
+
+                                var submitButton = webBrowser.Document.GetElementsByTagName("input")
+                                    .Cast<HtmlElement>()
+                                    .FirstOrDefault(e => e.GetAttribute("type") == "submit");
+                                submitButton.InvokeMember("click");
+                            }
+                            if (state == 1)
+                            {
+                                _cookies[rootUrl] = webBrowser.Document.Cookie;
+                            }
+
+                            state++;
+                        } catch (Exception ex)
                         {
-                            webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
-                            webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
-                            webBrowser.Document.All["password"].SetAttribute("value", password);
-
-                            var submitButton = webBrowser.Document.GetElementsByTagName("input")
-                                .Cast<HtmlElement>()
-                                .FirstOrDefault(e => e.GetAttribute("type") == "submit");
-                            submitButton.InvokeMember("click");
+                            documentCompleteException = ex;
                         }
-                        if (state == 1)
-                        {
-                            _cookie = webBrowser.Document.Cookie;
-                        }
+                    };
 
-                        state++;
-                    }
-                    catch (Exception ex)
+                    string loginPage = rootUrl + "/login.html";
+                    webBrowser.Navigate(new Uri(loginPage));
+
+                    _log.Debug("Begin navigating to: " + loginPage);
+
+                    while (state <= 1 && !serverUnavailable && documentCompleteException == null && !IsTimeout(initialRequest))
                     {
-                        documentCompleteException = ex;
+                        Application.DoEvents();
                     }
-                };
-                
-                
-                webBrowser.Navigate(new Uri(loginPage));
-
-                while (state <= 1 && !serverUnavailable && documentCompleteException == null && !IsTimeout(initialRequest))
-                {
-                    Application.DoEvents();
+                    if (IsTimeout(initialRequest))
+                    {
+                        _log.Error("Timeout. State: " + state + " Cookie: " + GetCookie(rootUrl));
+                    }
+                        
                 }
-
-                webBrowser.Dispose();
             });
             staThread.SetApartmentState(ApartmentState.STA);
             staThread.Start();
@@ -185,7 +199,9 @@ namespace TeamCityServices
             if (documentCompleteException != null)
                 throw documentCompleteException;
             if (IsTimeout(initialRequest))
+            {
                 throw new SosException("Timed out waiting for authentication, possible authentication error");
+            }
         }
 
         private static bool IsTimeout(DateTime initialRequest)
