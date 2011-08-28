@@ -83,7 +83,7 @@ namespace SirenOfShame
 
         private void RulesEngineModalDialog(object sender, ModalDialogEventArgs args)
         {
-            BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText);
+            BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
         public static ListViewItem AsListViewItem(BuildStatusListViewItem buildStatusListViewItem)

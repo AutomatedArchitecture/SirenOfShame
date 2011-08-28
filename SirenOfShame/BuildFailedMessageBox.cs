@@ -6,7 +6,7 @@ namespace SirenOfShame
     {
         private static BuildFailedMessageBox _buildFailedMessageBox;
 
-        public static void ShowOnce(string title, string body)
+        public static void ShowOnce(string title, string body, string okMessage)
         {
             Program.Form.Invoke(() => {
                            if (_buildFailedMessageBox == null)
@@ -14,6 +14,8 @@ namespace SirenOfShame
                                _buildFailedMessageBox = new BuildFailedMessageBox();
                            }
                            _buildFailedMessageBox.Text = title;
+                           if (!string.IsNullOrEmpty(okMessage))           
+                               _buildFailedMessageBox._ok.Text = okMessage;
                            _buildFailedMessageBox._body.Text = body;
                            _buildFailedMessageBox.Show();
                            _buildFailedMessageBox.Activate();

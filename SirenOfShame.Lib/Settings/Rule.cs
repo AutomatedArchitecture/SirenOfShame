@@ -189,16 +189,32 @@ namespace SirenOfShame.Lib.Settings
             var newlyFixed = buildStatus.IsNewlyFixed(previousStatus);
 
             string message = null;
+            string okText = null;
             if (newlyBroken)
+            {
                 message = "Build newly broken by " + buildStatus.RequestedBy;
+                okText = "Rats";
+            }
             if (newlyFixed)
+            {
                 message = "Build is passing again";
+                okText = "Yayy!";
+            }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
+            {
                 message = "Build triggered by " + buildStatus.RequestedBy;
+                okText = "Ok, whatever";
+            }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
+            {
                 message = "Build still broken";
+                okText = "Rats";
+            }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed)
+            {
                 message = "Build passed";
+                okText = "Yayy!";
+            }
             message += " for " + buildStatus.Name;
 
             if (AlertType == AlertType.TrayAlert)
@@ -217,7 +233,7 @@ namespace SirenOfShame.Lib.Settings
             }
             if (AlertType == AlertType.ModalDialog)
             {
-                rulesEngine.InvokeModalDialog(message);
+                rulesEngine.InvokeModalDialog(message, okText);
             }
         }
     }

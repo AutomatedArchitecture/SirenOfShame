@@ -195,11 +195,11 @@ namespace SirenOfShame.Lib.Watcher
                 _settings.Save();
         }
 
-        internal void InvokeModalDialog(string dialogText)
+        internal void InvokeModalDialog(string dialogText, string okText)
         {
             var modalDialog = ModalDialog;
             if (modalDialog == null) return;
-            modalDialog(this, new ModalDialogEventArgs { DialogText = dialogText });
+            modalDialog(this, new ModalDialogEventArgs { DialogText = dialogText, OkText = okText });
         }
 
         public void InvokeSetAudio(AudioPattern audioPattern, int? duration)
