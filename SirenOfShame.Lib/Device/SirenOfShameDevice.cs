@@ -167,14 +167,14 @@ namespace SirenOfShame.Lib.Device
         {
             UsbInfoPacket infoPacket = _deviceInterfaceFile.GetInputReport<UsbInfoPacket>(ReportId_In_Info, PacketSize);
             _log.Debug("Info packet receieved:");
-            _log.Debug("\tVersion: " + infoPacket.Version);
+            _log.Debug("\tVersion: " + infoPacket.FirmwareVersion);
             _log.Debug("\tHardwareType: " + infoPacket.HardwareType);
             _log.Debug("\tExternalMemorySize: " + infoPacket.ExternalMemorySize);
             _log.Debug("\tAudioMode: " + infoPacket.AudioMode);
             _log.Debug("\tAudioPlayDuration: " + infoPacket.AudioPlayDuration);
             _log.Debug("\tLedMode: " + infoPacket.LedMode);
             _log.Debug("\tLedPlayDuration: " + infoPacket.LedPlayDuration);
-            Version = infoPacket.Version;
+            Version = infoPacket.FirmwareVersion;
             HardwareType = infoPacket.HardwareType;
             return new SirenOfShameInfo(infoPacket);
         }
