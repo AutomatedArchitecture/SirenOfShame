@@ -32,6 +32,7 @@
             this._ok = new System.Windows.Forms.Button();
             this._showMore = new System.Windows.Forms.Button();
             this._exception = new System.Windows.Forms.TextBox();
+            this._cancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _message
@@ -49,14 +50,14 @@
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 1;
-            this._ok.Text = "OK";
+            this._ok.Text = "Send";
             this._ok.UseVisualStyleBackColor = true;
             this._ok.Click += new System.EventHandler(this.OkClick);
             // 
             // _showMore
             // 
             this._showMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._showMore.Location = new System.Drawing.Point(232, 59);
+            this._showMore.Location = new System.Drawing.Point(151, 60);
             this._showMore.Name = "_showMore";
             this._showMore.Size = new System.Drawing.Size(75, 23);
             this._showMore.TabIndex = 2;
@@ -66,9 +67,9 @@
             // 
             // _exception
             // 
-            this._exception.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._exception.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._exception.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._exception.Location = new System.Drawing.Point(12, 53);
             this._exception.Multiline = true;
@@ -78,11 +79,25 @@
             this._exception.TabIndex = 3;
             this._exception.WordWrap = false;
             // 
+            // _cancel
+            // 
+            this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._cancel.Location = new System.Drawing.Point(232, 60);
+            this._cancel.Name = "_cancel";
+            this._cancel.Size = new System.Drawing.Size(75, 23);
+            this._cancel.TabIndex = 4;
+            this._cancel.Text = "Don\'t Send";
+            this._cancel.UseVisualStyleBackColor = true;
+            this._cancel.Click += new System.EventHandler(this.CancelClick);
+            // 
             // ExceptionMessageBox
             // 
+            this.AcceptButton = this._ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(400, 95);
+            this.Controls.Add(this._cancel);
             this.Controls.Add(this._exception);
             this.Controls.Add(this._showMore);
             this.Controls.Add(this._ok);
@@ -102,5 +117,6 @@
         private System.Windows.Forms.Button _ok;
         private System.Windows.Forms.Button _showMore;
         private System.Windows.Forms.TextBox _exception;
+        private System.Windows.Forms.Button _cancel;
     }
 }
