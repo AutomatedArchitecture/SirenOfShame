@@ -22,6 +22,9 @@ Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (i
 Remove Featured label on old Download
 Update Home page to link to new download
 
+Link from Twitter
+Link from Facebook
+Link from RSS
 
 Commit
 Tag
