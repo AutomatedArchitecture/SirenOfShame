@@ -1,3 +1,5 @@
+Verify major & minor AssemblyInfo.cs AssemblyVersion is correct
+
 Build
 
 wyUpdate Deploy Instructions
@@ -11,14 +13,20 @@ wyUpdate Deploy Instructions
 		"Build wyUpdate & Updates" -> Click both buttons
 		Copy \Releases\Updates\* to [update locations]
 			S:\Applications\Siren of Shame Updates
-			ftp://blueink.biz/Sos/Updates
+			ftp://blueink.biz/SoS/Updates
 
 Build msi
+Rename SirenOfShame-X-X-X.msi
+Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
+	Labels: Featured, Type-Installer, OpSys-Windows
+Remove Featured label on old Download
+Update Home page to link to new download
+
 
 Commit
 Tag
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-AssemblyInfo.cs: AssemblyVersion++
+AssemblyInfo.cs: AssemblyVersion MinorVersion++
 Commit
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
