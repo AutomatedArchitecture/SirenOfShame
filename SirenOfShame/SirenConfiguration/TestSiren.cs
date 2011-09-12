@@ -50,8 +50,8 @@ namespace SirenOfShame.SirenConfiguration
         {
             try
             {
-                SirenOfShameDevice.SetAudio(null, null);
-                SirenOfShameDevice.SetLight(null, null);
+                SirenOfShameDevice.PlayAudioPattern(null, null);
+                SirenOfShameDevice.PlayLightPattern(null, null);
                 _test.Text = "Start Test";
                 _testing = false;
             }
@@ -66,9 +66,9 @@ namespace SirenOfShame.SirenConfiguration
             try
             {
                 if (_audioAndLights.Checked || _audioOnly.Checked)
-                    SirenOfShameDevice.SetAudio((AudioPattern)_audio.SelectedItem, null);
+                    SirenOfShameDevice.PlayAudioPattern((AudioPattern)_audio.SelectedItem, null);
                 if (_audioAndLights.Checked || _lightsOnly.Checked)
-                    SirenOfShameDevice.SetLight((LedPattern)_lights.SelectedItem, null);
+                    SirenOfShameDevice.PlayLightPattern((LedPattern)_lights.SelectedItem, null);
                 _test.Text = "Stop Test";
                 _testing = true;
             }

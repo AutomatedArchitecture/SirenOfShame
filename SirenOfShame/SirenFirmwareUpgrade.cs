@@ -36,7 +36,7 @@ namespace SirenOfShame
             int version = 0;
             if (SirenOfShameDevice.TryConnect())
             {
-                version = SirenOfShameDevice.Version;
+                version = SirenOfShameDevice.FirmwareVersion;
                 _currentVersion.Text = version.ToString();
             }
             else

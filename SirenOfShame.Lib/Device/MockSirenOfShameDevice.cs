@@ -16,7 +16,12 @@ namespace SirenOfShame.Lib.Device
         private readonly MockSirenOfShameDeviceDialog _dlg;
         private bool _isConnected;
 
-        public int Version
+        public int FirmwareVersion
+        {
+            get { return 1; }
+        }
+
+        public int HardwareVersion
         {
             get { return 1; }
         }
@@ -73,14 +78,24 @@ namespace SirenOfShame.Lib.Device
             get { return _dlg.LedPatterns; }
         }
 
-        public void SetAudio(AudioPattern pattern, TimeSpan? duration)
+        public void PlayAudioPattern(AudioPattern pattern, TimeSpan? duration)
         {
             _dlg.SetAudio(pattern, duration);
         }
 
-        public void SetLight(LedPattern pattern, TimeSpan? duration)
+        public void StopAudioPattern()
+        {
+            PlayAudioPattern(null, null);
+        }
+
+        public void PlayLightPattern(LedPattern pattern, TimeSpan? duration)
         {
             _dlg.SetLight(pattern, duration);
+        }
+
+        public void StopLightPattern()
+        {
+            PlayLightPattern(null, null);
         }
 
         public void WndProc(ref Message message)

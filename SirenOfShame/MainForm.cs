@@ -239,7 +239,7 @@ namespace SirenOfShame
         {
             if (SirenOfShameDevice.IsConnected)
             {
-                SirenOfShameDevice.SetLight(args.LedPattern, args.TimeSpan);
+                SirenOfShameDevice.PlayLightPattern(args.LedPattern, args.TimeSpan);
             }
         }
 
@@ -247,7 +247,7 @@ namespace SirenOfShame
         {
             if (SirenOfShameDevice.IsConnected)
             {
-                SirenOfShameDevice.SetAudio(args.AudioPattern, args.TimeSpan);
+                SirenOfShameDevice.PlayAudioPattern(args.AudioPattern, args.TimeSpan);
             }
         }
 
