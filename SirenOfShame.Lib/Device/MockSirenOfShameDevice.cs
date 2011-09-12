@@ -138,7 +138,7 @@ namespace SirenOfShame.Lib.Device
                 LedPlayDuration = (ushort)(_dlg.CurrentLightDuration == null ? 0 : _dlg.CurrentLightDuration.Value.TotalMilliseconds / 100),
                 ExternalMemorySize = 0,
                 HardwareType = HardwareType.Pro,
-                Version = 1
+                FirmwareVersion = 1
             };
             return new SirenOfShameInfo(infoPacket);
         }
