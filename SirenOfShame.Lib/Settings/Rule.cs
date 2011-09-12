@@ -202,7 +202,7 @@ namespace SirenOfShame.Lib.Settings
             }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
             {
-                message = "Build triggered by " + buildStatus.RequestedBy;
+                message = "Build triggered by " + buildStatus.RequestedBy + "\r\n" + buildStatus.Comment;
                 okText = "Ok, whatever";
             }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
