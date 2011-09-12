@@ -202,7 +202,7 @@ namespace SirenOfShame.Lib.Settings
             }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
             {
-                message = "Build triggered by " + buildStatus.RequestedBy + "\r\n" + buildStatus.Comment;
+                message = "Build triggered by " + buildStatus.RequestedBy;
                 okText = "Ok, whatever";
             }
             if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
@@ -216,6 +216,10 @@ namespace SirenOfShame.Lib.Settings
                 okText = "Yayy!";
             }
             message += " for " + buildStatus.Name;
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
+            {
+                message += "\r\n" + buildStatus.Comment;
+            }
 
             if (AlertType == AlertType.TrayAlert)
             {
