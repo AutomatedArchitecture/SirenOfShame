@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CruiseControlNetServices", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSirenOfShameDeviceExample", "SimpleSirenOfShameDeviceExample\SimpleSirenOfShameDeviceExample.csproj", "{F6F3683D-FB7A-4F88-891D-68E9BF83D8AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallOfShame", "WallOfShame\WallOfShame.csproj", "{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SirenOfShame.vsmdi
@@ -278,6 +280,19 @@ Global
 		{F6F3683D-FB7A-4F88-891D-68E9BF83D8AE}.Release|Win32.ActiveCfg = Release|x86
 		{F6F3683D-FB7A-4F88-891D-68E9BF83D8AE}.Release|x86.ActiveCfg = Release|x86
 		{F6F3683D-FB7A-4F88-891D-68E9BF83D8AE}.Release|x86.Build.0 = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|Any CPU.Build.0 = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|Win32.ActiveCfg = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|x86.ActiveCfg = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|x86.Build.0 = Debug|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Any CPU.ActiveCfg = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Win32.ActiveCfg = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|x86.ActiveCfg = Release|x86
+		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
