@@ -4,8 +4,9 @@ Build
 
 wyUpdate Deploy Instructions
 	Run wyBuild
-		Update Information
+		"Update Information" Tab
 		+
+		Describe Changes
 		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
 		Move MINIMUM SirenOfShame.Lib & SirenOfShame.exe
 		Drag files into "Files & Folders" -> "\Your program's folder"
@@ -18,18 +19,18 @@ wyUpdate Deploy Instructions
 Build msi
 Rename SirenOfShame-X-X-X.msi
 Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
+	Summary: X.Y.Z
 	Labels: Featured, Type-Installer, OpSys-Windows
 Remove Featured label on old Download
 Update Home page to link to new download
 
 Link from Twitter
 Link from Facebook
-Link from RSS
-
-Commit
-Tag
+Link from RSS (optional)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
-Commit
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Commit
+Tag

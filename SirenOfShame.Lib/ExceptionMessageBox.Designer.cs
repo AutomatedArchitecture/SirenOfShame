@@ -81,6 +81,7 @@
             // 
             // _cancel
             // 
+            this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._cancel.Location = new System.Drawing.Point(232, 60);
             this._cancel.Name = "_cancel";
