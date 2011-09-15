@@ -19,6 +19,7 @@ namespace SirenOfShame.Lib
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
         private Exception _realException;
+        private NameValueCollection _parameters;
 
         public ExceptionMessageBox()
         {
@@ -46,8 +47,9 @@ namespace SirenOfShame.Lib
                 Text = title,
                 _message = { Text = message },
                 _exception = { Text = exception.ToString() },
-                _realException = exception,
+                _realException = exception
             };
+            dlg._parameters = dlg.GetExceptionDetailsAndLog();
             dlg._exception.Visible = false;
             if (owner != null)
                 dlg.ShowDialog(owner);
@@ -57,30 +59,59 @@ namespace SirenOfShame.Lib
 
         private void OkClick(object sender, EventArgs e)
         {
-            NameValueCollection parameters = new NameValueCollection();
-            parameters["OperatingSystem"] = Environment.OSVersion.ToString();
-            parameters["DotNetVersion"] = Environment.Version.ToString();
-            parameters["SosVersion"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             try
             {
-                parameters["DeviceConnected"] = SirenOfShameDevice.IsConnected.ToString();
-                if (SirenOfShameDevice.IsConnected)
+                var url = "http://www.sirenofshame.com/ReportError";
+                _log.Info("Sending exception to: " + url);
+                WebClient webClient = new WebClient();
+                webClient.UploadValues(url, _parameters);
+                MessageBox.Show(this, "Your error has been sent. We'll get right on that.", "Error Sent");
+                _log.Debug("Exception sent");
+            }
+            catch (Exception exOuter)
+            {
+                _log.Error("Failed to send message", exOuter);
+            }
+            Close();
+        }
+
+        private NameValueCollection GetExceptionDetailsAndLog()
+        {
+            NameValueCollection parameters = new NameValueCollection();
+            try
+            {
+                parameters["OperatingSystem"] = Environment.OSVersion.ToString();
+                parameters["DotNetVersion"] = Environment.Version.ToString();
+                parameters["SosVersion"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                try
                 {
-                    parameters["FirmwareVersion"] = SirenOfShameDevice.FirmwareVersion.ToString();
-                    parameters["HardwareVersion"] = SirenOfShameDevice.HardwareVersion.ToString();
-                    parameters["HardwareType"] = SirenOfShameDevice.HardwareType.ToString();
+                    parameters["DeviceConnected"] = SirenOfShameDevice.IsConnected.ToString();
+                    if (SirenOfShameDevice.IsConnected)
+                    {
+                        parameters["FirmwareVersion"] = SirenOfShameDevice.FirmwareVersion.ToString();
+                        parameters["HardwareVersion"] = SirenOfShameDevice.HardwareVersion.ToString();
+                        parameters["HardwareType"] = SirenOfShameDevice.HardwareType.ToString();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    _log.Error("Failed to find device info when sending error", ex);
+                }
+                parameters["ErrorDate"] = DateTime.Now.ToString();
+                parameters["ErrorMessage"] = _realException.Message;
+                parameters["StackTrace"] = _realException.ToString();
             }
             catch (Exception ex)
             {
-                _log.Error("Failed to find device info when sending error", ex);
+                _log.Error("Could not get all parameters", ex);
             }
-            parameters["ErrorDate"] = DateTime.Now.ToString();
-            parameters["ErrorMessage"] = _realException.Message;
-            parameters["StackTrace"] = _realException.ToString();
-            WebClient webClient = new WebClient();
-            webClient.UploadValues("http://www.sirenofshame.com/ReportError", parameters);
-            Close();
+
+            foreach (var parameterName in parameters.AllKeys)
+            {
+                _log.Info(parameterName + ": " + parameters[parameterName]);
+            }
+
+            return parameters;
         }
 
         private void ShowMoreClick(object sender, EventArgs e)
