@@ -44,6 +44,7 @@ namespace TeensyHidBootloaderLib
             using (var deviceInformationSet = new DeviceInformationSet(hidGuid, DiGetClassFlags.Present | DiGetClassFlags.DeviceInterface))
             {
                 deviceInterface = deviceInformationSet.GetDeviceInterfaces(hidGuid)
+                    .Where(d => d.IsValidUsbDevice)
                     .FirstOrDefault(dis => (dis.Details.DevicePath.Contains("16c0") && dis.Details.DevicePath.Contains("0478"))
                         || (dis.Details.DevicePath.Contains("03eb") && dis.Details.DevicePath.Contains("2067")));
                 if (deviceInterface != null)

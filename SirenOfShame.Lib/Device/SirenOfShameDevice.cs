@@ -65,6 +65,7 @@ namespace SirenOfShame.Lib.Device
             using (var deviceInformationSet = new DeviceInformationSet(hidGuid, DiGetClassFlags.Present | DiGetClassFlags.DeviceInterface))
             {
                 DeviceInterface deviceInterface = deviceInformationSet.GetDeviceInterfaces(hidGuid)
+                    .Where(d => d.IsValidUsbDevice)
                     .FirstOrDefault(dis => dis.Details.DevicePath.Contains(VendorId) && dis.Details.DevicePath.Contains(ProductId));
                 if (deviceInterface == null)
                 {
