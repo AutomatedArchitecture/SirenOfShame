@@ -30,6 +30,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
             _rulesEngine = new RulesEngine(Settings);
 
+            
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
             _rulesEngine.RefreshStatus += (sender, arg) => RefreshStatusEvents.Add(arg);
             _rulesEngine.UpdateStatusBar += (sender, arg) => StatusBarUpdateEvents.Add(arg);

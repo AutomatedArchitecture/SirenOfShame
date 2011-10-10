@@ -7,10 +7,13 @@ namespace SirenOfShame.Lib.Device
     public struct UsbInfoPacket
     {
         [MarshalAs(UnmanagedType.U2)]
-        public UInt16 Version;
+        public UInt16 FirmwareVersion;
         
         [MarshalAs(UnmanagedType.U1)]
         public HardwareType HardwareType;
+
+        [MarshalAs(UnmanagedType.U1)]
+        public byte HardwareVersion;
 
         [MarshalAs(UnmanagedType.U4)]
         public UInt32 ExternalMemorySize;

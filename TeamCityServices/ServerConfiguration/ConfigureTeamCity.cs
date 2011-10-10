@@ -12,7 +12,6 @@ namespace TeamCityServices.ServerConfiguration
         private const string PlacehoderText = "Loading...";
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
-        private bool _updatingTree;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
 
         public ConfigureTeamCity() { }

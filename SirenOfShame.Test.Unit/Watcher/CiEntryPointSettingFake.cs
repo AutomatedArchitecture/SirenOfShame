@@ -10,6 +10,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public CiEntryPointSettingFake(SirenOfShameSettings settings)
         {
             _watcherFake = new WatcherFake(settings);
+            Url = "http://fake";
         }
 
         public WatcherFake WatcherFake

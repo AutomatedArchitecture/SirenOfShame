@@ -44,8 +44,9 @@ namespace SirenOfShame.HardwareTestGui
         public static string GetDeviceInfoAsString(SirenOfShameInfo deviceInfo)
         {
             StringBuilder info = new StringBuilder();
-            info.AppendLine("Version: " + deviceInfo.Version + "\n");
+            info.AppendLine("FirmwareVersion: " + deviceInfo.FirmwareVersion + "\n");
             info.AppendLine("HardwareType: " + deviceInfo.HardwareType + "\n");
+            info.AppendLine("HardwareVersion: " + deviceInfo.HardwareVersion + "\n");
             info.AppendLine("AudioMode: " + deviceInfo.AudioMode + "\n");
             info.AppendLine("AudioPlayDuration: " + deviceInfo.AudioPlayDuration + "\n");
             info.AppendLine("LedMode: " + deviceInfo.LedMode + "\n");

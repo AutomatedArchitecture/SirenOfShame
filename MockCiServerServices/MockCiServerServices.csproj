@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8A68692B-CA71-4C55-8005-201B6FE2B10B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MockCiServerServices</RootNamespace>
+    <AssemblyName>MockCiServerServices</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\SirenOfShame\bin\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\SirenOfShame\bin\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigureMock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConfigureMock.Designer.cs">
+      <DependentUpon>ConfigureMock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MockBuildDefinition.cs" />
+    <Compile Include="MockCiServerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MockCiServerForm.Designer.cs">
+      <DependentUpon>MockCiServerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MockProject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MockProject.Designer.cs">
+      <DependentUpon>MockProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MockWatcher.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MockCiEntryPoint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
+      <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
+      <Name>SirenOfShame.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConfigureMock.resx">
+      <DependentUpon>ConfigureMock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MockCiServerForm.resx">
+      <DependentUpon>MockCiServerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MockProject.resx">
+      <DependentUpon>MockProject.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

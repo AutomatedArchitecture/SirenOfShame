@@ -16,6 +16,12 @@
         "Entry"
         {
         "MsmKey" = "8:_01B1F7EF412ED23BF09A89729F219F29"
+        "OwnerKey" = "8:_568755897CC34FA38F2832F79943D02D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_01B1F7EF412ED23BF09A89729F219F29"
         "OwnerKey" = "8:_A4E0E1D2D94340068C12ECC653E49605"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -29,12 +35,6 @@
         {
         "MsmKey" = "8:_01B1F7EF412ED23BF09A89729F219F29"
         "OwnerKey" = "8:_870ECF74B5A54246952F21ADF3DCD9CB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_01B1F7EF412ED23BF09A89729F219F29"
-        "OwnerKey" = "8:_568755897CC34FA38F2832F79943D02D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -562,6 +562,12 @@
         "Entry"
         {
         "MsmKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
+        "OwnerKey" = "8:_568755897CC34FA38F2832F79943D02D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
         "OwnerKey" = "8:_4DB686DE5B60D75426EFD167D39F659B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -611,12 +617,6 @@
         {
         "MsmKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
         "OwnerKey" = "8:_870ECF74B5A54246952F21ADF3DCD9CB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
-        "OwnerKey" = "8:_568755897CC34FA38F2832F79943D02D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2070,7 +2070,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Siren of Shame"
         "ProductCode" = "8:{A027C90C-3F0B-47A0-9E85-D34AB7D28D10}"
-        "PackageCode" = "8:{000583C7-03A7-4C8A-A7E6-EF5E9C96FEDB}"
+        "PackageCode" = "8:{256B8BEC-9A24-47E0-853E-30EBC9C3B6B1}"
         "UpgradeCode" = "8:{F069A490-0830-4288-9AB3-508DB7FC406C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

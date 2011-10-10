@@ -9,7 +9,8 @@ namespace UsbLib
     {
         private readonly DeviceInterfaceData _did;
         private readonly IntPtr _handle;
-        private DeviceInterfaceDetail _details;
+        private readonly DeviceInterfaceDetail _details;
+        private readonly bool _isValidUsbDevice;
 
         public DeviceInterfaceData DeviceInterfaceData
         {
@@ -20,12 +21,21 @@ namespace UsbLib
         {
             _handle = handle;
             _did = did;
+            try
+            {
+                // On Windows 8 we see exceptions with getting the device info when a bluetooth device is connected.
+                _details = new DeviceInterfaceDetail(_handle, _did);
+                _isValidUsbDevice = true;
+            }
+            catch (Exception ex)
+            {
+                _isValidUsbDevice = false;
+            }
         }
 
-        public DeviceInterfaceDetail Details
-        {
-            get { return _details ?? (_details = new DeviceInterfaceDetail(_handle, _did)); }
-        }
+        public bool IsValidUsbDevice { get { return _isValidUsbDevice; } }
+
+        public DeviceInterfaceDetail Details { get { return _details; } }
 
         public DeviceInterfaceFile OpenFile(int bufferSize)
         {

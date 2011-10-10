@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using SirenOfShame.Lib;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
@@ -8,7 +6,6 @@ namespace SirenOfShame.Configuration
     public partial class Settings : FormBase
     {
         private readonly SirenOfShameSettings _settings;
-        private readonly string _logFilename;
 
         public Settings(SirenOfShameSettings settings)
         {

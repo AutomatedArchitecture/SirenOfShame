@@ -226,13 +226,22 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.BuildTriggered,
-                AlertType = AlertType.TrayAlert
+                AlertType = AlertType.TrayAlert,
             });
 
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = RulesEngineWrapper.BUILD1_ID,
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2010, 1, 1),
+                    Comment = "my comment"
+                });
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
             Assert.AreEqual("Build In Progress", rulesEngine.TrayNotificationEvents[0].Title);
-            Assert.AreEqual("Build triggered by User1 for Build Def 1", rulesEngine.TrayNotificationEvents[0].TipText);
+            Assert.AreEqual("Build triggered by User1 for Build Def 1\r\nmy comment", rulesEngine.TrayNotificationEvents[0].TipText);
             Assert.AreEqual(ToolTipIcon.Info, rulesEngine.TrayNotificationEvents[0].TipIcon);
         }
 

@@ -100,13 +100,13 @@ namespace SirenOfShame
                 {
                     var duration = GetTimespanOrDefault(_timeboxAudioDuration, 10);
                     if (SirenOfShameDevice.IsConnected)
-                        SirenOfShameDevice.SetAudio((AudioPattern)_timeboxAudio.SelectedItem, duration);
+                        SirenOfShameDevice.PlayAudioPattern((AudioPattern)_timeboxAudio.SelectedItem, duration);
                 }
                 if (_timeboxLights.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_timeboxLightDuration, 10);
                     if (SirenOfShameDevice.IsConnected)
-                        SirenOfShameDevice.SetLight((LedPattern)_timeboxLights.SelectedItem, duration);
+                        SirenOfShameDevice.PlayLightPattern((LedPattern)_timeboxLights.SelectedItem, duration);
                 }
                 SosMessageBox.Show("Meeting adjourned", "This meeting is officially over.", "Ok");
             }
@@ -119,13 +119,13 @@ namespace SirenOfShame
                 {
                     var duration = GetTimespanOrDefault(_warningAudioDuration, 10);
                     if (SirenOfShameDevice.IsConnected)
-                        SirenOfShameDevice.SetAudio((AudioPattern)_warningAudio.SelectedItem, duration);
+                        SirenOfShameDevice.PlayAudioPattern((AudioPattern)_warningAudio.SelectedItem, duration);
                 }
                 if (_warningLights.SelectedIndex != 0)
                 {
                     var duration = GetTimespanOrDefault(_warningLightDuration, 10);
                     if (SirenOfShameDevice.IsConnected)
-                        SirenOfShameDevice.SetLight((LedPattern)_warningLights.SelectedItem, duration);
+                        SirenOfShameDevice.PlayLightPattern((LedPattern)_warningLights.SelectedItem, duration);
                 }
             }
         }

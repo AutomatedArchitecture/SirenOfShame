@@ -84,7 +84,7 @@ namespace BambooServices
                     string buildUrl = rootUrl + "/rest/api/latest/result/" + buildDefinitionSetting.Id + "-latest?expand=changes.change&os_authType=basic";
                     buildDoc = DownloadXml(buildUrl, userName, password);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     string buildUrl = rootUrl + "/rest/api/latest/build/" + buildDefinitionSetting.Id + "-latest?expand=changes.change&os_authType=basic";
                     buildDoc = DownloadXml(buildUrl, userName, password);

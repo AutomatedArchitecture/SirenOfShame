@@ -241,7 +241,7 @@ namespace SirenOfShame.Configuration
             _testingAudio = testing;
             _testAudio.ImageIndex = testing ? 1 : 0;
             var audioPattern = testing ? GetAudioPattern() : null;
-            SirenOfShameDevice.SetAudio(audioPattern, null);
+            SirenOfShameDevice.PlayAudioPattern(audioPattern, null);
         }
 
         private bool _testingLights;
@@ -253,7 +253,7 @@ namespace SirenOfShame.Configuration
             _testingLights = testing;
             _testLights.ImageIndex = testing ? 1 : 0;
             var ledPattern = testing ? GetLedPattern() : null;
-            SirenOfShameDevice.SetLight(ledPattern, null);
+            SirenOfShameDevice.PlayLightPattern(ledPattern, null);
         }
         
         private void TestLightsClick(object sender, EventArgs e)

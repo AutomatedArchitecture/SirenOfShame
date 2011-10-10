@@ -42,7 +42,8 @@ namespace SirenOfShame.Lib.Device
         private const UInt16 Duration_Forever = 0xfffe;
 
         public bool IsConnected { get; private set; }
-        public int Version { get; private set; }
+        public int FirmwareVersion { get; private set; }
+        public int HardwareVersion { get; private set; }
         public HardwareType HardwareType { get; private set; }
 
         public event EventHandler Connected;
@@ -64,6 +65,7 @@ namespace SirenOfShame.Lib.Device
             using (var deviceInformationSet = new DeviceInformationSet(hidGuid, DiGetClassFlags.Present | DiGetClassFlags.DeviceInterface))
             {
                 DeviceInterface deviceInterface = deviceInformationSet.GetDeviceInterfaces(hidGuid)
+                    .Where(d => d.IsValidUsbDevice)
                     .FirstOrDefault(dis => dis.Details.DevicePath.Contains(VendorId) && dis.Details.DevicePath.Contains(ProductId));
                 if (deviceInterface == null)
                 {
@@ -167,15 +169,17 @@ namespace SirenOfShame.Lib.Device
         {
             UsbInfoPacket infoPacket = _deviceInterfaceFile.GetInputReport<UsbInfoPacket>(ReportId_In_Info, PacketSize);
             _log.Debug("Info packet receieved:");
-            _log.Debug("\tVersion: " + infoPacket.Version);
+            _log.Debug("\tVersion: " + infoPacket.FirmwareVersion);
             _log.Debug("\tHardwareType: " + infoPacket.HardwareType);
+            _log.Debug("\tHardwareVersion: " + infoPacket.HardwareVersion);
             _log.Debug("\tExternalMemorySize: " + infoPacket.ExternalMemorySize);
             _log.Debug("\tAudioMode: " + infoPacket.AudioMode);
             _log.Debug("\tAudioPlayDuration: " + infoPacket.AudioPlayDuration);
             _log.Debug("\tLedMode: " + infoPacket.LedMode);
             _log.Debug("\tLedPlayDuration: " + infoPacket.LedPlayDuration);
-            Version = infoPacket.Version;
+            FirmwareVersion = infoPacket.FirmwareVersion;
             HardwareType = infoPacket.HardwareType;
+            HardwareVersion = infoPacket.HardwareVersion;
             return new SirenOfShameInfo(infoPacket);
         }
 
@@ -302,7 +306,12 @@ namespace SirenOfShame.Lib.Device
             _deviceInterfaceFile.SetOutputReport(buffer);
         }
 
-        public void SetLight(LedPattern lightPattern, TimeSpan? durationTimeSpan)
+        public void StopAudioPattern()
+        {
+            PlayAudioPattern(null, null);
+        }
+
+        public void PlayLightPattern(LedPattern lightPattern, TimeSpan? durationTimeSpan)
         {
             EnsureConnected();
             if (lightPattern == null)
@@ -316,7 +325,12 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
-        public void SetAudio(AudioPattern audioPattern, TimeSpan? durationTimeSpan)
+        public void StopLightPattern()
+        {
+            PlayLightPattern(null, null);
+        }
+
+        public void PlayAudioPattern(AudioPattern audioPattern, TimeSpan? durationTimeSpan)
         {
             EnsureConnected();
             if (audioPattern == null)

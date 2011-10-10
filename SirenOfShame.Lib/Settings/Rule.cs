@@ -216,6 +216,10 @@ namespace SirenOfShame.Lib.Settings
                 okText = "Yayy!";
             }
             message += " for " + buildStatus.Name;
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
+            {
+                message += "\r\n" + buildStatus.Comment;
+            }
 
             if (AlertType == AlertType.TrayAlert)
             {

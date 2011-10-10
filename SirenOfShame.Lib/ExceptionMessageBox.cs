@@ -1,13 +1,29 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel.Composition;
 using System.Drawing;
+using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Helpers;
+using log4net;
 
 namespace SirenOfShame.Lib
 {
     public partial class ExceptionMessageBox : Form
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ExceptionMessageBox));
+
+        [Import(typeof(ISirenOfShameDevice))]
+        public ISirenOfShameDevice SirenOfShameDevice { get; set; }
+
+        private Exception _realException;
+        private NameValueCollection _parameters;
+
         public ExceptionMessageBox()
         {
+            IocContainer.Instance.Compose(this);
             InitializeComponent();
             ClientSize = new Size(ClientSize.Width, _ok.Bottom + 10);
         }
@@ -30,8 +46,10 @@ namespace SirenOfShame.Lib
             {
                 Text = title,
                 _message = { Text = message },
-                _exception = { Text = exception.ToString() }
+                _exception = { Text = exception.ToString() },
+                _realException = exception
             };
+            dlg._parameters = dlg.GetExceptionDetailsAndLog();
             dlg._exception.Visible = false;
             if (owner != null)
                 dlg.ShowDialog(owner);
@@ -41,7 +59,59 @@ namespace SirenOfShame.Lib
 
         private void OkClick(object sender, EventArgs e)
         {
+            try
+            {
+                var url = "http://www.sirenofshame.com/ReportError";
+                _log.Info("Sending exception to: " + url);
+                WebClient webClient = new WebClient();
+                webClient.UploadValues(url, _parameters);
+                MessageBox.Show(this, "Your error has been sent. We'll get right on that.", "Error Sent");
+                _log.Debug("Exception sent");
+            }
+            catch (Exception exOuter)
+            {
+                _log.Error("Failed to send message", exOuter);
+            }
             Close();
+        }
+
+        private NameValueCollection GetExceptionDetailsAndLog()
+        {
+            NameValueCollection parameters = new NameValueCollection();
+            try
+            {
+                parameters["OperatingSystem"] = Environment.OSVersion.ToString();
+                parameters["DotNetVersion"] = Environment.Version.ToString();
+                parameters["SosVersion"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                try
+                {
+                    parameters["DeviceConnected"] = SirenOfShameDevice.IsConnected.ToString();
+                    if (SirenOfShameDevice.IsConnected)
+                    {
+                        parameters["FirmwareVersion"] = SirenOfShameDevice.FirmwareVersion.ToString();
+                        parameters["HardwareVersion"] = SirenOfShameDevice.HardwareVersion.ToString();
+                        parameters["HardwareType"] = SirenOfShameDevice.HardwareType.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("Failed to find device info when sending error", ex);
+                }
+                parameters["ErrorDate"] = DateTime.Now.ToString();
+                parameters["ErrorMessage"] = _realException.Message;
+                parameters["StackTrace"] = _realException.ToString();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Could not get all parameters", ex);
+            }
+
+            foreach (var parameterName in parameters.AllKeys)
+            {
+                _log.Info(parameterName + ": " + parameters[parameterName]);
+            }
+
+            return parameters;
         }
 
         private void ShowMoreClick(object sender, EventArgs e)
@@ -49,6 +119,11 @@ namespace SirenOfShame.Lib
             _exception.Visible = true;
             _showMore.Visible = false;
             ClientSize = new Size(ClientSize.Width, 270);
+        }
+
+        private void CancelClick(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
