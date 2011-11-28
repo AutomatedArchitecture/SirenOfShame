@@ -123,6 +123,10 @@ namespace CruiseControlNetServices
                         }
                     }
                 }
+                if (webException.Status == WebExceptionStatus.Timeout)
+                {
+                    throw new ServerUnavailableException();
+                }
                 throw;
             }
         }

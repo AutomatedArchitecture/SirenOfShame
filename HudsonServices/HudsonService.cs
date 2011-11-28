@@ -9,7 +9,6 @@ using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 using log4net;
 
 namespace HudsonServices
@@ -144,6 +143,10 @@ namespace HudsonServices
                             }
                         }
                     }
+                }
+                if (webException.Status == WebExceptionStatus.Timeout)
+                {
+                    throw new ServerUnavailableException();
                 }
                 throw;
             }
