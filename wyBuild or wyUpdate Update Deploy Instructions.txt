@@ -8,7 +8,7 @@ wyUpdate Deploy Instructions
 		+
 		Describe Changes
 		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
-		Move MINIMUM SirenOfShame.Lib & SirenOfShame.exe
+		Move MINIMUM SirenOfShame.Lib & SirenOfShame.exe (but probably >= 5 \Plugins as well)
 		Drag files into "Files & Folders" -> "\Your program's folder"
 		Delete everything in \Releases\Updates\*
 		"Build wyUpdate & Updates" -> Click both buttons
@@ -17,6 +17,7 @@ wyUpdate Deploy Instructions
 			ftp://blueink.biz/SoS/Updates
 
 Build msi
+	Ensure all plugins are included in the plugin directory
 Rename SirenOfShame-X-X-X.msi
 Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
 	Summary: X.Y.Z
@@ -24,9 +25,13 @@ Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (i
 Remove Featured label on old Download
 Update Home page to link to new download
 
+TEST - 
+	ensure an old version gets updated
+	uninstall and ensure a new install from the uploaded msi works and picks up new plugins
+
+Link from RSS
 Link from Twitter
 Link from Facebook
-Link from RSS (optional)
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
