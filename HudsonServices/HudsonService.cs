@@ -9,7 +9,6 @@ using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 using log4net;
 
 namespace HudsonServices
@@ -134,12 +133,20 @@ namespace HudsonServices
                             using (StreamReader sr = new StreamReader(s1))
                             {
                                 var errorResult = sr.ReadToEnd();
+                                if (errorResult.Contains("Please wait while Jenkins is getting ready to work"))
+                                {
+                                    throw new ServerUnavailableException("Jenkins is starting up");
+                                }
                                 string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
                                 _log.Error(message, webException);
                                 throw new SosException(message, webException);
                             }
                         }
                     }
+                }
+                if (webException.Status == WebExceptionStatus.Timeout)
+                {
+                    throw new ServerUnavailableException();
                 }
                 throw;
             }

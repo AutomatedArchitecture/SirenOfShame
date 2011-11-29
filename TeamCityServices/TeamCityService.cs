@@ -351,6 +351,10 @@ namespace TeamCityServices
                         }
                     }
                 }
+                if (webException.Status == WebExceptionStatus.Timeout)
+                {
+                    throw new ServerUnavailableException();
+                }
                 throw;
             }
         }

@@ -104,8 +104,11 @@ namespace HudsonServices
                     return BuildStatusEnum.Working;
                 case "FAILURE":
                     return BuildStatusEnum.Broken;
+                case "UNSTABLE":
+                    return BuildStatusEnum.Broken;
+                default:
+                    return BuildStatusEnum.Unknown;
             }
-            throw new Exception("Could not parse result '" + result + "'");
         }
 
     }
