@@ -1,3 +1,7 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Make the next version 1.1.6, not 1.1.5
+!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 Verify major & minor AssemblyInfo.cs AssemblyVersion is correct
 
 Build
@@ -8,7 +12,7 @@ wyUpdate Deploy Instructions
 		+
 		Describe Changes
 		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
-		Move MINIMUM SirenOfShame.Lib & SirenOfShame.exe (but probably >= 5 \Plugins as well)
+		run "copyeverything.bat x.x.x" from Releases (ensure all files are copied)
 		Drag files into "Files & Folders" -> "\Your program's folder"
 		Delete everything in \Releases\Updates\*
 		"Build wyUpdate & Updates" -> Click both buttons
@@ -29,13 +33,14 @@ TEST -
 	ensure an old version gets updated
 	uninstall and ensure a new install from the uploaded msi works and picks up new plugins
 
-Link from RSS
-Link from Twitter
-Link from Facebook
+Post to RSS: http://sirenofshame.blogspot.com/
+Post to Twitter
+Post to Facebook: http://www.facebook.com/pages/Siren-of-Shame/155912117824047
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+Save wyUpdate
 Commit
 Tag
