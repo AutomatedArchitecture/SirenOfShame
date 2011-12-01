@@ -23,6 +23,7 @@ namespace SirenOfShame.Lib.Helpers
 
         public static string ElementValueOrDefault(this XElement elem, XName name)
         {
+            if (elem == null) return null;
             var childEleme = elem.Element(name);
             return childEleme == null ? null : childEleme.Value;
         }

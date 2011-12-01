@@ -41,7 +41,6 @@ namespace HudsonServices
                 var actionElem = doc.Root.Element("action");
                 if (actionElem == null) throw new Exception("Could not find 'action'");
                 var causeElem = actionElem.Element("cause");
-                if (causeElem == null) throw new Exception("Could not find action 'cause'");
                 RequestedBy = causeElem.ElementValueOrDefault("userName");
 
                 StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
