@@ -181,6 +181,7 @@
     <Compile Include="Watcher\SetLightsEventArgs.cs" />
     <Compile Include="Watcher\SetTrayIconEvent.cs" />
     <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
+    <Compile Include="Watcher\SosDb.cs" />
     <Compile Include="Watcher\StatusChangedEvent.cs" />
     <Compile Include="Watcher\StatusCheckedEvent.cs" />
     <Compile Include="Watcher\StatusCheckedEventArgsArgs.cs" />

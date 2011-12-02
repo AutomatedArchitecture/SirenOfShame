@@ -19,6 +19,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
+        public SosDb SosDb = new SosDb();
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
@@ -153,6 +154,8 @@ namespace SirenOfShame.Lib.Watcher
 
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
+                    SosDb.Write(changedBuildStatus);
+
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
                     if (!exists)

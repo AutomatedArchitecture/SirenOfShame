@@ -56,6 +56,8 @@
     <Compile Include="Watcher\RulesEngineTest.cs" />
     <Compile Include="Watcher\RulesEngineWrapper.cs" />
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />
+    <Compile Include="Watcher\SosDbFake.cs" />
+    <Compile Include="Watcher\SosDbTest.cs" />
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>

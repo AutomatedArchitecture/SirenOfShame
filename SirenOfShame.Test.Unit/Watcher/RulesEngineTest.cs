@@ -710,5 +710,24 @@ namespace SirenOfShame.Test.Unit.Watcher
             var lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
             Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusListViewItems.Count());
         }
+
+        [TestMethod]
+        public void InProgressDoesNotWrite()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+
+            Assert.AreEqual(1, rulesEngine.SosDb.Files.Keys.Count);
+            var keyValuePair = rulesEngine.SosDb.Files.First();
+            Assert.AreEqual(true, keyValuePair.Key.EndsWith("Build Def 1.txt"));
+            var contents = keyValuePair.Value;
+            Assert.AreEqual(3, contents.Split('\n').Length);
+            Assert.AreEqual(@"633979008000000000,,1,User1
+633979008000000000,,2,User1
+", contents);
+        }
 }
 }

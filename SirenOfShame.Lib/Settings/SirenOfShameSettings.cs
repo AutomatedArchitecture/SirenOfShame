@@ -120,9 +120,14 @@ namespace SirenOfShame.Lib.Settings
             }
         }
 
+        public static string GetSosAppDataFolder()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
+        }
+        
         private static string GetConfigFileName()
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
+            string path = GetSosAppDataFolder();
             Directory.CreateDirectory(path);
             return Path.Combine(path, SIRENOFSHAME_CONFIG);
         }

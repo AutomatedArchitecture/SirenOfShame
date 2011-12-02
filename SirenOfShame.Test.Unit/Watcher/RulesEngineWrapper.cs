@@ -13,6 +13,8 @@ namespace SirenOfShame.Test.Unit.Watcher
         public const string BUILD1_ID = "Build Def 1";
         public const string BUILD2_ID = "Build Def 2";
 
+        private SosDbFake _sosDbFake = new SosDbFake();
+
         public RulesEngineWrapper()
         {
             TrayNotificationEvents = new List<TrayNotifyEventArgs>();
@@ -28,9 +30,11 @@ namespace SirenOfShame.Test.Unit.Watcher
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1" });
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
-            _rulesEngine = new RulesEngine(Settings);
+            _rulesEngine = new RulesEngine(Settings)
+            {
+                SosDb = _sosDbFake
+            };
 
-            
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
             _rulesEngine.RefreshStatus += (sender, arg) => RefreshStatusEvents.Add(arg);
             _rulesEngine.UpdateStatusBar += (sender, arg) => StatusBarUpdateEvents.Add(arg);
@@ -42,6 +46,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         private readonly RulesEngine _rulesEngine;
+        
         public SirenOfShameSettingsFake Settings { get; set; }
         public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
         public List<TrayNotifyEventArgs> TrayNotificationEvents { get; set; }
@@ -50,6 +55,11 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<ModalDialogEventArgs> ModalDialogEvents { get; set; }
         public List<SetAudioEventArgs> SetAudioEvents { get; set; }
         public List<SetLightsEventArgs> SetLightsEvents { get; set; }
+
+        public SosDbFake SosDb
+        {
+            get { return _sosDbFake; }
+        }
 
         public List<Rule> Rules
         {
