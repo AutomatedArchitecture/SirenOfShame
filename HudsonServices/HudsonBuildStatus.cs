@@ -1,82 +1,89 @@
 ﻿using System;
 using System.Xml.Linq;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+using log4net;
 
 namespace HudsonServices
 {
     public class HudsonBuildStatus : BuildStatus
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
+
         public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting)
         {
-            if (doc.Root == null) throw new Exception("Could not get root of xml");
-            var changeSet = doc.Root.Element("changeSet");
-            if (changeSet == null) throw new Exception("Could not find 'changeSet'");
-
-            var resultStr = doc.Root.ElementValueOrDefault("result");
-            if (!string.IsNullOrWhiteSpace(resultStr))
+            try
             {
-                BuildStatusEnum = ToBuildStatusEnum(resultStr);
-            }
-            else
-            {
-                var building = doc.Root.ElementValueOrDefault("building");
-                if (string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    BuildStatusEnum = BuildStatusEnum.InProgress;
-                }
-                else
-                {
-                    BuildStatusEnum = BuildStatusEnum.Unknown;
-                }
-            }
+                if (doc.Root == null) throw new Exception("Could not get root of xml");
+                var changeSet = doc.Root.Element("changeSet");
+                if (changeSet == null) throw new Exception("Could not find 'changeSet'");
 
-            BuildDefinitionId = buildDefinitionSetting.Id;
-            Name = buildDefinitionSetting.Name;
-
-            var changeSetItem = changeSet.Element("item");
-            if (changeSetItem == null)
-            {
-                var actionElem = doc.Root.Element("action");
-                if (actionElem == null) throw new Exception("Could not find 'action'");
-                var causeElem = actionElem.Element("cause");
-                RequestedBy = causeElem.ElementValueOrDefault("userName");
-
-                StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
-            }
-            else
-            {
-                var changeSetAuthor = changeSetItem.Element("author");
-                if (changeSetAuthor != null)
+                var resultStr = doc.Root.ElementValueOrDefault("result");
+                if (!string.IsNullOrWhiteSpace(resultStr))
                 {
-                    RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
-                }
-                else
+                    BuildStatusEnum = ToBuildStatusEnum(resultStr);
+                } else
                 {
-                    var userElem = changeSetItem.Element("user");
-                    if (userElem == null) throw new Exception("Could not find author or user on changeset");
-                    RequestedBy = userElem.Value;
+                    var building = doc.Root.ElementValueOrDefault("building");
+                    if (string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        BuildStatusEnum = BuildStatusEnum.InProgress;
+                    } else
+                    {
+                        BuildStatusEnum = BuildStatusEnum.Unknown;
+                    }
                 }
 
-                Comment = changeSetItem.ElementValueOrDefault("msg");
+                BuildDefinitionId = buildDefinitionSetting.Id;
+                Name = buildDefinitionSetting.Name;
 
-                var date = changeSetItem.ElementValueOrDefault("date");
-                if (!string.IsNullOrWhiteSpace(date))
+                var changeSetItem = changeSet.Element("item");
+                if (changeSetItem == null)
                 {
-                    StartedTime = ParseUnixTime(date);
-                }
-                else
-                {
+                    var actionElem = doc.Root.Element("action");
+                    if (actionElem == null) throw new Exception("Could not find 'action'");
+                    var causeElem = actionElem.Element("cause");
+                    RequestedBy = causeElem.ElementValueOrDefault("userName");
+
                     StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
-                }
-            }
+                } else
+                {
+                    var changeSetAuthor = changeSetItem.Element("author");
+                    if (changeSetAuthor != null)
+                    {
+                        RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
+                    } else
+                    {
+                        var userElem = changeSetItem.Element("user");
+                        if (userElem == null) throw new Exception("Could not find author or user on changeset");
+                        RequestedBy = userElem.Value;
+                    }
 
-            var durationStr = doc.Root.ElementValueOrDefault("duration");
-            if (!string.IsNullOrWhiteSpace(durationStr))
+                    Comment = changeSetItem.ElementValueOrDefault("msg");
+
+                    var date = changeSetItem.ElementValueOrDefault("date");
+                    if (!string.IsNullOrWhiteSpace(date))
+                    {
+                        StartedTime = ParseUnixTime(date);
+                    } else
+                    {
+                        StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
+                    }
+                }
+
+                var durationStr = doc.Root.ElementValueOrDefault("duration");
+                if (!string.IsNullOrWhiteSpace(durationStr))
+                {
+                    var duration = int.Parse(durationStr);
+                    FinishedTime = StartedTime == null ? (DateTime?) null : StartedTime.Value.AddMilliseconds(duration);
+                }
+            } 
+            catch (Exception)
             {
-                var duration = int.Parse(durationStr);
-                FinishedTime = StartedTime == null ? (DateTime?)null : StartedTime.Value.AddMilliseconds(duration);
+                _log.Error("Error parsing the following xml: " + doc);
+                throw;
             }
         }
 
