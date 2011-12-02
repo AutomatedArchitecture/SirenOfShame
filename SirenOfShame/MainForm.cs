@@ -132,11 +132,13 @@ namespace SirenOfShame
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
-            Invoke(() =>
-            {
-                BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-                ShowStats(buildDefinitionSetting);
-            });
+            Invoke(RefreshStats);
+        }
+
+        private void RefreshStats()
+        {
+            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+            RefreshStats(buildDefinitionSetting);
         }
 
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
@@ -205,6 +207,7 @@ namespace SirenOfShame
                 _settings = new SirenOfShameSettings();
             }
             StartWatchingBuild();
+            RefreshStats();
         }
 
         private RulesEngine RulesEngine
@@ -394,7 +397,7 @@ namespace SirenOfShame
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
-            ShowStats(buildDefinitionSetting);
+            RefreshStats(buildDefinitionSetting);
 
             if (e.Button == MouseButtons.Right)
             {
@@ -403,11 +406,24 @@ namespace SirenOfShame
             }
         }
 
-        private void ShowStats(BuildDefinitionSetting buildDefinitionSetting)
+        private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting)
         {
-            if (buildDefinitionSetting == null)
+            bool buildDefinitionSelected = buildDefinitionSetting != null;
+            _panelBuildStats.Visible = buildDefinitionSelected;
+            _userStats.Visible = !buildDefinitionSelected;
+            if (!buildDefinitionSelected)
             {
-                ClearStats();
+                _users.Items.Clear();
+                var personSettings = _settings.People
+                    .Select(i => new { i.DisplayName, Reputation = i.GetReputation() })
+                    .OrderByDescending(i => i.Reputation);
+                foreach (var person in personSettings)
+                {
+                    ListViewItem lvi = new ListViewItem(person.DisplayName);
+                    AddSubItem(lvi, "Reputation", person.Reputation.ToString());
+                    _users.Items.Add(lvi);
+                }
+
                 return;
             }
             var definitions = _sosDb.ReadAll(buildDefinitionSetting);

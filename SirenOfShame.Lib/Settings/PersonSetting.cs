@@ -9,5 +9,10 @@ namespace SirenOfShame.Lib.Settings
         public string DisplayName { get; set; }
         public int TotalBuilds { get; set; }
         public int FailedBuilds { get; set; }
+
+        public int GetReputation()
+        {
+            return TotalBuilds - (FailedBuilds*5);
+        }
     }
 }
