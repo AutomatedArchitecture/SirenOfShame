@@ -120,7 +120,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -170,6 +170,7 @@ namespace SirenOfShame {
             this._buildDefinitions.TabIndex = 36;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
             this._buildDefinitions.View = System.Windows.Forms.View.Details;
+            this._buildDefinitions.SelectedIndexChanged += new System.EventHandler(this._buildDefinitions_SelectedIndexChanged);
             this._buildDefinitions.DoubleClick += new System.EventHandler(this.BuildDefinitionsDoubleClick);
             this._buildDefinitions.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BuildDefinitionsMouseUp);
             // 

@@ -394,8 +394,6 @@ namespace SirenOfShame
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
-            RefreshStats(buildDefinitionSetting);
-
             if (e.Button == MouseButtons.Right)
             {
                 _buildMenu.Show(_buildDefinitions, e.X, e.Y);
@@ -755,6 +753,11 @@ namespace SirenOfShame
         {
             SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
             upgrade.ShowDialog(this);
+        }
+
+        private void _buildDefinitions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshStats();
         }
      }
 }
