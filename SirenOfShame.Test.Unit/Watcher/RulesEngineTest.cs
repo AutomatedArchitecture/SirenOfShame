@@ -738,6 +738,22 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [TestMethod]
+        public void BreakThenFixesBuild_UserHasStatsUpdated()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.People[0].DisplayName);
+            Assert.AreEqual(2, rulesEngine.Settings.People[0].TotalBuilds);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
+        }
+
+        [TestMethod]
         public void InProgressDoesNotWrite()
         {
             var rulesEngine = new RulesEngineWrapper();

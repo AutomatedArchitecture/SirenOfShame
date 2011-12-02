@@ -260,6 +260,7 @@ namespace SirenOfShame.Lib.Settings
 
         public PersonSetting FindAddPerson(string requestedBy)
         {
+            if (People == null) People = new List<PersonSetting>();
             var person = People.FirstOrDefault(i => i.RawName == requestedBy);
             if (person != null) return person;
             person = new PersonSetting

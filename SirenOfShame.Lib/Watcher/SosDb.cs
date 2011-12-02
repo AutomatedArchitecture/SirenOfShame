@@ -18,21 +18,25 @@ namespace SirenOfShame.Lib.Watcher
         
         public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
         {
-            WriteToFile(buildStatus);
-
-            //if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
-            //{
-            //    var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
-            //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
-            //    {
-            //        personSetting.FailedBuilds++;
-            //    }
-            //    personSetting.TotalBuilds++;
-            //    settings.Save();
-            //}
+            AppendToFile(buildStatus);
+            UpdateStatsInSettings(buildStatus, settings);
         }
 
-        private void WriteToFile(BuildStatus buildStatus)
+        private static void UpdateStatsInSettings(BuildStatus buildStatus, SirenOfShameSettings settings)
+        {
+            if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
+            {
+                var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
+                if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+                {
+                    personSetting.FailedBuilds++;
+                }
+                personSetting.TotalBuilds++;
+                settings.Save();
+            }
+        }
+
+        private void AppendToFile(BuildStatus buildStatus)
         {
             string[] items = new[]
             {
