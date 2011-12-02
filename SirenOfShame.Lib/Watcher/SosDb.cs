@@ -20,10 +20,16 @@ namespace SirenOfShame.Lib.Watcher
         {
             WriteToFile(buildStatus);
 
-            if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
-            {
-                // add person
-            }
+            //if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
+            //{
+            //    var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
+            //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+            //    {
+            //        personSetting.FailedBuilds++;
+            //    }
+            //    personSetting.TotalBuilds++;
+            //    settings.Save();
+            //}
         }
 
         private void WriteToFile(BuildStatus buildStatus)

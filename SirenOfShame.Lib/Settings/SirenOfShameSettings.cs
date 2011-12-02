@@ -51,6 +51,8 @@ namespace SirenOfShame.Lib.Settings
 
         public List<CiEntryPointSetting> CiEntryPointSettings { get; set; }
 
+        public List<PersonSetting> People { get; set; }
+
         public bool SirenEverConnected { get; set; }
 
         public UpdateLocation UpdateLocation { get; set; }
@@ -183,7 +185,7 @@ namespace SirenOfShame.Lib.Settings
             if (Version == null)
             {
                 Version = 1;
-                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings);
+                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).ToList();
                 foreach (var buildDefinitionSetting in buildDefinitionSettings)
                 {
                     var emptyPerson = buildDefinitionSetting.People.FirstOrDefault(string.IsNullOrEmpty);
@@ -192,6 +194,14 @@ namespace SirenOfShame.Lib.Settings
                         buildDefinitionSetting.People.Remove(emptyPerson);
                     }
                 }
+                
+                People = new List<PersonSetting>();
+                var allPeople = buildDefinitionSettings.SelectMany(i => i.People);
+                foreach (var person in allPeople)
+                {
+                    FindAddPerson(person);
+                }
+                
                 Save();
             }
         }
@@ -246,6 +256,22 @@ namespace SirenOfShame.Lib.Settings
             TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
             TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
             TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
+        }
+
+        public PersonSetting FindAddPerson(string requestedBy)
+        {
+            var person = People.FirstOrDefault(i => i.RawName == requestedBy);
+            if (person != null) return person;
+            person = new PersonSetting
+            {
+                DisplayName = requestedBy,
+                RawName = requestedBy,
+                FailedBuilds = 0,
+                TotalBuilds = 0
+            };
+            People.Add(person);
+            Save();
+            return person;
         }
     }
 }

@@ -163,6 +163,7 @@
     <Compile Include="Settings\CiEntryPointSetting.cs" />
     <Compile Include="Settings\LedPatternSetting.cs" />
     <Compile Include="Settings\MyBuildDefinition.cs" />
+    <Compile Include="Settings\PersonSetting.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
