@@ -162,7 +162,8 @@ namespace SirenOfShame.Lib.Watcher
 
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
-                    SosDb.Write(changedBuildStatus, _settings);
+                    if (previousStatus != null)
+                        SosDb.Write(changedBuildStatus, _settings);
 
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
