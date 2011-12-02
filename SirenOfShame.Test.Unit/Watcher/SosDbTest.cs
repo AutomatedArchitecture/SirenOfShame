@@ -59,5 +59,23 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("633979044620000000,633979044610000000,1,Lee", linesOutput[1]);
             File.Delete(expectedFileLocation);
         }
+        
+        [TestMethod]
+        public void Write_InvalidCharacters_Removed()
+        {
+            const string uglyBuildDefinition = "\"M\"\\(a)/ry/ h**ad:>> a\\/:*?\"| li*tt|le|| la\"mb.?";
+            string expectedFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture", "SirenOfShame", "M(a)ry had a little lamb.txt");
+            File.Delete(expectedFileLocation);
+            var sosDb = new SosDb();
+            BuildStatus buildStatus = new BuildStatus
+            {
+                BuildDefinitionId = uglyBuildDefinition,
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Name = "BuildName",
+            };
+            sosDb.Write(buildStatus);
+            Assert.IsTrue(File.Exists(expectedFileLocation));
+            File.Delete(expectedFileLocation);
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Watcher
@@ -29,9 +30,18 @@ namespace SirenOfShame.Lib.Watcher
             Write(location, contents);
         }
 
+        private char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
+        
+        protected static string RemoveIllegalCharacters(string s)
+        {
+            string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()) + "\\.";
+            Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            return r.Replace(s, "");
+        }
+        
         private string GetLocation(string buildDefinitionId)
         {
-            return folder + "\\" + buildDefinitionId + ".txt";
+            return folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
 
         public List<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
