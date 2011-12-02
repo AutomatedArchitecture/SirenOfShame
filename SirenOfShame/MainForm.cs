@@ -130,6 +130,15 @@ namespace SirenOfShame
             UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
+        private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
+        {
+            Invoke(() =>
+            {
+                BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+                ShowStats(buildDefinitionSetting);
+            });
+        }
+
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             Invoke(() =>
@@ -223,6 +232,7 @@ namespace SirenOfShame
             rulesEngine.SetAudio += RulesEngineSetAudio;
             rulesEngine.SetLights += RulesEngineSetLights;
             rulesEngine.SetTrayIcon += RulesEngineSetTrayIcon;
+            rulesEngine.StatsChanged += RulesEngineStatsChanged;
             return rulesEngine;
         }
 

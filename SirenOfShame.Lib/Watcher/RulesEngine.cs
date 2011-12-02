@@ -23,6 +23,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
+        public event StatsChangedEvent StatsChanged;
         public event TrayNotifyEvent TrayNotify;
         public event ModalDialogEvent ModalDialog;
         public event SetAudioEvent SetAudio;
@@ -111,6 +112,13 @@ namespace SirenOfShame.Lib.Watcher
             BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses.ToList());
         }
 
+        private void InvokeStatsChanged()
+        {
+            var statsChanged = StatsChanged;
+            if (statsChanged == null) return;
+            statsChanged(this, new StatsChangedEventArgs());
+        }
+
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
         {
             IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
@@ -167,6 +175,11 @@ namespace SirenOfShame.Lib.Watcher
                         PreviousWorkingOrBrokenBuildStatus[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
                     }
                 }
+            }
+
+            if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
+            {
+                InvokeStatsChanged();
             }
         }
 
