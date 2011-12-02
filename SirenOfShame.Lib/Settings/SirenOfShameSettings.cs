@@ -41,6 +41,8 @@ namespace SirenOfShame.Lib.Settings
             LedPatterns = new List<LedPatternSetting>();
         }
 
+        public int? Version { get; set; }
+        
         public List<Rule> Rules { get; set; }
 
         private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
@@ -135,7 +137,9 @@ namespace SirenOfShame.Lib.Settings
         public static SirenOfShameSettings GetAppSettings()
         {
             string fileName = GetConfigFileName();
-            return GetAppSettings(fileName);
+            var settings = GetAppSettings(fileName);
+            settings.TryUpgrade();
+            return settings;
         }
 
         public static SirenOfShameSettings GetAppSettings(string fileName)
@@ -172,6 +176,24 @@ namespace SirenOfShame.Lib.Settings
             defaultSettings._fileName = fileName;
             defaultSettings.Save();
             return defaultSettings;
+        }
+
+        protected void TryUpgrade()
+        {
+            if (Version == null)
+            {
+                Version = 1;
+                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings);
+                foreach (var buildDefinitionSetting in buildDefinitionSettings)
+                {
+                    var emptyPerson = buildDefinitionSetting.People.FirstOrDefault(string.IsNullOrEmpty);
+                    if (emptyPerson != null)
+                    {
+                        buildDefinitionSetting.People.Remove(emptyPerson);
+                    }
+                }
+                Save();
+            }
         }
 
         private void ErrorIfAnythingLooksBad()

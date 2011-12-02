@@ -7,5 +7,10 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             // do nothing
         }
+
+        public void DoUpgrade()
+        {
+            TryUpgrade();
+        }
     }
 }
