@@ -24,7 +24,8 @@ namespace SirenOfShame
         private RulesEngine _rulesEngine;
         private readonly string _logFilename;
         private readonly bool _canViewLogs;
-
+        SosDb _sosDb = new SosDb();
+        
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
@@ -381,13 +382,41 @@ namespace SirenOfShame
 
         private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
         {
+            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+
+            ShowStats(buildDefinitionSetting);
+
             if (e.Button == MouseButtons.Right)
             {
-                BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
                 _buildMenu.Show(_buildDefinitions, e.X, e.Y);
                 _affectsTrayIcon.Checked = buildDefinitionSetting == null ? true : buildDefinitionSetting.AffectsTrayIcon;
             }
+        }
+
+        private void ShowStats(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            if (buildDefinitionSetting == null)
+            {
+                ClearStats();
+                return;
+            }
+            var definitions = _sosDb.ReadAll(buildDefinitionSetting);
+            var count = definitions.Count;
+            var failed = definitions.Where(s => s.BuildStatusEnum == BuildStatusEnum.Broken).Count();
+            double percentFailed = count == 0 ? 0 : ((double)failed)/count;
+            SetStats(count, failed, percentFailed);
+        }
+
+        private void ClearStats()
+        {
+            SetStats(0, 0, 0);
+        }
+
+        private void SetStats(int count, int failed, double percentFailed)
+        {
+            _buildCount.Text = count.ToString();
+            _failedBuilds.Text = failed.ToString();
+            _percentFailed.Text = percentFailed.ToString("p");
         }
 
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
