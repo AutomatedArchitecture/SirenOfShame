@@ -16,13 +16,23 @@ namespace SirenOfShame.Lib.Watcher
             File.AppendAllText(location, contents);
         }
         
-        public void Write(BuildStatus buildStatus)
+        public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
         {
-            string[] items = new []
+            WriteToFile(buildStatus);
+
+            if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
+            {
+                // add person
+            }
+        }
+
+        private void WriteToFile(BuildStatus buildStatus)
+        {
+            string[] items = new[]
             {
                 buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(),
                 buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(),
-                ((int)buildStatus.BuildStatusEnum).ToString(),
+                ((int) buildStatus.BuildStatusEnum).ToString(),
                 buildStatus.RequestedBy,
             };
             string contents = string.Join(",", items) + "\r\n";

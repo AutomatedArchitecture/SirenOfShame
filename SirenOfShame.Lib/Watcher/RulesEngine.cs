@@ -162,7 +162,7 @@ namespace SirenOfShame.Lib.Watcher
 
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
-                    SosDb.Write(changedBuildStatus);
+                    SosDb.Write(changedBuildStatus, _settings);
 
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
@@ -204,7 +204,7 @@ namespace SirenOfShame.Lib.Watcher
 
             var buildsWithoutRequestedByPerson = buildStatusesWithNewPeople.ToList();
             buildsWithoutRequestedByPerson
-                .Where(bss => bss.buildStatus.RequestedBy != null)
+                .Where(bss => !string.IsNullOrEmpty(bss.buildStatus.RequestedBy))
                 .ToList()
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
             if (buildsWithoutRequestedByPerson.Any())

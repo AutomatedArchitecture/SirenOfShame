@@ -603,8 +603,10 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual("User1", rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual("User1", rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
         [TestMethod]
@@ -626,6 +628,30 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
                 BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2010, 1, 1)
+            });
+            Assert.AreEqual(0, build1Setting.People.Count);
+        }
+
+        [TestMethod]
+        public void NewBuildWithEmptyRequestedBy_RequestByNotAdded()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.Rules.Add(new Rule
+            {
+                TriggerType = TriggerType.InitialFailedBuild,
+                AlertType = AlertType.NoAlert,
+            });
+
+            BuildDefinitionSetting build1Setting = rulesEngine.GetBuildDefinitionSetting(RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual(0, build1Setting.People.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Broken,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = "",
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(0, build1Setting.People.Count);

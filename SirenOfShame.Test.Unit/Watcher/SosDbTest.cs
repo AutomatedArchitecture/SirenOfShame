@@ -25,7 +25,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                 RequestedBy = "Lee",
                 Name = "BuildName",
             };
-            sosDb.Write(buildStatus);
+            SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
+            sosDb.Write(buildStatus, fakeSettings);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             string[] linesOutput = File.ReadAllLines(expectedFileLocation);
             Assert.AreEqual(1, linesOutput.Length);
@@ -50,8 +51,9 @@ namespace SirenOfShame.Test.Unit.Watcher
                 RequestedBy = "Lee",
                 Name = "BuildName",
             };
-            sosDb.Write(buildStatus);
-            sosDb.Write(buildStatus);
+            SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
+            sosDb.Write(buildStatus, fakeSettings);
+            sosDb.Write(buildStatus, fakeSettings);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             string[] linesOutput = File.ReadAllLines(expectedFileLocation);
             Assert.AreEqual(2, linesOutput.Length);
@@ -73,7 +75,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = "BuildName",
             };
-            sosDb.Write(buildStatus);
+            SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
+            sosDb.Write(buildStatus, fakeSettings);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             File.Delete(expectedFileLocation);
         }
