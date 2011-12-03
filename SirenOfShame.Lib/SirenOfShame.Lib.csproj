@@ -163,6 +163,7 @@
     <Compile Include="Settings\CiEntryPointSetting.cs" />
     <Compile Include="Settings\LedPatternSetting.cs" />
     <Compile Include="Settings\MyBuildDefinition.cs" />
+    <Compile Include="Settings\PersonSetting.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
@@ -181,6 +182,9 @@
     <Compile Include="Watcher\SetLightsEventArgs.cs" />
     <Compile Include="Watcher\SetTrayIconEvent.cs" />
     <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
+    <Compile Include="Watcher\SosDb.cs" />
+    <Compile Include="Watcher\StatsChangedEvent.cs" />
+    <Compile Include="Watcher\StatsChangedEventArgs.cs" />
     <Compile Include="Watcher\StatusChangedEvent.cs" />
     <Compile Include="Watcher\StatusCheckedEvent.cs" />
     <Compile Include="Watcher\StatusCheckedEventArgsArgs.cs" />

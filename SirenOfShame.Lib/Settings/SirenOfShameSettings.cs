@@ -41,6 +41,8 @@ namespace SirenOfShame.Lib.Settings
             LedPatterns = new List<LedPatternSetting>();
         }
 
+        public int? Version { get; set; }
+        
         public List<Rule> Rules { get; set; }
 
         private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
@@ -48,6 +50,8 @@ namespace SirenOfShame.Lib.Settings
         public int Pattern { get; set; }
 
         public List<CiEntryPointSetting> CiEntryPointSettings { get; set; }
+
+        public List<PersonSetting> People { get; set; }
 
         public bool SirenEverConnected { get; set; }
 
@@ -120,9 +124,14 @@ namespace SirenOfShame.Lib.Settings
             }
         }
 
+        public static string GetSosAppDataFolder()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
+        }
+        
         private static string GetConfigFileName()
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
+            string path = GetSosAppDataFolder();
             Directory.CreateDirectory(path);
             return Path.Combine(path, SIRENOFSHAME_CONFIG);
         }
@@ -130,7 +139,9 @@ namespace SirenOfShame.Lib.Settings
         public static SirenOfShameSettings GetAppSettings()
         {
             string fileName = GetConfigFileName();
-            return GetAppSettings(fileName);
+            var settings = GetAppSettings(fileName);
+            settings.TryUpgrade();
+            return settings;
         }
 
         public static SirenOfShameSettings GetAppSettings(string fileName)
@@ -167,6 +178,32 @@ namespace SirenOfShame.Lib.Settings
             defaultSettings._fileName = fileName;
             defaultSettings.Save();
             return defaultSettings;
+        }
+
+        protected void TryUpgrade()
+        {
+            if (Version == null)
+            {
+                Version = 1;
+                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).ToList();
+                foreach (var buildDefinitionSetting in buildDefinitionSettings)
+                {
+                    var emptyPerson = buildDefinitionSetting.People.FirstOrDefault(string.IsNullOrEmpty);
+                    if (emptyPerson != null)
+                    {
+                        buildDefinitionSetting.People.Remove(emptyPerson);
+                    }
+                }
+                
+                People = new List<PersonSetting>();
+                var allPeople = buildDefinitionSettings.SelectMany(i => i.People);
+                foreach (var person in allPeople)
+                {
+                    FindAddPerson(person);
+                }
+                
+                Save();
+            }
         }
 
         private void ErrorIfAnythingLooksBad()
@@ -219,6 +256,23 @@ namespace SirenOfShame.Lib.Settings
             TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
             TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
             TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
+        }
+
+        public PersonSetting FindAddPerson(string requestedBy)
+        {
+            if (People == null) People = new List<PersonSetting>();
+            var person = People.FirstOrDefault(i => i.RawName == requestedBy);
+            if (person != null) return person;
+            person = new PersonSetting
+            {
+                DisplayName = requestedBy,
+                RawName = requestedBy,
+                FailedBuilds = 0,
+                TotalBuilds = 0
+            };
+            People.Add(person);
+            Save();
+            return person;
         }
     }
 }

@@ -19,9 +19,11 @@ namespace SirenOfShame.Lib.Watcher
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
+        public SosDb SosDb = new SosDb();
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
+        public event StatsChangedEvent StatsChanged;
         public event TrayNotifyEvent TrayNotify;
         public event ModalDialogEvent ModalDialog;
         public event SetAudioEvent SetAudio;
@@ -110,6 +112,13 @@ namespace SirenOfShame.Lib.Watcher
             BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses.ToList());
         }
 
+        private void InvokeStatsChanged()
+        {
+            var statsChanged = StatsChanged;
+            if (statsChanged == null) return;
+            statsChanged(this, new StatsChangedEventArgs());
+        }
+
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
         {
             IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
@@ -153,6 +162,9 @@ namespace SirenOfShame.Lib.Watcher
 
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
+                    if (previousStatus != null)
+                        SosDb.Write(changedBuildStatus, _settings);
+
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
                     if (!exists)
@@ -164,6 +176,11 @@ namespace SirenOfShame.Lib.Watcher
                         PreviousWorkingOrBrokenBuildStatus[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
                     }
                 }
+            }
+
+            if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
+            {
+                InvokeStatsChanged();
             }
         }
 
@@ -188,7 +205,7 @@ namespace SirenOfShame.Lib.Watcher
 
             var buildsWithoutRequestedByPerson = buildStatusesWithNewPeople.ToList();
             buildsWithoutRequestedByPerson
-                .Where(bss => bss.buildStatus.RequestedBy != null)
+                .Where(bss => !string.IsNullOrEmpty(bss.buildStatus.RequestedBy))
                 .ToList()
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
             if (buildsWithoutRequestedByPerson.Any())

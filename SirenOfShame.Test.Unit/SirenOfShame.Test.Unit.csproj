@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
     <Compile Include="TestHelpers\AssertHelpers.cs" />
     <Compile Include="Util\BuildStatusUtilTest.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Watcher\RulesEngineTest.cs" />
     <Compile Include="Watcher\RulesEngineWrapper.cs" />
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />
+    <Compile Include="Watcher\SosDbFake.cs" />
+    <Compile Include="Watcher\SosDbTest.cs" />
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>

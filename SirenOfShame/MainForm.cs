@@ -24,7 +24,8 @@ namespace SirenOfShame
         private RulesEngine _rulesEngine;
         private readonly string _logFilename;
         private readonly bool _canViewLogs;
-
+        SosDb _sosDb = new SosDb();
+        
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
@@ -129,6 +130,17 @@ namespace SirenOfShame
             UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
+        private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
+        {
+            Invoke(RefreshStats);
+        }
+
+        private void RefreshStats()
+        {
+            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+            RefreshStats(buildDefinitionSetting);
+        }
+
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             Invoke(() =>
@@ -195,6 +207,7 @@ namespace SirenOfShame
                 _settings = new SirenOfShameSettings();
             }
             StartWatchingBuild();
+            RefreshStats();
         }
 
         private RulesEngine RulesEngine
@@ -222,6 +235,7 @@ namespace SirenOfShame
             rulesEngine.SetAudio += RulesEngineSetAudio;
             rulesEngine.SetLights += RulesEngineSetLights;
             rulesEngine.SetTrayIcon += RulesEngineSetTrayIcon;
+            rulesEngine.StatsChanged += RulesEngineStatsChanged;
             return rulesEngine;
         }
 
@@ -378,13 +392,52 @@ namespace SirenOfShame
 
         private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
         {
+            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+
             if (e.Button == MouseButtons.Right)
             {
-                BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
                 _buildMenu.Show(_buildDefinitions, e.X, e.Y);
                 _affectsTrayIcon.Checked = buildDefinitionSetting == null ? true : buildDefinitionSetting.AffectsTrayIcon;
             }
+        }
+
+        private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            bool buildDefinitionSelected = buildDefinitionSetting != null;
+            _panelBuildStats.Visible = buildDefinitionSelected;
+            _userStats.Visible = !buildDefinitionSelected;
+            if (!buildDefinitionSelected)
+            {
+                _users.Items.Clear();
+                var personSettings = _settings.People
+                    .Select(i => new { i.DisplayName, Reputation = i.GetReputation() })
+                    .OrderByDescending(i => i.Reputation);
+                foreach (var person in personSettings)
+                {
+                    ListViewItem lvi = new ListViewItem(person.DisplayName);
+                    AddSubItem(lvi, "Reputation", person.Reputation.ToString());
+                    _users.Items.Add(lvi);
+                }
+
+                return;
+            }
+            var definitions = _sosDb.ReadAll(buildDefinitionSetting);
+            var count = definitions.Count;
+            var failed = definitions.Where(s => s.BuildStatusEnum == BuildStatusEnum.Broken).Count();
+            double percentFailed = count == 0 ? 0 : ((double)failed)/count;
+            SetStats(count, failed, percentFailed);
+        }
+
+        private void ClearStats()
+        {
+            SetStats(0, 0, 0);
+        }
+
+        private void SetStats(int count, int failed, double percentFailed)
+        {
+            _buildCount.Text = count.ToString();
+            _failedBuilds.Text = failed.ToString();
+            _percentFailed.Text = percentFailed.ToString("p");
         }
 
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
@@ -700,6 +753,11 @@ namespace SirenOfShame
         {
             SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
             upgrade.ShowDialog(this);
+        }
+
+        private void _buildDefinitions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshStats();
         }
      }
 }

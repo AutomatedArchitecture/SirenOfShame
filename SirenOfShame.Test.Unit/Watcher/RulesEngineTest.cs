@@ -603,8 +603,10 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual("User1", rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(1, rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People.Count);
+            Assert.AreEqual("User1", rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
         [TestMethod]
@@ -626,6 +628,30 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
                 BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2010, 1, 1)
+            });
+            Assert.AreEqual(0, build1Setting.People.Count);
+        }
+
+        [TestMethod]
+        public void NewBuildWithEmptyRequestedBy_RequestByNotAdded()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.Rules.Add(new Rule
+            {
+                TriggerType = TriggerType.InitialFailedBuild,
+                AlertType = AlertType.NoAlert,
+            });
+
+            BuildDefinitionSetting build1Setting = rulesEngine.GetBuildDefinitionSetting(RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual(0, build1Setting.People.Count);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Broken,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = "",
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
                 StartedTime = new DateTime(2010, 1, 1)
             });
             Assert.AreEqual(0, build1Setting.People.Count);
@@ -709,6 +735,41 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             var lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
             Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusListViewItems.Count());
+        }
+
+        [TestMethod]
+        public void BreakThenFixesBuild_UserHasStatsUpdated()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.People[0].DisplayName);
+            Assert.AreEqual(2, rulesEngine.Settings.People[0].TotalBuilds);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
+        }
+
+        [TestMethod]
+        public void InProgressDoesNotWrite()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+
+            Assert.AreEqual(1, rulesEngine.SosDb.Files.Keys.Count);
+            var keyValuePair = rulesEngine.SosDb.Files.First();
+            Assert.AreEqual(true, keyValuePair.Key.EndsWith("Build Def 1.txt"));
+            var contents = keyValuePair.Value;
+            Assert.AreEqual(3, contents.Split('\n').Length);
+            Assert.AreEqual(@"633979008000000000,,1,User1
+633979008000000000,,2,User1
+", contents);
         }
 }
 }
