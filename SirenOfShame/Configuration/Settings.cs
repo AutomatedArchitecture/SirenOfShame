@@ -6,6 +6,7 @@ namespace SirenOfShame.Configuration
     public partial class Settings : FormBase
     {
         private readonly SirenOfShameSettings _settings;
+        private bool _resetReputationOnSave = false;
 
         public Settings(SirenOfShameSettings settings)
         {
@@ -41,6 +42,16 @@ namespace SirenOfShame.Configuration
                 throw new NotImplementedException("One of the update locations needs to be checked");
             }
             _settings.UpdateLocation = updateLocation;
+
+            if (_resetReputationOnSave)
+            {
+                _settings.People.ForEach(p =>
+                {
+                    p.TotalBuilds = 0;
+                    p.FailedBuilds = 0;
+                });
+            }
+
             _settings.Save();
             Close();
         }
@@ -70,15 +81,20 @@ namespace SirenOfShame.Configuration
             Program.Form.ViewLogs();
         }
 
-        private void _updateLocationOther_CheckedChanged(object sender, EventArgs e)
+        private void UpdateLocationOtherCheckedChanged(object sender, EventArgs e)
         {
             _updateLocationOtherLocation.Enabled = _updateLocationOther.Checked;
         }
 
-        private void _checkForUpdates_Click(object sender, EventArgs e)
+        private void CheckForUpdatesClick(object sender, EventArgs e)
         {
             Close();
             Program.Form.CheckForUpdates();
+        }
+
+        private void ResetReputationClick(object sender, EventArgs e)
+        {
+            _resetReputationOnSave = true;
         }
     }
 }

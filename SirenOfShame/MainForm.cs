@@ -688,6 +688,7 @@ namespace SirenOfShame
         {
             Settings settings = new Settings(_settings);
             settings.ShowDialog();
+            RefreshStats(); // just in case they clicked reset reputation
         }
 
         private void TimeboxEnforcerClick(object sender, EventArgs e)
