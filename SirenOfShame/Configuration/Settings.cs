@@ -19,6 +19,7 @@ namespace SirenOfShame.Configuration
             _updateLocationAuto.Checked = _settings.UpdateLocation == UpdateLocation.Auto;
             _updateLocationOther.Checked = _settings.UpdateLocation == UpdateLocation.Other;
             _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other ? _settings.UpdateLocationOther : "";
+            _hideReputation.Checked = _settings.HideReputation;
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
         }
@@ -51,6 +52,8 @@ namespace SirenOfShame.Configuration
                     p.FailedBuilds = 0;
                 });
             }
+
+            _settings.HideReputation = _hideReputation.Checked;
 
             _settings.Save();
             Close();

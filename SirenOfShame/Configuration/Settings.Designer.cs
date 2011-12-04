@@ -44,6 +44,7 @@
             this._checkForUpdates = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this._resetReputation = new System.Windows.Forms.Button();
+            this._hideReputation = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.SuspendLayout();
@@ -211,6 +212,16 @@
             this._resetReputation.UseVisualStyleBackColor = true;
             this._resetReputation.Click += new System.EventHandler(this.ResetReputationClick);
             // 
+            // _hideReputation
+            // 
+            this._hideReputation.AutoSize = true;
+            this._hideReputation.Location = new System.Drawing.Point(290, 173);
+            this._hideReputation.Name = "_hideReputation";
+            this._hideReputation.Size = new System.Drawing.Size(224, 17);
+            this._hideReputation.TabIndex = 15;
+            this._hideReputation.Text = "Reputation is a stupid idea (aka I\'m losing)";
+            this._hideReputation.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AcceptButton = this._ok;
@@ -218,6 +229,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(557, 259);
+            this.Controls.Add(this._hideReputation);
             this.Controls.Add(this._resetReputation);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._checkForUpdates);
@@ -257,5 +269,6 @@
         private System.Windows.Forms.Button _checkForUpdates;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button _resetReputation;
+        private System.Windows.Forms.CheckBox _hideReputation;
     }
 }

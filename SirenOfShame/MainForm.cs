@@ -406,7 +406,9 @@ namespace SirenOfShame
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             _panelBuildStats.Visible = buildDefinitionSelected;
             _userStats.Visible = !buildDefinitionSelected;
-            if (!buildDefinitionSelected)
+            _panelRight.Visible = buildDefinitionSelected || !_settings.HideReputation;
+            if (!_panelRight.Visible) return;
+            if (!buildDefinitionSelected && !_settings.HideReputation)
             {
                 _users.Items.Clear();
                 var personSettings = _settings.People

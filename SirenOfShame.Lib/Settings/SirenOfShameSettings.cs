@@ -96,6 +96,8 @@ namespace SirenOfShame.Lib.Settings
         public List<AudioPatternSetting> AudioPatterns { get; set; }
         public List<LedPatternSetting> LedPatterns { get; set; }
 
+        public bool HideReputation { get; set; }
+
         public volatile string _fileName;
 
         public string FileName { get { return _fileName; } }
@@ -201,7 +203,8 @@ namespace SirenOfShame.Lib.Settings
                 {
                     FindAddPerson(person);
                 }
-                
+                HideReputation = false;
+
                 Save();
             }
         }
