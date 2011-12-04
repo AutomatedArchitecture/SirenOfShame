@@ -742,13 +742,21 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken); // it should ignore initial states
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
 
             Assert.AreEqual(1, rulesEngine.Settings.People.Count);
-            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.Settings.People[0].DisplayName);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].TotalBuilds);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].TotalBuilds);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+
             Assert.AreEqual(2, rulesEngine.Settings.People[0].TotalBuilds);
             Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
         }
@@ -758,6 +766,8 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
@@ -770,6 +780,14 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(@"633979008000000000,,1,User1
 633979008000000000,,2,User1
 ", contents);
+        }
+        
+        [TestMethod]
+        public void InitialStatesDoNotWrite()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
+            Assert.AreEqual(0, rulesEngine.SosDb.Files.Keys.Count);
         }
 }
 }
