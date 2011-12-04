@@ -209,6 +209,41 @@ namespace SirenOfShame
             }
             StartWatchingBuild();
             RefreshStats();
+            InitializeBuildHistoryChart();
+        }
+
+        private void InitializeBuildHistoryChart()
+        {
+            GraphPane myPane = _buildHistoryZedGraph.GraphPane;
+            myPane.Margin.All = 0;
+            myPane.Legend.IsVisible = false;
+            myPane.Title.IsVisible = false;
+            myPane.XAxis.IsVisible = false;
+
+            myPane.YAxis.IsVisible = true;
+            myPane.YAxis.MinorTic.IsOpposite = false;
+            myPane.YAxis.IsAxisSegmentVisible = true;
+            myPane.YAxis.MinorTic.Color = Color.White;
+
+            myPane.YAxis.MajorTic.IsCrossOutside = false;
+            myPane.YAxis.MajorTic.IsCrossInside = false;
+            myPane.YAxis.MajorTic.IsInside = false;
+            myPane.YAxis.MajorTic.IsOutside = false;
+
+            myPane.YAxis.Scale.Min = 0;
+            myPane.YAxis.Scale.IsSkipFirstLabel = true;
+            myPane.YAxis.Scale.IsSkipLastLabel = true;
+            myPane.YAxis.MajorTic.IsOpposite = false;
+            myPane.YAxis.Title.IsVisible = false;
+            myPane.XAxis.Type = AxisType.Text;
+            myPane.IsFontsScaled = false;
+            myPane.YAxis.Scale.FontSpec.Size = 10;
+
+            myPane.Chart.Border.IsVisible = false;
+            myPane.Border.IsVisible = false;
+
+            _buildHistoryZedGraph.IsEnableZoom = false;
+            myPane.BarSettings.ClusterScaleWidth = 60;
         }
 
         private RulesEngine RulesEngine
@@ -435,29 +470,7 @@ namespace SirenOfShame
         private void GraphBuildHistory(List<BuildStatus> buildStatuses)
         {
             GraphPane myPane = _buildHistoryZedGraph.GraphPane;
-            _buildHistoryZedGraph.Invalidate();
-            myPane.Margin.All = 0;
-            myPane.Legend.IsVisible = false;
-            myPane.Title.IsVisible = false;
-            myPane.XAxis.IsVisible = false;
-
-            myPane.YAxis.IsVisible = true;
-            myPane.YAxis.MinorTic.IsOpposite = false;
-            myPane.YAxis.IsAxisSegmentVisible = false;
-            myPane.YAxis.MinorTic.Color = Color.White;
-            myPane.YAxis.MajorTic.Color = Color.White;
-            myPane.YAxis.MajorTic.IsOpposite = false;
-            myPane.YAxis.Title.IsVisible = false;
-            myPane.XAxis.Type = AxisType.Text;
-            myPane.IsFontsScaled = false;
-            myPane.YAxis.Scale.FontSpec.Size = 10;
-
-            myPane.Chart.Border.IsVisible = true;
-            myPane.Border.IsVisible = false;
-
             myPane.CurveList.Clear();
-            myPane.BarSettings.ClusterScaleWidth = 60;
-            _buildHistoryZedGraph.RestoreScale(myPane);
 
             IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
             foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
