@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
@@ -17,6 +18,7 @@ namespace MockCiServerServices
             {
                 if (_serverForm == null)
                 {
+                    Thread.Sleep(2000); // wait for the splash screen to disappear
                     Application.OpenForms.Cast<Form>().FirstOrDefault().Invoke(() =>
                     {
                         _serverForm = new MockCiServerForm();
