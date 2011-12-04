@@ -84,13 +84,14 @@ namespace SirenOfShame {
             this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._panelBuildStats = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
             this._percentFailed = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this._failedBuilds = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this._buildCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -111,7 +112,7 @@ namespace SirenOfShame {
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._lastStatusUpdate});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 261);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 305);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(869, 22);
             this.statusStrip1.TabIndex = 29;
@@ -120,7 +121,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -165,7 +166,7 @@ namespace SirenOfShame {
             this._buildDefinitions.Dock = System.Windows.Forms.DockStyle.Fill;
             this._buildDefinitions.Location = new System.Drawing.Point(0, 85);
             this._buildDefinitions.Name = "_buildDefinitions";
-            this._buildDefinitions.Size = new System.Drawing.Size(695, 176);
+            this._buildDefinitions.Size = new System.Drawing.Size(695, 220);
             this._buildDefinitions.SmallImageList = this.balls;
             this._buildDefinitions.TabIndex = 36;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
@@ -591,12 +592,12 @@ namespace SirenOfShame {
             // 
             // _panelRight
             // 
-            this._panelRight.Controls.Add(this._userStats);
             this._panelRight.Controls.Add(this._panelBuildStats);
+            this._panelRight.Controls.Add(this._userStats);
             this._panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this._panelRight.Location = new System.Drawing.Point(698, 85);
             this._panelRight.Name = "_panelRight";
-            this._panelRight.Size = new System.Drawing.Size(171, 176);
+            this._panelRight.Size = new System.Drawing.Size(171, 220);
             this._panelRight.TabIndex = 38;
             // 
             // _userStats
@@ -605,7 +606,7 @@ namespace SirenOfShame {
             this._userStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this._userStats.Location = new System.Drawing.Point(0, 0);
             this._userStats.Name = "_userStats";
-            this._userStats.Size = new System.Drawing.Size(171, 176);
+            this._userStats.Size = new System.Drawing.Size(171, 220);
             this._userStats.TabIndex = 7;
             // 
             // _users
@@ -616,7 +617,7 @@ namespace SirenOfShame {
             this._users.Dock = System.Windows.Forms.DockStyle.Fill;
             this._users.Location = new System.Drawing.Point(0, 0);
             this._users.Name = "_users";
-            this._users.Size = new System.Drawing.Size(171, 176);
+            this._users.Size = new System.Drawing.Size(171, 220);
             this._users.TabIndex = 0;
             this._users.UseCompatibleStateImageBehavior = false;
             this._users.View = System.Windows.Forms.View.Details;
@@ -640,83 +641,99 @@ namespace SirenOfShame {
             this._panelBuildStats.Controls.Add(this.label7);
             this._panelBuildStats.Controls.Add(this._buildCount);
             this._panelBuildStats.Controls.Add(this.label4);
+            this._panelBuildStats.Controls.Add(this._buildHistoryZedGraph);
             this._panelBuildStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelBuildStats.Location = new System.Drawing.Point(0, 0);
             this._panelBuildStats.Name = "_panelBuildStats";
-            this._panelBuildStats.Size = new System.Drawing.Size(171, 176);
+            this._panelBuildStats.Size = new System.Drawing.Size(171, 220);
             this._panelBuildStats.TabIndex = 6;
-            // 
-            // _percentFailed
-            // 
-            this._percentFailed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._percentFailed.Location = new System.Drawing.Point(91, 57);
-            this._percentFailed.Name = "_percentFailed";
-            this._percentFailed.Size = new System.Drawing.Size(68, 13);
-            this._percentFailed.TabIndex = 11;
-            this._percentFailed.Text = "0";
-            this._percentFailed.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 57);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 13);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "Percent Failed:";
-            // 
-            // _failedBuilds
-            // 
-            this._failedBuilds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._failedBuilds.Location = new System.Drawing.Point(91, 33);
-            this._failedBuilds.Name = "_failedBuilds";
-            this._failedBuilds.Size = new System.Drawing.Size(68, 13);
-            this._failedBuilds.TabIndex = 9;
-            this._failedBuilds.Text = "0";
-            this._failedBuilds.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 33);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 13);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "Failed Builds:";
-            // 
-            // _buildCount
-            // 
-            this._buildCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buildCount.Location = new System.Drawing.Point(91, 11);
-            this._buildCount.Name = "_buildCount";
-            this._buildCount.Size = new System.Drawing.Size(68, 13);
-            this._buildCount.TabIndex = 7;
-            this._buildCount.Text = "0";
-            this._buildCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 11);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "# of builds:";
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
             this.splitter1.Location = new System.Drawing.Point(695, 85);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 176);
+            this.splitter1.Size = new System.Drawing.Size(3, 220);
             this.splitter1.TabIndex = 39;
             this.splitter1.TabStop = false;
+            // 
+            // _buildHistoryZedGraph
+            // 
+            this._buildHistoryZedGraph.Dock = System.Windows.Forms.DockStyle.Top;
+            this._buildHistoryZedGraph.Location = new System.Drawing.Point(0, 0);
+            this._buildHistoryZedGraph.Name = "_buildHistoryZedGraph";
+            this._buildHistoryZedGraph.ScrollGrace = 0D;
+            this._buildHistoryZedGraph.ScrollMaxX = 0D;
+            this._buildHistoryZedGraph.ScrollMaxY = 0D;
+            this._buildHistoryZedGraph.ScrollMaxY2 = 0D;
+            this._buildHistoryZedGraph.ScrollMinX = 0D;
+            this._buildHistoryZedGraph.ScrollMinY = 0D;
+            this._buildHistoryZedGraph.ScrollMinY2 = 0D;
+            this._buildHistoryZedGraph.Size = new System.Drawing.Size(171, 116);
+            this._buildHistoryZedGraph.TabIndex = 12;
+            // 
+            // _percentFailed
+            // 
+            this._percentFailed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._percentFailed.Location = new System.Drawing.Point(91, 168);
+            this._percentFailed.Name = "_percentFailed";
+            this._percentFailed.Size = new System.Drawing.Size(68, 13);
+            this._percentFailed.TabIndex = 18;
+            this._percentFailed.Text = "0";
+            this._percentFailed.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 168);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(78, 13);
+            this.label8.TabIndex = 17;
+            this.label8.Text = "Percent Failed:";
+            // 
+            // _failedBuilds
+            // 
+            this._failedBuilds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._failedBuilds.Location = new System.Drawing.Point(91, 144);
+            this._failedBuilds.Name = "_failedBuilds";
+            this._failedBuilds.Size = new System.Drawing.Size(68, 13);
+            this._failedBuilds.TabIndex = 16;
+            this._failedBuilds.Text = "0";
+            this._failedBuilds.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 144);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(69, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Failed Builds:";
+            // 
+            // _buildCount
+            // 
+            this._buildCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buildCount.Location = new System.Drawing.Point(91, 122);
+            this._buildCount.Name = "_buildCount";
+            this._buildCount.Size = new System.Drawing.Size(68, 13);
+            this._buildCount.TabIndex = 14;
+            this._buildCount.Text = "0";
+            this._buildCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 122);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Total Builds:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 283);
+            this.ClientSize = new System.Drawing.Size(869, 327);
             this.Controls.Add(this._buildDefinitions);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this._panelRight);
@@ -810,6 +827,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Label label7;
       private System.Windows.Forms.Label _buildCount;
       private System.Windows.Forms.Label label4;
+      private ZedGraph.ZedGraphControl _buildHistoryZedGraph;
 
 	}
 }

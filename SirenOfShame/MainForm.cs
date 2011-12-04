@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using ZedGraph;
 using log4net;
 using SirenOfShame.Configuration;
 using SirenOfShame.Lib;
@@ -407,27 +408,87 @@ namespace SirenOfShame
             _panelBuildStats.Visible = buildDefinitionSelected;
             _userStats.Visible = !buildDefinitionSelected;
             _panelRight.Visible = buildDefinitionSelected || !_settings.HideReputation;
-            if (!_panelRight.Visible) return;
-            if (!buildDefinitionSelected && !_settings.HideReputation)
+            if (_panelRight.Visible)
             {
-                _users.Items.Clear();
-                var personSettings = _settings.People
-                    .Select(i => new { i.DisplayName, Reputation = i.GetReputation() })
-                    .OrderByDescending(i => i.Reputation);
-                foreach (var person in personSettings)
+                if (!buildDefinitionSelected && !_settings.HideReputation)
                 {
-                    ListViewItem lvi = new ListViewItem(person.DisplayName);
-                    AddSubItem(lvi, "Reputation", person.Reputation.ToString());
-                    _users.Items.Add(lvi);
+                    RefreshUserStats();
+                } else
+                {
+                    RefreshProjectStats(buildDefinitionSetting);
                 }
-
-                return;
             }
+        }
+
+        private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
+        {
             var definitions = _sosDb.ReadAll(buildDefinitionSetting);
+
+            GraphBuildHistory(definitions);
+
             var count = definitions.Count;
             var failed = definitions.Where(s => s.BuildStatusEnum == BuildStatusEnum.Broken).Count();
-            double percentFailed = count == 0 ? 0 : ((double)failed)/count;
+            double percentFailed = count == 0 ? 0 : ((double) failed)/count;
             SetStats(count, failed, percentFailed);
+        }
+
+        private void GraphBuildHistory(List<BuildStatus> buildStatuses)
+        {
+            GraphPane myPane = _buildHistoryZedGraph.GraphPane;
+            _buildHistoryZedGraph.Invalidate();
+            myPane.Margin.All = 0;
+            myPane.Legend.IsVisible = false;
+            myPane.Title.IsVisible = false;
+            myPane.XAxis.IsVisible = false;
+
+            myPane.YAxis.IsVisible = true;
+            myPane.YAxis.MinorTic.IsOpposite = false;
+            myPane.YAxis.IsAxisSegmentVisible = false;
+            myPane.YAxis.MinorTic.Color = Color.White;
+            myPane.YAxis.MajorTic.Color = Color.White;
+            myPane.YAxis.MajorTic.IsOpposite = false;
+            myPane.YAxis.Title.IsVisible = false;
+            myPane.XAxis.Type = AxisType.Text;
+            myPane.IsFontsScaled = false;
+            myPane.YAxis.Scale.FontSpec.Size = 10;
+
+            myPane.Chart.Border.IsVisible = true;
+            myPane.Border.IsVisible = false;
+
+            myPane.CurveList.Clear();
+            myPane.BarSettings.ClusterScaleWidth = 60;
+            _buildHistoryZedGraph.RestoreScale(myPane);
+
+            IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
+            foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
+            {
+                if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
+                var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
+                Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? failFill: successFill;
+                var bar = myPane.AddBar(null, null, new [] { duration.TotalMinutes }, Color.White);
+                bar.Bar.Fill = fill;
+                bar.Bar.Border.Color = Color.White;
+            }
+
+            _buildHistoryZedGraph.AxisChange();
+            _buildHistoryZedGraph.Invalidate();
+        }
+
+        Fill failFill = new Fill(Color.FromArgb(192, 80, 77));
+        Fill successFill = new Fill(Color.FromArgb(79, 129, 189));
+
+        private void RefreshUserStats()
+        {
+            _users.Items.Clear();
+            var personSettings = _settings.People
+                .Select(i => new {i.DisplayName, Reputation = i.GetReputation()})
+                .OrderByDescending(i => i.Reputation);
+            foreach (var person in personSettings)
+            {
+                ListViewItem lvi = new ListViewItem(person.DisplayName);
+                AddSubItem(lvi, "Reputation", person.Reputation.ToString());
+                _users.Items.Add(lvi);
+            }
         }
 
         private void ClearStats()
