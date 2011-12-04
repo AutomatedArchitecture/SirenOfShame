@@ -287,8 +287,8 @@ namespace SirenOfShame
             }
             else
             {
-
-                Show();
+                // ToDo: Show() on MainFormMove was causing an infinite loop on startup. What was it for? Permanently remove if this was necessary LR.
+                //Show(); 
             }
         }
 
