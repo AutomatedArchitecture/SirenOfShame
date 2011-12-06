@@ -39,6 +39,7 @@ namespace SirenOfShame.Lib.Settings
             CiEntryPointSettings = new List<CiEntryPointSetting>();
             AudioPatterns = new List<AudioPatternSetting>();
             LedPatterns = new List<LedPatternSetting>();
+            People = new List<PersonSetting>();
         }
 
         public int? Version { get; set; }
