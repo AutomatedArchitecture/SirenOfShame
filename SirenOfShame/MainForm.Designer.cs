@@ -84,14 +84,14 @@ namespace SirenOfShame {
             this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._panelBuildStats = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
-            this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
             this._percentFailed = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this._failedBuilds = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this._buildCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -121,7 +121,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -592,8 +592,8 @@ namespace SirenOfShame {
             // 
             // _panelRight
             // 
-            this._panelRight.Controls.Add(this._panelBuildStats);
             this._panelRight.Controls.Add(this._userStats);
+            this._panelRight.Controls.Add(this._panelBuildStats);
             this._panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this._panelRight.Location = new System.Drawing.Point(698, 85);
             this._panelRight.Name = "_panelRight";
@@ -615,12 +615,15 @@ namespace SirenOfShame {
             this.User,
             this.Reputation});
             this._users.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._users.LabelEdit = true;
             this._users.Location = new System.Drawing.Point(0, 0);
             this._users.Name = "_users";
             this._users.Size = new System.Drawing.Size(171, 220);
             this._users.TabIndex = 0;
             this._users.UseCompatibleStateImageBehavior = false;
             this._users.View = System.Windows.Forms.View.Details;
+            this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
+            this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
             // 
             // User
             // 
@@ -647,30 +650,6 @@ namespace SirenOfShame {
             this._panelBuildStats.Name = "_panelBuildStats";
             this._panelBuildStats.Size = new System.Drawing.Size(171, 220);
             this._panelBuildStats.TabIndex = 6;
-            // 
-            // splitter1
-            // 
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(695, 85);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 220);
-            this.splitter1.TabIndex = 39;
-            this.splitter1.TabStop = false;
-            // 
-            // _buildHistoryZedGraph
-            // 
-            this._buildHistoryZedGraph.Dock = System.Windows.Forms.DockStyle.Top;
-            this._buildHistoryZedGraph.Location = new System.Drawing.Point(0, 0);
-            this._buildHistoryZedGraph.Name = "_buildHistoryZedGraph";
-            this._buildHistoryZedGraph.ScrollGrace = 0D;
-            this._buildHistoryZedGraph.ScrollMaxX = 0D;
-            this._buildHistoryZedGraph.ScrollMaxY = 0D;
-            this._buildHistoryZedGraph.ScrollMaxY2 = 0D;
-            this._buildHistoryZedGraph.ScrollMinX = 0D;
-            this._buildHistoryZedGraph.ScrollMinY = 0D;
-            this._buildHistoryZedGraph.ScrollMinY2 = 0D;
-            this._buildHistoryZedGraph.Size = new System.Drawing.Size(171, 116);
-            this._buildHistoryZedGraph.TabIndex = 12;
             // 
             // _percentFailed
             // 
@@ -728,6 +707,30 @@ namespace SirenOfShame {
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "Total Builds:";
+            // 
+            // _buildHistoryZedGraph
+            // 
+            this._buildHistoryZedGraph.Dock = System.Windows.Forms.DockStyle.Top;
+            this._buildHistoryZedGraph.Location = new System.Drawing.Point(0, 0);
+            this._buildHistoryZedGraph.Name = "_buildHistoryZedGraph";
+            this._buildHistoryZedGraph.ScrollGrace = 0D;
+            this._buildHistoryZedGraph.ScrollMaxX = 0D;
+            this._buildHistoryZedGraph.ScrollMaxY = 0D;
+            this._buildHistoryZedGraph.ScrollMaxY2 = 0D;
+            this._buildHistoryZedGraph.ScrollMinX = 0D;
+            this._buildHistoryZedGraph.ScrollMinY = 0D;
+            this._buildHistoryZedGraph.ScrollMinY2 = 0D;
+            this._buildHistoryZedGraph.Size = new System.Drawing.Size(171, 116);
+            this._buildHistoryZedGraph.TabIndex = 12;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitter1.Location = new System.Drawing.Point(695, 85);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 220);
+            this.splitter1.TabIndex = 39;
+            this.splitter1.TabStop = false;
             // 
             // MainForm
             // 

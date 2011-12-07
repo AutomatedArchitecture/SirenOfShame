@@ -494,12 +494,13 @@ namespace SirenOfShame
         {
             _users.Items.Clear();
             var personSettings = _settings.People
-                .Select(i => new {i.DisplayName, Reputation = i.GetReputation()})
+                .Select(i => new {i.RawName, i.DisplayName, Reputation = i.GetReputation()})
                 .OrderByDescending(i => i.Reputation);
             foreach (var person in personSettings)
             {
                 ListViewItem lvi = new ListViewItem(person.DisplayName);
                 AddSubItem(lvi, "Reputation", person.Reputation.ToString());
+                lvi.Tag = person.RawName;
                 _users.Items.Add(lvi);
             }
         }
@@ -516,6 +517,15 @@ namespace SirenOfShame
             _percentFailed.Text = percentFailed.ToString("p");
         }
 
+        private PersonSetting GetActivePerson()
+        {
+            var listViewItem = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            if (listViewItem == null) return null;
+
+            var rawName = (string)listViewItem.Tag;
+            return _settings.People.FirstOrDefault(u => u.RawName == rawName);
+        }
+        
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
             var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
@@ -835,6 +845,20 @@ namespace SirenOfShame
         private void _buildDefinitions_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshStats();
+        }
+
+        private void UsersMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right) return;
+            var lvi = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();           
+            lvi.BeginEdit();
+        }
+
+        private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            var activePerson = GetActivePerson();
+            activePerson.DisplayName = e.Label;
+            _settings.Save();
         }
      }
 }
