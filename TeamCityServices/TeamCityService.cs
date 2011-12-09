@@ -142,9 +142,11 @@ namespace TeamCityServices
                 {
                     webBrowser.DocumentCompleted += (o, evt) =>
                     {
-                        _log.Debug("login.html State: " + state + " Cookie: " + webBrowser.Document.Cookie);
                         try
                         {
+                            if (webBrowser.Document == null) throw new SosException("WebBrowser.Document was null, this should never happen.");
+                            _log.Debug("login.html State: " + state + " Cookie: " + webBrowser.Document.Cookie);
+
                             if (webBrowser.DocumentTitle == "Navigation Canceled")
                             {
                                 serverUnavailable = true;
@@ -153,14 +155,18 @@ namespace TeamCityServices
 
                             if (state == 0)
                             {
-                                webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
-                                webBrowser.Document.GetElementById("username").SetAttribute("value", userName);
-                                webBrowser.Document.All["password"].SetAttribute("value", password);
+                                HtmlElement usernameElement = webBrowser.Document.GetElementById("username");
+                                if (usernameElement == null) throw new SosException("Expected an element with an id of 'username' but one didn't exist. Is TeamCity down?");
+                                usernameElement.SetAttribute("value", userName);
+                                usernameElement.SetAttribute("value", userName);
+                                var htmlElement = webBrowser.Document.All["password"];
+                                if (htmlElement != null)
+                                    htmlElement.SetAttribute("value", password);
 
                                 var submitButton = webBrowser.Document.GetElementsByTagName("input")
                                     .Cast<HtmlElement>()
                                     .FirstOrDefault(e => e.GetAttribute("type") == "submit");
-                                submitButton.InvokeMember("click");
+                                if (submitButton != null) submitButton.InvokeMember("click");
                             }
                             if (state == 1)
                             {

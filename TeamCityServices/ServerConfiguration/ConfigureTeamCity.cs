@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace TeamCityServices.ServerConfiguration
 {
@@ -13,6 +15,7 @@ namespace TeamCityServices.ServerConfiguration
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly CiEntryPointSetting _ciEntryPointSetting;
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTeamCity));
 
         public ConfigureTeamCity() { }
 
@@ -51,8 +54,15 @@ namespace TeamCityServices.ServerConfiguration
 
         private void GetProjectsError(Exception ex)
         {
+            _log.Error("Error connecting to server", ex);
             _projects.Nodes.Clear();
-            MessageBox.Show("Error connecting to server: " + ex.Message);
+
+            string message = ex.Message;
+            if (ex.InnerException != null)
+            {
+                message += "\r\n" + ex.InnerException.Message;
+            }
+            MessageBox.Show("Error connecting to server: " + message);
         }
 
         private void GetProjectsComplete(TeamCityProject[] projects)
