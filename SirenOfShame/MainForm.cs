@@ -442,7 +442,7 @@ namespace SirenOfShame
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             _panelBuildStats.Visible = buildDefinitionSelected;
             _userStats.Visible = !buildDefinitionSelected;
-            _panelRight.Visible = buildDefinitionSelected || !_settings.HideReputation;
+            _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
             if (_panelRight.Visible)
             {
                 if (!buildDefinitionSelected && !_settings.HideReputation)

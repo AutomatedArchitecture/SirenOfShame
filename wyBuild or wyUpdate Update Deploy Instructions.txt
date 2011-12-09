@@ -2,7 +2,7 @@
 ! Make the next version 1.1.6, not 1.1.5
 !!!!!!!!!!!!!!!!!!!!!!!!!!
 
-Verify major & minor AssemblyInfo.cs AssemblyVersion is correct
+*Verify* major & minor AssemblyInfo.cs AssemblyVersion is correct
 
 Build
 
