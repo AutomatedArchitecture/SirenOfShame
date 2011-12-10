@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
@@ -11,8 +12,22 @@ namespace SirenOfShame
 
         private void FullScreenBuildStatus_KeyDown(object sender, KeyEventArgs e)
         {
-            Hide();
-            Close();
+            ExitFullScreen();
+        }
+
+        public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
+        {
+            _buildDefinitions.RefreshListViewWithBuildStatus(args);
+        }
+
+        private void _buildDefinitions_KeyDown(object sender, KeyEventArgs e)
+        {
+            ExitFullScreen();
+        }
+
+        private void _buildDefinitions_MouseDown(object sender, MouseEventArgs e)
+        {
+            ExitFullScreen();
         }
     }
 }

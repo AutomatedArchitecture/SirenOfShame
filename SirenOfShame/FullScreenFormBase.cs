@@ -53,5 +53,11 @@ namespace SirenOfShame
                 Log.Error("Could not set screen saver", ex);
             }
         }
+
+        protected void ExitFullScreen()
+        {
+            Hide();
+            Close();
+        }
     }
 }

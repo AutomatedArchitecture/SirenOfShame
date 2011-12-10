@@ -70,6 +70,9 @@
     <Compile Include="BuildFailedMessageBox.Designer.cs">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuildStatusListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Configuration\AddRule.cs">
       <SubType>Form</SubType>
     </Compile>

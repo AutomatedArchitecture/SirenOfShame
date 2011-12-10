@@ -41,7 +41,7 @@ namespace SirenOfShame {
             this.minimizedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._buildDefinitions = new System.Windows.Forms.ListView();
+            this._buildDefinitions = new BuildStatusListView();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.duration2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -826,7 +826,7 @@ namespace SirenOfShame {
         private System.Windows.Forms.ContextMenuStrip minimizedMenu;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ListView _buildDefinitions;
+        private BuildStatusListView _buildDefinitions;
         //private System.Windows.Forms.ColumnHeader Name;
         private System.Windows.Forms.ColumnHeader name;
         private System.Windows.Forms.ColumnHeader date;
