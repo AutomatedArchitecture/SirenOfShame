@@ -174,8 +174,11 @@ namespace TeamCityServices
                             }
 
                             state++;
-                        } catch (Exception ex)
+                        } 
+                        catch (Exception ex)
                         {
+                            if (webBrowser.Document != null) 
+                                _log.Info("SetCookie result: " + webBrowser.Document.Body);
                             documentCompleteException = ex;
                         }
                     };
