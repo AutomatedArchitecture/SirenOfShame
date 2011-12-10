@@ -1,59 +1,22 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
-using log4net;
 
 namespace SirenOfShame
 {
-    public partial class FullScreenEnforcer : Form
+    public partial class FullScreenEnforcer : FullScreenFormBase
     {
-        private static readonly ILog Log = MyLogManager.GetLogger(typeof(FullScreenEnforcer));
-        private readonly bool _screenSaverActive;
 
         public FullScreenEnforcer()
         {
             InitializeComponent();
-            try
-            {
-                var regVal = (Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", "1") ?? "1").ToString();
-                if (regVal == "1") regVal = "true";
-                if (regVal == "0") regVal = "false";
-                _screenSaverActive = bool.Parse(regVal);
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Could not get screen saver value", ex);
-                _screenSaverActive = true;
-            }
         }
 
         protected override void OnVisibleChanged(EventArgs e)
         {
             ResetScreenSaverSettings();
             base.OnVisibleChanged(e);
-        }
-
-        private void ResetScreenSaverSettings()
-        {
-            try
-            {
-                if (Visible)
-                {
-                    Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", "0");
-                }
-                else
-                {
-                    Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive",
-                                      _screenSaverActive ? "1" : "0");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Could not set screen saver", ex);
-            }
         }
 
         private string TimeSpanAsText(TimeSpan timespan, OvertimeStatus overtimeStatus)
@@ -89,16 +52,13 @@ namespace SirenOfShame
         private void FullScreenEnforcerKeyDown(object sender, KeyEventArgs e)
         {
             Hide();
+            Close();
         }
 
         private void LabelClick(object sender, EventArgs e)
         {
             Hide();
-        }
-
-        private void FullScreenEnforcer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ResetScreenSaverSettings();
+            Close();
         }
     }
 }

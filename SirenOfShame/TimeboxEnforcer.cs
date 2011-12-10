@@ -139,7 +139,7 @@ namespace SirenOfShame
         {
             string durationAsText = DurationAsText(newTimeSpan);
             _countdown.Text = durationAsText;
-            if (_fullScreenEnforcer.Visible)
+            if (_fullScreenEnforcer != null && _fullScreenEnforcer.Visible)
                 _fullScreenEnforcer.UpdateText(newTimeSpan, GetOverTimeStatus());
         }
 
@@ -196,10 +196,15 @@ namespace SirenOfShame
             UpdateTimer(!running);
         }
 
-        FullScreenEnforcer _fullScreenEnforcer = new FullScreenEnforcer();
+        FullScreenEnforcer _fullScreenEnforcer = null;
 
         private void FullScreenClick(object sender, EventArgs e)
         {
+            if (_fullScreenEnforcer == null)
+            {
+                _fullScreenEnforcer = new FullScreenEnforcer();
+                _fullScreenEnforcer.FormClosed += FullScreenEnforcerFormClosed;
+            }
             if (_fullScreenEnforcer.Visible)
                 _fullScreenEnforcer.Hide();
             else
@@ -207,6 +212,11 @@ namespace SirenOfShame
                 _fullScreenEnforcer.Show();
                 UpdateDuration();
             }
+        }
+
+        private void FullScreenEnforcerFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _fullScreenEnforcer = null;
         }
     }
 }
