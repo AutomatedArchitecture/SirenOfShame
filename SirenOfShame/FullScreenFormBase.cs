@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SirenOfShame.Lib;
@@ -20,8 +19,7 @@ namespace SirenOfShame
 
         public FullScreenFormBase()
         {
-            this.Closing += FullScreenEnforcer_Closing;
-            //FormClosing += FullScreenEnforcer_FormClosing;
+            FormClosing += FullScreenEnforcer_FormClosing;
 
             try
             {
@@ -35,11 +33,6 @@ namespace SirenOfShame
                 Log.Error("Could not get screen saver value", ex);
                 _wasScreenSaverPreviouslyActive = true;
             }
-        }
-
-        private void FullScreenEnforcer_Closing(object sender, CancelEventArgs e)
-        {
-            ResetScreenSaverSettings();
         }
 
         protected void ResetScreenSaverSettings()

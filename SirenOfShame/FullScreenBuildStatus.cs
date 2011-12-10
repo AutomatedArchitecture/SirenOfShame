@@ -12,6 +12,7 @@ namespace SirenOfShame
         private void FullScreenBuildStatus_KeyDown(object sender, KeyEventArgs e)
         {
             Hide();
+            Close();
         }
     }
 }

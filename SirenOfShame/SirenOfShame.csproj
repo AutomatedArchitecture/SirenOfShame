@@ -254,6 +254,7 @@
     <Content Include="FirmwareUpgrade.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Fullscreen.png" />
     <Content Include="Resources\RibbonMore.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />

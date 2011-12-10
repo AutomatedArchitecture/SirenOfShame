@@ -860,5 +860,22 @@ namespace SirenOfShame
             activePerson.DisplayName = e.Label;
             _settings.Save();
         }
-     }
+
+        FullScreenBuildStatus _fullScreenBuildStatus = null;
+
+        private void FullscreenClick(object sender, EventArgs e)
+        {
+            if (_fullScreenBuildStatus == null)
+            {
+                _fullScreenBuildStatus = new FullScreenBuildStatus();
+                _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
+            }
+            _fullScreenBuildStatus.Show();
+        }
+
+        private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _fullScreenBuildStatus = null;
+        }
+    }
 }

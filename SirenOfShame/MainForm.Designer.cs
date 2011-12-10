@@ -92,6 +92,9 @@ namespace SirenOfShame {
             this.label4 = new System.Windows.Forms.Label();
             this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this._fullscreen = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -106,6 +109,7 @@ namespace SirenOfShame {
             this._panelRight.SuspendLayout();
             this._userStats.SuspendLayout();
             this._panelBuildStats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -121,7 +125,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -218,6 +222,8 @@ namespace SirenOfShame {
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.RibbonBackground;
+            this.panel1.Controls.Add(this._fullscreen);
+            this.panel1.Controls.Add(this.pictureBox4);
             this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._sirenMore);
             this.panel1.Controls.Add(this._refresh);
@@ -226,7 +232,6 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this._configurationMore);
             this.panel1.Controls.Add(this._configureRules);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this._timeboxEnforcer);
@@ -234,6 +239,8 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this._openSettings);
             this.panel1.Controls.Add(this._testSiren);
             this.panel1.Controls.Add(this._configureServers);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -309,7 +316,7 @@ namespace SirenOfShame {
             // pictureBox3
             // 
             this.pictureBox3.Image = global::SirenOfShame.Properties.Resources.separater;
-            this.pictureBox3.Location = new System.Drawing.Point(475, -2);
+            this.pictureBox3.Location = new System.Drawing.Point(546, -2);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(3, 85);
             this.pictureBox3.TabIndex = 13;
@@ -325,7 +332,7 @@ namespace SirenOfShame {
             this._help.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._help.ImageIndex = 3;
             this._help.ImageList = this.bigIcons;
-            this._help.Location = new System.Drawing.Point(406, 2);
+            this._help.Location = new System.Drawing.Point(477, 2);
             this._help.Name = "_help";
             this._help.Size = new System.Drawing.Size(73, 70);
             this._help.TabIndex = 12;
@@ -373,11 +380,11 @@ namespace SirenOfShame {
             // 
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(339, 67);
+            this.label3.Location = new System.Drawing.Point(410, 67);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(139, 17);
             this.label3.TabIndex = 11;
-            this.label3.Text = "else";
+            this.label3.Text = "Else";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
@@ -419,7 +426,7 @@ namespace SirenOfShame {
             this._timeboxEnforcer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._timeboxEnforcer.ImageIndex = 0;
             this._timeboxEnforcer.ImageList = this.bigIcons;
-            this._timeboxEnforcer.Location = new System.Drawing.Point(339, 0);
+            this._timeboxEnforcer.Location = new System.Drawing.Point(410, 0);
             this._timeboxEnforcer.Name = "_timeboxEnforcer";
             this._timeboxEnforcer.Size = new System.Drawing.Size(73, 70);
             this._timeboxEnforcer.TabIndex = 6;
@@ -732,6 +739,44 @@ namespace SirenOfShame {
             this.splitter1.TabIndex = 39;
             this.splitter1.TabStop = false;
             // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label5.Location = new System.Drawing.Point(336, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 16);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "View";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::SirenOfShame.Properties.Resources.separater;
+            this.pictureBox4.Location = new System.Drawing.Point(411, 0);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(3, 85);
+            this.pictureBox4.TabIndex = 19;
+            this.pictureBox4.TabStop = false;
+            // 
+            // _fullscreen
+            // 
+            this._fullscreen.BackColor = System.Drawing.Color.Transparent;
+            this._fullscreen.FlatAppearance.BorderSize = 0;
+            this._fullscreen.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._fullscreen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._fullscreen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._fullscreen.Image = ((System.Drawing.Image)(resources.GetObject("_fullscreen.Image")));
+            this._fullscreen.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._fullscreen.Location = new System.Drawing.Point(338, 0);
+            this._fullscreen.Name = "_fullscreen";
+            this._fullscreen.Size = new System.Drawing.Size(73, 70);
+            this._fullscreen.TabIndex = 20;
+            this._fullscreen.Text = "Full Screen";
+            this._fullscreen.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._fullscreen.UseVisualStyleBackColor = false;
+            this._fullscreen.Click += new System.EventHandler(this.FullscreenClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -766,6 +811,7 @@ namespace SirenOfShame {
             this._userStats.ResumeLayout(false);
             this._panelBuildStats.ResumeLayout(false);
             this._panelBuildStats.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -831,6 +877,9 @@ namespace SirenOfShame {
       private System.Windows.Forms.Label _buildCount;
       private System.Windows.Forms.Label label4;
       private ZedGraph.ZedGraphControl _buildHistoryZedGraph;
+      private System.Windows.Forms.Button _fullscreen;
+      private System.Windows.Forms.PictureBox pictureBox4;
+      private System.Windows.Forms.Label label5;
 
 	}
 }
