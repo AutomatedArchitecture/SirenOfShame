@@ -13,6 +13,34 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void TwoBuildsBackToBack_SystemFindsFirstResultForReputation()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].GetReputation());
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.InProgress,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                StartedTime = new DateTime(2010, 1, 1, 11, 33, 0)
+            });
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].GetReputation());
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.InProgress,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                StartedTime = new DateTime(2010, 1, 1, 11, 44, 0)
+            });
+            Assert.AreEqual(2, rulesEngine.Settings.People[0].GetReputation(), "If two builds a queued and run back to back the system should find the result of the build it missed.");
+        }
+
+        [TestMethod]
         public void InitialServerUnavailable_DisconnectedTrayNotificationSent()
         {
             var rulesEngine = new RulesEngineWrapper();
