@@ -19,16 +19,16 @@ namespace SirenOfShame
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
         {
-            tableLayoutPanel1.RowCount = args.BuildStatusListViewItems.Count() + 2;
-            int row = 1;
+            tableLayoutPanel1.RowCount = args.BuildStatusListViewItems.Count() + 3;
+            int row = 2;
             foreach (var buildStatusListViewItem in args.BuildStatusListViewItems)
             {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
 
-                AddText(buildStatusListViewItem.Comment, row, 0);
-                AddText(buildStatusListViewItem.RequestedBy, row, 0);
-                AddText(buildStatusListViewItem.Duration, row, 0);
-                AddText(buildStatusListViewItem.StartTime, row, 0);
+                AddText(buildStatusListViewItem.Comment, row, 4);
+                AddText(buildStatusListViewItem.RequestedBy, row, 3);
+                AddText(buildStatusListViewItem.Duration, row, 2);
+                AddText(buildStatusListViewItem.StartTime, row, 1);
                 AddText(buildStatusListViewItem.Name, row, 0);
 
                 row++;
@@ -38,6 +38,7 @@ namespace SirenOfShame
 
         private void AddText(string text, int row, int column)
         {
+            if (string.IsNullOrEmpty(text)) return;
             Label label = new Label
             {
                 ForeColor = Color.White,
