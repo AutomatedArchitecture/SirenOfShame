@@ -50,13 +50,13 @@
             this.checkedInBy,
             this.comment});
             this._buildDefinitions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildDefinitions.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._buildDefinitions.Font = new System.Drawing.Font("Microsoft Sans Serif", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._buildDefinitions.ForeColor = System.Drawing.Color.White;
-            this._buildDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this._buildDefinitions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this._buildDefinitions.Location = new System.Drawing.Point(0, 0);
             this._buildDefinitions.Name = "_buildDefinitions";
             this._buildDefinitions.Scrollable = false;
-            this._buildDefinitions.Size = new System.Drawing.Size(807, 372);
+            this._buildDefinitions.Size = new System.Drawing.Size(1347, 372);
             this._buildDefinitions.SmallImageList = this.balls;
             this._buildDefinitions.TabIndex = 37;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
@@ -67,22 +67,22 @@
             // name
             // 
             this.name.Text = "Name";
-            this.name.Width = 150;
+            this.name.Width = 317;
             // 
             // date
             // 
             this.date.Text = "Date";
-            this.date.Width = 126;
+            this.date.Width = 250;
             // 
             // duration2
             // 
             this.duration2.Text = "Duration";
-            this.duration2.Width = 151;
+            this.duration2.Width = 322;
             // 
             // checkedInBy
             // 
             this.checkedInBy.Text = "Checked In By";
-            this.checkedInBy.Width = 222;
+            this.checkedInBy.Width = 412;
             // 
             // comment
             // 
@@ -108,12 +108,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(807, 372);
+            this.ClientSize = new System.Drawing.Size(1347, 372);
             this.Controls.Add(this._buildDefinitions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FullScreenBuildStatus";
             this.ShowIcon = false;
             this.Text = "FullScreenBuildStatus";
+            this.TopMost = true;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FullScreenBuildStatus_KeyDown);
             this.ResumeLayout(false);
 
