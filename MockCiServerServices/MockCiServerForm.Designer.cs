@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MockCiServerForm));
             this._project3 = new MockCiServerServices.MockProject();
             this._project2 = new MockCiServerServices.MockProject();
             this._project1 = new MockCiServerServices.MockProject();
@@ -71,6 +72,7 @@
             this.Controls.Add(this._project3);
             this.Controls.Add(this._project2);
             this.Controls.Add(this._project1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MockCiServerForm";
             this.Text = "Mock CI Server";
             this.ResumeLayout(false);

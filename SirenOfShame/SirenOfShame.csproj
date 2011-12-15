@@ -38,7 +38,7 @@
     <StartupObject>SirenOfShame.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SirenOfShame.ico</ApplicationIcon>
+    <ApplicationIcon>SirenOfShameTrayBlank.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutomaticUpdater">
@@ -166,6 +166,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\AddRule.resx">
       <DependentUpon>AddRule.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureRules.resx">
       <DependentUpon>ConfigureRules.cs</DependentUpon>
@@ -258,12 +259,11 @@
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
     <None Include="Resources\splash.png" />
-    <Content Include="SirenOfShameTrayBlank.ico" />
+    <Resource Include="SirenOfShameTrayBlank.ico" />
     <Content Include="Resources\SirenOfShameTrayGreen.ico" />
     <EmbeddedResource Include="Resources\ball_gray.png" />
     <EmbeddedResource Include="Resources\ball_green.png" />
     <EmbeddedResource Include="Resources\ball_red.png" />
-    <Content Include="SirenOfShame.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
