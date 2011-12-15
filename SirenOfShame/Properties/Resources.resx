@@ -124,22 +124,25 @@
   <data name="separater" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\separater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RibbonMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonMore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="JoesFavorite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\JoesFavorite3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SirenOfShameTrayTriangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SirenOfShameTrayTriangle.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RibbonBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SirenOfShameTrayGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SirenOfShameTrayGreen.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RibbonBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RibbonMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonMore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ball_gray_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ball_gray_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

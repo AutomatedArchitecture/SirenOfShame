@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Properties;
 
 namespace SirenOfShame
 {
@@ -19,21 +20,31 @@ namespace SirenOfShame
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
         {
-            tableLayoutPanel1.RowCount = args.BuildStatusListViewItems.Count() + 3;
+            int builds = args.BuildStatusListViewItems.Count();
+            tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + builds + 1;
+            for (int i = 0; i < builds; i++)
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            
             int row = 2;
             foreach (var buildStatusListViewItem in args.BuildStatusListViewItems)
             {
-                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+                var pictureBox = new PictureBox
+                {
+                    Image = Resources.ball_gray_big,
+                    Size = new Size(32, 32),
+                    TabStop = false
+                };
+                tableLayoutPanel1.Controls.Add(pictureBox, 0, row);
 
-                AddText(buildStatusListViewItem.Comment, row, 4);
-                AddText(buildStatusListViewItem.RequestedBy, row, 3);
-                AddText(buildStatusListViewItem.Duration, row, 2);
-                AddText(buildStatusListViewItem.StartTime, row, 1);
-                AddText(buildStatusListViewItem.Name, row, 0);
+                AddText(buildStatusListViewItem.Comment, row, 5);
+                AddText(buildStatusListViewItem.RequestedBy, row, 4);
+                AddText(buildStatusListViewItem.Duration, row, 3);
+                AddText(buildStatusListViewItem.StartTime, row, 2);
+                AddText(buildStatusListViewItem.Name, row, 1);
 
                 row++;
             }
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         }
 
         private void AddText(string text, int row, int column)
