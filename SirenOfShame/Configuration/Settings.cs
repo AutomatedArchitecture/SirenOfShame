@@ -91,7 +91,6 @@ namespace SirenOfShame.Configuration
 
         private void CheckForUpdatesClick(object sender, EventArgs e)
         {
-            Close();
             Program.Form.CheckForUpdates();
         }
 

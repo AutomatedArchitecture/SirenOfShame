@@ -52,7 +52,7 @@
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ok.Location = new System.Drawing.Point(389, 224);
+            this._ok.Location = new System.Drawing.Point(425, 222);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 2;
@@ -64,7 +64,7 @@
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._cancel.Location = new System.Drawing.Point(470, 224);
+            this._cancel.Location = new System.Drawing.Point(506, 222);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 3;
@@ -92,12 +92,12 @@
             // 
             // _pollInterval
             // 
-            this._pollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._pollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._pollInterval.Location = new System.Drawing.Point(104, 12);
             this._pollInterval.Maximum = 60;
             this._pollInterval.Name = "_pollInterval";
-            this._pollInterval.Size = new System.Drawing.Size(441, 45);
+            this._pollInterval.Size = new System.Drawing.Size(477, 42);
             this._pollInterval.TabIndex = 0;
             this._pollInterval.Value = 1;
             this._pollInterval.ValueChanged += new System.EventHandler(this.PollIntervalValueChanged);
@@ -105,7 +105,7 @@
             // _viewLog
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._viewLog.Location = new System.Drawing.Point(308, 224);
+            this._viewLog.Location = new System.Drawing.Point(344, 222);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
             this._viewLog.TabIndex = 8;
@@ -124,39 +124,40 @@
             // 
             // _updateLocations
             // 
-            this._updateLocations.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._updateLocations.Controls.Add(this.textBox1);
+            this._updateLocations.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._updateLocations.Controls.Add(this._updateLocationOtherLocation);
             this._updateLocations.Controls.Add(this._updateLocationOther);
+            this._updateLocations.Controls.Add(this._checkForUpdates);
             this._updateLocations.Controls.Add(this._updateLocationAuto);
+            this._updateLocations.Controls.Add(this.textBox1);
             this._updateLocations.Location = new System.Drawing.Point(104, 67);
             this._updateLocations.Name = "_updateLocations";
-            this._updateLocations.Size = new System.Drawing.Size(441, 94);
+            this._updateLocations.Size = new System.Drawing.Size(477, 94);
             this._updateLocations.TabIndex = 11;
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.Gray;
             this.textBox1.Location = new System.Drawing.Point(56, 48);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(378, 44);
+            this.textBox1.Size = new System.Drawing.Size(414, 44);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Examples:\r\nfile:///c|/temp/\r\nhttp://myupdate.com/";
             // 
             // _updateLocationOtherLocation
             // 
-            this._updateLocationOtherLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._updateLocationOtherLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._updateLocationOtherLocation.Enabled = false;
             this._updateLocationOtherLocation.Location = new System.Drawing.Point(56, 25);
             this._updateLocationOtherLocation.Name = "_updateLocationOtherLocation";
-            this._updateLocationOtherLocation.Size = new System.Drawing.Size(382, 20);
+            this._updateLocationOtherLocation.Size = new System.Drawing.Size(418, 20);
             this._updateLocationOtherLocation.TabIndex = 13;
             // 
             // _updateLocationOther
@@ -185,7 +186,7 @@
             // _checkForUpdates
             // 
             this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._checkForUpdates.Location = new System.Drawing.Point(189, 224);
+            this._checkForUpdates.Location = new System.Drawing.Point(361, 68);
             this._checkForUpdates.Name = "_checkForUpdates";
             this._checkForUpdates.Size = new System.Drawing.Size(113, 23);
             this._checkForUpdates.TabIndex = 12;
@@ -228,11 +229,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(557, 259);
+            this.ClientSize = new System.Drawing.Size(593, 257);
             this.Controls.Add(this._hideReputation);
             this.Controls.Add(this._resetReputation);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this._checkForUpdates);
             this.Controls.Add(this._updateLocations);
             this.Controls.Add(this.label2);
             this.Controls.Add(this._viewLog);
