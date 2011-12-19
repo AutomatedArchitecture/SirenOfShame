@@ -85,6 +85,7 @@ namespace SirenOfShame
 
         private void RulesEngineModalDialog(object sender, ModalDialogEventArgs args)
         {
+            if (InFullscreenMode) return;
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
@@ -134,11 +135,16 @@ namespace SirenOfShame
             {
                 lastRefreshStatusEventArgs = args;
                 _buildDefinitions.RefreshListViewWithBuildStatus(args);
-                if (_fullScreenBuildStatus != null)
+                if (InFullscreenMode)
                 {
                     _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args);
                 }
             });
+        }
+
+        private bool InFullscreenMode
+        {
+            get { return _fullScreenBuildStatus != null; }
         }
 
         private void SirenofShameDeviceConnected(object sender, EventArgs e)
@@ -278,6 +284,7 @@ namespace SirenOfShame
 
         private void RulesEngineTrayNotify(object sender, TrayNotifyEventArgs args)
         {
+            if (InFullscreenMode) return;
             Invoke(() => notifyIcon.ShowBalloonTip(TIMEOUT, args.Title, args.TipText, args.TipIcon));
         }
 

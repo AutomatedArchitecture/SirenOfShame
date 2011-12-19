@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Properties;
 
@@ -31,7 +32,7 @@ namespace SirenOfShame
             {
                 var pictureBox = new PictureBox
                 {
-                    Image = Resources.ball_gray_big,
+                    Image = GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex),
                     Size = new Size(32, 32),
                     TabStop = false
                 };
@@ -44,6 +45,14 @@ namespace SirenOfShame
 
                 row++;
             }
+        }
+
+        private static Bitmap GetBallBigResource(BallsEnum ball)
+        {
+            if (ball == BallsEnum.Gray) return Resources.ball_gray_big;
+            if (ball == BallsEnum.Red) return Resources.ball_red_big;
+            if (ball == BallsEnum.Green) return Resources.ball_green_big;
+            throw new SosException("Unknown BallsEnum: " + ball);
         }
 
         private Font _mainFont;
