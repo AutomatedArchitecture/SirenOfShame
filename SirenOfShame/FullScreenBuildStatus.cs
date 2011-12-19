@@ -36,17 +36,23 @@ namespace SirenOfShame
                     TabStop = false
                 };
                 tableLayoutPanel1.Controls.Add(pictureBox, 0, row);
-
-                AddText(buildStatusListViewItem.Comment, row, 5);
-                AddText(buildStatusListViewItem.RequestedBy, row, 4);
-                AddText(buildStatusListViewItem.Duration, row, 3);
-                AddText(buildStatusListViewItem.StartTime, row, 2);
                 AddText(buildStatusListViewItem.Name, row, 1);
+                AddText(buildStatusListViewItem.StartTime, row, 2);
+                AddText(buildStatusListViewItem.Duration, row, 3);
+                AddText(buildStatusListViewItem.RequestedBy, row, 4);
+                AddText(buildStatusListViewItem.Comment, row, 5);
 
                 row++;
             }
         }
 
+        private Font _mainFont;
+
+        protected Font MainFont
+        {
+            get { return _mainFont ?? (_mainFont = new Font(_headerName.Font.FontFamily, _headerName.Font.Size)); }
+        }
+        
         private void AddText(string text, int row, int column)
         {
             if (string.IsNullOrEmpty(text)) return;
@@ -54,7 +60,7 @@ namespace SirenOfShame
             {
                 ForeColor = Color.White,
                 Text = text,
-                Font = _headerName.Font,
+                Font = MainFont,
                 AutoSize = false,
                 AutoEllipsis = true,
                 Dock = DockStyle.Fill,

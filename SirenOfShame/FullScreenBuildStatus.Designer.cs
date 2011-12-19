@@ -53,10 +53,10 @@ namespace SirenOfShame
             // 
             this.tableLayoutPanel1.ColumnCount = 6;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 260F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 210F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.label5, 5, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 4, 0);
@@ -68,20 +68,20 @@ namespace SirenOfShame
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(693, 372);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(979, 372);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.AutoEllipsis = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(557, 0);
+            this.label5.Location = new System.Drawing.Point(842, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(133, 80);
+            this.label5.Size = new System.Drawing.Size(134, 40);
             this.label5.TabIndex = 4;
             this.label5.Text = "Comment";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -90,11 +90,11 @@ namespace SirenOfShame
             // 
             this.label4.AutoEllipsis = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(428, 0);
+            this.label4.Location = new System.Drawing.Point(632, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(123, 80);
+            this.label4.Size = new System.Drawing.Size(204, 40);
             this.label4.TabIndex = 3;
             this.label4.Text = "Checked In By";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,11 +103,11 @@ namespace SirenOfShame
             // 
             this.label3.AutoEllipsis = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(299, 0);
+            this.label3.Location = new System.Drawing.Point(501, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(123, 80);
+            this.label3.Size = new System.Drawing.Size(125, 40);
             this.label3.TabIndex = 2;
             this.label3.Text = "Duration";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -116,11 +116,11 @@ namespace SirenOfShame
             // 
             this.label2.AutoEllipsis = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(170, 0);
+            this.label2.Location = new System.Drawing.Point(301, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 80);
+            this.label2.Size = new System.Drawing.Size(194, 40);
             this.label2.TabIndex = 1;
             this.label2.Text = "Date";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -129,11 +129,11 @@ namespace SirenOfShame
             // 
             this._headerName.AutoEllipsis = true;
             this._headerName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._headerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._headerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._headerName.ForeColor = System.Drawing.Color.White;
             this._headerName.Location = new System.Drawing.Point(41, 0);
             this._headerName.Name = "_headerName";
-            this._headerName.Size = new System.Drawing.Size(123, 80);
+            this._headerName.Size = new System.Drawing.Size(254, 40);
             this._headerName.TabIndex = 0;
             this._headerName.Text = "Name";
             this._headerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -143,9 +143,9 @@ namespace SirenOfShame
             this.panel1.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.panel1, 6);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 83);
+            this.panel1.Location = new System.Drawing.Point(3, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(687, 1);
+            this.panel1.Size = new System.Drawing.Size(973, 1);
             this.panel1.TabIndex = 5;
             // 
             // FullScreenBuildStatus
@@ -153,7 +153,7 @@ namespace SirenOfShame
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(693, 372);
+            this.ClientSize = new System.Drawing.Size(979, 372);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FullScreenBuildStatus";
