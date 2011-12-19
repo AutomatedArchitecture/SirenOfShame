@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
@@ -30,21 +31,34 @@ namespace SirenOfShame
             int row = 2;
             foreach (var buildStatusListViewItem in args.BuildStatusListViewItems)
             {
-                var pictureBox = new PictureBox
-                {
-                    Image = GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex),
-                    Size = new Size(32, 32),
-                    TabStop = false
-                };
-                tableLayoutPanel1.Controls.Add(pictureBox, 0, row);
-                AddText(buildStatusListViewItem.Name, row, 1);
-                AddText(buildStatusListViewItem.StartTime, row, 2);
-                AddText(buildStatusListViewItem.Duration, row, 3);
-                AddText(buildStatusListViewItem.RequestedBy, row, 4);
-                AddText(buildStatusListViewItem.Comment, row, 5);
+                SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
+                SetText(buildStatusListViewItem.Name, row, 1);
+                SetText(buildStatusListViewItem.StartTime, row, 2);
+                SetText(buildStatusListViewItem.Duration, row, 3);
+                SetText(buildStatusListViewItem.RequestedBy, row, 4);
+                SetText(buildStatusListViewItem.Comment, row, 5);
 
                 row++;
             }
+        }
+
+        private void SetImage(Bitmap bitmap, int row, int column)
+        {
+            var pictureBox = tableLayoutPanel1.GetControlFromPosition(column, row) as PictureBox;
+            
+            if (pictureBox != null)
+            {
+                pictureBox.Image = bitmap;
+                return;
+            }
+            
+            pictureBox = new PictureBox
+            {
+                Image = bitmap,
+                Size = new Size(32, 32),
+                TabStop = false
+            };
+            tableLayoutPanel1.Controls.Add(pictureBox, 0, row);
         }
 
         private static Bitmap GetBallBigResource(BallsEnum ball)
@@ -63,10 +77,17 @@ namespace SirenOfShame
             get { return _mainFont ?? (_mainFont = new Font(_headerName.Font.FontFamily, _headerName.Font.Size)); }
         }
         
-        private void AddText(string text, int row, int column)
+        private void SetText(string text, int row, int column)
         {
-            if (string.IsNullOrEmpty(text)) return;
-            Label label = new Label
+            var label = tableLayoutPanel1.GetControlFromPosition(column, row) as Label;
+
+            if (label != null)
+            {
+                label.Text = text;
+                return;
+            }
+
+            label = new Label
             {
                 ForeColor = Color.White,
                 Text = text,
