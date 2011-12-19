@@ -37,9 +37,9 @@ namespace SirenOfShame
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this._headerName = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +62,7 @@ namespace SirenOfShame
             this.tableLayoutPanel1.Controls.Add(this.label4, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this._headerName, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this._headerName, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -112,6 +112,30 @@ namespace SirenOfShame
             this.label3.Text = "Duration";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // _headerName
+            // 
+            this._headerName.AutoEllipsis = true;
+            this.tableLayoutPanel1.SetColumnSpan(this._headerName, 2);
+            this._headerName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._headerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._headerName.ForeColor = System.Drawing.Color.White;
+            this._headerName.Location = new System.Drawing.Point(3, 0);
+            this._headerName.Name = "_headerName";
+            this._headerName.Size = new System.Drawing.Size(292, 40);
+            this._headerName.TabIndex = 0;
+            this._headerName.Text = "Build";
+            this._headerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel1.SetColumnSpan(this.panel1, 6);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 43);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(973, 1);
+            this.panel1.TabIndex = 5;
+            // 
             // label2
             // 
             this.label2.AutoEllipsis = true;
@@ -124,29 +148,6 @@ namespace SirenOfShame
             this.label2.TabIndex = 1;
             this.label2.Text = "Date";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // _headerName
-            // 
-            this._headerName.AutoEllipsis = true;
-            this._headerName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._headerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._headerName.ForeColor = System.Drawing.Color.White;
-            this._headerName.Location = new System.Drawing.Point(41, 0);
-            this._headerName.Name = "_headerName";
-            this._headerName.Size = new System.Drawing.Size(254, 40);
-            this._headerName.TabIndex = 0;
-            this._headerName.Text = "Name";
-            this._headerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.SetColumnSpan(this.panel1, 6);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(973, 1);
-            this.panel1.TabIndex = 5;
             // 
             // FullScreenBuildStatus
             // 
@@ -171,11 +172,11 @@ namespace SirenOfShame
 
         private System.Windows.Forms.ImageList balls;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label _headerName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel1;
+        private Label label2;
     }
 }

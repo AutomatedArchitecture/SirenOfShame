@@ -52,6 +52,7 @@ namespace SirenOfShame
             if (ball == BallsEnum.Gray) return Resources.ball_gray_big;
             if (ball == BallsEnum.Red) return Resources.ball_red_big;
             if (ball == BallsEnum.Green) return Resources.ball_green_big;
+            if (ball == BallsEnum.Triangle) return Resources.question_big;
             throw new SosException("Unknown BallsEnum: " + ball);
         }
 

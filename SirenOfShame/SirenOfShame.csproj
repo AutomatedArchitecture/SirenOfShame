@@ -263,6 +263,7 @@
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
     <Content Include="Resources\Fullscreen.png" />
+    <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
