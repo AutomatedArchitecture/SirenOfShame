@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using log4net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
@@ -49,6 +50,10 @@ namespace TfsServices
             catch (BuildServerException ex)
             {
                 Log.Error("Logging a BuildServerException as Server Unavailable Exception so SoS will continue to try to find the server", ex);
+                throw new ServerUnavailableException(ex.Message, ex);
+            }
+            catch (WebException ex)
+            {
                 throw new ServerUnavailableException(ex.Message, ex);
             }
         }

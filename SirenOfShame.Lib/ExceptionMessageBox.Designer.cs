@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExceptionMessageBox));
             this._message = new System.Windows.Forms.Label();
             this._ok = new System.Windows.Forms.Button();
             this._showMore = new System.Windows.Forms.Button();
@@ -103,6 +104,7 @@
             this.Controls.Add(this._showMore);
             this.Controls.Add(this._ok);
             this.Controls.Add(this._message);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ExceptionMessageBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ExceptionMessageBox";
