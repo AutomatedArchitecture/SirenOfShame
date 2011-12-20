@@ -280,6 +280,7 @@ namespace SirenOfShame.Lib.Settings
 
         public string TryGetDisplayName(string userName)
         {
+            if (string.IsNullOrEmpty(userName)) return userName;
             var person = People.FirstOrDefault(i => i.RawName.EndsWith(userName));
             return person == null ? userName : person.DisplayName;
         }

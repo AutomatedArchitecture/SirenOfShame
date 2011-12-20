@@ -558,7 +558,8 @@ namespace SirenOfShame
 
         private ToolStripMenuItem PersonMenu(string person, BuildDefinitionSetting buildDefinitionSetting)
         {
-            ToolStripMenuItem menu = new ToolStripMenuItem(person);
+            var displayName = _settings.TryGetDisplayName(person);
+            ToolStripMenuItem menu = new ToolStripMenuItem(displayName);
             var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person));
             menu.DropDownItems.AddRange(toolStripItems.ToArray());
             return menu;
