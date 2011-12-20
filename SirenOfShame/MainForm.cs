@@ -832,8 +832,16 @@ namespace SirenOfShame
         private void UsersMouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
-            var lvi = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();           
-            lvi.BeginEdit();
+            ListViewItem lvi = GetSelectedUser();
+            var anyUserSelected = lvi != null;
+            _editUserName.Visible = anyUserSelected;
+            _hideUser.Visible = anyUserSelected;
+            _userMenu.Show(_users, e.X, e.Y);
+        }
+
+        private ListViewItem GetSelectedUser()
+        {
+            return _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
         }
 
         private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
@@ -860,6 +868,13 @@ namespace SirenOfShame
         private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
         {
             _fullScreenBuildStatus = null;
+        }
+
+        private void EditUserNameClick(object sender, EventArgs e)
+        {
+            ListViewItem lvi = GetSelectedUser();
+            if (lvi != null)
+                lvi.BeginEdit();
         }
     }
 }
