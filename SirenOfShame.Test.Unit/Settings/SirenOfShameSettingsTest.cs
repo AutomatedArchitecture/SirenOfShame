@@ -10,9 +10,23 @@ namespace SirenOfShame.Test.Unit.Settings
         [TestMethod]
         public void Upgrade_NullVersion_UpgradedToMostRecent()
         {
-            var settings = new SirenOfShameSettingsFake();
+            var settings = new SirenOfShameSettingsFake
+                               {
+                                   Version = null
+                               };
             settings.DoUpgrade();
-            Assert.AreEqual(1, settings.Version);
+            Assert.AreEqual(2, settings.Version);
+        }
+        
+        [TestMethod]
+        public void Upgrade_FutureVersion_NotDowngraded()
+        {
+            var settings = new SirenOfShameSettingsFake
+                               {
+                                   Version = int.MaxValue
+                               };
+            settings.DoUpgrade();
+            Assert.AreEqual(int.MaxValue, settings.Version);
         }
     }
 }

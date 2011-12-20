@@ -475,7 +475,8 @@ namespace SirenOfShame
         private void RefreshUserStats()
         {
             _users.Items.Clear();
-            var personSettings = _settings.People
+            var filteredPeople = _showAllPeople ? _settings.People : _settings.VisiblePeople;
+            var personSettings = filteredPeople
                 .Select(i => new {i.RawName, i.DisplayName, Reputation = i.GetReputation()})
                 .OrderByDescending(i => i.Reputation);
             foreach (var person in personSettings)
@@ -836,6 +837,11 @@ namespace SirenOfShame
             var anyUserSelected = lvi != null;
             _editUserName.Visible = anyUserSelected;
             _hideUser.Visible = anyUserSelected;
+            if (anyUserSelected)
+            {
+                var person = GetActivePerson();
+                _hideUser.Text = person.Hidden ? "Show" : "Hide";
+            }
             _userMenu.Show(_users, e.X, e.Y);
         }
 
@@ -847,6 +853,7 @@ namespace SirenOfShame
         private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             var activePerson = GetActivePerson();
+            if (activePerson == null) return;
             activePerson.DisplayName = e.Label;
             _settings.Save();
         }
@@ -875,6 +882,23 @@ namespace SirenOfShame
             ListViewItem lvi = GetSelectedUser();
             if (lvi != null)
                 lvi.BeginEdit();
+        }
+
+        private void HideUserClick(object sender, EventArgs e)
+        {
+            var activePerson = GetActivePerson();
+            if (activePerson == null) return;
+            activePerson.Hidden = !activePerson.Hidden;
+            _settings.Save();
+            RefreshUserStats();
+        }
+
+        private bool _showAllPeople = false;
+        
+        private void ShowAllUsersCheckedChanged(object sender, EventArgs e)
+        {
+            _showAllPeople = _showAllUsers.Checked;
+            RefreshUserStats();
         }
     }
 }

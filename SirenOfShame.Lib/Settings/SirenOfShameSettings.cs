@@ -186,19 +186,21 @@ namespace SirenOfShame.Lib.Settings
 
         protected void TryUpgrade()
         {
-            UpgradeBase[] upgrades = new[]
+            var upgrades = new UpgradeBase[]
                                {
-                                   new Upgrade0To1()
+                                   new Upgrade0To1(),
+                                   new Upgrade1To2()
                                };
+            var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
-            foreach (var upgrade in upgrades)
+            foreach (var upgrade in sortedUpgrades)
             {
                 if (Version == upgrade.FromVersion)
                 {
                     upgrade.Upgrade(this);
+                    Version = upgrade.ToVersion;
+                    Save();
                 }
-                Version = upgrade.ToVersion;
-                Save();
             }
         }
 
@@ -230,6 +232,11 @@ namespace SirenOfShame.Lib.Settings
         public IEnumerable<ICiEntryPoint> CiEntryPoints
         {
             get { return IocContainer.Instance.GetExports<ICiEntryPoint>(); }
+        }
+
+        public IEnumerable<PersonSetting> VisiblePeople
+        {
+            get { return People.Where(i => !i.Hidden); }
         }
 
         private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
