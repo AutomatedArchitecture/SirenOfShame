@@ -277,5 +277,11 @@ namespace SirenOfShame.Lib.Settings
             Save();
             return person;
         }
+
+        public string TryGetDisplayName(string userName)
+        {
+            var person = People.FirstOrDefault(i => i.RawName.EndsWith(userName));
+            return person == null ? userName : person.DisplayName;
+        }
     }
 }

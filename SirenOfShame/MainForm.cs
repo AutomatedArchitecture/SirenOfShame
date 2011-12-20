@@ -98,7 +98,7 @@ namespace SirenOfShame
 
             AddSubItem(listViewItem, "StartTime", buildStatusListViewItem.StartTime);
             AddSubItem(listViewItem, "Duration", buildStatusListViewItem.Duration);
-            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedBy);
+            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedByDisplayName);
             AddSubItem(listViewItem, "Comment", buildStatusListViewItem.Comment);
             listViewItem.Tag = buildStatusListViewItem.Id;
             return listViewItem;
@@ -137,7 +137,7 @@ namespace SirenOfShame
                 _buildDefinitions.RefreshListViewWithBuildStatus(args);
                 if (InFullscreenMode)
                 {
-                    _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args);
+                    _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);
                 }
             });
         }
@@ -856,6 +856,9 @@ namespace SirenOfShame
             if (activePerson == null) return;
             activePerson.DisplayName = e.Label;
             _settings.Save();
+
+            lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
+            _buildDefinitions.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs);
         }
 
         FullScreenBuildStatus _fullScreenBuildStatus = null;
@@ -869,7 +872,7 @@ namespace SirenOfShame
             }
             _fullScreenBuildStatus.Show();
             if (lastRefreshStatusEventArgs != null)
-                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs);
+                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs, _settings);
         }
 
         private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)

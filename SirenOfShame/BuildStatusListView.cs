@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
@@ -35,7 +34,7 @@ namespace SirenOfShame
             listViewItem.ImageIndex = buildStatus.ImageIndex;
             UpdateSubItem(listViewItem, "StartTime", buildStatus.StartTime);
             UpdateSubItem(listViewItem, "Duration", buildStatus.Duration);
-            UpdateSubItem(listViewItem, "RequestedBy", buildStatus.RequestedBy);
+            UpdateSubItem(listViewItem, "RequestedBy", buildStatus.RequestedByDisplayName);
             UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
