@@ -15,6 +15,7 @@ namespace MockCiServerServices
         public MockProject()
         {
             InitializeComponent();
+            _status.SelectedIndex = 1;
         }
 
         public string ProjectName

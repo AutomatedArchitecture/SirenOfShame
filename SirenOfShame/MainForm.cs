@@ -85,6 +85,7 @@ namespace SirenOfShame
 
         private void RulesEngineModalDialog(object sender, ModalDialogEventArgs args)
         {
+            if (InFullscreenMode) return;
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
@@ -103,16 +104,6 @@ namespace SirenOfShame
             return listViewItem;
         }
 
-        private static void UpdateSubItem(ListViewItem lvi, string name, string value)
-        {
-            var subItem = lvi.SubItems.Cast<ListViewItem.ListViewSubItem>().FirstOrDefault(i => i.Name == name);
-            if (subItem == null) throw new Exception("Unable to find list view sub item" + name);
-            // ReSharper disable RedundantCheckBeforeAssignment
-            if (value != subItem.Text)
-                // ReSharper restore RedundantCheckBeforeAssignment
-                subItem.Text = value;
-        }
-
         private static void AddSubItem(ListViewItem lvi, string name, string value)
         {
             var subItem = new ListViewItem.ListViewSubItem(lvi, value)
@@ -120,15 +111,6 @@ namespace SirenOfShame
                 Name = name
             };
             lvi.SubItems.Add(subItem);
-        }
-
-        public void UpdateListItem(ListViewItem listViewItem, BuildStatusListViewItem buildStatus)
-        {
-            listViewItem.ImageIndex = buildStatus.ImageIndex;
-            UpdateSubItem(listViewItem, "StartTime", buildStatus.StartTime);
-            UpdateSubItem(listViewItem, "Duration", buildStatus.Duration);
-            UpdateSubItem(listViewItem, "RequestedBy", buildStatus.RequestedBy);
-            UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
@@ -142,28 +124,27 @@ namespace SirenOfShame
             RefreshStats(buildDefinitionSetting);
         }
 
+        /// <summary>
+        /// For entering into full screen mode
+        /// </summary>
+        private RefreshStatusEventArgs lastRefreshStatusEventArgs = null;
+        
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             Invoke(() =>
             {
-                var buildStatusListViewItems = args.BuildStatusListViewItems;
-                if (_buildDefinitions.Items.Count != 0 && _buildDefinitions.Items.Count != buildStatusListViewItems.Count())
+                lastRefreshStatusEventArgs = args;
+                _buildDefinitions.RefreshListViewWithBuildStatus(args);
+                if (InFullscreenMode)
                 {
-                    _buildDefinitions.Items.Clear();
-                }
-                if (_buildDefinitions.Items.Count == 0)
-                {
-                    var listViewItems = buildStatusListViewItems.Select(AsListViewItem).ToArray();
-                    _buildDefinitions.Items.AddRange(listViewItems);
-                }
-                else
-                {
-                    var listViewItemsJoinedStatus = from listViewItem in _buildDefinitions.Items.Cast<ListViewItem>()
-                                                    join buildStatus in buildStatusListViewItems on listViewItem.Text equals buildStatus.Name
-                                                    select new { listViewItem, buildStatus };
-                    listViewItemsJoinedStatus.ToList().ForEach(i => UpdateListItem(i.listViewItem, i.buildStatus));
+                    _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args);
                 }
             });
+        }
+
+        private bool InFullscreenMode
+        {
+            get { return _fullScreenBuildStatus != null; }
         }
 
         private void SirenofShameDeviceConnected(object sender, EventArgs e)
@@ -303,6 +284,7 @@ namespace SirenOfShame
 
         private void RulesEngineTrayNotify(object sender, TrayNotifyEventArgs args)
         {
+            if (InFullscreenMode) return;
             Invoke(() => notifyIcon.ShowBalloonTip(TIMEOUT, args.Title, args.TipText, args.TipIcon));
         }
 
@@ -860,5 +842,24 @@ namespace SirenOfShame
             activePerson.DisplayName = e.Label;
             _settings.Save();
         }
-     }
+
+        FullScreenBuildStatus _fullScreenBuildStatus = null;
+
+        private void FullscreenClick(object sender, EventArgs e)
+        {
+            if (_fullScreenBuildStatus == null)
+            {
+                _fullScreenBuildStatus = new FullScreenBuildStatus();
+                _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
+            }
+            _fullScreenBuildStatus.Show();
+            if (lastRefreshStatusEventArgs != null)
+                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs);
+        }
+
+        private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _fullScreenBuildStatus = null;
+        }
+    }
 }
