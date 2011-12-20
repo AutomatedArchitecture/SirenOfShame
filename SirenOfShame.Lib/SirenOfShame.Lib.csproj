@@ -168,6 +168,8 @@
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
     <Compile Include="Settings\UpdateLocation.cs" />
+    <Compile Include="Settings\Upgrades\UpgradeBase.cs" />
+    <Compile Include="Settings\Upgrades\Upgrade0To1.cs" />
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />

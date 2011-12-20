@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
 using log4net;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings.Upgrades;
 
 namespace SirenOfShame.Lib.Settings
 {
@@ -185,27 +186,18 @@ namespace SirenOfShame.Lib.Settings
 
         protected void TryUpgrade()
         {
-            if (Version == null)
-            {
-                Version = 1;
-                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).ToList();
-                foreach (var buildDefinitionSetting in buildDefinitionSettings)
-                {
-                    var emptyPerson = buildDefinitionSetting.People.FirstOrDefault(string.IsNullOrEmpty);
-                    if (emptyPerson != null)
-                    {
-                        buildDefinitionSetting.People.Remove(emptyPerson);
-                    }
-                }
-                
-                People = new List<PersonSetting>();
-                var allPeople = buildDefinitionSettings.SelectMany(i => i.People);
-                foreach (var person in allPeople)
-                {
-                    FindAddPerson(person);
-                }
-                HideReputation = false;
+            UpgradeBase[] upgrades = new[]
+                               {
+                                   new Upgrade0To1()
+                               };
 
+            foreach (var upgrade in upgrades)
+            {
+                if (Version == upgrade.FromVersion)
+                {
+                    upgrade.Upgrade(this);
+                }
+                Version = upgrade.ToVersion;
                 Save();
             }
         }
