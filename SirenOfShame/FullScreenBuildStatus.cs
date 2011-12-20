@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Properties;
 
@@ -10,24 +11,32 @@ namespace SirenOfShame
 {
     public partial class FullScreenBuildStatus : FullScreenFormBase
     {
+        private int _oldBuildCount = 0;
+        
         public FullScreenBuildStatus()
         {
             InitializeComponent();
         }
 
-        private void FullScreenBuildStatus_KeyDown(object sender, KeyEventArgs e)
+        private void FullScreenBuildStatusKeyDown(object sender, KeyEventArgs e)
         {
             ExitFullScreen();
         }
 
-        public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
+        public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args, SirenOfShameSettings settings)
         {
-            int builds = args.BuildStatusListViewItems.Count();
-            tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + builds + 1;
-            for (int i = 0; i < builds; i++)
-                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            
+            int buildCount = args.BuildStatusListViewItems.Count();
+
+            if (buildCount != _oldBuildCount)
+            {
+                ClearRowsBelowHeader();
+                tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + buildCount + 1;
+                for (int i = 0; i < buildCount; i++)
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                _oldBuildCount = buildCount;
+            }
+
             int row = 2;
             foreach (var buildStatusListViewItem in args.BuildStatusListViewItems)
             {
@@ -35,11 +44,31 @@ namespace SirenOfShame
                 SetText(buildStatusListViewItem.Name, row, 1);
                 SetText(buildStatusListViewItem.StartTime, row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
-                SetText(buildStatusListViewItem.RequestedBy, row, 4);
+                SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);
                 SetText(buildStatusListViewItem.Comment, row, 5);
 
                 row++;
             }
+        }
+
+        private void ClearRowsBelowHeader()
+        {
+            for (int row = 2; row < tableLayoutPanel1.RowCount; row++)
+            {
+                ClearCell(row, 0);
+                ClearCell(row, 1);
+                ClearCell(row, 2);
+                ClearCell(row, 3);
+                ClearCell(row, 4);
+                ClearCell(row, 5);
+            }
+        }
+
+        private void ClearCell(int row, int column)
+        {
+            var control = tableLayoutPanel1.GetControlFromPosition(column, row);
+            if (control != null)
+                tableLayoutPanel1.Controls.Remove(control);
         }
 
         private void SetImage(Bitmap bitmap, int row, int column)
@@ -100,12 +129,7 @@ namespace SirenOfShame
             tableLayoutPanel1.Controls.Add(label, column, row);
         }
 
-        private void _buildDefinitions_KeyDown(object sender, KeyEventArgs e)
-        {
-            ExitFullScreen();
-        }
-
-        private void _buildDefinitions_MouseDown(object sender, MouseEventArgs e)
+        private void TableLayoutPanel1Click(object sender, EventArgs e)
         {
             ExitFullScreen();
         }
