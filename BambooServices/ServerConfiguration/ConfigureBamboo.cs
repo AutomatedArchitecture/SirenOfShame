@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
@@ -62,7 +63,8 @@ namespace BambooServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            foreach (BambooBuildDefinition project in buildDefinitions)
+            var bambooBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
+            foreach (BambooBuildDefinition project in bambooBuildDefinitions)
             {
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {

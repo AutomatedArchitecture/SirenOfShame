@@ -49,13 +49,16 @@ namespace TfsServices.Configuration
                 {
                     IList<TreeNode> projectCollectionNodes = new List<TreeNode>();
 
-                    foreach (var teamProjectCollection in tfs.ProjectCollections)
+                    var myTfsProjectCollections = tfs.ProjectCollections.OrderBy(i => i.Name);
+                    foreach (var teamProjectCollection in myTfsProjectCollections)
                     {
                         TreeNode projectCollectionNode = new TreeNode(teamProjectCollection.Name);
-                        foreach (var project in teamProjectCollection.Projects)
+                        var myTfsProjects = teamProjectCollection.Projects.OrderBy(i => i.Name);
+                        foreach (var project in myTfsProjects)
                         {
                             var projectNode = projectCollectionNode.Nodes.Add(project.Name);
-                            foreach (var buildDefinition in project.BuildDefinitions)
+                            var myTfsBuildDefinitions = project.BuildDefinitions.OrderBy(i => i.Name);
+                            foreach (var buildDefinition in myTfsBuildDefinitions)
                             {
                                 var buildDefinitionSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
                                 projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
