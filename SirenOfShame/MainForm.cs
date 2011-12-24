@@ -165,6 +165,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _testSiren.Enabled = enable;
+                _mute.Enabled = enable;
                 if (enable)
                 {
                     _configureSiren.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;

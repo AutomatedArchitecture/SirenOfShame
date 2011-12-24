@@ -430,6 +430,24 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [TestMethod]
+        public void GlobalPlayAudioAlertButOnMute_NoAudio()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            var audioPattern = new AudioPattern {Id = 2, Name = "Sally"};
+            rulesEngine.Rules.Add(new Rule
+            {
+                TriggerType = TriggerType.InitialFailedBuild,
+                AudioPattern = audioPattern,
+                AudioDuration = 60,
+            });
+
+            rulesEngine.Settings.Mute = true;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            Assert.AreEqual(0, rulesEngine.SetAudioEvents.Count);
+        }
+
+        [TestMethod]
         public void BuildInitiallyFailsThenPassesWithGlobalPlayLightsUntilBuildFixedAlert_SetLightsOnThenOff()
         {
             var rulesEngine = new RulesEngineWrapper();

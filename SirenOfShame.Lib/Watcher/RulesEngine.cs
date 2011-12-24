@@ -221,6 +221,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public void InvokeSetAudio(AudioPattern audioPattern, int? duration)
         {
+            if (_settings.Mute) return;
+            
             var startSiren = SetAudio;
             if (startSiren == null) return;
             startSiren(this, new SetAudioEventArgs { AudioPattern = audioPattern, Duration = duration });
