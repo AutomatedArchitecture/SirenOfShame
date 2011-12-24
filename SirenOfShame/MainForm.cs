@@ -190,6 +190,7 @@ namespace SirenOfShame
             }
             StartWatchingBuild();
             RefreshStats();
+            SetMuteButton();
             InitializeBuildHistoryChart();
         }
 
@@ -903,6 +904,19 @@ namespace SirenOfShame
         {
             _showAllPeople = _showAllUsers.Checked;
             RefreshUserStats();
+        }
+
+        private void _mute_Click(object sender, EventArgs e)
+        {
+            _settings.Mute = !_settings.Mute;
+            _settings.Save();
+            SetMuteButton();
+        }
+
+        private void SetMuteButton()
+        {
+            _mute.ImageIndex = _settings.Mute ? 5 : 6;
+            _mute.Text = _settings.Mute ? "Unmute" : "Mute";
         }
     }
 }

@@ -9,6 +9,7 @@
 
         public override void Upgrade(SirenOfShameSettings sirenOfShameSettings)
         {
+            sirenOfShameSettings.Mute = false;
             foreach (var person in sirenOfShameSettings.People)
             {
                 person.Hidden = false;

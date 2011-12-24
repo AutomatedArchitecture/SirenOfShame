@@ -100,6 +100,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool HideReputation { get; set; }
 
+        public bool Mute { get; set; }
+
         public volatile string _fileName;
 
         public string FileName { get { return _fileName; } }
