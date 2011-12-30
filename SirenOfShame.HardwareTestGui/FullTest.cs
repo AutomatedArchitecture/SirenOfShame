@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Device.SdCardFileSystem;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
+using SoxLib.Helpers;
 
 namespace SirenOfShame.HardwareTestGui
 {
@@ -11,6 +16,33 @@ namespace SirenOfShame.HardwareTestGui
     {
         private DateTime? _ledEndTime;
         private DateTime? _audioEndTime;
+        private readonly AudioFileService _audioFileService = new AudioFileService();
+
+        private readonly byte[] _ledPattern1 = {
+            255, 0, 0, 0, 0,
+            0, 255, 0, 0, 0,
+            0, 0, 255, 0, 0,
+            0, 0, 0, 255, 0,
+            0, 0, 0, 0, 255
+        };
+
+        private readonly byte[] _ledPattern2 = {
+            255, 0, 255, 0, 0,
+            0, 255, 0, 255, 0,
+            0, 0, 255, 0, 255,
+            255, 0, 0, 255, 0,
+            0, 255, 0, 0, 255,
+            255, 0, 255, 0, 0,
+            0, 255, 0, 255, 0,
+            0, 0, 255, 0, 255,
+            255, 0, 0, 255, 0,
+            0, 255, 0, 0, 255,
+            255, 0, 255, 0, 0,
+            0, 255, 0, 255, 0,
+            0, 0, 255, 0, 255,
+            255, 0, 0, 255, 0,
+            0, 255, 0, 0, 255
+        };
 
         public FullTest()
         {
@@ -45,6 +77,7 @@ namespace SirenOfShame.HardwareTestGui
             _audioStop.Enabled = enable;
             _ledsStart.Enabled = enable;
             _ledsStop.Enabled = enable;
+            _uploadPatternsToPro.Enabled = enable;
         }
 
         private void Reload()
@@ -188,6 +221,40 @@ namespace SirenOfShame.HardwareTestGui
             {
                 settings.Save(fileName);
             }
+        }
+
+        private void _uploadPatternsToPro_Click(object sender, EventArgs e)
+        {
+            using (var audio1Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio1.mp3"))
+            using (var audio2Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio2.mp3"))
+            {
+                var audioPatterns = new List<UploadAudioPattern>{
+                    new UploadAudioPatternStream("ext audio1", audio1Stream),
+                    new UploadAudioPatternStream("ext audio2", audio2Stream)
+                };
+                var ledPatterns = new List<UploadLedPattern>{
+                    new UploadLedPattern("ext led1", _ledPattern1),
+                    new UploadLedPattern("ext led2", _ledPattern2)
+                };
+                Program.SirenOfShameDevice.UploadCustomPatterns(audioPatterns, ledPatterns, progressFunc);
+            }
+        }
+
+        private Stream GetAudioStream(string resourceBase, string resourceName)
+        {
+            string inputFileName = Path.Combine(Path.GetTempPath(), resourceName);
+            using (var stream = GetType().Assembly.GetManifestResourceStream(resourceBase + "." + resourceName))
+            {
+                stream.WriteToFile(inputFileName);
+            }
+            string outputFileName = Path.Combine(Path.GetTempPath(), Path.GetFileNameWithoutExtension(resourceName) + ".u8");
+            _audioFileService.Convert(inputFileName).WriteToFile(outputFileName);
+            return File.OpenRead(outputFileName);
+        }
+
+        private void progressFunc(int progress)
+        {
+            this.Invoke(() => { _uploadProgress.Value = progress; });
         }
     }
 }

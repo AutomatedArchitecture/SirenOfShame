@@ -29,6 +29,7 @@ namespace SirenOfShame.Lib.Device
         public const int ReportId_In_ReadLedPacket = 4;
 
         public const int AudioSampleSize = 8000;
+        public const int FlashSectorSize = 4 * 1024;
         private readonly List<AudioPattern> _audioPatterns = new List<AudioPattern>();
         private readonly List<LedPattern> _ledPatterns = new List<LedPattern>();
         private const int PacketSize = 1 + 37; // report id + packet length
@@ -289,7 +290,10 @@ namespace SirenOfShame.Lib.Device
                 fileSystemStream.Position = 0;
                 fileSystemBuilder.WriteHeader(fileSystemStream, audioPatterns.Count(), ledPatterns.Count());
                 fileSystemStream.Position = 0;
-                SendData(0, fileSystemStream);
+                for (int address = 0; address < FlashSectorSize; address += 32)
+                {
+                    SendData(address, fileSystemStream);
+                }
                 progressFunc(100);
             }
         }

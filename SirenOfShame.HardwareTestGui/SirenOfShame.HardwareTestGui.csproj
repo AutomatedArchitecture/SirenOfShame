@@ -131,6 +131,14 @@
       <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
       <Name>SirenOfShame.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SoxLib\SoxLib.csproj">
+      <Project>{D3DE2E68-91E4-440F-84EA-FF8F7A6370F7}</Project>
+      <Name>SoxLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Audio1.mp3" />
+    <EmbeddedResource Include="Audio2.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -48,6 +48,8 @@
             this._ledRunTime = new System.Windows.Forms.Label();
             this._deviceConnect = new SirenOfShame.HardwareTestGui.DeviceConnect();
             this._configureSiren = new System.Windows.Forms.Button();
+            this._uploadPatternsToPro = new System.Windows.Forms.Button();
+            this._uploadProgress = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this._audioDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._ledDuration)).BeginInit();
             this.SuspendLayout();
@@ -235,16 +237,35 @@
             // 
             this._configureSiren.Location = new System.Drawing.Point(259, 208);
             this._configureSiren.Name = "_configureSiren";
-            this._configureSiren.Size = new System.Drawing.Size(124, 23);
+            this._configureSiren.Size = new System.Drawing.Size(150, 23);
             this._configureSiren.TabIndex = 18;
             this._configureSiren.Text = "Configure Siren...";
             this._configureSiren.UseVisualStyleBackColor = true;
             this._configureSiren.Click += new System.EventHandler(this._configureSiren_Click);
             // 
+            // _uploadPatternsToPro
+            // 
+            this._uploadPatternsToPro.Location = new System.Drawing.Point(259, 234);
+            this._uploadPatternsToPro.Name = "_uploadPatternsToPro";
+            this._uploadPatternsToPro.Size = new System.Drawing.Size(150, 23);
+            this._uploadPatternsToPro.TabIndex = 19;
+            this._uploadPatternsToPro.Text = "Upload Patterns To Pro...";
+            this._uploadPatternsToPro.UseVisualStyleBackColor = true;
+            this._uploadPatternsToPro.Click += new System.EventHandler(this._uploadPatternsToPro_Click);
+            // 
+            // _uploadProgress
+            // 
+            this._uploadProgress.Location = new System.Drawing.Point(259, 263);
+            this._uploadProgress.Name = "_uploadProgress";
+            this._uploadProgress.Size = new System.Drawing.Size(150, 10);
+            this._uploadProgress.TabIndex = 20;
+            // 
             // FullTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._uploadProgress);
+            this.Controls.Add(this._uploadPatternsToPro);
             this.Controls.Add(this._configureSiren);
             this.Controls.Add(this._ledRunTime);
             this.Controls.Add(this._audioRunTime);
@@ -291,5 +312,7 @@
         private System.Windows.Forms.Label _audioRunTime;
         private System.Windows.Forms.Label _ledRunTime;
         private System.Windows.Forms.Button _configureSiren;
+        private System.Windows.Forms.Button _uploadPatternsToPro;
+        private System.Windows.Forms.ProgressBar _uploadProgress;
     }
 }
