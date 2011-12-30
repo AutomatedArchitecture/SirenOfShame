@@ -16,7 +16,7 @@ namespace SirenOfShame.HardwareTestGui
     {
         private DateTime? _ledEndTime;
         private DateTime? _audioEndTime;
-        private readonly AudioFileService _audioFileService = new AudioFileService();
+        private readonly AudioFileService _audioFileService;
 
         private readonly byte[] _ledPattern1 = {
             255, 0, 0, 0, 0,
@@ -52,6 +52,8 @@ namespace SirenOfShame.HardwareTestGui
                 Program.SirenOfShameDevice.Connected += SirenOfShameDevice_Connected;
                 Program.SirenOfShameDevice.Disconnected += SirenOfShameDevice_Disconnected;
 
+                _audioFileService = new AudioFileService();
+                _timer.Interval = 1000;
                 _timer.Enabled = true;
             }
         }
