@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -115,9 +116,15 @@ namespace SirenOfShame.HardwareTestGui
                 {
                     StartInfo = startInfo
                 };
-                if (!process.Start())
+                try
                 {
-                    throw new Exception("Could not start process \"" + fileName + "\"");
+                    if (!process.Start())
+                    {
+                        throw new Exception("Could not start process \"" + fileName + "\"");
+                    }
+                } catch (Win32Exception)
+                {
+                    throw new Exception("Need to install AVR Command Line Tools: http://www.atmel.no/beta_ware/AVRCommandLineTools/AVRCommandLineTools.exe");
                 }
                 StreamReader outputReader = process.StandardOutput;
                 StreamReader errorReader = process.StandardError;

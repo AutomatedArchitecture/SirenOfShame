@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
@@ -62,7 +63,8 @@ namespace CruiseControlNetServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            foreach (CruiseControlNetBuildDefinition project in buildDefinitions)
+            var cruiseControlNetBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
+            foreach (CruiseControlNetBuildDefinition project in cruiseControlNetBuildDefinitions)
             {
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {

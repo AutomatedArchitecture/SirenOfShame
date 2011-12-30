@@ -51,14 +51,12 @@ namespace SirenOfShame
 
         private void FullScreenEnforcerKeyDown(object sender, KeyEventArgs e)
         {
-            Hide();
-            Close();
+            ExitFullScreen();
         }
 
         private void LabelClick(object sender, EventArgs e)
         {
-            Hide();
-            Close();
+            ExitFullScreen();
         }
     }
 }

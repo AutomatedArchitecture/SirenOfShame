@@ -73,7 +73,8 @@ namespace TeamCityServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            foreach (TeamCityProject project in projects)
+            var teamCityProjects = projects.OrderBy(i => i.Name);
+            foreach (TeamCityProject project in teamCityProjects)
             {
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {

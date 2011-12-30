@@ -71,7 +71,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus)
+        public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             BuildStatus previousStatus;
             previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
@@ -79,8 +79,8 @@ namespace SirenOfShame.Lib.Watcher
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
             string startTime = StartedTime == null ? "" : StartedTime.Value.ToString("M/d h:mm tt");
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
-
-            return new BuildStatusListViewItem
+            
+            var result = new BuildStatusListViewItem
             {
                 ImageIndex = (int)BallIndex,
                 StartTime = startTime,
@@ -90,6 +90,8 @@ namespace SirenOfShame.Lib.Watcher
                 Id = BuildDefinitionId,
                 Name = Name
             };
+            result.SetDisplayName(settings);
+            return result;
         }
 
         private string GetDurationAsString(DateTime? finishedTime, DateTime? startedTime, DateTime now, BuildStatus previousStatus)

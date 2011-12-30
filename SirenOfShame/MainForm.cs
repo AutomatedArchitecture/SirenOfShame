@@ -85,6 +85,7 @@ namespace SirenOfShame
 
         private void RulesEngineModalDialog(object sender, ModalDialogEventArgs args)
         {
+            if (InFullscreenMode) return;
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
@@ -97,20 +98,10 @@ namespace SirenOfShame
 
             AddSubItem(listViewItem, "StartTime", buildStatusListViewItem.StartTime);
             AddSubItem(listViewItem, "Duration", buildStatusListViewItem.Duration);
-            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedBy);
+            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedByDisplayName);
             AddSubItem(listViewItem, "Comment", buildStatusListViewItem.Comment);
             listViewItem.Tag = buildStatusListViewItem.Id;
             return listViewItem;
-        }
-
-        private static void UpdateSubItem(ListViewItem lvi, string name, string value)
-        {
-            var subItem = lvi.SubItems.Cast<ListViewItem.ListViewSubItem>().FirstOrDefault(i => i.Name == name);
-            if (subItem == null) throw new Exception("Unable to find list view sub item" + name);
-            // ReSharper disable RedundantCheckBeforeAssignment
-            if (value != subItem.Text)
-                // ReSharper restore RedundantCheckBeforeAssignment
-                subItem.Text = value;
         }
 
         private static void AddSubItem(ListViewItem lvi, string name, string value)
@@ -120,15 +111,6 @@ namespace SirenOfShame
                 Name = name
             };
             lvi.SubItems.Add(subItem);
-        }
-
-        public void UpdateListItem(ListViewItem listViewItem, BuildStatusListViewItem buildStatus)
-        {
-            listViewItem.ImageIndex = buildStatus.ImageIndex;
-            UpdateSubItem(listViewItem, "StartTime", buildStatus.StartTime);
-            UpdateSubItem(listViewItem, "Duration", buildStatus.Duration);
-            UpdateSubItem(listViewItem, "RequestedBy", buildStatus.RequestedBy);
-            UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
@@ -142,28 +124,27 @@ namespace SirenOfShame
             RefreshStats(buildDefinitionSetting);
         }
 
+        /// <summary>
+        /// For entering into full screen mode
+        /// </summary>
+        private RefreshStatusEventArgs lastRefreshStatusEventArgs = null;
+        
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             Invoke(() =>
             {
-                var buildStatusListViewItems = args.BuildStatusListViewItems;
-                if (_buildDefinitions.Items.Count != 0 && _buildDefinitions.Items.Count != buildStatusListViewItems.Count())
+                lastRefreshStatusEventArgs = args;
+                _buildDefinitions.RefreshListViewWithBuildStatus(args);
+                if (InFullscreenMode)
                 {
-                    _buildDefinitions.Items.Clear();
-                }
-                if (_buildDefinitions.Items.Count == 0)
-                {
-                    var listViewItems = buildStatusListViewItems.Select(AsListViewItem).ToArray();
-                    _buildDefinitions.Items.AddRange(listViewItems);
-                }
-                else
-                {
-                    var listViewItemsJoinedStatus = from listViewItem in _buildDefinitions.Items.Cast<ListViewItem>()
-                                                    join buildStatus in buildStatusListViewItems on listViewItem.Text equals buildStatus.Name
-                                                    select new { listViewItem, buildStatus };
-                    listViewItemsJoinedStatus.ToList().ForEach(i => UpdateListItem(i.listViewItem, i.buildStatus));
+                    _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);
                 }
             });
+        }
+
+        private bool InFullscreenMode
+        {
+            get { return _fullScreenBuildStatus != null; }
         }
 
         private void SirenofShameDeviceConnected(object sender, EventArgs e)
@@ -184,6 +165,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _testSiren.Enabled = enable;
+                _mute.Enabled = enable;
                 if (enable)
                 {
                     _configureSiren.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
@@ -209,6 +191,7 @@ namespace SirenOfShame
             }
             StartWatchingBuild();
             RefreshStats();
+            SetMuteButton();
             InitializeBuildHistoryChart();
         }
 
@@ -303,6 +286,7 @@ namespace SirenOfShame
 
         private void RulesEngineTrayNotify(object sender, TrayNotifyEventArgs args)
         {
+            if (InFullscreenMode) return;
             Invoke(() => notifyIcon.ShowBalloonTip(TIMEOUT, args.Title, args.TipText, args.TipIcon));
         }
 
@@ -493,7 +477,8 @@ namespace SirenOfShame
         private void RefreshUserStats()
         {
             _users.Items.Clear();
-            var personSettings = _settings.People
+            var filteredPeople = _showAllPeople ? _settings.People : _settings.VisiblePeople;
+            var personSettings = filteredPeople
                 .Select(i => new {i.RawName, i.DisplayName, Reputation = i.GetReputation()})
                 .OrderByDescending(i => i.Reputation);
             foreach (var person in personSettings)
@@ -575,7 +560,8 @@ namespace SirenOfShame
 
         private ToolStripMenuItem PersonMenu(string person, BuildDefinitionSetting buildDefinitionSetting)
         {
-            ToolStripMenuItem menu = new ToolStripMenuItem(person);
+            var displayName = _settings.TryGetDisplayName(person);
+            ToolStripMenuItem menu = new ToolStripMenuItem(displayName);
             var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person));
             menu.DropDownItems.AddRange(toolStripItems.ToArray());
             return menu;
@@ -850,15 +836,88 @@ namespace SirenOfShame
         private void UsersMouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
-            var lvi = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();           
-            lvi.BeginEdit();
+            ListViewItem lvi = GetSelectedUser();
+            var anyUserSelected = lvi != null;
+            _editUserName.Visible = anyUserSelected;
+            _hideUser.Visible = anyUserSelected;
+            if (anyUserSelected)
+            {
+                var person = GetActivePerson();
+                _hideUser.Text = person.Hidden ? "Show" : "Hide";
+            }
+            _userMenu.Show(_users, e.X, e.Y);
+        }
+
+        private ListViewItem GetSelectedUser()
+        {
+            return _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
         }
 
         private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             var activePerson = GetActivePerson();
+            if (activePerson == null) return;
             activePerson.DisplayName = e.Label;
             _settings.Save();
+
+            lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
+            _buildDefinitions.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs);
         }
-     }
+
+        FullScreenBuildStatus _fullScreenBuildStatus = null;
+
+        private void FullscreenClick(object sender, EventArgs e)
+        {
+            if (_fullScreenBuildStatus == null)
+            {
+                _fullScreenBuildStatus = new FullScreenBuildStatus();
+                _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
+            }
+            _fullScreenBuildStatus.Show();
+            if (lastRefreshStatusEventArgs != null)
+                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs, _settings);
+        }
+
+        private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
+        {
+            _fullScreenBuildStatus = null;
+        }
+
+        private void EditUserNameClick(object sender, EventArgs e)
+        {
+            ListViewItem lvi = GetSelectedUser();
+            if (lvi != null)
+                lvi.BeginEdit();
+        }
+
+        private void HideUserClick(object sender, EventArgs e)
+        {
+            var activePerson = GetActivePerson();
+            if (activePerson == null) return;
+            activePerson.Hidden = !activePerson.Hidden;
+            _settings.Save();
+            RefreshUserStats();
+        }
+
+        private bool _showAllPeople = false;
+        
+        private void ShowAllUsersCheckedChanged(object sender, EventArgs e)
+        {
+            _showAllPeople = _showAllUsers.Checked;
+            RefreshUserStats();
+        }
+
+        private void _mute_Click(object sender, EventArgs e)
+        {
+            _settings.Mute = !_settings.Mute;
+            _settings.Save();
+            SetMuteButton();
+        }
+
+        private void SetMuteButton()
+        {
+            _mute.ImageIndex = _settings.Mute ? 5 : 6;
+            _mute.Text = _settings.Mute ? "Unmute" : "Mute";
+        }
+    }
 }

@@ -70,6 +70,9 @@
     <Compile Include="BuildFailedMessageBox.Designer.cs">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuildStatusListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Configuration\AddRule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +194,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -255,6 +259,11 @@
     <Content Include="FirmwareUpgrade.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\ball_gray_big.png" />
+    <Content Include="Resources\ball_green_big.png" />
+    <Content Include="Resources\ball_red_big.png" />
+    <Content Include="Resources\Fullscreen.png" />
+    <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />

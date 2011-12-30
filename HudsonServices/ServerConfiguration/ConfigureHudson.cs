@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
@@ -62,7 +63,8 @@ namespace HudsonServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            foreach (HudsonBuildDefinition project in buildDefinitions)
+            var hudsonBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
+            foreach (HudsonBuildDefinition project in hudsonBuildDefinitions)
             {
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {

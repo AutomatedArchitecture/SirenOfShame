@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
 using log4net;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings.Upgrades;
 
 namespace SirenOfShame.Lib.Settings
 {
@@ -99,6 +100,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool HideReputation { get; set; }
 
+        public bool Mute { get; set; }
+
         public volatile string _fileName;
 
         public string FileName { get { return _fileName; } }
@@ -185,28 +188,21 @@ namespace SirenOfShame.Lib.Settings
 
         protected void TryUpgrade()
         {
-            if (Version == null)
-            {
-                Version = 1;
-                var buildDefinitionSettings = CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).ToList();
-                foreach (var buildDefinitionSetting in buildDefinitionSettings)
-                {
-                    var emptyPerson = buildDefinitionSetting.People.FirstOrDefault(string.IsNullOrEmpty);
-                    if (emptyPerson != null)
-                    {
-                        buildDefinitionSetting.People.Remove(emptyPerson);
-                    }
-                }
-                
-                People = new List<PersonSetting>();
-                var allPeople = buildDefinitionSettings.SelectMany(i => i.People);
-                foreach (var person in allPeople)
-                {
-                    FindAddPerson(person);
-                }
-                HideReputation = false;
+            var upgrades = new UpgradeBase[]
+                               {
+                                   new Upgrade0To1(),
+                                   new Upgrade1To2()
+                               };
+            var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
-                Save();
+            foreach (var upgrade in sortedUpgrades)
+            {
+                if (Version == upgrade.FromVersion)
+                {
+                    upgrade.Upgrade(this);
+                    Version = upgrade.ToVersion;
+                    Save();
+                }
             }
         }
 
@@ -238,6 +234,11 @@ namespace SirenOfShame.Lib.Settings
         public IEnumerable<ICiEntryPoint> CiEntryPoints
         {
             get { return IocContainer.Instance.GetExports<ICiEntryPoint>(); }
+        }
+
+        public IEnumerable<PersonSetting> VisiblePeople
+        {
+            get { return People.Where(i => !i.Hidden); }
         }
 
         private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
@@ -277,6 +278,13 @@ namespace SirenOfShame.Lib.Settings
             People.Add(person);
             Save();
             return person;
+        }
+
+        public string TryGetDisplayName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName)) return userName;
+            var person = People.FirstOrDefault(i => i.RawName.EndsWith(userName));
+            return person == null ? userName : person.DisplayName;
         }
     }
 }

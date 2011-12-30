@@ -123,7 +123,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
                 .OrderBy(s => s.Name)
-                .Select(bs => bs.AsBuildStatusListViewItem(DateTime.Now, PreviousWorkingOrBrokenBuildStatus));
+                .Select(bs => bs.AsBuildStatusListViewItem(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings));
 
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
@@ -138,7 +138,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void BuildWatcherStatusChanged(BuildStatus[] allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
+        private void BuildWatcherStatusChanged(IEnumerable<BuildStatus> allBuildStatuses, IEnumerable<BuildStatus> changedBuildStatuses)
         {
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
@@ -221,6 +221,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public void InvokeSetAudio(AudioPattern audioPattern, int? duration)
         {
+            if (_settings.Mute) return;
+            
             var startSiren = SetAudio;
             if (startSiren == null) return;
             startSiren(this, new SetAudioEventArgs { AudioPattern = audioPattern, Duration = duration });
