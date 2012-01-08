@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
@@ -118,6 +119,19 @@ namespace SirenOfShame.HardwareTestGui
         private void _ledValue_Scroll(object sender, EventArgs e)
         {
             UpdateDevice();
+        }
+
+        private void _lightNext_Click(object sender, EventArgs e)
+        {
+            var leds = new[] {_led1, _led2, _led3, _led4, _led5};
+            var firstUnchecked = leds.FirstOrDefault(i => !i.Checked);
+            if (firstUnchecked != null)
+            {
+                firstUnchecked.Checked = true;
+            } else
+            {
+                leds.ToList().ForEach(i => i.Checked = false);
+            }
         }
     }
 }

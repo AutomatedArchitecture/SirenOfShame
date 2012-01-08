@@ -43,6 +43,7 @@
             this._led1 = new System.Windows.Forms.CheckBox();
             this._siren = new System.Windows.Forms.CheckBox();
             this.deviceConnect1 = new SirenOfShame.HardwareTestGui.DeviceConnect();
+            this._lightNext = new System.Windows.Forms.Button();
             this._ledsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._led5Value)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._led4Value)).BeginInit();
@@ -227,10 +228,21 @@
             this.deviceConnect1.Size = new System.Drawing.Size(162, 30);
             this.deviceConnect1.TabIndex = 0;
             // 
+            // _lightNext
+            // 
+            this._lightNext.Location = new System.Drawing.Point(181, 173);
+            this._lightNext.Name = "_lightNext";
+            this._lightNext.Size = new System.Drawing.Size(136, 23);
+            this._lightNext.TabIndex = 13;
+            this._lightNext.Text = "Light Next";
+            this._lightNext.UseVisualStyleBackColor = true;
+            this._lightNext.Click += new System.EventHandler(this._lightNext_Click);
+            // 
             // ManualControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._lightNext);
             this.Controls.Add(this._siren);
             this.Controls.Add(this._ledsGroupBox);
             this.Controls.Add(this.deviceConnect1);
@@ -265,5 +277,6 @@
         private System.Windows.Forms.TrackBar _led3Value;
         private System.Windows.Forms.TrackBar _led2Value;
         private System.Windows.Forms.TrackBar _led1Value;
+        private System.Windows.Forms.Button _lightNext;
     }
 }
