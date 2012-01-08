@@ -45,6 +45,8 @@ namespace SirenOfShame.Lib.Settings
 
         public int? Version { get; set; }
         
+        public DateTime? LastCheckedForAlert { get; set; }
+        
         public List<Rule> Rules { get; set; }
 
         private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
@@ -96,7 +98,10 @@ namespace SirenOfShame.Lib.Settings
         public int PollInterval { get; set; }
 
         public List<AudioPatternSetting> AudioPatterns { get; set; }
+        
         public List<LedPatternSetting> LedPatterns { get; set; }
+
+        public int? SoftwareInstanceId { get; set; }
 
         public bool HideReputation { get; set; }
 

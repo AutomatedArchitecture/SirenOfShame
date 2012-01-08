@@ -177,6 +177,8 @@
     <Compile Include="Watcher\BuildStatusListViewItem.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
+    <Compile Include="Watcher\NewAlertEvent.cs" />
+    <Compile Include="Watcher\NewAlertArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />
     <Compile Include="Watcher\RulesEngine.cs" />
     <Compile Include="Watcher\SetAudioEvent.cs" />

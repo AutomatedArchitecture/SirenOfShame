@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
@@ -29,11 +30,18 @@ namespace SirenOfShame.Lib.Watcher
         public event SetAudioEvent SetAudio;
         public event SetLightsEvent SetLights;
         public event SetTrayIconEvent SetTrayIcon;
+        public event NewAlertEvent NewAlert;
 
         public void InvokeSetTrayIcon(TrayIcon trayIcon)
         {
             SetTrayIconEvent setTrayIcon = SetTrayIcon;
             if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
+        }
+
+        public void InvokeNewAlert(NewAlertArgs args)
+        {
+            NewAlertEvent newAlert = NewAlert;
+            if (newAlert != null) newAlert(this, args);
         }
 
         public void InvokeTrayNotify(ToolTipIcon tipIcon, string title, string tipText)
@@ -95,6 +103,8 @@ namespace SirenOfShame.Lib.Watcher
             }
             _serverPreviouslyUnavailable = false;
 
+            GetAlertAsyncIfNewDay();
+
             var newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
             var oldBuildStatus = _buildStatus;
             _buildStatus = newBuildStatus;
@@ -110,6 +120,44 @@ namespace SirenOfShame.Lib.Watcher
             changedBuildStatuses = changedBuildStatuses.ToList();
 
             BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses.ToList());
+        }
+
+        private void GetAlertAsyncIfNewDay()
+        {
+            bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (DateTime.Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
+            if (weHaveAlreadyCheckedForAlertsToday) return;
+            
+            _settings.LastCheckedForAlert = DateTime.Now;
+            _settings.Save();
+            var webClient = new WebClient();
+            webClient.DownloadStringCompleted += (s, e) =>
+            {
+                try
+                {
+                    if (e.Error != null)
+                    {
+                        _log.Error("Error retrieving alert", e.Error);
+                        return;
+                    }
+                    NewAlertArgs args = new NewAlertArgs();
+                    var successParsing = args.Instantiate(e.Result);
+                    if (successParsing)
+                    {
+                        if (_settings.SoftwareInstanceId == null)
+                        {
+                            _settings.SoftwareInstanceId = args.SoftwareInstanceId;
+                            _settings.Save();
+                        }
+
+                        InvokeNewAlert(args);
+                    }
+                } 
+                catch (Exception ex)
+                {
+                    _log.Error("Error retrieving alert", ex);
+                }
+            };
+            webClient.DownloadStringAsync(new Uri("http://sirenofshame.com/GetAlert"));
         }
 
         private void InvokeStatsChanged()
