@@ -15,9 +15,91 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 "
-   sodipodi:docname="New document 1">
+   sodipodi:docname="MainFormIcons.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <linearGradient
+       id="linearGradient3862">
+      <stop
+         style="stop-color:#ff001f;stop-opacity:1;"
+         offset="0"
+         id="stop3864" />
+      <stop
+         style="stop-color:#bc0017;stop-opacity:1;"
+         offset="1"
+         id="stop3866" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3806">
+      <stop
+         style="stop-color:#0067d0;stop-opacity:1;"
+         offset="0"
+         id="stop3808" />
+      <stop
+         style="stop-color:#004fa1;stop-opacity:1;"
+         offset="1"
+         id="stop3810" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3806"
+       id="linearGradient3812"
+       x1="280.44536"
+       y1="447.92055"
+       x2="283.31764"
+       y2="447.92055"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3806-0"
+       id="linearGradient3812-9"
+       x1="280.44537"
+       y1="447.92056"
+       x2="283.31763"
+       y2="447.92056"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient3806-0">
+      <stop
+         style="stop-color:#0067d0;stop-opacity:1;"
+         offset="0"
+         id="stop3808-1" />
+      <stop
+         style="stop-color:#004fa1;stop-opacity:1;"
+         offset="1"
+         id="stop3810-0" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="translate(-5.9873414e-6,-5.8787437e-6)"
+       y2="447.92056"
+       x2="283.31763"
+       y1="447.92056"
+       x1="280.44537"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3839"
+       xlink:href="#linearGradient3806-0"
+       inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3862"
+       id="linearGradient3868"
+       x1="322.75849"
+       y1="452.82404"
+       x2="332.72949"
+       y2="452.82404"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.76185533,0,0,0.76199067,70.171024,110.74786)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3862"
+       id="linearGradient3870"
+       x1="312.33313"
+       y1="448.96831"
+       x2="318.93643"
+       y2="448.96831"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(1.4726586e-6,4.1212563e-6)" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -26,15 +108,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.313709"
-     inkscape:cx="274.37233"
+     inkscape:cx="287.08298"
      inkscape:cy="612.36871"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="838"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1422"
+     inkscape:window-height="820"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -56,20 +138,13 @@
        y="-431.07645"
        x="281.07141"
        id="image2993"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAIAAAB/6NG4AAAAA3NCSVQICAjb4U/gAAABOklEQVQo
-kWP4jwoY0i/8xw2YGJBA6KwHDBhAsPCKTtNNCJsJWemacx8xVb/v13n39a95x22EaqxKmTMv2nTf
-YWBgeNapdfrht7OPvjOFznrA6LsMq6m3mjTPPPzWufMVAwODswZP/sqnTGvOfWT4+AJNnVDRlZK1
-z5RF2QqcRSftf8PAwJBiLXzu0XcmTCMZGBiqPcXnHX3HwMBQ6Cz6/ONvBgaGcBOBH3/+YVf9/c8/
-ZiZGTHHsqifufZNuK8zAwNC/97UkPysDA8PKMx84WJhYQoz41zyVQFP9ukebgYHh7utfE/a+bvSV
-YGBgmHP0rZEcJwMkkkJm3mdIvwBBiJjLuGDddRvCZsy4cObhNwa4HFwDZoTLlF81a7+FEvOr0xRC
-jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII=
-"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAOCAIAAAB/6NG4AAAAA3NCSVQICAjb4U/gAAABOklEQVQo kWP4jwoY0i/8xw2YGJBA6KwHDBhAsPCKTtNNCJsJWemacx8xVb/v13n39a95x22EaqxKmTMv2nTf YWBgeNapdfrht7OPvjOFznrA6LsMq6m3mjTPPPzWufMVAwODswZP/sqnTGvOfWT4+AJNnVDRlZK1 z5RF2QqcRSftf8PAwJBiLXzu0XcmTCMZGBiqPcXnHX3HwMBQ6Cz6/ONvBgaGcBOBH3/+YVf9/c8/ ZiZGTHHsqifufZNuK8zAwNC/97UkPysDA8PKMx84WJhYQoz41zyVQFP9ukebgYHh7utfE/a+bvSV YGBgmHP0rZEcJwMkkkJm3mdIvwBBiJjLuGDddRvCZsy4cObhNwa4HFwDZoTLlF81a7+FEvOr0xRC jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII= "
        height="11.714286"
        width="15"
        transform="scale(1,-1)" />
     <path
-       style="fill:#0067d0;fill-opacity:1;stroke:#0067d0;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 280.44536,446.17571 0.0314,3.75848 2.84088,3.38437 0,-10.79601 z"
+       style="fill:url(#linearGradient3812);fill-opacity:1;stroke:none"
+       d="m 281.67243,444.10138 0.0361,4.22845 3.26999,3.80757 0,-12.14599 z"
        id="path2996"
        inkscape:connector-curvature="0"
        inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\unmute.png"
@@ -78,7 +153,7 @@ jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII=
        sodipodi:nodetypes="ccccc" />
     <path
        style="fill:none;stroke:#0067d0;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 285.21169,446.68943 c 0.96558,0.93602 0.99936,1.8043 0,2.58851"
+       d="m 287.1587,444.67933 c 1.11143,1.05306 1.15031,2.02991 0,2.91218"
        id="path2998"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -89,14 +164,14 @@ jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII=
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path3768"
-       d="m 287.23201,445.23734 c 2.34805,1.67369 2.133,4.51614 0,5.4927"
+       d="m 289.48419,443.04566 c 2.70271,1.88298 2.45518,5.08086 0,6.17953"
        style="fill:none;stroke:#0067d0;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
        inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\unmute.png"
        inkscape:export-xdpi="178.41"
        inkscape:export-ydpi="178.41" />
     <path
        style="fill:none;stroke:#0067d0;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 289.18919,443.53271 c 3.15144,1.38367 3.2298,7.84853 0,8.83883"
+       d="m 291.73699,441.12788 c 3.62746,1.55669 3.71766,8.82994 0,9.94407"
        id="path3770"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -106,7 +181,7 @@ jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII=
     <path
        inkscape:connector-curvature="0"
        id="path3776"
-       d="m 280.4644,446.15673 0.0183,3.81314 0.0549,0.0615 -0.0519,-3.90092 z"
+       d="m 281.69435,444.08002 0.0211,4.28995 0.0632,0.0692 -0.0597,-4.38871 z"
        style="fill:#0067d0;fill-opacity:1;stroke:#003d8d;stroke-width:1.00000012px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        sodipodi:nodetypes="ccccc"
        inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\unmute.png"
@@ -115,11 +190,77 @@ jPgx/SBacpWfi/lkhSoDAwMDmjH4UxUAOSb7ueZJujYAAAAASUVORK5CYII=
     <rect
        style="fill:#0067d0;fill-opacity:1;fill-rule:evenodd;stroke:#0067d0;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3782"
-       width="0.023583928"
-       height="3.7374487"
-       x="279.72885"
-       y="446.18604"
+       width="0.027146215"
+       height="4.2047944"
+       x="280.84769"
+       y="444.11301"
        inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\unmute.png"
+       inkscape:export-xdpi="178.41"
+       inkscape:export-ydpi="178.41" />
+    <image
+       y="406.94879"
+       x="308.20844"
+       id="image3017"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAdpJREFU
+WIXt1r1L21EUxvHvNcE2DiqUUGkJVB2cXGJxyeIUhxChEIUKXWvdncU/QQQDzSgIBa0K7dK/IEVJ
+GifpS5o0pOkQavzFpNaX+HQq1KH15qWIkgN3ucN5Pne4h2MkcZXVcaXpbUAb0AZcW4B5ttuy6VU3
+YDKWbenorAswGctqPem0Mt8e8D/CAdxWwW/egXeg5eFWgPWkA8XM3wGJhNjaglIJwmEYHzctBfyr
+zkZH9WFnh69ANzCwvMydvj51bG+Dz2cFaXgOnPv9KiQS3OvtJZBM8vDggO7VVc5OTnCGh637NAQY
+LOdJp1L8mJgAx6E6NQWVCremp+lcWaGzXKYQjVp910sBEX8PePsv3D35+JqiRH8sRnVhAZNOsx8M
+UisWIRTittfL+81Nq8dcClh7+sDo5SMT8fdcuHcBLo+H+/PzHM3N4drbYz8Y5NxxkNvNaa1mBUCS
+9Yk8z4iZlAYfv1LeGOUXF/W7srOz+m6Mvg0NqWCMPi0tyaZnXYA/EZWREX3xePQzGpWOjyVJmbEx
+vQWtdXVZhTcEkAQzKUkiHghoF1QGVY3RZ2P0wuvVUS5nDTDNruWleFy5jQ1ODw/xhULcDYfrGkRN
+A5qt67mQtAFtwI0C/ALcuJI1ybzTpwAAAABJRU5ErkJggg==
+"
+       height="32"
+       width="32" />
+    <path
+       style="fill:none;stroke:url(#linearGradient3870);stroke-width:1.29999995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 321.20393,442.09829 6.90302,6.90181 0.058,-0.058"
+       id="path3796"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\mute.png"
+       inkscape:export-xdpi="178.41"
+       inkscape:export-ydpi="178.41" />
+    <path
+       style="fill:url(#linearGradient3839);fill-opacity:1;stroke:none"
+       d="m 316.70469,441.01165 0.0412,4.93245 3.72889,4.44149 0,-14.16817 z"
+       id="path2996-0"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\mute.png"
+       inkscape:export-xdpi="178.41"
+       inkscape:export-ydpi="178.41"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3776-7"
+       d="m 316.7297,440.98673 0.024,5.00418 0.0721,0.0807 -0.0681,-5.11938 z"
+       style="fill:#0067d0;fill-opacity:1;stroke:#003d8d;stroke-width:1.00000012px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\mute.png"
+       inkscape:export-xdpi="178.41"
+       inkscape:export-ydpi="178.41" />
+    <rect
+       style="fill:#0067d0;fill-opacity:1;fill-rule:evenodd;stroke:#0067d0;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3782-1"
+       width="0.030955914"
+       height="4.9048481"
+       x="315.76425"
+       y="441.02518"
+       inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\mute.png"
+       inkscape:export-xdpi="178.41"
+       inkscape:export-ydpi="178.41" />
+    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:url(#linearGradient3868);stroke-width:1.13199985;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path3026"
+       sodipodi:cx="327.74399"
+       sodipodi:cy="452.82404"
+       sodipodi:rx="4.2426405"
+       sodipodi:ry="4.2426405"
+       d="m 331.98663,452.82404 a 4.2426405,4.2426405 0 1 1 -8.48528,0 4.2426405,4.2426405 0 1 1 8.48528,0 z"
+       transform="matrix(1.148512,0,0,1.148308,-51.733467,-74.403274)"
+       inkscape:export-filename="D:\dev\SirenOfShameController\SirenOfShame\Resources\mute.png"
        inkscape:export-xdpi="178.41"
        inkscape:export-ydpi="178.41" />
   </g>
