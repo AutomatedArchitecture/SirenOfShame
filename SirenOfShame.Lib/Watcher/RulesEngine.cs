@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
@@ -148,7 +150,10 @@ namespace SirenOfShame.Lib.Watcher
                             _settings.SoftwareInstanceId = args.SoftwareInstanceId;
                             _settings.Save();
                         }
-                        InvokeNewAlert(args);
+                        if (args.AlertDate > _settings.AlertClosed)
+                        {
+                            InvokeNewAlert(args);
+                        }
                     }
                 } 
                 catch (Exception ex)
@@ -156,7 +161,12 @@ namespace SirenOfShame.Lib.Watcher
                     _log.Error("Error retrieving alert", ex);
                 }
             };
-            webClient.DownloadStringAsync(new Uri("http://sirenofshame.com/GetAlert"));
+            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&AlertClosed={2}",
+                _settings.SirenEverConnected,
+                _settings.SoftwareInstanceId,
+                _settings.AlertClosed.HasValue ? _settings.AlertClosed.Value.Ticks.ToString(CultureInfo.InvariantCulture) : ""
+                );
+            webClient.DownloadStringAsync(new Uri(url));
         }
 
         private void InvokeStatsChanged()

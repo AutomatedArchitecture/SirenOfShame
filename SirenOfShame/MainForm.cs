@@ -264,6 +264,7 @@ namespace SirenOfShame
         }
 
         private bool _showAlert;
+        private DateTime _alertDate;
         
         private void RulesEngineNewAlert(object sender, NewAlertArgs args)
         {
@@ -274,6 +275,7 @@ namespace SirenOfShame
                 _panelAlert.Height = 1;
                 _labelAlert.Text = args.Message;
                 fastAnimation.Start();
+                _alertDate = args.AlertDate;
             });
         }
 
@@ -945,6 +947,8 @@ namespace SirenOfShame
         {
             _showAlert = false;
             fastAnimation.Start();
+            _settings.AlertClosed = _alertDate;
+            _settings.Save();
         }
 
         int _panelAlertHeight;

@@ -109,6 +109,8 @@ namespace SirenOfShame.Lib.Settings
 
         public volatile string _fileName;
 
+        public DateTime? AlertClosed { get; set; }
+
         public string FileName { get { return _fileName; } }
 
         public virtual void Save()
