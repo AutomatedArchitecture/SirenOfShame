@@ -148,7 +148,6 @@ namespace SirenOfShame.Lib.Watcher
                             _settings.SoftwareInstanceId = args.SoftwareInstanceId;
                             _settings.Save();
                         }
-
                         InvokeNewAlert(args);
                     }
                 } 

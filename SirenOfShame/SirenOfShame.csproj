@@ -262,6 +262,7 @@
     <None Include="Resources\ball_gray_big.png" />
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
+    <None Include="Resources\CloseButton.png" />
     <Content Include="Resources\Fullscreen.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
