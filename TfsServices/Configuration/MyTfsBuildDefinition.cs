@@ -55,27 +55,30 @@ namespace TfsServices.Configuration
                 return null;
             }
 
-            string firstWorkspaceMapping = serverUrls.First();
-            if (serverUrls.Count() > 1)
-            {
-                Log.Warn(string.Format("Build definition {0} has multiple workspace mappings, so choosing the first one ({1})", Id, firstWorkspaceMapping));
-            }
-
+            Changeset maxChangeset = null;
             var vc = _myTfsProject.ProjectCollection.VersionControlServer;
             const int deletionId = 0;
-            var changesets = vc.QueryHistory(firstWorkspaceMapping,
-                                                     VersionSpec.Latest,
-                                                     deletionId,
-                                                     RecursionType.Full,
-                                                     null,
-                                                     null,
-                                                     VersionSpec.Latest,
-                                                     1,
-                                                     true,
-                                                     false,
-                                                     true);
-            Changeset changeset = changesets.Cast<Changeset>().FirstOrDefault();
-            return new MyChangeset(changeset, Id);
+            foreach (var workspaceMapping in serverUrls)
+            {
+                var changesets = vc.QueryHistory(workspaceMapping,
+                                                         VersionSpec.Latest,
+                                                         deletionId,
+                                                         RecursionType.Full,
+                                                         null,
+                                                         null,
+                                                         VersionSpec.Latest,
+                                                         1,
+                                                         true,
+                                                         false,
+                                                         true);
+                Changeset changeset = changesets.Cast<Changeset>().FirstOrDefault();
+                if (maxChangeset == null || changeset.ChangesetId > maxChangeset.ChangesetId)
+                {
+                    maxChangeset = changeset;
+                }
+            }
+            
+            return new MyChangeset(maxChangeset, Id);
         }
     }
 }
