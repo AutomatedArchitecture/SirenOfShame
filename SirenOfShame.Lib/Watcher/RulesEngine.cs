@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Exceptions;
 using log4net;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Settings;

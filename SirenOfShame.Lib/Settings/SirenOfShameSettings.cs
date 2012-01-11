@@ -119,20 +119,24 @@ namespace SirenOfShame.Lib.Settings
             Save(fileName);
         }
 
+        private object _lock = new object();
+        
         public virtual void Save(string fileName)
         {
-            StreamWriter myWriter = null;
-            try
+            lock (_lock)
             {
-                XmlSerializer mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-                myWriter = new StreamWriter(fileName, false);
-                mySerializer.Serialize(myWriter, this);
-            }
-            finally
-            {
-                if (myWriter != null)
+                StreamWriter myWriter = null;
+                try
                 {
-                    myWriter.Close();
+                    XmlSerializer mySerializer = new XmlSerializer(typeof (SirenOfShameSettings));
+                    myWriter = new StreamWriter(fileName, false);
+                    mySerializer.Serialize(myWriter, this);
+                } finally
+                {
+                    if (myWriter != null)
+                    {
+                        myWriter.Close();
+                    }
                 }
             }
         }
