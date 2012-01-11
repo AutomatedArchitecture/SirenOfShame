@@ -96,6 +96,7 @@ namespace SirenOfShame {
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._showAllUsers = new System.Windows.Forms.ToolStripMenuItem();
             this._panelAlert = new System.Windows.Forms.Panel();
+            this._details = new System.Windows.Forms.LinkLabel();
             this._labelAlert = new System.Windows.Forms.Label();
             this._closeAlert = new System.Windows.Forms.Button();
             this._buildDefinitions = new SirenOfShame.BuildStatusListView();
@@ -805,6 +806,7 @@ namespace SirenOfShame {
             // _panelAlert
             // 
             this._panelAlert.BackColor = System.Drawing.Color.LightCoral;
+            this._panelAlert.Controls.Add(this._details);
             this._panelAlert.Controls.Add(this._labelAlert);
             this._panelAlert.Controls.Add(this._closeAlert);
             this._panelAlert.Dock = System.Windows.Forms.DockStyle.Top;
@@ -813,6 +815,19 @@ namespace SirenOfShame {
             this._panelAlert.Size = new System.Drawing.Size(869, 21);
             this._panelAlert.TabIndex = 40;
             this._panelAlert.Visible = false;
+            // 
+            // _details
+            // 
+            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._details.AutoSize = true;
+            this._details.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._details.Location = new System.Drawing.Point(418, 2);
+            this._details.Name = "_details";
+            this._details.Size = new System.Drawing.Size(107, 17);
+            this._details.TabIndex = 43;
+            this._details.TabStop = true;
+            this._details.Text = "Click for details";
+            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DetailsLinkClicked);
             // 
             // _labelAlert
             // 
@@ -1001,6 +1016,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _closeAlert;
       private System.Windows.Forms.Panel _panelAlert;
       private System.Windows.Forms.Label _labelAlert;
+      private System.Windows.Forms.LinkLabel _details;
 
 	}
 }

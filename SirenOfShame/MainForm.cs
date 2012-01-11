@@ -265,15 +265,18 @@ namespace SirenOfShame
 
         private bool _showAlert;
         private DateTime _alertDate;
+        private string _alertUrl;
         
         private void RulesEngineNewAlert(object sender, NewAlertArgs args)
         {
             Invoke(() =>
             {
                 _showAlert = true;
+                _alertUrl = args.Url;
                 _panelAlert.Visible = true;
                 _panelAlert.Height = 1;
                 _labelAlert.Text = args.Message;
+                _details.Location = new Point(_labelAlert.Width + 7, _labelAlert.Location.Y);
                 fastAnimation.Start();
                 _alertDate = args.AlertDate;
             });
@@ -975,6 +978,15 @@ namespace SirenOfShame
                     }
                     fastAnimation.Stop();
                 }
+            }
+        }
+
+        private void DetailsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (_alertUrl.StartsWith("http://"))
+            {
+                ProcessStartInfo sInfo = new ProcessStartInfo(_alertUrl);
+                Process.Start(sInfo);
             }
         }
     }

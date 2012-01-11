@@ -150,7 +150,7 @@ namespace SirenOfShame.Lib.Watcher
                             _settings.SoftwareInstanceId = args.SoftwareInstanceId;
                             _settings.Save();
                         }
-                        if (args.AlertDate > _settings.AlertClosed)
+                        if (_settings.AlertClosed == null || args.AlertDate > _settings.AlertClosed)
                         {
                             InvokeNewAlert(args);
                         }
