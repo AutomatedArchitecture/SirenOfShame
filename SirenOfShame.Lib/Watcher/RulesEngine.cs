@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using log4net;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Settings;
@@ -161,10 +163,10 @@ namespace SirenOfShame.Lib.Watcher
                     _log.Error("Error retrieving alert", ex);
                 }
             };
-            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&AlertClosed={2}",
+            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}",
                 _settings.SirenEverConnected,
                 _settings.SoftwareInstanceId,
-                _settings.AlertClosed.HasValue ? _settings.AlertClosed.Value.Ticks.ToString(CultureInfo.InvariantCulture) : ""
+                string.Join(",", _settings.CiEntryPointSettings.Select(cip => cip.Name))
                 );
             webClient.DownloadStringAsync(new Uri(url));
         }
