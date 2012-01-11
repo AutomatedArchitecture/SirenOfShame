@@ -44,10 +44,10 @@ namespace SirenOfShame
                 _currentVersion.Text = "Not Connected";
             }
 
-            if (_newVersionNumber <= version)
+            if (_newVersionNumber == version)
             {
                 _upgrade.Enabled = false;
-                _status.Text = "Already up to date";
+                _status.Text = "Version " + version + " is already loaded";
             }
         }
 
@@ -59,7 +59,9 @@ namespace SirenOfShame
                 var path = Path.Combine(directoryName, "FirmwareUpgrade.xml");
                 if (!File.Exists(path))
                 {
-                    throw new Exception("Could not open firmware upgrade file '" + path + "'");
+                    SosMessageBox.Show("Can't Upload", "Could not open firmware upgrade file: " + path, "Ok");
+                    Close();
+                    return 0;
                 }
                 using (var fileStream = File.OpenRead(path))
                 {
