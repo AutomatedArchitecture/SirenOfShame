@@ -18,7 +18,7 @@ namespace HudsonServices
 
         public string Name
         {
-            get { return "Hudson/Jenkins"; }
+            get { return "Hudson"; }
         }
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
