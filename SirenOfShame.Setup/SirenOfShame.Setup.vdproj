@@ -99,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_30525033A83347EBBF4E604DA00B9A16"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_349832D0D837F17D87AF094C90ED1B2E"
         "OwnerKey" = "8:_71424D6B1BB7441771ED3124747CAF0E"
         "MsmSig" = "8:_UNDEFINED"
@@ -423,12 +429,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9A8DE0CC239E458DBF06034261B6C2B5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9F8E959AB6CE405BA0969EE8140A9EF9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -609,6 +609,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_EB14748E407B4DA3BD143382D7135B98"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
         "OwnerKey" = "8:_568755897CC34FA38F2832F79943D02D"
         "MsmSig" = "8:_UNDEFINED"
@@ -731,6 +737,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8F828A949BFC429D92D7919BC212B9F5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_30525033A83347EBBF4E604DA00B9A16"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1147,6 +1159,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_30525033A83347EBBF4E604DA00B9A16"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:wyUpdate, Version=2.6.14.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_30525033A83347EBBF4E604DA00B9A16"
+                    {
+                    "Name" = "8:wyUpdate.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\SirenOfShame\\bin\\wyUpdate.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_349832D0D837F17D87AF094C90ED1B2E"
@@ -1714,26 +1757,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9A8DE0CC239E458DBF06034261B6C2B5"
-            {
-            "SourcePath" = "8:..\\SirenOfShame\\SirenOfShame.ico"
-            "TargetName" = "8:SirenOfShame.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A1505BF09271469C8B82CC1A4B56CAD8"
             {
             "SourcePath" = "8:..\\Libs\\sox-14.3.2\\libgomp-1.dll"
@@ -1971,6 +1994,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EB14748E407B4DA3BD143382D7135B98"
+            {
+            "SourcePath" = "8:..\\SirenOfShame\\SirenOfShameTrayBlank.ico"
+            "TargetName" = "8:SirenOfShameTrayBlank.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EDC713789FA56FA7A353F51AA9EEBD1B"
             {
             "AssemblyRegister" = "3:1"
@@ -2154,7 +2197,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Siren of Shame"
         "ProductCode" = "8:{A027C90C-3F0B-47A0-9E85-D34AB7D28D10}"
-        "PackageCode" = "8:{7CAEFAD3-4E3C-471E-8265-F02F46983B15}"
+        "PackageCode" = "8:{A652C18C-2593-4A57-BB96-FE0B81548900}"
         "UpgradeCode" = "8:{F069A490-0830-4288-9AB3-508DB7FC406C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2171,7 +2214,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:http://sirenofshame.com/"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_EB14748E407B4DA3BD143382D7135B98"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -2285,7 +2328,7 @@
             "Target" = "8:_8F828A949BFC429D92D7919BC212B9F5"
             "Folder" = "8:_48168E7077D0404FB27AD051523063FD"
             "WorkingFolder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
-            "Icon" = "8:_9A8DE0CC239E458DBF06034261B6C2B5"
+            "Icon" = "8:_EB14748E407B4DA3BD143382D7135B98"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B6FDF935A9F14B918B74F5428D7B4F36"
@@ -2299,21 +2342,7 @@
             "Target" = "8:_8F828A949BFC429D92D7919BC212B9F5"
             "Folder" = "8:_A7521FD3D0614DDC9FC5A58A5D68BBD4"
             "WorkingFolder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
-            "Icon" = "8:_9A8DE0CC239E458DBF06034261B6C2B5"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EB031D660A074FE69E220104CE46A897"
-            {
-            "Name" = "8:Siren of Shame Updates"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:"
-            "Folder" = "8:_48168E7077D0404FB27AD051523063FD"
-            "WorkingFolder" = "8:_E8BB2555FDDD4118BA5F0F81EF19A85B"
-            "Icon" = "8:"
+            "Icon" = "8:_EB14748E407B4DA3BD143382D7135B98"
             "Feature" = "8:"
             }
         }

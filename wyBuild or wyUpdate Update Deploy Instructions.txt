@@ -1,8 +1,4 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!
-! Make the next version 1.1.6, not 1.1.5
-!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-*Verify* major & minor AssemblyInfo.cs AssemblyVersion is correct
+Increment major or minor AssemblyInfo.cs AssemblyVersion is correct
 
 Build
 
@@ -16,13 +12,15 @@ wyUpdate Deploy Instructions
 		Drag files into "Files & Folders" -> "\Your program's folder"
 		Delete everything in \Releases\Updates\*
 		"Build wyUpdate & Updates" -> Click both buttons
-		Copy \Releases\Updates\* to [update locations]
+		Copy \Releases\Updates\* to a virtual machine and test it
+		Copy \Releases\Updates\* [update locations]
 			S:\Applications\Siren of Shame Updates
 			ftp://blueink.biz/SoS/Updates
 
 Build msi
 	Ensure all plugins are included in the plugin directory
 Rename SirenOfShame-X-X-X.msi
+Test
 Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
 	Summary: X.Y.Z
 	Labels: Featured, Type-Installer, OpSys-Windows
@@ -37,10 +35,12 @@ Post to RSS: http://sirenofshame.blogspot.com/
 Post to Twitter
 Post to Facebook: http://www.facebook.com/pages/Siren-of-Shame/155912117824047
 
+Save wyUpdate
+Commit
+Tag
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-Save wyUpdate
-Commit
-Tag
+Commit again
