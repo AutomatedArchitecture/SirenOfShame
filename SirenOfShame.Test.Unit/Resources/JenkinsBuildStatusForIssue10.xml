@@ -1,0 +1,70 @@
+﻿<freeStyleBuild>
+  <action>
+    <cause>
+      <shortDescription>Started by an SCM change</shortDescription>
+    </cause>
+  </action>
+  <action></action>
+  <action></action>
+  <action></action>
+  <action></action>
+  <action></action>
+  <action>
+    <failCount>0</failCount>
+    <skipCount>0</skipCount>
+    <totalCount>110</totalCount>
+    <urlName>testReport</urlName>
+  </action>
+  <action></action>
+  <artifact>
+    <displayPath>eboss-system-3.0.0-SNAPSHOT.zip</displayPath>
+    <fileName>eboss-system-3.0.0-SNAPSHOT.zip</fileName>
+
+<relativePath>system/target/eboss-system-3.0.0-SNAPSHOT.zip</relativePath>
+  </artifact>
+  <building>false</building>
+  <description>Build-49.2012-01-19_13-45-17</description>
+  <duration>338686</duration>
+  <fullDisplayName>eBOSS #49</fullDisplayName>
+  <id>2012-01-19_13-45-17</id>
+  <keepLog>false</keepLog>
+  <number>49</number>
+  <result>SUCCESS</result>
+  <timestamp>1326977117736</timestamp>
+  <url>
+https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/</url>
+  <builtOn></builtOn>
+  <changeSet>
+    <item>
+      <comment>C187855 - Z253: File flow and other issues related to
+attached e-mail and feedback from workshop in January - only forward ndm
+reads</comment>
+      <date>1326976365000</date>
+      <item>
+        <action>edit</action>
+        <editType>edit</editType>
+
+<path>$/Statoil.energyBOSS/eBOSS/Main/applications/eboss-ear/pom.xml</path>
+      </item>
+      <item>
+        <action>edit</action>
+        <editType>edit</editType>
+
+<path>$/Statoil.energyBOSS/eBOSS/Main/applications/eboss-web/pom.xml</path>
+      </item>
+      <item>
+        <action>edit</action>
+        <editType>edit</editType>
+
+<path>$/Statoil.energyBOSS/eBOSS/Main/modules/eboss-schemas/src/main/resources/wsdl/Bo106d01DisplayMeterReads.wsdl</path>
+      </item>
+      <user>STCO</user>
+      <version>85835</version>
+    </item>
+  </changeSet>
+  <culprit>
+    <absoluteUrl>https://tr-w03.statoil.net:10945/jenkins-prod/user/STCO
+</absoluteUrl>
+    <fullName>STCO</fullName>
+  </culprit>
+</freeStyleBuild>

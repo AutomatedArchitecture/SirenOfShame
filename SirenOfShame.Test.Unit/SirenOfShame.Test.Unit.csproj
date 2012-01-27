@@ -39,6 +39,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -46,8 +48,13 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
     <Compile Include="Settings\Upgrades\Upgrade1To2Test.cs" />
@@ -65,6 +72,10 @@
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HudsonServices\HudsonServices.csproj">
+      <Project>{E0983ED9-6145-4893-9782-B5A2691106E7}</Project>
+      <Name>HudsonServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
       <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
       <Name>SirenOfShame.Lib</Name>
@@ -78,7 +89,11 @@
       <Name>SoxLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\JenkinsBuildStatusForIssue10.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

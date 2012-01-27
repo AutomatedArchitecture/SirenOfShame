@@ -1,0 +1,27 @@
+﻿<freeStyleBuild>
+  <action>
+    <cause>
+      <shortDescription>Started by user anonymous</shortDescription>
+      <userName>anonymous</userName>
+    </cause>
+  </action>
+  <action></action>
+  <action></action>
+  <building>false</building>
+  <duration>1465</duration>
+  <fullDisplayName>SvnTest #30</fullDisplayName>
+  <id>2011-12-23_16-08-21</id>
+  <keepLog>false</keepLog>
+  <number>30</number>
+  <result>SUCCESS</result>
+  <timestamp>1324674501000</timestamp>
+  <url>http://win7ci:8081/job/SvnTest/30/</url>
+  <builtOn></builtOn>
+  <changeSet>
+    <kind>svn</kind>
+    <revision>
+      <module>file:///C:/dev/SvnTest/trunk</module>
+      <revision>17</revision>
+    </revision>
+  </changeSet>
+</freeStyleBuild>
