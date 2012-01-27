@@ -48,7 +48,10 @@ namespace TfsServices.Configuration
 
         public MyChangeset GetLatestChangeset()
         {
-            var serverUrls = _buildDefinition.Workspace.Mappings.Select(m => m.ServerItem);
+            // Exclude cloaked mappings - they can't have changesets.
+            var serverUrls = _buildDefinition.Workspace.Mappings
+                                    .Where(m => m.MappingType != WorkspaceMappingType.Cloak)
+                                    .Select(m => m.ServerItem);
             if (!serverUrls.Any())
             {
                 Log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
@@ -71,6 +74,8 @@ namespace TfsServices.Configuration
                                                          true,
                                                          false,
                                                          true);
+                if (changesets == null)  // mapping may not be on the server yet.
+                    continue;
                 Changeset changeset = changesets.Cast<Changeset>().FirstOrDefault();
                 if (maxChangeset == null || changeset.ChangesetId > maxChangeset.ChangesetId)
                 {
