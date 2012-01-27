@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
         }
 
         [TestMethod]
-        public void HudsonBuildStatus_Issues10()
+        public void HudsonBuildStatus_Issues10_AlwaysUseTimestampIfAvailable()
         {
             var jenkinsBuildStatusForIssue10 = ResourceManager.JenkinsBuildStatusForIssue10;
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
