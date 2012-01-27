@@ -40,6 +40,7 @@ namespace HudsonServices
                 Name = buildDefinitionSetting.Name;
 
                 var changeSetItem = changeSet.Element("item");
+                string timestamp = doc.Root.ElementValueOrDefault("timestamp");
                 if (changeSetItem == null)
                 {
                     var actionElem = doc.Root.Element("action");
@@ -47,7 +48,7 @@ namespace HudsonServices
                     var causeElem = actionElem.Element("cause");
                     RequestedBy = causeElem.ElementValueOrDefault("userName");
 
-                    StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
+                    StartedTime = ParseTimestamp(timestamp);
                 } else
                 {
                     var changeSetAuthor = changeSetItem.Element("author");
@@ -63,13 +64,17 @@ namespace HudsonServices
 
                     Comment = changeSetItem.ElementValueOrDefault("msg");
 
-                    var date = changeSetItem.ElementValueOrDefault("date");
-                    if (!string.IsNullOrWhiteSpace(date))
+                    if (string.IsNullOrWhiteSpace(timestamp))
                     {
+                        var date = changeSetItem.ElementValueOrDefault("date");
+                        if (string.IsNullOrWhiteSpace(date))
+                        {
+                            throw new Exception("Could find neither a 'date' nor a 'timestamp' in order to calculate StartedTime.");
+                        }
                         StartedTime = ParseUnixTime(date);
                     } else
                     {
-                        StartedTime = ParseTimestamp(doc.Root.ElementValueOrDefault("timestamp"));
+                        StartedTime = ParseTimestamp(timestamp);
                     }
                 }
 
