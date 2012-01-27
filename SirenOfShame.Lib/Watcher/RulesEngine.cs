@@ -215,6 +215,8 @@ namespace SirenOfShame.Lib.Watcher
                 BuildStatusEnum? previousStatus = previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
                 changedBuildStatus.Changed(previousStatus, this, _settings.Rules);
 
+                _settings.UpdateNameIfChanged(changedBuildStatus);
+
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
                     if (previousStatus != null)

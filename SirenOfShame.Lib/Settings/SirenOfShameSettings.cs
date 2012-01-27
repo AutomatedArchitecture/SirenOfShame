@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Watcher;
 using log4net;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings.Upgrades;
@@ -296,6 +297,16 @@ namespace SirenOfShame.Lib.Settings
             if (string.IsNullOrEmpty(userName)) return userName;
             var person = People.FirstOrDefault(i => i.RawName.EndsWith(userName));
             return person == null ? userName : person.DisplayName;
+        }
+
+        public void UpdateNameIfChanged(BuildStatus changedBuildStatus)
+        {
+            var changedName = CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .FirstOrDefault(i => i.Id == changedBuildStatus.BuildDefinitionId && i.Name != changedBuildStatus.Name);
+            if (changedName == null) return;
+            changedName.Name = changedBuildStatus.Name;
+            Save();
         }
     }
 }

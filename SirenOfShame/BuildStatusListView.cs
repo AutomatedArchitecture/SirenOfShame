@@ -10,7 +10,17 @@ namespace SirenOfShame
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
         {
             var buildStatusListViewItems = args.BuildStatusListViewItems.ToList();
-            if (Items.Count != 0 && Items.Count != buildStatusListViewItems.Count())
+            bool numberOfBuildsChanged = Items.Count != 0 && Items.Count != buildStatusListViewItems.Count();
+
+            var listViewItemsJoinedStatus = (
+                from listViewItem in Items.Cast<ListViewItem>()
+                join buildStatus in buildStatusListViewItems on listViewItem.Text equals buildStatus.Name
+                select new { listViewItem, buildStatus }
+                ).ToList();
+
+            var someBuildNameChanged = listViewItemsJoinedStatus.Count != buildStatusListViewItems.Count;
+
+            if (numberOfBuildsChanged || someBuildNameChanged)
             {
                 Items.Clear();
             }
@@ -21,10 +31,6 @@ namespace SirenOfShame
             }
             else
             {
-                var listViewItemsJoinedStatus = from listViewItem in Items.Cast<ListViewItem>()
-                                                join buildStatus in buildStatusListViewItems on listViewItem.Text equals
-                                                    buildStatus.Name
-                                                select new { listViewItem, buildStatus };
                 listViewItemsJoinedStatus.ToList().ForEach(i => UpdateListItem(i.listViewItem, i.buildStatus));
             }
         }

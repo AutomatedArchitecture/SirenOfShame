@@ -13,6 +13,25 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void BuildNameChanges_BuildSettingsNameIsUpdated()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = "New Name!",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2010, 1, 1, 11, 33, 0)
+                }
+                );
+
+            BuildDefinitionSetting buildDefinitionSetting = rulesEngine.Settings.CiEntryPointSettings.Single().BuildDefinitionSettings.Single(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual("New Name!", buildDefinitionSetting.Name);
+        }
+
+        [TestMethod]
         public void TwoBuildsBackToBack_SystemFindsFirstResultForReputation()
         {
             var rulesEngine = new RulesEngineWrapper();

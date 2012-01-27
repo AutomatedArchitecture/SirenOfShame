@@ -63,6 +63,14 @@ namespace TeamCityServices
 
             BuildDefinitionId = buildDefinitionSetting.Id;
             Name = buildDefinitionSetting.Name;
+
+            var buildType = buildResultXDoc.Descendants("buildType");
+            if (buildType.Any())
+            {
+                var name = buildType.First().AttributeValueOrDefault("name");
+                Name = name;
+            }
+            
             StartedTime = GetTeamCityDate(startedTimeStr);
             if (string.IsNullOrEmpty(finishedTimeStr))
             {
