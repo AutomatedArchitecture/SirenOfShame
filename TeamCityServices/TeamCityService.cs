@@ -353,6 +353,13 @@ namespace TeamCityServices
                             using (StreamReader sr = new StreamReader(s1))
                             {
                                 var errorResult = sr.ReadToEnd();
+
+                                // todo: Remove this line, it is helping debug one user's issue
+                                if (errorResult.Contains("HTTP Status 401 - Unauthorized:"))
+                                {
+                                    throw new ServerUnavailableException("HTTP Status 401");
+                                }
+
                                 string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
                                 _log.Error(message, webException);
                                 throw new SosException(message, webException);
