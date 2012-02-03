@@ -51,35 +51,44 @@ namespace TeamCityServices
 
         public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
         {
-            if (changeResultXDoc != null)
+            try
             {
-                Comment = changeResultXDoc.Descendants("comment").First().Value;
-                RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
-            }
+                if (changeResultXDoc != null)
+                {
+                    XElement firstComment = changeResultXDoc.Descendants("comment").FirstOrDefault();
+                    if (firstComment != null)
+                        Comment = firstComment.Value;
+                    RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
+                }
 
-            string status = buildResultXDoc.Root.AttributeValueOrDefault("status");
-            string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
-            string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
+                string status = buildResultXDoc.Root.AttributeValueOrDefault("status");
+                string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
+                string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
 
-            BuildDefinitionId = buildDefinitionSetting.Id;
-            Name = buildDefinitionSetting.Name;
+                BuildDefinitionId = buildDefinitionSetting.Id;
+                Name = buildDefinitionSetting.Name;
 
-            var buildType = buildResultXDoc.Descendants("buildType");
-            if (buildType.Any())
+                var buildType = buildResultXDoc.Descendants("buildType");
+                if (buildType.Any())
+                {
+                    var name = buildType.First().AttributeValueOrDefault("name");
+                    Name = name;
+                }
+
+                StartedTime = GetTeamCityDate(startedTimeStr);
+                if (string.IsNullOrEmpty(finishedTimeStr))
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress;
+                } else
+                {
+                    FinishedTime = GetTeamCityDate(finishedTimeStr);
+                    BuildStatusEnum = ToBuildStatusEnum(status);
+                }
+            } 
+            catch (Exception)
             {
-                var name = buildType.First().AttributeValueOrDefault("name");
-                Name = name;
-            }
-            
-            StartedTime = GetTeamCityDate(startedTimeStr);
-            if (string.IsNullOrEmpty(finishedTimeStr))
-            {
-                BuildStatusEnum = BuildStatusEnum.InProgress;
-            }
-            else
-            {
-                FinishedTime = GetTeamCityDate(finishedTimeStr);
-                BuildStatusEnum = ToBuildStatusEnum(status);
+                _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc);
+                throw;
             }
         }
 
