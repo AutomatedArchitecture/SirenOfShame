@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Windows.Forms;
 using ZedGraph;
 using log4net;
@@ -251,6 +252,7 @@ namespace SirenOfShame
         private RulesEngine GetRulesEngine()
         {
             var rulesEngine = new RulesEngine(_settings);
+            rulesEngine.PlayWindowsAudio += RulesEnginePlayWindowsAudio;
             rulesEngine.UpdateStatusBar += RulesEngineUpdateStatusBar;
             rulesEngine.RefreshStatus += RulesEngineRefreshRefreshStatus;
             rulesEngine.TrayNotify += RulesEngineTrayNotify;
@@ -261,6 +263,15 @@ namespace SirenOfShame
             rulesEngine.StatsChanged += RulesEngineStatsChanged;
             rulesEngine.NewAlert += RulesEngineNewAlert;
             return rulesEngine;
+        }
+
+        private void RulesEnginePlayWindowsAudio(object sender, PlayWindowsAudioEventArgs args)
+        {
+            // note: not doing an invoke because so far this code doesn't require the UI thread
+            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
+            System.IO.Stream s = a.GetManifestResourceStream(args.Location);
+            SoundPlayer player = new SoundPlayer(s);
+            player.Play();
         }
 
         private bool _showAlert;

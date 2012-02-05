@@ -31,6 +31,13 @@ namespace SirenOfShame.Lib.Watcher
         public event SetLightsEvent SetLights;
         public event SetTrayIconEvent SetTrayIcon;
         public event NewAlertEvent NewAlert;
+        public event PlayWindowsAudioEvent PlayWindowsAudio;
+
+        public void InvokePlayWindowsAudio(string location)
+        {
+            PlayWindowsAudioEvent playWindowsAudio = PlayWindowsAudio;
+            if (playWindowsAudio != null) playWindowsAudio(this, new PlayWindowsAudioEventArgs { Location = location });
+        }
 
         public void InvokeSetTrayIcon(TrayIcon trayIcon)
         {
@@ -222,6 +229,10 @@ namespace SirenOfShame.Lib.Watcher
                     if (previousStatus != null)
                         SosDb.Write(changedBuildStatus, _settings);
 
+                    // todo: replace this with rules engine
+                    if (changedBuildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+                        InvokePlayWindowsAudio("SirenOfShame.Resources.Sad-Trombone.wav");
+                    
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
                     if (!exists)

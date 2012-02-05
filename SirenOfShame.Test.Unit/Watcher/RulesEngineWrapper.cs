@@ -19,6 +19,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             TrayNotificationEvents = new List<TrayNotifyEventArgs>();
             RefreshStatusEvents = new List<RefreshStatusEventArgs>();
+            PlayWindowsAudioEvents = new List<PlayWindowsAudioEventArgs>();
             StatusBarUpdateEvents = new List<UpdateStatusBarEventArgs>();
             ModalDialogEvents = new List<ModalDialogEventArgs>();
             SetAudioEvents = new List<SetAudioEventArgs>();
@@ -37,6 +38,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
             _rulesEngine.RefreshStatus += (sender, arg) => RefreshStatusEvents.Add(arg);
+            _rulesEngine.PlayWindowsAudio += (sender, arg) => PlayWindowsAudioEvents.Add(arg);
             _rulesEngine.UpdateStatusBar += (sender, arg) => StatusBarUpdateEvents.Add(arg);
             _rulesEngine.ModalDialog += (sender, arg) => ModalDialogEvents.Add(arg);
             _rulesEngine.SetAudio += (sender, arg) => SetAudioEvents.Add(arg);
@@ -51,6 +53,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
         public List<TrayNotifyEventArgs> TrayNotificationEvents { get; set; }
         public List<RefreshStatusEventArgs> RefreshStatusEvents { get; set; }
+        public List<PlayWindowsAudioEventArgs> PlayWindowsAudioEvents { get; set; }
         public List<UpdateStatusBarEventArgs> StatusBarUpdateEvents { get; set; }
         public List<ModalDialogEventArgs> ModalDialogEvents { get; set; }
         public List<SetAudioEventArgs> SetAudioEvents { get; set; }
