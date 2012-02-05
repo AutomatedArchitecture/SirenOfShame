@@ -90,6 +90,7 @@ namespace SirenOfShame.Lib.Settings
 
         public bool InheritAudioSettings { get; set; }
         public bool InheritLedSettings { get; set; }
+        public string WindowsAudioLocation { get; set; }
 
         /// <summary>
         /// null = inherit (in other words keep playing if you were playing)
@@ -238,6 +239,11 @@ namespace SirenOfShame.Lib.Settings
             if (AlertType == AlertType.ModalDialog)
             {
                 rulesEngine.InvokeModalDialog(message, okText);
+            }
+
+            if (!string.IsNullOrEmpty(WindowsAudioLocation))
+            {
+                rulesEngine.InvokePlayWindowsAudio(WindowsAudioLocation);
             }
         }
     }

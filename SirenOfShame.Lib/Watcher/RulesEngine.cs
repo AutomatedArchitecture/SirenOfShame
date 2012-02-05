@@ -229,10 +229,6 @@ namespace SirenOfShame.Lib.Watcher
                     if (previousStatus != null)
                         SosDb.Write(changedBuildStatus, _settings);
 
-                    // todo: replace this with rules engine
-                    if (changedBuildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
-                        InvokePlayWindowsAudio("SirenOfShame.Resources.Sad-Trombone.wav");
-                    
                     BuildStatus status;
                     bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
                     if (!exists)

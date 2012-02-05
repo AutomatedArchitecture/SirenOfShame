@@ -13,14 +13,29 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        public void BuildFails_PlaySadTrombone()
+        public void BuildFailsWithWindowsAudioRule_PlayWindowsAudio()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Rule rule = new Rule
+            {
+                TriggerType = TriggerType.InitialFailedBuild,
+                WindowsAudioLocation = "SirenOfShame.Resources.Sad-Trombone.wav"
+            };
+            rulesEngine.Rules.Add(rule);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            Assert.AreEqual(1, rulesEngine.PlayWindowsAudioEvents.Count);
+            Assert.AreEqual("SirenOfShame.Resources.Sad-Trombone.wav", rulesEngine.PlayWindowsAudioEvents.First().Location);
+        }
+
+        [TestMethod]
+        public void BuildFailsWithNoRules_NoAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
             Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
-            Assert.AreEqual(1, rulesEngine.PlayWindowsAudioEvents.Count);
-            Assert.AreEqual("SirenOfShame.Resources.Sad-Trombone.wav", rulesEngine.PlayWindowsAudioEvents.First().Location);
+            Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
         }
 
         [TestMethod]
