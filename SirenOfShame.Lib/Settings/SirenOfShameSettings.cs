@@ -203,7 +203,8 @@ namespace SirenOfShame.Lib.Settings
             var upgrades = new UpgradeBase[]
                                {
                                    new Upgrade0To1(),
-                                   new Upgrade1To2()
+                                   new Upgrade1To2(),
+                                   new Upgrade2To3(),
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 

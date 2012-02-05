@@ -266,6 +266,9 @@
     <Content Include="Resources\ball_red_big.png" />
     <None Include="Resources\CloseButton.png" />
     <EmbeddedResource Include="Resources\boohiss-01.wav" />
+    <Content Include="Resources\Chime.wav" />
+    <Content Include="Resources\DaDing.wav" />
+    <Content Include="Resources\Ding.wav" />
     <Content Include="Resources\Fullscreen.png" />
     <EmbeddedResource Include="Resources\Plunk.wav" />
     <Content Include="Resources\question_big.png" />
