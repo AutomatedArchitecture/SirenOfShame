@@ -14,11 +14,13 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void Instantiate_ThreeArgsAllGood_ReturnsTrue()
         {
             var newAlertArgs = new NewAlertArgs();
-            var result = newAlertArgs.Instantiate(@"56http://www.google.comHello World");
+            var result = newAlertArgs.Instantiate(@"56http://www.google.comHello World
+633979872000000000");
             Assert.IsTrue(result);
             Assert.AreEqual(56, newAlertArgs.SoftwareInstanceId);
             Assert.AreEqual("Hello World", newAlertArgs.Message);
             Assert.AreEqual("http://www.google.com", newAlertArgs.Url);
+            Assert.AreEqual(new DateTime(2010, 1, 2), newAlertArgs.AlertDate);
         }
         
         [TestMethod]
