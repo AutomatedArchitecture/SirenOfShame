@@ -336,9 +336,6 @@ namespace SirenOfShame
             if (WindowState == FormWindowState.Minimized)
             {
                 Hide();
-                notifyIcon.ShowBalloonTip(TIMEOUT, "Siren of Shame",
-                        "The App has be moved to the tray.",
-                        ToolTipIcon.Info);
             }
             else
             {
@@ -355,7 +352,6 @@ namespace SirenOfShame
             {
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
-                notifyIcon.ShowBalloonTip(500, "Siren of Shame", "Moved to the tray.", ToolTipIcon.Info);
             }
             else
             {
