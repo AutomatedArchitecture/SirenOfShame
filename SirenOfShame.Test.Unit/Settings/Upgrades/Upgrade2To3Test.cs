@@ -24,7 +24,7 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             });
             new Upgrade2To3().Upgrade(settings);
             Assert.AreEqual(1, settings.Rules.Count);
-            Assert.AreEqual("SirenOfShame.Resources.Plunk.wav", settings.Rules[0].WindowsAudioLocation);
+            Assert.AreEqual("SirenOfShame.Resources.Audio-Plunk.wav", settings.Rules[0].WindowsAudioLocation);
         }
         
         [TestMethod]
@@ -42,13 +42,25 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             {
                 TriggerType = TriggerType.InitialFailedBuild
             });
+            new Upgrade2To3().Upgrade(settings);
+            Assert.AreEqual(2, settings.Rules.Count);
+            Assert.IsTrue(settings.Rules.All(i => i.WindowsAudioLocation == "SirenOfShame.Resources.Audio-Sad-Trombone.wav"));
+        }
+        
+        [TestMethod]
+        public void Upgrade_SubsequentBuildFailedRule_WindowsAudioSetToSadTrombone()
+        {
+            var settings = new SirenOfShameSettingsFake
+                               {
+                                   Version = null
+                               };
             settings.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.SubsequentFailedBuild
             });
             new Upgrade2To3().Upgrade(settings);
-            Assert.AreEqual(3, settings.Rules.Count);
-            Assert.IsTrue(settings.Rules.All(i => i.WindowsAudioLocation == "SirenOfShame.Resources.Sad-Trombone.wav"));
+            Assert.AreEqual(1, settings.Rules.Count);
+            Assert.AreEqual("SirenOfShame.Resources.Audio-Boo-Hiss.wav", settings.Rules[0].WindowsAudioLocation);
         }
     }
 }

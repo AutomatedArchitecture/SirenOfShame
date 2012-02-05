@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Windows.Forms;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Resources2;
 
 namespace SirenOfShame.Configuration
 {
@@ -31,6 +31,7 @@ namespace SirenOfShame.Configuration
             _inheritLightSetting.Checked = rule.InheritLedSettings;
             _turnOnLights.Checked = !rule.InheritLedSettings;
             _lights.SelectedItem = rule.LedPattern;
+            _windowsAudio.SelectedItem = _windowsAudio.Items.Cast<AudioFile>().FirstOrDefault(i => i.Location == rule.WindowsAudioLocation);
             _audio.SelectedItem = rule.AudioPattern;
             _lightsDurationTextBox.Text = rule.LightsDuration == null ? "" : rule.LightsDuration.ToString();
             _playLightsUntilBuildPasses.Checked = rule.LightsDuration == null;
@@ -80,6 +81,9 @@ namespace SirenOfShame.Configuration
             _audio.DataSource = SirenOfShameDevice.AudioPatterns.ToList();
             _audio.DisplayMember = "Name";
 
+            _windowsAudio.DataSource = ResourceManager.InternalAudioFiles;
+            _windowsAudio.DisplayMember = "DisplayName";
+
             _lights.DataSource = SirenOfShameDevice.LedPatterns.ToList();
             _lights.DisplayMember = "Name";
 
@@ -119,6 +123,7 @@ namespace SirenOfShame.Configuration
             rule.LightsDuration = GetLightsDuration();
             rule.InheritAudioSettings = _inheritAudio.Checked;
             rule.InheritLedSettings = _inheritLightSetting.Checked;
+            rule.WindowsAudioLocation = _windowsAudio.SelectedItem == null ? null : ((AudioFile)_windowsAudio.SelectedItem).Location;
 
             if (!rule.InheritLedSettings)
                 rule.LedPattern = GetLedPattern();

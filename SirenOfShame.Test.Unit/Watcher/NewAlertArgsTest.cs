@@ -35,7 +35,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void Instantiate_ExtraArgs_Ignored()
         {
             var newAlertArgs = new NewAlertArgs();
-            var result = newAlertArgs.Instantiate("56\r\nhttp://www.google.com\r\nHello World\r\n\r\n\r\n\r\n\r\n");
+            var result = newAlertArgs.Instantiate("56\r\nhttp://www.google.com\r\nHello World\r\n633979872000000000\r\n\r\n\r\n\r\n\r\n");
             Assert.IsTrue(result);
             Assert.AreEqual(56, newAlertArgs.SoftwareInstanceId);
             Assert.AreEqual("Hello World", newAlertArgs.Message);

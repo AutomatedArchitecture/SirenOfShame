@@ -118,6 +118,8 @@
     <Compile Include="HelpAbout.Designer.cs">
       <DependentUpon>HelpAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Resources\AudioFile.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />
     <Compile Include="Configuration\ConfigureServer.cs">
       <SubType>Form</SubType>
@@ -253,7 +255,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Tada.wav" />
+    <EmbeddedResource Include="Resources\Audio-Tada.wav" />
     <None Include="Resources\Play.png" />
     <None Include="Resources\separater.png" />
     <None Include="Resources\RibbonBackground.png" />
@@ -261,19 +263,19 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\ball_gray_big.png" />
-    <EmbeddedResource Include="Resources\applause-moderate-01.wav" />
+    <EmbeddedResource Include="Resources\Audio-Applause.wav" />
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
     <None Include="Resources\CloseButton.png" />
-    <EmbeddedResource Include="Resources\boohiss-01.wav" />
-    <Content Include="Resources\Chime.wav" />
-    <Content Include="Resources\DaDing.wav" />
-    <Content Include="Resources\Ding.wav" />
+    <EmbeddedResource Include="Resources\Audio-Boo-Hiss.wav" />
+    <Content Include="Resources\Audio-Chime.wav" />
+    <Content Include="Resources\Audio-DaDing.wav" />
+    <Content Include="Resources\Audio-Ding.wav" />
     <Content Include="Resources\Fullscreen.png" />
-    <EmbeddedResource Include="Resources\Plunk.wav" />
+    <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
-    <EmbeddedResource Include="Resources\Sad-Trombone.wav" />
+    <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
     <None Include="Resources\splash.png" />

@@ -14,17 +14,21 @@
         {
             foreach (var rule in sirenOfShameSettings.Rules)
             {
-                if (rule.TriggerType == TriggerType.InitialFailedBuild || rule.TriggerType == TriggerType.SubsequentFailedBuild || rule.TriggerType == TriggerType.BuildFailed)
+                if (rule.TriggerType == TriggerType.InitialFailedBuild || rule.TriggerType == TriggerType.BuildFailed)
                 {
-                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Sad-Trombone.wav";
+                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Audio-Sad-Trombone.wav";
+                }
+                if (rule.TriggerType == TriggerType.SubsequentFailedBuild)
+                {
+                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Audio-Boo-Hiss.wav";
                 }
                 if (rule.TriggerType == TriggerType.BuildTriggered)
                 {
-                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Plunk.wav";
+                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Audio-Plunk.wav";
                 }
                 if (rule.TriggerType == TriggerType.InitialSuccess)
                 {
-                    rule.WindowsAudioLocation = "SirenOfShame.Resources.applause-moderate-01.wav";
+                    rule.WindowsAudioLocation = "SirenOfShame.Resources.Audio-Applause.wav";
                 }
             }
         }

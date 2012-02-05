@@ -71,6 +71,8 @@
             this._audioDurationTextBox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this._who = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this._windowsAudio = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -140,7 +142,7 @@
             // _add
             // 
             this._add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._add.Location = new System.Drawing.Point(230, 375);
+            this._add.Location = new System.Drawing.Point(230, 421);
             this._add.Name = "_add";
             this._add.Size = new System.Drawing.Size(75, 23);
             this._add.TabIndex = 11;
@@ -151,7 +153,7 @@
             // _cancel
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._cancel.Location = new System.Drawing.Point(311, 375);
+            this._cancel.Location = new System.Drawing.Point(311, 421);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 12;
@@ -240,7 +242,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 187);
+            this.label5.Location = new System.Drawing.Point(12, 228);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(185, 13);
             this.label5.TabIndex = 18;
@@ -258,7 +260,7 @@
             this.panel2.Controls.Add(this.panel4);
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.panel3);
-            this.panel2.Location = new System.Drawing.Point(15, 204);
+            this.panel2.Location = new System.Drawing.Point(15, 245);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(368, 165);
             this.panel2.TabIndex = 19;
@@ -342,9 +344,9 @@
             this._turnOnLights.AutoSize = true;
             this._turnOnLights.Location = new System.Drawing.Point(152, 3);
             this._turnOnLights.Name = "_turnOnLights";
-            this._turnOnLights.Size = new System.Drawing.Size(182, 17);
+            this._turnOnLights.Size = new System.Drawing.Size(172, 17);
             this._turnOnLights.TabIndex = 25;
-            this._turnOnLights.Text = "Turn on the following light patten:";
+            this._turnOnLights.Text = "Show the following light patten:";
             this._turnOnLights.UseVisualStyleBackColor = true;
             this._turnOnLights.CheckedChanged += new System.EventHandler(this.TurnOnLightsCheckedChanged);
             // 
@@ -354,10 +356,10 @@
             this._inheritLightSetting.Checked = true;
             this._inheritLightSetting.Location = new System.Drawing.Point(36, 3);
             this._inheritLightSetting.Name = "_inheritLightSetting";
-            this._inheritLightSetting.Size = new System.Drawing.Size(110, 17);
+            this._inheritLightSetting.Size = new System.Drawing.Size(94, 17);
             this._inheritLightSetting.TabIndex = 11;
             this._inheritLightSetting.TabStop = true;
-            this._inheritLightSetting.Text = "Inherit light setting";
+            this._inheritLightSetting.Text = "Show no lights";
             this._inheritLightSetting.UseVisualStyleBackColor = true;
             this._inheritLightSetting.CheckedChanged += new System.EventHandler(this.InheritLightSettingCheckedChanged);
             // 
@@ -434,7 +436,7 @@
             // _turnOnAudio
             // 
             this._turnOnAudio.AutoSize = true;
-            this._turnOnAudio.Location = new System.Drawing.Point(159, 3);
+            this._turnOnAudio.Location = new System.Drawing.Point(155, 3);
             this._turnOnAudio.Name = "_turnOnAudio";
             this._turnOnAudio.Size = new System.Drawing.Size(139, 17);
             this._turnOnAudio.TabIndex = 25;
@@ -448,10 +450,10 @@
             this._inheritAudio.Checked = true;
             this._inheritAudio.Location = new System.Drawing.Point(36, 3);
             this._inheritAudio.Name = "_inheritAudio";
-            this._inheritAudio.Size = new System.Drawing.Size(117, 17);
+            this._inheritAudio.Size = new System.Drawing.Size(89, 17);
             this._inheritAudio.TabIndex = 11;
             this._inheritAudio.TabStop = true;
-            this._inheritAudio.Text = "Inherit audio setting";
+            this._inheritAudio.Text = "Play no audio";
             this._inheritAudio.UseVisualStyleBackColor = true;
             this._inheritAudio.CheckedChanged += new System.EventHandler(this.InheritAudioSettingsCheckedChanged);
             // 
@@ -524,11 +526,33 @@
             this._who.Size = new System.Drawing.Size(243, 21);
             this._who.TabIndex = 30;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 187);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(200, 13);
+            this.label10.TabIndex = 31;
+            this.label10.Text = "And play the following audio in Windows:";
+            // 
+            // _windowsAudio
+            // 
+            this._windowsAudio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._windowsAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._windowsAudio.FormattingEnabled = true;
+            this._windowsAudio.Location = new System.Drawing.Point(49, 204);
+            this._windowsAudio.Name = "_windowsAudio";
+            this._windowsAudio.Size = new System.Drawing.Size(331, 21);
+            this._windowsAudio.TabIndex = 32;
+            // 
             // AddRule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(395, 409);
+            this.ClientSize = new System.Drawing.Size(395, 455);
+            this.Controls.Add(this._windowsAudio);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this._who);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label5);
@@ -605,5 +629,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button _testLights;
         private System.Windows.Forms.ComboBox _who;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox _windowsAudio;
     }
 }
