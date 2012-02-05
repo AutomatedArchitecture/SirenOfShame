@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
+using SirenOfShame.Resources2;
 using ZedGraph;
 using log4net;
 using SirenOfShame.Configuration;
@@ -624,7 +625,8 @@ namespace SirenOfShame
 
             bool isConnected = SirenOfShameDevice.IsConnected;
 
-            var playAudioMenu = new ToolStripMenuItem("Play the following audio") { Enabled = isConnected };
+            var playWindowsAudioMenu = new ToolStripMenuItem("Play the following audio in Windows");
+            var playAudioMenu = new ToolStripMenuItem("Play the following audio on the device") { Enabled = isConnected };
             var playLightsMenu = new ToolStripMenuItem("Turn on the following light pattern") { Enabled = isConnected };
 
             if (isConnected)
@@ -635,6 +637,11 @@ namespace SirenOfShame
                 playLightsMenu.DropDownItems.AddRange(SirenOfShameDevice.LedPatterns.Select(ap => LedPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
                 playLightsMenu.Checked = playLightsMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
             }
+
+            playWindowsAudioMenu.DropDownItems.AddRange(ResourceManager.InternalAudioFiles.Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person)).ToArray());
+            playWindowsAudioMenu.Checked = playWindowsAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
+
+            menuItem.DropDownItems.Add(playWindowsAudioMenu);
             menuItem.DropDownItems.Add(playAudioMenu);
             menuItem.DropDownItems.Add(playLightsMenu);
 
@@ -652,6 +659,30 @@ namespace SirenOfShame
             new KeyValuePair<int?, string>(60, "60 Seconds"),
             new KeyValuePair<int?, string>(null, "Until the build Passes"),
         };
+
+        private ToolStripMenuItem WindowsAudioPatternMenu(AudioFile af, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
+        {
+            bool patternIsMatch = false;
+            if (rule != null && !string.IsNullOrEmpty(rule.WindowsAudioLocation))
+                patternIsMatch = af.Location == rule.WindowsAudioLocation;
+            var menu = new ToolStripMenuItem(af.DisplayName)
+            {
+                Checked = patternIsMatch,
+                Tag = new RuleDropDownItemTag
+                {
+                    AlertType = null,
+                    BuildDefinitionId = buildDefinitionId,
+                    TriggerPerson = person,
+                    TriggerType = triggerType,
+                    LedPattern = null,
+                    WindowsAudioLocation = af.Location,
+                    AudioPattern = null,
+                    Duration = null
+                }
+            };
+            menu.Click += RuleDropDownItemClick;
+            return menu;
+        }
 
         private ToolStripMenuItem AudioPatternMenu(AudioPattern ap, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
         {
@@ -745,6 +776,7 @@ namespace SirenOfShame
                     rule.AlertType = baseRule.AlertType;
                     rule.LedPattern = baseRule.LedPattern;
                     rule.LightsDuration = baseRule.LightsDuration;
+                    rule.WindowsAudioLocation = baseRule.WindowsAudioLocation;
                     rule.AudioPattern = baseRule.AudioPattern;
                     rule.AudioDuration = baseRule.AudioDuration;
                 }
@@ -758,6 +790,12 @@ namespace SirenOfShame
                 rule.AlertType = uncheckedAlertType ? AlertType.NoAlert : tag.AlertType.Value;
             }
 
+            if (!string.IsNullOrEmpty(tag.WindowsAudioLocation))
+            {
+                bool uncheckWindowsAudio = tag.WindowsAudioLocation == rule.WindowsAudioLocation;
+                rule.WindowsAudioLocation = uncheckWindowsAudio ? null : tag.WindowsAudioLocation;
+            }
+            
             if (tag.AudioPattern != null)
             {
                 bool uncheckAudioPattern = tag.AudioPattern.Equals(rule.AudioPattern) && tag.Duration == rule.AudioDuration;

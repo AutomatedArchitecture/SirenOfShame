@@ -3,6 +3,7 @@ using SirenOfShame.Lib.Settings;
 
 public class RuleDropDownItemTag
 {
+    public string WindowsAudioLocation { get; set; }
     public AlertType? AlertType { get; set; }
     public string BuildDefinitionId { get; set; }
     public string TriggerPerson { get; set; }
