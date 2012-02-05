@@ -13,6 +13,20 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void OnStartup_NeverShowWorkingTrayNotifications()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Rule rule = new Rule
+            {
+                TriggerType = TriggerType.SuccessfulBuild,
+                AlertType = AlertType.TrayAlert
+            };
+            rulesEngine.Rules.Add(rule);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
+        }
+
+        [TestMethod]
         public void BuildInitiallyIsPassing_NoWindowsAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -411,7 +425,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [TestMethod]
-        public void BuidInitiallySucceedsWithGlobalSubsequentSuccessAlert_OneAlert()
+        public void SuccessThenInProgressThenSuccessWithGlobalSuccessAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
 
@@ -421,6 +435,9 @@ namespace SirenOfShame.Test.Unit.Watcher
                 AlertType = AlertType.TrayAlert
             });
 
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
             Assert.AreEqual("Build Passing", rulesEngine.TrayNotificationEvents[0].Title);

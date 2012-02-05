@@ -222,7 +222,7 @@ namespace SirenOfShame.Lib.Settings
                 message += "\r\n" + buildStatus.Comment;
             }
 
-            if (AlertType == AlertType.TrayAlert)
+            if (AlertType == AlertType.TrayAlert && !(previousStatus == null && buildStatus.BuildStatusEnum == BuildStatusEnum.Working))
             {
                 rulesEngine.InvokeTrayNotify(buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
             }
