@@ -241,7 +241,7 @@ namespace SirenOfShame.Lib.Settings
                 rulesEngine.InvokeModalDialog(message, okText);
             }
 
-            if (!string.IsNullOrEmpty(WindowsAudioLocation))
+            if (!string.IsNullOrEmpty(WindowsAudioLocation) && previousStatus != null)
             {
                 rulesEngine.InvokePlayWindowsAudio(WindowsAudioLocation);
             }
