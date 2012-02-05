@@ -11,9 +11,9 @@ namespace SirenOfShame.Resources2
             get { return Assembly.GetExecutingAssembly().GetManifestResourceNames().Where(name => name.EndsWith(".wav")); }
         }
 
-        public static IList<AudioFile> InternalAudioFiles
+        public static IEnumerable<AudioFile> InternalAudioFiles
         {
-            get { return InternalAudioLocations.Select(i => new AudioFile(i)).ToList(); }
+            get { return InternalAudioLocations.Select(i => new AudioFile(i)); }
         }
     }
 }

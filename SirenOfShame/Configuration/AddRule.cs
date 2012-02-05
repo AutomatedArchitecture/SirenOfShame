@@ -81,7 +81,9 @@ namespace SirenOfShame.Configuration
             _audio.DataSource = SirenOfShameDevice.AudioPatterns.ToList();
             _audio.DisplayMember = "Name";
 
-            _windowsAudio.DataSource = ResourceManager.InternalAudioFiles;
+            _windowsAudio.DataSource = new[] { new AudioFile { DisplayName = "None"}}
+                .Concat(ResourceManager.InternalAudioFiles)
+                .ToList();
             _windowsAudio.DisplayMember = "DisplayName";
 
             _lights.DataSource = SirenOfShameDevice.LedPatterns.ToList();
