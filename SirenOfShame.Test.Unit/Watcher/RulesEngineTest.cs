@@ -13,6 +13,22 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void GlobalMuteOnBuildFailsWithWindowsAudioRule_NoAudio()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.Mute = true;
+            Rule rule = new Rule
+            {
+                TriggerType = TriggerType.InitialFailedBuild,
+                WindowsAudioLocation = "SirenOfShame.Resources.Sad-Trombone.wav"
+            };
+            rulesEngine.Rules.Add(rule);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
+        }
+
+        [TestMethod]
         public void OnStartup_NeverShowWorkingTrayNotifications()
         {
             var rulesEngine = new RulesEngineWrapper();

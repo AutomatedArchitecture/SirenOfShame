@@ -35,6 +35,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public void InvokePlayWindowsAudio(string location)
         {
+            if (_settings.Mute) return;
+
             PlayWindowsAudioEvent playWindowsAudio = PlayWindowsAudio;
             if (playWindowsAudio != null) playWindowsAudio(this, new PlayWindowsAudioEventArgs { Location = location });
         }
