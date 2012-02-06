@@ -168,10 +168,11 @@ namespace SirenOfShame.Lib.Watcher
                     _log.Error("Error retrieving alert", ex);
                 }
             };
-            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}",
+            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}&Version={3}",
                 _settings.SirenEverConnected,
                 _settings.SoftwareInstanceId,
-                string.Join(",", _settings.CiEntryPointSettings.Select(cip => cip.Name))
+                string.Join(",", _settings.CiEntryPointSettings.Select(cip => cip.Name)),
+                Application.ProductVersion
                 );
             webClient.DownloadStringAsync(new Uri(url));
         }
