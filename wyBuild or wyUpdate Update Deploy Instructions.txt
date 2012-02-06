@@ -18,7 +18,7 @@ wyUpdate Deploy Instructions
 			ftp://blueink.biz/SoS/Updates
 
 Build msi
-	Ensure all plugins are included in the plugin directory
+	Update the Version in SirenOfShame.Setup
 Rename SirenOfShame-X-X-X.msi
 Test
 Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
@@ -36,6 +36,7 @@ Post to Twitter
 Post to Facebook: http://www.facebook.com/pages/Siren-of-Shame/155912117824047
 
 Save wyUpdate
+Save Visual Studio
 Commit
 Tag
 
