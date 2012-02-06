@@ -31,38 +31,12 @@ namespace SirenOfShame
 
         private void SirenFirmwareUpgrade_Load(object sender, EventArgs e)
         {
-            _newVersionNumber = LoadHexFileData();
-
-            int version = 0;
-            if (SirenOfShameDevice.TryConnect())
-            {
-                version = SirenOfShameDevice.FirmwareVersion;
-                _currentVersion.Text = version.ToString();
-            }
-            else
-            {
-                _currentVersion.Text = "Not Connected";
-            }
-
-            if (_newVersionNumber == version)
-            {
-                _upgrade.Enabled = false;
-                _status.Text = "Version " + version + " is already loaded";
-            }
         }
 
-        private int LoadHexFileData()
+        private int LoadHexFileData(string path)
         {
             try
             {
-                string directoryName = Path.GetFullPath(Path.GetDirectoryName(GetType().Assembly.Location));
-                var path = Path.Combine(directoryName, "FirmwareUpgrade.xml");
-                if (!File.Exists(path))
-                {
-                    SosMessageBox.Show("Can't Upload", "Could not open firmware upgrade file: " + path, "Ok");
-                    Close();
-                    return 0;
-                }
                 using (var fileStream = File.OpenRead(path))
                 {
                     var xml = XDocument.Load(fileStream);
@@ -202,6 +176,37 @@ namespace SirenOfShame
             {
                 DialogResult = DialogResult.Cancel;
                 Close();
+            }
+        }
+
+        private void _selectFile_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            string fileName = openFileDialog1.FileName;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                _newVersionNumber = LoadHexFileData(fileName);
+                var errorLoadingHexFile = _newVersionNumber == 0;
+                if (errorLoadingHexFile) return;
+
+                _upgrade.Enabled = true;
+
+                int version = 0;
+                if (SirenOfShameDevice.TryConnect())
+                {
+                    version = SirenOfShameDevice.FirmwareVersion;
+                    _currentVersion.Text = version.ToString();
+                }
+                else
+                {
+                    _currentVersion.Text = "Not Connected";
+                }
+
+                if (_newVersionNumber == version)
+                {
+                    _upgrade.Enabled = false;
+                    _status.Text = "Version " + version + " is already loaded";
+                }
             }
         }
     }

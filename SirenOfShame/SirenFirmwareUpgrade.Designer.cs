@@ -37,6 +37,8 @@
             this._upgrade = new System.Windows.Forms.Button();
             this._status = new System.Windows.Forms.Label();
             this._progressBar = new System.Windows.Forms.ProgressBar();
+            this._selectFile = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -97,6 +99,7 @@
             // _upgrade
             // 
             this._upgrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._upgrade.Enabled = false;
             this._upgrade.Location = new System.Drawing.Point(137, 96);
             this._upgrade.Name = "_upgrade";
             this._upgrade.Size = new System.Drawing.Size(75, 23);
@@ -123,11 +126,27 @@
             this._progressBar.Size = new System.Drawing.Size(281, 23);
             this._progressBar.TabIndex = 7;
             // 
+            // _selectFile
+            // 
+            this._selectFile.Location = new System.Drawing.Point(56, 96);
+            this._selectFile.Name = "_selectFile";
+            this._selectFile.Size = new System.Drawing.Size(75, 23);
+            this._selectFile.TabIndex = 8;
+            this._selectFile.Text = "Select File";
+            this._selectFile.UseVisualStyleBackColor = true;
+            this._selectFile.Click += new System.EventHandler(this._selectFile_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Siren of Shame Firmware|*.xml";
+            // 
             // SirenFirmwareUpgrade
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(305, 131);
+            this.Controls.Add(this._selectFile);
             this.Controls.Add(this._status);
             this.Controls.Add(this._upgrade);
             this.Controls.Add(this._cancel);
@@ -160,5 +179,7 @@
         private System.Windows.Forms.Button _upgrade;
         private System.Windows.Forms.Label _status;
         private System.Windows.Forms.ProgressBar _progressBar;
+        private System.Windows.Forms.Button _selectFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
