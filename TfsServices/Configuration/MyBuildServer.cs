@@ -46,7 +46,7 @@ namespace TfsServices.Configuration
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.Succeeded):
                     return BuildStatusEnum.Working;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.PartiallySucceeded):
-                    return BuildStatusEnum.Working;
+                    return BuildStatusEnum.Broken;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress):
                     return BuildStatusEnum.InProgress;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.NotStarted):
