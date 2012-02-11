@@ -129,6 +129,7 @@ namespace TeamCityServices
 
         private void SetCookie(string rootUrl, string userName, string password)
         {
+            _log.Debug("SetCookie rootUrl=" + rootUrl + "; userName=" + userName);
             int state = 0;
             DateTime initialRequest = DateTime.Now;
             bool serverUnavailable = false;
@@ -183,6 +184,7 @@ namespace TeamCityServices
                         }
                     };
 
+                    webBrowser.ScriptErrorsSuppressed = true;
                     string loginPage = rootUrl + "/login.html";
                     webBrowser.Navigate(new Uri(loginPage));
 
