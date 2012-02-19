@@ -78,12 +78,14 @@ namespace SirenOfShame.Lib.Watcher
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
             string startTime = StartedTime == null ? "" : StartedTime.Value.ToString("M/d h:mm tt");
+            long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
-            
+
             var result = new BuildStatusListViewItem
             {
                 ImageIndex = (int)BallIndex,
                 StartTime = startTime,
+                StartTimeTicks = startTimeTicks,
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,

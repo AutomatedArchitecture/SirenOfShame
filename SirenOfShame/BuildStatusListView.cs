@@ -46,20 +46,23 @@ namespace SirenOfShame
         private void UpdateListItem(ListViewItem listViewItem, BuildStatusListViewItem buildStatus)
         {
             listViewItem.ImageIndex = buildStatus.ImageIndex;
-            UpdateSubItem(listViewItem, "StartTime", buildStatus.StartTime);
+            UpdateSubItem(listViewItem, "StartTime", buildStatus.StartTime, buildStatus.StartTimeTicks);
             UpdateSubItem(listViewItem, "Duration", buildStatus.Duration);
             UpdateSubItem(listViewItem, "RequestedBy", buildStatus.RequestedByDisplayName);
             UpdateSubItem(listViewItem, "Comment", buildStatus.Comment);
         }
 
-        private static void UpdateSubItem(ListViewItem lvi, string name, string value)
+        private static void UpdateSubItem(ListViewItem lvi, string name, string value, object tag = null)
         {
             var subItem = lvi.SubItems.Cast<ListViewItem.ListViewSubItem>().FirstOrDefault(i => i.Name == name);
             if (subItem == null) throw new Exception("Unable to find list view sub item" + name);
             // ReSharper disable RedundantCheckBeforeAssignment
             if (value != subItem.Text)
+            {
                 // ReSharper restore RedundantCheckBeforeAssignment
                 subItem.Text = value;
+                subItem.Tag = tag;
+            }
         }
     }
 }

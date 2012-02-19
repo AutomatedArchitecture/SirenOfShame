@@ -1039,7 +1039,8 @@ namespace SirenOfShame
             if (_settings.SortColumn == e.Column)
             {
                 _settings.SortDescending = !_settings.SortDescending;
-            } else
+            } 
+            else
             {
                 _settings.SortDescending = false;
             }
