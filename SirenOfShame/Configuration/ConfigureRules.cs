@@ -13,6 +13,7 @@ namespace SirenOfShame.Configuration
         {
             _settings = settings;
             InitializeComponent();
+            ShowHideEditButton();
         }
 
         private void NewRuleClick(object sender, EventArgs e)
@@ -31,6 +32,7 @@ namespace SirenOfShame.Configuration
         {
             _rulesList.Items.Clear();
             _rulesList.Items.AddRange(_settings.Rules.Select(r => r.AsListViewItem()).ToArray());
+            ShowHideEditButton();
         }
 
         private void DeleteClick(object sender, EventArgs e)
@@ -45,9 +47,14 @@ namespace SirenOfShame.Configuration
 
         private void RulesListDoubleClick(object sender, EventArgs e)
         {
+            OpenSelectedRuleForEdit();
+        }
+
+        private void OpenSelectedRuleForEdit()
+        {
             ListViewItem item = _rulesList.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
             if (item == null) return;
-            Rule rule = (Rule)item.Tag;
+            Rule rule = (Rule) item.Tag;
             AddRule addRule = new AddRule(_settings, rule);
             addRule.ShowDialog();
             DataBind();
@@ -60,6 +67,21 @@ namespace SirenOfShame.Configuration
             _settings.ResetRules();
             _settings.ResetSirenSettings();
             DataBind();
+        }
+
+        private void _rulesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowHideEditButton();
+        }
+
+        private void ShowHideEditButton()
+        {
+            _edit.Enabled = _rulesList.SelectedIndices.Count > 0;
+        }
+
+        private void EditClick(object sender, EventArgs e)
+        {
+            OpenSelectedRuleForEdit();
         }
     }
 }

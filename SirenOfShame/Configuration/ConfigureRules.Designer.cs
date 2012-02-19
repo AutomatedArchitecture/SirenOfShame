@@ -44,6 +44,7 @@
             this.NotificationType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this._edit = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -51,6 +52,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Controls.Add(this._edit);
             this.panel1.Controls.Add(this._reset);
             this.panel1.Controls.Add(this._down);
             this.panel1.Controls.Add(this._up);
@@ -67,7 +69,7 @@
             this._reset.FlatAppearance.BorderSize = 0;
             this._reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._reset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._reset.Location = new System.Drawing.Point(158, 4);
+            this._reset.Location = new System.Drawing.Point(215, 4);
             this._reset.Name = "_reset";
             this._reset.Size = new System.Drawing.Size(44, 23);
             this._reset.TabIndex = 4;
@@ -83,7 +85,7 @@
             this._down.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._down.ImageIndex = 1;
             this._down.ImageList = this.imageList1;
-            this._down.Location = new System.Drawing.Point(239, 4);
+            this._down.Location = new System.Drawing.Point(296, 4);
             this._down.Name = "_down";
             this._down.Size = new System.Drawing.Size(28, 23);
             this._down.TabIndex = 3;
@@ -98,6 +100,7 @@
             this.imageList1.Images.SetKeyName(2, "New.png");
             this.imageList1.Images.SetKeyName(3, "Up.png");
             this.imageList1.Images.SetKeyName(4, "Exclamation.png");
+            this.imageList1.Images.SetKeyName(5, "Edit.png");
             // 
             // _up
             // 
@@ -106,7 +109,7 @@
             this._up.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._up.ImageIndex = 3;
             this._up.ImageList = this.imageList1;
-            this._up.Location = new System.Drawing.Point(205, 4);
+            this._up.Location = new System.Drawing.Point(262, 4);
             this._up.Name = "_up";
             this._up.Size = new System.Drawing.Size(28, 23);
             this._up.TabIndex = 2;
@@ -158,6 +161,7 @@
             this._rulesList.TabIndex = 4;
             this._rulesList.UseCompatibleStateImageBehavior = false;
             this._rulesList.View = System.Windows.Forms.View.Details;
+            this._rulesList.SelectedIndexChanged += new System.EventHandler(this._rulesList_SelectedIndexChanged);
             this._rulesList.DoubleClick += new System.EventHandler(this.RulesListDoubleClick);
             // 
             // Type
@@ -201,8 +205,24 @@
             this.label1.Size = new System.Drawing.Size(670, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "     This page gives you the OCD way of controling the rules. Life really is easi" +
-                "er when you right click on the builds on the main screen. #protip";
+    "er when you right click on the builds on the main screen. #protip";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // _edit
+            // 
+            this._edit.FlatAppearance.BorderSize = 0;
+            this._edit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._edit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._edit.ImageIndex = 5;
+            this._edit.ImageList = this.imageList1;
+            this._edit.Location = new System.Drawing.Point(158, 4);
+            this._edit.Name = "_edit";
+            this._edit.Size = new System.Drawing.Size(55, 23);
+            this._edit.TabIndex = 5;
+            this._edit.Text = "Edit";
+            this._edit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._edit.UseVisualStyleBackColor = true;
+            this._edit.Click += new System.EventHandler(this.EditClick);
             // 
             // ConfigureRules
             // 
@@ -239,5 +259,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button _reset;
+        private System.Windows.Forms.Button _edit;
     }
 }
