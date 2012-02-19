@@ -80,6 +80,8 @@ namespace SirenOfShame
             }
             string server = updatePath + "wyserver.zip";
             _automaticUpdater.wyUpdateCommandline = " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
+            _automaticUpdater.Enabled = _settings.UpdateLocation != UpdateLocation.Never;
+            _automaticUpdater.Visible = _settings.UpdateLocation != UpdateLocation.Never;
         }
 
         protected override void WndProc(ref Message m)
@@ -829,6 +831,7 @@ namespace SirenOfShame
             Settings settings = new Settings(_settings);
             settings.ShowDialog();
             RefreshStats(); // just in case they clicked reset reputation
+            SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
         }
 
         private void TimeboxEnforcerClick(object sender, EventArgs e)

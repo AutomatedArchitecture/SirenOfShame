@@ -3,6 +3,7 @@
     public enum UpdateLocation
     {
         Auto,
-        Other
+        Other,
+        Never
     }
 }
