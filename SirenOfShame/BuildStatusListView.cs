@@ -33,6 +33,14 @@ namespace SirenOfShame
             {
                 listViewItemsJoinedStatus.ToList().ForEach(i => UpdateListItem(i.listViewItem, i.buildStatus));
             }
+
+            Sort();
+        }
+
+        public void SetSortColumn(int sortColumn, SortOrder sortOrder)
+        {
+            ListViewItemSorter = new ListViewItemComparer(sortColumn, sortOrder);
+            Sort();
         }
 
         private void UpdateListItem(ListViewItem listViewItem, BuildStatusListViewItem buildStatus)

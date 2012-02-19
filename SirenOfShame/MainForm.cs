@@ -1033,5 +1033,20 @@ namespace SirenOfShame
                 Process.Start(sInfo);
             }
         }
+
+        private void BuildDefinitionsColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (_settings.SortColumn == e.Column)
+            {
+                _settings.SortDescending = !_settings.SortDescending;
+            } else
+            {
+                _settings.SortDescending = false;
+            }
+            _settings.SortColumn = e.Column;
+            _settings.Save();
+            SortOrder sortOrder = _settings.SortDescending ? SortOrder.Descending : SortOrder.Ascending;
+            _buildDefinitions.SetSortColumn(e.Column, sortOrder);
+        }
     }
 }

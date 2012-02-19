@@ -118,6 +118,7 @@
     <Compile Include="HelpAbout.Designer.cs">
       <DependentUpon>HelpAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="Resources\AudioFile.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />

@@ -871,6 +871,7 @@ namespace SirenOfShame {
             this._buildDefinitions.TabIndex = 36;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
             this._buildDefinitions.View = System.Windows.Forms.View.Details;
+            this._buildDefinitions.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.BuildDefinitionsColumnClick);
             this._buildDefinitions.SelectedIndexChanged += new System.EventHandler(this._buildDefinitions_SelectedIndexChanged);
             this._buildDefinitions.DoubleClick += new System.EventHandler(this.BuildDefinitionsDoubleClick);
             this._buildDefinitions.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BuildDefinitionsMouseUp);
