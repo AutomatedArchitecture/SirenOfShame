@@ -418,10 +418,13 @@ namespace SirenOfShame
 
         private void ConfigureServersClick(object sender, EventArgs e)
         {
-            StopWatchingBuild();
-            ConfigureServers.Show(_settings);
-            _rulesEngine = null; // reset the rules engine in case it changed (e.g. from TFS to Team City)
-            StartWatchingBuild();
+            bool anyChanges = ConfigureServers.Show(_settings);
+            if (anyChanges)
+            {
+                StopWatchingBuild();
+                _rulesEngine = null; // reset the rules engine in case it changed (e.g. from TFS to Team City)
+                StartWatchingBuild();
+            }
             Activate();
             Focus();
         }

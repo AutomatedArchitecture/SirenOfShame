@@ -130,6 +130,7 @@
             this.Name = "ConfigureServers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configure Servers";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureServers_FormClosing);
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
