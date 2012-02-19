@@ -129,7 +129,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ConfigureServers";
+            this.Text = "Configure Servers";
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 

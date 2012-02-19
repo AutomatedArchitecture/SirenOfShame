@@ -76,7 +76,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 41;
-            this.label1.Text = "URL;";
+            this.label1.Text = "URL:";
             // 
             // label2
             // 
