@@ -57,7 +57,7 @@ namespace TeamCityServices
                 {
                     XElement firstComment = changeResultXDoc.Descendants("comment").FirstOrDefault();
                     if (firstComment != null)
-                        Comment = firstComment.Value;
+                        Comment = firstComment.Value.Trim();
                     RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
                 }
 

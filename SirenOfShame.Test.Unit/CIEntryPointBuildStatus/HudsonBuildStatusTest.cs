@@ -70,7 +70,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
             Assert.AreEqual("https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/", buildStatus.Url);
         }
 
-        private static string DateAsCode(DateTime d)
+        public static string DateAsCode(DateTime d)
         {
             return string.Format("new DateTime({0}, {1}, {2}, {3}, {4}, {5}, {6})", 
                 d.Year,

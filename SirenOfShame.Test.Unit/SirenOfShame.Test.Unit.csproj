@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
+    <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
@@ -90,6 +91,10 @@
       <Project>{D3DE2E68-91E4-440F-84EA-FF8F7A6370F7}</Project>
       <Name>SoxLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TeamCityServices\TeamCityServices.csproj">
+      <Project>{EFE5A7FE-62D0-4AD7-9DAC-E9AC5B1CC6C7}</Project>
+      <Name>TeamCityServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\JenkinsBuildStatusForIssue10.xml">
@@ -98,6 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Bug152HudsonDuration.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\TeamCityFailingBuild.xml" />
+    <EmbeddedResource Include="Resources\TeamCityFailingChange.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
