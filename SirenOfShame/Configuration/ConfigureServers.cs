@@ -7,7 +7,7 @@ namespace SirenOfShame.Configuration
     public partial class ConfigureServers : FormBase
     {
         private readonly SirenOfShameSettings _settings;
-        private bool dirty = false;
+        private bool _dirty = false;
 
         public ConfigureServers(SirenOfShameSettings settings)
         {
@@ -31,13 +31,13 @@ namespace SirenOfShame.Configuration
 
         private void AddClick(object sender, System.EventArgs e)
         {
-            dirty = true;
             AddServer();
         }
 
         private void AddServer()
         {
-            ConfigureServer.Show(_settings, null);
+            bool anyChanges = ConfigureServer.Show(_settings, null);
+            _dirty = anyChanges;
             Close();
         }
 
@@ -45,9 +45,9 @@ namespace SirenOfShame.Configuration
         {
             if (_servers.SelectedItem != null)
             {
-                dirty = true;
                 var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
-                ConfigureServer.Show(_settings, ciEntryPointSetting);
+                bool anyChanges = ConfigureServer.Show(_settings, ciEntryPointSetting);
+                _dirty = anyChanges;
                 Close();
             }
         }
@@ -56,7 +56,7 @@ namespace SirenOfShame.Configuration
         {
             if (_servers.SelectedItem != null)
             {
-                dirty = true;
+                _dirty = true;
                 var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
                 _settings.CiEntryPointSettings.Remove(ciEntryPointSetting);
                 _settings.Save();
@@ -66,7 +66,7 @@ namespace SirenOfShame.Configuration
 
         private void ConfigureServers_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult = dirty ? DialogResult.OK : DialogResult.Cancel;
+            DialogResult = _dirty ? DialogResult.OK : DialogResult.Cancel;
         }
     }
 }
