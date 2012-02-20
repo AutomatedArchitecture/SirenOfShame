@@ -84,6 +84,24 @@ namespace HudsonServices
                     var duration = int.Parse(durationStr);
                     FinishedTime = StartedTime == null ? (DateTime?) null : StartedTime.Value.AddMilliseconds(duration);
                 }
+
+                Url = doc.Root.ElementValueOrDefault("url");
+                if (Url != null)
+                    Url = Url.Trim();
+
+                var number = doc.Root.ElementValueOrDefault("number");
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(number))
+                    {
+                        BuildId = int.Parse(number);
+                    }
+                } 
+                catch (Exception)
+                {
+                    _log.Error("Unable to parse the build number: " + number);
+                    throw;
+                }
             } 
             catch (Exception)
             {

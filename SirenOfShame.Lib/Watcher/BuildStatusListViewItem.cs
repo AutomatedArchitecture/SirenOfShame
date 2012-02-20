@@ -13,6 +13,8 @@ namespace SirenOfShame.Lib.Watcher
         public string RequestedByDisplayName { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Url { get; set; }
+        public int BuildId { get; set; }
 
         public void SetDisplayName(SirenOfShameSettings settings)
         {

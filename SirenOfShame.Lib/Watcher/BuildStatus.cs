@@ -47,6 +47,8 @@ namespace SirenOfShame.Lib.Watcher
         public DateTime LocalStartTime { get; set; }
         public string BuildDefinitionId { get; set; }
         public string Name { get; set; }
+        public int BuildId { get; set; }
+        public string Url { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
         public string Comment { get; set; }
 
@@ -90,7 +92,9 @@ namespace SirenOfShame.Lib.Watcher
                 RequestedBy = requestedBy,
                 Comment = Comment,
                 Id = BuildDefinitionId,
-                Name = Name
+                Name = Name,
+                Url = Url,
+                BuildId = BuildId
             };
             result.SetDisplayName(settings);
             return result;
