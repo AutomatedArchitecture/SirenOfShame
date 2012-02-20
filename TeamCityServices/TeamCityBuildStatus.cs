@@ -84,6 +84,22 @@ namespace TeamCityServices
                     FinishedTime = GetTeamCityDate(finishedTimeStr);
                     BuildStatusEnum = ToBuildStatusEnum(status);
                 }
+
+                Url = buildResultXDoc.Root.AttributeValueOrDefault("webUrl");
+                if (Url != null) Url = Url.Trim();
+
+                var buildId = buildResultXDoc.Root.AttributeValueOrDefault("id");
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(buildId))
+                    {
+                        BuildId = int.Parse(buildId);
+                    }
+                } catch (Exception)
+                {
+                    _log.Error("Error parsing BuildId: " + buildId);
+                    throw;
+                }
             } 
             catch (Exception)
             {

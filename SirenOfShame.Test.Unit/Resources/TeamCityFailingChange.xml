@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?><change username="lee" date="20110912T163050-0400" webLink="http://win7ci:8080/viewModification.html?modId=30&amp;personal=false" version="9596035fbdf34cf3930607f6cf275656fd9adaf8" id="30" href="/httpAuth/app/rest/changes/id:30"><comment>Merge branch 'master' of C:\dev\CiTest
+
+Conflicts:
+	CiTest/Program.cs
+</comment><files/></change>
