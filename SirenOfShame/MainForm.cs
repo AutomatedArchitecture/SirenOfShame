@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
@@ -22,24 +23,24 @@ namespace SirenOfShame
     public partial class MainForm : FormBase
     {
         private const int TIMEOUT = 3000;
-        private static readonly ILog Log = MyLogManager.GetLogger(typeof(MainForm));
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(MainForm));
         SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
         private RulesEngine _rulesEngine;
         private readonly string _logFilename;
         private readonly bool _canViewLogs;
-        SosDb _sosDb = new SosDb();
+        readonly SosDb _sosDb = new SosDb();
         
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
         public MainForm()
         {
-            Log.Info("MainForm Open");
+            _log.Info("MainForm Open");
             IocContainer.Instance.Compose(this);
             InitializeComponent();
 
-            fastAnimation.Interval = 1;
-            fastAnimation.Tick += FastAnimationTick;
+            _fastAnimation.Interval = 1;
+            _fastAnimation.Tick += FastAnimationTick;
 
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
@@ -69,14 +70,10 @@ namespace SirenOfShame
 
         private void SetAutomaticUpdaterSettings()
         {
-            string updatePath;
+            string updatePath = "http://blueink.biz/SoS/updates/";
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
                 updatePath = _settings.UpdateLocationOther;
-            }
-            else
-            {
-                updatePath = "http://blueink.biz/SoS/updates/";
             }
             string server = updatePath + "wyserver.zip";
             _automaticUpdater.wyUpdateCommandline = " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
@@ -134,13 +131,13 @@ namespace SirenOfShame
         /// <summary>
         /// For entering into full screen mode
         /// </summary>
-        private RefreshStatusEventArgs lastRefreshStatusEventArgs = null;
+        private RefreshStatusEventArgs _lastRefreshStatusEventArgs = null;
         
         private void RulesEngineRefreshRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             Invoke(() =>
             {
-                lastRefreshStatusEventArgs = args;
+                _lastRefreshStatusEventArgs = args;
                 _buildDefinitions.RefreshListViewWithBuildStatus(args);
                 if (InFullscreenMode)
                 {
@@ -191,7 +188,7 @@ namespace SirenOfShame
         private void Form1Load(object sender, EventArgs e)
         {
             _panelAlertHeight = _panelAlert.Height;
-            Log.Debug("Form1 loaded");
+            _log.Debug("Form1 loaded");
             if (_settings == null)
             {
                 _settings = new SirenOfShameSettings();
@@ -290,7 +287,7 @@ namespace SirenOfShame
                 _panelAlert.Height = 1;
                 _labelAlert.Text = args.Message;
                 _details.Location = new Point(_labelAlert.Width + 7, _labelAlert.Location.Y);
-                fastAnimation.Start();
+                _fastAnimation.Start();
                 _alertDate = args.AlertDate;
             });
         }
@@ -349,7 +346,7 @@ namespace SirenOfShame
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
             var isWyUpdateClosingUs = CheckIfWyUpdateIsClosingUs();
-            Log.Debug("ClosingForInstall: " + _automaticUpdater.ClosingForInstall);
+            _log.Debug("ClosingForInstall: " + _automaticUpdater.ClosingForInstall);
             if (!_automaticUpdater.ClosingForInstall && !isWyUpdateClosingUs && WindowState != FormWindowState.Minimized)
             {
                 e.Cancel = true;
@@ -373,7 +370,7 @@ namespace SirenOfShame
             }
             catch (Exception ex)
             {
-                Log.Error("Could not determine if wyUpdate is closing us", ex);
+                _log.Error("Could not determine if wyUpdate is closing us", ex);
             }
             return false;
         }
@@ -453,7 +450,7 @@ namespace SirenOfShame
             if (e.Button == MouseButtons.Right)
             {
                 _buildMenu.Show(_buildDefinitions, e.X, e.Y);
-                _affectsTrayIcon.Checked = buildDefinitionSetting == null ? true : buildDefinitionSetting.AffectsTrayIcon;
+                _affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
             }
         }
 
@@ -482,7 +479,7 @@ namespace SirenOfShame
             GraphBuildHistory(definitions);
 
             var count = definitions.Count;
-            var failed = definitions.Where(s => s.BuildStatusEnum == BuildStatusEnum.Broken).Count();
+            var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
             double percentFailed = count == 0 ? 0 : ((double) failed)/count;
             SetStats(count, failed, percentFailed);
         }
@@ -497,7 +494,7 @@ namespace SirenOfShame
             {
                 if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
                 var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
-                Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? failFill: successFill;
+                Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill: _successFill;
                 var bar = myPane.AddBar(null, null, new [] { duration.TotalMinutes }, Color.White);
                 bar.Bar.Fill = fill;
                 bar.Bar.Border.Color = Color.White;
@@ -507,8 +504,8 @@ namespace SirenOfShame
             _buildHistoryZedGraph.Invalidate();
         }
 
-        Fill failFill = new Fill(Color.FromArgb(192, 80, 77));
-        Fill successFill = new Fill(Color.FromArgb(79, 129, 189));
+        readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
+        readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
 
         private void RefreshUserStats()
         {
@@ -520,21 +517,16 @@ namespace SirenOfShame
             foreach (var person in personSettings)
             {
                 ListViewItem lvi = new ListViewItem(person.DisplayName);
-                AddSubItem(lvi, "Reputation", person.Reputation.ToString());
+                AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture));
                 lvi.Tag = person.RawName;
                 _users.Items.Add(lvi);
             }
         }
 
-        private void ClearStats()
-        {
-            SetStats(0, 0, 0);
-        }
-
         private void SetStats(int count, int failed, double percentFailed)
         {
-            _buildCount.Text = count.ToString();
-            _failedBuilds.Text = failed.ToString();
+            _buildCount.Text = count.ToString(CultureInfo.InvariantCulture);
+            _failedBuilds.Text = failed.ToString(CultureInfo.InvariantCulture);
             _percentFailed.Text = percentFailed.ToString("p");
         }
 
@@ -557,7 +549,7 @@ namespace SirenOfShame
             var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
             if (buildDefinitionSetting == null)
             {
-                Log.Error("Could not find a build definition settings for id " + buildId);
+                _log.Error("Could not find a build definition settings for id " + buildId);
                 return null;
             }
             return buildDefinitionSetting;
@@ -572,13 +564,21 @@ namespace SirenOfShame
             _settings.Save();
         }
 
+        private static void AddToolStripItems(ToolStripItemCollection items, IEnumerable<ToolStripMenuItem> toolStripItems)
+        {
+            foreach (ToolStripMenuItem toolStripItem in toolStripItems)
+            {
+                items.Add(toolStripItem);
+            }
+        }
+        
         private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
-            var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person: null));
+            IEnumerable<ToolStripMenuItem> toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person: null));
             _when.DropDownItems.Clear();
-            _when.DropDownItems.AddRange(toolStripItems.ToArray());
+            AddToolStripItems(_when.DropDownItems, toolStripItems);
 
             _buildMenu.Items.Clear();
             if (buildDefinitionSetting != null)
@@ -590,7 +590,7 @@ namespace SirenOfShame
             if (buildDefinitionSetting != null)
             {
                 _buildMenu.Items.Add(_toolStripSeparator1);
-                _buildMenu.Items.AddRange(buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
+                AddToolStripItems(_buildMenu.Items, buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
             }
         }
 
@@ -599,7 +599,7 @@ namespace SirenOfShame
             var displayName = _settings.TryGetDisplayName(person);
             ToolStripMenuItem menu = new ToolStripMenuItem(displayName);
             var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person));
-            menu.DropDownItems.AddRange(toolStripItems.ToArray());
+            AddToolStripItems(menu.DropDownItems, toolStripItems);
             return menu;
         }
 
@@ -613,13 +613,13 @@ namespace SirenOfShame
 
             var trayAlertMenu = new ToolStripMenuItem("Display a quick tray alert")
             {
-                Checked = rule == null ? false : rule.AlertType == AlertType.TrayAlert,
+                Checked = rule != null && rule.AlertType == AlertType.TrayAlert,
                 Tag = new RuleDropDownItemTag { AlertType = AlertType.TrayAlert, BuildDefinitionId = buildDefinitionId, TriggerPerson = person, TriggerType = triggerType }
             };
             trayAlertMenu.Click += RuleDropDownItemClick;
             var modalDialogMenu = new ToolStripMenuItem("Open a modal dialog")
             {
-                Checked = rule == null ? false : rule.AlertType == AlertType.ModalDialog,
+                Checked = rule != null && rule.AlertType == AlertType.ModalDialog,
                 Tag = new RuleDropDownItemTag { AlertType = AlertType.ModalDialog, BuildDefinitionId = buildDefinitionId, TriggerPerson = person, TriggerType = triggerType }
             };
             modalDialogMenu.Click += RuleDropDownItemClick;
@@ -635,14 +635,14 @@ namespace SirenOfShame
 
             if (isConnected)
             {
-                playAudioMenu.DropDownItems.AddRange(SirenOfShameDevice.AudioPatterns.Select(ap => AudioPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
+                AddToolStripItems(playAudioMenu.DropDownItems, SirenOfShameDevice.AudioPatterns.Select(ap => AudioPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
                 playAudioMenu.Checked = playAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
 
-                playLightsMenu.DropDownItems.AddRange(SirenOfShameDevice.LedPatterns.Select(ap => LedPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
+                AddToolStripItems(playLightsMenu.DropDownItems, SirenOfShameDevice.LedPatterns.Select(ap => LedPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
                 playLightsMenu.Checked = playLightsMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
             }
 
-            playWindowsAudioMenu.DropDownItems.AddRange(ResourceManager.InternalAudioFiles.Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person)).ToArray());
+            AddToolStripItems(playWindowsAudioMenu.DropDownItems, ResourceManager.InternalAudioFiles.Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person)).ToArray());
             playWindowsAudioMenu.Checked = playWindowsAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
 
             menuItem.DropDownItems.Add(playWindowsAudioMenu);
@@ -697,7 +697,7 @@ namespace SirenOfShame
             {
                 Checked = patternIsMatch
             };
-            menu.DropDownItems.AddRange(GetDurations(rule, null, ap, patternIsMatch, buildDefinitionId, triggerType, person));
+            AddToolStripItems(menu.DropDownItems, GetDurations(rule, null, ap, patternIsMatch, buildDefinitionId, triggerType, person));
             return menu;
         }
 
@@ -710,11 +710,11 @@ namespace SirenOfShame
             {
                 Checked = patternIsMatch
             };
-            menu.DropDownItems.AddRange(GetDurations(rule, lp, null, patternIsMatch, buildDefinitionId, triggerType, person));
+            AddToolStripItems(menu.DropDownItems, GetDurations(rule, lp, null, patternIsMatch, buildDefinitionId, triggerType, person));
             return menu;
         }
 
-        private ToolStripMenuItem[] GetDurations(Rule rule, LedPattern ledPattern, AudioPattern audioPattern, bool patternIsMatch, string buildDefinitionId, TriggerType triggerType, string person)
+        private IEnumerable<ToolStripMenuItem> GetDurations(Rule rule, LedPattern ledPattern, AudioPattern audioPattern, bool patternIsMatch, string buildDefinitionId, TriggerType triggerType, string person)
         {
             int? duration = null;
             if (rule != null)
@@ -748,7 +748,7 @@ namespace SirenOfShame
 
             if (tag == null)
             {
-                Log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
+                _log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
                 return;
             }
 
@@ -849,7 +849,7 @@ namespace SirenOfShame
             helpAbout.ShowDialog();
         }
 
-        private void _configurationMore_Click(object sender, EventArgs e)
+        private void ConfigurationMoreClick(object sender, EventArgs e)
         {
             Point pt = _configurationMore.Location;
             pt.X += _configurationMore.Width;
@@ -865,7 +865,7 @@ namespace SirenOfShame
             _sirenMenu.Show(this, pt);
         }
 
-        private void _checkForUpdates_Click(object sender, EventArgs e)
+        private void CheckForUpdatesClick(object sender, EventArgs e)
         {
             CheckForUpdates();
         }
@@ -876,7 +876,7 @@ namespace SirenOfShame
             _automaticUpdater.ForceCheckForUpdate(true);
         }
 
-        private void _viewLog_Click(object sender, EventArgs e)
+        private void ViewLogClick(object sender, EventArgs e)
         {
             ViewLogs();
         }
@@ -902,7 +902,7 @@ namespace SirenOfShame
             upgrade.ShowDialog(this);
         }
 
-        private void _buildDefinitions_SelectedIndexChanged(object sender, EventArgs e)
+        private void BuildDefinitionsSelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshStats();
         }
@@ -934,8 +934,8 @@ namespace SirenOfShame
             activePerson.DisplayName = e.Label;
             _settings.Save();
 
-            lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
-            _buildDefinitions.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs);
+            _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
+            _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
         }
 
         FullScreenBuildStatus _fullScreenBuildStatus = null;
@@ -948,8 +948,8 @@ namespace SirenOfShame
                 _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
             }
             _fullScreenBuildStatus.Show();
-            if (lastRefreshStatusEventArgs != null)
-                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(lastRefreshStatusEventArgs, _settings);
+            if (_lastRefreshStatusEventArgs != null)
+                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs, _settings);
         }
 
         private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
@@ -981,7 +981,7 @@ namespace SirenOfShame
             RefreshUserStats();
         }
 
-        private void _mute_Click(object sender, EventArgs e)
+        private void MuteClick(object sender, EventArgs e)
         {
             _settings.Mute = !_settings.Mute;
             _settings.Save();
@@ -994,12 +994,12 @@ namespace SirenOfShame
             _mute.Text = _settings.Mute ? "Unmute" : "Mute";
         }
 
-        Timer fastAnimation = new Timer();
+        readonly Timer _fastAnimation = new Timer();
         
-        private void _closeAlert_Click(object sender, EventArgs e)
+        private void CloseAlertClick(object sender, EventArgs e)
         {
             _showAlert = false;
-            fastAnimation.Start();
+            _fastAnimation.Start();
             _settings.AlertClosed = _alertDate;
             _settings.Save();
         }
@@ -1026,7 +1026,7 @@ namespace SirenOfShame
                     {
                         _panelAlert.Height = _panelAlertHeight;
                     }
-                    fastAnimation.Stop();
+                    _fastAnimation.Stop();
                 }
             }
         }
