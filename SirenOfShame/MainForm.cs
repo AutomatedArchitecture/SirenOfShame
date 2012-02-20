@@ -440,7 +440,15 @@ namespace SirenOfShame
 
         private void BuildDefinitionsDoubleClick(object sender, EventArgs e)
         {
-            OpenConfigureRulesDialog();
+            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            if (listViewItem == null) return;
+            string buildId = (string)listViewItem.Tag;
+            BuildStatusListViewItem buildStatusListViewItem = _lastRefreshStatusEventArgs.BuildStatusListViewItems.First(i => i.Id == buildId);
+            var url = buildStatusListViewItem.Url;
+            if (!string.IsNullOrWhiteSpace(url) && url.StartsWith("http"))
+            {
+                Process.Start(url);
+            }
         }
 
         private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
