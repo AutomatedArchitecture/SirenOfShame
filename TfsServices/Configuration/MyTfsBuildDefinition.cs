@@ -83,7 +83,12 @@ namespace TfsServices.Configuration
                 }
             }
             
-            return new MyChangeset(maxChangeset, Id);
+            return new MyChangeset(maxChangeset, Id, this);
+        }
+
+        public string ConvertTfsUriToUrl(Uri uri)
+        {
+            return _myTfsProject.ConvertTfsUriToUrl(uri);
         }
     }
 }

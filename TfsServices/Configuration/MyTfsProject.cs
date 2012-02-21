@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Server;
@@ -31,6 +32,11 @@ namespace TfsServices.Configuration
         public MyTfsProjectCollection ProjectCollection
         {
             get { return _projectCollection; }
+        }
+
+        public string ConvertTfsUriToUrl(Uri uri)
+        {
+            return _projectCollection.ConvertTfsUriToUrl(uri);
         }
     }
 }

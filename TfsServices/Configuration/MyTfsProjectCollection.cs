@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
@@ -14,6 +15,7 @@ namespace TfsServices.Configuration
         private readonly ICommonStructureService _commonStructureService;
         private readonly TfsTeamProjectCollection _tfsTeamProjectCollection;
         private readonly IBuildServer _buildServer;
+        private readonly ILinking _linkingService;
 
         public MyTfsProjectCollection(CatalogNode teamProjectCollectionNode, TfsConfigurationServer tfsConfigurationServer)
         {
@@ -24,8 +26,15 @@ namespace TfsServices.Configuration
             _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri);
             _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
             _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
+            _linkingService = _tfsTeamProjectCollection.GetService<ILinking>();
         }
 
+        public string ConvertTfsUriToUrl(Uri vstfsUri)
+        {
+            if (vstfsUri == null) return null;
+            return _linkingService.GetArtifactUrl(vstfsUri.ToString());
+        }
+        
         public IEnumerable<MyTfsProject> Projects
         {
             get { return _commonStructureService.ListAllProjects().Select(p => new MyTfsProject(p, _buildServer, this)); }

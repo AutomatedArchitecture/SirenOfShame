@@ -60,7 +60,8 @@ namespace TfsServices.Configuration
 
         public static BuildStatus CreateBuildStatus(IBuildDetail buildDetail, MyChangeset changeset)
         {
-            return new BuildStatus
+            
+            var result = new BuildStatus
             {
                 BuildDefinitionId = buildDetail.BuildDefinition.Name,
                 Name = buildDetail.BuildDefinition.Name,
@@ -68,10 +69,15 @@ namespace TfsServices.Configuration
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
-                Comment = changeset.Comment,
-                BuildId = changeset.ChangesetId,
-                Url = null // todo: use buildDetail.Uri somehow
             };
+
+            if (changeset != null)
+            {
+                result.Comment = changeset.Comment;
+                result.BuildId = changeset.ChangesetId;
+                result.Url = changeset.ConvertTfsUriToUrl(buildDetail.Uri);
+            }
+            return result;
         }
 
         private static Uri GetUriFromBuildServer(IBuildServer buildServer)
