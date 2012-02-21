@@ -68,7 +68,8 @@ namespace TfsServices.Configuration
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
-                Comment = changeset.Comment
+                Comment = changeset.Comment,
+                ChangesetId = changeset.ChangesetId
             };
         }
 

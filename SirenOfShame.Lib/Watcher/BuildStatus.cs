@@ -49,6 +49,7 @@ namespace SirenOfShame.Lib.Watcher
         public string Name { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
         public string Comment { get; set; }
+        public int? ChangesetId { get; set; }
 
         public string BuildStatusDescription
         {
@@ -87,6 +88,7 @@ namespace SirenOfShame.Lib.Watcher
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
+                ChangesetId = ChangesetId == null ? "" : ChangesetId.ToString(),
                 Id = BuildDefinitionId,
                 Name = Name
             };

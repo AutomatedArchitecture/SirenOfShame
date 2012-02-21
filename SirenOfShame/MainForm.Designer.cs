@@ -101,6 +101,7 @@ namespace SirenOfShame {
             this._closeAlert = new System.Windows.Forms.Button();
             this._buildDefinitions = new SirenOfShame.BuildStatusListView();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.date = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.duration2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -137,7 +138,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -155,19 +156,19 @@ namespace SirenOfShame {
             this.openToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.minimizedMenu.Name = "contextMenuStrip1";
-            this.minimizedMenu.Size = new System.Drawing.Size(104, 48);
+            this.minimizedMenu.Size = new System.Drawing.Size(101, 48);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItemClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
@@ -557,7 +558,7 @@ namespace SirenOfShame {
             this._when,
             this._toolStripSeparator1});
             this._buildMenu.Name = "_buildMenu";
-            this._buildMenu.Size = new System.Drawing.Size(164, 76);
+            this._buildMenu.Size = new System.Drawing.Size(159, 76);
             this._buildMenu.Text = "BuildMenu";
             this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
             // 
@@ -566,27 +567,27 @@ namespace SirenOfShame {
             this._affectsTrayIcon.Checked = true;
             this._affectsTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
             this._affectsTrayIcon.Name = "_affectsTrayIcon";
-            this._affectsTrayIcon.Size = new System.Drawing.Size(163, 22);
+            this._affectsTrayIcon.Size = new System.Drawing.Size(158, 22);
             this._affectsTrayIcon.Text = "Affects Tray Icon";
             this._affectsTrayIcon.Click += new System.EventHandler(this.AffectsTrayIconClick);
             // 
             // _stopWatching
             // 
             this._stopWatching.Name = "_stopWatching";
-            this._stopWatching.Size = new System.Drawing.Size(163, 22);
+            this._stopWatching.Size = new System.Drawing.Size(158, 22);
             this._stopWatching.Text = "Stop Watching";
             this._stopWatching.Click += new System.EventHandler(this.StopWatchingClick);
             // 
             // _when
             // 
             this._when.Name = "_when";
-            this._when.Size = new System.Drawing.Size(163, 22);
+            this._when.Size = new System.Drawing.Size(158, 22);
             this._when.Text = "When";
             // 
             // _toolStripSeparator1
             // 
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
-            this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this._toolStripSeparator1.Size = new System.Drawing.Size(155, 6);
             // 
             // _configurationMenu
             // 
@@ -594,19 +595,19 @@ namespace SirenOfShame {
             this._checkForUpdates,
             this._viewLog});
             this._configurationMenu.Name = "_configurationMenu";
-            this._configurationMenu.Size = new System.Drawing.Size(174, 48);
+            this._configurationMenu.Size = new System.Drawing.Size(166, 48);
             // 
             // _checkForUpdates
             // 
             this._checkForUpdates.Name = "_checkForUpdates";
-            this._checkForUpdates.Size = new System.Drawing.Size(173, 22);
+            this._checkForUpdates.Size = new System.Drawing.Size(165, 22);
             this._checkForUpdates.Text = "Check For Updates";
             this._checkForUpdates.Click += new System.EventHandler(this._checkForUpdates_Click);
             // 
             // _viewLog
             // 
             this._viewLog.Name = "_viewLog";
-            this._viewLog.Size = new System.Drawing.Size(173, 22);
+            this._viewLog.Size = new System.Drawing.Size(165, 22);
             this._viewLog.Text = "View Logs...";
             this._viewLog.Click += new System.EventHandler(this._viewLog_Click);
             // 
@@ -615,12 +616,12 @@ namespace SirenOfShame {
             this._sirenMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._upgradeFirmwareMenuItem});
             this._sirenMenu.Name = "_configurationMenu";
-            this._sirenMenu.Size = new System.Drawing.Size(181, 26);
+            this._sirenMenu.Size = new System.Drawing.Size(175, 26);
             // 
             // _upgradeFirmwareMenuItem
             // 
             this._upgradeFirmwareMenuItem.Name = "_upgradeFirmwareMenuItem";
-            this._upgradeFirmwareMenuItem.Size = new System.Drawing.Size(180, 22);
+            this._upgradeFirmwareMenuItem.Size = new System.Drawing.Size(174, 22);
             this._upgradeFirmwareMenuItem.Text = "Upgrade Firmware...";
             this._upgradeFirmwareMenuItem.Click += new System.EventHandler(this.SirenUpgradeFirmwareClick);
             // 
@@ -774,32 +775,32 @@ namespace SirenOfShame {
             this.toolStripSeparator1,
             this._showAllUsers});
             this._userMenu.Name = "_userMenu";
-            this._userMenu.Size = new System.Drawing.Size(130, 76);
+            this._userMenu.Size = new System.Drawing.Size(123, 76);
             // 
             // _editUserName
             // 
             this._editUserName.Name = "_editUserName";
-            this._editUserName.Size = new System.Drawing.Size(129, 22);
+            this._editUserName.Size = new System.Drawing.Size(122, 22);
             this._editUserName.Text = "Edit Name";
             this._editUserName.Click += new System.EventHandler(this.EditUserNameClick);
             // 
             // _hideUser
             // 
             this._hideUser.Name = "_hideUser";
-            this._hideUser.Size = new System.Drawing.Size(129, 22);
+            this._hideUser.Size = new System.Drawing.Size(122, 22);
             this._hideUser.Text = "Hidden";
             this._hideUser.Click += new System.EventHandler(this.HideUserClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(126, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(119, 6);
             // 
             // _showAllUsers
             // 
             this._showAllUsers.CheckOnClick = true;
             this._showAllUsers.Name = "_showAllUsers";
-            this._showAllUsers.Size = new System.Drawing.Size(129, 22);
+            this._showAllUsers.Size = new System.Drawing.Size(122, 22);
             this._showAllUsers.Text = "Show All";
             this._showAllUsers.CheckedChanged += new System.EventHandler(this.ShowAllUsersCheckedChanged);
             // 
@@ -859,6 +860,7 @@ namespace SirenOfShame {
             // 
             this._buildDefinitions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.name,
+            this.ID,
             this.date,
             this.duration2,
             this.checkedInBy,
@@ -877,8 +879,13 @@ namespace SirenOfShame {
             // 
             // name
             // 
-            this.name.Text = "Name";
+            this.name.Text = "Build";
             this.name.Width = 150;
+            // 
+            // ID
+            // 
+            this.ID.Text = "ID";
+            this.ID.Width = 40;
             // 
             // date
             // 
@@ -1017,6 +1024,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Panel _panelAlert;
       private System.Windows.Forms.Label _labelAlert;
       private System.Windows.Forms.LinkLabel _details;
+      private System.Windows.Forms.ColumnHeader ID;
 
 	}
 }

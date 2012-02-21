@@ -13,6 +13,10 @@ namespace TfsServices.Configuration
             _buildDefinitionId = buildDefinitionId;
         }
 
+        public int ChangesetId
+        {
+            get { return _changeset.ChangesetId; }
+        }
 
         public string BuildDefinitionId
         {
