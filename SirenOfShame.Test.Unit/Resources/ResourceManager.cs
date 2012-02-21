@@ -38,5 +38,20 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("JenkinsPassingBuild.xml")); }
         }
+
+        public static XDocument Bug152HudsonDuration
+        {
+            get { return XDocument.Parse(GetResource("Bug152HudsonDuration.xml")); }
+        }
+
+        public static XDocument TeamCityFailingBuild
+        {
+            get { return XDocument.Parse(GetResource("TeamCityFailingBuild.xml")); }
+        }
+
+        public static XDocument TeamCityFailingChange
+        {
+            get { return XDocument.Parse(GetResource("TeamCityFailingChange.xml")); }
+        }
     }
 }

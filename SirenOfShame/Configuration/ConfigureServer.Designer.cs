@@ -118,9 +118,8 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureServer";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ConfigureServer";
+            this.Text = "Configure Server";
             this.panel1.ResumeLayout(false);
             this._ciServerPanel.ResumeLayout(false);
             this._ciServerPanel.PerformLayout();

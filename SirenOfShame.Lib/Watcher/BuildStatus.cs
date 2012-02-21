@@ -47,9 +47,10 @@ namespace SirenOfShame.Lib.Watcher
         public DateTime LocalStartTime { get; set; }
         public string BuildDefinitionId { get; set; }
         public string Name { get; set; }
+        public int? BuildId { get; set; }
+        public string Url { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
         public string Comment { get; set; }
-        public int? ChangesetId { get; set; }
 
         public string BuildStatusDescription
         {
@@ -79,18 +80,21 @@ namespace SirenOfShame.Lib.Watcher
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
             string startTime = StartedTime == null ? "" : StartedTime.Value.ToString("M/d h:mm tt");
+            long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
-            
+
             var result = new BuildStatusListViewItem
             {
                 ImageIndex = (int)BallIndex,
                 StartTime = startTime,
+                StartTimeTicks = startTimeTicks,
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
-                ChangesetId = ChangesetId == null ? "" : ChangesetId.ToString(),
+                BuildId = BuildId == null ? "" : BuildId.ToString(),
                 Id = BuildDefinitionId,
-                Name = Name
+                Name = Name,
+                Url = Url,
             };
             result.SetDisplayName(settings);
             return result;

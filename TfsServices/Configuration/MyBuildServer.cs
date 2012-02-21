@@ -46,7 +46,7 @@ namespace TfsServices.Configuration
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.Succeeded):
                     return BuildStatusEnum.Working;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.PartiallySucceeded):
-                    return BuildStatusEnum.Working;
+                    return BuildStatusEnum.Broken;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress):
                     return BuildStatusEnum.InProgress;
                 case (Microsoft.TeamFoundation.Build.Client.BuildStatus.NotStarted):
@@ -69,7 +69,8 @@ namespace TfsServices.Configuration
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
                 Comment = changeset.Comment,
-                ChangesetId = changeset.ChangesetId
+                BuildId = changeset.ChangesetId,
+                Url = null // todo: use buildDetail.Uri somehow
             };
         }
 

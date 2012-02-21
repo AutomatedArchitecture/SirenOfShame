@@ -742,12 +742,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_30525033A83347EBBF4E604DA00B9A16"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_EDC713789FA56FA7A353F51AA9EEBD1B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -755,6 +749,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B0E0CD4ADBEF4B77965F0C87DD98709F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_30525033A83347EBBF4E604DA00B9A16"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2196,15 +2196,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Siren of Shame"
-        "ProductCode" = "8:{A027C90C-3F0B-47A0-9E85-D34AB7D28D10}"
-        "PackageCode" = "8:{373BCF5F-9D83-4B57-ADF5-302DBBD20396}"
+        "ProductCode" = "8:{8112E868-2E1F-43DF-AA52-729A962F06FC}"
+        "PackageCode" = "8:{80B26990-8F01-436F-863D-61852C27B3B7}"
         "UpgradeCode" = "8:{F069A490-0830-4288-9AB3-508DB7FC406C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.4.0"
         "Manufacturer" = "8:Automated Architecture"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://sirenofshame.com/"

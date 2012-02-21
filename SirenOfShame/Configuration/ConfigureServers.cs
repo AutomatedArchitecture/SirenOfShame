@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
@@ -6,6 +7,7 @@ namespace SirenOfShame.Configuration
     public partial class ConfigureServers : FormBase
     {
         private readonly SirenOfShameSettings _settings;
+        private bool _dirty = false;
 
         public ConfigureServers(SirenOfShameSettings settings)
         {
@@ -15,16 +17,16 @@ namespace SirenOfShame.Configuration
             _servers.DisplayMember = "Url";
         }
 
-        public static void Show(SirenOfShameSettings settings)
+        public static bool Show(SirenOfShameSettings settings)
         {
             ConfigureServers configureServers = new ConfigureServers(settings);
             if (!settings.CiEntryPointSettings.Any())
             {
-                 configureServers.AddServer();
-            } else
-            {
-                configureServers.ShowDialog();
+                configureServers.AddServer();
+                return true;
             }
+            bool anyChanges = configureServers.ShowDialog() == DialogResult.OK;
+            return anyChanges;
         }
 
         private void AddClick(object sender, System.EventArgs e)
@@ -34,7 +36,8 @@ namespace SirenOfShame.Configuration
 
         private void AddServer()
         {
-            ConfigureServer.Show(_settings, null);
+            bool anyChanges = ConfigureServer.Show(_settings, null);
+            _dirty = anyChanges;
             Close();
         }
 
@@ -42,8 +45,9 @@ namespace SirenOfShame.Configuration
         {
             if (_servers.SelectedItem != null)
             {
-                var ciEntryPointSetting = (CiEntryPointSetting) _servers.SelectedItem;
-                ConfigureServer.Show(_settings, ciEntryPointSetting);
+                var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
+                bool anyChanges = ConfigureServer.Show(_settings, ciEntryPointSetting);
+                _dirty = anyChanges;
                 Close();
             }
         }
@@ -52,11 +56,17 @@ namespace SirenOfShame.Configuration
         {
             if (_servers.SelectedItem != null)
             {
-                var ciEntryPointSetting = (CiEntryPointSetting) _servers.SelectedItem;
+                _dirty = true;
+                var ciEntryPointSetting = (CiEntryPointSetting)_servers.SelectedItem;
                 _settings.CiEntryPointSettings.Remove(ciEntryPointSetting);
                 _settings.Save();
                 Close();
             }
+        }
+
+        private void ConfigureServers_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult = _dirty ? DialogResult.OK : DialogResult.Cancel;
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿<freeStyleBuild>
+  <action></action>
+  <action></action>
+  <building>false</building>
+  <duration>309690</duration>
+  <fullDisplayName>Omni-WS-Daily #277</fullDisplayName>
+  <id>2012-02-15_12-00-54</id>
+  <keepLog>false</keepLog>
+  <number>277</number>
+  <result>SUCCESS</result>
+  <timestamp>1329325254361</timestamp>
+  <url>https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/</url>
+  <changeSet>
+      <kind>git</kind>
+  </changeSet>
+</freeStyleBuild>

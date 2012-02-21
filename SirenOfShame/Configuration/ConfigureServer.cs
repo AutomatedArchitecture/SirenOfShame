@@ -16,10 +16,11 @@ namespace SirenOfShame.Configuration
 
         private readonly CiEntryPointSetting _ciEntryPointSetting;
 
-        public static void Show(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
+        public static bool Show(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
         {
             ConfigureServer configureServer = new ConfigureServer(settings, ciEntryPointSetting);
-            configureServer.ShowDialog();
+            var anyChanges = configureServer.ShowDialog() != DialogResult.Cancel;
+            return anyChanges;
         }
 
         private bool _adding;
@@ -77,12 +78,14 @@ namespace SirenOfShame.Configuration
 
         private void CloseClick(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
         }
 
         private void AddClick(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
             if (_ciEntryPointSetting.BuildDefinitionSettings.Count < 1)
             {
                 SosMessageBox.Show(

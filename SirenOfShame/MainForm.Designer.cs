@@ -243,7 +243,7 @@ namespace SirenOfShame {
             this._mute.Text = "Mute";
             this._mute.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._mute.UseVisualStyleBackColor = false;
-            this._mute.Click += new System.EventHandler(this._mute_Click);
+            this._mute.Click += new System.EventHandler(this.MuteClick);
             // 
             // bigIcons
             // 
@@ -381,7 +381,7 @@ namespace SirenOfShame {
             this._configurationMore.TabIndex = 14;
             this._configurationMore.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._configurationMore.UseVisualStyleBackColor = false;
-            this._configurationMore.Click += new System.EventHandler(this._configurationMore_Click);
+            this._configurationMore.Click += new System.EventHandler(this.ConfigurationMoreClick);
             // 
             // _configureRules
             // 
@@ -602,14 +602,14 @@ namespace SirenOfShame {
             this._checkForUpdates.Name = "_checkForUpdates";
             this._checkForUpdates.Size = new System.Drawing.Size(165, 22);
             this._checkForUpdates.Text = "Check For Updates";
-            this._checkForUpdates.Click += new System.EventHandler(this._checkForUpdates_Click);
+            this._checkForUpdates.Click += new System.EventHandler(this.CheckForUpdatesClick);
             // 
             // _viewLog
             // 
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(165, 22);
             this._viewLog.Text = "View Logs...";
-            this._viewLog.Click += new System.EventHandler(this._viewLog_Click);
+            this._viewLog.Click += new System.EventHandler(this.ViewLogClick);
             // 
             // _sirenMenu
             // 
@@ -854,7 +854,7 @@ namespace SirenOfShame {
             this._closeAlert.Size = new System.Drawing.Size(25, 20);
             this._closeAlert.TabIndex = 41;
             this._closeAlert.UseVisualStyleBackColor = false;
-            this._closeAlert.Click += new System.EventHandler(this._closeAlert_Click);
+            this._closeAlert.Click += new System.EventHandler(this.CloseAlertClick);
             // 
             // _buildDefinitions
             // 
@@ -873,7 +873,8 @@ namespace SirenOfShame {
             this._buildDefinitions.TabIndex = 36;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
             this._buildDefinitions.View = System.Windows.Forms.View.Details;
-            this._buildDefinitions.SelectedIndexChanged += new System.EventHandler(this._buildDefinitions_SelectedIndexChanged);
+            this._buildDefinitions.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.BuildDefinitionsColumnClick);
+            this._buildDefinitions.SelectedIndexChanged += new System.EventHandler(this.BuildDefinitionsSelectedIndexChanged);
             this._buildDefinitions.DoubleClick += new System.EventHandler(this.BuildDefinitionsDoubleClick);
             this._buildDefinitions.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BuildDefinitionsMouseUp);
             // 

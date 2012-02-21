@@ -18,30 +18,36 @@ namespace SirenOfShame.Configuration
 
             _updateLocationAuto.Checked = _settings.UpdateLocation == UpdateLocation.Auto;
             _updateLocationOther.Checked = _settings.UpdateLocation == UpdateLocation.Other;
+            _updateLocationNever.Checked = _settings.UpdateLocation == UpdateLocation.Never;
             _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other ? _settings.UpdateLocationOther : "";
             _hideReputation.Checked = _settings.HideReputation;
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
         }
 
+        private UpdateLocation GetUpdateLocation()
+        {
+            if (_updateLocationAuto.Checked)
+            {
+                return UpdateLocation.Auto;
+            }
+            if (_updateLocationOther.Checked)
+            {
+                return UpdateLocation.Other;
+            }
+            if (_updateLocationNever.Checked)
+            {
+                return UpdateLocation.Never;
+            }
+            throw new NotImplementedException("One of the update locations needs to be checked");
+        }
+
         private void OkClick(object sender, EventArgs e)
         {
             _settings.PollInterval = _pollInterval.Value;
-            UpdateLocation updateLocation;
+            UpdateLocation updateLocation = GetUpdateLocation();
             _settings.UpdateLocationOther = null;
-            if (_updateLocationAuto.Checked)
-            {
-                updateLocation = UpdateLocation.Auto;
-            }
-            else if (_updateLocationOther.Checked)
-            {
-                updateLocation = UpdateLocation.Other;
-                _settings.UpdateLocationOther = _updateLocationOtherLocation.Text;
-            }
-            else
-            {
-                throw new NotImplementedException("One of the update locations needs to be checked");
-            }
+            _settings.UpdateLocationOther = _updateLocationOtherLocation.Text;
             _settings.UpdateLocation = updateLocation;
 
             if (_resetReputationOnSave)
