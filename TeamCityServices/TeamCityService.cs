@@ -211,7 +211,8 @@ namespace TeamCityServices
                 throw documentCompleteException;
             if (IsTimeout(initialRequest))
             {
-                throw new SosException("Timed out waiting for authentication, possible authentication error");
+                _log.Warn("Timed out waiting for authentication, possible authentication error");
+                throw new ServerUnavailableException();
             }
         }
 
