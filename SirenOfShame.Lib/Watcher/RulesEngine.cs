@@ -134,7 +134,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void GetAlertAsyncIfNewDay()
         {
-            bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (DateTime.Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
+            bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
             if (weHaveAlreadyCheckedForAlertsToday) return;
             
             _settings.LastCheckedForAlert = DateTime.Now;
@@ -176,6 +176,11 @@ namespace SirenOfShame.Lib.Watcher
                 Application.ProductVersion
                 );
             webClient.DownloadStringAsync(new Uri(url));
+        }
+
+        protected virtual DateTime Now
+        {
+            get { return DateTime.Now; }
         }
 
         protected virtual SosWebClient GetWebClient()

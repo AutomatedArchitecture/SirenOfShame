@@ -112,5 +112,10 @@ namespace SirenOfShame.Test.Unit.Watcher
                 } 
             });
         }
+
+        public void SetNow(DateTime dateTime)
+        {
+            _rulesEngine.SetNow(dateTime);
+        }
     }
 }

@@ -13,7 +13,35 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        public void OnInitialInstall_DownloadStringAsyncSendsAlert()
+        public void LastCheckedForNewAlerts24HoursAndOneOneSecondAgo_CheckForAlerts()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 2));
+            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 1, 2, 2, 1);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeDownloadStringAsync(@"56
+http://www.google.com
+Hello World
+633979872000000000");
+            Assert.AreEqual(1, rulesEngine.NewAlertEvents.Count);
+        }
+
+        [TestMethod]
+        public void LastCheckedForNewAlertsOneSecondAgo_DoNotCheckForAlerts()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 1));
+            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 2, 2, 2, 2);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeDownloadStringAsync(@"56
+http://www.google.com
+Hello World
+633979872000000000");
+            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
+        }
+
+        [TestMethod]
+        public void HaveNeverCheckedForAlerts_ValidServerResponseSendsAlertToUi()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.Settings.LastCheckedForAlert = null;
@@ -46,7 +74,7 @@ Hello World
             RefreshStatusEventArgs refreshStatusEventArgs = rulesEngine.RefreshStatusEvents[1];
             Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusListViewItems.Count());
             Assert.AreEqual("http://win7ci:8081/job/SvnTest/32/", refreshStatusEventArgs.BuildStatusListViewItems.First().Url);
-            Assert.AreEqual(32, refreshStatusEventArgs.BuildStatusListViewItems.First().BuildId);
+            Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusListViewItems.First().BuildId);
         }
 
         [TestMethod]
