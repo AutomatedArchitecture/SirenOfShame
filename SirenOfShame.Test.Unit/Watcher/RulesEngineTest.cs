@@ -13,6 +13,20 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void HaveNeverCheckedForAlertsButSettingsSayNeverDownload_DoNotSendAlertToUi()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.UpdateLocation = UpdateLocation.Never;
+            rulesEngine.Settings.LastCheckedForAlert = null;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeDownloadStringAsync(@"56
+http://www.google.com
+Hello World
+633979872000000000");
+            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
+        }
+
+        [TestMethod]
         public void LastCheckedForNewAlertsOver24HoursAgoButThisIsTheSameAlert_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();

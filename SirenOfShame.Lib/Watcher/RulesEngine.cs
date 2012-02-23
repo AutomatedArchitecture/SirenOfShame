@@ -134,6 +134,9 @@ namespace SirenOfShame.Lib.Watcher
 
         private void GetAlertAsyncIfNewDay()
         {
+            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want to check for alerts either
+            if (_settings.UpdateLocation != UpdateLocation.Auto) return;
+
             bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
             if (weHaveAlreadyCheckedForAlertsToday) return;
             
