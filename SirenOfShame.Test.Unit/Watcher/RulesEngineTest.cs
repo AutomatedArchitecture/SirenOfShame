@@ -13,11 +13,27 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        public void LastCheckedForNewAlerts24HoursAndOneOneSecondAgo_CheckForAlerts()
+        public void LastCheckedForNewAlertsOver24HoursAgoButThisIsTheSameAlert_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 2));
             rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 1, 2, 2, 1);
+            rulesEngine.Settings.AlertClosed = new DateTime(2010, 1, 2);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeDownloadStringAsync(@"56
+http://www.google.com
+Hello World
+633979872000000000");
+            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
+        }
+
+        [TestMethod]
+        public void LastCheckedForNewAlerts24HoursAndOneOneSecondAgoAndThisIsANewAlert_SendAlertToUi()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 2));
+            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 1, 2, 2, 1);
+            rulesEngine.Settings.AlertClosed = new DateTime(2010, 1, 1);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeDownloadStringAsync(@"56
 http://www.google.com
@@ -27,7 +43,7 @@ Hello World
         }
 
         [TestMethod]
-        public void LastCheckedForNewAlertsOneSecondAgo_DoNotCheckForAlerts()
+        public void LastCheckedForNewAlertsOneSecondAgo_DoNotSendAlertToUi()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 1));
@@ -41,7 +57,7 @@ Hello World
         }
 
         [TestMethod]
-        public void HaveNeverCheckedForAlerts_ValidServerResponseSendsAlertToUi()
+        public void HaveNeverCheckedForAlerts_SendAlertToUi()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.Settings.LastCheckedForAlert = null;
