@@ -278,7 +278,7 @@ namespace SirenOfShame
         private DateTime _alertDate;
         private string _alertUrl;
         
-        private void RulesEngineNewAlert(object sender, NewAlertArgs args)
+        private void RulesEngineNewAlert(object sender, NewAlertEventArgs args)
         {
             Invoke(() =>
             {

@@ -66,7 +66,9 @@
     <Compile Include="Util\BuildStatusUtilTest.cs" />
     <Compile Include="Watcher\BuildStatusTest.cs" />
     <Compile Include="Watcher\CiEntryPointSettingFake.cs" />
-    <Compile Include="Watcher\NewAlertArgsTest.cs" />
+    <Compile Include="Watcher\FakeRulesEngine.cs" />
+    <Compile Include="Watcher\FakeWebClient.cs" />
+    <Compile Include="Watcher\NewAlertEventArgsTest.cs" />
     <Compile Include="Watcher\RulesEngineTest.cs" />
     <Compile Include="Watcher\RulesEngineWrapper.cs" />
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />

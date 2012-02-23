@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -24,6 +25,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             ModalDialogEvents = new List<ModalDialogEventArgs>();
             SetAudioEvents = new List<SetAudioEventArgs>();
             SetLightsEvents = new List<SetLightsEventArgs>();
+            NewAlertEvents = new List<NewAlertEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
             CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
@@ -31,7 +33,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1" });
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
-            _rulesEngine = new RulesEngine(Settings)
+            _rulesEngine = new FakeRulesEngine(Settings)
             {
                 SosDb = _sosDbFake
             };
@@ -43,11 +45,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.ModalDialog += (sender, arg) => ModalDialogEvents.Add(arg);
             _rulesEngine.SetAudio += (sender, arg) => SetAudioEvents.Add(arg);
             _rulesEngine.SetLights += (sender, arg) => SetLightsEvents.Add(arg);
+            _rulesEngine.NewAlert += (sender, arg) => NewAlertEvents.Add(arg);
 
             _rulesEngine.Start();
         }
 
-        private readonly RulesEngine _rulesEngine;
+        private readonly FakeRulesEngine _rulesEngine;
         
         public SirenOfShameSettingsFake Settings { get; set; }
         public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
@@ -58,7 +61,13 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<ModalDialogEventArgs> ModalDialogEvents { get; set; }
         public List<SetAudioEventArgs> SetAudioEvents { get; set; }
         public List<SetLightsEventArgs> SetLightsEvents { get; set; }
+        public List<NewAlertEventArgs> NewAlertEvents { get; set; }
 
+        public void InvokeDownloadStringAsync(string e)
+        {
+            _rulesEngine.WebClient.InvokeDownloadStringCompleted(e);
+        }
+        
         public SosDbFake SosDb
         {
             get { return _sosDbFake; }

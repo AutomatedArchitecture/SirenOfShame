@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Util;
 using Timer = System.Windows.Forms.Timer;
@@ -47,7 +48,7 @@ namespace SirenOfShame.Lib.Watcher
             if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
         }
 
-        public void InvokeNewAlert(NewAlertArgs args)
+        public void InvokeNewAlert(NewAlertEventArgs args)
         {
             NewAlertEvent newAlert = NewAlert;
             if (newAlert != null) newAlert(this, args);
@@ -138,7 +139,7 @@ namespace SirenOfShame.Lib.Watcher
             
             _settings.LastCheckedForAlert = DateTime.Now;
             _settings.Save();
-            var webClient = new WebClient();
+            SosWebClient webClient = GetWebClient();
             webClient.DownloadStringCompleted += (s, e) =>
             {
                 try
@@ -148,7 +149,7 @@ namespace SirenOfShame.Lib.Watcher
                         _log.Error("Error retrieving alert", e.Error);
                         return;
                     }
-                    NewAlertArgs args = new NewAlertArgs();
+                    NewAlertEventArgs args = new NewAlertEventArgs();
                     var successParsing = args.Instantiate(e.Result);
                     if (successParsing)
                     {
@@ -175,6 +176,11 @@ namespace SirenOfShame.Lib.Watcher
                 Application.ProductVersion
                 );
             webClient.DownloadStringAsync(new Uri(url));
+        }
+
+        protected virtual SosWebClient GetWebClient()
+        {
+            return new SosWebClient();
         }
 
         private void InvokeStatsChanged()

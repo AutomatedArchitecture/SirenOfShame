@@ -152,6 +152,7 @@
     <Compile Include="Helpers\XElementHelpers.cs" />
     <Compile Include="ICIEntryPoint.cs" />
     <Compile Include="MyLogManager.cs" />
+    <Compile Include="Network\SosWebClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerConfiguration\ConfigureServerBase.cs">
       <SubType>UserControl</SubType>
@@ -179,7 +180,7 @@
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
     <Compile Include="Watcher\NewAlertEvent.cs" />
-    <Compile Include="Watcher\NewAlertArgs.cs" />
+    <Compile Include="Watcher\NewAlertEventArgs.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEvent.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEventArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />

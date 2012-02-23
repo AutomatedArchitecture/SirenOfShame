@@ -5,7 +5,7 @@ using log4net;
 
 namespace SirenOfShame.Lib.Watcher
 {
-    public class NewAlertArgs
+    public class NewAlertEventArgs
     {
         public string Message { get; set; }
         public string Url { get; set; }

@@ -13,6 +13,22 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void OnInitialInstall_DownloadStringAsyncSendsAlert()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.LastCheckedForAlert = null;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeDownloadStringAsync(@"56
+http://www.google.com
+Hello World
+633979872000000000");
+            Assert.AreEqual(1, rulesEngine.NewAlertEvents.Count);
+            Assert.AreEqual("Hello World", rulesEngine.NewAlertEvents[0].Message);
+            Assert.AreEqual("http://www.google.com", rulesEngine.NewAlertEvents[0].Url);
+            Assert.AreEqual(new DateTime(2010, 1, 2), rulesEngine.NewAlertEvents[0].AlertDate);
+        }
+
+        [TestMethod]
         public void Hudson_BuildUrlPassesThrough()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -176,7 +192,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
             var trayNotification = rulesEngine.TrayNotificationEvents[1];
             Assert.AreEqual("Reconnected", trayNotification.Title);
@@ -189,7 +205,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
             Assert.AreEqual(3, rulesEngine.TrayNotificationEvents.Count);
             Assert.AreEqual(2,
@@ -202,8 +218,8 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
-            rulesEngine.InvokeStatusChecked(new BuildStatus[] {});
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
+            rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
         }
 
@@ -230,7 +246,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
             BuildStatusListViewItem buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
-            Assert.AreEqual((int) BallsEnum.Green, buildStatus.ImageIndex);
+            Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
@@ -507,7 +523,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var ledPattern = new LedPattern {Id = 2, Name = "Sally"};
+            var ledPattern = new LedPattern { Id = 2, Name = "Sally" };
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -527,7 +543,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var audioPattern = new AudioPattern {Id = 2, Name = "Sally"};
+            var audioPattern = new AudioPattern { Id = 2, Name = "Sally" };
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -547,7 +563,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var audioPattern = new AudioPattern {Id = 2, Name = "Sally"};
+            var audioPattern = new AudioPattern { Id = 2, Name = "Sally" };
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -565,7 +581,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
 
-            var ledPattern = new LedPattern {Id = 2, Name = "Real Fast"};
+            var ledPattern = new LedPattern { Id = 2, Name = "Real Fast" };
             rulesEngine.Rules.Add(new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -940,7 +956,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 633979008000000000,,2,User1
 ", contents);
         }
-        
+
         [TestMethod]
         public void InitialStatesDoNotWrite()
         {
@@ -948,5 +964,5 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
             Assert.AreEqual(0, rulesEngine.SosDb.Files.Keys.Count);
         }
-}
+    }
 }

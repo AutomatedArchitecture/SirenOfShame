@@ -1,4 +1,4 @@
 namespace SirenOfShame.Lib.Watcher
 {
-    public delegate void NewAlertEvent(object sender, NewAlertArgs args);
+    public delegate void NewAlertEvent(object sender, NewAlertEventArgs args);
 }
