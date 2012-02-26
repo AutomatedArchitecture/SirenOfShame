@@ -76,7 +76,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
                 d.Year,
                 d.Month,
                 d.Day,
-                d.Hour,
+                d.ToString("HH"),
                 d.Minute,
                 d.Second,
                 d.Millisecond

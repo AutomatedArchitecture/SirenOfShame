@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Projects CCType="CCNet">
+  <Project
+       name="CruiseControlNetProj1"
+       category=""
+       activity="Sleeping"
+       lastBuildStatus="Unknown"
+       lastBuildLabel="UNKNOWN"
+       lastBuildTime="2011-08-27T20:21:27.84375+03:00"
+       nextBuildTime="2011-08-28T20:38:01.71875+03:00"
+       webUrl="http://VMXP/ccnet"
+       CurrentMessage=""
+       BuildStage=""
+       serverName="local"
+       description="">
+    <messages/>
+  </Project>
+</Projects>

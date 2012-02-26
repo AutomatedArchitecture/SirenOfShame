@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
@@ -77,6 +78,10 @@
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CruiseControlNetServices\CruiseControlNetServices.csproj">
+      <Project>{96EB3CCA-5EE4-492E-A7DA-4E5E2A3A0051}</Project>
+      <Name>CruiseControlNetServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HudsonServices\HudsonServices.csproj">
       <Project>{E0983ED9-6145-4893-9782-B5A2691106E7}</Project>
       <Name>HudsonServices</Name>
@@ -109,6 +114,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\TeamCityFailingBuild.xml" />
     <EmbeddedResource Include="Resources\TeamCityFailingChange.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\CruiseControlNetJoesProject2.xml" />
+    <EmbeddedResource Include="Resources\CruiseControlNetJoesProject1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

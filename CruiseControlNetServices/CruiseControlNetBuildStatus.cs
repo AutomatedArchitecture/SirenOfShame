@@ -46,7 +46,7 @@ namespace CruiseControlNetServices
                 _buildStatusInfo.Add(BuildDefinitionId, buildStatusInfo);
             }
 
-            var lastBuildTimeStr = projectElem.ElementValueOrDefault("lastBuildTime");
+            var lastBuildTimeStr = projectElem.AttributeValueOrDefault("lastBuildTime");
             DateTime dt;
             DateTime? lastBuildTime = null;
             if (DateTime.TryParse(lastBuildTimeStr, out dt))
@@ -77,12 +77,16 @@ namespace CruiseControlNetServices
                 buildStatusInfo.FinishedTime = DateTime.Now;
             }
 
+            if (buildStatusInfo.FinishedTime == null && buildStatusEnum != BuildStatusEnum.InProgress)
+                return lastBuildTime;
+
             return buildStatusInfo.FinishedTime;
         }
 
         private static DateTime? GetStartedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum buildStatusEnum, DateTime? lastBuildTime)
         {
-            if (buildStatusInfo.LastBuildStatusEnum == null)
+            bool thisIsTheFirstBuild = buildStatusInfo.LastBuildStatusEnum == null;
+            if (thisIsTheFirstBuild)
             {
                 return lastBuildTime;
             }
@@ -93,6 +97,9 @@ namespace CruiseControlNetServices
             {
                 buildStatusInfo.StartedTime = DateTime.Now;
             }
+
+            if (buildStatusInfo.StartedTime == null)
+                return lastBuildTime;
 
             return buildStatusInfo.StartedTime;
         }
@@ -119,6 +126,11 @@ namespace CruiseControlNetServices
             public DateTime? StartedTime { get; set; }
             public DateTime? FinishedTime { get; set; }
             public BuildStatusEnum? LastBuildStatusEnum { get; set; }
+        }
+
+        public static void ClearCache()
+        {
+            _buildStatusInfo.Clear();
         }
     }
 }

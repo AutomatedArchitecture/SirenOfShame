@@ -53,5 +53,15 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("TeamCityFailingChange.xml")); }
         }
+
+        public static XDocument CruiseControlNetJoesProject1
+        {
+            get { return XDocument.Parse(GetResource("CruiseControlNetJoesProject1.xml")); }
+        }
+        
+        public static XDocument CruiseControlNetJoesProject2
+        {
+            get { return XDocument.Parse(GetResource("CruiseControlNetJoesProject2.xml")); }
+        }
     }
 }

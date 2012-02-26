@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Projects CCType="CCNet">
+  <Project name="CruiseControlNetProj1" category="" activity="Building" lastBuildStatus="Success" lastBuildLabel="3" lastBuildTime="2011-08-28T20:20:05.375+03:00" nextBuildTime="2011-08-28T21:06:06.3125+03:00" webUrl="http://VMXP/ccnet" CurrentMessage="Build (IfModificationExists) triggered from IntervalTrigger" BuildStage="" serverName="local" description="">
+    <data>
+      <Item Time="2011-08-28 21:06:07" Data="Executing run.bat" />
+      <Item Time="2011-08-28 21:06:07" Data="C:\Program Files\CruiseControl.NET\server\CruiseControlNetProj1\WorkingDirectory>echo Test2 " />
+      <Item Time="2011-08-28 21:06:07" Data="Test2" />
+      <Item Time="2011-08-28 21:06:07" Data="C:\Program Files\CruiseControl.NET\server\CruiseControlNetProj1\WorkingDirectory>ping -n 11 www.google.com " />
+      <Item Time="2011-08-28 21:06:07" Data="Pinging www.l.google.com [74.125.115.103] with 32 bytes of data:" />
+      <Item Time="2011-08-28 21:06:07" Data="Reply from 74.125.115.103: bytes=32 time=29ms TTL=128" />
+    </data>
+    <messages>
+      <message text="Build (IfModificationExists) triggered from IntervalTrigger" kind="BuildStatus"/>
+    </messages>
+  </Project>
+</Projects>
