@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
@@ -35,6 +37,14 @@ namespace CruiseControlNetServices
     {
         private static readonly Dictionary<string, BuildStatusInfo> _buildStatusInfo = new Dictionary<string, BuildStatusInfo>();
 
+        public static string ParseCruiseControlDateToId(string date)
+        {
+            if (string.IsNullOrWhiteSpace(date)) return null;
+            var priorToDot = date.Split('.').FirstOrDefault();
+            if (priorToDot == null) return null;
+            return Regex.Replace(priorToDot, "[^0-9]", "");
+        }
+        
         public CruiseControlNetBuildStatus(XElement projectElem)
         {
             Name = BuildDefinitionId = projectElem.AttributeValue("name");
@@ -59,6 +69,10 @@ namespace CruiseControlNetServices
             FinishedTime = GetFinishedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
             Comment = null;
             RequestedBy = null;
+
+            var webUrl = projectElem.AttributeValueOrDefault("webUrl");
+            string lastBuildTimeAsId = ParseCruiseControlDateToId(lastBuildTimeStr);
+            Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
 
             buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
         }
