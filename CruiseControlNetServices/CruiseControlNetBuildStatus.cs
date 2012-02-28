@@ -73,6 +73,7 @@ namespace CruiseControlNetServices
             var webUrl = projectElem.AttributeValueOrDefault("webUrl");
             string lastBuildTimeAsId = ParseCruiseControlDateToId(lastBuildTimeStr);
             Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
+            BuildId = lastBuildTimeAsId;
 
             buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
         }

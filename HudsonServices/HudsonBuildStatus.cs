@@ -89,19 +89,7 @@ namespace HudsonServices
                 if (Url != null)
                     Url = Url.Trim();
 
-                var number = doc.Root.ElementValueOrDefault("number");
-                try
-                {
-                    if (!string.IsNullOrWhiteSpace(number))
-                    {
-                        BuildId = int.Parse(number);
-                    }
-                } 
-                catch (Exception)
-                {
-                    _log.Error("Unable to parse the build number: " + number);
-                    throw;
-                }
+                BuildId = doc.Root.ElementValueOrDefault("number");
             } 
             catch (Exception)
             {

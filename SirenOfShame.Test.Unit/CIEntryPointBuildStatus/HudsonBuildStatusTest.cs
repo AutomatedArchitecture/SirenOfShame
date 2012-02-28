@@ -27,7 +27,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
             Assert.IsNull(buildStatus.Comment);
             Assert.AreEqual(new DateTime(2011, 12, 23, 21, 8, 22, 465), buildStatus.FinishedTime); // timestamp+duration
             Assert.AreEqual("http://win7ci:8081/job/SvnTest/30/", buildStatus.Url);
-            Assert.AreEqual(30, buildStatus.BuildId);
+            Assert.AreEqual("30", buildStatus.BuildId);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
             Assert.IsNull(buildStatus.Comment);
             Assert.AreEqual(new DateTime(2012, 1, 19, 12, 50, 56, 422), buildStatus.FinishedTime, "" + buildStatus.FinishedTime.Value.Millisecond); // timestamp+duration
             Assert.AreEqual("https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/", buildStatus.Url);
-            Assert.AreEqual(49, buildStatus.BuildId);
+            Assert.AreEqual("49", buildStatus.BuildId);
         }
         
         [TestMethod]
@@ -66,7 +66,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
             Assert.AreEqual(new DateTime(2012, 2, 15, 17, 0, 54, 361), buildStatus.StartedTime, DateAsCode(buildStatus.StartedTime.Value));
             Assert.IsNull(buildStatus.Comment);
             Assert.AreEqual(new DateTime(2012, 2, 15, 17, 6, 4, 51), buildStatus.FinishedTime, DateAsCode(buildStatus.FinishedTime.Value));
-            Assert.AreEqual(277, buildStatus.BuildId);
+            Assert.AreEqual("277", buildStatus.BuildId);
             Assert.AreEqual("https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/", buildStatus.Url);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using log4net;
 using Microsoft.TeamFoundation.Build.Client;
@@ -74,7 +75,7 @@ namespace TfsServices.Configuration
             if (changeset != null)
             {
                 result.Comment = changeset.Comment;
-                result.BuildId = changeset.ChangesetId;
+                result.BuildId = changeset.ChangesetId.ToString(CultureInfo.InvariantCulture);
                 result.Url = changeset.ConvertTfsUriToUrl(buildDetail.Uri);
             }
             return result;

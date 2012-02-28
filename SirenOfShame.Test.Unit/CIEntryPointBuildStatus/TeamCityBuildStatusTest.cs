@@ -33,7 +33,7 @@ Conflicts:
             Assert.AreEqual(expectedComment.Replace("\r\n", "\r"), buildStatus.Comment);
             Assert.AreEqual(new DateTime(2012, 1, 27, 0, 16, 2, 0), buildStatus.FinishedTime, HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value)); // timestamp+duration
             Assert.AreEqual("http://win7ci:8080/viewLog.html?buildId=35&buildTypeId=bt2", buildStatus.Url);
-            Assert.AreEqual(35, buildStatus.BuildId);
+            Assert.AreEqual("35", buildStatus.BuildId);
         }
     }
 }

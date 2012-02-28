@@ -68,7 +68,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.IsNull(buildStatus.FinishedTime);
             //Assert.AreEqual(DateTime.Now.ToString(), buildStatus.FinishedTime.Value.ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value));
             Assert.AreEqual("http://VMXP/ccnet/server/local/project/CruiseControlNetProj1/build/log20110828202005.xml/ViewBuildReport.aspx", buildStatus.Url);
-            //Assert.AreEqual(20110828202005, buildStatus.BuildId);
+            Assert.AreEqual("20110828202005", buildStatus.BuildId);
         }
         
         [TestMethod]
