@@ -198,6 +198,7 @@ namespace SirenOfShame
             RefreshStats();
             SetMuteButton();
             InitializeBuildHistoryChart();
+            _buildDefinitions.SetSortColumn(_settings);
         }
 
         private void InitializeBuildHistoryChart()
@@ -1061,8 +1062,7 @@ namespace SirenOfShame
             }
             _settings.SortColumn = e.Column;
             _settings.Save();
-            SortOrder sortOrder = _settings.SortDescending ? SortOrder.Descending : SortOrder.Ascending;
-            _buildDefinitions.SetSortColumn(e.Column, sortOrder);
+            _buildDefinitions.SetSortColumn(_settings);
         }
     }
 }
