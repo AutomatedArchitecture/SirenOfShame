@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -64,6 +65,13 @@ namespace SirenOfShame
                 subItem.Text = value;
                 subItem.Tag = tag;
             }
+        }
+
+        public void SetSortColumn(SirenOfShameSettings settings)
+        {
+            if (settings == null || settings.SortColumn == null) return;
+            SortOrder sortOrder = settings.SortDescending ? SortOrder.Descending : SortOrder.Ascending;
+            SetSortColumn(settings.SortColumn.Value, sortOrder);
         }
     }
 }

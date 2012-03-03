@@ -62,7 +62,7 @@ namespace SirenOfShame.Lib.Settings
 
         public UpdateLocation UpdateLocation { get; set; }
 
-        public int SortColumn { get; set; }
+        public int? SortColumn { get; set; }
         
         public bool SortDescending { get; set; }
 
