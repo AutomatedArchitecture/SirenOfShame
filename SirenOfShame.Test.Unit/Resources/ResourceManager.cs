@@ -63,5 +63,10 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("CruiseControlNetJoesProject2.xml")); }
         }
+
+        public static XDocument BambooFailingBuild
+        {
+            get { return XDocument.Parse(GetResource("BambooFailingBuild.xml")); }
+        }
     }
 }

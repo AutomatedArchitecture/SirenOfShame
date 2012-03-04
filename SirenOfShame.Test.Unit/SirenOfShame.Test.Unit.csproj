@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CIEntryPointBuildStatus\BambooBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
@@ -78,6 +79,10 @@
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BambooServices\BambooServices.csproj">
+      <Project>{11B36E78-B757-46AA-BAF4-E8CFFACE74ED}</Project>
+      <Name>BambooServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CruiseControlNetServices\CruiseControlNetServices.csproj">
       <Project>{96EB3CCA-5EE4-492E-A7DA-4E5E2A3A0051}</Project>
       <Name>CruiseControlNetServices</Name>
@@ -118,6 +123,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\CruiseControlNetJoesProject2.xml" />
     <EmbeddedResource Include="Resources\CruiseControlNetJoesProject1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BambooFailingBuild.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
