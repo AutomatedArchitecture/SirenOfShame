@@ -37,6 +37,7 @@
             this._viewLog = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this._updateLocations = new System.Windows.Forms.Panel();
+            this._updateLocationNever = new System.Windows.Forms.RadioButton();
             this._updateLocationOtherLocation = new System.Windows.Forms.TextBox();
             this._updateLocationOther = new System.Windows.Forms.RadioButton();
             this._checkForUpdates = new System.Windows.Forms.Button();
@@ -45,7 +46,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this._resetReputation = new System.Windows.Forms.Button();
             this._hideReputation = new System.Windows.Forms.CheckBox();
-            this._updateLocationNever = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.SuspendLayout();
@@ -138,6 +138,16 @@
             this._updateLocations.Size = new System.Drawing.Size(477, 120);
             this._updateLocations.TabIndex = 11;
             // 
+            // _updateLocationNever
+            // 
+            this._updateLocationNever.AutoSize = true;
+            this._updateLocationNever.Location = new System.Drawing.Point(3, 94);
+            this._updateLocationNever.Name = "_updateLocationNever";
+            this._updateLocationNever.Size = new System.Drawing.Size(270, 17);
+            this._updateLocationNever.TabIndex = 14;
+            this._updateLocationNever.Text = "Never check for updates (why mess with perfection)";
+            this._updateLocationNever.UseVisualStyleBackColor = true;
+            // 
             // _updateLocationOtherLocation
             // 
             this._updateLocationOtherLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -162,11 +172,11 @@
             // _checkForUpdates
             // 
             this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._checkForUpdates.Location = new System.Drawing.Point(361, 94);
+            this._checkForUpdates.Location = new System.Drawing.Point(335, 94);
             this._checkForUpdates.Name = "_checkForUpdates";
-            this._checkForUpdates.Size = new System.Drawing.Size(113, 23);
+            this._checkForUpdates.Size = new System.Drawing.Size(139, 23);
             this._checkForUpdates.TabIndex = 12;
-            this._checkForUpdates.Text = "Check for Updates";
+            this._checkForUpdates.Text = "Check for Updates Now";
             this._checkForUpdates.UseVisualStyleBackColor = true;
             this._checkForUpdates.Click += new System.EventHandler(this.CheckForUpdatesClick);
             // 
@@ -186,7 +196,7 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.Gray;
             this.textBox1.Location = new System.Drawing.Point(56, 48);
@@ -220,26 +230,17 @@
             this._hideReputation.AutoSize = true;
             this._hideReputation.Location = new System.Drawing.Point(290, 197);
             this._hideReputation.Name = "_hideReputation";
-            this._hideReputation.Size = new System.Drawing.Size(224, 17);
+            this._hideReputation.Size = new System.Drawing.Size(171, 17);
             this._hideReputation.TabIndex = 15;
-            this._hideReputation.Text = "Reputation is a stupid idea (aka I\'m losing)";
+            this._hideReputation.Text = "Hide reputation (aka I\'m losing)";
             this._hideReputation.UseVisualStyleBackColor = true;
-            // 
-            // _updateLocationNever
-            // 
-            this._updateLocationNever.AutoSize = true;
-            this._updateLocationNever.Location = new System.Drawing.Point(3, 94);
-            this._updateLocationNever.Name = "_updateLocationNever";
-            this._updateLocationNever.Size = new System.Drawing.Size(291, 17);
-            this._updateLocationNever.TabIndex = 14;
-            this._updateLocationNever.Text = "Never check for updates (aka why mess with perfection)";
-            this._updateLocationNever.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
             this.AcceptButton = this._ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(593, 306);
             this.Controls.Add(this._hideReputation);
