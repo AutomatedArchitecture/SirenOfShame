@@ -52,6 +52,12 @@ namespace SirenOfShame
         private static void ApplicationThreadException(object sender, ThreadExceptionEventArgs e)
         {
             _log.Error("Global error", e.Exception);
+
+            // see http://social.msdn.microsoft.com/Forums/en/vbgeneral/thread/628ba445-bdcf-4a9c-abcd-ac6e34b19a0d
+            bool splashscreenBug = (e.Exception is InvalidOperationException) && e.Exception.Message == "Invoke or BeginInvoke cannot be called on a control until the window handle has been created.";
+            if (splashscreenBug)
+                return;
+
             ExceptionMessageBox.Show(null, "Drat", "Something crazy just happened.", e.Exception);
         }
 
