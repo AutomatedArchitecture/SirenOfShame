@@ -35,7 +35,8 @@ namespace BambooServices
             return result;
         }
 
-        public static BambooBuildStatus CreateBuildResult(XDocument doc, BuildDefinitionSetting buildDefinitionSetting)
+        /// <param name="rootUrl">Must not end with /</param>
+        public static BambooBuildStatus CreateBuildResult(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string rootUrl)
         {
             BambooBuildStatus result = new BambooBuildStatus
             {
@@ -62,6 +63,10 @@ namespace BambooServices
                     result.Comment = changeElem.ElementValueOrDefault("comment");
                 }
             }
+
+            result.BuildId = doc.Root.AttributeValueOrDefault("number");
+            string buildKey = doc.Root.AttributeValueOrDefault("key"); // i.e. the "plan key"
+            result.Url = rootUrl + "/browse/" + buildKey;
 
             if (string.IsNullOrWhiteSpace(result.RequestedBy) && string.IsNullOrWhiteSpace(result.Comment))
             {

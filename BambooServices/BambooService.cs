@@ -90,7 +90,7 @@ namespace BambooServices
                     buildDoc = DownloadXml(buildUrl, userName, password);
                 }
                 if (buildDoc.Root == null) throw new Exception("Could not get project status");
-                return BambooBuildStatus.CreateBuildResult(buildDoc, buildDefinitionSetting);
+                return BambooBuildStatus.CreateBuildResult(buildDoc, buildDefinitionSetting, rootUrl);
             }
             catch (SosException ex)
             {
