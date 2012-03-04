@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -57,18 +58,6 @@ namespace SirenOfShame
                         throw new Exception("Could not parse version number '" + versionElem.Value + "'");
                     }
 
-                    // date
-                    var dateElem = xml.Root.Element("date");
-                    if (dateElem == null)
-                    {
-                        throw new Exception("Could not find 'date' element in XML");
-                    }
-                    DateTime date;
-                    if (!DateTime.TryParse(dateElem.Value, out date))
-                    {
-                        throw new Exception("Could not parse date '" + dateElem.Value + "'");
-                    }
-
                     // hex
                     var hexElem = xml.Root.Element("hex");
                     if (hexElem == null)
@@ -76,7 +65,7 @@ namespace SirenOfShame
                         throw new Exception("Could not find 'hex' element in XML");
                     }
                     _hexFileData = Encoding.ASCII.GetBytes(hexElem.Value.Trim());
-                    _newVersion.Text = version + " (" + date + ")";
+                    _newVersion.Text = version.ToString(CultureInfo.InvariantCulture);
 
                     return version;
                 }
