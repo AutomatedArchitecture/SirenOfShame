@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
@@ -18,6 +17,7 @@ namespace SirenOfShame.Lib.Watcher
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
         protected IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
+        protected IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
@@ -88,6 +88,7 @@ namespace SirenOfShame.Lib.Watcher
         private void ResetPreviousWorkingOrBrokenStatuses()
         {
             PreviousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>();
+            PreviousBuildStatus = new Dictionary<string, BuildStatus>();
             _buildStatus = new BuildStatus[] { };
         }
 
@@ -221,6 +222,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
+            Debug.Assert(PreviousBuildStatus != null, "PreviousBuildStatus should never be null");
 
             if (changedBuildStatuses.Any())
             {
@@ -233,29 +235,19 @@ namespace SirenOfShame.Lib.Watcher
 
             foreach (var changedBuildStatus in changedBuildStatuses)
             {
-                BuildStatus previousWorkingOrBrokenBuildStatus;
-                PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out previousWorkingOrBrokenBuildStatus);
-
-                BuildStatusEnum? previousStatus = previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
-                changedBuildStatus.Changed(previousStatus, this, _settings.Rules);
+                BuildStatusEnum? previousWorkingOrBrokenStatus = TryGetBuildStatus(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus);
+                BuildStatusEnum? previousStatus = TryGetBuildStatus(changedBuildStatus, PreviousBuildStatus);
+                changedBuildStatus.Changed(previousWorkingOrBrokenStatus, previousStatus, this, _settings.Rules);
 
                 _settings.UpdateNameIfChanged(changedBuildStatus);
 
+                SetValue(changedBuildStatus, PreviousBuildStatus);
                 if (changedBuildStatus.IsWorkingOrBroken())
                 {
-                    if (previousStatus != null)
+                    if (previousWorkingOrBrokenStatus != null)
                         SosDb.Write(changedBuildStatus, _settings);
 
-                    BuildStatus status;
-                    bool exists = PreviousWorkingOrBrokenBuildStatus.TryGetValue(changedBuildStatus.BuildDefinitionId, out status);
-                    if (!exists)
-                    {
-                        PreviousWorkingOrBrokenBuildStatus.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
-                    }
-                    else
-                    {
-                        PreviousWorkingOrBrokenBuildStatus[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
-                    }
+                    SetValue(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus);
                 }
             }
 
@@ -263,6 +255,22 @@ namespace SirenOfShame.Lib.Watcher
             {
                 InvokeStatsChanged();
             }
+        }
+
+        private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
+        {
+            BuildStatus previousWorkingOrBrokenBuildStatus;
+            dictionary.TryGetValue(changedBuildStatus.BuildDefinitionId, out previousWorkingOrBrokenBuildStatus);
+
+            return previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
+        }
+
+        private static void SetValue(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
+        {
+            if (!dictionary.ContainsKey(changedBuildStatus.BuildDefinitionId))
+                dictionary.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
+            else
+                dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
         }
 
         private void InvokeSetTrayIconForChangedBuildStatuses(IEnumerable<BuildStatus> allBuildStatuses)

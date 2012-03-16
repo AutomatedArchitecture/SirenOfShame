@@ -13,6 +13,30 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void IsBuildingWithBuildTriggeredRuleToStopOnSuccess_BuildSucceeds_LedsStop()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+
+            var ledPattern = new LedPattern { Id = 2, Name = "Sally" };
+            rulesEngine.Rules.Add(new Rule
+            {
+                TriggerType = TriggerType.BuildTriggered,
+                LedPattern = ledPattern,
+                LightsDuration = null,
+            });
+
+            Assert.AreEqual(0, rulesEngine.SetLightsEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(0, rulesEngine.SetLightsEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(1, rulesEngine.SetLightsEvents.Count);
+            Assert.AreEqual("Sally", rulesEngine.SetLightsEvents[0].LedPattern.Name);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.SetLightsEvents.Count);
+            Assert.AreEqual(null, rulesEngine.SetLightsEvents[1].LedPattern);
+        }
+
+        [TestMethod]
         public void HaveNeverCheckedForAlertsButSettingsSayNeverDownload_DoNotSendAlertToUi()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -197,6 +221,7 @@ Hello World
         }
 
         [TestMethod]
+        [Ignore]
         public void TwoBuildsBackToBack_SystemFindsFirstResultForReputation()
         {
             var rulesEngine = new RulesEngineWrapper();

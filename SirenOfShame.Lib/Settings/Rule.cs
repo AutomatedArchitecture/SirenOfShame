@@ -173,7 +173,8 @@ namespace SirenOfShame.Lib.Settings
 
         public void FireAnyUntilBuildPassesEvents(RulesEngine rulesEngine, BuildStatus buildStatus, BuildStatusEnum? previousStatus)
         {
-            var newlyFixed = buildStatus.IsNewlyFixed(previousStatus);
+            bool newlyFixed = buildStatus.BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null && previousStatus != BuildStatusEnum.Working;
+
             if (PlayAudio && PlayAudioUntilBuildPasses && newlyFixed)
             {
                 rulesEngine.InvokeSetAudio(null, null);

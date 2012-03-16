@@ -132,15 +132,15 @@ namespace SirenOfShame.Lib.Watcher
             return previousDuration - currentDuration;
         }
 
-        public void Changed(BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
+        public void Changed(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
         {
             var rule = rules
-                .Where(r => r.IsMatch(this, previousStatus))
+                .Where(r => r.IsMatch(this, previousWorkingOrBrokenStatus))
                 .OrderByDescending(r => r.PriorityId)
                 .FirstOrDefault();
 
             if (rule != null)
-                rule.FireEvent(rulesEngine, previousStatus, this);
+                rule.FireEvent(rulesEngine, previousWorkingOrBrokenStatus, this);
 
             rules.ForEach(r => r.FireAnyUntilBuildPassesEvents(rulesEngine, this, previousStatus));
         }
