@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
@@ -893,7 +895,20 @@ namespace SirenOfShame
 
         public void ViewLogs()
         {
-            Process.Start(_logFilename);
+            try
+            {
+                Process.Start(_logFilename);
+            } catch (Win32Exception)
+            {
+                var directoryName = Path.GetDirectoryName(_logFilename);
+                if (directoryName == null)
+                {
+                    _log.Error(_logFilename + " didn't contain a directory");
+                    return;
+                }
+                SosMessageBox.Show("Can't Open Log", "Sorry there is no app associated with .log files (you really are a developer, right?), anyway we'll just open the location of the log files for you.  The logs follow the pattern 'SirenOfShame*.log'", "Do It");
+                Process.Start(directoryName);
+            }
         }
 
         public bool CanViewLogs
