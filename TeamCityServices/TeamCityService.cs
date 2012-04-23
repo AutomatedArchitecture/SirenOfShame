@@ -317,5 +317,13 @@ namespace TeamCityServices
                 throw;
             }
         }
+
+        protected override bool IsServerUnavailable(string errorResult)
+        {
+            // todo: Is this really team city specific?
+            if (errorResult.StartsWith("The remote server returned an error: (503) Server Unavailable"))
+                return true;
+            return false;
+        }
     }
 }

@@ -71,6 +71,16 @@ namespace SirenOfShame.Lib.Watcher
                 {
                     throw new ServerUnavailableException();
                 }
+                if (webException.Status == WebExceptionStatus.NameResolutionFailure)
+                {
+                    throw new ServerUnavailableException();
+                }
+                if (webException.Status == WebExceptionStatus.ConnectFailure)
+                {
+                    throw new ServerUnavailableException();
+                }
+                
+                _log.Error("Error connecting to " + url + ". WebException.Status = " + webException.Status);
                 throw;
             }
         }
