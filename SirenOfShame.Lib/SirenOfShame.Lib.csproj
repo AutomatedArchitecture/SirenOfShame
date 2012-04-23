@@ -185,6 +185,7 @@
     <Compile Include="Watcher\PlayWindowsAudioEventArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />
     <Compile Include="Watcher\RulesEngine.cs" />
+    <Compile Include="Watcher\ServiceBase.cs" />
     <Compile Include="Watcher\SetAudioEvent.cs" />
     <Compile Include="Watcher\SetAudioEventArgs.cs" />
     <Compile Include="Watcher\SetLightsEvent.cs" />

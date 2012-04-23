@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Cache;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 using log4net;
 
 namespace HudsonServices
 {
-    public class HudsonService
+    public class HudsonService : ServiceBase
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
 
@@ -99,57 +98,13 @@ namespace HudsonServices
             return status;
         }
 
-        private static XDocument DownloadXml(string url, string userName, string password)
+        protected override bool IsServerUnavailable(string errorResult)
         {
-            var webClient = new WebClient
+            if (errorResult.Contains("Please wait while Jenkins is getting ready to work"))
             {
-                Credentials = new NetworkCredential(userName, password),
-                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
-            };
-
-            try
-            {
-                var resultString = webClient.DownloadString(url);
-                try
-                {
-                    return XDocument.Parse(resultString);
-                }
-                catch (Exception ex)
-                {
-                    string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
-                    _log.Error(message, ex);
-                    throw new SosException(message, ex);
-                }
+                return true;
             }
-            catch (WebException webException)
-            {
-                if (webException.Response != null)
-                {
-                    var response = webException.Response;
-                    using (Stream s1 = response.GetResponseStream())
-                    {
-                        if (s1 != null)
-                        {
-                            using (StreamReader sr = new StreamReader(s1))
-                            {
-                                var errorResult = sr.ReadToEnd();
-                                if (errorResult.Contains("Please wait while Jenkins is getting ready to work"))
-                                {
-                                    throw new ServerUnavailableException("Jenkins is starting up");
-                                }
-                                string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
-                                _log.Error(message, webException);
-                                throw new SosException(message, webException);
-                            }
-                        }
-                    }
-                }
-                if (webException.Status == WebExceptionStatus.Timeout)
-                {
-                    throw new ServerUnavailableException();
-                }
-                throw;
-            }
+            return false;
         }
     }
 }

@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Cache;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 using log4net;
 
 namespace CruiseControlNetServices
 {
-    public class CruiseControlNetService
+    public class CruiseControlNetService : ServiceBase
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(CruiseControlNetService));
 
@@ -80,55 +78,6 @@ namespace CruiseControlNetServices
             var projectElems = doc.Root.Elements("Project");
             var buildStatuses = projectElems.Select(projectElem => new CruiseControlNetBuildStatus(projectElem));
             return buildStatuses;
-        }
-
-        private static XDocument DownloadXml(string url, string userName, string password)
-        {
-            var webClient = new WebClient
-            {
-                Credentials = new NetworkCredential(userName, password),
-                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
-            };
-
-            try
-            {
-                var resultString = webClient.DownloadString(url);
-                try
-                {
-                    return XDocument.Parse(resultString);
-                }
-                catch (Exception ex)
-                {
-                    string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
-                    _log.Error(message, ex);
-                    throw new SosException(message, ex);
-                }
-            }
-            catch (WebException webException)
-            {
-                if (webException.Response != null)
-                {
-                    var response = webException.Response;
-                    using (Stream s1 = response.GetResponseStream())
-                    {
-                        if (s1 != null)
-                        {
-                            using (StreamReader sr = new StreamReader(s1))
-                            {
-                                var errorResult = sr.ReadToEnd();
-                                string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
-                                _log.Error(message, webException);
-                                throw new SosException(message, webException);
-                            }
-                        }
-                    }
-                }
-                if (webException.Status == WebExceptionStatus.Timeout)
-                {
-                    throw new ServerUnavailableException();
-                }
-                throw;
-            }
         }
     }
 }
