@@ -277,7 +277,12 @@ namespace TeamCityServices
         {
             XDocument changeResultXDoc = null;
             if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
-            var changesNode = buildResultXDoc.Descendants("changes").First();
+            var changesNode = buildResultXDoc.Descendants("changes").FirstOrDefault();
+            if (changesNode == null)
+            {
+                _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
+                return new TeamCityBuildStatus(buildDefinitionSetting) { BuildStatusEnum = BuildStatusEnum.Unknown };
+            }
             var count = changesNode.AttributeValueOrDefault("count");
             bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
             if (commentsExist)

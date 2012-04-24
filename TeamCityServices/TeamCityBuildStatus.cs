@@ -50,9 +50,11 @@ namespace TeamCityServices
         }
 
         public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting, XDocument buildResultXDoc, XDocument changeResultXDoc)
+            : this(buildDefinitionSetting)
         {
             try
             {
+                
                 if (changeResultXDoc != null)
                 {
                     XElement firstComment = changeResultXDoc.Descendants("comment").FirstOrDefault();
@@ -65,10 +67,7 @@ namespace TeamCityServices
                 string startedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("startDate");
                 string finishedTimeStr = buildResultXDoc.Root.ElementValueOrDefault("finishDate");
 
-                BuildDefinitionId = buildDefinitionSetting.Id;
-                Name = buildDefinitionSetting.Name;
-
-                var buildType = buildResultXDoc.Descendants("buildType");
+                var buildType = buildResultXDoc.Descendants("buildType").ToList();
                 if (buildType.Any())
                 {
                     var name = buildType.First().AttributeValueOrDefault("name");
@@ -95,6 +94,12 @@ namespace TeamCityServices
                 _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc);
                 throw;
             }
+        }
+
+        public TeamCityBuildStatus(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            BuildDefinitionId = buildDefinitionSetting.Id;
+            Name = buildDefinitionSetting.Name;
         }
 
         private BuildStatusEnum ToBuildStatusEnum(string status)
