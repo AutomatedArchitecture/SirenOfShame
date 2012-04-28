@@ -170,7 +170,8 @@ namespace SirenOfShame
 
         private void _selectFile_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            var dialogResult = openFileDialog1.ShowDialog();
+            if (dialogResult == DialogResult.Cancel) return;
             string fileName = openFileDialog1.FileName;
             if (!string.IsNullOrEmpty(fileName))
             {
