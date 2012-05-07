@@ -27,7 +27,12 @@ namespace SirenOfShame
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Message.StartsWith("Access to the path") && ex.Message.EndsWith("is denied."))
+                {
+                    MessageBox.Show("There is a second instance of Siren of Shame running on this machine.  Please close the other instance and restart.");
+                    return;
+                }
+                MessageBox.Show(ex.ToString(), "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
