@@ -32,6 +32,9 @@ namespace SirenOfShame
 
         private void SirenFirmwareUpgrade_Load(object sender, EventArgs e)
         {
+            SosMessageBox.Show("Disconnect Device",
+                               "To perform upgrade 1. Disconnect your Siren of Shame device. 2. Select file.  3. Click upgrade. 4. When the dialog says 'Please connect your Siren of Shame' then, uh yea, do it",
+                               "Got it");
         }
 
         private int LoadHexFileData(string path)
@@ -79,9 +82,23 @@ namespace SirenOfShame
             }
         }
 
+        private void EnableAllButtons(bool enable)
+        {
+            _upgrade.Enabled = enable;
+            _selectFile.Enabled = enable;
+        }
+        
         private void _upgrade_Click(object sender, EventArgs e)
         {
-            _upgrade.Enabled = false;
+            if (SirenOfShameDevice.IsConnected)
+            {
+                SosMessageBox.Show("Disconnect",
+                                   "Can't you follow directions or something?  Please disconnect your Siren of Shame, then click upgrade, then re-connect it when you are instructed to do so.  Geez.",
+                                   "Ok, ok, got it");
+                return;
+            }
+            
+            EnableAllButtons(enable: false);
             _status.Text = "Waiting for connection...";
             _progressBar.Value = 0;
             DoUpgrade();
@@ -102,16 +119,23 @@ namespace SirenOfShame
             }
             catch (Exception ex)
             {
+                if (ex.Message.StartsWith("Timeout"))
+                {
+                    SosMessageBox.Show("Timeout", "We never found a Siren of Shame device.  Did you connect one?", "Ok");
+                }
+                else
+                {
+                    ExceptionMessageBox.Show(this, "Error Performing Upgrade", "Error Performing Upgrade", ex);
+                }
+                
                 Log.Error("Error performing upgrade", ex);
                 _upgrading = false;
                 Invoke(() =>
                 {
-                    _upgrade.Enabled = true;
-                    _cancel.Enabled = true;
+                    EnableAllButtons(true);
                     _status.Text = "Click Upgrade when ready";
                     _progressBar.Value = 0;
                 });
-                ExceptionMessageBox.Show(this, "Error Performing Upgrade", "Error Performing Upgrade", ex);
             }
         }
 
@@ -137,7 +161,11 @@ namespace SirenOfShame
                 _cancel.Enabled = false;
 
                 _progressBar.Value = progress;
-                if (progress == 100)
+                if (progress <= 10)
+                {
+                    _status.Text = "Please connect your Siren of Shame now...";
+                } 
+                else if (progress == 100)
                 {
                     _status.Text = "Upgrade Complete";
                     _upgrading = false;
@@ -170,7 +198,8 @@ namespace SirenOfShame
 
         private void _selectFile_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            var dialogResult = openFileDialog1.ShowDialog();
+            if (dialogResult == DialogResult.Cancel) return;
             string fileName = openFileDialog1.FileName;
             if (!string.IsNullOrEmpty(fileName))
             {

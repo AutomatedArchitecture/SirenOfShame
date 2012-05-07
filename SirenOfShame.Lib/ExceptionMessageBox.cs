@@ -2,11 +2,13 @@
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Drawing;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using log4net;
 
 namespace SirenOfShame.Lib
@@ -14,6 +16,7 @@ namespace SirenOfShame.Lib
     public partial class ExceptionMessageBox : Form
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ExceptionMessageBox));
+        SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
@@ -64,6 +67,10 @@ namespace SirenOfShame.Lib
                 var url = "http://www.sirenofshame.com/ReportError";
                 _log.Info("Sending exception to: " + url);
                 WebClient webClient = new WebClient();
+                if (!string.IsNullOrEmpty(_contact.Text))
+                {
+                    _parameters.Add("ContactInfo", _contact.Text);
+                }
                 webClient.UploadValues(url, _parameters);
                 MessageBox.Show(this, "Your error has been sent. We'll get right on that.", "Error Sent");
                 _log.Debug("Exception sent");
@@ -83,6 +90,7 @@ namespace SirenOfShame.Lib
                 parameters["OperatingSystem"] = Environment.OSVersion.ToString();
                 parameters["DotNetVersion"] = Environment.Version.ToString();
                 parameters["SosVersion"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                parameters["SoftwareInstanceId"] = string.Format("{0}", _settings.SoftwareInstanceId);
                 try
                 {
                     parameters["DeviceConnected"] = SirenOfShameDevice.IsConnected.ToString();
