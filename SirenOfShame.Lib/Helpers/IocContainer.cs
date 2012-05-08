@@ -5,6 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using log4net;
 
 namespace SirenOfShame.Lib.Helpers
@@ -27,11 +28,12 @@ namespace SirenOfShame.Lib.Helpers
         public IocContainer()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-            
-            _pluginsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Plugins");
+
+            _pluginsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
             if (!Directory.Exists(_pluginsDirectory))
             {
                 Log.Error(_pluginsDirectory + " does not exist, using current directory");
+                MessageBox.Show("Unable to find plugins directory at: " + _pluginsDirectory);
                 return;
             }
             _catalog = new AggregateCatalog(

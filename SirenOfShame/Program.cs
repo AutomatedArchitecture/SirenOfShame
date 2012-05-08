@@ -103,6 +103,8 @@ namespace SirenOfShame
                 _startMinimized = true;
             }
 
+            _log.Debug(string.Format("OnInitialize() starting; mockSos = {0}; showSplash = {1}, startMinimized = {2}", mockSoS, showSplash, _startMinimized));
+
             // todo: we shouldn't need to do this
             IocContainer.Instance.Register(typeof(AudioFileService), new AudioFileService());
             IocContainer.Instance.Register(typeof(LedFileService), new LedFileService());
