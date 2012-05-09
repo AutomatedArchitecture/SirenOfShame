@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
@@ -66,10 +67,12 @@ namespace HudsonServices.ServerConfiguration
             var hudsonBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
             foreach (HudsonBuildDefinition project in hudsonBuildDefinitions)
             {
+                bool exists = Settings.BuildExistsAndIsActive(_hudsonCiEntryPoint.Name, project.Name);
+                
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {
                     Tag = project,
-                    State = CheckBoxState.Unchecked
+                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
                 _projects.Nodes.Add(node);
             }

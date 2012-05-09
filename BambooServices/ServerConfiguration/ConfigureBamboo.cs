@@ -52,7 +52,7 @@ namespace BambooServices.ServerConfiguration
         private void GetProjectsError(Exception ex)
         {
             _projects.Nodes.Clear();
-            MessageBox.Show("Error connecting to server: " + ex.Message);
+            MessageBox.Show("Error connecting to server: " + ex);
         }
 
         private void GetProjectsComplete(BambooBuildDefinition[] buildDefinitions)
@@ -66,10 +66,12 @@ namespace BambooServices.ServerConfiguration
             var bambooBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
             foreach (BambooBuildDefinition project in bambooBuildDefinitions)
             {
+                bool exists = Settings.BuildExistsAndIsActive(_bambooCiEntryPoint.Name, project.Name);
+                
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {
                     Tag = project,
-                    State = CheckBoxState.Unchecked
+                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
                 _projects.Nodes.Add(node);
             }

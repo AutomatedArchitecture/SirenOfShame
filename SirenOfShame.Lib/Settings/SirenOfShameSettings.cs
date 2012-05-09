@@ -313,5 +313,15 @@ namespace SirenOfShame.Lib.Settings
             changedName.Name = changedBuildStatus.Name;
             Save();
         }
+
+        public bool BuildExistsAndIsActive(string ciEntryPointName, string buildName)
+        {
+            var hudsonCiEntryPoint = CiEntryPointSettings.FirstOrDefault(i => i.Name == ciEntryPointName);
+            if (hudsonCiEntryPoint != null)
+            {
+                return hudsonCiEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
+            }
+            return false;
+        }
     }
 }

@@ -66,10 +66,12 @@ namespace CruiseControlNetServices.ServerConfiguration
             var cruiseControlNetBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
             foreach (CruiseControlNetBuildDefinition project in cruiseControlNetBuildDefinitions)
             {
+                bool exists = Settings.BuildExistsAndIsActive(_cruiseControlNetCiEntryPoint.Name, project.Name);
+
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {
                     Tag = project,
-                    State = CheckBoxState.Unchecked
+                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
                 _projects.Nodes.Add(node);
             }

@@ -76,9 +76,12 @@ namespace TeamCityServices.ServerConfiguration
             var teamCityProjects = projects.OrderBy(i => i.Name);
             foreach (TeamCityProject project in teamCityProjects)
             {
+                bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
+
                 ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
                 {
-                    Tag = project
+                    Tag = project,
+                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
                 node.State = CheckBoxState.Indeterminate;
                 node.Nodes.Add(PlacehoderText);
