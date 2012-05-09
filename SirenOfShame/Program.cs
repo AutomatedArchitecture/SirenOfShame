@@ -27,7 +27,12 @@ namespace SirenOfShame
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (ex.Message.StartsWith("Access to the path") && ex.Message.EndsWith("is denied."))
+                {
+                    MessageBox.Show("There is a second instance of Siren of Shame running on this machine.  Please close the other instance and restart.");
+                    return;
+                }
+                MessageBox.Show(ex.ToString(), "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -97,6 +102,8 @@ namespace SirenOfShame
             {
                 _startMinimized = true;
             }
+
+            _log.Debug(string.Format("OnInitialize() starting; mockSos = {0}; showSplash = {1}, startMinimized = {2}", mockSoS, showSplash, _startMinimized));
 
             // todo: we shouldn't need to do this
             IocContainer.Instance.Register(typeof(AudioFileService), new AudioFileService());
