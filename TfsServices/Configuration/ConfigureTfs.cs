@@ -23,6 +23,9 @@ namespace TfsServices.Configuration
             InitializeComponent();
             _ciEntryPointSetting = ciEntryPointSetting;
             _url.Text = _ciEntryPointSetting.Url;
+            someoneElse.Checked = !string.IsNullOrEmpty(_ciEntryPointSetting.UserName);
+            username.Text = _ciEntryPointSetting.UserName;
+            password.Text = _ciEntryPointSetting.GetPassword();
             DataBindAsync();
         }
 
@@ -45,7 +48,7 @@ namespace TfsServices.Configuration
         {
             try
             {
-                using (var tfs = new MyTfsServer(_ciEntryPointSetting.Url))
+                using (var tfs = new MyTfsServer(_ciEntryPointSetting))
                 {
                     IList<TreeNode> projectCollectionNodes = new List<TreeNode>();
 
@@ -84,6 +87,11 @@ namespace TfsServices.Configuration
         private void GoClick(object sender, EventArgs e)
         {
             _ciEntryPointSetting.Url = _url.Text;
+            _ciEntryPointSetting.UserName = windowsCredentials.Checked ? null : username.Text;
+            if (someoneElse.Checked)
+            {
+                _ciEntryPointSetting.SetPassword(password.Text);
+            }
             Settings.Save();
             DataBindAsync();
         }
@@ -100,6 +108,22 @@ namespace TfsServices.Configuration
         {
             _ciEntryPointSetting.Url = _url.Text;
             Settings.Save();
+        }
+
+        private void RefreshCredentials()
+        {
+            username.Enabled = someoneElse.Checked;
+            password.Enabled = someoneElse.Checked;
+        }
+        
+        private void SomeoneElseCheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCredentials();
+        }
+
+        private void WindowsCredentialsCheckedChanged(object sender, EventArgs e)
+        {
+            RefreshCredentials();
         }
     }
 }

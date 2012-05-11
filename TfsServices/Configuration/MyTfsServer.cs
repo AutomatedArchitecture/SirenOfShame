@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.TeamFoundation;
@@ -10,6 +11,7 @@ using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Settings;
 
 namespace TfsServices.Configuration
 {
@@ -19,14 +21,27 @@ namespace TfsServices.Configuration
         
         private readonly TfsConfigurationServer _tfsConfigurationServer;
 
-        public MyTfsServer(string url)
+        public MyTfsServer(CiEntryPointSetting ciEntryPointSetting)
         {
             try {
-                _tfsConfigurationServer = new TfsConfigurationServer(new Uri(url));
+                _tfsConfigurationServer = GetTfsConfigurationServer(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword());
                 _tfsConfigurationServer.EnsureAuthenticated();
             } catch (TeamFoundationServiceUnavailableException ex) {
                 throw new ServerUnavailableException(ex.Message, ex);
             }
+        }
+
+        private static TfsConfigurationServer GetTfsConfigurationServer(string url, string username, string password)
+        {
+            var uri = new Uri(url);
+            if (string.IsNullOrEmpty(username))
+            {
+                return new TfsConfigurationServer(uri);
+            }
+
+            var usernameParts = username.Split('\\');
+            var net = new NetworkCredential(usernameParts.LastOrDefault(), password, usernameParts.FirstOrDefault());
+            return new TfsConfigurationServer(uri, net);
         }
 
         public IEnumerable<MyTfsProjectCollection> ProjectCollections

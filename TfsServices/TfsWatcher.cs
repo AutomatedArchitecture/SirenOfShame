@@ -30,7 +30,7 @@ namespace TfsServices
         protected override IList<BuildStatus> GetBuildStatus()
         {
             try {
-                if (_myTfsServer == null) _myTfsServer = new MyTfsServer(CiEntryPointSetting.Url);
+                if (_myTfsServer == null) _myTfsServer = new MyTfsServer(CiEntryPointSetting);
                 if (_watchedBuildDefinitions == null)
                 {
                     _watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
