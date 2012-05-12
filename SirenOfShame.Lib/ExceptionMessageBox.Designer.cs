@@ -36,13 +36,14 @@
             this._cancel = new System.Windows.Forms.Button();
             this._contact = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _message
             // 
-            this._message.Location = new System.Drawing.Point(12, 9);
+            this._message.Location = new System.Drawing.Point(43, 9);
             this._message.Name = "_message";
-            this._message.Size = new System.Drawing.Size(346, 18);
+            this._message.Size = new System.Drawing.Size(315, 18);
             this._message.TabIndex = 0;
             this._message.Text = "Error Message";
             // 
@@ -112,6 +113,15 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "E-mail or twitter (optional)";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Error:";
+            // 
             // ExceptionMessageBox
             // 
             this.AcceptButton = this._ok;
@@ -119,6 +129,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(370, 101);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._contact);
             this.Controls.Add(this._cancel);
@@ -145,5 +156,6 @@
         private System.Windows.Forms.Button _cancel;
         private System.Windows.Forms.TextBox _contact;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
