@@ -56,8 +56,12 @@ namespace TfsServices.Configuration
                         false,
                         CatalogQueryOptions.None
                         );
-                    return tcpNodes.Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer));
-                } catch (Exception ex)
+                    
+                    return tcpNodes
+                        .Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer))
+                        .Where(i => i.CurrentUserHasAccess);
+                } 
+                catch (Exception ex)
                 {
                     _log.Error("Unable to retrieve project collections", ex);
                     MessageBox.Show("Unable to retrieve project collections. " + ex.Message);

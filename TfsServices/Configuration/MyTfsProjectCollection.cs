@@ -7,26 +7,40 @@ using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Server;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using SirenOfShame.Lib;
+using log4net;
 
 namespace TfsServices.Configuration
 {
     public class MyTfsProjectCollection
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyTfsProjectCollection));
         private readonly ICommonStructureService _commonStructureService;
         private readonly TfsTeamProjectCollection _tfsTeamProjectCollection;
         private readonly IBuildServer _buildServer;
         private readonly ILinking _linkingService;
+        public bool CurrentUserHasAccess { get; set; }
 
         public MyTfsProjectCollection(CatalogNode teamProjectCollectionNode, TfsConfigurationServer tfsConfigurationServer)
         {
-            Name = teamProjectCollectionNode.Resource.DisplayName;
-            ServiceDefinition tpcServiceDefinition = teamProjectCollectionNode.Resource.ServiceReferences["Location"];
-            var configLocationService = tfsConfigurationServer.GetService<ILocationService>();
-            var tpcUri = new Uri(configLocationService.LocationForCurrentConnection(tpcServiceDefinition));
-            _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri);
-            _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
-            _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
-            _linkingService = _tfsTeamProjectCollection.GetService<ILinking>();
+            try
+            {
+                Name = teamProjectCollectionNode.Resource.DisplayName;
+                ServiceDefinition tpcServiceDefinition =
+                    teamProjectCollectionNode.Resource.ServiceReferences["Location"];
+                var configLocationService = tfsConfigurationServer.GetService<ILocationService>();
+                var tpcUri = new Uri(configLocationService.LocationForCurrentConnection(tpcServiceDefinition));
+                _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri);
+                _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
+                _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
+                _linkingService = _tfsTeamProjectCollection.GetService<ILinking>();
+                CurrentUserHasAccess = true;
+            } 
+            catch (TeamFoundationServerUnauthorizedException ex)
+            {
+                _log.Debug("Unauthorized access to " + teamProjectCollectionNode, ex);
+                CurrentUserHasAccess = false;
+            }
         }
 
         public string ConvertTfsUriToUrl(Uri vstfsUri)
