@@ -13,6 +13,20 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void UserHas9Reputation_SuccessfulChecksIn_Achievement()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            rulesEngine.Settings.People[0].TotalBuilds = 9;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(10, rulesEngine.Settings.People[0].TotalBuilds);
+        }
+        
+        [TestMethod]
         public void IsBuildingWithBuildTriggeredRuleToStopOnSuccess_BuildSucceeds_LedsStop()
         {
             var rulesEngine = new RulesEngineWrapper();

@@ -34,9 +34,12 @@ namespace SirenOfShame.Lib.Settings
             Save();
         }
 
-        public SirenOfShameSettings()
+        public SirenOfShameSettings() : this(true) { }
+        
+        public SirenOfShameSettings(bool useMef)
         {
-            IocContainer.Instance.Compose(this);
+            if (useMef)
+                IocContainer.Instance.Compose(this);
             Rules = new List<Rule>();
             CiEntryPointSettings = new List<CiEntryPointSetting>();
             AudioPatterns = new List<AudioPatternSetting>();

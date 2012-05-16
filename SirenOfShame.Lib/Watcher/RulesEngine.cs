@@ -116,7 +116,7 @@ namespace SirenOfShame.Lib.Watcher
 
             GetAlertAsyncIfNewDay();
 
-            var newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
+            BuildStatus[] newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
             var oldBuildStatus = _buildStatus;
             _buildStatus = newBuildStatus;
 
@@ -218,7 +218,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void BuildWatcherStatusChanged(IEnumerable<BuildStatus> allBuildStatuses, IEnumerable<BuildStatus> changedBuildStatuses)
+        private void BuildWatcherStatusChanged(BuildStatus[] allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
         {
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
@@ -253,8 +253,18 @@ namespace SirenOfShame.Lib.Watcher
 
             if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
             {
+                NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged();
             }
+        }
+
+        private void NotifyIfNewAchievements(IList<BuildStatus> changedBuildStatuses)
+        {
+            //_settings.VisiblePeople
+            //changedBuildStatuses
+
+            //changedBuildStatuses
+            //    .Where(i => i.IsWorkingOrBroken())
         }
 
         private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
