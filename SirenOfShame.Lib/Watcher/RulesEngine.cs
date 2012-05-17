@@ -33,6 +33,13 @@ namespace SirenOfShame.Lib.Watcher
         public event SetTrayIconEvent SetTrayIcon;
         public event NewAlertEvent NewAlert;
         public event PlayWindowsAudioEvent PlayWindowsAudio;
+        public event NewAchievementEvent NewAchievement;
+
+        public void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        {
+            var newAchievement = NewAchievement;
+            if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
+        }
 
         public void InvokePlayWindowsAudio(string location)
         {
@@ -258,13 +265,27 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void NotifyIfNewAchievements(IList<BuildStatus> changedBuildStatuses)
+        private void NotifyIfNewAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
         {
-            //_settings.VisiblePeople
-            //changedBuildStatuses
-
-            //changedBuildStatuses
-            //    .Where(i => i.IsWorkingOrBroken())
+            var visiblePeopleWithNewChanges = from changedBuildStatus in changedBuildStatuses
+                                             join person in _settings.VisiblePeople on changedBuildStatus.RequestedBy equals person.RawName
+                                             where changedBuildStatus.IsWorkingOrBroken()
+                                             select new
+                                             {
+                                                 Person = person,
+                                                 Build = changedBuildStatus
+                                             };
+            
+            foreach (var personWithNewChange in visiblePeopleWithNewChanges)
+            {
+                var newAchievements = personWithNewChange.Person.CalculateNewAchievements(personWithNewChange.Build);
+                List<AchievementLookup> achievements = newAchievements.ToList();
+                if (achievements.Any())
+                {
+                    personWithNewChange.Person.AddAchievements(achievements);
+                    InvokeNewAchievement(personWithNewChange.Person, achievements);
+                }
+            }
         }
 
         private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)

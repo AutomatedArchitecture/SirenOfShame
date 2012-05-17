@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -26,6 +25,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             SetAudioEvents = new List<SetAudioEventArgs>();
             SetLightsEvents = new List<SetLightsEventArgs>();
             NewAlertEvents = new List<NewAlertEventArgs>();
+            NewAchievementEvents = new List<NewAchievementEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
             CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
@@ -46,6 +46,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.SetAudio += (sender, arg) => SetAudioEvents.Add(arg);
             _rulesEngine.SetLights += (sender, arg) => SetLightsEvents.Add(arg);
             _rulesEngine.NewAlert += (sender, arg) => NewAlertEvents.Add(arg);
+            _rulesEngine.NewAchievement += (sender, arg) => NewAchievementEvents.Add(arg);
 
             _rulesEngine.Start();
         }
@@ -62,6 +63,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<SetAudioEventArgs> SetAudioEvents { get; set; }
         public List<SetLightsEventArgs> SetLightsEvents { get; set; }
         public List<NewAlertEventArgs> NewAlertEvents { get; set; }
+        public List<NewAchievementEventArgs> NewAchievementEvents { get; set; }
 
         public void InvokeDownloadStringAsync(string e)
         {

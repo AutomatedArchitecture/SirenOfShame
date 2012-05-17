@@ -159,6 +159,8 @@
     </Compile>
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Settings\AchievementLookup.cs" />
+    <Compile Include="Settings\AchievementSetting.cs" />
     <Compile Include="Settings\AudioPatternSetting.cs" />
     <Compile Include="Settings\BuildDefinitionSetting.cs" />
     <Compile Include="Settings\CiEntryPointSetting.cs" />
@@ -179,6 +181,8 @@
     <Compile Include="Watcher\BuildStatusListViewItem.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
+    <Compile Include="Watcher\NewAchievementEvent.cs" />
+    <Compile Include="Watcher\NewAchievementEventArgs.cs" />
     <Compile Include="Watcher\NewAlertEvent.cs" />
     <Compile Include="Watcher\NewAlertEventArgs.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEvent.cs" />

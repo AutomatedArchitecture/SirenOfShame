@@ -12,18 +12,28 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class RulesEngineTest
     {
+        // don't invoke achievements twice
+
+        // don't invoke achievmeents when you shouldn't
+
         [TestMethod]
-        public void UserHas9Reputation_SuccessfulChecksIn_Achievement()
+        public void UserHas24Reputation_SuccessfulChecksIn_AchievesApprenticeAchievement()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(1, rulesEngine.Settings.People.Count);
-            rulesEngine.Settings.People[0].TotalBuilds = 9;
+            rulesEngine.Settings.People[0].TotalBuilds = 24;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            Assert.AreEqual(10, rulesEngine.Settings.People[0].TotalBuilds);
+            Assert.AreEqual(25, rulesEngine.Settings.People[0].GetReputation());
+            Assert.AreEqual(1, rulesEngine.Settings.People[0].Achievements.Count);
+            Assert.AreEqual(1, rulesEngine.NewAchievementEvents.Count);
+            var achievementEventArg = rulesEngine.NewAchievementEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, achievementEventArg.Person.RawName);
+            Assert.AreEqual(1, achievementEventArg.Achievements.Count);
+            Assert.AreEqual(AchievementEnum.Apprentice, achievementEventArg.Achievements[0].Id);
         }
         
         [TestMethod]
