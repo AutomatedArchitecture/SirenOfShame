@@ -265,7 +265,19 @@ namespace SirenOfShame
             rulesEngine.SetTrayIcon += RulesEngineSetTrayIcon;
             rulesEngine.StatsChanged += RulesEngineStatsChanged;
             rulesEngine.NewAlert += RulesEngineNewAlert;
+            rulesEngine.NewAchievement += RulesEngineNewAchievement;
             return rulesEngine;
+        }
+
+        private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
+        {
+            Invoke(() =>
+            {
+                foreach (var achievement in args.Achievements)
+                {
+                    NewAchievement.ShowForm(_settings, achievement, args.Person);
+                }
+            });
         }
 
         private void RulesEnginePlayWindowsAudio(object sender, PlayWindowsAudioEventArgs args)

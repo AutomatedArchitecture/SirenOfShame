@@ -117,53 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="separater" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\separater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ball_gray_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ball_gray_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CloseButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CloseButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ball_green_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ball_green_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SirenOfShameTrayGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SirenOfShameTrayGreen.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ball_red_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ball_red_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonMore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="question_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\question_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="JoesFavorite3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\JoesFavorite3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RibbonBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SirenOfShameTrayBlank" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SirenOfShameTrayBlank.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CloseButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CloseButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SirenOfShameTrayTriangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SirenOfShameTrayTriangle.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\splash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SirenOfShameTrayRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SirenOfShameTrayRed.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AchievementBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AchievementBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <metadata name="imageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="imageList1.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAg
+        CgAAAk1TRnQBSQFMAgEBAgEAASABAAEgAQABEAEAARABAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        AwABEAMAAQEBAAEYBgABDBUAAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFI
+        AYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIAYQBgwFIkwABhgGFAUoBvwG+AYUBvwG+
+        AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+AYUBvwG+
+        AYUBvwG+AYUBvwG+AYUBhgGFAUoSAAEoAaQB+AESAaMB/wESAaQB/wESAaEB/wEoAaIB+G8AAYgBhwFO
+        AsEBiwGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGyAbEBdAGy
+        AbEBdAGyAbEBdAGyAbEBdALBAYsBiAGHAU4MAAEdAaUB+wEnAboB/wFeAdUB/wGHAeMB/wGRAeYB/wGJ
+        AeMB/wFmAdMB/wEoAbEB/wEdAaAB+2kAAYsBigFQAcUBxAGQAbYBtQF4AbYBtQF4AbYBtQF4Ab8BvgGJ
+        AeQB4wHMAvYB7gn/AdsB2gG8AbYBtQF4AbYBtQF4AcUBxAGQAYsBigFQCQABEgGqAf8BJQHJAf8BXwHe
+        Af8BbAHiAf8BdwHkAf8BewHlAf8BeAHkAf8BbgHiAf8BYQHcAf8BJgG9Af8BEgGfAf9mAAGPAY4BVwHH
+        AcYBlgG5AbgBfQG5AbgBfQHGAcUBlQL6AfcS/wG5AbgBfQG5AbgBfQHHAcYBlgGNAYwBVAYAAR0BqwH7
+        ARABxwH/ATgB1wH/AU8B1QH3ATwBiQHjAS4BYAHkATABYQHrAS8BYAHkAT0BigHjAVEB1wH5AToB1QH/
+        AREBuAH/AR0BoAH7YwABkQGQAVoCyQGaAbwBuwGBAbwBuwGBAeoB6QHWEv8B2QHWAbYBvAG7AYEBvAG7
+        AYECyQGaAY8BjgFXAwABZwG5AfABEQHAAf8BEAHPAf8BLAHSAfsBEAEvAcsBCQEbAdsBKQFwAfQBKwFw
+        AfsBKAFwAfUBCQEbAdsBGAFIAdEBLQHSAfsBEAHKAf8BEgGrAf8BZwG3AfBgAAGTAZIBXQHMAcsBngG/
+        Ab4BhgG/Ab4BhgH7AfoB9wb/Ad4B2wG/AbgBsQF1AbMBrAFsAbMBrAFsAbkBtQF5Ab8BvgGGAb8BvgGG
+        AcwBywGeAZEBkAFaAwABKAGwAfgBEAHLAf8BEAHQAf8BDwF/Ad0BHQFVAdQBVAHiAf8BaAHnAf8BawHn
+        Af8BZQHmAf8BTwHhAf8BGwFUAdUBDwF/Ad0BEAHPAf8BEQG8Af8BKAGiAfhgAAGVAZQBYAHOAc0BoQHC
+        AcEBigHCAcEBign/AboBtQF5AcEBwAGIAcIBwQGKAcIBwQGKAcIBwQGKAcIBwQGKAcIBwQGKAc4BzQGh
+        AZMBkgFdAwABEQG1Af8BFgHRAf8BKgHXAfkBNgGdAdIBWQHIAd8BawHMAeEBhAHoAfkBiwHvAf8BfwHn
+        AfkBZQHLAeEBUwHHAd8BMgGcAdIBKgHWAfkBFgHIAf8BEgGhAf9gAAGXAZYBYwHRAdABpQHFAcQBjwHF
+        AcQBjxX/AuIBxwHFAcQBjwHFAcQBjwHRAdABpQGVAZQBYAMAASQBwgH/ATwB4wH/ATcBrwHFAR8BTQFW
+        AR4BPAFDASMBPQFFAWUBnwGxAY4B3QHtAWABnwGxASIBPQFFARwBPAFDAR0BTAFWATcBsAHHAT0B3AH/
+        ASYBqwH/YAABlwGWAWMB0wHSAakByAHHAZMByAHHAZMY/wHIAccBkwHIAccBkwHTAdIBqQGXAZYBYwMA
+        AUQBzAH/ATwB3gH7AR0BTAFWARwBPAFDASEBPAFDAQ0CEAESARcBGAFTAXwBhwETAhgBDAEPARABIAE8
+        AUMBGwE8AUMBIQFVAWABPQHaAf8BSAGzAf9gAAGcAZsBaQHWAdUBrQHMAcsBmAHMAcsBmBX/AdkB1gG2
+        AcwBywGYAcwBywGYAdYB1QGtAZoBmQFmAwABWQHLAf8BOwHMAegBHQE+AUUBHwE8AUMBIwE9AUMBGwEa
+        ARgBEAEPAQwBKwFAAUUBHAEaARcCEAENASIBPAFDAR8BPAFDAR0BPgFFAUMB1QH/AVwBuAH/YAABngGd
+        AWwB2QHYAbABzwHOAZwBzwHOAZwJ/wGzAawBbAGzAawBbAGzAawBbAGzAawBbAHBAb0BhAHPAc4BnAHP
+        Ac4BnAHZAdgBsAGcAZsBaQMAAZMB1wH/AUYB2gH/ATgBbgF4ASYBRAFKASwBSAFNASgBJgEfAiQBHAFS
+        AXMBeQE0ATMBKgEZARgBEAEsAUcBTQEnAUQBSgE6AW0BeAFJAccB/wGVAc8B/2AAAaABnwFvAdsB2gG0
+        AdIB0QGhAdIB0QGhAd4B2wG/A/8B3gHbAb8B0gHRAaEB0gHRAaEB0gHRAaEB0gHRAaEB0gHRAaEB0gHR
+        AaEB0gHRAaEB2wHaAbQBngGdAWwGAAFDAcgB/wF6Ad4B8wF6AcQB0gGfAe8B/wGsAfEB/wG2AfMB/wG5
+        AfMB/wG2AfMB/wGtAfEB/wGiAe8B/wF9AcQB0gF/AdkB8wFFAbQB/2MAAaIBoQFyAt0BtwHVAdQBpQHV
+        AdQBpQHCAb0BhQGzAawBbAHCAb0BhQHVAdQBpQHVAdQBpQHVAdQBpQHVAdQBpQHVAdQBpQHVAdQBpQHV
+        AdQBpQLdAbcBoAGfAW8JAAFVAdAB/wGfAe0B/wGvAfEB/wG+AfQB/wHJAfUB/wHPAfYB/wHLAfYB/wHB
+        AfQB/wGzAfEB/wGkAesB/wFYAb8B/2YAAaIBoQFyAeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7
+        AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AeAB3wG7AaIBoQFy
+        DAABaAHPAf8BsQHtAf8BzAH1Af8B3gH4Af8B6AH6Af8B4gH5Af8B0gH2Af8BtgHrAf8BaQHEAf9sAAGk
+        AaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGkAaMBdQGk
+        AaMBdQGkAaMBdQGkAaMBdQGkAaMBdRIAAY4B1QH/AX4B0gH/AYAB1AH/AYcB1wH/AYIB0gH/AYABzgH/
+        AY4B0AH/bAABQgFNAT4HAAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGAFwAD/wEAAYABAQL/BgAB/AEf
+        BgAB8AEHBgAB4AEDBgABwAEBBgABgAcAAYAHAAGABwABgAcAAYAHAAGABwABgAcAAcABAQYAAeABAwYA
+        AfABBwQAAYABAQH4AQ8EAAs=
+</value>
   </data>
 </root>
