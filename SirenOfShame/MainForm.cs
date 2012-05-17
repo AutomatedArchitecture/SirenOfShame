@@ -271,6 +271,12 @@ namespace SirenOfShame
 
         private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
         {
+            foreach (var achievement in args.Achievements)
+            {
+                _log.Debug(args.Person + " achieved " + achievement.Name);
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
             Invoke(() =>
             {
                 foreach (var achievement in args.Achievements)
@@ -284,7 +290,7 @@ namespace SirenOfShame
         {
             // note: not doing an invoke because so far this code doesn't require the UI thread
             System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream s = a.GetManifestResourceStream(args.Location);
+            Stream s = a.GetManifestResourceStream(args.Location);
             SoundPlayer player = new SoundPlayer(s);
             player.Play();
         }
@@ -596,7 +602,7 @@ namespace SirenOfShame
             }
         }
         
-        private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void BuildMenuOpening(object sender, CancelEventArgs e)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 

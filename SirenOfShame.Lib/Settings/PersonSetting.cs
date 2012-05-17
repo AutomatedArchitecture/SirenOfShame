@@ -39,8 +39,6 @@ namespace SirenOfShame.Lib.Settings
                 yield return AchievementEnum.Apprentice;
         }
 
-
-
         private bool HasAchieved(AchievementEnum achievement)
         {
             return Achievements.Any(i => i.AchievementId == (int)achievement);

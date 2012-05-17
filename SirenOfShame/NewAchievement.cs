@@ -28,6 +28,36 @@ namespace SirenOfShame
             _user.Text = person.DisplayName;
             _title.Text = achievement.Name + "!!";
             _accomplishment.Text = achievement.Description;
+
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Always)
+            {
+                _alwaysShowNewAchievements.Checked = true;
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never)
+            {
+                _neverShowAchievements.Checked = true;
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe)
+            {
+                _onlyShowMyAchievements.Checked = true;
+            }
+
+            _userIAm.Items.Add("");
+            foreach (var personInProject in _settings.People)
+            {
+                _userIAm.Items.Add(personInProject);
+            }
+            if (!string.IsNullOrEmpty(_settings.MyRawName))
+            {
+                foreach (var item in _userIAm.Items)
+                {
+                    var personSetting = item as PersonSetting;
+                    if (personSetting != null && personSetting.RawName == _settings.MyRawName)
+                    {
+                        _userIAm.SelectedItem = item;
+                    }
+                }
+            }
         }
 
 
@@ -43,7 +73,29 @@ namespace SirenOfShame
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            
+            if (_alwaysShowNewAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.Always;
+            }
+            if (_neverShowAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.Never;
+            }
+            if (_onlyShowMyAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
+                if (_userIAm.SelectedItem == "")
+                {
+                    MessageBox.Show("Please either select who you are or select a different notification option.");
+                    e.Cancel = true;
+                }
+                else
+                {
+                    _settings.MyRawName = ((PersonSetting) _userIAm.SelectedItem).RawName;
+                }
+
+            }
+            _settings.Save();
         }
 
         private static string UrlEncode(string s)
@@ -55,6 +107,27 @@ namespace SirenOfShame
         {
             string tweetText = "I%20just%20got%20the%20" + UrlEncode(_achievement.Name) +  "%20achievement%20on%20%23sirenofshame.%20I%20" + UrlEncode(_achievement.Description.ToLower()) + ".";
             Process.Start("https://twitter.com/intent/tweet?text=" + tweetText);
+        }
+
+        private void AlwaysShowNewAchievementsCheckedChanged(object sender, EventArgs e)
+        {
+            ShowUserIAm(false);
+        }
+
+        private void ShowUserIAm(bool visible)
+        {
+            _iAmLabel.Visible = visible;
+            _userIAm.Visible = visible;
+        }
+
+        private void OnlyShowMyAchievementsCheckedChanged(object sender, EventArgs e)
+        {
+            ShowUserIAm(true);
+        }
+
+        private void NeverShowAchievementsCheckedChanged(object sender, EventArgs e)
+        {
+            ShowUserIAm(false);
         }
     }
 }

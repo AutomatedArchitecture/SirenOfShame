@@ -121,6 +121,8 @@ namespace SirenOfShame.Lib.Settings
 
         public string FileName { get { return _fileName; } }
 
+        public string MyRawName { get; set; }
+
         public virtual void Save()
         {
             string fileName = GetConfigFileName();
@@ -129,6 +131,8 @@ namespace SirenOfShame.Lib.Settings
 
         private object _lock = new object();
         
+        public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
+
         public virtual void Save(string fileName)
         {
             lock (_lock)
@@ -325,6 +329,12 @@ namespace SirenOfShame.Lib.Settings
                 return hudsonCiEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
             }
             return false;
+        }
+
+        public bool IsMeOrDefault(PersonSetting person, bool defaultValue)
+        {
+            if (string.IsNullOrEmpty(MyRawName)) return defaultValue;
+            return person.RawName == MyRawName;
         }
     }
 }

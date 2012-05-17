@@ -32,11 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewAchievement));
             this._user = new System.Windows.Forms.Label();
             this._accomplishment = new System.Windows.Forms.Label();
-            this._usersIAm = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this._userIAm = new System.Windows.Forms.ComboBox();
+            this._iAmLabel = new System.Windows.Forms.Label();
+            this._onlyShowMyAchievements = new System.Windows.Forms.RadioButton();
+            this._alwaysShowNewAchievements = new System.Windows.Forms.RadioButton();
+            this._neverShowAchievements = new System.Windows.Forms.RadioButton();
             this._title = new System.Windows.Forms.Label();
             this._ok = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -67,70 +67,75 @@
             this._accomplishment.Text = "Queued a back to back build 5+ times";
             this._accomplishment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // _usersIAm
+            // _userIAm
             // 
-            this._usersIAm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this._usersIAm.FormattingEnabled = true;
-            this._usersIAm.Location = new System.Drawing.Point(251, 146);
-            this._usersIAm.Name = "_usersIAm";
-            this._usersIAm.Size = new System.Drawing.Size(121, 21);
-            this._usersIAm.TabIndex = 9;
-            this._usersIAm.Visible = false;
+            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._userIAm.DisplayMember = "DisplayName";
+            this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._userIAm.FormattingEnabled = true;
+            this._userIAm.Location = new System.Drawing.Point(251, 146);
+            this._userIAm.Name = "_userIAm";
+            this._userIAm.Size = new System.Drawing.Size(121, 21);
+            this._userIAm.TabIndex = 9;
+            this._userIAm.Visible = false;
             // 
-            // label6
+            // _iAmLabel
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(210, 147);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 17);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "I Am";
-            this.label6.Visible = false;
+            this._iAmLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._iAmLabel.AutoSize = true;
+            this._iAmLabel.BackColor = System.Drawing.Color.Transparent;
+            this._iAmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._iAmLabel.ForeColor = System.Drawing.Color.White;
+            this._iAmLabel.Location = new System.Drawing.Point(210, 147);
+            this._iAmLabel.Name = "_iAmLabel";
+            this._iAmLabel.Size = new System.Drawing.Size(35, 17);
+            this._iAmLabel.TabIndex = 10;
+            this._iAmLabel.Text = "I Am";
+            this._iAmLabel.Visible = false;
             // 
-            // radioButton1
+            // _onlyShowMyAchievements
             // 
-            this.radioButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.BackColor = System.Drawing.Color.Transparent;
-            this.radioButton1.ForeColor = System.Drawing.Color.White;
-            this.radioButton1.Location = new System.Drawing.Point(21, 147);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(182, 17);
-            this.radioButton1.TabIndex = 11;
-            this.radioButton1.Text = "Only show my new achievements";
-            this.radioButton1.UseVisualStyleBackColor = false;
+            this._onlyShowMyAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._onlyShowMyAchievements.AutoSize = true;
+            this._onlyShowMyAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._onlyShowMyAchievements.ForeColor = System.Drawing.Color.White;
+            this._onlyShowMyAchievements.Location = new System.Drawing.Point(21, 147);
+            this._onlyShowMyAchievements.Name = "_onlyShowMyAchievements";
+            this._onlyShowMyAchievements.Size = new System.Drawing.Size(182, 17);
+            this._onlyShowMyAchievements.TabIndex = 11;
+            this._onlyShowMyAchievements.Text = "Only show my new achievements";
+            this._onlyShowMyAchievements.UseVisualStyleBackColor = false;
+            this._onlyShowMyAchievements.CheckedChanged += new System.EventHandler(this.OnlyShowMyAchievementsCheckedChanged);
             // 
-            // radioButton2
+            // _alwaysShowNewAchievements
             // 
-            this.radioButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.BackColor = System.Drawing.Color.Transparent;
-            this.radioButton2.Checked = true;
-            this.radioButton2.ForeColor = System.Drawing.Color.White;
-            this.radioButton2.Location = new System.Drawing.Point(21, 132);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(178, 17);
-            this.radioButton2.TabIndex = 12;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Always show new achievements";
-            this.radioButton2.UseVisualStyleBackColor = false;
+            this._alwaysShowNewAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._alwaysShowNewAchievements.AutoSize = true;
+            this._alwaysShowNewAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._alwaysShowNewAchievements.Checked = true;
+            this._alwaysShowNewAchievements.ForeColor = System.Drawing.Color.White;
+            this._alwaysShowNewAchievements.Location = new System.Drawing.Point(21, 132);
+            this._alwaysShowNewAchievements.Name = "_alwaysShowNewAchievements";
+            this._alwaysShowNewAchievements.Size = new System.Drawing.Size(198, 17);
+            this._alwaysShowNewAchievements.TabIndex = 12;
+            this._alwaysShowNewAchievements.TabStop = true;
+            this._alwaysShowNewAchievements.Text = "Show everyone\'s new achievements";
+            this._alwaysShowNewAchievements.UseVisualStyleBackColor = false;
+            this._alwaysShowNewAchievements.CheckedChanged += new System.EventHandler(this.AlwaysShowNewAchievementsCheckedChanged);
             // 
-            // radioButton3
+            // _neverShowAchievements
             // 
-            this.radioButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.BackColor = System.Drawing.Color.Transparent;
-            this.radioButton3.ForeColor = System.Drawing.Color.White;
-            this.radioButton3.Location = new System.Drawing.Point(21, 162);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(151, 17);
-            this.radioButton3.TabIndex = 13;
-            this.radioButton3.Text = "Never show achievements";
-            this.radioButton3.UseVisualStyleBackColor = false;
+            this._neverShowAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._neverShowAchievements.AutoSize = true;
+            this._neverShowAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._neverShowAchievements.ForeColor = System.Drawing.Color.White;
+            this._neverShowAchievements.Location = new System.Drawing.Point(21, 162);
+            this._neverShowAchievements.Name = "_neverShowAchievements";
+            this._neverShowAchievements.Size = new System.Drawing.Size(151, 17);
+            this._neverShowAchievements.TabIndex = 13;
+            this._neverShowAchievements.Text = "Never show achievements";
+            this._neverShowAchievements.UseVisualStyleBackColor = false;
+            this._neverShowAchievements.CheckedChanged += new System.EventHandler(this.NeverShowAchievementsCheckedChanged);
             // 
             // _title
             // 
@@ -158,12 +163,12 @@
             this._ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._ok.ImageIndex = 1;
             this._ok.ImageList = this.imageList1;
-            this._ok.Location = new System.Drawing.Point(561, 152);
+            this._ok.Location = new System.Drawing.Point(471, 152);
             this._ok.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._ok.Name = "_ok";
-            this._ok.Size = new System.Drawing.Size(70, 25);
+            this._ok.Size = new System.Drawing.Size(160, 25);
             this._ok.TabIndex = 15;
-            this._ok.Text = "Cool!";
+            this._ok.Text = "Excellent, Carry On!";
             this._ok.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._ok.UseVisualStyleBackColor = false;
             this._ok.Click += new System.EventHandler(this.OkClick);
@@ -187,12 +192,12 @@
             this._shareOnTwitter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._shareOnTwitter.ImageIndex = 0;
             this._shareOnTwitter.ImageList = this.imageList1;
-            this._shareOnTwitter.Location = new System.Drawing.Point(406, 152);
+            this._shareOnTwitter.Location = new System.Drawing.Point(387, 152);
             this._shareOnTwitter.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._shareOnTwitter.Name = "_shareOnTwitter";
-            this._shareOnTwitter.Size = new System.Drawing.Size(149, 25);
+            this._shareOnTwitter.Size = new System.Drawing.Size(81, 25);
             this._shareOnTwitter.TabIndex = 16;
-            this._shareOnTwitter.Text = "Share On Twitter";
+            this._shareOnTwitter.Text = "Share";
             this._shareOnTwitter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._shareOnTwitter.UseVisualStyleBackColor = false;
             this._shareOnTwitter.Click += new System.EventHandler(this.ShareOnTwitterClick);
@@ -208,15 +213,16 @@
             this.Controls.Add(this._shareOnTwitter);
             this.Controls.Add(this._ok);
             this.Controls.Add(this._title);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this._usersIAm);
+            this.Controls.Add(this._neverShowAchievements);
+            this.Controls.Add(this._alwaysShowNewAchievements);
+            this.Controls.Add(this._onlyShowMyAchievements);
+            this.Controls.Add(this._iAmLabel);
+            this.Controls.Add(this._userIAm);
             this.Controls.Add(this._accomplishment);
             this.Controls.Add(this._user);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "NewAchievement";
             this.Text = "New Achievement";
             this.ResumeLayout(false);
@@ -228,11 +234,11 @@
 
         private System.Windows.Forms.Label _user;
         private System.Windows.Forms.Label _accomplishment;
-        private System.Windows.Forms.ComboBox _usersIAm;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.ComboBox _userIAm;
+        private System.Windows.Forms.Label _iAmLabel;
+        private System.Windows.Forms.RadioButton _onlyShowMyAchievements;
+        private System.Windows.Forms.RadioButton _alwaysShowNewAchievements;
+        private System.Windows.Forms.RadioButton _neverShowAchievements;
         private System.Windows.Forms.Label _title;
         private System.Windows.Forms.Button _ok;
         private System.Windows.Forms.ImageList imageList1;
