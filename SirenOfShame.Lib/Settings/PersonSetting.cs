@@ -37,6 +37,14 @@ namespace SirenOfShame.Lib.Settings
             int reputation = GetReputation();
             if (!HasAchieved(AchievementEnum.Apprentice) && reputation >= 25)
                 yield return AchievementEnum.Apprentice;
+            if (!HasAchieved(AchievementEnum.Neophyte) && reputation >= 100)
+                yield return AchievementEnum.Neophyte;
+            if (!HasAchieved(AchievementEnum.Master) && reputation >= 250)
+                yield return AchievementEnum.Master;
+            if (!HasAchieved(AchievementEnum.GrandMaster) && reputation >= 500)
+                yield return AchievementEnum.GrandMaster;
+            if (!HasAchieved(AchievementEnum.Legend) && reputation >= 1000)
+                yield return AchievementEnum.Legend;
         }
 
         private bool HasAchieved(AchievementEnum achievement)

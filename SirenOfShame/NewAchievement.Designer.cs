@@ -48,7 +48,7 @@
             this._user.BackColor = System.Drawing.Color.Transparent;
             this._user.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._user.ForeColor = System.Drawing.Color.White;
-            this._user.Location = new System.Drawing.Point(1, 53);
+            this._user.Location = new System.Drawing.Point(1, 50);
             this._user.Name = "_user";
             this._user.Size = new System.Drawing.Size(659, 34);
             this._user.TabIndex = 2;
@@ -60,7 +60,7 @@
             this._accomplishment.BackColor = System.Drawing.Color.Transparent;
             this._accomplishment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._accomplishment.ForeColor = System.Drawing.Color.White;
-            this._accomplishment.Location = new System.Drawing.Point(-1, 84);
+            this._accomplishment.Location = new System.Drawing.Point(-1, 81);
             this._accomplishment.Name = "_accomplishment";
             this._accomplishment.Size = new System.Drawing.Size(661, 28);
             this._accomplishment.TabIndex = 4;
@@ -73,7 +73,7 @@
             this._userIAm.DisplayMember = "DisplayName";
             this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.FormattingEnabled = true;
-            this._userIAm.Location = new System.Drawing.Point(251, 146);
+            this._userIAm.Location = new System.Drawing.Point(261, 135);
             this._userIAm.Name = "_userIAm";
             this._userIAm.Size = new System.Drawing.Size(121, 21);
             this._userIAm.TabIndex = 9;
@@ -86,7 +86,7 @@
             this._iAmLabel.BackColor = System.Drawing.Color.Transparent;
             this._iAmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._iAmLabel.ForeColor = System.Drawing.Color.White;
-            this._iAmLabel.Location = new System.Drawing.Point(210, 147);
+            this._iAmLabel.Location = new System.Drawing.Point(220, 136);
             this._iAmLabel.Name = "_iAmLabel";
             this._iAmLabel.Size = new System.Drawing.Size(35, 17);
             this._iAmLabel.TabIndex = 10;
@@ -99,7 +99,7 @@
             this._onlyShowMyAchievements.AutoSize = true;
             this._onlyShowMyAchievements.BackColor = System.Drawing.Color.Transparent;
             this._onlyShowMyAchievements.ForeColor = System.Drawing.Color.White;
-            this._onlyShowMyAchievements.Location = new System.Drawing.Point(21, 147);
+            this._onlyShowMyAchievements.Location = new System.Drawing.Point(31, 136);
             this._onlyShowMyAchievements.Name = "_onlyShowMyAchievements";
             this._onlyShowMyAchievements.Size = new System.Drawing.Size(182, 17);
             this._onlyShowMyAchievements.TabIndex = 11;
@@ -114,7 +114,7 @@
             this._alwaysShowNewAchievements.BackColor = System.Drawing.Color.Transparent;
             this._alwaysShowNewAchievements.Checked = true;
             this._alwaysShowNewAchievements.ForeColor = System.Drawing.Color.White;
-            this._alwaysShowNewAchievements.Location = new System.Drawing.Point(21, 132);
+            this._alwaysShowNewAchievements.Location = new System.Drawing.Point(31, 121);
             this._alwaysShowNewAchievements.Name = "_alwaysShowNewAchievements";
             this._alwaysShowNewAchievements.Size = new System.Drawing.Size(198, 17);
             this._alwaysShowNewAchievements.TabIndex = 12;
@@ -129,7 +129,7 @@
             this._neverShowAchievements.AutoSize = true;
             this._neverShowAchievements.BackColor = System.Drawing.Color.Transparent;
             this._neverShowAchievements.ForeColor = System.Drawing.Color.White;
-            this._neverShowAchievements.Location = new System.Drawing.Point(21, 162);
+            this._neverShowAchievements.Location = new System.Drawing.Point(31, 151);
             this._neverShowAchievements.Name = "_neverShowAchievements";
             this._neverShowAchievements.Size = new System.Drawing.Size(151, 17);
             this._neverShowAchievements.TabIndex = 13;
@@ -163,7 +163,7 @@
             this._ok.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._ok.ImageIndex = 1;
             this._ok.ImageList = this.imageList1;
-            this._ok.Location = new System.Drawing.Point(471, 152);
+            this._ok.Location = new System.Drawing.Point(473, 143);
             this._ok.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(160, 25);
@@ -192,7 +192,7 @@
             this._shareOnTwitter.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._shareOnTwitter.ImageIndex = 0;
             this._shareOnTwitter.ImageList = this.imageList1;
-            this._shareOnTwitter.Location = new System.Drawing.Point(387, 152);
+            this._shareOnTwitter.Location = new System.Drawing.Point(389, 143);
             this._shareOnTwitter.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._shareOnTwitter.Name = "_shareOnTwitter";
             this._shareOnTwitter.Size = new System.Drawing.Size(81, 25);

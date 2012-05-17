@@ -14,8 +14,42 @@ namespace SirenOfShame.Test.Unit.Watcher
     {
         // don't invoke achievements twice
 
-        // don't invoke achievmeents when you shouldn't
+        [TestMethod]
+        public void UserHas99ReputationButMissedApprentice_SuccessfulChecksIn_AchievesApprenticeAndNeophyteAchievements()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            rulesEngine.Settings.People[0].TotalBuilds = 99;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(100, rulesEngine.Settings.People[0].GetReputation());
+            Assert.AreEqual(2, rulesEngine.Settings.People[0].Achievements.Count);
+            Assert.AreEqual(1, rulesEngine.NewAchievementEvents.Count);
+            var achievementEventArg = rulesEngine.NewAchievementEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, achievementEventArg.Person.RawName);
+            Assert.AreEqual(2, achievementEventArg.Achievements.Count);
+            Assert.AreEqual(AchievementEnum.Apprentice, achievementEventArg.Achievements[0].Id);
+            Assert.AreEqual(AchievementEnum.Neophyte, achievementEventArg.Achievements[1].Id);
+        }
 
+        [TestMethod]
+        public void UserHas23Reputation_SuccessfulChecksIn_NoNewAchievement()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            rulesEngine.Settings.People[0].TotalBuilds = 23;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(24, rulesEngine.Settings.People[0].GetReputation());
+            Assert.AreEqual(0, rulesEngine.Settings.People[0].Achievements.Count);
+        }
+        
         [TestMethod]
         public void UserHas24Reputation_SuccessfulChecksIn_AchievesApprenticeAchievement()
         {

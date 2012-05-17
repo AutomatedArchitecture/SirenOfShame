@@ -283,6 +283,7 @@ namespace SirenOfShame.Lib.Watcher
                 if (achievements.Any())
                 {
                     personWithNewChange.Person.AddAchievements(achievements);
+                    _settings.Save();
                     InvokeNewAchievement(personWithNewChange.Person, achievements);
                 }
             }
