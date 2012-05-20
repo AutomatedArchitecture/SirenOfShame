@@ -70,6 +70,12 @@
     <Compile Include="BuildFailedMessageBox.Designer.cs">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuildStats.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BuildStats.Designer.cs">
+      <DependentUpon>BuildStats.cs</DependentUpon>
+    </Compile>
     <Compile Include="BuildStatusListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -172,9 +178,18 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewUser.Designer.cs">
+      <DependentUpon>ViewUser.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BuildFailedMessageBox.resx">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuildStats.resx">
+      <DependentUpon>BuildStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\AddRule.resx">
       <DependentUpon>AddRule.cs</DependentUpon>
@@ -233,6 +248,9 @@
     <EmbeddedResource Include="TimeboxEnforcer.resx">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ViewUser.resx">
+      <DependentUpon>ViewUser.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\DataSources\SirenOfShame.Watcher.BuildStatus.datasource" />
     <None Include="Properties\Settings.settings">
@@ -282,6 +300,7 @@
     <Content Include="Resources\Audio-Chime.wav" />
     <Content Include="Resources\Audio-DaDing.wav" />
     <Content Include="Resources\Audio-Ding.wav" />
+    <None Include="Resources\CloseButton2.png" />
     <Content Include="Resources\Fullscreen.png" />
     <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <Content Include="Resources\question_big.png" />

@@ -102,6 +102,13 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CloseButton2 {
+            get {
+                object obj = ResourceManager.GetObject("CloseButton2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap JoesFavorite3 {
             get {
                 object obj = ResourceManager.GetObject("JoesFavorite3", resourceCulture);
