@@ -278,7 +278,7 @@ namespace SirenOfShame.Lib.Watcher
             
             foreach (var personWithNewChange in visiblePeopleWithNewChanges)
             {
-                var newAchievements = personWithNewChange.Person.CalculateNewAchievements(personWithNewChange.Build);
+                var newAchievements = personWithNewChange.Person.CalculateNewAchievements(_settings, personWithNewChange.Build);
                 List<AchievementLookup> achievements = newAchievements.ToList();
                 if (achievements.Any())
                 {

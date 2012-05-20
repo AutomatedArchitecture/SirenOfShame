@@ -329,10 +329,10 @@ namespace SirenOfShame.Lib.Settings
 
         public bool BuildExistsAndIsActive(string ciEntryPointName, string buildName)
         {
-            var hudsonCiEntryPoint = CiEntryPointSettings.FirstOrDefault(i => i.Name == ciEntryPointName);
-            if (hudsonCiEntryPoint != null)
+            var ciEntryPoint = CiEntryPointSettings.FirstOrDefault(i => i.Name == ciEntryPointName);
+            if (ciEntryPoint != null)
             {
-                return hudsonCiEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
+                return ciEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
             }
             return false;
         }
@@ -341,6 +341,11 @@ namespace SirenOfShame.Lib.Settings
         {
             if (string.IsNullOrEmpty(MyRawName)) return defaultValue;
             return person.RawName == MyRawName;
+        }
+
+        public IEnumerable<BuildDefinitionSetting> GetAllActiveBuildDefinitions()
+        {
+            return CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Where(i => i.Active);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SirenOfShame
             _percentFailed.Text = percentFailed.ToString("p");
         }
 
-        public void GraphBuildHistory(List<BuildStatus> buildStatuses)
+        public void GraphBuildHistory(IList<BuildStatus> buildStatuses)
         {
             GraphPane myPane = _buildHistoryZedGraph.GraphPane;
             myPane.CurveList.Clear();

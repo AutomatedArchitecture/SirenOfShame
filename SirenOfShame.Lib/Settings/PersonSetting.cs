@@ -15,6 +15,7 @@ namespace SirenOfShame.Lib.Settings
         public bool Hidden { get; set; }
         public List<AchievementSetting> Achievements { get; set; }
         public long? CumulativeBuildTime { get; set; }
+        private readonly SosDb _sosDb = new SosDb();
 
         private TimeSpan? MyCumulativeBuildTime
         {
@@ -32,14 +33,14 @@ namespace SirenOfShame.Lib.Settings
             return TotalBuilds - (FailedBuilds*5);
         }
 
-        public IEnumerable<AchievementLookup> CalculateNewAchievements(BuildStatus build)
+        public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
         {
-            return from achievementEnum in CalculateNewAchievementEnums(build)
+            return from achievementEnum in CalculateNewAchievementEnums(settings, build)
                    join achievement in AchievementSetting.AchievementLookups on achievementEnum equals achievement.Id
                    select achievement;
         }
 
-        private IEnumerable<AchievementEnum> CalculateNewAchievementEnums(BuildStatus build)
+        private IEnumerable<AchievementEnum> CalculateNewAchievementEnums(SirenOfShameSettings settings, BuildStatus build)
         {
             int reputation = GetReputation();
 
@@ -49,22 +50,65 @@ namespace SirenOfShame.Lib.Settings
                 MyCumulativeBuildTime = MyCumulativeBuildTime == null ? buildDuration : MyCumulativeBuildTime + buildDuration;
             }
 
-            if (!HasAchieved(AchievementEnum.Apprentice) && reputation >= 25)
-                yield return AchievementEnum.Apprentice;
-            if (!HasAchieved(AchievementEnum.Neophyte) && reputation >= 100)
-                yield return AchievementEnum.Neophyte;
-            if (!HasAchieved(AchievementEnum.Master) && reputation >= 250)
-                yield return AchievementEnum.Master;
-            if (!HasAchieved(AchievementEnum.GrandMaster) && reputation >= 500)
-                yield return AchievementEnum.GrandMaster;
-            if (!HasAchieved(AchievementEnum.Legend) && reputation >= 1000)
-                yield return AchievementEnum.Legend;
-            if (!HasAchieved(AchievementEnum.TimeWarrior) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 24)
-                yield return AchievementEnum.TimeWarrior;
-            if (!HasAchieved(AchievementEnum.ChronMaster) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 48)
-                yield return AchievementEnum.ChronMaster;
-            if (!HasAchieved(AchievementEnum.ChronGrandMaster) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 96)
-                yield return AchievementEnum.ChronGrandMaster;
+            var allActiveBuildDefinitionsOrderedChronoligically = _sosDb
+                .ReadAll(settings.GetAllActiveBuildDefinitions())
+                .OrderBy(i => i.StartedTime)
+                .ToList();
+
+            var currentBuildDefinitionOrderedChronoligically = allActiveBuildDefinitionsOrderedChronoligically
+                .Where(i => i.BuildDefinitionId == build.BuildDefinitionId)
+                .ToList();
+
+            int howManyTimesHasFixedSomeoneElsesBuild = HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically);
+
+            List<AchievementEnum> newAchievements = new List<AchievementEnum>();
+            
+            AppendIfHasNotAchievedYet(AchievementEnum.Apprentice, () => reputation >= 25, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.Neophyte, () => reputation >= 100, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.Master, () => reputation >= 250, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.GrandMaster, () => reputation >= 500, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.Legend, () => reputation >= 1000, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.TimeWarrior, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 24, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.ChronMaster, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 48, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.ChronGrandMaster, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 96, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.CiNinja, () => howManyTimesHasFixedSomeoneElsesBuild >= 1, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.Assassin, () => howManyTimesHasFixedSomeoneElsesBuild >= 10, newAchievements);
+
+            return newAchievements;
+        }
+
+        private void AppendIfHasNotAchievedYet(AchievementEnum achievementEnum, Func<bool> func, List<AchievementEnum> newAchievements)
+        {
+            if (!HasAchieved(achievementEnum) && func())
+            {
+                newAchievements.Add(achievementEnum);
+            }
+        }
+
+        protected int HowManyTimesHasFixedSomeoneElsesBuild(List<BuildStatus> currentBuildDefinitionOrderedChronoligically)
+        {
+            int fixedSomeoneElsesBuildCount = 0;
+            string buildInitiallyBrokenBy = null;
+            foreach (var buildStatus in currentBuildDefinitionOrderedChronoligically)
+            {
+                bool newlyBroken = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && buildInitiallyBrokenBy == null;
+                bool wasBrokenLastTime = buildInitiallyBrokenBy != null;
+                bool newlyFixed = wasBrokenLastTime && buildStatus.BuildStatusEnum == BuildStatusEnum.Working;
+                
+                if (newlyBroken)
+                {
+                    buildInitiallyBrokenBy = buildStatus.RequestedBy;
+                }
+                if (newlyFixed && buildInitiallyBrokenBy != RawName && buildStatus.RequestedBy == RawName)
+                {
+                    fixedSomeoneElsesBuildCount++;
+                }
+                if (newlyFixed)
+                {
+                    buildInitiallyBrokenBy = null;
+                }
+            }
+            return fixedSomeoneElsesBuildCount;
         }
 
         private bool HasAchieved(AchievementEnum achievement)
