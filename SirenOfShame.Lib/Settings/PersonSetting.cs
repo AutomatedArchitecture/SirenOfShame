@@ -61,6 +61,10 @@ namespace SirenOfShame.Lib.Settings
                 yield return AchievementEnum.Legend;
             if (!HasAchieved(AchievementEnum.TimeWarrior) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 24)
                 yield return AchievementEnum.TimeWarrior;
+            if (!HasAchieved(AchievementEnum.ChronMaster) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 48)
+                yield return AchievementEnum.ChronMaster;
+            if (!HasAchieved(AchievementEnum.ChronGrandMaster) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 96)
+                yield return AchievementEnum.ChronGrandMaster;
         }
 
         private bool HasAchieved(AchievementEnum achievement)
