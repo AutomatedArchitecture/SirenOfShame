@@ -30,6 +30,10 @@
         {
             this._userName = new System.Windows.Forms.Label();
             this._closeButton = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this._obtainedTemplate = new System.Windows.Forms.Label();
+            this._unobtainedTemplate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._closeButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,12 +59,67 @@
             this._closeButton.TabStop = false;
             this._closeButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(22, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 16);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Achievements";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(35, 52);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(595, 226);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // _obtainedTemplate
+            // 
+            this._obtainedTemplate.AutoSize = true;
+            this._obtainedTemplate.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this._obtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._obtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._obtainedTemplate.ForeColor = System.Drawing.SystemColors.Window;
+            this._obtainedTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._obtainedTemplate.Location = new System.Drawing.Point(392, 3);
+            this._obtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
+            this._obtainedTemplate.Name = "_obtainedTemplate";
+            this._obtainedTemplate.Size = new System.Drawing.Size(143, 18);
+            this._obtainedTemplate.TabIndex = 4;
+            this._obtainedTemplate.Text = "Obtained Template";
+            this._obtainedTemplate.Visible = false;
+            // 
+            // _unobtainedTemplate
+            // 
+            this._unobtainedTemplate.AutoSize = true;
+            this._unobtainedTemplate.BackColor = System.Drawing.Color.LightGray;
+            this._unobtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._unobtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._unobtainedTemplate.ForeColor = System.Drawing.Color.Gray;
+            this._unobtainedTemplate.Location = new System.Drawing.Point(226, 3);
+            this._unobtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
+            this._unobtainedTemplate.Name = "_unobtainedTemplate";
+            this._unobtainedTemplate.Size = new System.Drawing.Size(141, 18);
+            this._unobtainedTemplate.TabIndex = 5;
+            this._unobtainedTemplate.Text = "Unobtained Template";
+            this._unobtainedTemplate.Visible = false;
+            // 
             // ViewUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this._obtainedTemplate);
+            this.Controls.Add(this._unobtainedTemplate);
+            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this._closeButton);
             this.Controls.Add(this._userName);
             this.Name = "ViewUser";
@@ -75,5 +134,9 @@
 
         private System.Windows.Forms.Label _userName;
         private System.Windows.Forms.PictureBox _closeButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label _obtainedTemplate;
+        private System.Windows.Forms.Label _unobtainedTemplate;
     }
 }
