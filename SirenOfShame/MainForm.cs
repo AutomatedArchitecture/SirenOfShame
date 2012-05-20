@@ -72,6 +72,7 @@ namespace SirenOfShame
 
         private void SetAutomaticUpdaterSettings()
         {
+            if (_settings == null) return;
             string updatePath = "http://blueink.biz/SoS/updates/";
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
@@ -85,7 +86,10 @@ namespace SirenOfShame
 
         protected override void WndProc(ref Message m)
         {
-            SirenOfShameDevice.WndProc(ref m);
+            if (SirenOfShameDevice != null)
+            {
+                SirenOfShameDevice.WndProc(ref m);
+            }
             base.WndProc(ref m);
         }
 

@@ -110,7 +110,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                     Name = BUILD1_ID, 
                     RequestedBy = CURRENT_USER, 
                     BuildDefinitionId = BUILD1_ID, 
-                    StartedTime = new DateTime(2010, 1, 1)
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = status == BuildStatusEnum.InProgress ? (DateTime?)null : new DateTime(2010, 1, 1, 1, 10, 10)
                 } 
             });
         }

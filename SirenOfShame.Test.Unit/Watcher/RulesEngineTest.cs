@@ -12,7 +12,23 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class RulesEngineTest
     {
-        // don't invoke achievements twice
+        [TestMethod]
+        public void UserHas23And59MinutesOfBuildTime_ChecksIn_AchievesTimeWarrior()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.Settings.People.Count);
+            rulesEngine.Settings.People[0].CumulativeBuildTime = new TimeSpan(23, 59, 59).Ticks;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.NewAchievementEvents.Count);
+            var achievementEventArg = rulesEngine.NewAchievementEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, achievementEventArg.Person.RawName);
+            Assert.AreEqual(1, achievementEventArg.Achievements.Count);
+            Assert.AreEqual(AchievementEnum.TimeWarrior, achievementEventArg.Achievements[0].Id);
+        }
 
         [TestMethod]
         public void UserHas99ReputationButMissedApprentice_SuccessfulChecksIn_AchievesApprenticeAndNeophyteAchievements()
@@ -1093,8 +1109,8 @@ Hello World
             Assert.AreEqual(true, keyValuePair.Key.EndsWith("Build Def 1.txt"));
             var contents = keyValuePair.Value;
             Assert.AreEqual(3, contents.Split('\n').Length);
-            Assert.AreEqual(@"633979008000000000,,1,User1
-633979008000000000,,2,User1
+            Assert.AreEqual(@"633979044610000000,633979050100000000,1,User1
+633979044610000000,633979050100000000,2,User1
 ", contents);
         }
 

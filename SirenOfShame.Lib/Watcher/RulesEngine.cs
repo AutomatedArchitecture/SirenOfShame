@@ -283,10 +283,11 @@ namespace SirenOfShame.Lib.Watcher
                 if (achievements.Any())
                 {
                     personWithNewChange.Person.AddAchievements(achievements);
-                    _settings.Save();
                     InvokeNewAchievement(personWithNewChange.Person, achievements);
                 }
             }
+            // this is required because achievements often write to settings e.g. cumulative build time
+            _settings.Save();
         }
 
         private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)

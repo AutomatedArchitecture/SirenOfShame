@@ -14,6 +14,13 @@ namespace SirenOfShame.Lib.Settings
         public int FailedBuilds { get; set; }
         public bool Hidden { get; set; }
         public List<AchievementSetting> Achievements { get; set; }
+        public long? CumulativeBuildTime { get; set; }
+
+        private TimeSpan? MyCumulativeBuildTime
+        {
+            get { return CumulativeBuildTime == null ? (TimeSpan?)null : new TimeSpan(CumulativeBuildTime.Value); }
+            set { CumulativeBuildTime = value == null ? (long?)null : value.Value.Ticks; }
+        }
 
         public PersonSetting()
         {
@@ -35,6 +42,13 @@ namespace SirenOfShame.Lib.Settings
         private IEnumerable<AchievementEnum> CalculateNewAchievementEnums(BuildStatus build)
         {
             int reputation = GetReputation();
+
+            if (build.FinishedTime != null && build.StartedTime != null)
+            {
+                TimeSpan? buildDuration = build.FinishedTime.Value - build.StartedTime.Value;
+                MyCumulativeBuildTime = MyCumulativeBuildTime == null ? buildDuration : MyCumulativeBuildTime + buildDuration;
+            }
+
             if (!HasAchieved(AchievementEnum.Apprentice) && reputation >= 25)
                 yield return AchievementEnum.Apprentice;
             if (!HasAchieved(AchievementEnum.Neophyte) && reputation >= 100)
@@ -45,6 +59,8 @@ namespace SirenOfShame.Lib.Settings
                 yield return AchievementEnum.GrandMaster;
             if (!HasAchieved(AchievementEnum.Legend) && reputation >= 1000)
                 yield return AchievementEnum.Legend;
+            if (!HasAchieved(AchievementEnum.TimeWarrior) && MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 24)
+                yield return AchievementEnum.TimeWarrior;
         }
 
         private bool HasAchieved(AchievementEnum achievement)

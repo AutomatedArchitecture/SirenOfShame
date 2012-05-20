@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Watcher;
@@ -169,6 +171,7 @@ namespace SirenOfShame.Lib.Settings
         {
             string fileName = GetConfigFileName();
             var settings = GetAppSettings(fileName);
+            if (settings == null) return null; // this only happens if there was a major problem deserializing
             settings.TryUpgrade();
             return settings;
         }
@@ -192,9 +195,12 @@ namespace SirenOfShame.Lib.Settings
             catch (Exception ex)
             {
                 _log.Error("Unable to deserialize settings file, so reverting", ex);
-                ExceptionMessageBox.Show(null, "Drat",
-                                         "Hate to tell you this, but there was an error deserializing the settings file so we took the liberty of reverting the settings to the factory defaults to get everything up and running.  Sorry about your luck.",
-                                         ex);
+                var dialogResult = MessageBox.Show("There was an error deserializing the settings file.  Click OK to revert the file and start over or cancel to fix the problem yourself (we'll start the app so you can view logs, etc, just close the app quickly and your old settings will remain).  Here's the error: " + ex, "Drat!", MessageBoxButtons.OKCancel);
+                if (dialogResult == DialogResult.Cancel)
+                {
+                    Application.Exit();
+                    return null;
+                }
             }
             finally
             {
