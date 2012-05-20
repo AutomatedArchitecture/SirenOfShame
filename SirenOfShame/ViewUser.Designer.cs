@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this._userName = new System.Windows.Forms.Label();
             this._closeButton = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._obtainedTemplate = new System.Windows.Forms.Label();
             this._unobtainedTemplate = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this._closeButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,6 +99,8 @@
             // 
             // _unobtainedTemplate
             // 
+            this._unobtainedTemplate.AccessibleDescription = "";
+            this._unobtainedTemplate.AccessibleName = "";
             this._unobtainedTemplate.AutoSize = true;
             this._unobtainedTemplate.BackColor = System.Drawing.Color.LightGray;
             this._unobtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -138,5 +142,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label _obtainedTemplate;
         private System.Windows.Forms.Label _unobtainedTemplate;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

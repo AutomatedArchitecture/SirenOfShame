@@ -43,6 +43,7 @@ namespace SirenOfShame
                 label.AutoSize = cloneFrom.AutoSize;
                 label.Margin = cloneFrom.Margin;
                 flowLayoutPanel1.Controls.Add(label);
+                toolTip1.SetToolTip(label, achievementLookup.Description);
             }
         }
     }
