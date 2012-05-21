@@ -9,6 +9,7 @@ using SirenOfShame.Lib;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Services;
+using System.Reflection;
 
 namespace SirenOfShame
 {
@@ -25,8 +26,16 @@ namespace SirenOfShame
             {
                 RealMain(args);
             }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var firstError = ex.LoaderExceptions.FirstOrDefault();
+                string message = firstError == null ? ex.Message : firstError.Message;
+                _log.Error(message, ex);
+                MessageBox.Show(message, "Siren of Shame Startup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
+                _log.Error(ex);
                 if (ex.Message.StartsWith("Access to the path") && ex.Message.EndsWith("is denied."))
                 {
                     MessageBox.Show("There is a second instance of Siren of Shame running on this machine.  Please close the other instance and restart.");
