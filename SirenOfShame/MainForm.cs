@@ -260,6 +260,11 @@ namespace SirenOfShame
                 {
                     NewAchievement.ShowForm(_settings, achievement, args.Person);
                 }
+                foreach (ListViewItem listItem in _users.Items)
+                {
+                    if ((string) listItem.Tag == args.Person.RawName)
+                        listItem.Selected = true;
+                }
             });
         }
 
@@ -1060,6 +1065,11 @@ namespace SirenOfShame
 
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {
+            // sometimes the view user is displayed but the selected items gets unselected so here's a little hack to ensure we hide the user page
+            if (_users.SelectedItems.Count == 0 && _users.Items.Count >= 1)
+            {
+                _users.Items[0].Selected = true;
+            }
             _users.SelectedItems.Clear();
         }
     }

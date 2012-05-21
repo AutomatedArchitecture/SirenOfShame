@@ -73,8 +73,20 @@ namespace SirenOfShame.Lib.Settings
             AppendIfHasNotAchievedYet(AchievementEnum.ChronGrandMaster, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 96, newAchievements);
             AppendIfHasNotAchievedYet(AchievementEnum.CiNinja, () => howManyTimesHasFixedSomeoneElsesBuild >= 1, newAchievements);
             AppendIfHasNotAchievedYet(AchievementEnum.Assassin, () => howManyTimesHasFixedSomeoneElsesBuild >= 10, newAchievements);
+            AppendIfHasNotAchievedYet(AchievementEnum.LikeLightning, () => WasJustLikeLightning(currentBuildDefinitionOrderedChronoligically), newAchievements);
 
             return newAchievements;
+        }
+
+        protected bool WasJustLikeLightning(List<BuildStatus> currentBuildDefinitionOrderedChronoligically)
+        {
+            if (currentBuildDefinitionOrderedChronoligically.Count < 3) return false;
+            var lastThree = currentBuildDefinitionOrderedChronoligically.Skip(currentBuildDefinitionOrderedChronoligically.Count - 3).ToList();
+            if (!lastThree.All(i => i.RequestedBy == RawName)) return false;
+            if (!lastThree.All(i => i.StartedTime.HasValue && i.FinishedTime.HasValue)) return false;
+            var timeBetweenOneAndTwo = lastThree[1].StartedTime.Value - lastThree[0].FinishedTime.Value;
+            var timeBetweenTwoAndThree = lastThree[2].StartedTime.Value - lastThree[1].FinishedTime.Value;
+            return timeBetweenOneAndTwo.TotalSeconds <= 10 && timeBetweenTwoAndThree.TotalSeconds < 10;
         }
 
         private void AppendIfHasNotAchievedYet(AchievementEnum achievementEnum, Func<bool> func, List<AchievementEnum> newAchievements)
