@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Settings
@@ -17,7 +18,7 @@ namespace SirenOfShame.Lib.Settings
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
 
-        private TimeSpan? MyCumulativeBuildTime
+        public TimeSpan? MyCumulativeBuildTime
         {
             get { return CumulativeBuildTime == null ? (TimeSpan?)null : new TimeSpan(CumulativeBuildTime.Value); }
             set { CumulativeBuildTime = value == null ? (long?)null : value.Value.Ticks; }
@@ -59,71 +60,29 @@ namespace SirenOfShame.Lib.Settings
                 .Where(i => i.BuildDefinitionId == build.BuildDefinitionId)
                 .ToList();
 
-            int howManyTimesHasFixedSomeoneElsesBuild = HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically);
+            int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
 
-            List<AchievementEnum> newAchievements = new List<AchievementEnum>();
-            
-            AppendIfHasNotAchievedYet(AchievementEnum.Apprentice, () => reputation >= 25, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.Neophyte, () => reputation >= 100, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.Master, () => reputation >= 250, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.GrandMaster, () => reputation >= 500, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.Legend, () => reputation >= 1000, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.TimeWarrior, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 24, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.ChronMaster, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 48, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.ChronGrandMaster, () => MyCumulativeBuildTime != null && MyCumulativeBuildTime.Value.TotalHours >= 96, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.CiNinja, () => howManyTimesHasFixedSomeoneElsesBuild >= 1, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.Assassin, () => howManyTimesHasFixedSomeoneElsesBuild >= 10, newAchievements);
-            AppendIfHasNotAchievedYet(AchievementEnum.LikeLightning, () => WasJustLikeLightning(currentBuildDefinitionOrderedChronoligically), newAchievements);
-
-            return newAchievements;
-        }
-
-        protected bool WasJustLikeLightning(List<BuildStatus> currentBuildDefinitionOrderedChronoligically)
-        {
-            if (currentBuildDefinitionOrderedChronoligically.Count < 3) return false;
-            var lastThree = currentBuildDefinitionOrderedChronoligically.Skip(currentBuildDefinitionOrderedChronoligically.Count - 3).ToList();
-            if (!lastThree.All(i => i.RequestedBy == RawName)) return false;
-            if (!lastThree.All(i => i.StartedTime.HasValue && i.FinishedTime.HasValue)) return false;
-            var timeBetweenOneAndTwo = lastThree[1].StartedTime.Value - lastThree[0].FinishedTime.Value;
-            var timeBetweenTwoAndThree = lastThree[2].StartedTime.Value - lastThree[1].FinishedTime.Value;
-            return timeBetweenOneAndTwo.TotalSeconds <= 10 && timeBetweenTwoAndThree.TotalSeconds < 10;
-        }
-
-        private void AppendIfHasNotAchievedYet(AchievementEnum achievementEnum, Func<bool> func, List<AchievementEnum> newAchievements)
-        {
-            if (!HasAchieved(achievementEnum) && func())
+            List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
-                newAchievements.Add(achievementEnum);
-            }
+                new Apprentice(this, reputation),
+                new Neophyte(this, reputation),
+                new Master(this, reputation),
+                new GrandMaster(this, reputation),
+                new Legend(this, reputation),
+                new TimeWarrior(this),
+                new ChronMaster(this),
+                new ChronGrandMaster(this),
+                new CiNinja(this, howManyTimesHasFixedSomeoneElsesBuild),
+                new Assassin(this, howManyTimesHasFixedSomeoneElsesBuild),
+                new LikeLightning(this, currentBuildDefinitionOrderedChronoligically),
+            };
+
+            return possibleAchievements
+                .Where(i => i.HasJustAchieved())
+                .Select(i => i.AchievementEnum);
         }
 
-        protected int HowManyTimesHasFixedSomeoneElsesBuild(List<BuildStatus> currentBuildDefinitionOrderedChronoligically)
-        {
-            int fixedSomeoneElsesBuildCount = 0;
-            string buildInitiallyBrokenBy = null;
-            foreach (var buildStatus in currentBuildDefinitionOrderedChronoligically)
-            {
-                bool newlyBroken = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && buildInitiallyBrokenBy == null;
-                bool wasBrokenLastTime = buildInitiallyBrokenBy != null;
-                bool newlyFixed = wasBrokenLastTime && buildStatus.BuildStatusEnum == BuildStatusEnum.Working;
-                
-                if (newlyBroken)
-                {
-                    buildInitiallyBrokenBy = buildStatus.RequestedBy;
-                }
-                if (newlyFixed && buildInitiallyBrokenBy != RawName && buildStatus.RequestedBy == RawName)
-                {
-                    fixedSomeoneElsesBuildCount++;
-                }
-                if (newlyFixed)
-                {
-                    buildInitiallyBrokenBy = null;
-                }
-            }
-            return fixedSomeoneElsesBuildCount;
-        }
-
-        private bool HasAchieved(AchievementEnum achievement)
+        public bool HasAchieved(AchievementEnum achievement)
         {
             return Achievements.Any(i => i.AchievementId == (int)achievement);
         }

@@ -48,6 +48,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achievements\CiNinjaTest.cs" />
+    <Compile Include="Achievements\LikeLightningTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\BambooBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
@@ -59,7 +61,6 @@
     </EmbeddedResource>
     <Compile Include="Resources\AudioFileTest.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
-    <Compile Include="Settings\PersonSettingTest.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3Test.cs" />

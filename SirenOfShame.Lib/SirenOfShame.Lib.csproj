@@ -87,6 +87,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achievements\AchievementBase.cs" />
+    <Compile Include="Achievements\Apprentice.cs" />
+    <Compile Include="Achievements\Assassin.cs" />
+    <Compile Include="Achievements\ChronGrandMaster.cs" />
+    <Compile Include="Achievements\ChronMaster.cs" />
+    <Compile Include="Achievements\CiNinja.cs" />
+    <Compile Include="Achievements\GrandMaster.cs" />
+    <Compile Include="Achievements\Legend.cs" />
+    <Compile Include="Achievements\LikeLightning.cs" />
+    <Compile Include="Achievements\Master.cs" />
+    <Compile Include="Achievements\Neophyte.cs" />
+    <Compile Include="Achievements\TimeWarrior.cs" />
     <Compile Include="AppendTimeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
