@@ -29,9 +29,14 @@ namespace SirenOfShame.Lib.Settings
             Achievements = new List<AchievementSetting>();
         }
 
+        public static int GetReputation(int totalBuilds, int failedBuilds)
+        {
+            return totalBuilds - (failedBuilds * 5);
+        }
+        
         public int GetReputation()
         {
-            return TotalBuilds - (FailedBuilds*5);
+            return GetReputation(TotalBuilds, FailedBuilds);
         }
 
         public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
@@ -75,6 +80,7 @@ namespace SirenOfShame.Lib.Settings
                 new CiNinja(this, howManyTimesHasFixedSomeoneElsesBuild),
                 new Assassin(this, howManyTimesHasFixedSomeoneElsesBuild),
                 new LikeLightning(this, currentBuildDefinitionOrderedChronoligically),
+                new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically)
             };
 
             return possibleAchievements
