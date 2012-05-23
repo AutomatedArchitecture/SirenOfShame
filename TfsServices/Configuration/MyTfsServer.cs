@@ -27,6 +27,7 @@ namespace TfsServices.Configuration
                 _tfsConfigurationServer = GetTfsConfigurationServer(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword());
                 _tfsConfigurationServer.EnsureAuthenticated();
             } catch (TeamFoundationServiceUnavailableException ex) {
+                _log.Debug(ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
         }

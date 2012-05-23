@@ -342,7 +342,7 @@ namespace SirenOfShame.Lib.Watcher
                 watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
                 watcher.Settings = _settings;
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
-                _watcherThread = new Thread(watcher.StartWatching) { IsBackground = true };
+                _watcherThread = new Thread(watcher.StartWatching) { IsBackground = true, Name = "CiWatcher" };
                 _watcherThread.Start();
             }
 
