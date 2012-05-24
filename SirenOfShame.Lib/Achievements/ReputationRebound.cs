@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+using log4net;
 
 namespace SirenOfShame.Lib.Achievements
 {
     public class ReputationRebound : AchievementBase
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ReputationRebound));
+        
         private readonly List<BuildStatus> _allActiveBuildDefinitionsOrderedChronoligically;
 
         public ReputationRebound(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically) : base(personSetting)
@@ -45,8 +48,9 @@ namespace SirenOfShame.Lib.Achievements
                 }
             }
 
-            return achievedThreeConsecurtiveFails &&
-                   PersonSetting.GetReputation(buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails) >= 12;
+            if (!achievedThreeConsecurtiveFails) return false;
+            _log.Debug("Achieved 3 consecutive builds, buildsSinceThreeConsecutiveFails = " + buildsSinceThreeConsecutiveFails + ", failedSinceThreeConsecutiveFails = " + failedSinceThreeConsecutiveFails);
+            return PersonSetting.GetReputation(buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails) >= 12;
         }
     }
 }
