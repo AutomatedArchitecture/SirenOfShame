@@ -17,7 +17,6 @@ namespace HudsonServices
         private readonly string _name;
 
         public string RootUrl { get; set; }
-        public string Url { get; set; }
         public override string Id { get { return _id; } }
         public override string Name { get { return _name; } }
 
@@ -25,7 +24,6 @@ namespace HudsonServices
         {
             RootUrl = rootUrl;
             _id = _name = projectXml.ElementValueOrDefault("name");
-            Url = projectXml.ElementValueOrDefault("url");
         }
     }
 }
