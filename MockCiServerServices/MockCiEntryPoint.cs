@@ -19,6 +19,11 @@ namespace MockCiServerServices
             get { return "Mock"; }
         }
 
+        public string DisplayName
+        {
+            get { return "Mock"; }
+        }
+
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {
             return new MockWatcher(settings, this);

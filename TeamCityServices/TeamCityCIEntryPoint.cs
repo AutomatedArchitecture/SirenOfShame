@@ -21,6 +21,11 @@ namespace TeamCityServices
             get { return "Team City"; }
         }
 
+        public string DisplayName
+        {
+            get { return "Team City"; }
+        }
+
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {
             return new TeamCityWatcher(settings, this);

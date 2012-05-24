@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
 using BambooServices.ServerConfiguration;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.ServerConfiguration;
@@ -22,6 +18,11 @@ namespace BambooServices
         public string Name
         {
             get { return "Bamboo"; }
+        }
+
+        public string DisplayName
+        {
+            get { return "Bamdoo"; }
         }
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)

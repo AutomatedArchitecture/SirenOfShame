@@ -20,6 +20,11 @@ namespace CruiseControlNetServices
             get { return "CruiseControl.Net"; }
         }
 
+        public string DisplayName
+        {
+            get { return "CruiseControl.Net"; }
+        }
+
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {
             return new CruiseControlNetWatcher(settings, this);

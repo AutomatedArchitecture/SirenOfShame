@@ -40,7 +40,7 @@
             // 
             this._serverType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._serverType.DisplayMember = "Name";
+            this._serverType.DisplayMember = "DisplayName";
             this._serverType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._serverType.FormattingEnabled = true;
             this._serverType.Location = new System.Drawing.Point(63, 3);
