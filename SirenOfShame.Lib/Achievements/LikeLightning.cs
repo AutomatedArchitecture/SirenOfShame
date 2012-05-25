@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
@@ -24,8 +25,12 @@ public class LikeLightning : AchievementBase
         var lastThree = currentBuildDefinitionOrderedChronoligically.Skip(currentBuildDefinitionOrderedChronoligically.Count - 3).ToList();
         if (!lastThree.All(i => i.RequestedBy == PersonSetting.RawName)) return false;
         if (!lastThree.All(i => i.StartedTime.HasValue && i.FinishedTime.HasValue)) return false;
-        var timeBetweenOneAndTwo = lastThree[1].StartedTime.Value - lastThree[0].FinishedTime.Value;
-        var timeBetweenTwoAndThree = lastThree[2].StartedTime.Value - lastThree[1].FinishedTime.Value;
-        return timeBetweenOneAndTwo.TotalSeconds <= 10 && timeBetweenTwoAndThree.TotalSeconds < 10;
+        if (!lastThree.All(i => i.BuildStatusEnum == BuildStatusEnum.Working)) return false;
+        BuildStatus oldestBuild = lastThree[0];
+        BuildStatus middleBuild = lastThree[1];
+        BuildStatus mostRecentBuild = lastThree[2];
+        var wereLastBuildsBackToBack = oldestBuild.IsBackToBackWithNextBuild(middleBuild);
+        var wereMostRecentBuidlsBackToBack = middleBuild.IsBackToBackWithNextBuild(mostRecentBuild);
+        return wereLastBuildsBackToBack && wereMostRecentBuidlsBackToBack;
     }
 }

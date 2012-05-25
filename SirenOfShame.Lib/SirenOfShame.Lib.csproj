@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Achievements\AchievementBase.cs" />
     <Compile Include="Achievements\Apprentice.cs" />
+    <Compile Include="Achievements\ArribaArribaAndaleAndale.cs" />
     <Compile Include="Achievements\Assassin.cs" />
     <Compile Include="Achievements\ChronGrandMaster.cs" />
     <Compile Include="Achievements\ChronMaster.cs" />

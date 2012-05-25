@@ -154,5 +154,12 @@ namespace SirenOfShame.Lib.Watcher
         {
             return BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null && previousStatus == BuildStatusEnum.Broken;
         }
+
+        public bool IsBackToBackWithNextBuild(BuildStatus nextBuild)
+        {
+            if (nextBuild.StartedTime == null || FinishedTime == null) return false;
+            double secondsBetweenBuilds = (nextBuild.StartedTime.Value - FinishedTime.Value).TotalSeconds;
+            return secondsBetweenBuilds > 0 && secondsBetweenBuilds < 10;
+        }
     }
 }

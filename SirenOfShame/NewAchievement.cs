@@ -8,7 +8,7 @@ namespace SirenOfShame
     public partial class NewAchievement : Form
     {
         private SirenOfShameSettings _settings;
-        private readonly AchievementLookup _achievement;
+        private readonly SirenOfShame.Lib.Settings.AchievementLookup _achievement;
         private PersonSetting _person;
 
         public static void ShowForm(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person)
@@ -84,7 +84,7 @@ namespace SirenOfShame
             if (_onlyShowMyAchievements.Checked)
             {
                 _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-                if (_userIAm.SelectedItem == "")
+                if ((string) _userIAm.SelectedItem == "")
                 {
                     MessageBox.Show("Please either select who you are or select a different notification option.");
                     e.Cancel = true;

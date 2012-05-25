@@ -66,6 +66,7 @@ namespace SirenOfShame.Lib.Settings
                 .ToList();
 
             int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
+            int howManyTimesHasPerformedBackToBackBuilds = ArribaArribaAndaleAndale.HowManyTimesHasPerformedBackToBackBuilds(this, currentBuildDefinitionOrderedChronoligically);
 
             List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
@@ -80,7 +81,8 @@ namespace SirenOfShame.Lib.Settings
                 new CiNinja(this, howManyTimesHasFixedSomeoneElsesBuild),
                 new Assassin(this, howManyTimesHasFixedSomeoneElsesBuild),
                 new LikeLightning(this, currentBuildDefinitionOrderedChronoligically),
-                new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically)
+                new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically),
+                new ArribaArribaAndaleAndale(this, howManyTimesHasPerformedBackToBackBuilds),
             };
 
             return possibleAchievements
