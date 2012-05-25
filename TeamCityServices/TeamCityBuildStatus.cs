@@ -110,6 +110,9 @@ namespace TeamCityServices
                     return BuildStatusEnum.Working;
                 case "FAILURE":
                     return BuildStatusEnum.Broken;
+                case "ERROR":
+                    _log.Warn("Build status: ERROR");
+                    return BuildStatusEnum.Unknown;
                 default:
                     _log.Warn("Unknown build status: " + status);
                     return BuildStatusEnum.Unknown;

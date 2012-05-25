@@ -59,6 +59,10 @@
     </EmbeddedResource>
     <Compile Include="Resources\AudioFileTest.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
+    <EmbeddedResource Include="Resources\TeamCityServerCleanup.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Service\TeamCityBuildStatusTest.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3Test.cs" />

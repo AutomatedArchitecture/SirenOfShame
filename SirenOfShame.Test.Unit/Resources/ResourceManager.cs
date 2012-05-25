@@ -68,5 +68,10 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("BambooFailingBuild.xml")); }
         }
+
+        public static XDocument TeamCityServerCleanup
+        {
+            get { return XDocument.Parse(GetResource("TeamCityServerCleanup.xml")); }
+        }
     }
 }
