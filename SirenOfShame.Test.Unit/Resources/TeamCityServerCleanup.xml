@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html []>
+<html id="htmlId">
+  <head>
+    <title>Cleanup in progress -- TeamCity</title>
+    <!-- :linkCSS -->
+    <style type="text/css">
+      @import "/res/5519527726661553067.css?v=1336710332953";
+    </style>
+    <script type="text/javascript">
+      var base_uri=window.location.protocol+"//"+window.location.host+"";
+    </script>
+    <!-- :linkScript -->
+    <script type="text/javascript" src="/res/-5538290049147127437.js?v=1336710332953"></script>
+    <script type="text/javascript">
+      window.$j = jQuery.noConflict();
+    </script>
+    <!-- :linkScript -->
+    <script type="text/javascript" src="/res/-7297408958954679266.js?v=1336710332953"></script>
+    <style type="text/css">
+      .maintenanceMessage {
+      font-size: 140%;
+      margin-top: 10em;
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+      }
+    </style>
+    <script type="text/javascript">
+      $j(document).ready(function() {
+      window.setTimeout(function() {
+      var href = document.location.href;
+      if (href.indexOf('?') == -1) {
+      if (href.indexOf('#') != -1) {
+      document.location.href = href.replace('#', '?_#');
+      } else {
+      document.location.href = href + '?_';
+      }
+      } else {
+      document.location.reload(true);
+      }
+      }, 15000);
+      })
+    </script>
+    <link rel="Shortcut Icon" href="/favicon20.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="maintenanceMessage">
+      Server is performing cleanup at the moment. It may take from several minutes to several hours depending on the size of the database.
+      <br /><br />
+      Elapsed time: 00:00:00
+      <br /><br />
+      This page will be reloaded automatically when the cleanup process is completed.
+    </div>
+    <iframe style="height:0;width:0;visibility:hidden" src="about:blank">
+      This frame should prevent back forward cache in Safari, see http://developer.apple.com/internet/safari/faq.html#anchor5
+    </iframe>
+    <div id="__tc_cleanupInProgressMarker"></div>
+    <!-- do not remove this div, it is used as marker to identify this page -->
+  </body>
+</html>

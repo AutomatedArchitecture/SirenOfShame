@@ -268,7 +268,7 @@ namespace TeamCityServices
             return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, buildResultXDoc);
         }
 
-        private TeamCityBuildStatus GetBuildStatusAndCommentsFromXDocument(
+        protected TeamCityBuildStatus GetBuildStatusAndCommentsFromXDocument(
             string rootUrl,
             string userName,
             string password,
@@ -280,6 +280,9 @@ namespace TeamCityServices
             var changesNode = buildResultXDoc.Descendants("changes").FirstOrDefault();
             if (changesNode == null)
             {
+                var title = buildResultXDoc.Descendants("title").FirstOrDefault();
+                if (title != null && title.Value.StartsWith("Cleanup in progress"))
+                    throw new ServerUnavailableException("Cleanup in progress");
                 _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
                 return new TeamCityBuildStatus(buildDefinitionSetting) { BuildStatusEnum = BuildStatusEnum.Unknown };
             }

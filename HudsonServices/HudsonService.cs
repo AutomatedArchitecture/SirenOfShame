@@ -75,7 +75,8 @@ namespace HudsonServices
                 if (doc.Root == null) throw new Exception("Could not get project status");
                 var lastBuildElem = doc.Root.Element("lastBuild");
                 if (lastBuildElem == null) throw new Exception("No builds");
-                var buildUrl = lastBuildElem.ElementValueOrDefault("url");
+                var buildNumber = lastBuildElem.ElementValueOrDefault("number");
+                var buildUrl = rootUrl + "/job/" + buildDefinitionSetting.Id + "/" + buildNumber;
                 if (string.IsNullOrWhiteSpace(buildUrl)) throw new Exception("Could not get build url");
                 buildUrl += "/api/xml";
                 doc = DownloadXml(buildUrl, userName, password);

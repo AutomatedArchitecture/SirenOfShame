@@ -8,6 +8,7 @@ namespace SirenOfShame.Lib
     {
         ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting);
         string Name { get; }
+        string DisplayName { get; }
         WatcherBase GetWatcher(SirenOfShameSettings settings);
     }
 }

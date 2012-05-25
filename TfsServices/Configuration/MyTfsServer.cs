@@ -20,6 +20,7 @@ namespace TfsServices.Configuration
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyTfsServer));
         
         private readonly TfsConfigurationServer _tfsConfigurationServer;
+        private NetworkCredential _networkCredential;
 
         public MyTfsServer(CiEntryPointSetting ciEntryPointSetting)
         {
@@ -31,17 +32,19 @@ namespace TfsServices.Configuration
             }
         }
 
-        private static TfsConfigurationServer GetTfsConfigurationServer(string url, string username, string password)
+        private TfsConfigurationServer GetTfsConfigurationServer(string url, string rawUserName, string password)
         {
             var uri = new Uri(url);
-            if (string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(rawUserName))
             {
                 return new TfsConfigurationServer(uri);
             }
 
-            var usernameParts = username.Split('\\');
-            var net = new NetworkCredential(usernameParts.LastOrDefault(), password, usernameParts.FirstOrDefault());
-            return new TfsConfigurationServer(uri, net);
+            var usernameParts = rawUserName.Split('\\');
+            string userName = usernameParts.LastOrDefault();
+            string domain = usernameParts.FirstOrDefault();
+            _networkCredential = new NetworkCredential(userName, password, domain);
+            return new TfsConfigurationServer(uri, _networkCredential);
         }
 
         public IEnumerable<MyTfsProjectCollection> ProjectCollections
@@ -58,7 +61,7 @@ namespace TfsServices.Configuration
                         );
                     
                     return tcpNodes
-                        .Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer))
+                        .Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer, _networkCredential))
                         .Where(i => i.CurrentUserHasAccess);
                 } 
                 catch (Exception ex)

@@ -20,6 +20,11 @@ namespace TfsServices
             get { return "TFS"; }
         }
 
+        public string DisplayName
+        {
+            get { return "Microsoft Team Foundation Server"; }
+        }
+
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {
             return new TfsWatcher(settings, this);
