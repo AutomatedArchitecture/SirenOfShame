@@ -82,6 +82,11 @@ namespace TeamCityServices
                 {
                     FinishedTime = GetTeamCityDate(finishedTimeStr);
                     BuildStatusEnum = ToBuildStatusEnum(status);
+
+                    if (BuildStatusEnum == BuildStatusEnum.Unknown)
+                    {
+                        _log.Debug("Received an unknown build status from the following buildResult: " + buildResultXDoc);
+                    }
                 }
 
                 Url = buildResultXDoc.Root.AttributeValueOrDefault("webUrl");
