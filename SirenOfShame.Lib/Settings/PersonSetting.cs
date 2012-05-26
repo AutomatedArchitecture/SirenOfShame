@@ -18,10 +18,16 @@ namespace SirenOfShame.Lib.Settings
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
 
-        public TimeSpan? MyCumulativeBuildTime
+        // this either needs to stay private or find the attribute to not persist
+        private TimeSpan? MyCumulativeBuildTime
         {
             get { return CumulativeBuildTime == null ? (TimeSpan?)null : new TimeSpan(CumulativeBuildTime.Value); }
             set { CumulativeBuildTime = value == null ? (long?)null : value.Value.Ticks; }
+        }
+
+        public TimeSpan? GetCumulativeBuildTime()
+        {
+            return MyCumulativeBuildTime;
         }
 
         public PersonSetting()
@@ -83,6 +89,7 @@ namespace SirenOfShame.Lib.Settings
                 new LikeLightning(this, currentBuildDefinitionOrderedChronoligically),
                 new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically),
                 new ArribaArribaAndaleAndale(this, howManyTimesHasPerformedBackToBackBuilds),
+                new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
             };
 
             return possibleAchievements

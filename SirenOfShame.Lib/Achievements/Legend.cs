@@ -17,7 +17,7 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.Legend; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
             return _reputation >= 1000;
         }

@@ -100,6 +100,7 @@
     <Compile Include="Achievements\Master.cs" />
     <Compile Include="Achievements\Neophyte.cs" />
     <Compile Include="Achievements\ReputationRebound.cs" />
+    <Compile Include="Achievements\SpeedDaemon.cs" />
     <Compile Include="Achievements\TimeWarrior.cs" />
     <Compile Include="AppendTimeDialog.cs">
       <SubType>Form</SubType>

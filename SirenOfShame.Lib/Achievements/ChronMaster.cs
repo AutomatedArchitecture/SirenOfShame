@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Lib.Settings;
+﻿using System;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Achievements
 {
@@ -13,9 +14,10 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.ChronMaster; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
-            return PersonSetting.MyCumulativeBuildTime != null && PersonSetting.MyCumulativeBuildTime.Value.TotalHours >= 48;
+            TimeSpan? myCumulativeBuildTime = PersonSetting.GetCumulativeBuildTime();
+            return myCumulativeBuildTime != null && myCumulativeBuildTime.Value.TotalHours >= 48;
         }
     }
 }

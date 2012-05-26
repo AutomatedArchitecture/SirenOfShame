@@ -14,9 +14,10 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.TimeWarrior; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
-            return PersonSetting.MyCumulativeBuildTime != null && PersonSetting.MyCumulativeBuildTime.Value.TotalHours >= 24;
+            TimeSpan? myCumulativeBuildTime = PersonSetting.GetCumulativeBuildTime();
+            return myCumulativeBuildTime != null && myCumulativeBuildTime.Value.TotalHours >= 24;
         }
     }
 }

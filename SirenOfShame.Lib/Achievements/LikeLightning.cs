@@ -19,7 +19,7 @@ public class LikeLightning : AchievementBase
         get { return AchievementEnum.LikeLightning; }
     }
 
-    protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+    protected override bool MeetsAchievementCriteria()
     {
         if (currentBuildDefinitionOrderedChronoligically.Count < 3) return false;
         var lastThree = currentBuildDefinitionOrderedChronoligically.Skip(currentBuildDefinitionOrderedChronoligically.Count - 3).ToList();

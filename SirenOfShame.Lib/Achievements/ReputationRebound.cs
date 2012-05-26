@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using log4net;
@@ -21,15 +22,15 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.ReputationRebound; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
             int consecutiveFailedBuilds = 0;
-            bool achievedThreeConsecurtiveFails = false;
+            DateTime? achievedThreeConsecurtiveFails = null;
             int buildsSinceThreeConsecutiveFails = 0;
             int failedSinceThreeConsecutiveFails = 0;
             foreach (var buildStatus in _allActiveBuildDefinitionsOrderedChronoligically)
             {
-                if (achievedThreeConsecurtiveFails && buildStatus.RequestedBy == PersonSetting.RawName)
+                if (achievedThreeConsecurtiveFails.HasValue && buildStatus.RequestedBy == PersonSetting.RawName)
                 {
                     buildsSinceThreeConsecutiveFails++;
                     if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
@@ -40,7 +41,7 @@ namespace SirenOfShame.Lib.Achievements
                 {
                     consecutiveFailedBuilds++;
                     if (consecutiveFailedBuilds >= 3)
-                        achievedThreeConsecurtiveFails = true;
+                        achievedThreeConsecurtiveFails = buildStatus.StartedTime;
                 } 
                 else
                 {
@@ -48,9 +49,11 @@ namespace SirenOfShame.Lib.Achievements
                 }
             }
 
-            if (!achievedThreeConsecurtiveFails) return false;
-            _log.Debug("Achieved 3 consecutive builds, buildsSinceThreeConsecutiveFails = " + buildsSinceThreeConsecutiveFails + ", failedSinceThreeConsecutiveFails = " + failedSinceThreeConsecutiveFails);
-            return PersonSetting.GetReputation(buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails) >= 12;
+            if (!achievedThreeConsecurtiveFails.HasValue) return false;
+            bool meetsAchievementCriteria = PersonSetting.GetReputation(buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails) >= 12;
+            if (!meetsAchievementCriteria)
+                _log.Debug(PersonSetting.RawName + " did not meet reputation rebound criteria. They achieved 3 consecutive failed builds on " + achievedThreeConsecurtiveFails + " and since then they have build " + buildsSinceThreeConsecutiveFails + " times, of those " + failedSinceThreeConsecutiveFails + " were failures.");
+            return meetsAchievementCriteria;
         }
     }
 }

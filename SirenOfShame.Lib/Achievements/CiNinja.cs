@@ -19,7 +19,7 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.CiNinja; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
             return _howManyTimesHasFixedSomeoneElsesBuild >= 1;
         }

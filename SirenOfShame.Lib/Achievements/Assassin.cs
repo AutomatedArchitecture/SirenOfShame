@@ -17,7 +17,7 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.Assassin; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
             return _howManyTimesHasFixedSomeoneElsesBuild >= 10;
         }

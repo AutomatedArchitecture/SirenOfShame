@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+using log4net;
 
 namespace SirenOfShame.Lib.Achievements
 {
     public class ArribaArribaAndaleAndale : AchievementBase
     {
-        private readonly int _currentBuildDefinitionOrderedChronoligically;
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildStatus));
+        private readonly int _howManyTimesHasPerformedBackToBackBuilds;
 
-        public ArribaArribaAndaleAndale(PersonSetting personSetting, int currentBuildDefinitionOrderedChronoligically) : base(personSetting)
+        public ArribaArribaAndaleAndale(PersonSetting personSetting, int howManyTimesHasPerformedBackToBackBuilds)
+            : base(personSetting)
         {
-            _currentBuildDefinitionOrderedChronoligically = currentBuildDefinitionOrderedChronoligically;
+            _howManyTimesHasPerformedBackToBackBuilds = howManyTimesHasPerformedBackToBackBuilds;
         }
 
         public override AchievementEnum AchievementEnum
@@ -18,9 +21,9 @@ namespace SirenOfShame.Lib.Achievements
             get { return AchievementEnum.ArribaArribaAndaleAndale; }
         }
 
-        protected override bool MeetsAchievementCriteria(PersonSetting personSetting)
+        protected override bool MeetsAchievementCriteria()
         {
-            return _currentBuildDefinitionOrderedChronoligically >= 5;
+            return _howManyTimesHasPerformedBackToBackBuilds >= 5;
         }
 
         public static int HowManyTimesHasPerformedBackToBackBuilds(PersonSetting activePerson, List<BuildStatus> currentBuildDefinitionOrderedChronoligically)
@@ -47,6 +50,7 @@ namespace SirenOfShame.Lib.Achievements
                 lastBuild = buildStatus;
             }
 
+            _log.Debug(activePerson.RawName + " has achieved back to back successful builds " + backToBack + " times");
             return backToBack;
         }
     }

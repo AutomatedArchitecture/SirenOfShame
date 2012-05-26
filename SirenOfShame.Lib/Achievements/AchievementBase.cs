@@ -13,7 +13,7 @@ namespace SirenOfShame.Lib.Achievements
             get { return _personSetting; }
         }
 
-        protected abstract bool MeetsAchievementCriteria(PersonSetting personSetting);
+        protected abstract bool MeetsAchievementCriteria();
 
         protected AchievementBase(PersonSetting personSetting)
         {
@@ -22,7 +22,7 @@ namespace SirenOfShame.Lib.Achievements
 
         public bool HasJustAchieved()
         {
-            return !_personSetting.HasAchieved(AchievementEnum) && MeetsAchievementCriteria(_personSetting);
+            return !_personSetting.HasAchieved(AchievementEnum) && MeetsAchievementCriteria();
         }
     }
 }
