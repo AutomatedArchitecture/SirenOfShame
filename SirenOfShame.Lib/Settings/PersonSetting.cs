@@ -92,6 +92,7 @@ namespace SirenOfShame.Lib.Settings
                 new ArribaArribaAndaleAndale(this, howManyTimesHasPerformedBackToBackBuilds),
                 new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
                 new InTheZone(this, maxBuildsInOneDay),
+                new UltraProductive(this, maxBuildsInOneDay),
             };
 
             return possibleAchievements
