@@ -73,6 +73,7 @@ namespace SirenOfShame.Lib.Settings
 
             int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
             int howManyTimesHasPerformedBackToBackBuilds = ArribaArribaAndaleAndale.HowManyTimesHasPerformedBackToBackBuilds(this, currentBuildDefinitionOrderedChronoligically);
+            int maxBuildsInOneDay = InTheZone.MaxBuildsInOneDay(this, currentBuildDefinitionOrderedChronoligically);
 
             List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
@@ -90,6 +91,7 @@ namespace SirenOfShame.Lib.Settings
                 new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically),
                 new ArribaArribaAndaleAndale(this, howManyTimesHasPerformedBackToBackBuilds),
                 new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
+                new InTheZone(this, maxBuildsInOneDay),
             };
 
             return possibleAchievements
@@ -108,6 +110,11 @@ namespace SirenOfShame.Lib.Settings
             {
                 Achievements.Add(new AchievementSetting { AchievementId = (int)achievementLookup.Id, DateAchieved = DateTime.Now });
             }
+        }
+
+        public override string ToString()
+        {
+            return RawName;
         }
     }
 }

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Achievements\ArribaArribaAndaleAndaleTest.cs" />
     <Compile Include="Achievements\CiNinjaTest.cs" />
+    <Compile Include="Achievements\InTheZoneTest.cs" />
     <Compile Include="Achievements\LikeLightningTest.cs" />
     <Compile Include="Achievements\ReputationReboundTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\BambooBuildStatusTest.cs" />
