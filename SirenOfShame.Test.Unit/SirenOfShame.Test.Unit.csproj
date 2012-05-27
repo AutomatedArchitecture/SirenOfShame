@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achievements\AndGotAwayWithItTest.cs" />
     <Compile Include="Achievements\ArribaArribaAndaleAndaleTest.cs" />
     <Compile Include="Achievements\CiNinjaTest.cs" />
     <Compile Include="Achievements\InTheZoneTest.cs" />

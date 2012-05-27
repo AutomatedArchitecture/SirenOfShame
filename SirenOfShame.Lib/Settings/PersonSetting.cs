@@ -93,6 +93,7 @@ namespace SirenOfShame.Lib.Settings
                 new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
                 new InTheZone(this, maxBuildsInOneDay),
                 new UltraProductive(this, maxBuildsInOneDay),
+                new AndGotAwayWithIt(this, currentBuildDefinitionOrderedChronoligically)
             };
 
             return possibleAchievements

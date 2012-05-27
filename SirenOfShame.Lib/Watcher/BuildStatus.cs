@@ -157,9 +157,15 @@ namespace SirenOfShame.Lib.Watcher
 
         public bool IsBackToBackWithNextBuild(BuildStatus nextBuild)
         {
+            const int defaultSecondsForBackToBack = 10;
+            return IsBackToBackWithNextBuild(nextBuild, defaultSecondsForBackToBack);
+        }
+
+        public bool IsBackToBackWithNextBuild(BuildStatus nextBuild, int seconds)
+        {
             if (nextBuild.StartedTime == null || FinishedTime == null) return false;
             double secondsBetweenBuilds = (nextBuild.StartedTime.Value - FinishedTime.Value).TotalSeconds;
-            return secondsBetweenBuilds > 0 && secondsBetweenBuilds < 10;
+            return secondsBetweenBuilds > 0 && secondsBetweenBuilds < seconds;
         }
     }
 }

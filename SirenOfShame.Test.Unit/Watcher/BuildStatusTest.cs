@@ -14,7 +14,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
             var startedTime = new DateTime(2010, 1, 1, 1, 1, 9);
-            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}));
+            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
         }
 
         [TestMethod]
@@ -22,7 +22,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var finishedTime = new DateTime(2010, 1, 1, 1, 1, 9);
             var startedTime = new DateTime(2010, 1, 1, 1, 1, 1);
-            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}));
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
             var startedTime = new DateTime(2010, 1, 1, 1, 1, 10);
-            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}));
+            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             DateTime? finishedTime = null;
             var startedTime = new DateTime(2010, 1, 1, 1, 1, 10);
-            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}));
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
             DateTime? startedTime = null;
-            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime }.IsBackToBackWithNextBuild(new BuildStatus { StartedTime = startedTime }));
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime }.IsBackToBackWithNextBuild(new BuildStatus { StartedTime = startedTime }, 10));
         }
 
         [TestMethod]

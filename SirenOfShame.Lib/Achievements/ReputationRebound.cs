@@ -41,7 +41,7 @@ namespace SirenOfShame.Lib.Achievements
                 {
                     consecutiveFailedBuilds++;
                     if (consecutiveFailedBuilds >= 3)
-                        achievedThreeConsecurtiveFails = buildStatus.StartedTime;
+                        achievedThreeConsecurtiveFails = buildStatus.StartedTime ?? DateTime.Now;
                 } 
                 else
                 {
