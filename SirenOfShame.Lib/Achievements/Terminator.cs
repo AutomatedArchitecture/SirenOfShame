@@ -2,11 +2,11 @@
 
 namespace SirenOfShame.Lib.Achievements
 {
-    public class UltraProductive : AchievementBase
+    public class Terminator : AchievementBase
     {
         private readonly int _maxBuildsInOneDay;
 
-        public UltraProductive(PersonSetting personSetting, int maxBuildsInOneDay)
+        public Terminator(PersonSetting personSetting, int maxBuildsInOneDay)
             : base(personSetting)
         {
             _maxBuildsInOneDay = maxBuildsInOneDay;
@@ -14,7 +14,7 @@ namespace SirenOfShame.Lib.Achievements
 
         public override AchievementEnum AchievementEnum
         {
-            get { return AchievementEnum.UltraProductive; }
+            get { return AchievementEnum.Terminator; }
         }
 
         protected override bool MeetsAchievementCriteria()

@@ -26,7 +26,7 @@ namespace SirenOfShame
             InitializeComponent();
             
             _user.Text = person.DisplayName;
-            _title.Text = achievement.Name + "!!";
+            _title.Text = achievement.Name + "!";
             _accomplishment.Text = achievement.Description;
 
             if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Always)
@@ -100,7 +100,7 @@ namespace SirenOfShame
 
         private static string UrlEncode(string s)
         {
-            return s.Replace("%", "%25").Replace(" ", "%20");
+            return s.Replace("%", "%25").Replace("+", "%2B").Replace(" ", "%20");
         }
         
         private void ShareOnTwitterClick(object sender, EventArgs e)

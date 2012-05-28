@@ -103,10 +103,11 @@
     <Compile Include="Achievements\Master.cs" />
     <Compile Include="Achievements\Neophyte.cs" />
     <Compile Include="Achievements\InTheZone.cs" />
+    <Compile Include="Achievements\Perfectionist.cs" />
     <Compile Include="Achievements\ReputationRebound.cs" />
     <Compile Include="Achievements\SpeedDaemon.cs" />
     <Compile Include="Achievements\TimeWarrior.cs" />
-    <Compile Include="Achievements\UltraProductive.cs" />
+    <Compile Include="Achievements\Terminator.cs" />
     <Compile Include="AppendTimeDialog.cs">
       <SubType>Form</SubType>
     </Compile>
