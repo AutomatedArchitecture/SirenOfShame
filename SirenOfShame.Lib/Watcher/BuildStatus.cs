@@ -108,6 +108,12 @@ namespace SirenOfShame.Lib.Watcher
             return string.Format("{0}:{1:00}", (int)duration.Value.TotalMinutes, duration.Value.Seconds);
         }
 
+        public TimeSpan? GetDuration()
+        {
+            if (FinishedTime == null || StartedTime == null) return null;
+            return FinishedTime.Value - StartedTime.Value;
+        }
+
         private TimeSpan? GetDuration(DateTime? startedTime, DateTime? finishedTime, BuildStatus previousStatus, DateTime now)
         {
             if (BuildStatusEnum != BuildStatusEnum.InProgress)

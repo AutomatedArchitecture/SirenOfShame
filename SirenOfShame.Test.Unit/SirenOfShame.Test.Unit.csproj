@@ -54,6 +54,7 @@
     <Compile Include="Achievements\CriticalTest.cs" />
     <Compile Include="Achievements\InTheZoneTest.cs" />
     <Compile Include="Achievements\LikeLightningTest.cs" />
+    <Compile Include="Achievements\MacgyverTest.cs" />
     <Compile Include="Achievements\ReputationReboundTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\BambooBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />

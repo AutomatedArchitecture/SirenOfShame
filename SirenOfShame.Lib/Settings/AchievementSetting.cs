@@ -25,6 +25,7 @@ namespace SirenOfShame.Lib.Settings
         Critical = 19,
         Perfectionist = 20,
         JonSkeet = 21,
+        Macgyver = 22,
     }
 
     [Serializable]
@@ -52,6 +53,7 @@ namespace SirenOfShame.Lib.Settings
             new AchievementLookup { Id = AchievementEnum.AndGotAwayWithIt, Name = "And Got Away With It", Description = "Fixed a broken build within 60 seconds" },
             new AchievementLookup { Id = AchievementEnum.Critical, Name = "Critical", Description = "Achieved under 10% failed build ratio after 50 checkins" },
             new AchievementLookup { Id = AchievementEnum.Perfectionist, Name = "Perfectionist", Description = "Achieved under 5% failed build ratio after 50 checkins" },
+            new AchievementLookup { Id = AchievementEnum.Macgyver, Name = "Macgyver", Description = "Reduced build time by 10%" },
         };
         
         public DateTime DateAchieved { get; set; }
