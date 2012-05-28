@@ -52,7 +52,7 @@ namespace SirenOfShame.Lib.Achievements
             if (!achievedThreeConsecurtiveFails.HasValue) return false;
             bool meetsAchievementCriteria = PersonSetting.GetReputation(buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails) >= 12;
             if (!meetsAchievementCriteria)
-                _log.Debug(PersonSetting.RawName + " did not meet reputation rebound criteria. They achieved 3 consecutive failed builds on " + achievedThreeConsecurtiveFails + " and since then they have build " + buildsSinceThreeConsecutiveFails + " times, of those " + failedSinceThreeConsecutiveFails + " were failures.");
+                _log.Debug(string.Format("{0} did not meet reputation rebound criteria. They achieved 3 consecutive failed builds on {1} and since then they have build {2} times, of those {3} were failures.", PersonSetting.RawName, achievedThreeConsecurtiveFails, buildsSinceThreeConsecutiveFails, failedSinceThreeConsecutiveFails));
             return meetsAchievementCriteria;
         }
     }

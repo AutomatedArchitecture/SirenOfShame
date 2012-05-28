@@ -52,8 +52,8 @@ namespace SirenOfShame.Lib.Settings
             new AchievementLookup { Id = AchievementEnum.UltraProductive, Name = "Ultra-Productive", Description = "Queued 10+ builds in 1 day" },
             new AchievementLookup { Id = AchievementEnum.AndGotAwayWithIt, Name = "And Got Away With It", Description = "Fixed a broken build within 1 minute" },
             new AchievementLookup { Id = AchievementEnum.Opportunistic, Name = "Opportunistic", Description = "Performed 10 Contiguous Builds" },
-            new AchievementLookup { Id = AchievementEnum.Critical, Name = "Critical", Description = "Achieved under 10% failed build ratio with 50+ checkins" },
-            new AchievementLookup { Id = AchievementEnum.Perfectionist, Name = "Perfectionist", Description = "Achieved under 5% failed build ratio with 50+ checkins" },
+            new AchievementLookup { Id = AchievementEnum.Critical, Name = "Critical", Description = "Achieved under 10% failed build ratio after 50 checkins" },
+            new AchievementLookup { Id = AchievementEnum.Perfectionist, Name = "Perfectionist", Description = "Achieved under 5% failed build ratio after 50 checkins" },
         };
         
         public DateTime DateAchieved { get; set; }

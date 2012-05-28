@@ -100,12 +100,12 @@ namespace SirenOfShame
 
         private static string UrlEncode(string s)
         {
-            return s.Replace(" ", "%20");
+            return s.Replace("%", "%25").Replace(" ", "%20");
         }
         
         private void ShareOnTwitterClick(object sender, EventArgs e)
         {
-            string tweetText = "I%20just%20got%20the%20" + UrlEncode(_achievement.Name) +  "%20achievement%20on%20%23sirenofshame.%20I%20" + UrlEncode(_achievement.Description.ToLower()) + ".";
+            string tweetText = "I%20just%20got%20the%20" + UrlEncode(_achievement.Name) +  "%20achievement%20on%20%40sirenofshame.%20I%20" + UrlEncode(_achievement.Description.ToLower()) + ".";
             Process.Start("https://twitter.com/intent/tweet?text=" + tweetText);
         }
 

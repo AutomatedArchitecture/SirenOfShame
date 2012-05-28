@@ -74,6 +74,7 @@ namespace SirenOfShame.Lib.Settings
             int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
             int howManyTimesHasPerformedBackToBackBuilds = ArribaArribaAndaleAndale.HowManyTimesHasPerformedBackToBackBuilds(this, currentBuildDefinitionOrderedChronoligically);
             int maxBuildsInOneDay = InTheZone.MaxBuildsInOneDay(this, currentBuildDefinitionOrderedChronoligically);
+            double? lowestBuildRatio = Critical.CalculateLowestBuildRatio(this, allActiveBuildDefinitionsOrderedChronoligically);
 
             List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
@@ -94,7 +95,8 @@ namespace SirenOfShame.Lib.Settings
                 new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
                 new InTheZone(this, maxBuildsInOneDay),
                 new UltraProductive(this, maxBuildsInOneDay),
-                new AndGotAwayWithIt(this, currentBuildDefinitionOrderedChronoligically)
+                new AndGotAwayWithIt(this, currentBuildDefinitionOrderedChronoligically),
+                new Critical(this, lowestBuildRatio),
             };
 
             return possibleAchievements
