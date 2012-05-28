@@ -102,6 +102,7 @@
     <Compile Include="Achievements\LikeLightning.cs" />
     <Compile Include="Achievements\Macgyver.cs" />
     <Compile Include="Achievements\Master.cs" />
+    <Compile Include="Achievements\Napoleon.cs" />
     <Compile Include="Achievements\Neophyte.cs" />
     <Compile Include="Achievements\InTheZone.cs" />
     <Compile Include="Achievements\Perfectionist.cs" />

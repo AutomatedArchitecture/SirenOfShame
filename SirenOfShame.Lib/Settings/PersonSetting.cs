@@ -98,7 +98,8 @@ namespace SirenOfShame.Lib.Settings
                 new AndGotAwayWithIt(this, currentBuildDefinitionOrderedChronoligically),
                 new Critical(this, lowestBuildRatio),
                 new Perfectionist(this, lowestBuildRatio),
-                new Macgyver(this, currentBuildDefinitionOrderedChronoligically)
+                new Macgyver(this, currentBuildDefinitionOrderedChronoligically),
+                new Napoleon(this, settings.People)
             };
 
             return possibleAchievements
