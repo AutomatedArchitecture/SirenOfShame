@@ -199,7 +199,7 @@ namespace SirenOfShame
             EnableSirenMenuItem(false);
         }
 
-        private void Form1Load(object sender, EventArgs e)
+        private void MainFormLoad(object sender, EventArgs e)
         {
             _panelAlertHeight = _panelAlert.Height;
             _log.Debug("Form1 loaded");
@@ -207,6 +207,9 @@ namespace SirenOfShame
             {
                 _settings = new SirenOfShameSettings();
             }
+            
+            _settings.TryUpgrade();
+
             StartWatchingBuild();
             RefreshStats();
             SetMuteButton();

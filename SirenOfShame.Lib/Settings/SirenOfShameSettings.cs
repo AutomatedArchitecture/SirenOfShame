@@ -170,10 +170,7 @@ namespace SirenOfShame.Lib.Settings
         public static SirenOfShameSettings GetAppSettings()
         {
             string fileName = GetConfigFileName();
-            var settings = GetAppSettings(fileName);
-            if (settings == null) return null; // this only happens if there was a major problem deserializing
-            settings.TryUpgrade();
-            return settings;
+            return GetAppSettings(fileName);
         }
 
         public static SirenOfShameSettings GetAppSettings(string fileName)
@@ -215,13 +212,14 @@ namespace SirenOfShame.Lib.Settings
             return defaultSettings;
         }
 
-        protected void TryUpgrade()
+        public void TryUpgrade()
         {
             var upgrades = new UpgradeBase[]
                                {
                                    new Upgrade0To1(),
                                    new Upgrade1To2(),
                                    new Upgrade2To3(),
+                                   new Upgrade3To4(),
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
@@ -234,6 +232,9 @@ namespace SirenOfShame.Lib.Settings
                     Save();
                 }
             }
+
+            // todo: remove this
+            FindOldAchievements.TryFindOldAchievements(this);
         }
 
         private void ErrorIfAnythingLooksBad()

@@ -900,7 +900,7 @@ namespace SirenOfShame {
             this.Name = "MainForm";
             this.Text = "Siren of Shame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
-            this.Load += new System.EventHandler(this.Form1Load);
+            this.Load += new System.EventHandler(this.MainFormLoad);
             this.Move += new System.EventHandler(this.MainFormMove);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
