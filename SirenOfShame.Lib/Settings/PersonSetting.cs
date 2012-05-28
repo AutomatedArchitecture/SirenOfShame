@@ -82,6 +82,7 @@ namespace SirenOfShame.Lib.Settings
                 new Master(this, reputation),
                 new GrandMaster(this, reputation),
                 new Legend(this, reputation),
+                new JonSkeet(this, reputation),
                 new TimeWarrior(this),
                 new ChronMaster(this),
                 new ChronGrandMaster(this),

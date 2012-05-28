@@ -96,6 +96,7 @@
     <Compile Include="Achievements\ChronMaster.cs" />
     <Compile Include="Achievements\CiNinja.cs" />
     <Compile Include="Achievements\GrandMaster.cs" />
+    <Compile Include="Achievements\JonSkeet.cs" />
     <Compile Include="Achievements\Legend.cs" />
     <Compile Include="Achievements\LikeLightning.cs" />
     <Compile Include="Achievements\Master.cs" />
