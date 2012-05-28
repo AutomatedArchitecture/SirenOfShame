@@ -209,6 +209,15 @@ namespace SirenOfShame
             }
             
             _settings.TryUpgrade();
+            
+            // todo: remove this line
+            _settings.TryToFindOldAchievementsAtNextOpportunity = true;
+            
+            if (_settings.TryToFindOldAchievementsAtNextOpportunity)
+            {
+                FindOldAchievements.TryFindOldAchievements(_settings);
+                _settings.TryToFindOldAchievementsAtNextOpportunity = false;
+            }
 
             StartWatchingBuild();
             RefreshStats();

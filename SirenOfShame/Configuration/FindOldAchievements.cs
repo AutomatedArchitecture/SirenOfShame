@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 
-namespace SirenOfShame.Lib.Settings.Upgrades
+namespace SirenOfShame.Configuration
 {
     public partial class FindOldAchievements : Form
     {
@@ -20,7 +23,10 @@ namespace SirenOfShame.Lib.Settings.Upgrades
 
         private void OkClick(object sender, EventArgs e)
         {
-            Close();
+            var sosDb = new SosDb();
+            var allSettings = sosDb
+                .ReadAll(_settings.GetAllActiveBuildDefinitions())
+                .OrderBy(i => i.StartedTime);
         }
 
         public static void TryFindOldAchievements(SirenOfShameSettings settings)

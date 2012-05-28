@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -125,6 +124,9 @@ namespace SirenOfShame.Lib.Settings
 
         public string MyRawName { get; set; }
 
+        [XmlIgnore]
+        public bool TryToFindOldAchievementsAtNextOpportunity { get; set; }
+
         public virtual void Save()
         {
             string fileName = GetConfigFileName();
@@ -132,7 +134,7 @@ namespace SirenOfShame.Lib.Settings
         }
 
         private object _lock = new object();
-        
+
         public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
 
         public virtual void Save(string fileName)
@@ -232,9 +234,6 @@ namespace SirenOfShame.Lib.Settings
                     Save();
                 }
             }
-
-            // todo: remove this
-            FindOldAchievements.TryFindOldAchievements(this);
         }
 
         private void ErrorIfAnythingLooksBad()

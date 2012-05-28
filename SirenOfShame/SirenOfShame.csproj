@@ -97,6 +97,12 @@
     <Compile Include="Configuration\ConfigureServers.Designer.cs">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\FindOldAchievements.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\FindOldAchievements.Designer.cs">
+      <DependentUpon>FindOldAchievements.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureServers.resx">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\FindOldAchievements.resx">
+      <DependentUpon>FindOldAchievements.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

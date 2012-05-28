@@ -195,12 +195,6 @@
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
     <Compile Include="Settings\UpdateLocation.cs" />
-    <Compile Include="Settings\Upgrades\FindOldAchievements.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Settings\Upgrades\FindOldAchievements.Designer.cs">
-      <DependentUpon>FindOldAchievements.cs</DependentUpon>
-    </Compile>
     <Compile Include="Settings\Upgrades\Upgrade1To2.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3.cs" />
     <Compile Include="Settings\Upgrades\Upgrade3To4.cs" />
@@ -277,9 +271,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionMessageBox.resx">
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings\Upgrades\FindOldAchievements.resx">
-      <DependentUpon>FindOldAchievements.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WavEditor.resx">
       <DependentUpon>WavEditor.cs</DependentUpon>

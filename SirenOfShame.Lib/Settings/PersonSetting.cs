@@ -47,29 +47,34 @@ namespace SirenOfShame.Lib.Settings
 
         public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
         {
-            return from achievementEnum in CalculateNewAchievementEnums(settings, build)
+            List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically = _sosDb
+                .ReadAll(settings.GetAllActiveBuildDefinitions())
+                .OrderBy(i => i.StartedTime)
+                .ToList();
+
+            return CalculateNewAchievements(settings, build, allActiveBuildDefinitionsOrderedChronoligically);
+        }
+
+        public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
+        {
+            return from achievementEnum in CalculateNewAchievementEnums(settings, build, allActiveBuildDefinitionsOrderedChronoligically)
                    join achievement in AchievementSetting.AchievementLookups on achievementEnum equals achievement.Id
                    select achievement;
         }
 
-        private IEnumerable<AchievementEnum> CalculateNewAchievementEnums(SirenOfShameSettings settings, BuildStatus build)
+        private IEnumerable<AchievementEnum> CalculateNewAchievementEnums(SirenOfShameSettings settings, BuildStatus build, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {
             int reputation = GetReputation();
+
+            List<BuildStatus> currentBuildDefinitionOrderedChronoligically = allActiveBuildDefinitionsOrderedChronoligically
+                .Where(i => i.BuildDefinitionId == build.BuildDefinitionId)
+                .ToList();
 
             if (build.FinishedTime != null && build.StartedTime != null)
             {
                 TimeSpan? buildDuration = build.FinishedTime.Value - build.StartedTime.Value;
                 MyCumulativeBuildTime = MyCumulativeBuildTime == null ? buildDuration : MyCumulativeBuildTime + buildDuration;
             }
-
-            var allActiveBuildDefinitionsOrderedChronoligically = _sosDb
-                .ReadAll(settings.GetAllActiveBuildDefinitions())
-                .OrderBy(i => i.StartedTime)
-                .ToList();
-
-            var currentBuildDefinitionOrderedChronoligically = allActiveBuildDefinitionsOrderedChronoligically
-                .Where(i => i.BuildDefinitionId == build.BuildDefinitionId)
-                .ToList();
 
             int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
             int howManyTimesHasPerformedBackToBackBuilds = ArribaArribaAndaleAndale.HowManyTimesHasPerformedBackToBackBuilds(this, currentBuildDefinitionOrderedChronoligically);

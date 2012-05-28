@@ -1,4 +1,4 @@
-﻿namespace SirenOfShame.Lib.Settings.Upgrades
+﻿namespace SirenOfShame.Configuration
 {
     partial class FindOldAchievements
     {

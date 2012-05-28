@@ -1,4 +1,7 @@
-﻿namespace SirenOfShame.Lib.Settings.Upgrades
+﻿using System.Linq;
+using System.Xml.Serialization;
+
+namespace SirenOfShame.Lib.Settings.Upgrades
 {
     public class Upgrade3To4 : UpgradeBase
     {
@@ -9,7 +12,11 @@
 
         public override void Upgrade(SirenOfShameSettings sirenOfShameSettings)
         {
-            // todo: add this back in
+            if (sirenOfShameSettings.GetAllActiveBuildDefinitions().Any())
+            {
+                sirenOfShameSettings.TryToFindOldAchievementsAtNextOpportunity = true;
+            }
+            // todo: add this back in 
             //FindOldAchievements.TryFindOldAchievements(sirenOfShameSettings);
         }
     }
