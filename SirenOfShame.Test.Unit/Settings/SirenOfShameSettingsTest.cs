@@ -15,7 +15,7 @@ namespace SirenOfShame.Test.Unit.Settings
                                    Version = null
                                };
             settings.DoUpgrade();
-            Assert.AreEqual(3, settings.Version);
+            Assert.AreEqual(4, settings.Version);
         }
         
         [TestMethod]

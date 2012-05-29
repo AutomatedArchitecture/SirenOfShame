@@ -7,9 +7,8 @@ namespace SirenOfShame
 {
     public partial class NewAchievement : Form
     {
-        private SirenOfShameSettings _settings;
-        private readonly SirenOfShame.Lib.Settings.AchievementLookup _achievement;
-        private PersonSetting _person;
+        private readonly SirenOfShameSettings _settings;
+        private readonly AchievementLookup _achievement;
 
         public static void ShowForm(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person)
         {
@@ -19,7 +18,6 @@ namespace SirenOfShame
 
         private NewAchievement(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person)
         {
-            _person = person;
             _achievement = achievement;
             _settings = settings;
 
