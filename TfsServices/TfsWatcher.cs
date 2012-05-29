@@ -39,6 +39,11 @@ namespace TfsServices
                 var buildDefinitionsByServer = _watchedBuildDefinitions.GroupBy(bd => bd.BuildServer);
                 return buildDefinitionsByServer.SelectMany(g => g.Key.GetBuildStatuses(g)).ToList();
             }
+            catch (DatabaseOperationTimeoutException ex)
+            {
+                Log.Warn(ex);
+                throw new ServerUnavailableException(ex.Message, ex);
+            }
             catch (DatabaseConnectionException ex)
             {
                 throw new ServerUnavailableException(ex.Message, ex);
