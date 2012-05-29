@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using log4net;
 using Microsoft.TeamFoundation.Build.Client;
+using Microsoft.TeamFoundation.Framework.Client;
 using SirenOfShame.Lib;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Watcher;
 using BuildStatus = SirenOfShame.Lib.Watcher.BuildStatus;
 
@@ -27,7 +29,16 @@ namespace TfsServices.Configuration
             buildDetailSpec.MaxBuildsPerDefinition = 1;
             buildDetailSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
 
-            IBuildQueryResult buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
+            IBuildQueryResult buildQueryResults;
+            try
+            {
+                buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
+            }
+            catch (DatabaseOperationTimeoutException ex)
+            {
+                Log.Debug(ex);
+                throw new ServerUnavailableException();
+            }
             var latestChangesets = buildDefinitions.Select(bd => bd.GetLatestChangeset());
             var successfulChangesets = latestChangesets.Where(c => c != null);
 
