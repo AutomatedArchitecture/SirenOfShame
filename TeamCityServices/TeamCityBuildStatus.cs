@@ -78,7 +78,8 @@ namespace TeamCityServices
                 if (string.IsNullOrEmpty(finishedTimeStr))
                 {
                     BuildStatusEnum = BuildStatusEnum.InProgress;
-                } else
+                } 
+                else
                 {
                     FinishedTime = GetTeamCityDate(finishedTimeStr);
                     BuildStatusEnum = ToBuildStatusEnum(status);
@@ -94,9 +95,9 @@ namespace TeamCityServices
 
                 BuildId = buildResultXDoc.Root.AttributeValueOrDefault("id");
             } 
-            catch (Exception)
+            catch (Exception ex)
             {
-                _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc);
+                _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc, ex);
                 throw;
             }
         }
