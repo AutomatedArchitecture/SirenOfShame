@@ -23,6 +23,45 @@ namespace SirenOfShame.Configuration
             _hideReputation.Checked = _settings.HideReputation;
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
+
+            InitializeAchievementAlertPreferences();
+            InitializeUserIAm();
+        }
+
+        private void InitializeUserIAm()
+        {
+            _userIAm.Items.Add("");
+            foreach (var personInProject in _settings.People)
+            {
+                _userIAm.Items.Add(personInProject);
+            }
+            if (!string.IsNullOrEmpty(_settings.MyRawName))
+            {
+                foreach (var item in _userIAm.Items)
+                {
+                    var personSetting = item as PersonSetting;
+                    if (personSetting != null && personSetting.RawName == _settings.MyRawName)
+                    {
+                        _userIAm.SelectedItem = item;
+                    }
+                }
+            }
+        }
+
+        private void InitializeAchievementAlertPreferences()
+        {
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Always)
+            {
+                _alwaysShowNewAchievements.Checked = true;
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never)
+            {
+                _neverShowAchievements.Checked = true;
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe)
+            {
+                _onlyShowMyAchievements.Checked = true;
+            }
         }
 
         private UpdateLocation GetUpdateLocation()
@@ -61,8 +100,38 @@ namespace SirenOfShame.Configuration
 
             _settings.HideReputation = _hideReputation.Checked;
 
+            SetShowAchievements();
+            SetUserIAm();
+
             _settings.Save();
             Close();
+        }
+
+        private void SetUserIAm()
+        {
+            if (_userIAm.SelectedItem as string == "")
+            {
+                _settings.MyRawName = null;
+            } else
+            {
+                _settings.MyRawName = ((PersonSetting) _userIAm.SelectedItem).RawName;
+            }
+        }
+
+        private void SetShowAchievements()
+        {
+            if (_alwaysShowNewAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.Always;
+            }
+            if (_neverShowAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.Never;
+            }
+            if (_onlyShowMyAchievements.Checked)
+            {
+                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
+            }
         }
 
         private void CancelClick(object sender, EventArgs e)
@@ -103,6 +172,11 @@ namespace SirenOfShame.Configuration
         private void ResetReputationClick(object sender, EventArgs e)
         {
             _resetReputationOnSave = true;
+        }
+
+        private void RecalculateClick(object sender, EventArgs e)
+        {
+            FindOldAchievements.TryFindOldAchievements(_settings);
         }
     }
 }

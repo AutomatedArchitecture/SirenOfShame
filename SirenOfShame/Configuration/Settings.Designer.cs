@@ -46,6 +46,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this._resetReputation = new System.Windows.Forms.Button();
             this._hideReputation = new System.Windows.Forms.CheckBox();
+            this._recalculate = new System.Windows.Forms.Button();
+            this._neverShowAchievements = new System.Windows.Forms.RadioButton();
+            this._alwaysShowNewAchievements = new System.Windows.Forms.RadioButton();
+            this._onlyShowMyAchievements = new System.Windows.Forms.RadioButton();
+            this._iAmLabel = new System.Windows.Forms.Label();
+            this._userIAm = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +59,7 @@
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ok.Location = new System.Drawing.Point(425, 271);
+            this._ok.Location = new System.Drawing.Point(420, 318);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 2;
@@ -65,7 +71,7 @@
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._cancel.Location = new System.Drawing.Point(506, 271);
+            this._cancel.Location = new System.Drawing.Point(501, 318);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 3;
@@ -98,7 +104,7 @@
             this._pollInterval.Location = new System.Drawing.Point(104, 12);
             this._pollInterval.Maximum = 60;
             this._pollInterval.Name = "_pollInterval";
-            this._pollInterval.Size = new System.Drawing.Size(477, 45);
+            this._pollInterval.Size = new System.Drawing.Size(472, 45);
             this._pollInterval.TabIndex = 0;
             this._pollInterval.Value = 1;
             this._pollInterval.ValueChanged += new System.EventHandler(this.PollIntervalValueChanged);
@@ -106,7 +112,7 @@
             // _viewLog
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._viewLog.Location = new System.Drawing.Point(344, 271);
+            this._viewLog.Location = new System.Drawing.Point(339, 318);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
             this._viewLog.TabIndex = 8;
@@ -135,7 +141,7 @@
             this._updateLocations.Controls.Add(this.textBox1);
             this._updateLocations.Location = new System.Drawing.Point(104, 67);
             this._updateLocations.Name = "_updateLocations";
-            this._updateLocations.Size = new System.Drawing.Size(477, 120);
+            this._updateLocations.Size = new System.Drawing.Size(472, 120);
             this._updateLocations.TabIndex = 11;
             // 
             // _updateLocationNever
@@ -155,7 +161,7 @@
             this._updateLocationOtherLocation.Enabled = false;
             this._updateLocationOtherLocation.Location = new System.Drawing.Point(56, 25);
             this._updateLocationOtherLocation.Name = "_updateLocationOtherLocation";
-            this._updateLocationOtherLocation.Size = new System.Drawing.Size(418, 20);
+            this._updateLocationOtherLocation.Size = new System.Drawing.Size(413, 20);
             this._updateLocationOtherLocation.TabIndex = 13;
             // 
             // _updateLocationOther
@@ -172,7 +178,7 @@
             // _checkForUpdates
             // 
             this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._checkForUpdates.Location = new System.Drawing.Point(335, 94);
+            this._checkForUpdates.Location = new System.Drawing.Point(330, 94);
             this._checkForUpdates.Name = "_checkForUpdates";
             this._checkForUpdates.Size = new System.Drawing.Size(139, 23);
             this._checkForUpdates.TabIndex = 12;
@@ -202,7 +208,7 @@
             this.textBox1.Location = new System.Drawing.Point(56, 48);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(414, 44);
+            this.textBox1.Size = new System.Drawing.Size(409, 44);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Examples:\r\nfile:///c|/temp/\r\nhttp://myupdate.com/";
             // 
@@ -235,6 +241,79 @@
             this._hideReputation.Text = "Hide reputation (aka I\'m losing)";
             this._hideReputation.UseVisualStyleBackColor = true;
             // 
+            // _recalculate
+            // 
+            this._recalculate.Location = new System.Drawing.Point(104, 223);
+            this._recalculate.Name = "_recalculate";
+            this._recalculate.Size = new System.Drawing.Size(247, 23);
+            this._recalculate.TabIndex = 16;
+            this._recalculate.Text = "Recalculate Reputation and Achievements";
+            this._recalculate.UseVisualStyleBackColor = true;
+            this._recalculate.Click += new System.EventHandler(this.RecalculateClick);
+            // 
+            // _neverShowAchievements
+            // 
+            this._neverShowAchievements.AutoSize = true;
+            this._neverShowAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._neverShowAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._neverShowAchievements.Location = new System.Drawing.Point(380, 250);
+            this._neverShowAchievements.Name = "_neverShowAchievements";
+            this._neverShowAchievements.Size = new System.Drawing.Size(151, 17);
+            this._neverShowAchievements.TabIndex = 19;
+            this._neverShowAchievements.Text = "Never show achievements";
+            this._neverShowAchievements.UseVisualStyleBackColor = false;
+            // 
+            // _alwaysShowNewAchievements
+            // 
+            this._alwaysShowNewAchievements.AutoSize = true;
+            this._alwaysShowNewAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._alwaysShowNewAchievements.Checked = true;
+            this._alwaysShowNewAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._alwaysShowNewAchievements.Location = new System.Drawing.Point(380, 220);
+            this._alwaysShowNewAchievements.Name = "_alwaysShowNewAchievements";
+            this._alwaysShowNewAchievements.Size = new System.Drawing.Size(198, 17);
+            this._alwaysShowNewAchievements.TabIndex = 18;
+            this._alwaysShowNewAchievements.TabStop = true;
+            this._alwaysShowNewAchievements.Text = "Show everyone\'s new achievements";
+            this._alwaysShowNewAchievements.UseVisualStyleBackColor = false;
+            // 
+            // _onlyShowMyAchievements
+            // 
+            this._onlyShowMyAchievements.AutoSize = true;
+            this._onlyShowMyAchievements.BackColor = System.Drawing.Color.Transparent;
+            this._onlyShowMyAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._onlyShowMyAchievements.Location = new System.Drawing.Point(380, 235);
+            this._onlyShowMyAchievements.Name = "_onlyShowMyAchievements";
+            this._onlyShowMyAchievements.Size = new System.Drawing.Size(182, 17);
+            this._onlyShowMyAchievements.TabIndex = 17;
+            this._onlyShowMyAchievements.Text = "Only show my new achievements";
+            this._onlyShowMyAchievements.UseVisualStyleBackColor = false;
+            // 
+            // _iAmLabel
+            // 
+            this._iAmLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._iAmLabel.AutoSize = true;
+            this._iAmLabel.BackColor = System.Drawing.Color.Transparent;
+            this._iAmLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._iAmLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._iAmLabel.Location = new System.Drawing.Point(103, 253);
+            this._iAmLabel.Name = "_iAmLabel";
+            this._iAmLabel.Size = new System.Drawing.Size(35, 17);
+            this._iAmLabel.TabIndex = 21;
+            this._iAmLabel.Text = "I Am";
+            // 
+            // _userIAm
+            // 
+            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._userIAm.DisplayMember = "DisplayName";
+            this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._userIAm.FormattingEnabled = true;
+            this._userIAm.Location = new System.Drawing.Point(144, 252);
+            this._userIAm.Name = "_userIAm";
+            this._userIAm.Size = new System.Drawing.Size(121, 21);
+            this._userIAm.TabIndex = 20;
+            // 
             // Settings
             // 
             this.AcceptButton = this._ok;
@@ -242,7 +321,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(593, 306);
+            this.ClientSize = new System.Drawing.Size(588, 353);
+            this.Controls.Add(this._iAmLabel);
+            this.Controls.Add(this._userIAm);
+            this.Controls.Add(this._neverShowAchievements);
+            this.Controls.Add(this._alwaysShowNewAchievements);
+            this.Controls.Add(this._onlyShowMyAchievements);
+            this.Controls.Add(this._recalculate);
             this.Controls.Add(this._hideReputation);
             this.Controls.Add(this._resetReputation);
             this.Controls.Add(this.label3);
@@ -284,5 +369,11 @@
         private System.Windows.Forms.Button _resetReputation;
         private System.Windows.Forms.CheckBox _hideReputation;
         private System.Windows.Forms.RadioButton _updateLocationNever;
+        private System.Windows.Forms.Button _recalculate;
+        private System.Windows.Forms.RadioButton _neverShowAchievements;
+        private System.Windows.Forms.RadioButton _alwaysShowNewAchievements;
+        private System.Windows.Forms.RadioButton _onlyShowMyAchievements;
+        private System.Windows.Forms.Label _iAmLabel;
+        private System.Windows.Forms.ComboBox _userIAm;
     }
 }

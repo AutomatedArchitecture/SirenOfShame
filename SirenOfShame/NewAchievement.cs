@@ -82,7 +82,7 @@ namespace SirenOfShame
             if (_onlyShowMyAchievements.Checked)
             {
                 _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-                if ((string) _userIAm.SelectedItem == "")
+                if (_userIAm.SelectedItem as string == "")
                 {
                     MessageBox.Show("Please either select who you are or select a different notification option.");
                     e.Cancel = true;
