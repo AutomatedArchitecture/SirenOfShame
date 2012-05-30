@@ -73,5 +73,10 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("TeamCityServerCleanup.xml")); }
         }
+
+        public static XDocument TeamCityFailureDueToCleanup
+        {
+            get { return XDocument.Parse(GetResource("TeamCityFailureDueToCleanup.xml")); }
+        }
     }
 }

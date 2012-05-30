@@ -62,6 +62,9 @@
     <EmbeddedResource Include="Resources\TeamCityServerCleanup.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TeamCityFailureDueToCleanup.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Service\TeamCityBuildStatusTest.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />

@@ -1,0 +1,24 @@
+﻿<build id="32470" number="7" status="ERROR" href="/httpAuth/app/rest/builds/id:32470" webUrl="http://teamcity.com/viewLog.html?buildId=32470&amp;buildTypeId=bt231" personal="false" history="false" pinned="false">
+  <statusText>Failure</statusText>
+  <buildType id="bt231" name="db_maintenance Database [GRAVIS1]" href="/httpAuth/app/rest/buildTypes/id:bt231" projectName="TRON - Test Environment" projectId="project48" webUrl="http://teamcity.com/viewType.html?buildTypeId=bt231" />
+  <startDate>20120529T210007+0100</startDate>
+  <finishDate>20120529T210012+0100</finishDate>
+  <agent href="/httpAuth/app/rest/agents/id:5" id="5" name="EUSTON" />
+  <tags />
+  <properties>
+    <property name="database-name" value="db_maintenance" />
+    <property name="deploy.environment" value="TRON" />
+    <property name="destination-database" value="db_maintenance" />
+    <property name="destination-sql-instance" value="" />
+    <property name="environment-name" value="%deploy.environment%" />
+  </properties>
+  <snapshot-dependencies />
+  <artifact-dependencies />
+  <revisions>
+    <revision version="7442c2468d99">
+      <vcs-root-instance id="135" vcs-root-id="30" name="db_maintenance" href="/httpAuth/app/rest/vcs-roots/id:30/instances/id:135" />
+    </revision>
+  </revisions>
+  <triggered type="unknown" details="Schedule Trigger" date="20120529T210002+0100" />
+  <changes count="3" href="/httpAuth/app/rest/changes?build=id:32470" />
+</build>
