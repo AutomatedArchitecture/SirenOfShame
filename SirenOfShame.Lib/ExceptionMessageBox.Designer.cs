@@ -37,20 +37,23 @@
             this._contact = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this._raisePriority = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // _message
             // 
-            this._message.Location = new System.Drawing.Point(43, 9);
+            this._message.Location = new System.Drawing.Point(128, 9);
             this._message.Name = "_message";
-            this._message.Size = new System.Drawing.Size(315, 18);
+            this._message.Size = new System.Drawing.Size(346, 18);
             this._message.TabIndex = 0;
             this._message.Text = "Error Message";
             // 
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ok.Location = new System.Drawing.Point(283, 66);
+            this._ok.Location = new System.Drawing.Point(399, 85);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 1;
@@ -61,7 +64,7 @@
             // _showMore
             // 
             this._showMore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._showMore.Location = new System.Drawing.Point(121, 66);
+            this._showMore.Location = new System.Drawing.Point(237, 85);
             this._showMore.Name = "_showMore";
             this._showMore.Size = new System.Drawing.Size(75, 23);
             this._showMore.TabIndex = 2;
@@ -75,11 +78,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._exception.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._exception.Location = new System.Drawing.Point(15, 56);
+            this._exception.Location = new System.Drawing.Point(15, 73);
             this._exception.Multiline = true;
             this._exception.Name = "_exception";
             this._exception.ReadOnly = true;
-            this._exception.Size = new System.Drawing.Size(343, 4);
+            this._exception.Size = new System.Drawing.Size(459, 6);
             this._exception.TabIndex = 3;
             this._exception.WordWrap = false;
             // 
@@ -87,7 +90,7 @@
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._cancel.Location = new System.Drawing.Point(202, 66);
+            this._cancel.Location = new System.Drawing.Point(318, 85);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 4;
@@ -99,9 +102,9 @@
             // 
             this._contact.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._contact.Location = new System.Drawing.Point(151, 30);
+            this._contact.Location = new System.Drawing.Point(128, 30);
             this._contact.Name = "_contact";
-            this._contact.Size = new System.Drawing.Size(207, 20);
+            this._contact.Size = new System.Drawing.Size(346, 20);
             this._contact.TabIndex = 5;
             // 
             // label1
@@ -109,9 +112,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 13);
+            this.label1.Size = new System.Drawing.Size(114, 13);
             this.label1.TabIndex = 6;
-            this.label1.Text = "E-mail or twitter (optional)";
+            this.label1.Text = "Contact Info (optional):";
             // 
             // label2
             // 
@@ -122,13 +125,45 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Error:";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 56);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Priority:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(128, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(27, 13);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Low";
+            // 
+            // _raisePriority
+            // 
+            this._raisePriority.AutoSize = true;
+            this._raisePriority.Location = new System.Drawing.Point(339, 57);
+            this._raisePriority.Name = "_raisePriority";
+            this._raisePriority.Size = new System.Drawing.Size(132, 13);
+            this._raisePriority.TabIndex = 10;
+            this._raisePriority.TabStop = true;
+            this._raisePriority.Text = "How do I raise the priority?";
+            this._raisePriority.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.RaisePriorityLinkClicked);
+            // 
             // ExceptionMessageBox
             // 
             this.AcceptButton = this._ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(370, 101);
+            this.ClientSize = new System.Drawing.Size(486, 120);
+            this.Controls.Add(this._raisePriority);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._contact);
@@ -157,5 +192,8 @@
         private System.Windows.Forms.TextBox _contact;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel _raisePriority;
     }
 }
