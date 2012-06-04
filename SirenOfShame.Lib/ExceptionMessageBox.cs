@@ -137,8 +137,7 @@ namespace SirenOfShame.Lib
 
         private void RaisePriorityLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // todo: Do a blog post and place it here
-            Process.Start("http://sirenofshame.blogspot.com/");
+            Process.Start("http://sirenofshame.blogspot.com/2012/06/bug-prioritization.html");
         }
     }
 }
