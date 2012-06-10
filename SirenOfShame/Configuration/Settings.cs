@@ -6,7 +6,6 @@ namespace SirenOfShame.Configuration
     public partial class Settings : FormBase
     {
         private readonly SirenOfShameSettings _settings;
-        private bool _resetReputationOnSave = false;
 
         public Settings(SirenOfShameSettings settings)
         {
@@ -89,15 +88,6 @@ namespace SirenOfShame.Configuration
             _settings.UpdateLocationOther = _updateLocationOtherLocation.Text;
             _settings.UpdateLocation = updateLocation;
 
-            if (_resetReputationOnSave)
-            {
-                _settings.People.ForEach(p =>
-                {
-                    p.TotalBuilds = 0;
-                    p.FailedBuilds = 0;
-                });
-            }
-
             _settings.HideReputation = _hideReputation.Checked;
 
             SetShowAchievements();
@@ -167,11 +157,6 @@ namespace SirenOfShame.Configuration
         private void CheckForUpdatesClick(object sender, EventArgs e)
         {
             Program.Form.CheckForUpdates();
-        }
-
-        private void ResetReputationClick(object sender, EventArgs e)
-        {
-            _resetReputationOnSave = true;
         }
 
         private void RecalculateClick(object sender, EventArgs e)
