@@ -276,27 +276,42 @@ namespace TeamCityServices
             XDocument buildResultXDoc)
         {
             XDocument changeResultXDoc = null;
-            if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
-            var changesNode = buildResultXDoc.Descendants("changes").FirstOrDefault();
-            if (changesNode == null)
+            try
             {
-                var title = buildResultXDoc.Descendants("title").FirstOrDefault();
-                if (title != null && title.Value.StartsWith("Cleanup in progress"))
-                    throw new ServerUnavailableException("Cleanup in progress");
-                _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
-                return new TeamCityBuildStatus(buildDefinitionSetting) { BuildStatusEnum = BuildStatusEnum.Unknown };
-            }
-            var count = changesNode.AttributeValueOrDefault("count");
-            bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
-            if (commentsExist)
+                if (buildResultXDoc.Root == null) throw new Exception("Could not get project build status");
+                var changesNode = buildResultXDoc.Descendants("changes").FirstOrDefault();
+                if (changesNode == null)
+                {
+                    var title = buildResultXDoc.Descendants("title").FirstOrDefault();
+                    if (title != null && title.Value.StartsWith("Cleanup in progress"))
+                        throw new ServerUnavailableException("Cleanup in progress");
+                    _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
+                    return new TeamCityBuildStatus(buildDefinitionSetting) {BuildStatusEnum = BuildStatusEnum.Unknown};
+                }
+                var count = changesNode.AttributeValueOrDefault("count");
+                bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
+                if (commentsExist)
+                {
+                    var changesHref = changesNode.AttributeValueOrDefault("href");
+                    var changesUrl = rootUrl + changesHref;
+                    XDocument changesResultXDoc = DownloadXml(changesUrl, userName, password);
+                    var changeNode = changesResultXDoc.Descendants("change").FirstOrDefault();
+                    if (changeNode == null)
+                    {
+                        _log.Debug("No change node found");
+                    } 
+                    else
+                    {
+                        var changeHref = changeNode.AttributeValueOrDefault("href");
+                        var changeUrl = rootUrl + changeHref;
+                        changeResultXDoc = DownloadXml(changeUrl, userName, password);
+                    }
+                }
+            } 
+            catch (Exception ex)
             {
-                var changesHref = changesNode.AttributeValueOrDefault("href");
-                var changesUrl = rootUrl + changesHref;
-                XDocument changesResultXDoc = DownloadXml(changesUrl, userName, password);
-                var changeNode = changesResultXDoc.Descendants("change").First();
-                var changeHref = changeNode.AttributeValueOrDefault("href");
-                var changeUrl = rootUrl + changeHref;
-                changeResultXDoc = DownloadXml(changeUrl, userName, password);
+                _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc, ex);
+                throw;
             }
             return new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc, changeResultXDoc);
         }
