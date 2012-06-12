@@ -49,19 +49,19 @@
             this._userIAm = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this._sosOnlinePassword = new System.Windows.Forms.TextBox();
+            this._sosOnlineLogin = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this._sosOnlineStatus = new System.Windows.Forms.Label();
+            this._viewLeaderboards = new System.Windows.Forms.LinkLabel();
             this._createAccount = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this._sosOnlineStatus = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this._verifyCredentials = new System.Windows.Forms.Button();
+            this._resync = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -295,20 +295,20 @@
             this.label6.TabIndex = 24;
             this.label6.Text = "Password:";
             // 
-            // textBox2
+            // _sosOnlinePassword
             // 
-            this.textBox2.Location = new System.Drawing.Point(103, 68);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(148, 20);
-            this.textBox2.TabIndex = 25;
+            this._sosOnlinePassword.Location = new System.Drawing.Point(103, 68);
+            this._sosOnlinePassword.Name = "_sosOnlinePassword";
+            this._sosOnlinePassword.PasswordChar = '*';
+            this._sosOnlinePassword.Size = new System.Drawing.Size(148, 20);
+            this._sosOnlinePassword.TabIndex = 26;
             // 
-            // textBox3
+            // _sosOnlineLogin
             // 
-            this.textBox3.Location = new System.Drawing.Point(103, 42);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(148, 20);
-            this.textBox3.TabIndex = 26;
+            this._sosOnlineLogin.Location = new System.Drawing.Point(103, 42);
+            this._sosOnlineLogin.Name = "_sosOnlineLogin";
+            this._sosOnlineLogin.Size = new System.Drawing.Size(148, 20);
+            this._sosOnlineLogin.TabIndex = 25;
             // 
             // label7
             // 
@@ -364,16 +364,18 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.linkLabel1);
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this._viewLeaderboards);
             this.groupBox4.Controls.Add(this._createAccount);
             this.groupBox4.Controls.Add(this._sosOnlineStatus);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.button2);
-            this.groupBox4.Controls.Add(this.button1);
-            this.groupBox4.Controls.Add(this.textBox2);
+            this.groupBox4.Controls.Add(this._verifyCredentials);
+            this.groupBox4.Controls.Add(this._resync);
+            this.groupBox4.Controls.Add(this._sosOnlinePassword);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Controls.Add(this.textBox3);
+            this.groupBox4.Controls.Add(this._sosOnlineLogin);
             this.groupBox4.Location = new System.Drawing.Point(13, 389);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(556, 137);
@@ -381,62 +383,73 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SoS Online";
             // 
-            // button1
+            // _viewLeaderboards
             // 
-            this.button1.Location = new System.Drawing.Point(270, 94);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(279, 23);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "Manually Resync Achievements and Reputation";
-            this.button1.UseVisualStyleBackColor = true;
+            this._viewLeaderboards.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._viewLeaderboards.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._viewLeaderboards.Location = new System.Drawing.Point(270, 19);
+            this._viewLeaderboards.Name = "_viewLeaderboards";
+            this._viewLeaderboards.Size = new System.Drawing.Size(279, 32);
+            this._viewLeaderboards.TabIndex = 32;
+            this._viewLeaderboards.TabStop = true;
+            this._viewLeaderboards.Text = "View The SoS Leaderboards";
+            this._viewLeaderboards.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._viewLeaderboards.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ViewLeaderboardsLinkClicked);
             // 
-            // button2
+            // _createAccount
             // 
-            this.button2.Location = new System.Drawing.Point(103, 94);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(131, 23);
-            this.button2.TabIndex = 28;
-            this.button2.Text = "Verify Credentials";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 29;
-            this.label1.Text = "Status:";
+            this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._createAccount.Location = new System.Drawing.Point(273, 51);
+            this._createAccount.Name = "_createAccount";
+            this._createAccount.Size = new System.Drawing.Size(276, 21);
+            this._createAccount.TabIndex = 31;
+            this._createAccount.TabStop = true;
+            this._createAccount.Text = "Create Account";
+            this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._createAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccountLinkClicked);
             // 
             // _sosOnlineStatus
             // 
             this._sosOnlineStatus.AutoSize = true;
-            this._sosOnlineStatus.Location = new System.Drawing.Point(100, 16);
+            this._sosOnlineStatus.Location = new System.Drawing.Point(100, 21);
             this._sosOnlineStatus.Name = "_sosOnlineStatus";
             this._sosOnlineStatus.Size = new System.Drawing.Size(100, 13);
             this._sosOnlineStatus.TabIndex = 30;
             this._sosOnlineStatus.Text = "Have never synced";
             // 
-            // _createAccount
+            // label1
             // 
-            this._createAccount.AutoSize = true;
-            this._createAccount.Location = new System.Drawing.Point(349, 51);
-            this._createAccount.Name = "_createAccount";
-            this._createAccount.Size = new System.Drawing.Size(106, 13);
-            this._createAccount.TabIndex = 31;
-            this._createAccount.TabStop = true;
-            this._createAccount.Text = "Create New Account";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Status:";
             // 
-            // linkLabel1
+            // _verifyCredentials
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.Location = new System.Drawing.Point(312, 19);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(189, 17);
-            this.linkLabel1.TabIndex = 32;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "View The SoS Leaderboards";
+            this._verifyCredentials.Location = new System.Drawing.Point(103, 94);
+            this._verifyCredentials.Name = "_verifyCredentials";
+            this._verifyCredentials.Size = new System.Drawing.Size(131, 23);
+            this._verifyCredentials.TabIndex = 27;
+            this._verifyCredentials.Text = "Verify Credentials";
+            this._verifyCredentials.UseVisualStyleBackColor = true;
+            this._verifyCredentials.Click += new System.EventHandler(this.VerifyCredentialsClick);
+            // 
+            // _resync
+            // 
+            this._resync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._resync.Enabled = false;
+            this._resync.Location = new System.Drawing.Point(270, 94);
+            this._resync.Name = "_resync";
+            this._resync.Size = new System.Drawing.Size(279, 23);
+            this._resync.TabIndex = 28;
+            this._resync.Text = "Manually Sync Achievements and Reputation";
+            this._resync.UseVisualStyleBackColor = true;
+            this._resync.Click += new System.EventHandler(this.ResyncClick);
             // 
             // Settings
             // 
@@ -492,18 +505,18 @@
         private System.Windows.Forms.ComboBox _userIAm;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox _sosOnlinePassword;
+        private System.Windows.Forms.TextBox _sosOnlineLogin;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel _viewLeaderboards;
         private System.Windows.Forms.LinkLabel _createAccount;
         private System.Windows.Forms.Label _sosOnlineStatus;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button _verifyCredentials;
+        private System.Windows.Forms.Button _resync;
     }
 }

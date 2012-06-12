@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Net;
+using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
@@ -12,19 +16,43 @@ namespace SirenOfShame.Configuration
             _settings = settings;
             InitializeComponent();
 
+            InitializePollIntervalSection();
+            InitializeUpdateLocationSection();
+            InitializeReputationAndAchievementSection();
+            InitializeSosOnlineSection();
+
+            _viewLog.Enabled = Program.Form.CanViewLogs;
+        }
+
+        private void InitializeSosOnlineSection()
+        {
+            _sosOnlineLogin.Text = _settings.SosOnlineUsername;
+            _sosOnlinePassword.Text = _settings.GetSosOnlinePassword();
+            // todo: set sos online status correctly
+            _sosOnlineStatus.Text = "Have never synced";
+        }
+
+        private void InitializeReputationAndAchievementSection()
+        {
+            _hideReputation.Checked = _settings.HideReputation;
+            InitializeAchievementAlertPreferences();
+            InitializeUserIAm();
+        }
+
+        private void InitializePollIntervalSection()
+        {
             _pollInterval.Value = _settings.PollInterval;
             RefreshDurationText();
+        }
 
+        private void InitializeUpdateLocationSection()
+        {
             _updateLocationAuto.Checked = _settings.UpdateLocation == UpdateLocation.Auto;
             _updateLocationOther.Checked = _settings.UpdateLocation == UpdateLocation.Other;
             _updateLocationNever.Checked = _settings.UpdateLocation == UpdateLocation.Never;
-            _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other ? _settings.UpdateLocationOther : "";
-            _hideReputation.Checked = _settings.HideReputation;
-
-            _viewLog.Enabled = Program.Form.CanViewLogs;
-
-            InitializeAchievementAlertPreferences();
-            InitializeUserIAm();
+            _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other
+                                                    ? _settings.UpdateLocationOther
+                                                    : "";
         }
 
         private void InitializeUserIAm()
@@ -77,7 +105,7 @@ namespace SirenOfShame.Configuration
             {
                 return UpdateLocation.Never;
             }
-            throw new NotImplementedException("One of the update locations needs to be checked");
+            throw new Exception("One of the update locations needs to be checked");
         }
 
         private void OkClick(object sender, EventArgs e)
@@ -99,13 +127,8 @@ namespace SirenOfShame.Configuration
 
         private void SetUserIAm()
         {
-            if (_userIAm.SelectedItem as string == "")
-            {
-                _settings.MyRawName = null;
-            } else
-            {
-                _settings.MyRawName = ((PersonSetting) _userIAm.SelectedItem).RawName;
-            }
+            string myRawName = _userIAm.SelectedItem as string == "" ? null : ((PersonSetting) _userIAm.SelectedItem).RawName;
+            _settings.MyRawName = myRawName;
         }
 
         private void SetShowAchievements()
@@ -162,6 +185,53 @@ namespace SirenOfShame.Configuration
         private void RecalculateClick(object sender, EventArgs e)
         {
             FindOldAchievements.TryFindOldAchievements(_settings);
+        }
+
+        private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(SOS_URL + "/Account/Register");
+        }
+
+        private void ViewLeaderboardsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // todo: put in correct URL
+            Process.Start(SOS_URL + "/Leaders");
+        }
+
+        private void ResyncClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private const string SOS_URL = "http://localhost:3115";
+        const string AUTHENTICATION_SUCCESS = "success";
+        
+        private void VerifyCredentialsClick(object sender, EventArgs e)
+        {
+            WebClient webClient = new WebClient();
+            webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
+            {
+                byte[] result = uploadEventArgs.Result;
+                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
+                if (resultAsStr == AUTHENTICATION_SUCCESS)
+                {
+                    _resync.Enabled = true;
+                    _settings.SosOnlineUsername = _sosOnlineLogin.Text;
+                    _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
+                    _sosOnlineStatus.Text = "Login success";
+                }
+                else
+                {
+                    SosMessageBox.Show("Error connecting", resultAsStr, "Hmmmm");
+                    _sosOnlineStatus.Text = resultAsStr;
+                }
+            };
+
+            NameValueCollection data = new NameValueCollection();
+            data["UserName"] = _sosOnlineLogin.Text;
+            data["Password"] = _sosOnlinePassword.Text;
+            webClient.UploadValuesAsync(new Uri(SOS_URL + "/api/VerifyCredentials"), "POST", data);
+            _sosOnlineStatus.Text = "Logging in ...";
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Test.Unit.Watcher;
 
 namespace SirenOfShame.Test.Unit.Settings
@@ -27,6 +28,23 @@ namespace SirenOfShame.Test.Unit.Settings
                                };
             settings.DoUpgrade();
             Assert.AreEqual(int.MaxValue, settings.Version);
+        }
+
+        [TestMethod]
+        public void SosOnlinePasswordIsStoredEncrypted()
+        {
+            var settings = new SirenOfShameSettings();
+            Assert.IsNull(settings.SosOnlinePassword);
+            settings.SetSosOnlinePassword("blah!");
+            Assert.AreNotEqual("blah!", settings.SosOnlinePassword);
+        }
+        
+        [TestMethod]
+        public void SosOnlinePasswordDecryptsAsEncrypted()
+        {
+            var settings = new SirenOfShameSettings();
+            settings.SetSosOnlinePassword("blah!");
+            Assert.AreEqual("blah!", settings.GetSosOnlinePassword());
         }
     }
 }

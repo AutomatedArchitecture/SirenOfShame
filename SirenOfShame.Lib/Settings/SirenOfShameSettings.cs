@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
@@ -69,6 +70,10 @@ namespace SirenOfShame.Lib.Settings
         public int? SortColumn { get; set; }
         
         public bool SortDescending { get; set; }
+
+        public string SosOnlineUsername { get; set; }
+        
+        public string SosOnlinePassword { get; set; }
 
         public string UpdateLocationOther
         {
@@ -346,6 +351,16 @@ namespace SirenOfShame.Lib.Settings
         public IEnumerable<BuildDefinitionSetting> GetAllActiveBuildDefinitions()
         {
             return CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Where(i => i.Active);
+        }
+
+        public void SetSosOnlinePassword(string rawPassword)
+        {
+            SosOnlinePassword = new TripleDESStringEncryptor().EncryptString(rawPassword);
+        }
+
+        public string GetSosOnlinePassword()
+        {
+            return new TripleDESStringEncryptor().DecryptString(SosOnlinePassword);
         }
     }
 }
