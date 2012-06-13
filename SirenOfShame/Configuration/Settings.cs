@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 
@@ -200,7 +202,7 @@ namespace SirenOfShame.Configuration
 
         private void ResyncClick(object sender, EventArgs e)
         {
-
+            
         }
 
         private const string SOS_URL = "http://localhost:3115";
@@ -211,6 +213,7 @@ namespace SirenOfShame.Configuration
             WebClient webClient = new WebClient();
             webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
             {
+                // todo: error handeling when authenticating + abstract this into a service
                 byte[] result = uploadEventArgs.Result;
                 string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
                 if (resultAsStr == AUTHENTICATION_SUCCESS)
