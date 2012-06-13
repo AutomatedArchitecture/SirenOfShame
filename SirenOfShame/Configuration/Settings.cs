@@ -29,7 +29,8 @@ namespace SirenOfShame.Configuration
             _sosOnlineLogin.Text = _settings.SosOnlineUsername;
             _sosOnlinePassword.Text = _settings.GetSosOnlinePassword();
             // todo: set sos online status correctly
-            _sosOnlineStatus.Text = "Have never synced";
+            bool hasEverConnected = _settings.SosOnlineHighWaterMark != null;
+            _sosOnlineStatus.Text = hasEverConnected ? "Ready to sync" : "Have never synced";
         }
 
         private void InitializeReputationAndAchievementSection()
@@ -200,9 +201,27 @@ namespace SirenOfShame.Configuration
 
         private void ResyncClick(object sender, EventArgs e)
         {
+            SetUserIAm();
+            if (string.IsNullOrEmpty(_settings.MyRawName))
+            {
+                SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
+            }
             var sosDb = new SosDb();
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);
-            // todo: Push exported builds to server
+            if (exportedBuilds == null)
+            {
+                _sosOnlineStatus.Text = "No builds to export";
+                return;
+            }
+            var sosOnlineService = new SosOnlineService();
+            sosOnlineService.AddBuilds(_settings, exportedBuilds, OnAddBuildsSuccess, OnSosOnlineFailure);
+        }
+
+        private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
+        {
+            _settings.SosOnlineHighWaterMark = sosOnlineHighWaterMark.Ticks;
+            _settings.Save();
+            _sosOnlineStatus.Text = "Successfully sync'd";
         }
 
         private void VerifyCredentialsClick(object sender, EventArgs e)
@@ -210,11 +229,11 @@ namespace SirenOfShame.Configuration
             var sosOnlineService = new SosOnlineService();
             _settings.SosOnlineUsername = _sosOnlineLogin.Text;
             _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
-            sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnVerifyCredentialsFailure);
+            sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnSosOnlineFailure);
             _sosOnlineStatus.Text = "Logging in ...";
         }
 
-        private void OnVerifyCredentialsFailure(string errorMessage)
+        private void OnSosOnlineFailure(string errorMessage)
         {
             SosMessageBox.Show("Error connecting", errorMessage, "Hmmmm");
             _sosOnlineStatus.Text = errorMessage;
