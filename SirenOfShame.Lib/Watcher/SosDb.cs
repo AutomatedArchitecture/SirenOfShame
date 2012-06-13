@@ -126,7 +126,8 @@ namespace SirenOfShame.Lib.Watcher
                 .Where(i => i.StartedTime != null);
             var buildsAfterHighWaterMark = initialExport ? currentUsersBuilds : currentUsersBuilds.Where(i => i.StartedTime > highWaterMark);
             var buildsAsExport = buildsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
-            return string.Join("\r\n", buildsAsExport);
+            var result = string.Join("\r\n", buildsAsExport);
+            return string.IsNullOrEmpty(result) ? null : result;
         }
     }
 }
