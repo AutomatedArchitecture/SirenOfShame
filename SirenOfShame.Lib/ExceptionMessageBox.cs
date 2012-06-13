@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Net;
@@ -132,6 +133,11 @@ namespace SirenOfShame.Lib
         private void CancelClick(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void RaisePriorityLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://sirenofshame.blogspot.com/2012/06/bug-prioritization.html");
         }
     }
 }
