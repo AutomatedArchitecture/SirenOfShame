@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using log4net;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Network;
@@ -79,7 +80,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
         {
-            InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect");
+            InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect", args.Exception);
             SetStatusUnknown();
             // only notify that it was unavailable once
             if (_serverPreviouslyUnavailable)
@@ -101,7 +102,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private BuildStatus[] _buildStatus = new BuildStatus[] { };
 
-        private void InvokeUpdateStatusBar(string statusText)
+        private void InvokeUpdateStatusBar(string statusText, Exception exception = null)
         {
             string datedStatusText = null;
             if (!string.IsNullOrEmpty(statusText))
@@ -110,7 +111,7 @@ namespace SirenOfShame.Lib.Watcher
             }
             var updateStatusBar = UpdateStatusBar;
             if (updateStatusBar == null) return;
-            updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText });
+            updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
         }
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)

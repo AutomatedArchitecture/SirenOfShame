@@ -32,6 +32,7 @@
             this._project3 = new MockCiServerServices.MockProject();
             this._project2 = new MockCiServerServices.MockProject();
             this._project1 = new MockCiServerServices.MockProject();
+            this._serverUnavailable = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // _project3
@@ -64,11 +65,22 @@
             this._project1.Size = new System.Drawing.Size(380, 162);
             this._project1.TabIndex = 0;
             // 
+            // _serverUnavailable
+            // 
+            this._serverUnavailable.AutoSize = true;
+            this._serverUnavailable.Location = new System.Drawing.Point(12, 516);
+            this._serverUnavailable.Name = "_serverUnavailable";
+            this._serverUnavailable.Size = new System.Drawing.Size(116, 17);
+            this._serverUnavailable.TabIndex = 3;
+            this._serverUnavailable.Text = "Server Unavailable";
+            this._serverUnavailable.UseVisualStyleBackColor = true;
+            // 
             // MockCiServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(457, 560);
+            this.Controls.Add(this._serverUnavailable);
             this.Controls.Add(this._project3);
             this.Controls.Add(this._project2);
             this.Controls.Add(this._project1);
@@ -76,6 +88,7 @@
             this.Name = "MockCiServerForm";
             this.Text = "Mock CI Server";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -84,5 +97,6 @@
         private MockProject _project1;
         private MockProject _project2;
         private MockProject _project3;
+        private System.Windows.Forms.CheckBox _serverUnavailable;
     }
 }

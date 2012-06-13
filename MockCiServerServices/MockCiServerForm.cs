@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
 
@@ -17,6 +19,10 @@ namespace MockCiServerServices
 
         public IList<BuildStatus> GetBuildStatus()
         {
+            if (_serverUnavailable.Checked)
+            {
+                throw new ServerUnavailableException("Message", new Exception("Inner Message"));
+            }
             IList<BuildStatus> results = null;
             this.Invoke(() =>
             {

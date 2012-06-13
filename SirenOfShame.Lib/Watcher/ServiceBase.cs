@@ -41,7 +41,7 @@ namespace SirenOfShame.Lib.Watcher
                 {
                     string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
                     _log.Error(message, ex);
-                    throw new SosException(message, ex);
+                    throw new ServerUnavailableException(message, ex);
                 }
             }
             catch (WebException webException)
@@ -64,7 +64,7 @@ namespace SirenOfShame.Lib.Watcher
                                 
                                 string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
                                 _log.Error(message, webException);
-                                throw new SosException(message, webException);
+                                throw new ServerUnavailableException(message, webException);
                             }
                         }
                     }

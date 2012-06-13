@@ -339,7 +339,13 @@ namespace SirenOfShame
 
         private void RulesEngineUpdateStatusBar(object sender, UpdateStatusBarEventArgs args)
         {
-            Invoke(() => _lastStatusUpdate.Text = args.StatusText);
+            Invoke(() =>
+            {
+                _lastStatusUpdate.Text = args.StatusText;
+                var thereWasAnException = args.Exception != null;
+                _toolStripSplitErrorButton.Visible = thereWasAnException;
+                _toolStripSplitErrorButton.Tag = args.Exception;
+            });
         }
 
         private void MainFormMove(object sender, EventArgs e)
@@ -1080,6 +1086,12 @@ namespace SirenOfShame
                 _users.Items[0].Selected = true;
             }
             _users.SelectedItems.Clear();
+        }
+
+        private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)
+        {
+            var exception = (Exception) _toolStripSplitErrorButton.Tag;
+            ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
         }
     }
 }
