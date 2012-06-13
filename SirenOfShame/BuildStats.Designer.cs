@@ -60,6 +60,7 @@
             // 
             // _close
             // 
+            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._close.Cursor = System.Windows.Forms.Cursors.Hand;
             this._close.Image = global::SirenOfShame.Properties.Resources.CloseButton2;
             this._close.Location = new System.Drawing.Point(151, 3);
