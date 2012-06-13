@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using log4net;
 using SirenOfShame.Lib.Settings;
@@ -91,7 +92,7 @@ namespace SirenOfShame.Lib.Watcher
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
-                BuildId = BuildId == null ? "" : BuildId.ToString(),
+                BuildId = BuildId ?? "",
                 Id = BuildDefinitionId,
                 Name = Name,
                 Url = Url,
@@ -172,6 +173,27 @@ namespace SirenOfShame.Lib.Watcher
             if (nextBuild.StartedTime == null || FinishedTime == null) return false;
             double secondsBetweenBuilds = (nextBuild.StartedTime.Value - FinishedTime.Value).TotalSeconds;
             return secondsBetweenBuilds > 0 && secondsBetweenBuilds < seconds;
+        }
+
+        public string AsSosOnlineExport()
+        {
+            var fieldsToExport = new[]
+            {
+                DateAsExport(StartedTime), 
+                DateAsExport(FinishedTime),
+                BuildStatusAsExport(BuildStatusEnum)
+            };
+            return string.Join(",", fieldsToExport);
+        }
+
+        private string BuildStatusAsExport(BuildStatusEnum buildStatusEnum)
+        {
+            return buildStatusEnum == BuildStatusEnum.Working ? "1" : "0";
+        }
+
+        private static string DateAsExport(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

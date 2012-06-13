@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Settings;
@@ -10,14 +11,44 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class SosDbTest
     {
         [TestMethod]
-        public void ExportNewBuilds_NoBuilds_Null()
+        public void ExportNewBuilds_InitialExportWithNoBuilds_Null()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false);
-            settings.SosOnlineHighWaterMark = null;
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = null, 
+                MyRawName = "CurrentUser"
+            };
             sosDb.BuildStatuses = new BuildStatus[] { };
             var result = sosDb.ExportNewBuilds(settings);
             Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildByCurrentUser_Exports()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = null, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new []
+            {
+                new BuildStatus
+                {
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    BuildDefinitionId = "BuildDefinitionId",
+                    BuildId = "BuildId",
+                    Name = "Name",
+                    RequestedBy = "CurrentUser",
+                    Comment = "Comment",
+                }
+            };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.AreEqual("633979044610000000,633979044620000000,1", result);
         }
 
         [TestMethod]

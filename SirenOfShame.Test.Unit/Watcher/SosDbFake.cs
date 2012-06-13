@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
@@ -21,6 +22,11 @@ namespace SirenOfShame.Test.Unit.Watcher
         protected override IEnumerable<BuildStatus> ReadAllInternal(Lib.Settings.BuildDefinitionSetting buildDefinitionSetting)
         {
             return BuildStatuses;
+        }
+
+        public override IList<BuildStatus> ReadAll(IEnumerable<Lib.Settings.BuildDefinitionSetting> buildDefinitionSettings)
+        {
+            return BuildStatuses.ToList();
         }
     }
 }

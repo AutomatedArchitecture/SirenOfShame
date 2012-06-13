@@ -72,7 +72,7 @@ namespace SirenOfShame.Lib.Watcher
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
 
-        public IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
+        public virtual IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
         {
             return buildDefinitionSettings
                 .SelectMany(ReadAllInternal)
@@ -118,8 +118,15 @@ namespace SirenOfShame.Lib.Watcher
         public string ExportNewBuilds(SirenOfShameSettings settings)
         {
             long? sosOnlineHighWaterMark = settings.SosOnlineHighWaterMark;
+            DateTime? highWaterMark = sosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(sosOnlineHighWaterMark.Value);
+            var initialExport = highWaterMark == null;
             var allBuildDefinitions = ReadAll(settings.GetAllActiveBuildDefinitions());
-            return null;
+            var currentUsersBuilds = allBuildDefinitions
+                .Where(i => i.RequestedBy == settings.MyRawName)
+                .Where(i => i.StartedTime != null);
+            var buildsAfterHighWaterMark = initialExport ? currentUsersBuilds : currentUsersBuilds.Where(i => i.StartedTime > highWaterMark);
+            var buildsAsExport = buildsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
+            return string.Join("\r\n", buildsAsExport);
         }
     }
 }
