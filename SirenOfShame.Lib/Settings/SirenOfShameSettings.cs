@@ -75,6 +75,8 @@ namespace SirenOfShame.Lib.Settings
         
         public string SosOnlinePassword { get; set; }
 
+        public long? SosOnlineHighWaterMark { get; set; }
+
         public string UpdateLocationOther
         {
             get { return _updateLocationOther; }

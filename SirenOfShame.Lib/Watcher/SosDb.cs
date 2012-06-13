@@ -80,7 +80,7 @@ namespace SirenOfShame.Lib.Watcher
                 .ToList();
         }
         
-        private IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
+        protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
             string location = GetLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
@@ -113,6 +113,13 @@ namespace SirenOfShame.Lib.Watcher
                 })
                 .ToList();
             return statuses;
+        }
+
+        public string ExportNewBuilds(SirenOfShameSettings settings)
+        {
+            long? sosOnlineHighWaterMark = settings.SosOnlineHighWaterMark;
+            var allBuildDefinitions = ReadAll(settings.GetAllActiveBuildDefinitions());
+            return null;
         }
     }
 }

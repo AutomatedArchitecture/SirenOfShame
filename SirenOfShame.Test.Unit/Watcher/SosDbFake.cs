@@ -15,5 +15,12 @@ namespace SirenOfShame.Test.Unit.Watcher
             string newContents = existingFile + contents;
             Files[location] = newContents;
         }
+
+        public IEnumerable<BuildStatus> BuildStatuses { get; set; }
+        
+        protected override IEnumerable<BuildStatus> ReadAllInternal(Lib.Settings.BuildDefinitionSetting buildDefinitionSetting)
+        {
+            return BuildStatuses;
+        }
     }
 }

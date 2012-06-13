@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Net;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Configuration
 {
@@ -202,7 +201,9 @@ namespace SirenOfShame.Configuration
 
         private void ResyncClick(object sender, EventArgs e)
         {
-            
+            var sosDb = new SosDb();
+            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            // todo: Push exported builds to server
         }
 
         private const string SOS_URL = "http://localhost:3115";

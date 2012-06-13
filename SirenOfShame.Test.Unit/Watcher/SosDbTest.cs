@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
@@ -8,6 +9,17 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class SosDbTest
     {
+        [TestMethod]
+        public void ExportNewBuilds_NoBuilds_Null()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false);
+            settings.SosOnlineHighWaterMark = null;
+            sosDb.BuildStatuses = new BuildStatus[] { };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.IsNull(result);
+        }
+
         [TestMethod]
         public void Write_Writes()
         {
