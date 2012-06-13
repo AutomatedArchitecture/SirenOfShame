@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Net;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -190,13 +189,13 @@ namespace SirenOfShame.Configuration
 
         private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(SOS_URL + "/Account/Register");
+            Process.Start(SosOnlineService.SOS_URL + "/Account/Register");
         }
 
         private void ViewLeaderboardsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // todo: put in correct URL
-            Process.Start(SOS_URL + "/Leaders");
+            Process.Start(SosOnlineService.SOS_URL + "/Leaders");
         }
 
         private void ResyncClick(object sender, EventArgs e)
@@ -206,36 +205,25 @@ namespace SirenOfShame.Configuration
             // todo: Push exported builds to server
         }
 
-        private const string SOS_URL = "http://localhost:3115";
-        const string AUTHENTICATION_SUCCESS = "success";
-        
         private void VerifyCredentialsClick(object sender, EventArgs e)
         {
-            WebClient webClient = new WebClient();
-            webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
-            {
-                // todo: error handeling when authenticating + abstract this into a service
-                byte[] result = uploadEventArgs.Result;
-                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                if (resultAsStr == AUTHENTICATION_SUCCESS)
-                {
-                    _resync.Enabled = true;
-                    _settings.SosOnlineUsername = _sosOnlineLogin.Text;
-                    _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
-                    _sosOnlineStatus.Text = "Login success";
-                }
-                else
-                {
-                    SosMessageBox.Show("Error connecting", resultAsStr, "Hmmmm");
-                    _sosOnlineStatus.Text = resultAsStr;
-                }
-            };
-
-            NameValueCollection data = new NameValueCollection();
-            data["UserName"] = _sosOnlineLogin.Text;
-            data["Password"] = _sosOnlinePassword.Text;
-            webClient.UploadValuesAsync(new Uri(SOS_URL + "/api/VerifyCredentials"), "POST", data);
+            var sosOnlineService = new SosOnlineService();
+            _settings.SosOnlineUsername = _sosOnlineLogin.Text;
+            _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
+            sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnVerifyCredentialsFailure);
             _sosOnlineStatus.Text = "Logging in ...";
+        }
+
+        private void OnVerifyCredentialsFailure(string errorMessage)
+        {
+            SosMessageBox.Show("Error connecting", errorMessage, "Hmmmm");
+            _sosOnlineStatus.Text = errorMessage;
+        }
+
+        private void OnVerifyCredentialsSuccess()
+        {
+            _resync.Enabled = true;
+            _sosOnlineStatus.Text = "Login success";
         }
     }
 }

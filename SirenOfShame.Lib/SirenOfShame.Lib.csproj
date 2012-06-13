@@ -182,6 +182,7 @@
     </Compile>
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Services\SosOnlineService.cs" />
     <Compile Include="Settings\AchievementAlertPreferenceEnum.cs" />
     <Compile Include="Settings\AchievementLookup.cs" />
     <Compile Include="Settings\AchievementSetting.cs" />
