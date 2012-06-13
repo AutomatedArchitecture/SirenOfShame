@@ -15,6 +15,7 @@ namespace SirenOfShame.Lib.Watcher
         protected virtual bool IsServerUnavailable(string errorResult)
         {
             if (errorResult.Contains("HTTP Status 404")) return true;
+            if (errorResult.Contains("Connection timed out")) return true;
             return false;
         }
         
