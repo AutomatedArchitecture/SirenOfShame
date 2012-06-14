@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallOfShame", "WallOfShame\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockCiServerServices", "MockCiServerServices\MockCiServerServices.csproj", "{8A68692B-CA71-4C55-8005-201B6FE2B10B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravisCiServices", "TravisCiServices\TravisCiServices.csproj", "{72771080-D1C2-40B4-B000-D05CEE0E2B8F}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SirenOfShame.vsmdi
@@ -309,6 +311,18 @@ Global
 		{8A68692B-CA71-4C55-8005-201B6FE2B10B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8A68692B-CA71-4C55-8005-201B6FE2B10B}.Release|Win32.ActiveCfg = Release|Any CPU
 		{8A68692B-CA71-4C55-8005-201B6FE2B10B}.Release|x86.ActiveCfg = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
