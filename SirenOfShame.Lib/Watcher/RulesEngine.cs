@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Network;
@@ -263,7 +263,39 @@ namespace SirenOfShame.Lib.Watcher
             {
                 NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged();
+                SyncNewBuildsToSos(changedBuildStatuses);
             }
+        }
+
+        private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
+        {
+            var sosOnlineEnabled = !string.IsNullOrEmpty(_settings.SosOnlineUsername);
+            if (!sosOnlineEnabled) return;
+            var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
+            if (!anyBuildsAreMine) return;
+            var sosOnlineService = new SosOnlineService();
+            var sosDb = new SosDb();
+            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            var noBuildsToExport = exportedBuilds == null;
+            if (noBuildsToExport)
+            {
+                _log.Error("No builds were found to export from sosDb to sos online even though one was changed");
+                return;
+            }
+            _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
+            sosOnlineService.AddBuilds(_settings, exportedBuilds, OnAddBuildsSuccess, OnAddBuildsFail);
+        }
+
+        private void OnAddBuildsFail(string errorMessage)
+        {
+            _log.Error(errorMessage);
+            InvokeTrayNotify(ToolTipIcon.Error, "Failed to connect to SoS Online", errorMessage);
+        }
+
+        private void OnAddBuildsSuccess(DateTime newHighWaterMark)
+        {
+            _log.Debug("Successfully uploaded to sos online. New high water mark: " + newHighWaterMark);
+            _settings.SosOnlineHighWaterMark = newHighWaterMark.Ticks;
         }
 
         private void NotifyIfNewAchievements(IEnumerable<BuildStatus> changedBuildStatuses)

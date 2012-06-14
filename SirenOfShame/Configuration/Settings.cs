@@ -205,6 +205,7 @@ namespace SirenOfShame.Configuration
             if (string.IsNullOrEmpty(_settings.MyRawName))
             {
                 SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
+                return;
             }
             var sosDb = new SosDb();
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);

@@ -447,7 +447,7 @@
             this._resync.Name = "_resync";
             this._resync.Size = new System.Drawing.Size(279, 23);
             this._resync.TabIndex = 28;
-            this._resync.Text = "Manually Sync Achievements and Reputation";
+            this._resync.Text = "Sync Achievements and Reputation";
             this._resync.UseVisualStyleBackColor = true;
             this._resync.Click += new System.EventHandler(this.ResyncClick);
             // 
