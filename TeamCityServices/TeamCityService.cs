@@ -142,12 +142,15 @@ namespace TeamCityServices
                 {
                     webBrowser.DocumentCompleted += (o, evt) =>
                     {
+                        if (webBrowser == null) return;
+                        WebBrowser localWebBrowser = webBrowser;
+                        HtmlDocument htmlDocument = localWebBrowser.Document;
                         try
                         {
-                            if (webBrowser.Document == null) throw new SosException("WebBrowser.Document was null, this should never happen.");
-                            _log.Debug("login.html State: " + state + " Cookie: " + webBrowser.Document.Cookie);
+                            if (localWebBrowser.Document == null) throw new SosException("WebBrowser.Document was null, this should never happen.");
+                            _log.Debug("login.html State: " + state + " Cookie: " + localWebBrowser.Document.Cookie);
 
-                            if (webBrowser.DocumentTitle == "Navigation Canceled")
+                            if (localWebBrowser.DocumentTitle == "Navigation Canceled")
                             {
                                 serverUnavailable = true;
                                 return;
@@ -155,30 +158,33 @@ namespace TeamCityServices
 
                             if (state == 0)
                             {
-                                HtmlElement usernameElement = webBrowser.Document.GetElementById("username");
+                                HtmlElement usernameElement = localWebBrowser.Document.GetElementById("username");
                                 if (usernameElement == null) throw new SosException("Expected an element with an id of 'username' but one didn't exist. Is TeamCity down?");
                                 usernameElement.SetAttribute("value", userName);
                                 usernameElement.SetAttribute("value", userName);
-                                var htmlElement = webBrowser.Document.All["password"];
-                                if (htmlElement != null)
-                                    htmlElement.SetAttribute("value", password);
+                                if (htmlDocument != null)
+                                {
+                                    var htmlElement = htmlDocument.All["password"];
+                                    if (htmlElement != null)
+                                        htmlElement.SetAttribute("value", password);
+                                }
 
-                                var submitButton = webBrowser.Document.GetElementsByTagName("input")
+                                var submitButton = localWebBrowser.Document.GetElementsByTagName("input")
                                     .Cast<HtmlElement>()
                                     .FirstOrDefault(e => e.GetAttribute("type") == "submit");
                                 if (submitButton != null) submitButton.InvokeMember("click");
                             }
                             if (state == 1)
                             {
-                                _cookies[rootUrl] = webBrowser.Document.Cookie;
+                                _cookies[rootUrl] = localWebBrowser.Document.Cookie;
                             }
 
                             state++;
                         } 
                         catch (Exception ex)
                         {
-                            if (webBrowser != null && webBrowser.Document != null) 
-                                _log.Info("SetCookie result: " + webBrowser.Document.Body);
+                            if (webBrowser != null && htmlDocument != null) 
+                                _log.Info("SetCookie result: " + htmlDocument.Body);
                             documentCompleteException = ex;
                         }
                     };
@@ -339,14 +345,6 @@ namespace TeamCityServices
                 }
                 throw;
             }
-        }
-
-        protected override bool IsServerUnavailable(string errorResult)
-        {
-            // todo: Is this really team city specific?
-            if (errorResult.StartsWith("The remote server returned an error: (503) Server Unavailable"))
-                return true;
-            return false;
         }
     }
 }

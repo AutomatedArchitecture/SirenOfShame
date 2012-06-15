@@ -98,14 +98,5 @@ namespace HudsonServices
             var status = new HudsonBuildStatus(doc, buildDefinitionSetting);
             return status;
         }
-
-        protected override bool IsServerUnavailable(string errorResult)
-        {
-            if (errorResult.Contains("Please wait while Jenkins is getting ready to work"))
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

@@ -233,6 +233,7 @@
     <Compile Include="Watcher\UpdateStatusBarEvent.cs" />
     <Compile Include="Watcher\UpdateStatusBarEventArgs.cs" />
     <Compile Include="Watcher\WatcherBase.cs" />
+    <Compile Include="Watcher\WebClientXml.cs" />
     <Compile Include="WavEditor.cs">
       <SubType>Form</SubType>
     </Compile>
