@@ -91,8 +91,7 @@ namespace SirenOfShame.Lib.Watcher
                     throw new ServerUnavailableException();
                 }
 
-                _log.Error("Error connecting to " + url + ". WebException.Status = " + webException.Status);
-                throw;
+                throw new ServerUnavailableException("Server unavailable: " + webException.Status.ToString(), webException);
             }
         }
 
@@ -101,16 +100,19 @@ namespace SirenOfShame.Lib.Watcher
             _data[name] = value;
         }
 
-        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action)
+        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action, Action<ServerUnavailableException> onConnectionFail)
         {
             WebClient webClient = new WebClient();
             webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
             {
-                // todo: more error handeling when authenticating
-                byte[] result = uploadEventArgs.Result;
-                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                XDocument doc = XDocument.Parse(resultAsStr);
-                action(doc);
+                try
+                {
+                    // todo: more error handeling when authenticating
+                    byte[] result = uploadEventArgs.Result;
+                    string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
+                    XDocument doc = XDocument.Parse(resultAsStr);
+                    action(doc);
+                }
             };
             webClient.UploadValuesAsync(new Uri(url), "POST", _data);
         }

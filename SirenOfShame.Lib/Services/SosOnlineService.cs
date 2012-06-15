@@ -2,7 +2,6 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Xml.Linq;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -59,7 +58,7 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage);
                 }
-            });
+            }, OnConnectionFail);
         }
     }
 }
