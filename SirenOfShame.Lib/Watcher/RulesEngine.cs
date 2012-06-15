@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
@@ -286,10 +287,10 @@ namespace SirenOfShame.Lib.Watcher
             sosOnlineService.AddBuilds(_settings, exportedBuilds, OnAddBuildsSuccess, OnAddBuildsFail);
         }
 
-        private void OnAddBuildsFail(string errorMessage)
+        private void OnAddBuildsFail(string userTargedErrorMessage, ServerUnavailableException ex)
         {
-            _log.Error(errorMessage);
-            InvokeTrayNotify(ToolTipIcon.Error, "Failed to connect to SoS Online", errorMessage);
+            _log.Error("Failed to connect to SoS online", ex);
+            InvokeUpdateStatusBar(userTargedErrorMessage, ex);
         }
 
         private void OnAddBuildsSuccess(DateTime newHighWaterMark)

@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -12,7 +13,7 @@ namespace SirenOfShame.Lib.Services
         public const string SOS_URL = "http://localhost:3115";
         const string AUTHENTICATION_SUCCESS = "success";
 
-        public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string> onFail)
+        public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClient webClient = new WebClient();
             webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
@@ -26,7 +27,7 @@ namespace SirenOfShame.Lib.Services
                 }
                 else
                 {
-                    onFail(resultAsStr);
+                    onFail(resultAsStr, null);
                 }
             };
 
@@ -34,17 +35,17 @@ namespace SirenOfShame.Lib.Services
             data["UserName"] = settings.SosOnlineUsername;
             // todo: Send password encrypted, don't decrypt
             data["Password"] = settings.GetSosOnlinePassword();
-            webClient.UploadValuesAsync(new Uri(SOS_URL + "/api/VerifyCredentials"), "POST", data);
+            webClient.UploadValuesAsync(new Uri(SOS_URL + "/ApiV1/VerifyCredentials"), "POST", data);
         }
 
-        public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string> onFail)
+        public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             webClientXml.Add("UserName", settings.SosOnlineUsername);
             //// todo: Send password encrypted, don't decrypt
             webClientXml.Add("Password", settings.GetSosOnlinePassword());
             webClientXml.Add("Builds", exportedBuilds);
-            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/api/AddBuilds", doc =>
+            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/AddBuilds", doc =>
             {
                 string success = doc.Descendants("Success").First().Value;
                 if (success == "true")
@@ -56,9 +57,9 @@ namespace SirenOfShame.Lib.Services
                 else
                 {
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
-                    onFail(errorMessage);
+                    onFail(errorMessage, null);
                 }
-            }, OnConnectionFail);
+            }, ex => onFail("Failed to connect to SoS online", ex));
         }
     }
 }

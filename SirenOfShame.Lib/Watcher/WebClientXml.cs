@@ -42,57 +42,65 @@ namespace SirenOfShame.Lib.Watcher
             try
             {
                 var resultString = webClient.DownloadString(url);
-                try
-                {
-                    return XDocument.Parse(resultString);
-                }
-                catch (Exception ex)
-                {
-                    string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
-                    _log.Error(message, ex);
-                    throw new ServerUnavailableException(message, ex);
-                }
-            }
-            catch (WebException webException)
+                return TryParseXmlResult(url, resultString);
+            } catch (WebException webException)
             {
-                if (webException.Response != null)
+                throw ToServerUnavailableException(url, webException);
+            }
+        }
+
+        private static XDocument TryParseXmlResult(string url, string resultString)
+        {
+            try
+            {
+                return XDocument.Parse(resultString);
+            } catch (Exception ex)
+            {
+                string message = "Couldn't parse XML when trying to connect to " + url + ":\n" + resultString;
+                _log.Error(message, ex);
+                throw new ServerUnavailableException(message, ex);
+            }
+        }
+
+        private ServerUnavailableException ToServerUnavailableException(string url, WebException webException)
+        {
+            if (webException.Response != null)
+            {
+                var response = webException.Response;
+                using (Stream s1 = response.GetResponseStream())
                 {
-                    var response = webException.Response;
-                    using (Stream s1 = response.GetResponseStream())
+                    if (s1 != null)
                     {
-                        if (s1 != null)
+                        using (StreamReader sr = new StreamReader(s1))
                         {
-                            using (StreamReader sr = new StreamReader(s1))
+                            var errorResult = sr.ReadToEnd();
+
+                            if (IsServerUnavailable(errorResult))
                             {
-                                var errorResult = sr.ReadToEnd();
-
-                                if (IsServerUnavailable(errorResult))
-                                {
-                                    throw new ServerUnavailableException();
-                                }
-
-                                string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
-                                _log.Error(message, webException);
-                                throw new ServerUnavailableException(message, webException);
+                                return new ServerUnavailableException();
                             }
+
+                            string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
+                            _log.Error(message, webException);
+                            return new ServerUnavailableException(message, webException);
                         }
                     }
                 }
-                if (webException.Status == WebExceptionStatus.Timeout)
-                {
-                    throw new ServerUnavailableException();
-                }
-                if (webException.Status == WebExceptionStatus.NameResolutionFailure)
-                {
-                    throw new ServerUnavailableException();
-                }
-                if (webException.Status == WebExceptionStatus.ConnectFailure)
-                {
-                    throw new ServerUnavailableException();
-                }
-
-                throw new ServerUnavailableException("Server unavailable: " + webException.Status.ToString(), webException);
             }
+            if (webException.Status == WebExceptionStatus.Timeout)
+            {
+                return new ServerUnavailableException();
+            }
+            if (webException.Status == WebExceptionStatus.NameResolutionFailure)
+            {
+                return new ServerUnavailableException();
+            }
+            if (webException.Status == WebExceptionStatus.ConnectFailure)
+            {
+                return new ServerUnavailableException();
+            }
+
+            return new ServerUnavailableException("Server unavailable: " + webException.Status.ToString(), webException);
         }
 
         public void Add(string name, string value)
@@ -110,8 +118,29 @@ namespace SirenOfShame.Lib.Watcher
                     // todo: more error handeling when authenticating
                     byte[] result = uploadEventArgs.Result;
                     string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                    XDocument doc = XDocument.Parse(resultAsStr);
+                    XDocument doc = TryParseXmlResult(url, resultAsStr);
                     action(doc);
+                } 
+                catch (WebException ex)
+                {
+                    var serverUnavailableException = ToServerUnavailableException(url, ex);
+                    onConnectionFail(serverUnavailableException);
+                } 
+                catch (ServerUnavailableException ex)
+                {
+                    onConnectionFail(ex);
+                }
+                catch (Exception ex)
+                {
+                    WebException innerException = ex.InnerException as WebException;
+                    if (innerException != null)
+                    {
+                        var serverUnavailableException = ToServerUnavailableException(url, innerException);
+                        onConnectionFail(serverUnavailableException);
+                        return;
+                    }
+                    _log.Error("Error in UploadValuesAndReturnXmlAsync", ex);
+                    throw;
                 }
             };
             webClient.UploadValuesAsync(new Uri(url), "POST", _data);
