@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,7 +13,8 @@ namespace SirenOfShame.Lib.Watcher
     public class WebClientXml
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(WebClientXml));
-
+        private NameValueCollection _data = new NameValueCollection();
+        
         private static readonly string[] _serverUnavailableTriggers = new[]
             {
                 "HTTP Status 404",
@@ -92,6 +94,25 @@ namespace SirenOfShame.Lib.Watcher
                 _log.Error("Error connecting to " + url + ". WebException.Status = " + webException.Status);
                 throw;
             }
+        }
+
+        public void Add(string name, string value)
+        {
+            _data[name] = value;
+        }
+
+        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action)
+        {
+            WebClient webClient = new WebClient();
+            webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
+            {
+                // todo: more error handeling when authenticating
+                byte[] result = uploadEventArgs.Result;
+                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
+                XDocument doc = XDocument.Parse(resultAsStr);
+                action(doc);
+            };
+            webClient.UploadValuesAsync(new Uri(url), "POST", _data);
         }
     }
 }

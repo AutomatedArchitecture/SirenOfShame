@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Services
 {
@@ -39,13 +40,13 @@ namespace SirenOfShame.Lib.Services
 
         public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string> onFail)
         {
-            WebClient webClient = new WebClient();
-            webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
+            WebClientXml webClientXml = new WebClientXml();
+            webClientXml.Add("UserName", settings.SosOnlineUsername);
+            //// todo: Send password encrypted, don't decrypt
+            webClientXml.Add("Password", settings.GetSosOnlinePassword());
+            webClientXml.Add("Builds", exportedBuilds);
+            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/api/AddBuilds", doc =>
             {
-                // todo: more error handeling when authenticating
-                byte[] result = uploadEventArgs.Result;
-                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                XDocument doc = XDocument.Parse(resultAsStr);
                 string success = doc.Descendants("Success").First().Value;
                 if (success == "true")
                 {
@@ -58,14 +59,7 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage);
                 }
-            };
-
-            NameValueCollection data = new NameValueCollection();
-            data["UserName"] = settings.SosOnlineUsername;
-            // todo: Send password encrypted, don't decrypt
-            data["Password"] = settings.GetSosOnlinePassword();
-            data["Builds"] = exportedBuilds;
-            webClient.UploadValuesAsync(new Uri(SOS_URL + "/api/AddBuilds"), "POST", data);
+            });
         }
     }
 }
