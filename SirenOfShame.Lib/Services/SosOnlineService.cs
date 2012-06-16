@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Net;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -11,31 +9,26 @@ namespace SirenOfShame.Lib.Services
     public class SosOnlineService
     {
         public const string SOS_URL = "http://localhost:3115";
-        const string AUTHENTICATION_SUCCESS = "success";
 
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {
-            WebClient webClient = new WebClient();
-            webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
+            WebClientXml webClientXml = new WebClientXml();
+            webClientXml.Add("UserName", settings.SosOnlineUsername);
+            //// todo: Send password encrypted, don't decrypt
+            webClientXml.Add("Password", settings.GetSosOnlinePassword());
+            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/VerifyCredentials", doc =>
             {
-                // todo: more error handeling when authenticating
-                byte[] result = uploadEventArgs.Result;
-                string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                if (resultAsStr == AUTHENTICATION_SUCCESS)
+                string success = doc.Descendants("Success").First().Value;
+                if (success == "true")
                 {
                     onSuccess();
-                }
+                } 
                 else
                 {
-                    onFail(resultAsStr, null);
+                    string errorMessage = doc.Descendants("ErrorMessage").First().Value;
+                    onFail(errorMessage, null);
                 }
-            };
-
-            NameValueCollection data = new NameValueCollection();
-            data["UserName"] = settings.SosOnlineUsername;
-            // todo: Send password encrypted, don't decrypt
-            data["Password"] = settings.GetSosOnlinePassword();
-            webClient.UploadValuesAsync(new Uri(SOS_URL + "/ApiV1/VerifyCredentials"), "POST", data);
+            }, OnConnectionFail(onFail));
         }
 
         public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
@@ -59,7 +52,12 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage, null);
                 }
-            }, ex => onFail("Failed to connect to SoS online", ex));
+            }, OnConnectionFail(onFail));
+        }
+
+        private static Action<ServerUnavailableException> OnConnectionFail(Action<string, ServerUnavailableException> onFail)
+        {
+            return ex => onFail("Failed to connect to SoS online", ex);
         }
     }
 }

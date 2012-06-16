@@ -203,6 +203,7 @@ namespace SirenOfShame.Configuration
         private void ResyncClick(object sender, EventArgs e)
         {
             SetUserIAm();
+            SaveSosOnlineSettings();
             if (string.IsNullOrEmpty(_settings.MyRawName))
             {
                 SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
@@ -229,10 +230,15 @@ namespace SirenOfShame.Configuration
         private void VerifyCredentialsClick(object sender, EventArgs e)
         {
             var sosOnlineService = new SosOnlineService();
-            _settings.SosOnlineUsername = _sosOnlineLogin.Text;
-            _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
+            SaveSosOnlineSettings();
             sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnSosOnlineFailure);
             _sosOnlineStatus.Text = "Logging in ...";
+        }
+
+        private void SaveSosOnlineSettings()
+        {
+            _settings.SosOnlineUsername = _sosOnlineLogin.Text;
+            _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
         }
 
         private void OnSosOnlineFailure(string userFriendlyErrorMessage, ServerUnavailableException ex)
