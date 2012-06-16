@@ -23,12 +23,12 @@ namespace SirenOfShame.Lib.Settings
 
         public void SetPassword(string value)
         {
-            EncryptedPassword = new TripleDESStringEncryptor().EncryptString(value);
+            EncryptedPassword = new TripleDesStringEncryptor().EncryptString(value);
         }
 
         public string GetPassword()
         {
-            return new TripleDESStringEncryptor().DecryptString(EncryptedPassword);
+            return new TripleDesStringEncryptor().DecryptString(EncryptedPassword);
         }
 
         public ICiEntryPoint GetCiEntryPoint(SirenOfShameSettings settings)

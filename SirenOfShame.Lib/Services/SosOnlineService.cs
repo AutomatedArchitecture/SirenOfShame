@@ -13,9 +13,7 @@ namespace SirenOfShame.Lib.Services
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
-            webClientXml.Add("UserName", settings.SosOnlineUsername);
-            //// todo: Send password encrypted, don't decrypt
-            webClientXml.Add("Password", settings.GetSosOnlinePassword());
+            AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/VerifyCredentials", doc =>
             {
                 string success = doc.Descendants("Success").First().Value;
@@ -31,12 +29,17 @@ namespace SirenOfShame.Lib.Services
             }, OnConnectionFail(onFail));
         }
 
+        private static void AddSosOnlineCredentials(SirenOfShameSettings settings, WebClientXml webClientXml)
+        {
+            webClientXml.Add("UserName", settings.SosOnlineUsername);
+            // send the encrypted version of the password since we're too cheap to support SSL at present
+            webClientXml.Add("Password", settings.SosOnlinePassword);
+        }
+
         public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
-            webClientXml.Add("UserName", settings.SosOnlineUsername);
-            //// todo: Send password encrypted, don't decrypt
-            webClientXml.Add("Password", settings.GetSosOnlinePassword());
+            AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.Add("Builds", exportedBuilds);
             webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/AddBuilds", doc =>
             {

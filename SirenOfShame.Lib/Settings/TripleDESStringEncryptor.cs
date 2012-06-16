@@ -5,14 +5,14 @@ using System.Text;
 
 namespace SirenOfShame.Lib.Settings
 {
-    public class TripleDESStringEncryptor
+    public class TripleDesStringEncryptor
     {
         private readonly byte[] _key;
         private readonly byte[] _iv;
 
         private readonly TripleDESCryptoServiceProvider _provider;
 
-        public TripleDESStringEncryptor()
+        public TripleDesStringEncryptor()
         {
             _key = Encoding.ASCII.GetBytes("GSYAHAGCBDUUADIADKOPAAAW");
             _iv = Encoding.ASCII.GetBytes("USAZBGAW");

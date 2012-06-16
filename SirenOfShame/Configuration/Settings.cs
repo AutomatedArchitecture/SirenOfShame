@@ -213,7 +213,7 @@ namespace SirenOfShame.Configuration
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);
             if (exportedBuilds == null)
             {
-                _sosOnlineStatus.Text = "No builds to export";
+                _sosOnlineStatus.Text = "No new builds to export";
                 return;
             }
             var sosOnlineService = new SosOnlineService();

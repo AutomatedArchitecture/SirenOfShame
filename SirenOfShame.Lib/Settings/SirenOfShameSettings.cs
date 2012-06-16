@@ -356,12 +356,12 @@ namespace SirenOfShame.Lib.Settings
 
         public void SetSosOnlinePassword(string rawPassword)
         {
-            SosOnlinePassword = new TripleDESStringEncryptor().EncryptString(rawPassword);
+            SosOnlinePassword = new TripleDesStringEncryptor().EncryptString(rawPassword);
         }
 
         public string GetSosOnlinePassword()
         {
-            return new TripleDESStringEncryptor().DecryptString(SosOnlinePassword);
+            return new TripleDesStringEncryptor().DecryptString(SosOnlinePassword);
         }
     }
 }

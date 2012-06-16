@@ -9,7 +9,7 @@ namespace SirenOfShame.Test.Unit.Settings
         [TestMethod]
         public void Simple()
         {
-            var encryptor = new TripleDESStringEncryptor();
+            var encryptor = new TripleDesStringEncryptor();
             var encrypted = encryptor.EncryptString("password");
             var decrypted = encryptor.DecryptString(encrypted);
             Assert.AreEqual("password", decrypted);
@@ -18,7 +18,7 @@ namespace SirenOfShame.Test.Unit.Settings
         [TestMethod]
         public void UnusualChars()
         {
-            var encryptor = new TripleDESStringEncryptor();
+            var encryptor = new TripleDesStringEncryptor();
             var encrypted = encryptor.EncryptString("!@#$%^&*()- +=");
             var decrypted = encryptor.DecryptString(encrypted);
             Assert.AreEqual("!@#$%^&*()- +=", decrypted);
