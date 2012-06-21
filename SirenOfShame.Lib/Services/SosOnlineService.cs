@@ -36,12 +36,13 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("Password", settings.SosOnlinePassword);
         }
 
-        public void AddBuilds(SirenOfShameSettings settings, string exportedBuilds, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
+        public void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.Add("Builds", exportedBuilds);
-            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/AddBuilds", doc =>
+            webClientXml.Add("Achievements", exportedAchievements);
+            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/Synchronize", doc =>
             {
                 string success = doc.Descendants("Success").First().Value;
                 if (success == "true")

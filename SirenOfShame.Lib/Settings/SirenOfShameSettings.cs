@@ -363,5 +363,28 @@ namespace SirenOfShame.Lib.Settings
         {
             return new TripleDesStringEncryptor().DecryptString(SosOnlinePassword);
         }
+
+        public string ExportNewAchievements()
+        {
+            DateTime? highWaterMark = GetHighWaterMark();
+            var initialExport = highWaterMark == null;
+            var currentUser = GetCurrentUser();
+            if (currentUser == null) return null;
+            var currentUsersAchievements = currentUser.Achievements;
+            var achievementsAfterHighWaterMark = initialExport ? currentUsersAchievements : currentUsersAchievements.Where(i => i.DateAchieved > highWaterMark);
+            var buildsAsExport = achievementsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
+            var result = string.Join("\r\n", buildsAsExport);
+            return string.IsNullOrEmpty(result) ? null : result;
+        }
+
+        private PersonSetting GetCurrentUser()
+        {
+            return People.FirstOrDefault(i => i.RawName == MyRawName);
+        }
+
+        public DateTime? GetHighWaterMark()
+        {
+            return SosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(SosOnlineHighWaterMark.Value);
+        }
     }
 }

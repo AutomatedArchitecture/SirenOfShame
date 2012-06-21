@@ -117,8 +117,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public string ExportNewBuilds(SirenOfShameSettings settings)
         {
-            long? sosOnlineHighWaterMark = settings.SosOnlineHighWaterMark;
-            DateTime? highWaterMark = sosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(sosOnlineHighWaterMark.Value);
+            DateTime? highWaterMark = settings.GetHighWaterMark();
             var initialExport = highWaterMark == null;
             var allBuildDefinitions = ReadAll(settings.GetAllActiveBuildDefinitions());
             var currentUsersBuilds = allBuildDefinitions

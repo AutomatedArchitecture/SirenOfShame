@@ -60,5 +60,10 @@ namespace SirenOfShame.Lib.Settings
         
         public DateTime DateAchieved { get; set; }
         public int AchievementId { get; set; }
+
+        public string AsSosOnlineExport()
+        {
+            return string.Format("{0},{1}", AchievementId, DateAchieved.Ticks);
+        }
     }
 }

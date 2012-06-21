@@ -284,7 +284,8 @@ namespace SirenOfShame.Lib.Watcher
                 return;
             }
             _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
-            sosOnlineService.AddBuilds(_settings, exportedBuilds, OnAddBuildsSuccess, OnAddBuildsFail);
+            string exportedAchievements = _settings.ExportNewAchievements();
+            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
         }
 
         private void OnAddBuildsFail(string userTargedErrorMessage, ServerUnavailableException ex)

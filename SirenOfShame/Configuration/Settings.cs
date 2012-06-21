@@ -217,7 +217,8 @@ namespace SirenOfShame.Configuration
                 return;
             }
             var sosOnlineService = new SosOnlineService();
-            sosOnlineService.AddBuilds(_settings, exportedBuilds, OnAddBuildsSuccess, OnSosOnlineFailure);
+            string exportedAchievements = _settings.ExportNewAchievements();
+            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
         }
 
         private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
