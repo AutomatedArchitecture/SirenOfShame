@@ -37,7 +37,7 @@ namespace TfsServices.Configuration
         private readonly ICommonStructureService _commonStructureService;
         private readonly TfsTeamProjectCollection _tfsTeamProjectCollection;
         private readonly IBuildServer _buildServer;
-        private readonly ILinking _linkingService;
+        private TswaClientHyperlinkService _tswaClientHyperlinkService;
         public bool CurrentUserHasAccess { get; set; }
 
         public MyTfsProjectCollection(CatalogNode teamProjectCollectionNode, TfsConfigurationServer tfsConfigurationServer, NetworkCredential networkCredential)
@@ -51,7 +51,7 @@ namespace TfsServices.Configuration
                 _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri, new MyCredentials(networkCredential));
                 _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
                 _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
-                _linkingService = _tfsTeamProjectCollection.GetService<ILinking>();
+                _tswaClientHyperlinkService = _tfsTeamProjectCollection.GetService<TswaClientHyperlinkService>();
                 CurrentUserHasAccess = true;
             } 
             catch (TeamFoundationServerUnauthorizedException ex)
@@ -64,7 +64,10 @@ namespace TfsServices.Configuration
         public string ConvertTfsUriToUrl(Uri vstfsUri)
         {
             if (vstfsUri == null) return null;
-            return _linkingService.GetArtifactUrl(vstfsUri.ToString());
+            if (_tswaClientHyperlinkService == null) return null;
+            var uri = _tswaClientHyperlinkService.GetViewBuildDetailsUrl(vstfsUri);
+            if (uri == null) return null;
+            return uri.ToString();
         }
         
         public IEnumerable<MyTfsProject> Projects

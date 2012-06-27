@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using log4net;
 using SirenOfShame.Lib.Settings;
@@ -79,7 +80,7 @@ namespace SirenOfShame.Lib.Watcher
             previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            string startTime = StartedTime == null ? "" : StartedTime.Value.ToString("M/d h:mm tt");
+            string startTime = FormatAsDayMonthTime(StartedTime);
             long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
             string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
 
@@ -98,6 +99,24 @@ namespace SirenOfShame.Lib.Watcher
             };
             result.SetDisplayName(settings);
             return result;
+        }
+
+        private static string FormatAsDayMonthTime(DateTime? nullableDate)
+        {
+            if (nullableDate == null) return null;
+            DateTime date = nullableDate.Value;
+            var dayMonthPattern = GetDayMonthPattern();
+            return date.ToString(dayMonthPattern + " h:mm tt");
+        }
+
+        private static string GetDayMonthPattern()
+        {
+            DateTimeFormatInfo dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
+            if (dateTimeFormatInfo == null) return "M/d";
+            var shortDatePattern = dateTimeFormatInfo.ShortDatePattern;
+            var dateSeparator = dateTimeFormatInfo.DateSeparator;
+            string dayMonthPattern = shortDatePattern.TrimEnd(new[] {'y', 'Y', dateSeparator[0]});
+            return dayMonthPattern;
         }
 
         private string GetDurationAsString(DateTime? finishedTime, DateTime? startedTime, DateTime now, BuildStatus previousStatus)

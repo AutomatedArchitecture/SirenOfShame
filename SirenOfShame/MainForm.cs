@@ -31,6 +31,8 @@ namespace SirenOfShame
         private readonly string _logFilename;
         private readonly bool _canViewLogs;
         readonly SosDb _sosDb = new SosDb();
+        readonly Timer _showAlertAnimation = new Timer();
+        readonly Timer _flashListViewItemTimer = new Timer();
         
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
@@ -41,8 +43,11 @@ namespace SirenOfShame
             IocContainer.Instance.Compose(this);
             InitializeComponent();
 
-            _fastAnimation.Interval = 1;
-            _fastAnimation.Tick += FastAnimationTick;
+            _showAlertAnimation.Interval = 1;
+            _showAlertAnimation.Tick += ShowAlertAnimationTick;
+
+            _flashListViewItemTimer.Interval = 1;
+            _flashListViewItemTimer.Tick += FlashListViewItemTimerTick;
 
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
@@ -111,24 +116,27 @@ namespace SirenOfShame
             return listViewItem;
         }
 
-        private static void AddSubItem(ListViewItem lvi, string name, string value)
+        private static ListViewItem.ListViewSubItem AddSubItem(ListViewItem lvi, string name, string value, Color? color = null)
         {
             var subItem = new ListViewItem.ListViewSubItem(lvi, value)
             {
                 Name = name
             };
+            if (color != null)
+                subItem.ForeColor = color.Value;
             lvi.SubItems.Add(subItem);
+            return subItem;
         }
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
-            Invoke(RefreshStats);
+            Invoke(() => RefreshStats(args.ChangedBuildStatuses));
         }
 
-        private void RefreshStats()
+        private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            RefreshStats(buildDefinitionSetting);
+            RefreshStats(buildDefinitionSetting, changedBuildStatuses);
         }
 
         /// <summary>
@@ -197,7 +205,7 @@ namespace SirenOfShame
                 _settings = new SirenOfShameSettings();
             }
             StartWatchingBuild();
-            RefreshStats();
+            RefreshStats(null);
             SetMuteButton();
             InitializeBuildHistoryChart();
             _buildDefinitions.SetSortColumn(_settings);
@@ -291,7 +299,7 @@ namespace SirenOfShame
                 _panelAlert.Height = 1;
                 _labelAlert.Text = args.Message;
                 _details.Location = new Point(_labelAlert.Width + 7, _labelAlert.Location.Y);
-                _fastAnimation.Start();
+                _showAlertAnimation.Start();
                 _alertDate = args.AlertDate;
             });
         }
@@ -466,7 +474,7 @@ namespace SirenOfShame
             }
         }
 
-        private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting)
+        private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             _panelBuildStats.Visible = buildDefinitionSelected;
@@ -476,7 +484,7 @@ namespace SirenOfShame
             {
                 if (!buildDefinitionSelected && !_settings.HideReputation)
                 {
-                    RefreshUserStats();
+                    RefreshUserStats(changedBuildStatuses);
                 } else
                 {
                     RefreshProjectStats(buildDefinitionSetting);
@@ -518,8 +526,9 @@ namespace SirenOfShame
 
         readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
         readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
+        private List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
-        private void RefreshUserStats()
+        private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
             _users.Items.Clear();
             var filteredPeople = _showAllPeople ? _settings.People : _settings.VisiblePeople;
@@ -528,11 +537,17 @@ namespace SirenOfShame
                 .OrderByDescending(i => i.Reputation);
             foreach (var person in personSettings)
             {
-                ListViewItem lvi = new ListViewItem(person.DisplayName);
-                AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture));
+                bool newlyChanged = changedBuildStatuses != null && changedBuildStatuses.Any(i => i.RequestedBy == person.RawName);
+                Color color = newlyChanged ? Color.OrangeRed: Color.Black;
+
+                ListViewItem lvi = new ListViewItem(person.DisplayName) {UseItemStyleForSubItems = false};
+                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture), color);
+                if (newlyChanged)
+                    _listViewItemsToFlash.Add(subItem);
                 lvi.Tag = person.RawName;
                 _users.Items.Add(lvi);
             }
+            _flashListViewItemTimer.Start();
         }
 
         private void SetStats(int count, int failed, double percentFailed)
@@ -845,7 +860,7 @@ namespace SirenOfShame
         {
             Settings settings = new Settings(_settings);
             settings.ShowDialog();
-            RefreshStats(); // just in case they clicked reset reputation
+            RefreshStats(null); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
         }
 
@@ -929,7 +944,7 @@ namespace SirenOfShame
 
         private void BuildDefinitionsSelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshStats();
+            RefreshStats(null);
         }
 
         private void UsersMouseUp(object sender, MouseEventArgs e)
@@ -995,7 +1010,7 @@ namespace SirenOfShame
             if (activePerson == null) return;
             activePerson.Hidden = !activePerson.Hidden;
             _settings.Save();
-            RefreshUserStats();
+            RefreshUserStats(null);
         }
 
         private bool _showAllPeople = false;
@@ -1003,7 +1018,7 @@ namespace SirenOfShame
         private void ShowAllUsersCheckedChanged(object sender, EventArgs e)
         {
             _showAllPeople = _showAllUsers.Checked;
-            RefreshUserStats();
+            RefreshUserStats(null);
         }
 
         private void MuteClick(object sender, EventArgs e)
@@ -1019,19 +1034,36 @@ namespace SirenOfShame
             _mute.Text = _settings.Mute ? "Unmute" : "Mute";
         }
 
-        readonly Timer _fastAnimation = new Timer();
-        
         private void CloseAlertClick(object sender, EventArgs e)
         {
             _showAlert = false;
-            _fastAnimation.Start();
+            _showAlertAnimation.Start();
             _settings.AlertClosed = _alertDate;
             _settings.Save();
         }
 
         int _panelAlertHeight;
 
-        private void FastAnimationTick(object sender, EventArgs e)
+        private void FlashListViewItemTimerTick(object sender, EventArgs e)
+        {
+            if (!_listViewItemsToFlash.Any() || _listViewItemsToFlash.All(i => i.ForeColor == Color.Black))
+            {
+                _listViewItemsToFlash.Clear();
+                _flashListViewItemTimer.Stop();
+            }
+
+            foreach (var listViewSubItem in _listViewItemsToFlash)
+            {
+                var existingColor = listViewSubItem.ForeColor;
+                const int amountToDecrement = 3;
+                var newRed = Math.Max(0, existingColor.R - amountToDecrement);
+                var newGreen = Math.Max(0, existingColor.G - amountToDecrement);
+                var newBlue = Math.Max(0, existingColor.B - amountToDecrement);
+                listViewSubItem.ForeColor = Color.FromArgb(newRed, newGreen, newBlue);
+            }
+        }
+        
+        private void ShowAlertAnimationTick(object sender, EventArgs e)
         {
             bool hideAlert = !_showAlert;
             if (hideAlert && _panelAlert.Height > 0)
@@ -1051,7 +1083,7 @@ namespace SirenOfShame
                     {
                         _panelAlert.Height = _panelAlertHeight;
                     }
-                    _fastAnimation.Stop();
+                    _showAlertAnimation.Stop();
                 }
             }
         }
