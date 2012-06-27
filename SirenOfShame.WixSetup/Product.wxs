@@ -8,15 +8,81 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLLOCATION" Name="Siren of Shame">
-          <Component Id="MainExecutable" Guid="907D3D28-0FCE-49B2-87CE-4670A57F286C">
-            <File Id="SirenOfShameExe" Name="SirenOfShame.exe" Source="..\SirenOfShame\bin\SirenOfShame.exe" KeyPath="yes" />
-          </Component>
+          <Directory Id="Sox" Name="Sox" />
+          <Directory Id="Plugins" Name="Plugins" />
 				</Directory>
 			</Directory>
 		</Directory>
 
+    <DirectoryRef Id="Plugins">
+      <Component Id="PluginsComponent" Guid="A12F0669-DC76-4118-A95F-29E97223FB57">
+        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\UsbLib.dll" Id="UsbLibDll2" />
+        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
+        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll2" />
+        <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
+        <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
+
+        <File Source="..\SirenOfShame\bin\Plugins\BambooServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\CruiseControlNetServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\HudsonServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\TeamCityServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\TfsServices.dll" />
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="Sox">
+      <Component Id="SoxComponent" Guid="A884EFC1-4078-47DC-BABD-CA90F590A78E">
+        <File Source="..\Libs\sox-14.3.2\wget.exe" />
+        <File Source="..\Libs\sox-14.3.2\sox.exe" />
+        <File Source="..\Libs\sox-14.3.2\pthreadgc2.dll" />
+        <File Source="..\Libs\sox-14.3.2\LICENSE.GPL.txt" />
+        <File Source="..\Libs\sox-14.3.2\libmp3lame.dll" />
+        <File Source="..\Libs\sox-14.3.2\libmad.dll" />
+        <File Source="..\Libs\sox-14.3.2\libgomp-1.dll" />
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="MainExecutable" Guid="907D3D28-0FCE-49B2-87CE-4670A57F286C">
+        <File Id="SirenOfShameExe" Name="SirenOfShame.exe" Source="..\SirenOfShame\bin\SirenOfShame.exe" KeyPath="yes" />
+        <File Source="..\SirenOfShame\bin\SirenOfShame.exe.config" />
+        <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll1" />
+        <File Source="..\SirenOfShame\bin\FirmwareUpgrade.xml" />
+        <File Id="SirenOfShameTrayBlankIco" Name="SirenOfShameTrayBlank.ico" Source="..\SirenOfShame\SirenOfShameTrayBlank.ico" />
+        
+        <File Source="..\SirenOfShame\bin\wyUpdate.exe" />
+        <File Source="..\Libs\ZedGraph.dll" />
+        <File Source="..\UsbLib\bin\Debug\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
+        <File Source="..\TeensyHidBootloaderLib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll1" />
+        <File Source="..\SoxLib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll1" />
+        <File Source="..\Libs\log4net.dll" Id="Log4NetDll1" />
+        <File Source="..\Releases\wyUpdate\client.wyc" />
+        <File Source="..\Libs\wyUpdate\AutomaticUpdater.dll" />
+
+        <!-- todo: move the following TFS files into Libs -->
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Client.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Common.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Client.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.Library.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Client.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Provision.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
+        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
+      </Component>
+    </DirectoryRef>
+    
 		<Feature Id="ProductFeature" Title="SirenOfShame.WixSetup" Level="1">
       <ComponentRef Id="MainExecutable"/>
+      <ComponentRef Id="SoxComponent"/>
+      <ComponentRef Id="PluginsComponent"/>
 			
 			<!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
 			<ComponentGroupRef Id="Product.Generated" />
