@@ -19,7 +19,9 @@
           <Directory Id="Plugins" Name="Plugins" />
 				</Directory>
 			</Directory>
-		</Directory>
+      <Directory Id="ProgramMenuFolder" Name="Programs" />
+      <Directory Id="StartupFolder" Name="StartupFolder" />
+    </Directory>
 
     <DirectoryRef Id="Plugins">
       <Component Id="PluginsComponent" Guid="A12F0669-DC76-4118-A95F-29E97223FB57">
@@ -51,6 +53,9 @@
     
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="MainExecutable" Guid="907D3D28-0FCE-49B2-87CE-4670A57F286C">
+        <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
+        <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
+
         <File Id="SirenOfShameExe" Name="SirenOfShame.exe" Source="..\SirenOfShame\bin\SirenOfShame.exe" KeyPath="yes" />
         <File Source="..\SirenOfShame\bin\SirenOfShame.exe.config" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll1" />
@@ -87,6 +92,7 @@
     </DirectoryRef>
 
     <Icon Id="SirenOfShameTrayBlankIco" SourceFile="..\SirenOfShame\SirenOfShameTrayBlank.ico"/>
+    <Icon Id="SirenOfShame.exe" SourceFile="..\SirenOfShame\bin\SirenOfShame.exe"/>
     
     <Property Id='ARPCOMMENTS'>any comments</Property>
     <Property Id='ARPCONTACT'>support@sirenofshame.com</Property>
