@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="04137347-5FAA-45F6-A913-98A4CFB21615" Name="Siren of Shame" Language="1033" Version="1.5.9" Manufacturer="Automated Architecture" UpgradeCode="014E7EC8-CA13-4ECC-B2AF-672AAD936C16">
+  <Product Id="*" Name="Siren of Shame" Language="1033" Manufacturer="Automated Architecture"
+           Version="1.5.9" UpgradeCode="F069A490-0830-4288-9AB3-508DB7FC406C">
 		<Package InstallerVersion="200" Compressed="yes" />
+
+    <!-- Always auto-uninstall older versions -->
+    <Upgrade Id="F069A490-0830-4288-9AB3-508DB7FC406C">
+      <UpgradeVersion
+         OnlyDetect="no"
+         Minimum="1.0.0" Maximum="99.0.0"
+         Property="PREVIOUSVERSIONSINSTALLED"
+         IncludeMinimum="yes" IncludeMaximum="no" />
+    </Upgrade>
 
     <CustomAction Id='LaunchFile' FileKey='SirenOfShameExe' ExeCommand='' Return='asyncNoWait' />
 
     <InstallExecuteSequence>
-      
+      <RemoveExistingProducts Before="InstallInitialize" />
       <Custom Action='LaunchFile' After='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
     
@@ -101,6 +111,8 @@
     <Property Id='ARPURLUPDATEINFO'>http://code.google.com/p/siren-of-shame/downloads/list</Property>
     <Property Id='ARPSIZE'>15852</Property>
     <Property Id='ARPPRODUCTICON'>SirenOfShameTrayBlankIco</Property>
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+    <Property Id="ALLUSERS">2</Property> <!-- ALLUSERS=2; i.e. install per-machine not per-user -->
     
 		<Feature Id="ProductFeature" Title="SirenOfShame.WixSetup" Level="1">
       <ComponentRef Id="MainExecutable"/>
