@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is application version number, update for each release -->
+<?define Version = "1.5.9" ?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Siren of Shame" Language="1033" Manufacturer="Automated Architecture"
-           Version="1.5.9" UpgradeCode="F069A490-0830-4288-9AB3-508DB7FC406C">
+  <Product Id="*" Name="Siren of Shame $(var.Version)" Language="1033" Manufacturer="Automated Architecture"
+           Version="$(var.Version)" UpgradeCode="F069A490-0830-4288-9AB3-508DB7FC406C">
 		<Package InstallerVersion="200" Compressed="yes" />
 
-    <!-- Always auto-uninstall older versions -->
+    <Condition Message="A later version of Siren of Shame is already installed.">NOT NEWERVERSIONDETECTED</Condition>
+
     <Upgrade Id="F069A490-0830-4288-9AB3-508DB7FC406C">
-      <UpgradeVersion
-         OnlyDetect="no"
-         Minimum="1.0.0" Maximum="99.0.0"
-         Property="PREVIOUSVERSIONSINSTALLED"
-         IncludeMinimum="yes" IncludeMaximum="no" />
+      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="yes" 
+                      OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+      <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Version)" IncludeMaximum="no" 
+                      OnlyDetect="no" Property="PREVIOUSVERSIONSINSTALLED" />
     </Upgrade>
 
     <CustomAction Id='LaunchFile' FileKey='SirenOfShameExe' ExeCommand='' Return='asyncNoWait' />
