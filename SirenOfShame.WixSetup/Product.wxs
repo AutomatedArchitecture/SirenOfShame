@@ -3,13 +3,20 @@
 <!-- This is application version number, update for each release -->
 <?define Version = "1.5.9" ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <Product Id="*" Name="Siren of Shame $(var.Version)" Language="1033" Manufacturer="Automated Architecture"
            Version="$(var.Version)" UpgradeCode="F069A490-0830-4288-9AB3-508DB7FC406C">
 		<Package InstallerVersion="200" Compressed="yes" />
 
     <Condition Message="A later version of Siren of Shame is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
+    <PropertyRef Id="NETFRAMEWORK40FULL"/>
+
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+    </Condition>
+    
     <Upgrade Id="F069A490-0830-4288-9AB3-508DB7FC406C">
       <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="yes" 
                       OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
