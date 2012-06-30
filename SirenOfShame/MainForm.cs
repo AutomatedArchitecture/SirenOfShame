@@ -46,7 +46,7 @@ namespace SirenOfShame
             _showAlertAnimation.Interval = 1;
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
 
-            _flashListViewItemTimer.Interval = 1;
+            _flashListViewItemTimer.Interval = 100;
             _flashListViewItemTimer.Tick += FlashListViewItemTimerTick;
 
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
@@ -116,14 +116,12 @@ namespace SirenOfShame
             return listViewItem;
         }
 
-        private static ListViewItem.ListViewSubItem AddSubItem(ListViewItem lvi, string name, string value, Color? color = null)
+        private static ListViewItem.ListViewSubItem AddSubItem(ListViewItem lvi, string name, string value)
         {
             var subItem = new ListViewItem.ListViewSubItem(lvi, value)
             {
                 Name = name
             };
-            if (color != null)
-                subItem.ForeColor = color.Value;
             lvi.SubItems.Add(subItem);
             return subItem;
         }
@@ -538,16 +536,25 @@ namespace SirenOfShame
             foreach (var person in personSettings)
             {
                 bool newlyChanged = changedBuildStatuses != null && changedBuildStatuses.Any(i => i.RequestedBy == person.RawName);
-                Color color = newlyChanged ? Color.OrangeRed: Color.Black;
 
                 ListViewItem lvi = new ListViewItem(person.DisplayName) {UseItemStyleForSubItems = false};
-                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture), color);
+                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture));
                 if (newlyChanged)
-                    _listViewItemsToFlash.Add(subItem);
+                    FlashListViewSubItem(subItem);
                 lvi.Tag = person.RawName;
                 _users.Items.Add(lvi);
             }
             _flashListViewItemTimer.Start();
+        }
+
+        private void FlashListViewSubItem(ListViewItem.ListViewSubItem lvi)
+        {
+            lvi.ForeColor = Color.Red;
+            _listViewItemsToFlash.Add(lvi);
+            if (!_flashListViewItemTimer.Enabled)
+            {
+                _flashListViewItemTimer.Start();
+            }
         }
 
         private void SetStats(int count, int failed, double percentFailed)
@@ -1046,7 +1053,7 @@ namespace SirenOfShame
 
         private void FlashListViewItemTimerTick(object sender, EventArgs e)
         {
-            if (!_listViewItemsToFlash.Any() || _listViewItemsToFlash.All(i => i.ForeColor == Color.Black))
+            if (!_listViewItemsToFlash.Any() || _listViewItemsToFlash.All(i => i.ForeColor.R == 0))
             {
                 _listViewItemsToFlash.Clear();
                 _flashListViewItemTimer.Stop();
