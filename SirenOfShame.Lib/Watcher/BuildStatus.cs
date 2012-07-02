@@ -92,7 +92,7 @@ namespace SirenOfShame.Lib.Watcher
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
-                BuildId = BuildId == null ? "" : BuildId.ToString(),
+                BuildId = BuildId ?? "",
                 Id = BuildDefinitionId,
                 Name = Name,
                 Url = Url,
@@ -125,6 +125,12 @@ namespace SirenOfShame.Lib.Watcher
             if (duration == null) return "";
             if (duration.Value.Ticks < 0) return string.Format("OT: {0}:{1:00}", 0 - (int)duration.Value.TotalMinutes, 0 - duration.Value.Seconds);
             return string.Format("{0}:{1:00}", (int)duration.Value.TotalMinutes, duration.Value.Seconds);
+        }
+
+        public TimeSpan? GetDuration()
+        {
+            if (FinishedTime == null || StartedTime == null) return null;
+            return FinishedTime.Value - StartedTime.Value;
         }
 
         private TimeSpan? GetDuration(DateTime? startedTime, DateTime? finishedTime, BuildStatus previousStatus, DateTime now)
@@ -172,6 +178,40 @@ namespace SirenOfShame.Lib.Watcher
         public bool IsNewlyFixed(BuildStatusEnum? previousStatus)
         {
             return BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null && previousStatus == BuildStatusEnum.Broken;
+        }
+
+        public bool IsBackToBackWithNextBuild(BuildStatus nextBuild)
+        {
+            const int defaultSecondsForBackToBack = 10;
+            return IsBackToBackWithNextBuild(nextBuild, defaultSecondsForBackToBack);
+        }
+
+        public bool IsBackToBackWithNextBuild(BuildStatus nextBuild, int seconds)
+        {
+            if (nextBuild.StartedTime == null || FinishedTime == null) return false;
+            double secondsBetweenBuilds = (nextBuild.StartedTime.Value - FinishedTime.Value).TotalSeconds;
+            return secondsBetweenBuilds > 0 && secondsBetweenBuilds < seconds;
+        }
+
+        public string AsSosOnlineExport()
+        {
+            var fieldsToExport = new[]
+            {
+                DateAsExport(StartedTime), 
+                DateAsExport(FinishedTime),
+                BuildStatusAsExport(BuildStatusEnum)
+            };
+            return string.Join(",", fieldsToExport);
+        }
+
+        private string BuildStatusAsExport(BuildStatusEnum buildStatusEnum)
+        {
+            return buildStatusEnum == BuildStatusEnum.Working ? "1" : "0";
+        }
+
+        private static string DateAsExport(DateTime? dateTime)
+        {
+            return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

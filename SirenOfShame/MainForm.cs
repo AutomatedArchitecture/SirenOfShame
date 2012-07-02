@@ -10,7 +10,6 @@ using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using SirenOfShame.Resources2;
-using ZedGraph;
 using log4net;
 using SirenOfShame.Configuration;
 using SirenOfShame.Lib;
@@ -45,12 +44,14 @@ namespace SirenOfShame
 
             _showAlertAnimation.Interval = 1;
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
-
+            viewUser1.OnClose += ViewUserOnClose;
+            _buildStats.OnClose += BuildStatsOnClose;
+            viewUser1.Initilaize(_settings);
             _flashListViewItemTimer.Interval = 100;
             _flashListViewItemTimer.Tick += FlashListViewItemTimerTick;
-
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
+            
             if (SirenOfShameDevice.IsConnected)
             {
                 SirenofShameDeviceConnected(this, new EventArgs());
@@ -75,8 +76,14 @@ namespace SirenOfShame
             }
         }
 
+        private void BuildStatsOnClose(object sender, CloseBuildStatsArgs args)
+        {
+            _buildDefinitions.SelectedItems.Clear();
+        }
+
         private void SetAutomaticUpdaterSettings()
         {
+            if (_settings == null) return;
             string updatePath = "http://blueink.biz/SoS/updates/";
             if (_settings.UpdateLocation == UpdateLocation.Other)
             {
@@ -90,7 +97,10 @@ namespace SirenOfShame
 
         protected override void WndProc(ref Message m)
         {
-            SirenOfShameDevice.WndProc(ref m);
+            if (SirenOfShameDevice != null)
+            {
+                SirenOfShameDevice.WndProc(ref m);
+            }
             base.WndProc(ref m);
         }
 
@@ -194,7 +204,7 @@ namespace SirenOfShame
             EnableSirenMenuItem(false);
         }
 
-        private void Form1Load(object sender, EventArgs e)
+        private void MainFormLoad(object sender, EventArgs e)
         {
             _panelAlertHeight = _panelAlert.Height;
             _log.Debug("Form1 loaded");
@@ -202,45 +212,20 @@ namespace SirenOfShame
             {
                 _settings = new SirenOfShameSettings();
             }
+            
+            _settings.TryUpgrade();
+            
+            if (_settings.TryToFindOldAchievementsAtNextOpportunity)
+            {
+                FindOldAchievements.TryFindOldAchievements(_settings);
+                _settings.TryToFindOldAchievementsAtNextOpportunity = false;
+            }
+
             StartWatchingBuild();
             RefreshStats(null);
             SetMuteButton();
-            InitializeBuildHistoryChart();
+            _buildStats.InitializeBuildHistoryChart();
             _buildDefinitions.SetSortColumn(_settings);
-        }
-
-        private void InitializeBuildHistoryChart()
-        {
-            GraphPane myPane = _buildHistoryZedGraph.GraphPane;
-            myPane.Margin.All = 0;
-            myPane.Legend.IsVisible = false;
-            myPane.Title.IsVisible = false;
-            myPane.XAxis.IsVisible = false;
-
-            myPane.YAxis.IsVisible = true;
-            myPane.YAxis.MinorTic.IsOpposite = false;
-            myPane.YAxis.IsAxisSegmentVisible = true;
-            myPane.YAxis.MinorTic.Color = Color.White;
-
-            myPane.YAxis.MajorTic.IsCrossOutside = false;
-            myPane.YAxis.MajorTic.IsCrossInside = false;
-            myPane.YAxis.MajorTic.IsInside = false;
-            myPane.YAxis.MajorTic.IsOutside = false;
-
-            myPane.YAxis.Scale.Min = 0;
-            myPane.YAxis.Scale.IsSkipFirstLabel = true;
-            myPane.YAxis.Scale.IsSkipLastLabel = true;
-            myPane.YAxis.MajorTic.IsOpposite = false;
-            myPane.YAxis.Title.IsVisible = false;
-            myPane.XAxis.Type = AxisType.Text;
-            myPane.IsFontsScaled = false;
-            myPane.YAxis.Scale.FontSpec.Size = 10;
-
-            myPane.Chart.Border.IsVisible = false;
-            myPane.Border.IsVisible = false;
-
-            _buildHistoryZedGraph.IsEnableZoom = false;
-            myPane.BarSettings.ClusterScaleWidth = 60;
         }
 
         private RulesEngine RulesEngine
@@ -271,14 +256,37 @@ namespace SirenOfShame
             rulesEngine.SetTrayIcon += RulesEngineSetTrayIcon;
             rulesEngine.StatsChanged += RulesEngineStatsChanged;
             rulesEngine.NewAlert += RulesEngineNewAlert;
+            rulesEngine.NewAchievement += RulesEngineNewAchievement;
             return rulesEngine;
+        }
+
+        private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
+        {
+            foreach (var achievement in args.Achievements)
+            {
+                _log.Debug(args.Person + " achieved " + achievement.Name);
+            }
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
+            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
+            Invoke(() =>
+            {
+                foreach (var achievement in args.Achievements)
+                {
+                    NewAchievement.ShowForm(_settings, achievement, args.Person);
+                }
+                foreach (ListViewItem listItem in _users.Items)
+                {
+                    if ((string) listItem.Tag == args.Person.RawName)
+                        listItem.Selected = true;
+                }
+            });
         }
 
         private void RulesEnginePlayWindowsAudio(object sender, PlayWindowsAudioEventArgs args)
         {
             // note: not doing an invoke because so far this code doesn't require the UI thread
             System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            System.IO.Stream s = a.GetManifestResourceStream(args.Location);
+            Stream s = a.GetManifestResourceStream(args.Location);
             SoundPlayer player = new SoundPlayer(s);
             player.Play();
         }
@@ -336,7 +344,13 @@ namespace SirenOfShame
 
         private void RulesEngineUpdateStatusBar(object sender, UpdateStatusBarEventArgs args)
         {
-            Invoke(() => _lastStatusUpdate.Text = args.StatusText);
+            Invoke(() =>
+            {
+                _lastStatusUpdate.Text = args.StatusText;
+                var thereWasAnException = args.Exception != null;
+                _toolStripSplitErrorButton.Visible = thereWasAnException;
+                _toolStripSplitErrorButton.Tag = args.Exception;
+            });
         }
 
         private void MainFormMove(object sender, EventArgs e)
@@ -475,7 +489,7 @@ namespace SirenOfShame
         private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
-            _panelBuildStats.Visible = buildDefinitionSelected;
+            _buildStats.Visible = buildDefinitionSelected;
             _userStats.Visible = !buildDefinitionSelected;
             _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
             if (_panelRight.Visible)
@@ -494,36 +508,36 @@ namespace SirenOfShame
         {
             var definitions = _sosDb.ReadAll(buildDefinitionSetting);
 
-            GraphBuildHistory(definitions);
+            _buildStats.GraphBuildHistory(definitions);
 
             var count = definitions.Count;
             var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
             double percentFailed = count == 0 ? 0 : ((double) failed)/count;
-            SetStats(count, failed, percentFailed);
+            _buildStats.SetStats(count, failed, percentFailed);
         }
 
-        private void GraphBuildHistory(List<BuildStatus> buildStatuses)
-        {
-            GraphPane myPane = _buildHistoryZedGraph.GraphPane;
-            myPane.CurveList.Clear();
+        //private void GraphBuildHistory(List<BuildStatus> buildStatuses)
+        //{
+        //    GraphPane myPane = _buildHistoryZedGraph.GraphPane;
+        //    myPane.CurveList.Clear();
 
-            IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
-            foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
-            {
-                if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
-                var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
-                Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill: _successFill;
-                var bar = myPane.AddBar(null, null, new [] { duration.TotalMinutes }, Color.White);
-                bar.Bar.Fill = fill;
-                bar.Bar.Border.Color = Color.White;
-            }
+        //    IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
+        //    foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
+        //    {
+        //        if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
+        //        var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
+        //        Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill: _successFill;
+        //        var bar = myPane.AddBar(null, null, new [] { duration.TotalMinutes }, Color.White);
+        //        bar.Bar.Fill = fill;
+        //        bar.Bar.Border.Color = Color.White;
+        //    }
 
-            _buildHistoryZedGraph.AxisChange();
-            _buildHistoryZedGraph.Invalidate();
-        }
+        //    _buildHistoryZedGraph.AxisChange();
+        //    _buildHistoryZedGraph.Invalidate();
+        //}
 
-        readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
-        readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
+        //readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
+        //readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
         private List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
@@ -555,13 +569,6 @@ namespace SirenOfShame
             {
                 _flashListViewItemTimer.Start();
             }
-        }
-
-        private void SetStats(int count, int failed, double percentFailed)
-        {
-            _buildCount.Text = count.ToString(CultureInfo.InvariantCulture);
-            _failedBuilds.Text = failed.ToString(CultureInfo.InvariantCulture);
-            _percentFailed.Text = percentFailed.ToString("p");
         }
 
         private PersonSetting GetActivePerson()
@@ -606,7 +613,7 @@ namespace SirenOfShame
             }
         }
         
-        private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void BuildMenuOpening(object sender, CancelEventArgs e)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
@@ -1119,9 +1126,33 @@ namespace SirenOfShame
             _buildDefinitions.SetSortColumn(_settings);
         }
 
-        private void _sosOnline_Click(object sender, EventArgs e)
+        private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {
+            // sometimes the view user is displayed but the selected items gets unselected so here's a little hack to ensure we hide the user page
+            if (_users.SelectedItems.Count == 0 && _users.Items.Count >= 1)
+            {
+                _users.Items[0].Selected = true;
+            }
+            _users.SelectedItems.Clear();
+        }
 
+        private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)
+        {
+            var exception = (Exception) _toolStripSplitErrorButton.Tag;
+            ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
+        }
+
+        private void _users_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedUser = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            var aUserIsSelected = selectedUser != null;
+            _buildDefinitions.Visible = !aUserIsSelected;
+            viewUser1.Visible = aUserIsSelected;
+            if (aUserIsSelected)
+            {
+                var selectedPerson = _settings.People.First(i => i.RawName == (string) selectedUser.Tag);
+                viewUser1.SetUser(selectedPerson);
+            }
         }
     }
 }

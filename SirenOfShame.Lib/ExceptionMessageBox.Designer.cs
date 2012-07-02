@@ -44,6 +44,8 @@
             // 
             // _message
             // 
+            this._message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._message.Location = new System.Drawing.Point(128, 9);
             this._message.Name = "_message";
             this._message.Size = new System.Drawing.Size(346, 18);
