@@ -20,12 +20,22 @@ namespace SirenOfShame.Configuration
             InitializeComponent();
         }
 
-        private void Button1Click(object sender, EventArgs e)
+        private void OkClick(object sender, EventArgs e)
         {
+            if (_findOldAchievements.Checked)
+                RecalculateAchievements();
             Close();
+            if (_configureSosOnline.Checked)
+                ShowConfigureSosOnline();
         }
 
-        private void OkClick(object sender, EventArgs e)
+        private void ShowConfigureSosOnline()
+        {
+            var dialog = new ConfigureSosOnline(_settings);
+            dialog.ShowDialog();
+        }
+
+        private void RecalculateAchievements()
         {
             var sosDb = new SosDb();
             var allSettings = sosDb
@@ -70,7 +80,6 @@ namespace SirenOfShame.Configuration
                 }
             }
             _settings.Save();
-            Close();
         }
 
         public static void TryFindOldAchievements(SirenOfShameSettings settings)
