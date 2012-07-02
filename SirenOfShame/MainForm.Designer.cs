@@ -249,6 +249,7 @@ namespace SirenOfShame {
             this._sosOnline.Text = "SoS Online";
             this._sosOnline.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._sosOnline.UseVisualStyleBackColor = false;
+            this._sosOnline.Click += new System.EventHandler(this.SosOnlineClick);
             // 
             // bigIcons
             // 

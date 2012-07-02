@@ -426,15 +426,16 @@ namespace SirenOfShame
             Invoke(Application.Exit);
         }
 
-        private void OpenConfigureRulesDialog()
+        private void ConfigureRulesClick(object sender, EventArgs e)
         {
             var configureRules = new ConfigureRules(_settings);
             configureRules.ShowDialog();
         }
 
-        private void ConfigureRulesClick(object sender, EventArgs e)
+        private void SosOnlineClick(object sender, EventArgs e)
         {
-            OpenConfigureRulesDialog();
+            var configureSosOnline = new ConfigureSosOnline(_settings);
+            configureSosOnline.ShowDialog();
         }
 
         private void ConfigureServersClick(object sender, EventArgs e)

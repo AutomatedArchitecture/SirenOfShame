@@ -213,6 +213,9 @@
     <EmbeddedResource Include="Configuration\ConfigureServers.resx">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\ConfigureSosOnline.resx">
+      <DependentUpon>ConfigureSosOnline.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\FindOldAchievements.resx">
       <DependentUpon>FindOldAchievements.cs</DependentUpon>
     </EmbeddedResource>

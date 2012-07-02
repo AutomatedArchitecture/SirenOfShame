@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Configuration
 {
@@ -20,18 +16,8 @@ namespace SirenOfShame.Configuration
             InitializePollIntervalSection();
             InitializeUpdateLocationSection();
             InitializeReputationAndAchievementSection();
-            InitializeSosOnlineSection();
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
-        }
-
-        private void InitializeSosOnlineSection()
-        {
-            _sosOnlineLogin.Text = _settings.SosOnlineUsername;
-            _sosOnlinePassword.Text = _settings.GetSosOnlinePassword();
-            // todo: set sos online status correctly
-            bool hasEverConnected = _settings.SosOnlineHighWaterMark != null;
-            _sosOnlineStatus.Text = hasEverConnected ? "Ready to sync" : "Have never synced";
         }
 
         private void InitializeReputationAndAchievementSection()
@@ -59,24 +45,9 @@ namespace SirenOfShame.Configuration
 
         private void InitializeUserIAm()
         {
-            _userIAm.Items.Add("");
-            foreach (var personInProject in _settings.People)
-            {
-                _userIAm.Items.Add(personInProject);
-            }
-            if (!string.IsNullOrEmpty(_settings.MyRawName))
-            {
-                foreach (var item in _userIAm.Items)
-                {
-                    var personSetting = item as PersonSetting;
-                    if (personSetting != null && personSetting.RawName == _settings.MyRawName)
-                    {
-                        _userIAm.SelectedItem = item;
-                    }
-                }
-            }
+            _settings.InitializeUserIAm(_userIAm);
         }
-
+        
         private void InitializeAchievementAlertPreferences()
         {
             if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Always)
@@ -129,8 +100,14 @@ namespace SirenOfShame.Configuration
 
         private void SetUserIAm()
         {
-            string myRawName = _userIAm.SelectedItem as string == "" ? null : ((PersonSetting) _userIAm.SelectedItem).RawName;
+            string myRawName = UserIamIsUnselected(_userIAm) ? null : ((PersonSetting) _userIAm.SelectedItem).RawName;
             _settings.MyRawName = myRawName;
+        }
+
+        public static bool UserIamIsUnselected(ComboBox userIAm)
+        {
+            if (userIAm.SelectedItem == null) return false;
+            return userIAm.SelectedItem as string == "";
         }
 
         private void SetShowAchievements()
@@ -169,7 +146,7 @@ namespace SirenOfShame.Configuration
             _duration.Text = string.Format("{0} seconds{1}", _pollInterval.Value, snideComment);
         }
 
-        private void ViewLogClick(object sender, EventArgs e)
+        private static void ViewLogClick(object sender, EventArgs e)
         {
             Program.Form.ViewLogs();
         }
@@ -179,7 +156,7 @@ namespace SirenOfShame.Configuration
             _updateLocationOtherLocation.Enabled = _updateLocationOther.Checked;
         }
 
-        private void CheckForUpdatesClick(object sender, EventArgs e)
+        private static void CheckForUpdatesClick(object sender, EventArgs e)
         {
             Program.Form.CheckForUpdates();
         }
@@ -187,71 +164,6 @@ namespace SirenOfShame.Configuration
         private void RecalculateClick(object sender, EventArgs e)
         {
             FindOldAchievements.TryFindOldAchievements(_settings);
-        }
-
-        private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start(SosOnlineService.SOS_URL + "/Account/Register");
-        }
-
-        private void ViewLeaderboardsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            // todo: put in correct URL
-            Process.Start(SosOnlineService.SOS_URL + "/Leaders");
-        }
-
-        private void ResyncClick(object sender, EventArgs e)
-        {
-            SetUserIAm();
-            SaveSosOnlineSettings();
-            if (string.IsNullOrEmpty(_settings.MyRawName))
-            {
-                SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
-                return;
-            }
-            var sosDb = new SosDb();
-            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
-            if (exportedBuilds == null)
-            {
-                _sosOnlineStatus.Text = "No new builds to export";
-                return;
-            }
-            var sosOnlineService = new SosOnlineService();
-            string exportedAchievements = _settings.ExportNewAchievements();
-            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
-        }
-
-        private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
-        {
-            _settings.SosOnlineHighWaterMark = sosOnlineHighWaterMark.Ticks;
-            _settings.Save();
-            _sosOnlineStatus.Text = "Successfully sync'd";
-        }
-
-        private void VerifyCredentialsClick(object sender, EventArgs e)
-        {
-            var sosOnlineService = new SosOnlineService();
-            SaveSosOnlineSettings();
-            sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnSosOnlineFailure);
-            _sosOnlineStatus.Text = "Logging in ...";
-        }
-
-        private void SaveSosOnlineSettings()
-        {
-            _settings.SosOnlineUsername = _sosOnlineLogin.Text;
-            _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
-        }
-
-        private void OnSosOnlineFailure(string userFriendlyErrorMessage, ServerUnavailableException ex)
-        {
-            SosMessageBox.Show("Error connecting", userFriendlyErrorMessage, "Hmmmm");
-            _sosOnlineStatus.Text = userFriendlyErrorMessage;
-        }
-
-        private void OnVerifyCredentialsSuccess()
-        {
-            _resync.Enabled = true;
-            _sosOnlineStatus.Text = "Login success";
         }
     }
 }

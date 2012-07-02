@@ -386,5 +386,25 @@ namespace SirenOfShame.Lib.Settings
         {
             return SosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(SosOnlineHighWaterMark.Value);
         }
+
+        public void InitializeUserIAm(ComboBox userIAm)
+        {
+            userIAm.Items.Add("");
+            foreach (var personInProject in People)
+            {
+                userIAm.Items.Add(personInProject);
+            }
+            if (!string.IsNullOrEmpty(MyRawName))
+            {
+                foreach (var item in userIAm.Items)
+                {
+                    var personSetting = item as PersonSetting;
+                    if (personSetting != null && personSetting.RawName == MyRawName)
+                    {
+                        userIAm.SelectedItem = item;
+                    }
+                }
+            }
+        }
     }
 }
