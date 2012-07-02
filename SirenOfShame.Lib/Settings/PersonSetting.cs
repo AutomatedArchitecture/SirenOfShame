@@ -129,5 +129,15 @@ namespace SirenOfShame.Lib.Settings
         {
             return RawName;
         }
+
+        public string GetBothDisplayAndRawNames()
+        {
+            return HasDisplayName() ? string.Format("{0} ({1})", DisplayName, RawName) : RawName;
+        }
+
+        private bool HasDisplayName()
+        {
+            return !string.IsNullOrWhiteSpace(DisplayName) && DisplayName != RawName;
+        }
     }
 }

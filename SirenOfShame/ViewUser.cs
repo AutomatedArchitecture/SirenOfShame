@@ -27,7 +27,7 @@ namespace SirenOfShame
 
         public void SetUser(PersonSetting personSetting)
         {
-            _userName.Text = personSetting.DisplayName;
+            _userName.Text = personSetting.GetBothDisplayAndRawNames();
             flowLayoutPanel1.Controls.Clear();
 
             foreach (var achievementLookup in AchievementSetting.AchievementLookups)
