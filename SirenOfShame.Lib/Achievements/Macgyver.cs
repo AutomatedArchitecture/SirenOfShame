@@ -46,7 +46,7 @@ namespace SirenOfShame.Lib.Achievements
             // ReSharper restore PossibleInvalidOperationException
             double percentDecrease = 1 - (currentDuration.TotalSeconds / lastDuration.TotalSeconds);
             _log.Debug(string.Format("Build time was decreased by {0:p}", percentDecrease));
-            return percentDecrease >= .1;
+            return percentDecrease >= .15;
         }
     }
 }

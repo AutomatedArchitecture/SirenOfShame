@@ -21,6 +21,20 @@ namespace SirenOfShame.Test.Unit.Achievements
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(89, builds[1].GetDuration().Value.TotalSeconds);
+            Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
+        }
+        
+        [TestMethod]
+        public void DecreaseBuildTimeByFiveteenPercent()
+        {
+            PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
+            List<BuildStatus> builds = new List<BuildStatus>
+            {
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 24), BuildStatusEnum = BuildStatusEnum.Working},
+            };
+            Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
+            Assert.AreEqual(84, builds[1].GetDuration().Value.TotalSeconds);
             Assert.IsTrue(new Macgyver(person, builds).HasJustAchieved());
         }
         
