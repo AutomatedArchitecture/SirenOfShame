@@ -201,11 +201,11 @@ namespace SirenOfShame.Lib.Watcher
             return new SosWebClient();
         }
 
-        private void InvokeStatsChanged()
+        private void InvokeStatsChanged(IList<BuildStatus> changedBuildStatuses)
         {
             var statsChanged = StatsChanged;
             if (statsChanged == null) return;
-            statsChanged(this, new StatsChangedEventArgs());
+            statsChanged(this, new StatsChangedEventArgs { ChangedBuildStatuses = changedBuildStatuses });
         }
 
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
@@ -227,7 +227,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void BuildWatcherStatusChanged(BuildStatus[] allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
+        private void BuildWatcherStatusChanged(IList<BuildStatus> allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
         {
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
@@ -263,7 +263,7 @@ namespace SirenOfShame.Lib.Watcher
             if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
             {
                 NotifyIfNewAchievements(changedBuildStatuses);
-                InvokeStatsChanged();
+                InvokeStatsChanged(changedBuildStatuses);
                 SyncNewBuildsToSos(changedBuildStatuses);
             }
         }
