@@ -10,7 +10,7 @@ namespace SirenOfShame
             InitializeComponent();
             label1.Parent = pictureBox1;
             label1.BackColor = Color.Transparent;
-            label1.Text = "V " + Application.ProductVersion;
+            label1.Text = Application.ProductVersion;
         }
     }
 }

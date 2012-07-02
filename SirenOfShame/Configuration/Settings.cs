@@ -106,7 +106,7 @@ namespace SirenOfShame.Configuration
 
         public static bool UserIamIsUnselected(ComboBox userIAm)
         {
-            if (userIAm.SelectedItem == null) return false;
+            if (userIAm.SelectedItem == null) return true;
             return userIAm.SelectedItem as string == "";
         }
 
