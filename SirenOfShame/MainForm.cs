@@ -1118,5 +1118,10 @@ namespace SirenOfShame
             _settings.Save();
             _buildDefinitions.SetSortColumn(_settings);
         }
+
+        private void _sosOnline_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

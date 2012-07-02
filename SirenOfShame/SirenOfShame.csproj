@@ -91,6 +91,12 @@
     <Compile Include="Configuration\ConfigureServers.Designer.cs">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ConfigureSosOnline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigureSosOnline.Designer.cs">
+      <DependentUpon>ConfigureSosOnline.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
