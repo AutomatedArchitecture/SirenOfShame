@@ -1,6 +1,8 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
@@ -8,6 +10,128 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class SosDbTest
     {
+        [TestMethod]
+        public void ExportNewBuilds_InitialExportWithNoBuilds_Null()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = null, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new BuildStatus[] { };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildByCurrentUser_Exports()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = null, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new []
+            {
+                new BuildStatus
+                {
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    BuildDefinitionId = "BuildDefinitionId",
+                    BuildId = "BuildId",
+                    Name = "Name",
+                    RequestedBy = "CurrentUser",
+                    Comment = "Comment",
+                }
+            };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.AreEqual("633979044610000000,633979044620000000,1", result);
+        }
+
+        [TestMethod]
+        public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildBySomeoneElse_Null()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = null, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new []
+            {
+                new BuildStatus
+                {
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    BuildDefinitionId = "BuildDefinitionId",
+                    BuildId = "BuildId",
+                    Name = "Name",
+                    RequestedBy = "SomeoneElse",
+                    Comment = "Comment",
+                }
+            };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.AreEqual(null, result);
+        }
+
+        [TestMethod]
+        public void ExportNewBuilds_SecondExportIgnoresOlderExports()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = 633979044610000000, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new []
+            {
+                new BuildStatus
+                {
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    BuildDefinitionId = "BuildDefinitionId",
+                    BuildId = "BuildId",
+                    Name = "Name",
+                    RequestedBy = "CurrentUser",
+                    Comment = "Comment",
+                }
+            };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.AreEqual(null, result);
+        }
+
+        [TestMethod]
+        public void ExportNewBuilds_SecondExportGetsNewerExports()
+        {
+            SosDbFake sosDb = new SosDbFake();
+            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            {
+                SosOnlineHighWaterMark = 633979044610000000, 
+                MyRawName = "CurrentUser"
+            };
+            sosDb.BuildStatuses = new []
+            {
+                new BuildStatus
+                {
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 3),
+                    BuildStatusEnum = BuildStatusEnum.Broken,
+                    BuildDefinitionId = "BuildDefinitionId",
+                    BuildId = "BuildId",
+                    Name = "Name",
+                    RequestedBy = "CurrentUser",
+                    Comment = "Comment",
+                }
+            };
+            var result = sosDb.ExportNewBuilds(settings);
+            Assert.AreEqual("633979044620000000,633979044630000000,0", result);
+        }
+
         [TestMethod]
         public void Write_Writes()
         {

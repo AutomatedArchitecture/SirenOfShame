@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Network;
@@ -33,6 +35,13 @@ namespace SirenOfShame.Lib.Watcher
         public event SetTrayIconEvent SetTrayIcon;
         public event NewAlertEvent NewAlert;
         public event PlayWindowsAudioEvent PlayWindowsAudio;
+        public event NewAchievementEvent NewAchievement;
+
+        public void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        {
+            var newAchievement = NewAchievement;
+            if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
+        }
 
         public void InvokePlayWindowsAudio(string location)
         {
@@ -72,7 +81,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
         {
-            InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect");
+            InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect", args.Exception);
             SetStatusUnknown();
             // only notify that it was unavailable once
             if (_serverPreviouslyUnavailable)
@@ -94,7 +103,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private BuildStatus[] _buildStatus = new BuildStatus[] { };
 
-        private void InvokeUpdateStatusBar(string statusText)
+        private void InvokeUpdateStatusBar(string statusText, Exception exception = null)
         {
             string datedStatusText = null;
             if (!string.IsNullOrEmpty(statusText))
@@ -103,7 +112,7 @@ namespace SirenOfShame.Lib.Watcher
             }
             var updateStatusBar = UpdateStatusBar;
             if (updateStatusBar == null) return;
-            updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText });
+            updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
         }
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
@@ -116,7 +125,7 @@ namespace SirenOfShame.Lib.Watcher
 
             GetAlertAsyncIfNewDay();
 
-            var newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
+            BuildStatus[] newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
             var oldBuildStatus = _buildStatus;
             _buildStatus = newBuildStatus;
 
@@ -253,8 +262,67 @@ namespace SirenOfShame.Lib.Watcher
 
             if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
             {
+                NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged(changedBuildStatuses);
+                SyncNewBuildsToSos(changedBuildStatuses);
             }
+        }
+
+        private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
+        {
+            var sosOnlineEnabled = !string.IsNullOrEmpty(_settings.SosOnlineUsername);
+            if (!sosOnlineEnabled) return;
+            var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
+            if (!anyBuildsAreMine) return;
+            var sosOnlineService = new SosOnlineService();
+            var sosDb = new SosDb();
+            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            var noBuildsToExport = exportedBuilds == null;
+            if (noBuildsToExport)
+            {
+                _log.Error("No builds were found to export from sosDb to sos online even though one was changed");
+                return;
+            }
+            _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
+            string exportedAchievements = _settings.ExportNewAchievements();
+            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
+        }
+
+        private void OnAddBuildsFail(string userTargedErrorMessage, ServerUnavailableException ex)
+        {
+            _log.Error("Failed to connect to SoS online", ex);
+            InvokeUpdateStatusBar(userTargedErrorMessage, ex);
+        }
+
+        private void OnAddBuildsSuccess(DateTime newHighWaterMark)
+        {
+            _log.Debug("Successfully uploaded to sos online. New high water mark: " + newHighWaterMark);
+            _settings.SosOnlineHighWaterMark = newHighWaterMark.Ticks;
+        }
+
+        private void NotifyIfNewAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
+        {
+            var visiblePeopleWithNewChanges = from changedBuildStatus in changedBuildStatuses
+                                             join person in _settings.VisiblePeople on changedBuildStatus.RequestedBy equals person.RawName
+                                             where changedBuildStatus.IsWorkingOrBroken()
+                                             select new
+                                             {
+                                                 Person = person,
+                                                 Build = changedBuildStatus
+                                             };
+            
+            foreach (var personWithNewChange in visiblePeopleWithNewChanges)
+            {
+                var newAchievements = personWithNewChange.Person.CalculateNewAchievements(_settings, personWithNewChange.Build);
+                List<AchievementLookup> achievements = newAchievements.ToList();
+                if (achievements.Any())
+                {
+                    personWithNewChange.Person.AddAchievements(achievements);
+                    InvokeNewAchievement(personWithNewChange.Person, achievements);
+                }
+            }
+            // this is required because achievements often write to settings e.g. cumulative build time
+            _settings.Save();
         }
 
         private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)

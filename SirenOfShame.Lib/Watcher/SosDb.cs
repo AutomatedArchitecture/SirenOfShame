@@ -9,7 +9,7 @@ namespace SirenOfShame.Lib.Watcher
 {
     public class SosDb
     {
-        private string folder = SirenOfShameSettings.GetSosAppDataFolder();
+        private readonly string _folder = SirenOfShameSettings.GetSosAppDataFolder();
 
         protected virtual void Write(string location, string contents)
         {
@@ -46,12 +46,15 @@ namespace SirenOfShame.Lib.Watcher
                 buildStatus.RequestedBy,
             };
             string contents = string.Join(",", items) + "\r\n";
-            string location = GetLocation(buildStatus.BuildDefinitionId);
+            string location = GetLocation(buildStatus);
             Write(location, contents);
         }
 
-        private char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
-        
+        private string GetLocation(BuildStatus buildStatus)
+        {
+            return GetLocation(buildStatus.BuildDefinitionId);
+        }
+
         protected static string RemoveIllegalCharacters(string s)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()) + "\\.";
@@ -59,14 +62,44 @@ namespace SirenOfShame.Lib.Watcher
             return r.Replace(s, "");
         }
         
+        private string GetLocation(BuildDefinitionSetting buildDefinition)
+        {
+            return GetLocation(buildDefinition.Id);
+        }
+        
         private string GetLocation(string buildDefinitionId)
         {
-            return folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
+            return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
 
-        public List<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        public virtual IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
         {
-            string location = GetLocation(buildDefinitionSetting.Id);
+            return buildDefinitionSettings
+                .SelectMany(ReadAllInternal)
+                .AsParallel() // since there is a File.ReadAllLines for each build definition this should parallelize nicely
+                .ToList();
+        }
+        
+        protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string location = GetLocation(buildDefinitionSetting);
+            if (!File.Exists(location)) return new List<BuildStatus>();
+            var lines = File.ReadAllLines(location);
+            return lines.Select(l => l.Split(','))
+                .Where(l => l.Length == 4) // just in case there are partially written records
+                .Select(l => new BuildStatus
+                {
+                    StartedTime = string.IsNullOrEmpty(l[0]) ? (DateTime?) null : new DateTime(long.Parse(l[0])),
+                    FinishedTime = string.IsNullOrEmpty(l[1]) ? (DateTime?) null : new DateTime(long.Parse(l[1])),
+                    BuildStatusEnum = (BuildStatusEnum) int.Parse(l[2]),
+                    RequestedBy = l[3],
+                    BuildDefinitionId = buildDefinitionSetting.Id
+                });
+        }
+        
+        public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string location = GetLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
@@ -80,6 +113,20 @@ namespace SirenOfShame.Lib.Watcher
                 })
                 .ToList();
             return statuses;
+        }
+
+        public string ExportNewBuilds(SirenOfShameSettings settings)
+        {
+            DateTime? highWaterMark = settings.GetHighWaterMark();
+            var initialExport = highWaterMark == null;
+            var allBuildDefinitions = ReadAll(settings.GetAllActiveBuildDefinitions());
+            var currentUsersBuilds = allBuildDefinitions
+                .Where(i => i.RequestedBy == settings.MyRawName)
+                .Where(i => i.StartedTime != null);
+            var buildsAfterHighWaterMark = initialExport ? currentUsersBuilds : currentUsersBuilds.Where(i => i.StartedTime > highWaterMark);
+            var buildsAsExport = buildsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
+            var result = string.Join("\r\n", buildsAsExport);
+            return string.IsNullOrEmpty(result) ? null : result;
         }
     }
 }

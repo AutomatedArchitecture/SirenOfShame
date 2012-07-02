@@ -70,6 +70,12 @@
     <Compile Include="BuildFailedMessageBox.Designer.cs">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuildStats.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BuildStats.Designer.cs">
+      <DependentUpon>BuildStats.cs</DependentUpon>
+    </Compile>
     <Compile Include="BuildStatusListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -90,6 +96,18 @@
     </Compile>
     <Compile Include="Configuration\ConfigureServers.Designer.cs">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\FindOldAchievements.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigureSosOnline.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\FindOldAchievements.Designer.cs">
+      <DependentUpon>FindOldAchievements.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\ConfigureSosOnline.Designer.cs">
+      <DependentUpon>ConfigureSosOnline.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
@@ -119,6 +137,12 @@
       <DependentUpon>HelpAbout.cs</DependentUpon>
     </Compile>
     <Compile Include="ListViewItemComparer.cs" />
+    <Compile Include="NewAchievement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewAchievement.Designer.cs">
+      <DependentUpon>NewAchievement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\AudioFile.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />
@@ -166,9 +190,18 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewUser.Designer.cs">
+      <DependentUpon>ViewUser.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BuildFailedMessageBox.resx">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuildStats.resx">
+      <DependentUpon>BuildStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\AddRule.resx">
       <DependentUpon>AddRule.cs</DependentUpon>
@@ -179,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureServers.resx">
       <DependentUpon>ConfigureServers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\FindOldAchievements.resx">
+      <DependentUpon>FindOldAchievements.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
@@ -198,6 +234,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewAchievement.resx">
+      <DependentUpon>NewAchievement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -223,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeboxEnforcer.resx">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewUser.resx">
+      <DependentUpon>ViewUser.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\DataSources\SirenOfShame.Watcher.BuildStatus.datasource" />
@@ -265,6 +307,7 @@
     </Content>
     <None Include="Resources\ball_gray_big.png" />
     <EmbeddedResource Include="Resources\Audio-Applause.wav" />
+    <None Include="Resources\AchievementBackground.png" />
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
     <None Include="Resources\CloseButton.png" />
@@ -272,6 +315,7 @@
     <Content Include="Resources\Audio-Chime.wav" />
     <Content Include="Resources\Audio-DaDing.wav" />
     <Content Include="Resources\Audio-Ding.wav" />
+    <None Include="Resources\CloseButton2.png" />
     <Content Include="Resources\Fullscreen.png" />
     <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <Content Include="Resources\question_big.png" />

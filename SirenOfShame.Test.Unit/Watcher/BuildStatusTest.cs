@@ -10,6 +10,46 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class BuildStatusTest
     {
         [TestMethod]
+        public void IsBackToBack_NineSecondsApart()
+        {
+            var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
+            var startedTime = new DateTime(2010, 1, 1, 1, 1, 9);
+            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
+        }
+
+        [TestMethod]
+        public void IsBackToBack_OlderBuildInsteadOfNewerOne()
+        {
+            var finishedTime = new DateTime(2010, 1, 1, 1, 1, 9);
+            var startedTime = new DateTime(2010, 1, 1, 1, 1, 1);
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
+        }
+
+        [TestMethod]
+        public void IsBackToBack_TenSecondsApart()
+        {
+            var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
+            var startedTime = new DateTime(2010, 1, 1, 1, 1, 10);
+            Assert.IsTrue(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
+        }
+
+        [TestMethod]
+        public void IsBackToBack_FinishedTimeNull()
+        {
+            DateTime? finishedTime = null;
+            var startedTime = new DateTime(2010, 1, 1, 1, 1, 10);
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime}.IsBackToBackWithNextBuild(new BuildStatus {  StartedTime = startedTime}, 10));
+        }
+
+        [TestMethod]
+        public void IsBackToBack_StartedTimeNull()
+        {
+            var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);
+            DateTime? startedTime = null;
+            Assert.IsFalse(new BuildStatus { FinishedTime = finishedTime }.IsBackToBackWithNextBuild(new BuildStatus { StartedTime = startedTime }, 10));
+        }
+
+        [TestMethod]
         public void AsBuildStatusListViewItem_InProgressNoPreviousDuration_DurationCountsUp()
         {
             BuildStatus buildStatus = new BuildStatus

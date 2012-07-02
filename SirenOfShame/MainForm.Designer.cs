@@ -35,7 +35,9 @@ namespace SirenOfShame {
 		private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("sdf");
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this._toolStripSplitErrorButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._lastStatusUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.minimizedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -43,9 +45,10 @@ namespace SirenOfShame {
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.balls = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this._sosOnline = new System.Windows.Forms.Button();
+            this.bigIcons = new System.Windows.Forms.ImageList(this.components);
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this._mute = new System.Windows.Forms.Button();
-            this.bigIcons = new System.Windows.Forms.ImageList(this.components);
             this._fullscreen = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this._configureSiren = new System.Windows.Forms.Button();
@@ -81,12 +84,9 @@ namespace SirenOfShame {
             this._users = new System.Windows.Forms.ListView();
             this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._panelBuildStats = new System.Windows.Forms.Panel();
-            this._percentFailed = new System.Windows.Forms.Label();
+            this._buildStats = new SirenOfShame.BuildStats();
             this.label8 = new System.Windows.Forms.Label();
-            this._failedBuilds = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this._buildCount = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -106,6 +106,7 @@ namespace SirenOfShame {
             this.duration2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.viewUser1 = new SirenOfShame.ViewUser();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -120,7 +121,6 @@ namespace SirenOfShame {
             this._sirenMenu.SuspendLayout();
             this._panelRight.SuspendLayout();
             this._userStats.SuspendLayout();
-            this._panelBuildStats.SuspendLayout();
             this._userMenu.SuspendLayout();
             this._panelAlert.SuspendLayout();
             this.SuspendLayout();
@@ -128,6 +128,7 @@ namespace SirenOfShame {
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStripSplitErrorButton,
             this._lastStatusUpdate});
             this.statusStrip1.Location = new System.Drawing.Point(0, 305);
             this.statusStrip1.Name = "statusStrip1";
@@ -135,10 +136,23 @@ namespace SirenOfShame {
             this.statusStrip1.TabIndex = 29;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // _toolStripSplitErrorButton
+            // 
+            this._toolStripSplitErrorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripSplitErrorButton.Image = global::SirenOfShame.Properties.Resources.question_big;
+            this._toolStripSplitErrorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripSplitErrorButton.Name = "_toolStripSplitErrorButton";
+            this._toolStripSplitErrorButton.ShowDropDownArrow = false;
+            this._toolStripSplitErrorButton.Size = new System.Drawing.Size(20, 20);
+            this._toolStripSplitErrorButton.Text = "toolStripSplitButton1";
+            this._toolStripSplitErrorButton.ToolTipText = "Error Occured";
+            this._toolStripSplitErrorButton.Visible = false;
+            this._toolStripSplitErrorButton.Click += new System.EventHandler(this.ToolStripSplitErrorButtonClick);
+            // 
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -190,6 +204,7 @@ namespace SirenOfShame {
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
             this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.RibbonBackground;
+            this.panel1.Controls.Add(this._sosOnline);
             this.panel1.Controls.Add(this.pictureBox5);
             this.panel1.Controls.Add(this._mute);
             this.panel1.Controls.Add(this._fullscreen);
@@ -217,10 +232,41 @@ namespace SirenOfShame {
             this.panel1.Size = new System.Drawing.Size(869, 85);
             this.panel1.TabIndex = 37;
             // 
+            // _sosOnline
+            // 
+            this._sosOnline.BackColor = System.Drawing.Color.Transparent;
+            this._sosOnline.FlatAppearance.BorderSize = 0;
+            this._sosOnline.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._sosOnline.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._sosOnline.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._sosOnline.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._sosOnline.ImageIndex = 7;
+            this._sosOnline.ImageList = this.bigIcons;
+            this._sosOnline.Location = new System.Drawing.Point(69, 1);
+            this._sosOnline.Name = "_sosOnline";
+            this._sosOnline.Size = new System.Drawing.Size(63, 70);
+            this._sosOnline.TabIndex = 23;
+            this._sosOnline.Text = "SoS Online";
+            this._sosOnline.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._sosOnline.UseVisualStyleBackColor = false;
+            // 
+            // bigIcons
+            // 
+            this.bigIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("bigIcons.ImageStream")));
+            this.bigIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.bigIcons.Images.SetKeyName(0, "alarm.png");
+            this.bigIcons.Images.SetKeyName(1, "ConfigureRulesBig.png");
+            this.bigIcons.Images.SetKeyName(2, "TestSirenBig.png");
+            this.bigIcons.Images.SetKeyName(3, "Towlie.png");
+            this.bigIcons.Images.SetKeyName(4, "refresh.png");
+            this.bigIcons.Images.SetKeyName(5, "mute.png");
+            this.bigIcons.Images.SetKeyName(6, "unmute.png");
+            this.bigIcons.Images.SetKeyName(7, "cloud.png");
+            // 
             // pictureBox5
             // 
             this.pictureBox5.Image = global::SirenOfShame.Properties.Resources.separater;
-            this.pictureBox5.Location = new System.Drawing.Point(469, -1);
+            this.pictureBox5.Location = new System.Drawing.Point(544, -2);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(3, 85);
             this.pictureBox5.TabIndex = 22;
@@ -236,7 +282,7 @@ namespace SirenOfShame {
             this._mute.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._mute.ImageIndex = 6;
             this._mute.ImageList = this.bigIcons;
-            this._mute.Location = new System.Drawing.Point(328, 1);
+            this._mute.Location = new System.Drawing.Point(403, 1);
             this._mute.Name = "_mute";
             this._mute.Size = new System.Drawing.Size(66, 68);
             this._mute.TabIndex = 21;
@@ -244,18 +290,6 @@ namespace SirenOfShame {
             this._mute.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this._mute.UseVisualStyleBackColor = false;
             this._mute.Click += new System.EventHandler(this.MuteClick);
-            // 
-            // bigIcons
-            // 
-            this.bigIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("bigIcons.ImageStream")));
-            this.bigIcons.TransparentColor = System.Drawing.Color.Transparent;
-            this.bigIcons.Images.SetKeyName(0, "alarm.png");
-            this.bigIcons.Images.SetKeyName(1, "ConfigureRulesBig.png");
-            this.bigIcons.Images.SetKeyName(2, "TestSirenBig.png");
-            this.bigIcons.Images.SetKeyName(3, "Towlie.png");
-            this.bigIcons.Images.SetKeyName(4, "refresh.png");
-            this.bigIcons.Images.SetKeyName(5, "mute.png");
-            this.bigIcons.Images.SetKeyName(6, "unmute.png");
             // 
             // _fullscreen
             // 
@@ -266,7 +300,7 @@ namespace SirenOfShame {
             this._fullscreen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._fullscreen.Image = ((System.Drawing.Image)(resources.GetObject("_fullscreen.Image")));
             this._fullscreen.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this._fullscreen.Location = new System.Drawing.Point(397, 0);
+            this._fullscreen.Location = new System.Drawing.Point(472, 1);
             this._fullscreen.Name = "_fullscreen";
             this._fullscreen.Size = new System.Drawing.Size(73, 70);
             this._fullscreen.TabIndex = 20;
@@ -278,7 +312,7 @@ namespace SirenOfShame {
             // pictureBox4
             // 
             this.pictureBox4.Image = global::SirenOfShame.Properties.Resources.separater;
-            this.pictureBox4.Location = new System.Drawing.Point(394, -1);
+            this.pictureBox4.Location = new System.Drawing.Point(469, -2);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(3, 85);
             this.pictureBox4.TabIndex = 19;
@@ -294,7 +328,7 @@ namespace SirenOfShame {
             this._configureSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._configureSiren.ImageIndex = 6;
             this._configureSiren.ImageList = this.balls;
-            this._configureSiren.Location = new System.Drawing.Point(122, 47);
+            this._configureSiren.Location = new System.Drawing.Point(200, 46);
             this._configureSiren.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._configureSiren.Name = "_configureSiren";
             this._configureSiren.Size = new System.Drawing.Size(108, 23);
@@ -312,7 +346,7 @@ namespace SirenOfShame {
             this._sirenMore.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._sirenMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._sirenMore.Image = global::SirenOfShame.Properties.Resources.RibbonMore;
-            this._sirenMore.Location = new System.Drawing.Point(373, 70);
+            this._sirenMore.Location = new System.Drawing.Point(448, 69);
             this._sirenMore.Name = "_sirenMore";
             this._sirenMore.Size = new System.Drawing.Size(12, 12);
             this._sirenMore.TabIndex = 16;
@@ -330,7 +364,7 @@ namespace SirenOfShame {
             this._refresh.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._refresh.ImageIndex = 4;
             this._refresh.ImageList = this.bigIcons;
-            this._refresh.Location = new System.Drawing.Point(62, 2);
+            this._refresh.Location = new System.Drawing.Point(140, 1);
             this._refresh.Name = "_refresh";
             this._refresh.Size = new System.Drawing.Size(53, 70);
             this._refresh.TabIndex = 15;
@@ -342,7 +376,7 @@ namespace SirenOfShame {
             // pictureBox3
             // 
             this.pictureBox3.Image = global::SirenOfShame.Properties.Resources.separater;
-            this.pictureBox3.Location = new System.Drawing.Point(619, -1);
+            this.pictureBox3.Location = new System.Drawing.Point(694, -2);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(3, 85);
             this.pictureBox3.TabIndex = 13;
@@ -358,7 +392,7 @@ namespace SirenOfShame {
             this._help.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._help.ImageIndex = 3;
             this._help.ImageList = this.bigIcons;
-            this._help.Location = new System.Drawing.Point(550, 3);
+            this._help.Location = new System.Drawing.Point(625, 2);
             this._help.Name = "_help";
             this._help.Size = new System.Drawing.Size(73, 70);
             this._help.TabIndex = 12;
@@ -375,7 +409,7 @@ namespace SirenOfShame {
             this._configurationMore.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._configurationMore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._configurationMore.Image = global::SirenOfShame.Properties.Resources.RibbonMore;
-            this._configurationMore.Location = new System.Drawing.Point(236, 67);
+            this._configurationMore.Location = new System.Drawing.Point(311, 66);
             this._configurationMore.Name = "_configurationMore";
             this._configurationMore.Size = new System.Drawing.Size(12, 12);
             this._configurationMore.TabIndex = 14;
@@ -406,7 +440,7 @@ namespace SirenOfShame {
             // 
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(476, 68);
+            this.label3.Location = new System.Drawing.Point(551, 67);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(139, 17);
             this.label3.TabIndex = 11;
@@ -416,7 +450,7 @@ namespace SirenOfShame {
             // pictureBox2
             // 
             this.pictureBox2.Image = global::SirenOfShame.Properties.Resources.separater;
-            this.pictureBox2.Location = new System.Drawing.Point(255, -2);
+            this.pictureBox2.Location = new System.Drawing.Point(330, -3);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(3, 85);
             this.pictureBox2.TabIndex = 8;
@@ -432,7 +466,7 @@ namespace SirenOfShame {
             this._timeboxEnforcer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._timeboxEnforcer.ImageIndex = 0;
             this._timeboxEnforcer.ImageList = this.bigIcons;
-            this._timeboxEnforcer.Location = new System.Drawing.Point(477, 1);
+            this._timeboxEnforcer.Location = new System.Drawing.Point(552, 1);
             this._timeboxEnforcer.Name = "_timeboxEnforcer";
             this._timeboxEnforcer.Size = new System.Drawing.Size(73, 70);
             this._timeboxEnforcer.TabIndex = 6;
@@ -463,7 +497,7 @@ namespace SirenOfShame {
             this._openSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._openSettings.ImageIndex = 8;
             this._openSettings.ImageList = this.balls;
-            this._openSettings.Location = new System.Drawing.Point(122, 25);
+            this._openSettings.Location = new System.Drawing.Point(200, 24);
             this._openSettings.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._openSettings.Name = "_openSettings";
             this._openSettings.Size = new System.Drawing.Size(70, 23);
@@ -484,7 +518,7 @@ namespace SirenOfShame {
             this._testSiren.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._testSiren.ImageIndex = 2;
             this._testSiren.ImageList = this.bigIcons;
-            this._testSiren.Location = new System.Drawing.Point(262, 2);
+            this._testSiren.Location = new System.Drawing.Point(337, 1);
             this._testSiren.Name = "_testSiren";
             this._testSiren.Size = new System.Drawing.Size(68, 68);
             this._testSiren.TabIndex = 2;
@@ -503,7 +537,7 @@ namespace SirenOfShame {
             this._configureServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._configureServers.ImageIndex = 4;
             this._configureServers.ImageList = this.balls;
-            this._configureServers.Location = new System.Drawing.Point(122, 2);
+            this._configureServers.Location = new System.Drawing.Point(200, 1);
             this._configureServers.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this._configureServers.Name = "_configureServers";
             this._configureServers.Size = new System.Drawing.Size(123, 23);
@@ -517,7 +551,7 @@ namespace SirenOfShame {
             // 
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label5.Location = new System.Drawing.Point(394, 69);
+            this.label5.Location = new System.Drawing.Point(469, 68);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(87, 16);
             this.label5.TabIndex = 18;
@@ -528,7 +562,7 @@ namespace SirenOfShame {
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(258, 68);
+            this.label2.Location = new System.Drawing.Point(333, 67);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(136, 18);
             this.label2.TabIndex = 10;
@@ -541,7 +575,7 @@ namespace SirenOfShame {
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label1.Location = new System.Drawing.Point(0, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(261, 17);
+            this.label1.Size = new System.Drawing.Size(327, 14);
             this.label1.TabIndex = 9;
             this.label1.Text = "Configuration";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -628,7 +662,7 @@ namespace SirenOfShame {
             // _panelRight
             // 
             this._panelRight.Controls.Add(this._userStats);
-            this._panelRight.Controls.Add(this._panelBuildStats);
+            this._panelRight.Controls.Add(this._buildStats);
             this._panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this._panelRight.Location = new System.Drawing.Point(698, 106);
             this._panelRight.Name = "_panelRight";
@@ -642,10 +676,11 @@ namespace SirenOfShame {
             this._userStats.Location = new System.Drawing.Point(0, 0);
             this._userStats.Name = "_userStats";
             this._userStats.Size = new System.Drawing.Size(171, 199);
-            this._userStats.TabIndex = 7;
+            this._userStats.TabIndex = 6;
             // 
             // _users
             // 
+            this._users.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this._users.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.User,
             this.Reputation});
@@ -658,6 +693,7 @@ namespace SirenOfShame {
             this._users.UseCompatibleStateImageBehavior = false;
             this._users.View = System.Windows.Forms.View.Details;
             this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
+            this._users.SelectedIndexChanged += new System.EventHandler(this._users_SelectedIndexChanged);
             this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
             // 
             // User
@@ -670,31 +706,13 @@ namespace SirenOfShame {
             this.Reputation.Text = "Reputation";
             this.Reputation.Width = 75;
             // 
-            // _panelBuildStats
+            // _buildStats
             // 
-            this._panelBuildStats.BackColor = System.Drawing.SystemColors.Window;
-            this._panelBuildStats.Controls.Add(this._percentFailed);
-            this._panelBuildStats.Controls.Add(this.label8);
-            this._panelBuildStats.Controls.Add(this._failedBuilds);
-            this._panelBuildStats.Controls.Add(this.label7);
-            this._panelBuildStats.Controls.Add(this._buildCount);
-            this._panelBuildStats.Controls.Add(this.label4);
-            this._panelBuildStats.Controls.Add(this._buildHistoryZedGraph);
-            this._panelBuildStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._panelBuildStats.Location = new System.Drawing.Point(0, 0);
-            this._panelBuildStats.Name = "_panelBuildStats";
-            this._panelBuildStats.Size = new System.Drawing.Size(171, 199);
-            this._panelBuildStats.TabIndex = 6;
-            // 
-            // _percentFailed
-            // 
-            this._percentFailed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._percentFailed.Location = new System.Drawing.Point(91, 168);
-            this._percentFailed.Name = "_percentFailed";
-            this._percentFailed.Size = new System.Drawing.Size(68, 13);
-            this._percentFailed.TabIndex = 18;
-            this._percentFailed.Text = "0";
-            this._percentFailed.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildStats.Location = new System.Drawing.Point(0, 0);
+            this._buildStats.Name = "_buildStats";
+            this._buildStats.Size = new System.Drawing.Size(171, 199);
+            this._buildStats.TabIndex = 8;
             // 
             // label8
             // 
@@ -705,16 +723,6 @@ namespace SirenOfShame {
             this.label8.TabIndex = 17;
             this.label8.Text = "Percent Failed:";
             // 
-            // _failedBuilds
-            // 
-            this._failedBuilds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._failedBuilds.Location = new System.Drawing.Point(91, 144);
-            this._failedBuilds.Name = "_failedBuilds";
-            this._failedBuilds.Size = new System.Drawing.Size(68, 13);
-            this._failedBuilds.TabIndex = 16;
-            this._failedBuilds.Text = "0";
-            this._failedBuilds.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -723,16 +731,6 @@ namespace SirenOfShame {
             this.label7.Size = new System.Drawing.Size(69, 13);
             this.label7.TabIndex = 15;
             this.label7.Text = "Failed Builds:";
-            // 
-            // _buildCount
-            // 
-            this._buildCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buildCount.Location = new System.Drawing.Point(91, 122);
-            this._buildCount.Name = "_buildCount";
-            this._buildCount.Size = new System.Drawing.Size(68, 13);
-            this._buildCount.TabIndex = 14;
-            this._buildCount.Text = "0";
-            this._buildCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label4
             // 
@@ -866,6 +864,8 @@ namespace SirenOfShame {
             this.checkedInBy,
             this.comment});
             this._buildDefinitions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
             this._buildDefinitions.Location = new System.Drawing.Point(0, 106);
             this._buildDefinitions.Name = "_buildDefinitions";
             this._buildDefinitions.Size = new System.Drawing.Size(695, 199);
@@ -908,12 +908,23 @@ namespace SirenOfShame {
             this.comment.Text = "Comment";
             this.comment.Width = 250;
             // 
+            // viewUser1
+            // 
+            this.viewUser1.BackColor = System.Drawing.SystemColors.Window;
+            this.viewUser1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewUser1.Location = new System.Drawing.Point(0, 106);
+            this.viewUser1.Name = "viewUser1";
+            this.viewUser1.Size = new System.Drawing.Size(695, 199);
+            this.viewUser1.TabIndex = 41;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 327);
             this.Controls.Add(this._buildDefinitions);
+            this.Controls.Add(this.viewUser1);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this._panelRight);
             this.Controls.Add(this.statusStrip1);
@@ -925,7 +936,7 @@ namespace SirenOfShame {
             this.Name = "MainForm";
             this.Text = "Siren of Shame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
-            this.Load += new System.EventHandler(this.Form1Load);
+            this.Load += new System.EventHandler(this.MainFormLoad);
             this.Move += new System.EventHandler(this.MainFormMove);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -942,8 +953,6 @@ namespace SirenOfShame {
             this._sirenMenu.ResumeLayout(false);
             this._panelRight.ResumeLayout(false);
             this._userStats.ResumeLayout(false);
-            this._panelBuildStats.ResumeLayout(false);
-            this._panelBuildStats.PerformLayout();
             this._userMenu.ResumeLayout(false);
             this._panelAlert.ResumeLayout(false);
             this._panelAlert.PerformLayout();
@@ -999,16 +1008,13 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _configureSiren;
       private System.Windows.Forms.Panel _panelRight;
       private System.Windows.Forms.Splitter splitter1;
-      private System.Windows.Forms.Panel _userStats;
-      private System.Windows.Forms.ListView _users;
-      private System.Windows.Forms.ColumnHeader User;
-      private System.Windows.Forms.ColumnHeader Reputation;
-      private System.Windows.Forms.Panel _panelBuildStats;
-      private System.Windows.Forms.Label _percentFailed;
+      //private System.Windows.Forms.Panel _panelBuildStats;
+	  private BuildStats _buildStats;
+      //private System.Windows.Forms.Label _percentFailed;
       private System.Windows.Forms.Label label8;
-      private System.Windows.Forms.Label _failedBuilds;
+      //private System.Windows.Forms.Label _failedBuilds;
       private System.Windows.Forms.Label label7;
-      private System.Windows.Forms.Label _buildCount;
+      //private System.Windows.Forms.Label _buildCount;
       private System.Windows.Forms.Label label4;
       private ZedGraph.ZedGraphControl _buildHistoryZedGraph;
       private System.Windows.Forms.Button _fullscreen;
@@ -1026,7 +1032,13 @@ namespace SirenOfShame {
       private System.Windows.Forms.Label _labelAlert;
       private System.Windows.Forms.LinkLabel _details;
       private System.Windows.Forms.ColumnHeader ID;
-
+      private ViewUser viewUser1;
+      private System.Windows.Forms.Panel _userStats;
+      private System.Windows.Forms.ListView _users;
+      private System.Windows.Forms.ColumnHeader User;
+      private System.Windows.Forms.ColumnHeader Reputation;
+      private System.Windows.Forms.ToolStripDropDownButton _toolStripSplitErrorButton;
+      private System.Windows.Forms.Button _sosOnline;
 	}
 }
 
