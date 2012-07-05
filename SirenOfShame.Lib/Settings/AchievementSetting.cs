@@ -27,6 +27,7 @@ namespace SirenOfShame.Lib.Settings
         JonSkeet = 21,
         Macgyver = 22,
         Napoleon = 23,
+        ShamePusher = 24,
     }
 
     [Serializable]
@@ -56,6 +57,7 @@ namespace SirenOfShame.Lib.Settings
             new AchievementLookup { Id = AchievementEnum.Perfectionist, Name = "Perfectionist", Description = "Achieved under 5% failed build ratio after 50 checkins" },
             new AchievementLookup { Id = AchievementEnum.Macgyver, Name = "Macgyver", Description = "Reduced build time by 10%" },
             new AchievementLookup { Id = AchievementEnum.Napoleon, Name = "Napoleon", Description = "Achieved 100 more reputation than anyone else on team" },
+            new AchievementLookup { Id = AchievementEnum.ShamePusher, Name = "Shame Pusher", Description = "Own a siren of shame device" },
         };
         
         public DateTime DateAchieved { get; set; }

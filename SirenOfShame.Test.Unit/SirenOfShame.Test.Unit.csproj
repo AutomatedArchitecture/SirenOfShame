@@ -57,6 +57,7 @@
     <Compile Include="Achievements\MacgyverTest.cs" />
     <Compile Include="Achievements\NapoleonTest.cs" />
     <Compile Include="Achievements\ReputationReboundTest.cs" />
+    <Compile Include="Achievements\ShamePusherTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\BambooBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
