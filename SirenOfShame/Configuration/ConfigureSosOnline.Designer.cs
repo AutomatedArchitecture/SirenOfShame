@@ -48,12 +48,14 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._done = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this._sosOnlineStatus);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this._verifyCredentials);
@@ -72,7 +74,7 @@
             // _sosOnlineStatus
             // 
             this._sosOnlineStatus.AutoSize = true;
-            this._sosOnlineStatus.Location = new System.Drawing.Point(100, 21);
+            this._sosOnlineStatus.Location = new System.Drawing.Point(102, 43);
             this._sosOnlineStatus.Name = "_sosOnlineStatus";
             this._sosOnlineStatus.Size = new System.Drawing.Size(100, 13);
             this._sosOnlineStatus.TabIndex = 30;
@@ -81,7 +83,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 21);
+            this.label1.Location = new System.Drawing.Point(12, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 29;
@@ -89,7 +91,7 @@
             // 
             // _verifyCredentials
             // 
-            this._verifyCredentials.Location = new System.Drawing.Point(103, 94);
+            this._verifyCredentials.Location = new System.Drawing.Point(103, 116);
             this._verifyCredentials.Name = "_verifyCredentials";
             this._verifyCredentials.Size = new System.Drawing.Size(148, 23);
             this._verifyCredentials.TabIndex = 27;
@@ -99,7 +101,7 @@
             // 
             // _sosOnlinePassword
             // 
-            this._sosOnlinePassword.Location = new System.Drawing.Point(103, 68);
+            this._sosOnlinePassword.Location = new System.Drawing.Point(103, 90);
             this._sosOnlinePassword.Name = "_sosOnlinePassword";
             this._sosOnlinePassword.PasswordChar = '*';
             this._sosOnlinePassword.Size = new System.Drawing.Size(148, 20);
@@ -107,21 +109,22 @@
             // 
             // _createAccount
             // 
-            this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._createAccount.Location = new System.Drawing.Point(103, 127);
+            this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._createAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._createAccount.Location = new System.Drawing.Point(95, 16);
             this._createAccount.Name = "_createAccount";
-            this._createAccount.Size = new System.Drawing.Size(148, 21);
+            this._createAccount.Size = new System.Drawing.Size(156, 21);
             this._createAccount.TabIndex = 31;
             this._createAccount.TabStop = true;
-            this._createAccount.Text = "Create Account";
+            this._createAccount.Text = "Create New Account";
             this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this._createAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccountLinkClicked);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 45);
+            this.label5.Location = new System.Drawing.Point(12, 67);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 13);
             this.label5.TabIndex = 23;
@@ -130,7 +133,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 71);
+            this.label6.Location = new System.Drawing.Point(12, 93);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 13);
             this.label6.TabIndex = 24;
@@ -138,19 +141,19 @@
             // 
             // _sosOnlineLogin
             // 
-            this._sosOnlineLogin.Location = new System.Drawing.Point(103, 42);
+            this._sosOnlineLogin.Location = new System.Drawing.Point(103, 64);
             this._sosOnlineLogin.Name = "_sosOnlineLogin";
             this._sosOnlineLogin.Size = new System.Drawing.Size(148, 20);
             this._sosOnlineLogin.TabIndex = 25;
             // 
             // _viewLeaderboards
             // 
-            this._viewLeaderboards.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._viewLeaderboards.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._viewLeaderboards.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._viewLeaderboards.Location = new System.Drawing.Point(14, 26);
+            this._viewLeaderboards.Location = new System.Drawing.Point(60, 94);
             this._viewLeaderboards.Name = "_viewLeaderboards";
-            this._viewLeaderboards.Size = new System.Drawing.Size(242, 23);
+            this._viewLeaderboards.Size = new System.Drawing.Size(199, 23);
             this._viewLeaderboards.TabIndex = 32;
             this._viewLeaderboards.TabStop = true;
             this._viewLeaderboards.Text = "View the Leaderboards";
@@ -159,12 +162,12 @@
             // 
             // _resync
             // 
-            this._resync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._resync.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._resync.Enabled = false;
-            this._resync.Location = new System.Drawing.Point(14, 84);
+            this._resync.Location = new System.Drawing.Point(60, 53);
             this._resync.Name = "_resync";
-            this._resync.Size = new System.Drawing.Size(242, 23);
+            this._resync.Size = new System.Drawing.Size(199, 23);
             this._resync.TabIndex = 28;
             this._resync.Text = "Manually Sync Now";
             this._resync.UseVisualStyleBackColor = true;
@@ -193,7 +196,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 55);
+            this.label7.Location = new System.Drawing.Point(15, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 13);
             this.label7.TabIndex = 34;
@@ -201,21 +204,21 @@
             // 
             // _userIAm
             // 
-            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._userIAm.DisplayMember = "DisplayName";
             this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
             this._userIAm.FormattingEnabled = true;
-            this._userIAm.Location = new System.Drawing.Point(57, 52);
+            this._userIAm.Location = new System.Drawing.Point(60, 21);
             this._userIAm.Name = "_userIAm";
             this._userIAm.Size = new System.Drawing.Size(199, 21);
             this._userIAm.TabIndex = 33;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this._userIAm);
             this.groupBox1.Controls.Add(this._resync);
@@ -257,6 +260,15 @@
             this._done.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._done.UseVisualStyleBackColor = false;
             this._done.Click += new System.EventHandler(this.OkClick);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 32;
+            this.label4.Text = "New?";
             // 
             // ConfigureSosOnline
             // 
@@ -302,5 +314,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button _done;
+        private System.Windows.Forms.Label label4;
     }
 }

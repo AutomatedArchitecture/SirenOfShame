@@ -53,7 +53,7 @@ namespace SirenOfShame {
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this._configureSiren = new System.Windows.Forms.Button();
             this._sirenMore = new System.Windows.Forms.Button();
-            this._refresh = new System.Windows.Forms.Button();
+            this._configureCiServer = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this._help = new System.Windows.Forms.Button();
             this._configurationMore = new System.Windows.Forms.Button();
@@ -64,7 +64,7 @@ namespace SirenOfShame {
             this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this._openSettings = new System.Windows.Forms.Button();
             this._testSiren = new System.Windows.Forms.Button();
-            this._configureServers = new System.Windows.Forms.Button();
+            this._refresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -84,7 +84,6 @@ namespace SirenOfShame {
             this._users = new System.Windows.Forms.ListView();
             this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._buildStats = new SirenOfShame.BuildStats();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -107,6 +106,7 @@ namespace SirenOfShame {
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewUser1 = new SirenOfShame.ViewUser();
+            this._buildStats = new SirenOfShame.BuildStats();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -152,7 +152,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -199,6 +199,7 @@ namespace SirenOfShame {
             this.balls.Images.SetKeyName(6, "ConfigureSiren.png");
             this.balls.Images.SetKeyName(7, "question.png");
             this.balls.Images.SetKeyName(8, "Tools.png");
+            this.balls.Images.SetKeyName(9, "refresh16.png");
             // 
             // panel1
             // 
@@ -211,7 +212,7 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this.pictureBox4);
             this.panel1.Controls.Add(this._configureSiren);
             this.panel1.Controls.Add(this._sirenMore);
-            this.panel1.Controls.Add(this._refresh);
+            this.panel1.Controls.Add(this._configureCiServer);
             this.panel1.Controls.Add(this.pictureBox3);
             this.panel1.Controls.Add(this._help);
             this.panel1.Controls.Add(this._configurationMore);
@@ -222,7 +223,7 @@ namespace SirenOfShame {
             this.panel1.Controls.Add(this._automaticUpdater);
             this.panel1.Controls.Add(this._openSettings);
             this.panel1.Controls.Add(this._testSiren);
-            this.panel1.Controls.Add(this._configureServers);
+            this.panel1.Controls.Add(this._refresh);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -242,7 +243,7 @@ namespace SirenOfShame {
             this._sosOnline.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._sosOnline.ImageIndex = 7;
             this._sosOnline.ImageList = this.bigIcons;
-            this._sosOnline.Location = new System.Drawing.Point(69, 1);
+            this._sosOnline.Location = new System.Drawing.Point(135, 1);
             this._sosOnline.Name = "_sosOnline";
             this._sosOnline.Size = new System.Drawing.Size(63, 70);
             this._sosOnline.TabIndex = 23;
@@ -263,6 +264,7 @@ namespace SirenOfShame {
             this.bigIcons.Images.SetKeyName(5, "mute.png");
             this.bigIcons.Images.SetKeyName(6, "unmute.png");
             this.bigIcons.Images.SetKeyName(7, "cloud.png");
+            this.bigIcons.Images.SetKeyName(8, "ConfigureServer.png");
             // 
             // pictureBox5
             // 
@@ -329,7 +331,7 @@ namespace SirenOfShame {
             this._configureSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._configureSiren.ImageIndex = 6;
             this._configureSiren.ImageList = this.balls;
-            this._configureSiren.Location = new System.Drawing.Point(200, 46);
+            this._configureSiren.Location = new System.Drawing.Point(200, 47);
             this._configureSiren.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._configureSiren.Name = "_configureSiren";
             this._configureSiren.Size = new System.Drawing.Size(108, 23);
@@ -355,24 +357,24 @@ namespace SirenOfShame {
             this._sirenMore.UseVisualStyleBackColor = false;
             this._sirenMore.Click += new System.EventHandler(this.SirenMoreClick);
             // 
-            // _refresh
+            // _configureCiServer
             // 
-            this._refresh.BackColor = System.Drawing.Color.Transparent;
-            this._refresh.FlatAppearance.BorderSize = 0;
-            this._refresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._refresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._refresh.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this._refresh.ImageIndex = 4;
-            this._refresh.ImageList = this.bigIcons;
-            this._refresh.Location = new System.Drawing.Point(140, 1);
-            this._refresh.Name = "_refresh";
-            this._refresh.Size = new System.Drawing.Size(53, 70);
-            this._refresh.TabIndex = 15;
-            this._refresh.Text = "Refresh All";
-            this._refresh.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this._refresh.UseVisualStyleBackColor = false;
-            this._refresh.Click += new System.EventHandler(this.RefreshClick);
+            this._configureCiServer.BackColor = System.Drawing.Color.Transparent;
+            this._configureCiServer.FlatAppearance.BorderSize = 0;
+            this._configureCiServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureCiServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._configureCiServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._configureCiServer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._configureCiServer.ImageIndex = 8;
+            this._configureCiServer.ImageList = this.bigIcons;
+            this._configureCiServer.Location = new System.Drawing.Point(4, 1);
+            this._configureCiServer.Name = "_configureCiServer";
+            this._configureCiServer.Size = new System.Drawing.Size(62, 70);
+            this._configureCiServer.TabIndex = 15;
+            this._configureCiServer.Text = "Configure Server(s)";
+            this._configureCiServer.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this._configureCiServer.UseVisualStyleBackColor = false;
+            this._configureCiServer.Click += new System.EventHandler(this.ConfigureServersClick);
             // 
             // pictureBox3
             // 
@@ -428,7 +430,7 @@ namespace SirenOfShame {
             this._configureRules.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._configureRules.ImageIndex = 1;
             this._configureRules.ImageList = this.bigIcons;
-            this._configureRules.Location = new System.Drawing.Point(0, 1);
+            this._configureRules.Location = new System.Drawing.Point(70, 1);
             this._configureRules.Name = "_configureRules";
             this._configureRules.Size = new System.Drawing.Size(63, 70);
             this._configureRules.TabIndex = 0;
@@ -498,10 +500,10 @@ namespace SirenOfShame {
             this._openSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._openSettings.ImageIndex = 8;
             this._openSettings.ImageList = this.balls;
-            this._openSettings.Location = new System.Drawing.Point(200, 24);
+            this._openSettings.Location = new System.Drawing.Point(200, 3);
             this._openSettings.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this._openSettings.Name = "_openSettings";
-            this._openSettings.Size = new System.Drawing.Size(70, 23);
+            this._openSettings.Size = new System.Drawing.Size(73, 23);
             this._openSettings.TabIndex = 4;
             this._openSettings.Text = "Settings";
             this._openSettings.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -528,25 +530,25 @@ namespace SirenOfShame {
             this._testSiren.UseVisualStyleBackColor = false;
             this._testSiren.Click += new System.EventHandler(this.TestSirenClick);
             // 
-            // _configureServers
+            // _refresh
             // 
-            this._configureServers.BackColor = System.Drawing.Color.Transparent;
-            this._configureServers.FlatAppearance.BorderSize = 0;
-            this._configureServers.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._configureServers.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._configureServers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._configureServers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._configureServers.ImageIndex = 4;
-            this._configureServers.ImageList = this.balls;
-            this._configureServers.Location = new System.Drawing.Point(200, 1);
-            this._configureServers.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this._configureServers.Name = "_configureServers";
-            this._configureServers.Size = new System.Drawing.Size(123, 23);
-            this._configureServers.TabIndex = 1;
-            this._configureServers.Text = "Configure CI Server";
-            this._configureServers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._configureServers.UseVisualStyleBackColor = false;
-            this._configureServers.Click += new System.EventHandler(this.ConfigureServersClick);
+            this._refresh.BackColor = System.Drawing.Color.Transparent;
+            this._refresh.FlatAppearance.BorderSize = 0;
+            this._refresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._refresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._refresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._refresh.ImageIndex = 9;
+            this._refresh.ImageList = this.balls;
+            this._refresh.Location = new System.Drawing.Point(200, 26);
+            this._refresh.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this._refresh.Name = "_refresh";
+            this._refresh.Size = new System.Drawing.Size(86, 23);
+            this._refresh.TabIndex = 1;
+            this._refresh.Text = "Refresh All";
+            this._refresh.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._refresh.UseVisualStyleBackColor = false;
+            this._refresh.Click += new System.EventHandler(this.RefreshClick);
             // 
             // label5
             // 
@@ -706,14 +708,6 @@ namespace SirenOfShame {
             // 
             this.Reputation.Text = "Reputation";
             this.Reputation.Width = 75;
-            // 
-            // _buildStats
-            // 
-            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildStats.Location = new System.Drawing.Point(0, 0);
-            this._buildStats.Name = "_buildStats";
-            this._buildStats.Size = new System.Drawing.Size(171, 199);
-            this._buildStats.TabIndex = 8;
             // 
             // label8
             // 
@@ -919,6 +913,14 @@ namespace SirenOfShame {
             this.viewUser1.Size = new System.Drawing.Size(695, 199);
             this.viewUser1.TabIndex = 41;
             // 
+            // _buildStats
+            // 
+            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildStats.Location = new System.Drawing.Point(0, 0);
+            this._buildStats.Name = "_buildStats";
+            this._buildStats.Size = new System.Drawing.Size(171, 199);
+            this._buildStats.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -979,7 +981,7 @@ namespace SirenOfShame {
         private System.Windows.Forms.ImageList balls;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button _configureRules;
-        private System.Windows.Forms.Button _configureServers;
+        private System.Windows.Forms.Button _refresh;
         private System.Windows.Forms.Button _testSiren;
         private System.Windows.Forms.ContextMenuStrip _buildMenu;
         private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
@@ -1002,7 +1004,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.ContextMenuStrip _configurationMenu;
       private System.Windows.Forms.ToolStripMenuItem _checkForUpdates;
       private System.Windows.Forms.ToolStripMenuItem _viewLog;
-      private System.Windows.Forms.Button _refresh;
+      private System.Windows.Forms.Button _configureCiServer;
       private System.Windows.Forms.Button _sirenMore;
       private System.Windows.Forms.ContextMenuStrip _sirenMenu;
       private System.Windows.Forms.ToolStripMenuItem _upgradeFirmwareMenuItem;

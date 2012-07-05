@@ -104,7 +104,8 @@ namespace SirenOfShame.Lib.Settings
                 new Critical(this, lowestBuildRatio),
                 new Perfectionist(this, lowestBuildRatio),
                 new Macgyver(this, currentBuildDefinitionOrderedChronoligically),
-                new Napoleon(this, settings.People)
+                new Napoleon(this, settings.People),
+                new ShamePusher(this, settings)
             };
 
             return possibleAchievements

@@ -107,6 +107,7 @@
     <Compile Include="Achievements\InTheZone.cs" />
     <Compile Include="Achievements\Perfectionist.cs" />
     <Compile Include="Achievements\ReputationRebound.cs" />
+    <Compile Include="Achievements\ShamePusher.cs" />
     <Compile Include="Achievements\SpeedDaemon.cs" />
     <Compile Include="Achievements\TimeWarrior.cs" />
     <Compile Include="Achievements\Terminator.cs" />
