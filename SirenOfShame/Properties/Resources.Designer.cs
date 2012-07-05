@@ -109,9 +109,23 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap cloud_title {
+            get {
+                object obj = ResourceManager.GetObject("cloud-title", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap JoesFavorite3 {
             get {
                 object obj = ResourceManager.GetObject("JoesFavorite3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap loading {
+            get {
+                object obj = ResourceManager.GetObject("loading", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

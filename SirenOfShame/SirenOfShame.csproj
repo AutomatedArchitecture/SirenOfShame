@@ -319,8 +319,10 @@
     <Content Include="Resources\Audio-DaDing.wav" />
     <Content Include="Resources\Audio-Ding.wav" />
     <None Include="Resources\CloseButton2.png" />
+    <None Include="Resources\cloud-title.png" />
     <Content Include="Resources\Fullscreen.png" />
     <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
+    <None Include="Resources\loading.gif" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

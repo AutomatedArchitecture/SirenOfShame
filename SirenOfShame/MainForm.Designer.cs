@@ -84,6 +84,7 @@ namespace SirenOfShame {
             this._users = new System.Windows.Forms.ListView();
             this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._buildStats = new SirenOfShame.BuildStats();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -106,7 +107,6 @@ namespace SirenOfShame {
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewUser1 = new SirenOfShame.ViewUser();
-            this._buildStats = new SirenOfShame.BuildStats();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -152,7 +152,7 @@ namespace SirenOfShame {
             // _lastStatusUpdate
             // 
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -241,7 +241,7 @@ namespace SirenOfShame {
             this._sosOnline.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._sosOnline.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._sosOnline.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this._sosOnline.ImageIndex = 7;
+            this._sosOnline.ImageKey = "cloud.png";
             this._sosOnline.ImageList = this.bigIcons;
             this._sosOnline.Location = new System.Drawing.Point(135, 1);
             this._sosOnline.Name = "_sosOnline";
@@ -263,8 +263,8 @@ namespace SirenOfShame {
             this.bigIcons.Images.SetKeyName(4, "refresh.png");
             this.bigIcons.Images.SetKeyName(5, "mute.png");
             this.bigIcons.Images.SetKeyName(6, "unmute.png");
-            this.bigIcons.Images.SetKeyName(7, "cloud.png");
-            this.bigIcons.Images.SetKeyName(8, "ConfigureServer.png");
+            this.bigIcons.Images.SetKeyName(7, "ConfigureServer.png");
+            this.bigIcons.Images.SetKeyName(8, "cloud.png");
             // 
             // pictureBox5
             // 
@@ -365,7 +365,7 @@ namespace SirenOfShame {
             this._configureCiServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._configureCiServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._configureCiServer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this._configureCiServer.ImageIndex = 8;
+            this._configureCiServer.ImageKey = "ConfigureServer.png";
             this._configureCiServer.ImageList = this.bigIcons;
             this._configureCiServer.Location = new System.Drawing.Point(4, 1);
             this._configureCiServer.Name = "_configureCiServer";
@@ -709,6 +709,14 @@ namespace SirenOfShame {
             this.Reputation.Text = "Reputation";
             this.Reputation.Width = 75;
             // 
+            // _buildStats
+            // 
+            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildStats.Location = new System.Drawing.Point(0, 0);
+            this._buildStats.Name = "_buildStats";
+            this._buildStats.Size = new System.Drawing.Size(171, 199);
+            this._buildStats.TabIndex = 8;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -912,14 +920,6 @@ namespace SirenOfShame {
             this.viewUser1.Name = "viewUser1";
             this.viewUser1.Size = new System.Drawing.Size(695, 199);
             this.viewUser1.TabIndex = 41;
-            // 
-            // _buildStats
-            // 
-            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildStats.Location = new System.Drawing.Point(0, 0);
-            this._buildStats.Name = "_buildStats";
-            this._buildStats.Size = new System.Drawing.Size(171, 199);
-            this._buildStats.TabIndex = 8;
             // 
             // MainForm
             // 

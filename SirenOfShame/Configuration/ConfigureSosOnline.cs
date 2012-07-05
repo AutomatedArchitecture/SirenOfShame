@@ -42,27 +42,6 @@ namespace SirenOfShame.Configuration
             _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
         }
 
-        private void ResyncClick(object sender, EventArgs e)
-        {
-            SetUserIAm();
-            SaveSosOnlineSettings();
-            if (string.IsNullOrEmpty(_settings.MyRawName))
-            {
-                SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
-                return;
-            }
-            var sosDb = new SosDb();
-            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
-            if (exportedBuilds == null)
-            {
-                _sosOnlineStatus.Text = "No new builds to export";
-                return;
-            }
-            var sosOnlineService = new SosOnlineService();
-            string exportedAchievements = _settings.ExportNewAchievements();
-            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
-        }
-
         private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(SosOnlineService.SOS_URL + "/Account/Register");
@@ -75,6 +54,7 @@ namespace SirenOfShame.Configuration
 
         private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
         {
+            _loading.Visible = false;
             _settings.SosOnlineHighWaterMark = sosOnlineHighWaterMark.Ticks;
             _settings.Save();
             _sosOnlineStatus.Text = "Successfully sync'd";
@@ -82,22 +62,42 @@ namespace SirenOfShame.Configuration
 
         private void VerifyCredentialsClick(object sender, EventArgs e)
         {
+            SetUserIAm();
+            SaveSosOnlineSettings();
+            if (string.IsNullOrEmpty(_settings.MyRawName))
+            {
+                SosMessageBox.Show("Who Am I?", "Please select which user you are from the 'I Am' textbox so we know which records to export", "Fine");
+                return;
+            }
+            
             var sosOnlineService = new SosOnlineService();
             SaveSosOnlineSettings();
+            _loading.Visible = true;
             sosOnlineService.VerifyCredentialsAsync(_settings, OnVerifyCredentialsSuccess, OnSosOnlineFailure);
             _sosOnlineStatus.Text = "Logging in ...";
         }
 
         private void OnSosOnlineFailure(string userFriendlyErrorMessage, ServerUnavailableException ex)
         {
+            _loading.Visible = false;
             SosMessageBox.Show("Error connecting", userFriendlyErrorMessage, "Hmmmm");
             _sosOnlineStatus.Text = userFriendlyErrorMessage;
         }
 
         private void OnVerifyCredentialsSuccess()
         {
-            _resync.Enabled = true;
-            _sosOnlineStatus.Text = "Login success";
+            _sosOnlineStatus.Text = "Login success, performing sync";
+
+            var sosDb = new SosDb();
+            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            if (exportedBuilds == null)
+            {
+                _sosOnlineStatus.Text = "No new builds to export";
+                return;
+            }
+            string exportedAchievements = _settings.ExportNewAchievements();
+            var sosOnlineService = new SosOnlineService();
+            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
         }
 
         private void OkClick(object sender, EventArgs e)
