@@ -44,20 +44,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this._copyBuildsToClipboard = new System.Windows.Forms.LinkLabel();
             this._copyAchievementsToClipboard = new System.Windows.Forms.LinkLabel();
+            this.label7 = new System.Windows.Forms.Label();
+            this._userIAm = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _result
             // 
-            this._result.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._result.Location = new System.Drawing.Point(148, 172);
+            this._result.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._result.Location = new System.Drawing.Point(154, 227);
             this._result.Name = "_result";
             this._result.Size = new System.Drawing.Size(237, 20);
             this._result.TabIndex = 43;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(3, 172);
+            this.label11.Location = new System.Drawing.Point(9, 227);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(139, 31);
             this.label11.TabIndex = 42;
@@ -66,7 +69,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(1, 93);
+            this.label10.Location = new System.Drawing.Point(7, 148);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(127, 13);
             this.label10.TabIndex = 41;
@@ -75,9 +78,9 @@
             // _exportedAchievements
             // 
             this._exportedAchievements.AcceptsReturn = true;
-            this._exportedAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._exportedAchievements.Location = new System.Drawing.Point(148, 93);
+            this._exportedAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._exportedAchievements.Location = new System.Drawing.Point(154, 148);
             this._exportedAchievements.Multiline = true;
             this._exportedAchievements.Name = "_exportedAchievements";
             this._exportedAchievements.ReadOnly = true;
@@ -88,9 +91,9 @@
             // _exportedBuilds
             // 
             this._exportedBuilds.AcceptsReturn = true;
-            this._exportedBuilds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this._exportedBuilds.Location = new System.Drawing.Point(148, 28);
+            this._exportedBuilds.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._exportedBuilds.Location = new System.Drawing.Point(154, 83);
             this._exportedBuilds.Multiline = true;
             this._exportedBuilds.Name = "_exportedBuilds";
             this._exportedBuilds.ReadOnly = true;
@@ -101,7 +104,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1, 28);
+            this.label9.Location = new System.Drawing.Point(7, 83);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(88, 13);
             this.label9.TabIndex = 38;
@@ -110,7 +113,7 @@
             // _manualSyncUrl
             // 
             this._manualSyncUrl.AutoSize = true;
-            this._manualSyncUrl.Location = new System.Drawing.Point(145, 7);
+            this._manualSyncUrl.Location = new System.Drawing.Point(151, 62);
             this._manualSyncUrl.Name = "_manualSyncUrl";
             this._manualSyncUrl.Size = new System.Drawing.Size(240, 13);
             this._manualSyncUrl.TabIndex = 37;
@@ -119,7 +122,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1, 7);
+            this.label8.Location = new System.Drawing.Point(7, 62);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(77, 13);
             this.label8.TabIndex = 36;
@@ -143,7 +146,7 @@
             this._saveResults.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._saveResults.ImageKey = "refresh16.png";
             this._saveResults.ImageList = this.imageList1;
-            this._saveResults.Location = new System.Drawing.Point(144, 204);
+            this._saveResults.Location = new System.Drawing.Point(150, 259);
             this._saveResults.Name = "_saveResults";
             this._saveResults.Size = new System.Drawing.Size(101, 23);
             this._saveResults.TabIndex = 44;
@@ -155,7 +158,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 209);
+            this.label1.Location = new System.Drawing.Point(9, 264);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 45;
@@ -164,7 +167,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 149);
+            this.label2.Location = new System.Drawing.Point(9, 204);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 46;
@@ -173,7 +176,7 @@
             // _copyBuildsToClipboard
             // 
             this._copyBuildsToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._copyBuildsToClipboard.Location = new System.Drawing.Point(272, 72);
+            this._copyBuildsToClipboard.Location = new System.Drawing.Point(278, 126);
             this._copyBuildsToClipboard.Name = "_copyBuildsToClipboard";
             this._copyBuildsToClipboard.Size = new System.Drawing.Size(113, 18);
             this._copyBuildsToClipboard.TabIndex = 47;
@@ -185,7 +188,7 @@
             // _copyAchievementsToClipboard
             // 
             this._copyAchievementsToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._copyAchievementsToClipboard.Location = new System.Drawing.Point(272, 136);
+            this._copyAchievementsToClipboard.Location = new System.Drawing.Point(278, 190);
             this._copyAchievementsToClipboard.Name = "_copyAchievementsToClipboard";
             this._copyAchievementsToClipboard.Size = new System.Drawing.Size(113, 18);
             this._copyAchievementsToClipboard.TabIndex = 48;
@@ -194,11 +197,47 @@
             this._copyAchievementsToClipboard.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this._copyAchievementsToClipboard.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyAchievementsToClipboardLinkClicked);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 13);
+            this.label7.TabIndex = 50;
+            this.label7.Text = "I Am:";
+            // 
+            // _userIAm
+            // 
+            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._userIAm.DisplayMember = "DisplayName";
+            this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._userIAm.FormattingEnabled = true;
+            this._userIAm.Location = new System.Drawing.Point(150, 6);
+            this._userIAm.Name = "_userIAm";
+            this._userIAm.Size = new System.Drawing.Size(241, 21);
+            this._userIAm.TabIndex = 49;
+            this._userIAm.SelectedIndexChanged += new System.EventHandler(this.UserIAmSelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(9, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(150, 13);
+            this.label3.TabIndex = 51;
+            this.label3.Text = "Manual Sync Instructions";
+            // 
             // OfflineSync
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this._userIAm);
             this.Controls.Add(this._copyAchievementsToClipboard);
             this.Controls.Add(this._copyBuildsToClipboard);
             this.Controls.Add(this.label2);
@@ -213,7 +252,7 @@
             this.Controls.Add(this._manualSyncUrl);
             this.Controls.Add(this.label8);
             this.Name = "OfflineSync";
-            this.Size = new System.Drawing.Size(394, 228);
+            this.Size = new System.Drawing.Size(394, 324);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,5 +274,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel _copyBuildsToClipboard;
         private System.Windows.Forms.LinkLabel _copyAchievementsToClipboard;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox _userIAm;
+        private System.Windows.Forms.Label label3;
     }
 }

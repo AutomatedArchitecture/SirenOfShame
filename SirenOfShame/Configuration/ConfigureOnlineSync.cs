@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
@@ -28,7 +29,7 @@ namespace SirenOfShame.Configuration
             _sosOnlineStatus.Text = hasEverConnected ? "Ready to sync" : "Have never synced";
         }
 
-        private void SetUserIAm()
+        private void SaveUserIAm()
         {
             string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : ((PersonSetting)_userIAm.SelectedItem).RawName;
             _settings.MyRawName = myRawName;
@@ -50,7 +51,7 @@ namespace SirenOfShame.Configuration
 
         private void VerifyCredentialsClick(object sender, EventArgs e)
         {
-            SetUserIAm();
+            SaveUserIAm();
             SaveSosOnlineSettings();
             if (string.IsNullOrEmpty(_settings.MyRawName))
             {
@@ -86,6 +87,11 @@ namespace SirenOfShame.Configuration
             string exportedAchievements = _settings.ExportNewAchievements();
             var sosOnlineService = new SosOnlineService();
             sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
+        }
+
+        private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(SosOnlineService.SOS_URL + "/Account/Register");
         }
 
 

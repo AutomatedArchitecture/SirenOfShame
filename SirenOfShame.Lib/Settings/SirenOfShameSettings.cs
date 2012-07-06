@@ -368,6 +368,7 @@ namespace SirenOfShame.Lib.Settings
 
         public string ExportNewAchievements()
         {
+            if (string.IsNullOrEmpty(MyRawName)) return null;
             DateTime? highWaterMark = GetHighWaterMark();
             var initialExport = highWaterMark == null;
             var currentUser = GetCurrentUser();

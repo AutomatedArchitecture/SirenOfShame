@@ -13,11 +13,13 @@ namespace SirenOfShame.Configuration
         {
             _settings = settings;
             InitializeComponent();
-            RefreshOfflinePanel();
+            _settings.InitializeUserIAm(_userIAm);
         }
 
         private void RefreshOfflinePanel()
         {
+            _exportedBuilds.Text = "";
+            _exportedAchievements.Text = "";
             var sosDb = new SosDb();
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);
             if (exportedBuilds == null)
@@ -27,6 +29,12 @@ namespace SirenOfShame.Configuration
             string exportedAchievements = _settings.ExportNewAchievements();
             _exportedBuilds.Text = exportedBuilds;
             _exportedAchievements.Text = exportedAchievements;
+        }
+
+        private void SaveUserIAm()
+        {
+            string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : ((PersonSetting)_userIAm.SelectedItem).RawName;
+            _settings.MyRawName = myRawName;
         }
 
         private void SaveResultsClick(object sender, EventArgs e)
@@ -70,6 +78,12 @@ namespace SirenOfShame.Configuration
             _exportedAchievements.SelectAll();
             _exportedAchievements.Focus();
             Clipboard.SetText(_exportedAchievements.Text);
+        }
+
+        private void UserIAmSelectedIndexChanged(object sender, EventArgs e)
+        {
+            SaveUserIAm();
+            RefreshOfflinePanel();
         }
     }
 }

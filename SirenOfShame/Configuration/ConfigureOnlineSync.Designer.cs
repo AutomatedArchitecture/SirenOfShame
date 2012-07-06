@@ -35,18 +35,18 @@
             this._syncNever = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
+            this._loading = new System.Windows.Forms.PictureBox();
             this._userIAm = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this._sosOnlineStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._verifyCredentials = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._sosOnlinePassword = new System.Windows.Forms.TextBox();
             this._createAccount = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this._sosOnlineLogin = new System.Windows.Forms.TextBox();
-            this._loading = new System.Windows.Forms.PictureBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
@@ -54,9 +54,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this._syncAlways);
             this.groupBox1.Controls.Add(this._syncNever);
             this.groupBox1.Location = new System.Drawing.Point(268, 0);
@@ -90,8 +90,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this._loading);
             this.groupBox4.Controls.Add(this._userIAm);
@@ -120,10 +120,20 @@
             this.label7.TabIndex = 34;
             this.label7.Text = "I Am:";
             // 
+            // _loading
+            // 
+            this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
+            this._loading.Location = new System.Drawing.Point(82, 42);
+            this._loading.Name = "_loading";
+            this._loading.Size = new System.Drawing.Size(16, 16);
+            this._loading.TabIndex = 33;
+            this._loading.TabStop = false;
+            this._loading.Visible = false;
+            // 
             // _userIAm
             // 
-            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._userIAm.DisplayMember = "DisplayName";
             this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -179,6 +189,14 @@
             this._verifyCredentials.UseVisualStyleBackColor = false;
             this._verifyCredentials.Click += new System.EventHandler(this.VerifyCredentialsClick);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "ball_green.png");
+            this.imageList1.Images.SetKeyName(1, "ball_red.png");
+            this.imageList1.Images.SetKeyName(2, "refresh16.png");
+            // 
             // _sosOnlinePassword
             // 
             this._sosOnlinePassword.Location = new System.Drawing.Point(103, 90);
@@ -189,8 +207,8 @@
             // 
             // _createAccount
             // 
-            this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._createAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._createAccount.Location = new System.Drawing.Point(95, 16);
             this._createAccount.Name = "_createAccount";
@@ -199,6 +217,7 @@
             this._createAccount.TabStop = true;
             this._createAccount.Text = "Create New Account";
             this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._createAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccountLinkClicked);
             // 
             // label5
             // 
@@ -224,24 +243,6 @@
             this._sosOnlineLogin.Name = "_sosOnlineLogin";
             this._sosOnlineLogin.Size = new System.Drawing.Size(148, 20);
             this._sosOnlineLogin.TabIndex = 25;
-            // 
-            // _loading
-            // 
-            this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
-            this._loading.Location = new System.Drawing.Point(82, 42);
-            this._loading.Name = "_loading";
-            this._loading.Size = new System.Drawing.Size(16, 16);
-            this._loading.TabIndex = 33;
-            this._loading.TabStop = false;
-            this._loading.Visible = false;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "ball_green.png");
-            this.imageList1.Images.SetKeyName(1, "ball_red.png");
-            this.imageList1.Images.SetKeyName(2, "refresh16.png");
             // 
             // ConfigureOnlineSync
             // 

@@ -117,6 +117,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public string ExportNewBuilds(SirenOfShameSettings settings)
         {
+            if (string.IsNullOrEmpty(settings.MyRawName)) return null;
             DateTime? highWaterMark = settings.GetHighWaterMark();
             var initialExport = highWaterMark == null;
             var allBuildDefinitions = ReadAll(settings.GetAllActiveBuildDefinitions());
