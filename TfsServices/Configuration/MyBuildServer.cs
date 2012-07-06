@@ -41,8 +41,11 @@ namespace TfsServices.Configuration
             }
             var latestChangesets = buildDefinitions.Select(bd => bd.GetLatestChangeset());
             var successfulChangesets = latestChangesets.Where(c => c != null);
+            var latestBuilds = from build in buildQueryResults.Builds 
+                               group build by build.BuildDefinition.Id into g 
+                               select g.OrderByDescending(b => b.StartTime).First();
 
-            var buildStatusResultsJoined = from buildQueryResult in buildQueryResults.Builds
+            var buildStatusResultsJoined = from buildQueryResult in latestBuilds
                                            from changeset in successfulChangesets.Where(sc => sc.BuildDefinitionId == buildQueryResult.BuildDefinition.Name).DefaultIfEmpty()
                                            select CreateBuildStatus(buildQueryResult, changeset);
 
