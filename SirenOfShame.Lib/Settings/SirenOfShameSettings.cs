@@ -76,6 +76,8 @@ namespace SirenOfShame.Lib.Settings
 
         public long? SosOnlineHighWaterMark { get; set; }
 
+        public bool SosOnlineAlwaysOffline { get; set; }
+
         public string UpdateLocationOther
         {
             get { return _updateLocationOther; }

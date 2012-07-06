@@ -138,7 +138,8 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(434, 34);
             this.label5.TabIndex = 20;
-            this.label5.Text = "Backup your achievements, compete with your friends, bedazzle your enemies.";
+            this.label5.Text = "Backup your achievements, compete with your friends, bedazzle your enemies ... al" +
+                "l for free.";
             // 
             // _configureSosOnline
             // 

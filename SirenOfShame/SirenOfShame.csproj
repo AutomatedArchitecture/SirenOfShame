@@ -85,6 +85,12 @@
     <Compile Include="Configuration\AddRule.Designer.cs">
       <DependentUpon>AddRule.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ConfigureOnlineSync.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigureOnlineSync.Designer.cs">
+      <DependentUpon>ConfigureOnlineSync.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\ConfigureRules.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +114,12 @@
     </Compile>
     <Compile Include="Configuration\ConfigureSosOnline.Designer.cs">
       <DependentUpon>ConfigureSosOnline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\OfflineSync.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\OfflineSync.Designer.cs">
+      <DependentUpon>OfflineSync.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
@@ -207,6 +219,9 @@
       <DependentUpon>AddRule.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\ConfigureOnlineSync.resx">
+      <DependentUpon>ConfigureOnlineSync.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureRules.resx">
       <DependentUpon>ConfigureRules.cs</DependentUpon>
     </EmbeddedResource>
@@ -218,6 +233,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\FindOldAchievements.resx">
       <DependentUpon>FindOldAchievements.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\OfflineSync.resx">
+      <DependentUpon>OfflineSync.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
