@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -42,6 +43,8 @@ namespace SirenOfShame.Lib.Services
             AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.Add("Builds", exportedBuilds);
             webClientXml.Add("Achievements", exportedAchievements);
+            if (settings.SoftwareInstanceId.HasValue)
+                webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/Synchronize", doc =>
             {
                 string success = doc.Descendants("Success").First().Value;

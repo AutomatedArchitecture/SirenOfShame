@@ -36,6 +36,7 @@
             this._obtainedTemplate = new System.Windows.Forms.Label();
             this._unobtainedTemplate = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._viewAllAchievements = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this._closeButton)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,12 +115,25 @@
             this._unobtainedTemplate.Text = "Unobtained Template";
             this._unobtainedTemplate.Visible = false;
             // 
+            // _viewAllAchievements
+            // 
+            this._viewAllAchievements.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._viewAllAchievements.AutoSize = true;
+            this._viewAllAchievements.Location = new System.Drawing.Point(586, 36);
+            this._viewAllAchievements.Name = "_viewAllAchievements";
+            this._viewAllAchievements.Size = new System.Drawing.Size(44, 13);
+            this._viewAllAchievements.TabIndex = 6;
+            this._viewAllAchievements.TabStop = true;
+            this._viewAllAchievements.Text = "View All";
+            this._viewAllAchievements.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._viewAllAchievements_LinkClicked);
+            // 
             // ViewUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this._viewAllAchievements);
             this.Controls.Add(this._obtainedTemplate);
             this.Controls.Add(this._unobtainedTemplate);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -143,5 +157,6 @@
         private System.Windows.Forms.Label _obtainedTemplate;
         private System.Windows.Forms.Label _unobtainedTemplate;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.LinkLabel _viewAllAchievements;
     }
 }
