@@ -74,7 +74,10 @@ namespace HudsonServices
                 XDocument doc = DownloadXml(url, userName, password);
                 if (doc.Root == null) throw new Exception("Could not get project status");
                 var lastBuildElem = doc.Root.Element("lastBuild");
-                if (lastBuildElem == null) throw new Exception("No builds");
+                if (lastBuildElem == null)
+                {
+                    throw new ServerUnavailableException("No 'lastBuild' element found for " + buildDefinitionSetting + " is the server in maintenence mode or something?");
+                }
                 var buildNumber = lastBuildElem.ElementValueOrDefault("number");
                 var buildUrl = rootUrl + "/job/" + buildDefinitionSetting.Id + "/" + buildNumber;
                 if (string.IsNullOrWhiteSpace(buildUrl)) throw new Exception("Could not get build url");
