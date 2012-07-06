@@ -64,9 +64,10 @@ namespace TravisCiServices
             return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
         }
 
-        public static DateTime GetJsonDate(string json, string key)
+        public static DateTime? GetJsonDate(string json, string key)
         {
             var val = GetJsonValue(json, key);
+            if (string.IsNullOrWhiteSpace(val) || val == "null") return null;
             return DateTime.Parse(val);
         }
 
@@ -75,7 +76,7 @@ namespace TravisCiServices
             var match = Regex.Match(json, "['\"]" + key + "['\"]:\\s*(.*?),");
             if (!match.Success)
             {
-                throw new Exception("Could not find " + key + " in json");
+                throw new Exception("Could not find key: '" + key + "' in json");
             }
             var result = match.Groups[1].Value;
             result = result.Trim('"');

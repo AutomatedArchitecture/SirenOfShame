@@ -43,6 +43,8 @@ namespace TravisCiServices
                     return BuildStatusEnum.Working;
                 case "1":
                     return BuildStatusEnum.Broken;
+                case "NULL":
+                    return BuildStatusEnum.InProgress;
                 default:
                     return BuildStatusEnum.Unknown;
             }

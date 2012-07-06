@@ -76,6 +76,7 @@
     <EmbeddedResource Include="Resources\TeamCityFailureDueToCleanup.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\TravisFunkyDate.json" />
     <Compile Include="Service\TeamCityBuildStatusTest.cs" />
     <Compile Include="Settings\PersonSettingTest.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
