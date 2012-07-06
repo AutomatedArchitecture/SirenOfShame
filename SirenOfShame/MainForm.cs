@@ -528,16 +528,26 @@ namespace SirenOfShame
                 .OrderByDescending(i => i.Reputation);
             foreach (var person in personSettings)
             {
-                bool newlyChanged = changedBuildStatuses != null && changedBuildStatuses.Any(i => i.RequestedBy == person.RawName);
+                BuildStatus newlyChangedBuildStatus = changedBuildStatuses == null ? null : changedBuildStatuses.FirstOrDefault(i => i.RequestedBy == person.RawName);
+                bool newlyChanged = newlyChangedBuildStatus != null;
 
                 ListViewItem lvi = new ListViewItem(person.DisplayName) {UseItemStyleForSubItems = false};
-                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", person.Reputation.ToString(CultureInfo.InvariantCulture));
+                string reputation = GetReputation(person.Reputation, newlyChangedBuildStatus);
+                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", reputation);
                 if (newlyChanged)
                     FlashListViewSubItem(subItem);
                 lvi.Tag = person.RawName;
                 _users.Items.Add(lvi);
             }
             _flashListViewItemTimer.Start();
+        }
+
+        private static string GetReputation(int reputation, BuildStatus newlyChangedBuildStatus)
+        {
+            string reputationStr = reputation.ToString(CultureInfo.InvariantCulture);
+            if (newlyChangedBuildStatus == null) return reputationStr;
+            string delta = newlyChangedBuildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? "-4" : "+1";
+            return string.Format("{0} ({1})", reputationStr, delta);
         }
 
         private void FlashListViewSubItem(ListViewItem.ListViewSubItem lvi)
@@ -1053,6 +1063,12 @@ namespace SirenOfShame
                 var newGreen = Math.Max(0, existingColor.G - amountToDecrement);
                 var newBlue = Math.Max(0, existingColor.B - amountToDecrement);
                 listViewSubItem.ForeColor = Color.FromArgb(newRed, newGreen, newBlue);
+                bool isBlack = newRed == 0 && newGreen == 0 && newBlue == 0;
+                bool containsDelta = listViewSubItem.Text.Contains(" ");
+                if (isBlack && containsDelta)
+                {
+                    listViewSubItem.Text = listViewSubItem.Text.Split(' ').First();
+                }
             }
         }
         
