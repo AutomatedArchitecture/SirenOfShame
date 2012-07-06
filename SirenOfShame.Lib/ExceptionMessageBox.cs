@@ -90,7 +90,7 @@ namespace SirenOfShame.Lib
             {
                 parameters["OperatingSystem"] = Environment.OSVersion.ToString();
                 parameters["DotNetVersion"] = Environment.Version.ToString();
-                parameters["SosVersion"] = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                parameters["SosVersion"] = Application.ProductVersion;
                 parameters["SoftwareInstanceId"] = string.Format("{0}", _settings.SoftwareInstanceId);
                 try
                 {
