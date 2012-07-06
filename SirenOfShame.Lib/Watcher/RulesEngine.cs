@@ -270,8 +270,9 @@ namespace SirenOfShame.Lib.Watcher
 
         private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
-            var sosOnlineEnabled = !string.IsNullOrEmpty(_settings.SosOnlineUsername);
-            if (!sosOnlineEnabled) return;
+            if (!_settings.SosOnlineAlwaysSync) return;
+            var noUsername = string.IsNullOrEmpty(_settings.SosOnlineUsername);
+            if (noUsername) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
             var sosOnlineService = new SosOnlineService();

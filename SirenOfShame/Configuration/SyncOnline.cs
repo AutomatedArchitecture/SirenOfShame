@@ -12,12 +12,23 @@ namespace SirenOfShame.Configuration
     {
         private readonly SirenOfShameSettings _settings;
 
+        private bool _initializing = true;
+        
         public SyncOnline(SirenOfShameSettings settings)
         {
             _settings = settings;
             InitializeComponent();
             InitializeSosOnlineSection();
+            InitializeRadioButtons();
             _settings.InitializeUserIAm(_userIAm);
+            _initializing = false;
+        }
+
+        private void InitializeRadioButtons()
+        {
+            _syncAlways.Checked = _settings.SosOnlineAlwaysSync;
+            _syncNever.Checked = !_settings.SosOnlineAlwaysSync;
+            _syncAlways.Enabled = _settings.SosOnlineAlwaysSync;
         }
 
         private void InitializeSosOnlineSection()
@@ -43,10 +54,8 @@ namespace SirenOfShame.Configuration
 
         private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
         {
-            _loading.Visible = false;
             _settings.SosOnlineHighWaterMark = sosOnlineHighWaterMark.Ticks;
-            _settings.Save();
-            _sosOnlineStatus.Text = "Successfully sync'd";
+            ManualSyncComplete("Successfully sync'd", authenticatedSuccessfully: true);
         }
 
         private void VerifyCredentialsClick(object sender, EventArgs e)
@@ -81,7 +90,7 @@ namespace SirenOfShame.Configuration
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);
             if (exportedBuilds == null)
             {
-                _sosOnlineStatus.Text = "No new builds to export";
+                ManualSyncComplete("No new builds to export", authenticatedSuccessfully: true);
                 return;
             }
             string exportedAchievements = _settings.ExportNewAchievements();
@@ -89,11 +98,56 @@ namespace SirenOfShame.Configuration
             sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
         }
 
+        private void ManualSyncComplete(string status, bool authenticatedSuccessfully)
+        {
+            _sosOnlineStatus.Text = status;
+            _loading.Visible = false;
+            if (authenticatedSuccessfully)
+            {
+                _settings.SosOnlineAlwaysSync = true;
+                _settings.Save();
+                InitializeRadioButtons();
+            }
+        }
+
         private void CreateAccountLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(SosOnlineService.SOS_URL + "/Account/Register");
         }
 
+        private void SyncNeverCheckedChanged(object sender, EventArgs e)
+        {
+            SyncRadioChanged();
+        }
 
+        private void SyncRadioChanged()
+        {
+            if (_initializing) return;
+            _settings.SosOnlineAlwaysSync = _syncAlways.Checked;
+            _settings.Save();
+        }
+        
+        private void SyncAlwaysCheckedChanged(object sender, EventArgs e)
+        {
+            SyncRadioChanged();
+        }
+
+        private void _sosOnlineLogin_TextChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            DisableSyncAlways();
+        }
+
+        private void DisableSyncAlways()
+        {
+            _settings.SosOnlineAlwaysSync = false;
+            InitializeRadioButtons();
+        }
+
+        private void _sosOnlinePassword_TextChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            DisableSyncAlways();
+        }
     }
 }

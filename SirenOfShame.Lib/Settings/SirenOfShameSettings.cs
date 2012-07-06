@@ -78,6 +78,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool SosOnlineAlwaysOffline { get; set; }
 
+        public bool SosOnlineAlwaysSync { get; set; }
+
         public string UpdateLocationOther
         {
             get { return _updateLocationOther; }

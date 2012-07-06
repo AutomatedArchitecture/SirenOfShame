@@ -75,6 +75,7 @@
             this._syncAlways.TabIndex = 1;
             this._syncAlways.Text = "Sync whenever I trigger a build";
             this._syncAlways.UseVisualStyleBackColor = true;
+            this._syncAlways.CheckedChanged += new System.EventHandler(this.SyncAlwaysCheckedChanged);
             // 
             // _syncNever
             // 
@@ -82,11 +83,12 @@
             this._syncNever.Checked = true;
             this._syncNever.Location = new System.Drawing.Point(7, 13);
             this._syncNever.Name = "_syncNever";
-            this._syncNever.Size = new System.Drawing.Size(79, 17);
+            this._syncNever.Size = new System.Drawing.Size(103, 17);
             this._syncNever.TabIndex = 0;
             this._syncNever.TabStop = true;
-            this._syncNever.Text = "Never sync";
+            this._syncNever.Text = "Never auto-sync";
             this._syncNever.UseVisualStyleBackColor = true;
+            this._syncNever.CheckedChanged += new System.EventHandler(this.SyncNeverCheckedChanged);
             // 
             // groupBox4
             // 
@@ -204,6 +206,7 @@
             this._sosOnlinePassword.PasswordChar = '*';
             this._sosOnlinePassword.Size = new System.Drawing.Size(148, 20);
             this._sosOnlinePassword.TabIndex = 26;
+            this._sosOnlinePassword.TextChanged += new System.EventHandler(this._sosOnlinePassword_TextChanged);
             // 
             // _createAccount
             // 
@@ -243,15 +246,16 @@
             this._sosOnlineLogin.Name = "_sosOnlineLogin";
             this._sosOnlineLogin.Size = new System.Drawing.Size(148, 20);
             this._sosOnlineLogin.TabIndex = 25;
+            this._sosOnlineLogin.TextChanged += new System.EventHandler(this._sosOnlineLogin_TextChanged);
             // 
-            // ConfigureOnlineSync
+            // SyncOnline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
-            this.Name = "ConfigureOnlineSync";
+            this.Name = "SyncOnline";
             this.Size = new System.Drawing.Size(463, 199);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
