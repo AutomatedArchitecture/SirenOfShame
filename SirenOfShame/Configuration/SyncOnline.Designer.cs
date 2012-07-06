@@ -1,6 +1,6 @@
 ﻿namespace SirenOfShame.Configuration
 {
-    partial class ConfigureOnlineSync
+    partial class SyncOnline
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureOnlineSync));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncOnline));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this._syncAlways = new System.Windows.Forms.RadioButton();
             this._syncNever = new System.Windows.Forms.RadioButton();

@@ -8,11 +8,11 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Configuration
 {
-    public partial class ConfigureOnlineSync : UserControl
+    public partial class SyncOnline : UserControl
     {
         private readonly SirenOfShameSettings _settings;
 
-        public ConfigureOnlineSync(SirenOfShameSettings settings)
+        public SyncOnline(SirenOfShameSettings settings)
         {
             _settings = settings;
             InitializeComponent();

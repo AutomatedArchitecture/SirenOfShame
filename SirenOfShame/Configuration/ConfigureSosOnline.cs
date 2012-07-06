@@ -40,7 +40,7 @@ namespace SirenOfShame.Configuration
 
         private UserControl GetChildControl()
         {
-            return _alwaysOffline.Checked ? (UserControl)new OfflineSync(_settings) : new ConfigureOnlineSync(_settings);
+            return _alwaysOffline.Checked ? (UserControl)new SyncOffline(_settings) : new SyncOnline(_settings);
         }
     }
 }

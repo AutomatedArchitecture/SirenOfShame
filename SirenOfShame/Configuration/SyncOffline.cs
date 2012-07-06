@@ -5,11 +5,11 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Configuration
 {
-    public partial class OfflineSync : UserControl
+    public partial class SyncOffline : UserControl
     {
         private readonly SirenOfShameSettings _settings;
 
-        public OfflineSync(SirenOfShameSettings settings)
+        public SyncOffline(SirenOfShameSettings settings)
         {
             _settings = settings;
             InitializeComponent();

@@ -85,11 +85,11 @@
     <Compile Include="Configuration\AddRule.Designer.cs">
       <DependentUpon>AddRule.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ConfigureOnlineSync.cs">
+    <Compile Include="Configuration\SyncOnline.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Configuration\ConfigureOnlineSync.Designer.cs">
-      <DependentUpon>ConfigureOnlineSync.cs</DependentUpon>
+    <Compile Include="Configuration\SyncOnline.Designer.cs">
+      <DependentUpon>SyncOnline.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\ConfigureRules.cs">
       <SubType>Form</SubType>
@@ -115,11 +115,11 @@
     <Compile Include="Configuration\ConfigureSosOnline.Designer.cs">
       <DependentUpon>ConfigureSosOnline.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\OfflineSync.cs">
+    <Compile Include="Configuration\SyncOffline.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Configuration\OfflineSync.Designer.cs">
-      <DependentUpon>OfflineSync.cs</DependentUpon>
+    <Compile Include="Configuration\SyncOffline.Designer.cs">
+      <DependentUpon>SyncOffline.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuration\Settings.cs">
       <SubType>Form</SubType>
@@ -219,8 +219,8 @@
       <DependentUpon>AddRule.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configuration\ConfigureOnlineSync.resx">
-      <DependentUpon>ConfigureOnlineSync.cs</DependentUpon>
+    <EmbeddedResource Include="Configuration\SyncOnline.resx">
+      <DependentUpon>SyncOnline.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureRules.resx">
       <DependentUpon>ConfigureRules.cs</DependentUpon>
@@ -234,8 +234,8 @@
     <EmbeddedResource Include="Configuration\FindOldAchievements.resx">
       <DependentUpon>FindOldAchievements.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Configuration\OfflineSync.resx">
-      <DependentUpon>OfflineSync.cs</DependentUpon>
+    <EmbeddedResource Include="Configuration\SyncOffline.resx">
+      <DependentUpon>SyncOffline.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
