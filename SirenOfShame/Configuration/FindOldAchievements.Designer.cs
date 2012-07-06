@@ -50,7 +50,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(434, 31);
             this.label1.TabIndex = 0;
-            this.label1.Text = "What\'s New In 1.6?";
+            this.label1.Text = "Major New Features in 1.6";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // progressBar1
@@ -80,7 +80,7 @@
             this.label2.Size = new System.Drawing.Size(434, 34);
             this.label2.TabIndex = 3;
             this.label2.Text = "Siren of Shame now has an achievement system!  For instance you\'ll get \'CI Ninja\'" +
-                " if you fix someone elses build.";
+    " if you fix someone elses build.";
             // 
             // _ok
             // 
@@ -139,7 +139,7 @@
             this.label5.Size = new System.Drawing.Size(434, 34);
             this.label5.TabIndex = 20;
             this.label5.Text = "Backup your achievements, compete with your friends, bedazzle your enemies ... al" +
-                "l for free.";
+    "l for free.";
             // 
             // _configureSosOnline
             // 
