@@ -517,28 +517,6 @@ namespace SirenOfShame
             _buildStats.SetStats(count, failed, percentFailed);
         }
 
-        //private void GraphBuildHistory(List<BuildStatus> buildStatuses)
-        //{
-        //    GraphPane myPane = _buildHistoryZedGraph.GraphPane;
-        //    myPane.CurveList.Clear();
-
-        //    IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
-        //    foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
-        //    {
-        //        if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
-        //        var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
-        //        Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill: _successFill;
-        //        var bar = myPane.AddBar(null, null, new [] { duration.TotalMinutes }, Color.White);
-        //        bar.Bar.Fill = fill;
-        //        bar.Bar.Border.Color = Color.White;
-        //    }
-
-        //    _buildHistoryZedGraph.AxisChange();
-        //    _buildHistoryZedGraph.Invalidate();
-        //}
-
-        //readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
-        //readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
         private List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)

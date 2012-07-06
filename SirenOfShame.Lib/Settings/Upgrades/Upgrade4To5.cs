@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using System.Xml.Serialization;
 
 namespace SirenOfShame.Lib.Settings.Upgrades
 {
-    public class Upgrade3To4 : UpgradeBase
+    public class Upgrade4To5 : UpgradeBase
     {
         public override int ToVersion
         {
-            get { return 4; }
+            get { return 5; }
         }
 
         public override void Upgrade(SirenOfShameSettings sirenOfShameSettings)

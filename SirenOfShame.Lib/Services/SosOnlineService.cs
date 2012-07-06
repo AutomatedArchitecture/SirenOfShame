@@ -9,7 +9,7 @@ namespace SirenOfShame.Lib.Services
 {
     public class SosOnlineService
     {
-        public const string SOS_URL = "http://localhost:3115";
+        public const string SOS_URL = "http://sirenofshame.com";
 
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {

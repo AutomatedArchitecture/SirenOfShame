@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is application version number, update for each release -->
-<?define Version = "1.5.9" ?>
+<?define Version = "1.6.0" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
@@ -52,6 +52,8 @@
         <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
 
+        <File Source="..\SirenOfShame\bin\Plugins\BuildBotServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\TravisCiServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\BambooServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\CruiseControlNetServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\HudsonServices.dll" />

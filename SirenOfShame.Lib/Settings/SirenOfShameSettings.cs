@@ -232,6 +232,7 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade1To2(),
                                    new Upgrade2To3(),
                                    new Upgrade3To4(),
+                                   new Upgrade4To5(), 
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 

@@ -200,6 +200,7 @@
     <Compile Include="Settings\Upgrades\Upgrade1To2.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3.cs" />
     <Compile Include="Settings\Upgrades\Upgrade3To4.cs" />
+    <Compile Include="Settings\Upgrades\Upgrade4To5.cs" />
     <Compile Include="Settings\Upgrades\UpgradeBase.cs" />
     <Compile Include="Settings\Upgrades\Upgrade0To1.cs" />
     <Compile Include="Util\BuildStatusUtil.cs" />
