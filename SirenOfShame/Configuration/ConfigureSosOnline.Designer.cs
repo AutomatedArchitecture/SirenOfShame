@@ -90,7 +90,7 @@
             this._done.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._done.ImageIndex = 0;
             this._done.ImageList = this.imageList1;
-            this._done.Location = new System.Drawing.Point(408, 329);
+            this._done.Location = new System.Drawing.Point(408, 388);
             this._done.Name = "_done";
             this._done.Size = new System.Drawing.Size(73, 25);
             this._done.TabIndex = 38;
@@ -117,12 +117,12 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Location = new System.Drawing.Point(13, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(468, 264);
+            this.panel1.Size = new System.Drawing.Size(468, 323);
             this.panel1.TabIndex = 40;
             // 
             // _alwaysOffline
@@ -143,7 +143,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.CancelButton = this._done;
-            this.ClientSize = new System.Drawing.Size(493, 366);
+            this.ClientSize = new System.Drawing.Size(493, 425);
             this.Controls.Add(this._alwaysOffline);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this._viewLeaderboards);

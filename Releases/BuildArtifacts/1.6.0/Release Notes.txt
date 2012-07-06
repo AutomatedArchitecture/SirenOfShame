@@ -1,0 +1,31 @@
+1.6 Release Notes
+
+Major Features
+* Achievements (click on a person to view their achievements)
+* SoS Online: Sync your reputation and achievements to the cloud (we even have an offline mode)
+* The setup experience is now smooth as butter (switched to Wix Toolset)
+* New CI Server supported: Travis (the one that runs against GitHub projects)
+* New CI Server supported: Buildbot (thanks to @BubbaFatAss for this contribution)
+
+Minor Features
+* When people's reputation changes you can see the delta and a pretty fade animation
+* The error dialog now allows you to specify contact information
+* The firmware upgrade process is simpler there should be no more HidD_SetOutputReport bugs
+* You can now connect to TFS with a named account rather than your windows account
+* The SoS splash screen now displays the product version
+* If SoS gets an error while retrieving build status it now assumes the server is unavailable and won't send an error report unless you click a button in the status bar
+
+Bugs Fixed
+
+* Issue #25: If you double click a build for TFS it now goes to the build status page rather than the artifact's page
+* Issue #22: Dates displayed on the main page are now culture-aware (e.g. d/M in europe, M/d in the US)
+* Issue #21: If you use Hudson or Jenkins with and set it's "Internal URL" incorrectly SoS no longer dies a terrible death
+* Issue #20: If two builds occur simultaneously in TFS SoS no longer bugs out
+* Issue #18: If you connect to TFS using someone else's credentials they are passed correctly in all API calls
+* Issue #16: SoS now runs under non-admin accounts
+* Issue #15: When you go back and edit the list of builds you're watching SoS defaults old watched builds to being checked
+* Issue #14: If you use Hudson or Jenkins with and set it's "Internal URL" incorrectly SoS no longer dies a terrible death
+* Issue #13: When you have multiple SoS instances open in different windows accounts SoS now gives a nice error message
+* If Team City runs a scheduled clean up jobs it no longer confuses SoS
+* If you haven't associated .log with a default app in Windows and you view the log you no longer get an error
+* If you have rules to make the LED lights on the device stop sometimes they would never stop

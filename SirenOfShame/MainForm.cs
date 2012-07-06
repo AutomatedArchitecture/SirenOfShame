@@ -272,7 +272,7 @@ namespace SirenOfShame
             {
                 foreach (var achievement in args.Achievements)
                 {
-                    NewAchievement.ShowForm(_settings, achievement, args.Person);
+                    NewAchievement.ShowForm(_settings, achievement, args.Person, this);
                 }
                 foreach (ListViewItem listItem in _users.Items)
                 {

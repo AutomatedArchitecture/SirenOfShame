@@ -76,7 +76,7 @@ namespace SirenOfShame.Configuration
                 person.AddAchievements(newAchievements);
                 foreach (var achievementLookup in newAchievements)
                 {
-                    NewAchievement.ShowForm(_settings, achievementLookup, person);
+                    NewAchievement.ShowForm(_settings, achievementLookup, person, this);
                 }
             }
             _settings.Save();
