@@ -29,6 +29,11 @@ namespace SirenOfShame.Test.Unit.Resources
             }
         }
 
+        public static string TravisCiWorkingBuild
+        {
+            get { return GetResource("TravisCiWorkingBuild.json"); }
+        }
+
         public static XDocument JenkinsBuildStatusForIssue10
         {
             get { return XDocument.Parse(GetResource("JenkinsBuildStatusForIssue10.xml")); }

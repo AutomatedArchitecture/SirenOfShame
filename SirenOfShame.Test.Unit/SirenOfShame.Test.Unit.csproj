@@ -62,6 +62,7 @@
     <Compile Include="CIEntryPointBuildStatus\CruiseControlNetBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\HudsonBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
+    <Compile Include="CIEntryPointBuildStatus\TravisCiBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
@@ -125,6 +126,10 @@
       <Project>{EFE5A7FE-62D0-4AD7-9DAC-E9AC5B1CC6C7}</Project>
       <Name>TeamCityServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TravisCiServices\TravisCiServices.csproj">
+      <Project>{72771080-D1C2-40B4-B000-D05CEE0E2B8F}</Project>
+      <Name>TravisCiServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\JenkinsBuildStatusForIssue10.xml">
@@ -144,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\BambooFailingBuild.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\TravisCiWorkingBuild.json" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
