@@ -46,6 +46,8 @@
 
     <DirectoryRef Id="Plugins">
       <Component Id="PluginsComponent" Guid="A12F0669-DC76-4118-A95F-29E97223FB57">
+        <RemoveFile Id="PurgePluginsFolder" Name="*.*" On="install" />
+
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\UsbLib.dll" Id="UsbLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll2" />
@@ -76,6 +78,9 @@
     
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="MainExecutable" Guid="907D3D28-0FCE-49B2-87CE-4670A57F286C">
+        <!-- ensure the app folder is empty prior to install, this fixes the issue of 1.5.x having been installed 'per-user' and thus not cleaning up after itself nicely on upgrade -->
+        <RemoveFile Id="PurgeAppFolder" Name="*.*" On="install" />
+
         <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
         <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
 
