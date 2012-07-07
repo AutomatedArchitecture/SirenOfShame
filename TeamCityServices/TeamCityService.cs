@@ -159,7 +159,7 @@ namespace TeamCityServices
                             if (state == 0)
                             {
                                 HtmlElement usernameElement = localWebBrowser.Document.GetElementById("username");
-                                if (usernameElement == null) throw new SosException("Expected an element with an id of 'username' but one didn't exist. Is TeamCity down?");
+                                if (usernameElement == null) throw new ServerUnavailableException("Expected an element with an id of 'username' but one didn't exist. Is TeamCity down?");
                                 usernameElement.SetAttribute("value", userName);
                                 usernameElement.SetAttribute("value", userName);
                                 if (htmlDocument != null)
