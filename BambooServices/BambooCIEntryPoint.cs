@@ -22,7 +22,7 @@ namespace BambooServices
 
         public string DisplayName
         {
-            get { return "Bamdoo"; }
+            get { return "Bamboo"; }
         }
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
