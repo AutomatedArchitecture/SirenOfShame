@@ -18,7 +18,8 @@
     </Condition>
     
     <Upgrade Id="F069A490-0830-4288-9AB3-508DB7FC406C">
-      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="yes" 
+      <!-- IncludeMinimum=no so we can re-install the current version from the msi -->
+      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="no" 
                       OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
       <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Version)" IncludeMaximum="no" 
                       OnlyDetect="no" Property="PREVIOUSVERSIONSINSTALLED" />
