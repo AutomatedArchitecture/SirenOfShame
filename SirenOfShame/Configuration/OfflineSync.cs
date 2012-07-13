@@ -69,7 +69,9 @@ namespace SirenOfShame.Configuration
         {
             _exportedAchievements.SelectAll();
             _exportedAchievements.Focus();
-            Clipboard.SetText(_exportedAchievements.Text);
+            var text = _exportedAchievements.Text;
+            if (!string.IsNullOrEmpty(text))
+                Clipboard.SetText(text);
         }
     }
 }
