@@ -37,7 +37,9 @@ namespace SirenOfShame.Lib.Watcher
             };
 
             if (cookie != null)
+            {
                 webClient.Headers.Add("Cookie", cookie);
+            }
 
             try
             {

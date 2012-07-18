@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -126,6 +128,44 @@ namespace TeamCityServices
             return parallelResult.AsParallel().ToList();
         }
 
+        [DllImport("wininet.dll", SetLastError = true)]
+        public static extern bool InternetGetCookieEx(
+            string url,
+            string cookieName,
+            StringBuilder cookieData,
+            ref int size,
+            Int32 dwFlags,
+            IntPtr lpReserved);
+
+        private const Int32 InternetCookieHttponly = 0x2000;
+        /// <summary>
+        /// Gets the URI cookie container.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <returns></returns>
+        public static string GetUriCookieContainer(Uri uri)
+        {
+            CookieContainer cookies = null;
+            // Determine the size of the cookie
+            int datasize = 8192 * 16;
+            StringBuilder cookieData = new StringBuilder(datasize);
+            if (!InternetGetCookieEx(uri.ToString(), null, cookieData, ref datasize, InternetCookieHttponly, IntPtr.Zero))
+            {
+                if (datasize < 0)
+                    return null;
+                // Allocate stringbuilder large enough to hold the cookie
+                cookieData = new StringBuilder(datasize);
+                if (!InternetGetCookieEx(
+                    uri.ToString(),
+                    null, cookieData,
+                    ref datasize,
+                    InternetCookieHttponly,
+                    IntPtr.Zero))
+                    return null;
+            }
+            return cookieData.ToString();
+        }
+
         private void SetCookie(string rootUrl, string userName, string password)
         {
             _log.Debug("SetCookie rootUrl=" + rootUrl + "; userName=" + userName);
@@ -176,7 +216,8 @@ namespace TeamCityServices
                             }
                             if (state == 1)
                             {
-                                _cookies[rootUrl] = localWebBrowser.Document.Cookie;
+                                string cookie = GetUriCookieContainer(new Uri(rootUrl));
+                                _cookies[rootUrl] = cookie;
                             }
 
                             state++;
