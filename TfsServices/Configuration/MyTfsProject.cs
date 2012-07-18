@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Server;
+using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace TfsServices.Configuration
 {
@@ -37,6 +38,11 @@ namespace TfsServices.Configuration
         public string ConvertTfsUriToUrl(Uri uri)
         {
             return _projectCollection.ConvertTfsUriToUrl(uri);
+        }
+
+        public VersionControlServer GetVersionControlServer()
+        {
+            return ProjectCollection.VersionControlServer;
         }
     }
 }

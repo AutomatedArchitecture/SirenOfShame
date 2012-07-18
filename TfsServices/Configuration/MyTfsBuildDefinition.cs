@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using log4net;
@@ -46,44 +48,62 @@ namespace TfsServices.Configuration
             return new TreeNode(Name) { Tag = Id, Checked = active };
         }
 
+        private const int DeletionId = 0;
+
         public MyChangeset GetLatestChangeset()
         {
-            // Exclude cloaked mappings - they can't have changesets.
-            var serverUrls = _buildDefinition.Workspace.Mappings
-                                    .Where(m => m.MappingType != WorkspaceMappingType.Cloak)
-                                    .Select(m => m.ServerItem);
-            if (!serverUrls.Any())
+            // generally there is only one workspace mapping per build definition, but there could be >1
+            IEnumerable<string> workspaceMappingServerUrls = GetNonCloakedWorkspaceMappingServerUrls();
+            var noWorkspaceMappings = !workspaceMappingServerUrls.Any();
+            if (noWorkspaceMappings)
             {
                 Log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
                 return null;
             }
 
             Changeset maxChangeset = null;
-            var vc = _myTfsProject.ProjectCollection.VersionControlServer;
-            const int deletionId = 0;
-            foreach (var workspaceMapping in serverUrls)
+            var versionControlServer = _myTfsProject.GetVersionControlServer();
+            foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
             {
-                var changesets = vc.QueryHistory(workspaceMapping,
-                                                         VersionSpec.Latest,
-                                                         deletionId,
-                                                         RecursionType.Full,
-                                                         null,
-                                                         null,
-                                                         VersionSpec.Latest,
-                                                         1,
-                                                         true,
-                                                         false,
-                                                         true);
-                if (changesets == null)  // mapping may not be on the server yet.
-                    continue;
-                Changeset changeset = changesets.Cast<Changeset>().FirstOrDefault();
-                if (maxChangeset == null || changeset.ChangesetId > maxChangeset.ChangesetId)
+                IEnumerable changesets = GetChangesetsFromServer(versionControlServer, workspaceMappingServerUrl);
+                Changeset changeset = GetMostRecentChangeset(changesets);
+                var thisIsTheFirstWorkspaceMapping = maxChangeset == null;
+                var theCurrentChangesetIsMoreRecentThanTheMax = thisIsTheFirstWorkspaceMapping || changeset.ChangesetId > maxChangeset.ChangesetId;
+                if (theCurrentChangesetIsMoreRecentThanTheMax)
                 {
                     maxChangeset = changeset;
                 }
             }
-            
-            return new MyChangeset(maxChangeset, Id, this);
+
+            return maxChangeset == null ? null : new MyChangeset(maxChangeset, Id, this);
+        }
+
+        private static Changeset GetMostRecentChangeset(IEnumerable changesets)
+        {
+            return changesets == null ? null : changesets.Cast<Changeset>().FirstOrDefault();
+        }
+
+        private static IEnumerable GetChangesetsFromServer(VersionControlServer versionControlServer, string workspaceMappingServerUrl)
+        {
+            return versionControlServer.QueryHistory(workspaceMappingServerUrl,
+                                                     VersionSpec.Latest,
+                                                     DeletionId,
+                                                     RecursionType.Full,
+                                                     null,
+                                                     null,
+                                                     VersionSpec.Latest,
+                                                     1,
+                                                     true,
+                                                     false,
+                                                     true);
+        }
+
+        // Exclude cloaked mappings - they can't have changesets.
+        private IEnumerable<string> GetNonCloakedWorkspaceMappingServerUrls()
+        {
+            return _buildDefinition.Workspace.Mappings
+                .Where(m => m.MappingType != WorkspaceMappingType.Cloak)
+                .Select(m => m.ServerItem);
         }
 
         public string ConvertTfsUriToUrl(Uri uri)
