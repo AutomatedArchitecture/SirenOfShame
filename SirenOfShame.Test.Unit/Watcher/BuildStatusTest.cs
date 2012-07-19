@@ -10,6 +10,30 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class BuildStatusTest
     {
         [TestMethod]
+        public void Parse_InvalidDate()
+        {
+            var actual = BuildStatus.Parse(new [] { "63460976461000000Z", "", "1", "jshimpty" });
+            Assert.AreEqual(null, actual);
+        }
+
+        [TestMethod]
+        public void Parse_NullEndDate()
+        {
+            var actual = BuildStatus.Parse(new [] { "634609764610000000", "", "1", "jshimpty" });
+            Assert.AreEqual(null, actual.FinishedTime);
+        }
+
+        [TestMethod]
+        public void Parse_ValidDatesAndStatus()
+        {
+            var actual = BuildStatus.Parse(new [] { "634609764610000000", "634637449220000000", "1", "jshimpty" });
+            Assert.AreEqual(new DateTime(2012, 1, 1, 1, 1, 1), actual.StartedTime);
+            Assert.AreEqual(new DateTime(2012, 2, 2, 2, 2, 2), actual.FinishedTime);
+            Assert.AreEqual("jshimpty", actual.RequestedBy);
+            Assert.AreEqual(BuildStatusEnum.Working, actual.BuildStatusEnum);
+        }
+
+        [TestMethod]
         public void IsBackToBack_NineSecondsApart()
         {
             var finishedTime = new DateTime(2010, 1, 1, 1, 1, 1);

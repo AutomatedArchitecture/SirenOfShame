@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using log4net;
@@ -20,6 +21,31 @@ namespace SirenOfShame.Lib.Watcher
         public BuildStatus()
         {
             LocalStartTime = DateTime.Now;
+        }
+
+        public static BuildStatus Parse(string[] lineFromSosDb)
+        {
+            Debug.Assert(lineFromSosDb.Length == 4);
+            string startedTimeStr = lineFromSosDb[0];
+            string finishedTimeStr = lineFromSosDb[1];
+            string buildStatusStr = lineFromSosDb[2];
+            string requestedByStr = lineFromSosDb[3];
+            
+            try
+            {
+                return new BuildStatus
+                {
+                    StartedTime = string.IsNullOrEmpty(startedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(startedTimeStr)),
+                    FinishedTime = string.IsNullOrEmpty(finishedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(finishedTimeStr)),
+                    BuildStatusEnum = (BuildStatusEnum)int.Parse(buildStatusStr),
+                    RequestedBy = requestedByStr
+                };
+            } 
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("Error parsing a line in SosDb: {0}, {1}, {2}, {3}", startedTimeStr, finishedTimeStr, buildStatusStr, requestedByStr), ex);
+                return null;
+            }
         }
 
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildStatus));

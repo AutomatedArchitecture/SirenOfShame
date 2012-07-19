@@ -104,13 +104,8 @@ namespace SirenOfShame.Lib.Watcher
             var lines = File.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
                 .Where(l => l.Length == 4) // just in case there are partially written records
-                .Select(l => new BuildStatus
-                {
-                    StartedTime = string.IsNullOrEmpty(l[0]) ? (DateTime?)null : new DateTime(long.Parse(l[0])),
-                    FinishedTime = string.IsNullOrEmpty(l[1]) ? (DateTime?)null : new DateTime(long.Parse(l[1])),
-                    BuildStatusEnum = (BuildStatusEnum)int.Parse(l[2]),
-                    RequestedBy = l[3]
-                })
+                .Select(BuildStatus.Parse)
+                .Where(i => i != null) // ignore parse errors
                 .ToList();
             return statuses;
         }
