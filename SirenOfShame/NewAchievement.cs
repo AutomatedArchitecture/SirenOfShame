@@ -10,10 +10,17 @@ namespace SirenOfShame
         private readonly SirenOfShameSettings _settings;
         private readonly AchievementLookup _achievement;
 
-        public static void ShowForm(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person, IWin32Window owner)
+        public static void ShowForm(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person, IWin32Window owner, bool modal)
         {
             var newAchievement = new NewAchievement(settings, achievement, person);
-            newAchievement.ShowDialog(owner);
+            if (modal)
+            {
+                newAchievement.ShowDialog(owner);
+            } 
+            else
+            {
+                newAchievement.Show(owner);
+            }
         }
 
         private NewAchievement(SirenOfShameSettings settings, AchievementLookup achievement, PersonSetting person)
