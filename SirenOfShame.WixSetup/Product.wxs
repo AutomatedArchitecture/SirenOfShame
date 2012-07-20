@@ -21,11 +21,11 @@
       <!-- IncludeMinimum=no so we can re-install the current version from the msi -->
       <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="no" 
                       OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
-      <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Version)" IncludeMaximum="no" 
+      <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Version)" IncludeMaximum="yes" 
                       OnlyDetect="no" Property="PREVIOUSVERSIONSINSTALLED" />
     </Upgrade>
 
-    <CustomAction Id='LaunchFile' FileKey='SirenOfShameExe' ExeCommand='' Return='asyncNoWait' />
+    <CustomAction Id="LaunchFile" Directory="INSTALLLOCATION" ExeCommand="[INSTALLLOCATION]SirenOfShame.exe" Return="asyncNoWait" />
 
     <InstallExecuteSequence>
       <RemoveExistingProducts Before="InstallInitialize" />
@@ -76,14 +76,14 @@
         <File Source="..\Libs\sox-14.3.2\libgomp-1.dll" />
       </Component>
     </DirectoryRef>
-    
+
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="MainExecutable" Guid="907D3D28-0FCE-49B2-87CE-4670A57F286C">
         <!-- ensure the app folder is empty prior to install, this fixes the issue of 1.5.x having been installed 'per-user' and thus not cleaning up after itself nicely on upgrade -->
         <RemoveFile Id="PurgeAppFolder" Name="*.*" On="install" />
 
-        <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
-        <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" />
+        <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+        <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
 
         <File Id="SirenOfShameExe" Name="SirenOfShame.exe" Source="..\SirenOfShame\bin\SirenOfShame.exe" KeyPath="yes" />
         <File Source="..\SirenOfShame\bin\SirenOfShame.exe.config" />
@@ -137,7 +137,7 @@
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="SoxComponent"/>
       <ComponentRef Id="PluginsComponent"/>
-			
+      
 			<!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
 			<ComponentGroupRef Id="Product.Generated" />
 		</Feature>
