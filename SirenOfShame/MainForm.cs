@@ -487,18 +487,11 @@ namespace SirenOfShame
             }
         }
 
-        private enum RightMenu
-        {
-            Users = 0,
-            BuildStats = 1,
-            NewsFeed = 2
-        }
-
         private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
-            RightMenu rightMenu = buildDefinitionSelected ? RightMenu.BuildStats : RightMenu.Users;
-            SetRightMenu(rightMenu);
+            _buildStats.Visible = buildDefinitionSelected;
+            _userStats.Visible = !buildDefinitionSelected;
             _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
             if (_panelRight.Visible)
             {
@@ -510,13 +503,6 @@ namespace SirenOfShame
                     RefreshProjectStats(buildDefinitionSetting);
                 }
             }
-        }
-
-        private void SetRightMenu(RightMenu rightMenu)
-        {
-            _buildStats.Visible = rightMenu == RightMenu.BuildStats;
-            _users.Visible = rightMenu == RightMenu.Users;
-            _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
         }
 
         private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
@@ -1162,16 +1148,6 @@ namespace SirenOfShame
                 var selectedPerson = _settings.People.First(i => i.RawName == (string) selectedUser.Tag);
                 viewUser1.SetUser(selectedPerson);
             }
-        }
-
-        private void _usersButton_Click(object sender, EventArgs e)
-        {
-            SetRightMenu(RightMenu.Users);
-        }
-
-        private void _newsButton_Click(object sender, EventArgs e)
-        {
-            SetRightMenu(RightMenu.NewsFeed);
         }
     }
 }
