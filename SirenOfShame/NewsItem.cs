@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SirenOfShame
@@ -13,10 +8,17 @@ namespace SirenOfShame
     {
         readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
+        private const int MARGIN = 3;
+
         public NewsItem(string userName, string checkinComment)
         {
             InitializeComponent();
 
+            richTextBox1.Top = 0;
+            richTextBox1.Left = MARGIN;
+            richTextBox1.Width = Width - (MARGIN*2);
+            _eventDate.Padding = new Padding(MARGIN, 0, MARGIN, 0);
+            
             richTextBox1.Clear();
             richTextBox1.SelectionFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             richTextBox1.SelectedText = userName;
@@ -33,15 +35,18 @@ namespace SirenOfShame
         {
             using (Graphics g = CreateGraphics())
             {
-                int formPadding = Padding.Left + Padding.Right;
-                int formWidth = Width;
-                int margins = leftMargin.Width + rightMargin.Width;
-                int renderWidth = formWidth - (formPadding + margins);
+                const int marginToAccountForBoldFont = 1;
+                int renderWidth = richTextBox1.Width - marginToAccountForBoldFont;
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int textBoxHeight = (int)Math.Ceiling(size.Height);
 
-                return textBoxHeight + _eventDate.Height + bottomLine.Height;
+                return Margin.Top + Margin.Bottom + textBoxHeight + _eventDate.Height + bottomLine.Height;
             }
+        }
+
+        public bool IsAtIdealHeight()
+        {
+            return Height >= GetIdealHeight();
         }
     }
 }

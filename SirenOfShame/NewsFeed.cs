@@ -7,23 +7,43 @@ namespace SirenOfShame
 {
     public partial class NewsFeed : UserControl
     {
+        private int IncreaseWithEase(int oldValue, int destination)
+        {
+            int newValue = (int)(Math.Pow(oldValue, 1.6));
+            return Math.Min(newValue, destination);
+        }
+
         public NewsFeed()
         {
             InitializeComponent();
-            //newsItemHeightAnimator.Interval = 10;
-            //newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
+            newsItemHeightAnimator.Interval = 50;
+            newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
         }
 
-        //private List<NewsItem> newsItemsToOpen = new List<NewsItem>();
-        
-        //private void NewsItemHeightAnimatorOnTick(object sender, EventArgs eventArgs)
-        //{
+        Timer newsItemHeightAnimator = new Timer();
+        private List<NewsItem> newsItemsToOpen = new List<NewsItem>();
+
+        private void NewsItemHeightAnimatorOnTick(object sender, EventArgs eventArgs)
+        {
+            if (newsItemsToOpen.Count == 0 || newsItemsToOpen.All(i => i.IsAtIdealHeight()))
+            {
+                newsItemHeightAnimator.Stop();
+                newsItemsToOpen.Clear();
+                return;
+            }
             
-        //}
+            foreach (var newsItem in newsItemsToOpen.Where(i => !i.IsAtIdealHeight()))
+            {
+                int idealHeight = newsItem.GetIdealHeight();
+                if (newsItem.Height < idealHeight)
+                {
+                    newsItem.Height = IncreaseWithEase(newsItem.Height, idealHeight);
+                }
+            }
+        }
 
         private int _newsItemCount = 0;
 
-        //Timer newsItemHeightAnimator = new Timer();
 
         private void Button1Click(object sender, EventArgs e)
         {
@@ -31,8 +51,10 @@ namespace SirenOfShame
             const string description = " broke the build with a comment of \"Fixing Lee's bunk check-in from yesterday\"";
             var newsItem = new NewsItem(userName, description) {Dock = DockStyle.Top};
             Controls.Add(newsItem);
-            newsItem.Height = newsItem.GetIdealHeight();
+            newsItem.Height = 2;
             _newsItemCount++;
+            newsItemsToOpen.Add(newsItem);
+            newsItemHeightAnimator.Start();
         }
 
         private void NewsFeedResize(object sender, EventArgs e)

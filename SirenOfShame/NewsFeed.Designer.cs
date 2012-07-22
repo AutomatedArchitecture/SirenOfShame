@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.newsItem1 = new SirenOfShame.NewsItem();
             this.SuspendLayout();
             // 
             // button1
@@ -43,21 +42,11 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1Click);
             // 
-            // newsItem1
-            // 
-            this.newsItem1.BackColor = System.Drawing.SystemColors.Window;
-            this.newsItem1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.newsItem1.Location = new System.Drawing.Point(0, 0);
-            this.newsItem1.Name = "newsItem1";
-            this.newsItem1.Padding = new System.Windows.Forms.Padding(3);
-            this.newsItem1.Size = new System.Drawing.Size(254, 57);
-            this.newsItem1.TabIndex = 5;
-            // 
             // NewsFeed
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.newsItem1);
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.button1);
             this.Name = "NewsFeed";
             this.Size = new System.Drawing.Size(254, 237);
@@ -69,7 +58,6 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private NewsItem newsItem1;
 
     }
 }
