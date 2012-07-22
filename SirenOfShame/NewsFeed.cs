@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 
@@ -9,9 +10,20 @@ namespace SirenOfShame
         public NewsFeed()
         {
             InitializeComponent();
+            //newsItemHeightAnimator.Interval = 10;
+            //newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
         }
 
+        //private List<NewsItem> newsItemsToOpen = new List<NewsItem>();
+        
+        //private void NewsItemHeightAnimatorOnTick(object sender, EventArgs eventArgs)
+        //{
+            
+        //}
+
         private int _newsItemCount = 0;
+
+        //Timer newsItemHeightAnimator = new Timer();
 
         private void Button1Click(object sender, EventArgs e)
         {

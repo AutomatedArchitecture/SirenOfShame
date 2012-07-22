@@ -49,7 +49,8 @@
             this.newsItem1.Dock = System.Windows.Forms.DockStyle.Top;
             this.newsItem1.Location = new System.Drawing.Point(0, 0);
             this.newsItem1.Name = "newsItem1";
-            this.newsItem1.Size = new System.Drawing.Size(254, 58);
+            this.newsItem1.Padding = new System.Windows.Forms.Padding(3);
+            this.newsItem1.Size = new System.Drawing.Size(254, 57);
             this.newsItem1.TabIndex = 5;
             // 
             // NewsFeed

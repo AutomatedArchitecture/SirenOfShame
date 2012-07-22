@@ -24,7 +24,7 @@ namespace SirenOfShame
             richTextBox1.SelectedText = checkinComment;
         }
 
-        public NewsItem() : this("Joe Ferner", " broke the build with a comment of \"Fixing Lee's bunk check-in from yesterday\"")
+        public NewsItem() : this("Joe Ferner", " started a build with a comment of \"Fixing Lee's bunk check-in from yesterday\"")
         {
 
         }
@@ -33,19 +33,14 @@ namespace SirenOfShame
         {
             using (Graphics g = CreateGraphics())
             {
-                SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, Width);
+                int formPadding = Padding.Left + Padding.Right;
+                int formWidth = Width;
+                int margins = leftMargin.Width + rightMargin.Width;
+                int renderWidth = formWidth - (formPadding + margins);
+                SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int textBoxHeight = (int)Math.Ceiling(size.Height);
 
-                return textBoxHeight + rectangle1.Height;
-            }
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            using (Pen pen = new Pen(Color.Black))
-            {
-                e.Graphics.DrawLine(pen, 100, 0, 100, 0);
+                return textBoxHeight + _eventDate.Height + bottomLine.Height;
             }
         }
     }
