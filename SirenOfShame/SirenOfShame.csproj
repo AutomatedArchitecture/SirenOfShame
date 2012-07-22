@@ -49,6 +49,7 @@
       <HintPath>..\Libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -161,6 +162,18 @@
     <Compile Include="NewsFeed.Designer.cs">
       <DependentUpon>NewsFeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewsItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewsItem.Designer.cs">
+      <DependentUpon>NewsItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Rectangle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Rectangle.Designer.cs">
+      <DependentUpon>Rectangle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\AudioFile.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />
@@ -268,6 +281,9 @@
     <EmbeddedResource Include="NewsFeed.resx">
       <DependentUpon>NewsFeed.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NewsItem.resx">
+      <DependentUpon>NewsItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -278,6 +294,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Rectangle.resx">
+      <DependentUpon>Rectangle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SirenConfiguration\TestSiren.resx">
       <DependentUpon>TestSiren.cs</DependentUpon>
     </EmbeddedResource>
