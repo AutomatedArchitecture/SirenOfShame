@@ -9,7 +9,7 @@ namespace SirenOfShame
     {
         private int IncreaseWithEase(int oldValue, int destination)
         {
-            int newValue = (int)(Math.Pow(oldValue, 1.6));
+            int newValue = (int)(Math.Pow(oldValue, 1.6)) + 2;
             return Math.Min(newValue, destination);
         }
 

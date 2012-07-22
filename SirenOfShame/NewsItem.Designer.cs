@@ -53,11 +53,11 @@
             // 
             this._eventDate.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._eventDate.ForeColor = System.Drawing.Color.DarkGray;
-            this._eventDate.Location = new System.Drawing.Point(0, 62);
+            this._eventDate.Location = new System.Drawing.Point(0, 67);
             this._eventDate.Margin = new System.Windows.Forms.Padding(0);
             this._eventDate.Name = "_eventDate";
             this._eventDate.Padding = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this._eventDate.Size = new System.Drawing.Size(150, 20);
+            this._eventDate.Size = new System.Drawing.Size(150, 15);
             this._eventDate.TabIndex = 2;
             this._eventDate.Text = "59 minutes ago";
             // 
