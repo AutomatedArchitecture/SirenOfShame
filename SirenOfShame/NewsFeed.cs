@@ -18,9 +18,18 @@ namespace SirenOfShame
             InitializeComponent();
             newsItemHeightAnimator.Interval = 50;
             newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
+            prettyDateCalculator.Interval = 10000;
+            prettyDateCalculator.Tick += PrettyDateCalculatorOnTick;
+            prettyDateCalculator.Start();
+        }
+
+        private void PrettyDateCalculatorOnTick(object sender, EventArgs eventArgs)
+        {
+            GetNewsItemControls().ToList().ForEach(i => i.RecalculatePrettyDate());
         }
 
         Timer newsItemHeightAnimator = new Timer();
+        Timer prettyDateCalculator = new Timer();
         private List<NewsItem> newsItemsToOpen = new List<NewsItem>();
 
         private void NewsItemHeightAnimatorOnTick(object sender, EventArgs eventArgs)
@@ -44,12 +53,11 @@ namespace SirenOfShame
 
         private int _newsItemCount = 0;
 
-
         private void Button1Click(object sender, EventArgs e)
         {
             string userName = "Joe Ferner " + _newsItemCount;
             const string description = " broke the build with a comment of \"Fixing Lee's bunk check-in from yesterday\"";
-            var newsItem = new NewsItem(userName, description) {Dock = DockStyle.Top};
+            var newsItem = new NewsItem(userName, description, DateTime.Now) {Dock = DockStyle.Top};
             Controls.Add(newsItem);
             newsItem.Height = 2;
             _newsItemCount++;
@@ -59,12 +67,17 @@ namespace SirenOfShame
 
         private void NewsFeedResize(object sender, EventArgs e)
         {
-            Controls
-                .Cast<Control>()
-                .Select(i => i as NewsItem)
-                .Where(i => i != null)
+            GetNewsItemControls()
                 .ToList()
                 .ForEach(i => i.Height = i.GetIdealHeight());
+        }
+
+        private IEnumerable<NewsItem> GetNewsItemControls()
+        {
+            return Controls
+                .Cast<Control>()
+                .Select(i => i as NewsItem)
+                .Where(i => i != null);
         }
     }
 }

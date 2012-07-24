@@ -168,6 +168,7 @@
     <Compile Include="Helpers\IEnumerableHelpers.cs" />
     <Compile Include="Helpers\IocContainer.cs" />
     <Compile Include="Helpers\ObjectHelpers.cs" />
+    <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\SiUnitHelpers.cs" />
     <Compile Include="Helpers\ThreeStateTreeNode.cs" />
     <Compile Include="Helpers\ThreeStateTreeView.cs">
