@@ -26,6 +26,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             SetLightsEvents = new List<SetLightsEventArgs>();
             NewAlertEvents = new List<NewAlertEventArgs>();
             NewAchievementEvents = new List<NewAchievementEventArgs>();
+            NewNewsItemEvents = new List<NewNewsItemEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
             CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
@@ -47,6 +48,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.SetLights += (sender, arg) => SetLightsEvents.Add(arg);
             _rulesEngine.NewAlert += (sender, arg) => NewAlertEvents.Add(arg);
             _rulesEngine.NewAchievement += (sender, arg) => NewAchievementEvents.Add(arg);
+            _rulesEngine.NewNewsItem += (sender, arg) => NewNewsItemEvents.Add(arg);
 
             _rulesEngine.Start();
         }
@@ -64,6 +66,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<SetLightsEventArgs> SetLightsEvents { get; set; }
         public List<NewAlertEventArgs> NewAlertEvents { get; set; }
         public List<NewAchievementEventArgs> NewAchievementEvents { get; set; }
+        public List<NewNewsItemEventArgs> NewNewsItemEvents { get; set; }
 
         public void InvokeDownloadStringAsync(string e)
         {
@@ -111,7 +114,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                     RequestedBy = CURRENT_USER, 
                     BuildDefinitionId = BUILD1_ID, 
                     StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                    FinishedTime = status == BuildStatusEnum.InProgress ? (DateTime?)null : new DateTime(2010, 1, 1, 1, 10, 10)
+                    FinishedTime = status == BuildStatusEnum.InProgress ? (DateTime?)null : new DateTime(2010, 1, 1, 1, 10, 10),
+                    Comment = "Fixing a typo"
                 } 
             });
         }

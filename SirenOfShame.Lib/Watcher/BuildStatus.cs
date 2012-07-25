@@ -183,7 +183,7 @@ namespace SirenOfShame.Lib.Watcher
             return previousDuration - currentDuration;
         }
 
-        public void Changed(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
+        public void FireApplicableRulesEngineEvents(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
         {
             var rule = rules
                 .Where(r => r.IsMatch(this, previousWorkingOrBrokenStatus))

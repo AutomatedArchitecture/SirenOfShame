@@ -13,6 +13,19 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        [Ignore]
+        public void BuildInitiated_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
+            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
+            Assert.AreEqual("Initiated a build on " + RulesEngineWrapper.BUILD1_ID + " with a comment of 'Fixing a typo'", newNewsItem.Title);
+        }
+
+        [TestMethod]
         public void UserHas23And59MinutesOfBuildTime_ChecksIn_AchievesTimeWarrior()
         {
             var rulesEngine = new RulesEngineWrapper();

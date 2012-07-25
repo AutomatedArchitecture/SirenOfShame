@@ -214,6 +214,8 @@
     <Compile Include="Watcher\NewAchievementEventArgs.cs" />
     <Compile Include="Watcher\NewAlertEvent.cs" />
     <Compile Include="Watcher\NewAlertEventArgs.cs" />
+    <Compile Include="Watcher\NewNewsItemEvent.cs" />
+    <Compile Include="Watcher\NewNewsItemEventArgs.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEvent.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEventArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />

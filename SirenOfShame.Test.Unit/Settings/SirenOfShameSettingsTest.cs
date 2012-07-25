@@ -127,7 +127,7 @@ namespace SirenOfShame.Test.Unit.Settings
                                    Version = null
                                };
             settings.DoUpgrade();
-            Assert.AreEqual(4, settings.Version);
+            Assert.AreEqual(5, settings.Version);
         }
         
         [TestMethod]
