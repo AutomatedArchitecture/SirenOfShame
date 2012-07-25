@@ -239,5 +239,35 @@ namespace SirenOfShame.Lib.Watcher
         {
             return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
+
+        public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        {
+            var person = settings.FindAddPerson(RequestedBy);
+            return new NewNewsItemEventArgs
+            {
+                Person = person,
+                EventDate = DateTime.Now,
+                Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus)
+            };
+        }
+
+        private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
+        {
+            var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Working;
+            var wasBrokenNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Broken;
+            var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && BuildStatusEnum == BuildStatusEnum.Broken;
+            var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
+
+            if (inProgress) return string.Format("Initiated a build on {0} with a comment of '{1}'", Name, Comment);
+            if (wasBrokenNowWorking) return string.Format("Fixed the broken build on " + Name + "! (+1)");
+            if (wasWorkingNowBroken) return string.Format("Broke the build on " + Name + "! (-4)");
+            if (wasBrokenNowBroken) return string.Format("Failed to fix the build on " + Name + " (-4)");
+            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Built " + Name + " successfully (+1)");
+            
+            // some other previous status? this should never happen
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build on " + Name + "! (-4)");
+
+            throw new Exception("Unknown build status: " + BuildStatusEnum);
+        }
     }
 }

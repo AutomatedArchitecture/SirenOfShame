@@ -13,7 +13,6 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        [Ignore]
         public void BuildInitiated_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -23,6 +22,44 @@ namespace SirenOfShame.Test.Unit.Watcher
             var newNewsItem = rulesEngine.NewNewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
             Assert.AreEqual("Initiated a build on " + RulesEngineWrapper.BUILD1_ID + " with a comment of 'Fixing a typo'", newNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildWorkingThenWorking_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
+            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
+            Assert.AreEqual("Built Build Def 1 successfully (+1)", latestNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildFailedThenPassed_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
+            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
+            Assert.AreEqual("Fixed the broken build on Build Def 1! (+1)", newNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildFailedThenFailedAgain_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
+            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
+            Assert.AreEqual("Failed to fix the build on Build Def 1 (-4)", latestNewsItem.Title);
         }
 
         [TestMethod]

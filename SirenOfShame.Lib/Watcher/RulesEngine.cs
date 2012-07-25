@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
-using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Util;
 using Timer = System.Windows.Forms.Timer;
@@ -45,10 +45,10 @@ namespace SirenOfShame.Lib.Watcher
         public event NewAchievementEvent NewAchievement;
         public event NewNewsItemEvent NewNewsItem;
 
-        public void InvokeNewNewsItem(PersonSetting person, string title, DateTime eventDate)
+        public void InvokeNewNewsItem(NewNewsItemEventArgs args)
         {
             var newNewsItem = NewNewsItem;
-            if (newNewsItem != null) newNewsItem(this, new NewNewsItemEventArgs { Person = person, Title = title, EventDate = eventDate });
+            if (newNewsItem != null) newNewsItem(this, args);
         }
 
         public void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
@@ -142,10 +142,22 @@ namespace SirenOfShame.Lib.Watcher
             IList<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
             FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
             WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
-            CacheBuildStatuses(changedBuildStatuses);
             NotifyIfNewAchievements(changedBuildStatuses);
             InvokeStatsChanged(changedBuildStatuses);
             SyncNewBuildsToSos(changedBuildStatuses);
+            InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
+            CacheBuildStatuses(changedBuildStatuses);
+        }
+
+        private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
+        {
+            changedBuildStatuses
+                .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null)
+// ReSharper disable PossibleInvalidOperationException
+                .Select(i => i.ChangedBuildStatus.AsNewsItemEventArgs(i.PreviousWorkingOrBrokenBuildStatus.Value, _settings))
+// ReSharper restore PossibleInvalidOperationException
+                .ToList()
+                .ForEach(InvokeNewNewsItem);
         }
 
         private void WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
@@ -233,61 +245,18 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TryToGetAndSendNewSosOnlineAlerts()
         {
-            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want to check for alerts either
-            if (_settings.UpdateLocation != UpdateLocation.Auto) return;
-
-            bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
-            if (weHaveAlreadyCheckedForAlertsToday) return;
-            
-            _settings.LastCheckedForAlert = DateTime.Now;
-            _settings.Save();
-            SosWebClient webClient = GetWebClient();
-            webClient.DownloadStringCompleted += (s, e) =>
-            {
-                try
-                {
-                    if (e.Error != null)
-                    {
-                        _log.Error("Error retrieving alert", e.Error);
-                        return;
-                    }
-                    NewAlertEventArgs args = new NewAlertEventArgs();
-                    var successParsing = args.Instantiate(e.Result);
-                    if (successParsing)
-                    {
-                        if (_settings.SoftwareInstanceId == null)
-                        {
-                            _settings.SoftwareInstanceId = args.SoftwareInstanceId;
-                            _settings.Save();
-                        }
-                        if (_settings.AlertClosed == null || args.AlertDate > _settings.AlertClosed)
-                        {
-                            InvokeNewAlert(args);
-                        }
-                    }
-                } 
-                catch (Exception ex)
-                {
-                    _log.Error("Error retrieving alert", ex);
-                }
-            };
-            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}&Version={3}",
-                _settings.SirenEverConnected,
-                _settings.SoftwareInstanceId,
-                string.Join(",", _settings.CiEntryPointSettings.Select(cip => cip.Name)),
-                Application.ProductVersion
-                );
-            webClient.DownloadStringAsync(new Uri(url));
-        }
-
-        protected virtual DateTime Now
-        {
-            get { return DateTime.Now; }
+            var sosOnlineService = new SosOnlineService();
+            sosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert, GetWebClient());
         }
 
         protected virtual SosWebClient GetWebClient()
         {
             return new SosWebClient();
+        }
+
+        protected virtual DateTime Now
+        {
+            get { return DateTime.Now; }
         }
 
         private void InvokeStatsChanged(IList<BuildStatus> changedBuildStatuses)
