@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
@@ -16,11 +17,11 @@ namespace SirenOfShame
         public NewsFeed()
         {
             InitializeComponent();
-            newsItemHeightAnimator.Interval = 50;
-            newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
-            prettyDateCalculator.Interval = 10000;
-            prettyDateCalculator.Tick += PrettyDateCalculatorOnTick;
-            prettyDateCalculator.Start();
+            _newsItemHeightAnimator.Interval = 50;
+            _newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
+            _prettyDateCalculator.Interval = 10000;
+            _prettyDateCalculator.Tick += PrettyDateCalculatorOnTick;
+            _prettyDateCalculator.Start();
         }
 
         private void PrettyDateCalculatorOnTick(object sender, EventArgs eventArgs)
@@ -28,20 +29,20 @@ namespace SirenOfShame
             GetNewsItemControls().ToList().ForEach(i => i.RecalculatePrettyDate());
         }
 
-        Timer newsItemHeightAnimator = new Timer();
-        Timer prettyDateCalculator = new Timer();
-        private List<NewsItem> newsItemsToOpen = new List<NewsItem>();
+        readonly Timer _newsItemHeightAnimator = new Timer();
+        readonly Timer _prettyDateCalculator = new Timer();
+        private readonly List<NewsItem> _newsItemsToOpen = new List<NewsItem>();
 
         private void NewsItemHeightAnimatorOnTick(object sender, EventArgs eventArgs)
         {
-            if (newsItemsToOpen.Count == 0 || newsItemsToOpen.All(i => i.IsAtIdealHeight()))
+            if (_newsItemsToOpen.Count == 0 || _newsItemsToOpen.All(i => i.IsAtIdealHeight()))
             {
-                newsItemHeightAnimator.Stop();
-                newsItemsToOpen.Clear();
+                _newsItemHeightAnimator.Stop();
+                _newsItemsToOpen.Clear();
                 return;
             }
             
-            foreach (var newsItem in newsItemsToOpen.Where(i => !i.IsAtIdealHeight()))
+            foreach (var newsItem in _newsItemsToOpen.Where(i => !i.IsAtIdealHeight()))
             {
                 int idealHeight = newsItem.GetIdealHeight();
                 if (newsItem.Height < idealHeight)
@@ -49,20 +50,6 @@ namespace SirenOfShame
                     newsItem.Height = IncreaseWithEase(newsItem.Height, idealHeight);
                 }
             }
-        }
-
-        private int _newsItemCount = 0;
-
-        private void Button1Click(object sender, EventArgs e)
-        {
-            string userName = "Joe Ferner " + _newsItemCount;
-            const string description = " broke the build with a comment of \"Fixing Lee's bunk check-in from yesterday\"";
-            var newsItem = new NewsItem(userName, description, DateTime.Now) {Dock = DockStyle.Top};
-            Controls.Add(newsItem);
-            newsItem.Height = 2;
-            _newsItemCount++;
-            newsItemsToOpen.Add(newsItem);
-            newsItemHeightAnimator.Start();
         }
 
         private void NewsFeedResize(object sender, EventArgs e)
@@ -78,6 +65,15 @@ namespace SirenOfShame
                 .Cast<Control>()
                 .Select(i => i as NewsItem)
                 .Where(i => i != null);
+        }
+
+        public void AddNewsItem(NewNewsItemEventArgs args)
+        {
+            var newsItem = new NewsItem(args.Person.DisplayName, args.Title, args.EventDate) { Dock = DockStyle.Top };
+            Controls.Add(newsItem);
+            newsItem.Height = 2;
+            _newsItemsToOpen.Add(newsItem);
+            _newsItemHeightAnimator.Start();
         }
     }
 }

@@ -259,13 +259,13 @@ namespace SirenOfShame.Lib.Watcher
             var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
 
             if (inProgress) return string.Format("Initiated a build on {0} with a comment of '{1}'", Name, Comment);
-            if (wasBrokenNowWorking) return string.Format("Fixed the broken build on " + Name + "! (+1)");
-            if (wasWorkingNowBroken) return string.Format("Broke the build on " + Name + "! (-4)");
-            if (wasBrokenNowBroken) return string.Format("Failed to fix the build on " + Name + " (-4)");
-            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Built " + Name + " successfully (+1)");
+            if (wasBrokenNowWorking) return string.Format("+1 Fixed the broken build on " + Name + "!");
+            if (wasWorkingNowBroken) return string.Format("-4 Broke the build on " + Name);
+            if (wasBrokenNowBroken) return string.Format("-4 Failed to fix the build on " + Name);
+            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("+1 Built " + Name + " successfully");
             
             // some other previous status? this should never happen
-            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build on " + Name + "! (-4)");
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("-4 Broke the build on " + Name);
 
             throw new Exception("Unknown build status: " + BuildStatusEnum);
         }

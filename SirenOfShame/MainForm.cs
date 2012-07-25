@@ -257,7 +257,13 @@ namespace SirenOfShame
             rulesEngine.StatsChanged += RulesEngineStatsChanged;
             rulesEngine.NewAlert += RulesEngineNewAlert;
             rulesEngine.NewAchievement += RulesEngineNewAchievement;
+            rulesEngine.NewNewsItem += RulesEngineNewNewsItem;
             return rulesEngine;
+        }
+
+        private void RulesEngineNewNewsItem(object sender, NewNewsItemEventArgs args)
+        {
+            Invoke(() => _newsFeed1.AddNewsItem(args));
         }
 
         private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
@@ -498,7 +504,7 @@ namespace SirenOfShame
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             RightMenu rightMenu = buildDefinitionSelected ? RightMenu.BuildStats : RightMenu.Users;
-            SetRightMenu(rightMenu);
+            //SetRightMenu(rightMenu);
             _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
             if (_panelRight.Visible)
             {
@@ -531,7 +537,7 @@ namespace SirenOfShame
             _buildStats.SetStats(count, failed, percentFailed);
         }
 
-        private List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
+        private readonly List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
@@ -1151,7 +1157,7 @@ namespace SirenOfShame
             ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
         }
 
-        private void _users_SelectedIndexChanged(object sender, EventArgs e)
+        private void UsersSelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedUser = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
             var aUserIsSelected = selectedUser != null;
@@ -1164,12 +1170,12 @@ namespace SirenOfShame
             }
         }
 
-        private void _usersButton_Click(object sender, EventArgs e)
+        private void UsersButtonClick(object sender, EventArgs e)
         {
             SetRightMenu(RightMenu.Users);
         }
 
-        private void _newsButton_Click(object sender, EventArgs e)
+        private void NewsButtonClick(object sender, EventArgs e)
         {
             SetRightMenu(RightMenu.NewsFeed);
         }

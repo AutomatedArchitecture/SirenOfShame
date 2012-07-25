@@ -825,7 +825,7 @@ namespace SirenOfShame {
             this._newsButton.TabIndex = 0;
             this._newsButton.Text = "News";
             this._newsButton.UseVisualStyleBackColor = true;
-            this._newsButton.Click += new System.EventHandler(this._newsButton_Click);
+            this._newsButton.Click += new System.EventHandler(this.NewsButtonClick);
             // 
             // _usersButton
             // 
@@ -835,7 +835,7 @@ namespace SirenOfShame {
             this._usersButton.TabIndex = 1;
             this._usersButton.Text = "Users";
             this._usersButton.UseVisualStyleBackColor = true;
-            this._usersButton.Click += new System.EventHandler(this._usersButton_Click);
+            this._usersButton.Click += new System.EventHandler(this.UsersButtonClick);
             // 
             // _rightPanelButtons
             // 
@@ -873,7 +873,7 @@ namespace SirenOfShame {
             this._users.UseCompatibleStateImageBehavior = false;
             this._users.View = System.Windows.Forms.View.Details;
             this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
-            this._users.SelectedIndexChanged += new System.EventHandler(this._users_SelectedIndexChanged);
+            this._users.SelectedIndexChanged += new System.EventHandler(this.UsersSelectedIndexChanged);
             this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
             // 
             // _buildDefinitions
