@@ -229,8 +229,8 @@ namespace SirenOfShame
             {
                 _settings = new SirenOfShameSettings();
             }
-            
-            _settings.TryUpgrade();
+
+            TryUpgrade();
 
             SetRightMenu(RightMenu.NewsFeed);
 
@@ -246,6 +246,12 @@ namespace SirenOfShame
             SetMuteButton();
             _buildStats.InitializeBuildHistoryChart();
             _buildDefinitions.SetSortColumn(_settings);
+        }
+
+        private void TryUpgrade()
+        {
+            Avatar avatar = new Avatar();
+            _settings.TryUpgrade(avatar.AvatarCount);
         }
 
         private RulesEngine RulesEngine

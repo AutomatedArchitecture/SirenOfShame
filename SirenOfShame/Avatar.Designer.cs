@@ -80,7 +80,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Avatar";
             this.Size = new System.Drawing.Size(75, 92);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Avatar_Paint);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.AvatarPaint);
             this.ResumeLayout(false);
 
         }

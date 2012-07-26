@@ -198,6 +198,7 @@
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
     <Compile Include="Settings\UpdateLocation.cs" />
+    <Compile Include="Settings\Upgrades\Upgrade5To6.cs" />
     <Compile Include="Settings\Upgrades\Upgrade1To2.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3.cs" />
     <Compile Include="Settings\Upgrades\Upgrade3To4.cs" />

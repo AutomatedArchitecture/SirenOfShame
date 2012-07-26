@@ -17,6 +17,7 @@ namespace SirenOfShame.Lib.Settings
         public List<AchievementSetting> Achievements { get; set; }
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
+        public int AvatarId { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime

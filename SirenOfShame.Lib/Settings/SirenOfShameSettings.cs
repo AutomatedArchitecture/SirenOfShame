@@ -224,7 +224,7 @@ namespace SirenOfShame.Lib.Settings
             return defaultSettings;
         }
 
-        public void TryUpgrade()
+        public void TryUpgrade(int avatarCount)
         {
             var upgrades = new UpgradeBase[]
                                {
@@ -233,6 +233,7 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade2To3(),
                                    new Upgrade3To4(),
                                    new Upgrade4To5(), 
+                                   new Upgrade5To6(avatarCount)
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
