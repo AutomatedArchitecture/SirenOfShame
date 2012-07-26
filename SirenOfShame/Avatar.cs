@@ -25,5 +25,10 @@ namespace SirenOfShame
         {
             label1.ImageIndex = user.AvatarId;
         }
+
+        private void Label1Click(object sender, System.EventArgs e)
+        {
+            OnClick(e);
+        }
     }
 }

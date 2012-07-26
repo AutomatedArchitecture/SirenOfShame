@@ -11,6 +11,14 @@ namespace SirenOfShame
         readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
         private DateTime EventDate { get; set; }
+        private readonly string _rawUserName;
+        public event UserClicked OnUserClicked;
+
+        private void InvokeOnOnUserClicked()
+        {
+            UserClicked handler = OnUserClicked;
+            if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
+        }
 
         public NewsItem(PersonSetting user, string checkinComment, DateTime date)
         {
@@ -23,6 +31,7 @@ namespace SirenOfShame
             richTextBox1.SelectedText = "\r\n" + checkinComment;
 
             avatar1.SetPerson(user);
+            _rawUserName = user.RawName;
 
             EventDate = date;
             _eventDate.Text = date.PrettyDate();
@@ -50,5 +59,17 @@ namespace SirenOfShame
         {
             return Height >= GetIdealHeight();
         }
+
+        private void Avatar1Click(object sender, EventArgs e)
+        {
+            InvokeOnOnUserClicked();
+        }
+    }
+
+    public delegate void UserClicked(object sender, UserClickedArgs args);
+
+    public class UserClickedArgs
+    {
+        public string RawUserName { get; set; }
     }
 }

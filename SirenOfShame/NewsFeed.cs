@@ -8,6 +8,14 @@ namespace SirenOfShame
 {
     public partial class NewsFeed : UserControl
     {
+        public event UserClicked OnUserClicked;
+
+        private void InvokeOnOnUserClicked(UserClickedArgs args)
+        {
+            UserClicked handler = OnUserClicked;
+            if (handler != null) handler(this, args);
+        }
+
         private int IncreaseWithEase(int oldValue, int destination)
         {
             int newValue = (int)(Math.Pow(oldValue, 1.6)) + 2;
@@ -70,10 +78,16 @@ namespace SirenOfShame
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
             var newsItem = new NewsItem(args.Person, args.Title, args.EventDate) { Dock = DockStyle.Top };
+            newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             Controls.Add(newsItem);
             newsItem.Height = 2;
             _newsItemsToOpen.Add(newsItem);
             _newsItemHeightAnimator.Start();
+        }
+
+        private void NewsItemOnOnUserClicked(object sender, UserClickedArgs args)
+        {
+            InvokeOnOnUserClicked(args);
         }
     }
 }

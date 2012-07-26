@@ -50,6 +50,7 @@ namespace SirenOfShame
             _userList.OnUserSelected += UsersListOnOnUserSelected;
             _userList.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
             _userList.Settings = _settings;
+            _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
             
             if (SirenOfShameDevice.IsConnected)
             {
@@ -75,6 +76,11 @@ namespace SirenOfShame
             }
         }
 
+        private void NewsFeedOnOnUserClicked(object sender, UserClickedArgs args)
+        {
+            ShowViewUserPage(args.RawUserName);
+        }
+
         private void UsersListOnOnUserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args)
         {
             _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
@@ -84,6 +90,11 @@ namespace SirenOfShame
         private void UsersListOnOnUserSelected(object sender, UserSelectedArgs args)
         {
             var rawName = args.RawName;
+            ShowViewUserPage(rawName);
+        }
+
+        private void ShowViewUserPage(string rawName)
+        {
             var aUserIsSelected = rawName != null;
             _buildDefinitions.Visible = !aUserIsSelected;
             viewUser1.Visible = aUserIsSelected;
