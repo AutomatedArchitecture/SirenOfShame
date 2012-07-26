@@ -92,6 +92,7 @@
     <Compile Include="Watcher\FakeRulesEngine.cs" />
     <Compile Include="Watcher\FakeWebClient.cs" />
     <Compile Include="Watcher\NewAlertEventArgsTest.cs" />
+    <Compile Include="Watcher\NewNewsItemEventArgsTest.cs" />
     <Compile Include="Watcher\RulesEngineTest.cs" />
     <Compile Include="Watcher\RulesEngineWrapper.cs" />
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />

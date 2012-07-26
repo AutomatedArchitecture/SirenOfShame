@@ -306,8 +306,7 @@ namespace SirenOfShame.Lib.Settings
 
         public PersonSetting FindAddPerson(string requestedBy)
         {
-            if (People == null) People = new List<PersonSetting>();
-            var person = People.FirstOrDefault(i => i.RawName == requestedBy);
+            var person = FindPersonByRawName(requestedBy);
             if (person != null) return person;
             person = new PersonSetting
             {
@@ -318,6 +317,13 @@ namespace SirenOfShame.Lib.Settings
             };
             People.Add(person);
             Save();
+            return person;
+        }
+
+        public PersonSetting FindPersonByRawName(string rawName)
+        {
+            if (People == null) People = new List<PersonSetting>();
+            var person = People.FirstOrDefault(i => i.RawName == rawName);
             return person;
         }
 

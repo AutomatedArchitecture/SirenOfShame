@@ -46,13 +46,13 @@ namespace SirenOfShame.Lib.Watcher
                 buildStatus.RequestedBy,
             };
             string contents = string.Join(",", items) + "\r\n";
-            string location = GetLocation(buildStatus);
+            string location = GetBuildLocation(buildStatus);
             Write(location, contents);
         }
 
-        private string GetLocation(BuildStatus buildStatus)
+        private string GetBuildLocation(BuildStatus buildStatus)
         {
-            return GetLocation(buildStatus.BuildDefinitionId);
+            return GetBuildLocation(buildStatus.BuildDefinitionId);
         }
 
         protected static string RemoveIllegalCharacters(string s)
@@ -62,12 +62,17 @@ namespace SirenOfShame.Lib.Watcher
             return r.Replace(s, "");
         }
         
-        private string GetLocation(BuildDefinitionSetting buildDefinition)
+        private string GetBuildLocation(BuildDefinitionSetting buildDefinition)
         {
-            return GetLocation(buildDefinition.Id);
+            return GetBuildLocation(buildDefinition.Id);
         }
         
-        private string GetLocation(string buildDefinitionId)
+        private string GetEventsLocation()
+        {
+            return _folder + "\\SirenOfShameEvents.txt";
+        }
+        
+        private string GetBuildLocation(string buildDefinitionId)
         {
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
@@ -82,7 +87,7 @@ namespace SirenOfShame.Lib.Watcher
         
         protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
-            string location = GetLocation(buildDefinitionSetting);
+            string location = GetBuildLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             return lines.Select(l => l.Split(','))
@@ -99,7 +104,7 @@ namespace SirenOfShame.Lib.Watcher
         
         public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
         {
-            string location = GetLocation(buildDefinitionSetting);
+            string location = GetBuildLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
@@ -123,6 +128,26 @@ namespace SirenOfShame.Lib.Watcher
             var buildsAsExport = buildsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
             var result = string.Join("\r\n", buildsAsExport);
             return string.IsNullOrEmpty(result) ? null : result;
+        }
+
+        public void ExportNewNewsItem(NewNewsItemEventArgs args)
+        {
+            var location = GetEventsLocation();
+            string contents = args.AsCommaSeparated() + "\r\n";
+            File.AppendAllText(location, contents);
+        }
+
+        public List<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet)
+        {
+            var location = GetEventsLocation();
+            if (!File.Exists(location)) return new List<NewNewsItemEventArgs>();
+            string[] lines = File.ReadAllLines(location);
+            return lines
+                .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
+                .Where(i => i != null)
+                .Reverse()
+                .Take(newsItemsToGet)
+                .ToList();
         }
     }
 }

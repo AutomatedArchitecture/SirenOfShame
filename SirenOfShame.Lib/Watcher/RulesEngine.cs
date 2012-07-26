@@ -45,9 +45,11 @@ namespace SirenOfShame.Lib.Watcher
         public event NewAchievementEvent NewAchievement;
         public event NewNewsItemEvent NewNewsItem;
 
-        public void InvokeNewNewsItem(NewNewsItemEventArgs args)
+        public void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
         {
             var newNewsItem = NewNewsItem;
+            if (newsIsBothLocalAndNew)
+                SosDb.ExportNewNewsItem(args);
             if (newNewsItem != null) newNewsItem(this, args);
         }
 
@@ -157,7 +159,7 @@ namespace SirenOfShame.Lib.Watcher
                 .Select(i => i.ChangedBuildStatus.AsNewsItemEventArgs(i.PreviousWorkingOrBrokenBuildStatus.Value, _settings))
 // ReSharper restore PossibleInvalidOperationException
                 .ToList()
-                .ForEach(InvokeNewNewsItem);
+                .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: true));
         }
 
         private void WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
@@ -460,6 +462,18 @@ namespace SirenOfShame.Lib.Watcher
                 InvokeUpdateStatusBar("");
                 InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
             }
+
+            RetrieveAndFireOldNewsItems(initialStart);
+        }
+
+        private void RetrieveAndFireOldNewsItems(bool initialStart)
+        {
+            if (!initialStart) return;
+            var newsItems = SosDb.GetMostRecentNewsItems(_settings, 10);
+            newsItems
+                .OrderBy(i => i.EventDate)
+                .ToList()
+                .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: false));
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)
