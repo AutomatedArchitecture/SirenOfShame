@@ -12,6 +12,44 @@ namespace SirenOfShame.Test.Unit.Settings
     public class SirenOfShameSettingsTest
     {
         [TestMethod]
+        public void AvatarCountConstIsCorrect()
+        {
+            var avatar = new Avatar();
+            Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT, avatar.AvatarCount);
+        }
+
+        [TestMethod]
+        public void FindAddUser_SecondUser_AvatarIdIsTwo()
+        {
+            var settings = new SirenOfShameSettingsFake
+            {
+                People = new List<PersonSetting>
+                {
+                    new PersonSetting {RawName = "Bob"}
+                }
+            };
+            settings.FindAddPerson("Sam");
+            Assert.AreEqual(2, settings.People.Count);
+            Assert.AreEqual(1, settings.People[1].AvatarId);
+        }
+
+        [TestMethod]
+        public void FindAddUser_ThirdUserWithTwoAvatars_NewUserAvatarIdLoopsToZero()
+        {
+            var settings = new SirenOfShameSettingsFake
+            {
+                People = new List<PersonSetting>
+                {
+                    new PersonSetting {RawName = "Bob"},
+                    new PersonSetting {RawName = "Sam"}
+                }
+            };
+            settings.FindAddPerson("Sally", 2);
+            Assert.AreEqual(3, settings.People.Count);
+            Assert.AreEqual(0, settings.People[2].AvatarId);
+        }
+
+        [TestMethod]
         public void ExportNewAchievements_InitialExportWithNoAchievements_Null()
         {
             var settings = new SirenOfShameSettingsFake

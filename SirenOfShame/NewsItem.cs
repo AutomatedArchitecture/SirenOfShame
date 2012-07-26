@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
 {
@@ -11,22 +12,20 @@ namespace SirenOfShame
 
         private DateTime EventDate { get; set; }
 
-        public NewsItem(string userName, string checkinComment, DateTime date)
+        public NewsItem(PersonSetting user, string checkinComment, DateTime date)
         {
             InitializeComponent();
 
             richTextBox1.Clear();
             richTextBox1.SelectionFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            richTextBox1.SelectedText = userName;
+            richTextBox1.SelectedText = user.DisplayName;
             richTextBox1.SelectionFont = _regularFont;
             richTextBox1.SelectedText = "\r\n" + checkinComment;
 
+            avatar1.SetPerson(user);
+
             EventDate = date;
             _eventDate.Text = date.PrettyDate();
-        }
-
-        public NewsItem() : this("Joe Ferner", " started a build with a comment of \"Fixing Lee's bunk check-in from yesterday\"", DateTime.Now)
-        {
         }
 
         public void RecalculatePrettyDate()

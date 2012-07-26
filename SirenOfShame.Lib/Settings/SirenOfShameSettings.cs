@@ -16,6 +16,8 @@ namespace SirenOfShame.Lib.Settings
     [Serializable]
     public class SirenOfShameSettings
     {
+        public const int AVATAR_COUNT = 21;
+
         [Import(typeof(ISirenOfShameDevice))]
         private ISirenOfShameDevice SirenOfShameDevice { get; set; }
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
@@ -224,7 +226,7 @@ namespace SirenOfShame.Lib.Settings
             return defaultSettings;
         }
 
-        public void TryUpgrade(int avatarCount)
+        public void TryUpgrade()
         {
             var upgrades = new UpgradeBase[]
                                {
@@ -233,7 +235,7 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade2To3(),
                                    new Upgrade3To4(),
                                    new Upgrade4To5(), 
-                                   new Upgrade5To6(avatarCount)
+                                   new Upgrade5To6(AVATAR_COUNT)
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
@@ -307,6 +309,14 @@ namespace SirenOfShame.Lib.Settings
 
         public PersonSetting FindAddPerson(string requestedBy)
         {
+            return FindAddPerson(requestedBy, AVATAR_COUNT);
+        }
+        
+        /// <summary>
+        /// This overload is just for testing. I should mark it virtual or make AVATAR_COUNT not const, but I'm lazy.
+        /// </summary>
+        public PersonSetting FindAddPerson(string requestedBy, int avatarCount)
+        {
             var person = FindPersonByRawName(requestedBy);
             if (person != null) return person;
             person = new PersonSetting
@@ -314,7 +324,8 @@ namespace SirenOfShame.Lib.Settings
                 DisplayName = requestedBy,
                 RawName = requestedBy,
                 FailedBuilds = 0,
-                TotalBuilds = 0
+                TotalBuilds = 0,
+                AvatarId = People.Count % avatarCount
             };
             People.Add(person);
             Save();

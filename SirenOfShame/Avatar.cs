@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
 {
@@ -18,6 +19,11 @@ namespace SirenOfShame
         private void AvatarPaint(object sender, PaintEventArgs e)
         {
             ControlPaint.DrawBorder(e.Graphics, DisplayRectangle, Color.DarkGray, ButtonBorderStyle.Solid);
+        }
+
+        public void SetPerson(PersonSetting user)
+        {
+            label1.ImageIndex = user.AvatarId;
         }
     }
 }

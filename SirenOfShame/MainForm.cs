@@ -250,8 +250,7 @@ namespace SirenOfShame
 
         private void TryUpgrade()
         {
-            Avatar avatar = new Avatar();
-            _settings.TryUpgrade(avatar.AvatarCount);
+            _settings.TryUpgrade();
         }
 
         private RulesEngine RulesEngine

@@ -14,7 +14,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public void DoUpgrade()
         {
-            TryUpgrade(2);
+            TryUpgrade();
         }
     }
 }
