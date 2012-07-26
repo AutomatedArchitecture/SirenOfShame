@@ -44,6 +44,7 @@
             // _users
             // 
             this._users.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this._users.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._users.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.User,
             this.Reputation});

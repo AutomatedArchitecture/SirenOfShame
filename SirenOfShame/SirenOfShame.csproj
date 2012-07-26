@@ -379,6 +379,7 @@
     <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\gradient33.png" />
+    <None Include="Resources\gradient15.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

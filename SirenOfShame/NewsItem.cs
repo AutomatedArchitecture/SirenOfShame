@@ -43,7 +43,7 @@ namespace SirenOfShame
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int textBoxHeight = (int)Math.Ceiling(size.Height);
 
-                return Margin.Top + Margin.Bottom + textBoxHeight + _eventDate.Height + bottomLine.Height;
+                return Margin.Top + Margin.Bottom + textBoxHeight + _eventDate.Height;
             }
         }
 
