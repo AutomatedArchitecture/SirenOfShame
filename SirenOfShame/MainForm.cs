@@ -231,7 +231,10 @@ namespace SirenOfShame
             }
             
             _settings.TryUpgrade();
-            
+
+            SetRightMenu(RightMenu.NewsFeed);
+
+
             if (_settings.TryToFindOldAchievementsAtNextOpportunity)
             {
                 FindOldAchievements.TryFindOldAchievements(_settings);
@@ -530,14 +533,22 @@ namespace SirenOfShame
                 }
             }
         }
+        
+        const string NEWS_SELECTED_PNG = "NewsSelected.png";
+        const string PERSON_SELECTED_PNG = "PersonSelected.png";
 
         private void SetRightMenu(RightMenu rightMenu)
         {
             _buildStats.Visible = rightMenu == RightMenu.BuildStats;
             _userList.Visible = rightMenu == RightMenu.Users;
             _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
-            _usersButton.ImageKey = _userList.Visible ? "PersonSelected.png" : "PersonDeselected.png";
-            _newsButton.ImageKey = _newsFeed1.Visible ? "NewsSelected.png" : "NewsDeselected.png";
+            ResetRightMenuButtons();
+        }
+
+        private void ResetRightMenuButtons()
+        {
+            _usersButton.ImageKey = _userList.Visible ? PERSON_SELECTED_PNG : "PersonDeselected.png";
+            _newsButton.ImageKey = _newsFeed1.Visible ? NEWS_SELECTED_PNG : "NewsDeselected.png";
         }
 
         private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
@@ -1056,6 +1067,26 @@ namespace SirenOfShame
             _newsButton.Width = halfWidth;
             _usersButton.Width = halfWidth;
             _usersButton.Left = halfWidth;
+        }
+
+        private void NewsButtonMouseEnter(object sender, EventArgs e)
+        {
+            _newsButton.ImageKey = NEWS_SELECTED_PNG;
+        }
+
+        private void UsersButtonMouseEnter(object sender, EventArgs e)
+        {
+            _usersButton.ImageKey = PERSON_SELECTED_PNG;
+        }
+
+        private void NewsButtonMouseLeave(object sender, EventArgs e)
+        {
+            ResetRightMenuButtons();
+        }
+
+        private void UsersButtonMouseLeave(object sender, EventArgs e)
+        {
+            ResetRightMenuButtons();
         }
     }
 }

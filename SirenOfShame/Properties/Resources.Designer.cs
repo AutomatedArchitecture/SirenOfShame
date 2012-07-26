@@ -116,6 +116,13 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap gradient33 {
+            get {
+                object obj = ResourceManager.GetObject("gradient33", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap JoesFavorite3 {
             get {
                 object obj = ResourceManager.GetObject("JoesFavorite3", resourceCulture);
