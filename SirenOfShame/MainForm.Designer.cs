@@ -80,6 +80,15 @@ namespace SirenOfShame {
             this._sirenMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._upgradeFirmwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._panelRight = new System.Windows.Forms.Panel();
+            this._newsFeed1 = new SirenOfShame.NewsFeed();
+            this._buildStats = new SirenOfShame.BuildStats();
+            this._users = new System.Windows.Forms.ListView();
+            this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._rightPanelButtons = new System.Windows.Forms.Panel();
+            this._newsButton = new System.Windows.Forms.Button();
+            this.imageList29 = new System.Windows.Forms.ImageList(this.components);
+            this._usersButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -94,12 +103,6 @@ namespace SirenOfShame {
             this._details = new System.Windows.Forms.LinkLabel();
             this._labelAlert = new System.Windows.Forms.Label();
             this._closeAlert = new System.Windows.Forms.Button();
-            this._newsButton = new System.Windows.Forms.Button();
-            this._usersButton = new System.Windows.Forms.Button();
-            this._rightPanelButtons = new System.Windows.Forms.Panel();
-            this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._users = new System.Windows.Forms.ListView();
             this._buildDefinitions = new SirenOfShame.BuildStatusListView();
             this.name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -108,8 +111,6 @@ namespace SirenOfShame {
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewUser1 = new SirenOfShame.ViewUser();
-            this._newsFeed1 = new SirenOfShame.NewsFeed();
-            this._buildStats = new SirenOfShame.BuildStats();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -123,9 +124,9 @@ namespace SirenOfShame {
             this._configurationMenu.SuspendLayout();
             this._sirenMenu.SuspendLayout();
             this._panelRight.SuspendLayout();
+            this._rightPanelButtons.SuspendLayout();
             this._userMenu.SuspendLayout();
             this._panelAlert.SuspendLayout();
-            this._rightPanelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -672,10 +673,103 @@ namespace SirenOfShame {
             this._panelRight.Controls.Add(this._users);
             this._panelRight.Controls.Add(this._rightPanelButtons);
             this._panelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this._panelRight.Location = new System.Drawing.Point(711, 106);
+            this._panelRight.Location = new System.Drawing.Point(712, 106);
             this._panelRight.Name = "_panelRight";
-            this._panelRight.Size = new System.Drawing.Size(171, 199);
+            this._panelRight.Size = new System.Drawing.Size(170, 199);
             this._panelRight.TabIndex = 38;
+            // 
+            // _newsFeed1
+            // 
+            this._newsFeed1.BackColor = System.Drawing.SystemColors.Window;
+            this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._newsFeed1.Location = new System.Drawing.Point(0, 33);
+            this._newsFeed1.Name = "_newsFeed1";
+            this._newsFeed1.Size = new System.Drawing.Size(170, 166);
+            this._newsFeed1.TabIndex = 10;
+            // 
+            // _buildStats
+            // 
+            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildStats.Location = new System.Drawing.Point(0, 33);
+            this._buildStats.Name = "_buildStats";
+            this._buildStats.Size = new System.Drawing.Size(170, 166);
+            this._buildStats.TabIndex = 8;
+            // 
+            // _users
+            // 
+            this._users.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this._users.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.User,
+            this.Reputation});
+            this._users.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._users.LabelEdit = true;
+            this._users.Location = new System.Drawing.Point(0, 33);
+            this._users.Name = "_users";
+            this._users.Size = new System.Drawing.Size(170, 166);
+            this._users.TabIndex = 0;
+            this._users.UseCompatibleStateImageBehavior = false;
+            this._users.View = System.Windows.Forms.View.Details;
+            this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
+            this._users.SelectedIndexChanged += new System.EventHandler(this.UsersSelectedIndexChanged);
+            this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
+            // 
+            // User
+            // 
+            this.User.Text = "User";
+            this.User.Width = 80;
+            // 
+            // Reputation
+            // 
+            this.Reputation.Text = "Reputation";
+            this.Reputation.Width = 75;
+            // 
+            // _rightPanelButtons
+            // 
+            this._rightPanelButtons.BackColor = System.Drawing.SystemColors.Window;
+            this._rightPanelButtons.Controls.Add(this._newsButton);
+            this._rightPanelButtons.Controls.Add(this._usersButton);
+            this._rightPanelButtons.Dock = System.Windows.Forms.DockStyle.Top;
+            this._rightPanelButtons.Location = new System.Drawing.Point(0, 0);
+            this._rightPanelButtons.Name = "_rightPanelButtons";
+            this._rightPanelButtons.Size = new System.Drawing.Size(170, 33);
+            this._rightPanelButtons.TabIndex = 9;
+            this._rightPanelButtons.Resize += new System.EventHandler(this.RightPanelButtonsResize);
+            // 
+            // _newsButton
+            // 
+            this._newsButton.FlatAppearance.BorderSize = 0;
+            this._newsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._newsButton.ImageKey = "NewsDeselected.png";
+            this._newsButton.ImageList = this.imageList29;
+            this._newsButton.Location = new System.Drawing.Point(0, 0);
+            this._newsButton.Name = "_newsButton";
+            this._newsButton.Size = new System.Drawing.Size(85, 29);
+            this._newsButton.TabIndex = 1;
+            this._newsButton.UseVisualStyleBackColor = true;
+            this._newsButton.Click += new System.EventHandler(this.NewsButtonClick);
+            // 
+            // imageList29
+            // 
+            this.imageList29.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList29.ImageStream")));
+            this.imageList29.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList29.Images.SetKeyName(0, "NewsDeselected.png");
+            this.imageList29.Images.SetKeyName(1, "NewsSelected.png");
+            this.imageList29.Images.SetKeyName(2, "PersonDeselected.png");
+            this.imageList29.Images.SetKeyName(3, "PersonSelected.png");
+            // 
+            // _usersButton
+            // 
+            this._usersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._usersButton.FlatAppearance.BorderSize = 0;
+            this._usersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._usersButton.ImageKey = "PersonSelected.png";
+            this._usersButton.ImageList = this.imageList29;
+            this._usersButton.Location = new System.Drawing.Point(91, 0);
+            this._usersButton.Name = "_usersButton";
+            this._usersButton.Size = new System.Drawing.Size(79, 29);
+            this._usersButton.TabIndex = 0;
+            this._usersButton.UseVisualStyleBackColor = true;
+            this._usersButton.Click += new System.EventHandler(this.UsersButtonClick);
             // 
             // label8
             // 
@@ -722,7 +816,7 @@ namespace SirenOfShame {
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(708, 106);
+            this.splitter1.Location = new System.Drawing.Point(709, 106);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(3, 199);
             this.splitter1.TabIndex = 39;
@@ -817,65 +911,6 @@ namespace SirenOfShame {
             this._closeAlert.UseVisualStyleBackColor = false;
             this._closeAlert.Click += new System.EventHandler(this.CloseAlertClick);
             // 
-            // _newsButton
-            // 
-            this._newsButton.Location = new System.Drawing.Point(10, 4);
-            this._newsButton.Name = "_newsButton";
-            this._newsButton.Size = new System.Drawing.Size(58, 23);
-            this._newsButton.TabIndex = 0;
-            this._newsButton.Text = "News";
-            this._newsButton.UseVisualStyleBackColor = true;
-            this._newsButton.Click += new System.EventHandler(this.NewsButtonClick);
-            // 
-            // _usersButton
-            // 
-            this._usersButton.Location = new System.Drawing.Point(75, 4);
-            this._usersButton.Name = "_usersButton";
-            this._usersButton.Size = new System.Drawing.Size(75, 23);
-            this._usersButton.TabIndex = 1;
-            this._usersButton.Text = "Users";
-            this._usersButton.UseVisualStyleBackColor = true;
-            this._usersButton.Click += new System.EventHandler(this.UsersButtonClick);
-            // 
-            // _rightPanelButtons
-            // 
-            this._rightPanelButtons.BackColor = System.Drawing.SystemColors.Window;
-            this._rightPanelButtons.Controls.Add(this._usersButton);
-            this._rightPanelButtons.Controls.Add(this._newsButton);
-            this._rightPanelButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this._rightPanelButtons.Location = new System.Drawing.Point(0, 0);
-            this._rightPanelButtons.Name = "_rightPanelButtons";
-            this._rightPanelButtons.Size = new System.Drawing.Size(171, 31);
-            this._rightPanelButtons.TabIndex = 9;
-            // 
-            // User
-            // 
-            this.User.Text = "User";
-            this.User.Width = 80;
-            // 
-            // Reputation
-            // 
-            this.Reputation.Text = "Reputation";
-            this.Reputation.Width = 75;
-            // 
-            // _users
-            // 
-            this._users.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this._users.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.User,
-            this.Reputation});
-            this._users.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._users.LabelEdit = true;
-            this._users.Location = new System.Drawing.Point(0, 31);
-            this._users.Name = "_users";
-            this._users.Size = new System.Drawing.Size(171, 168);
-            this._users.TabIndex = 0;
-            this._users.UseCompatibleStateImageBehavior = false;
-            this._users.View = System.Windows.Forms.View.Details;
-            this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
-            this._users.SelectedIndexChanged += new System.EventHandler(this.UsersSelectedIndexChanged);
-            this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
-            // 
             // _buildDefinitions
             // 
             this._buildDefinitions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -890,7 +925,7 @@ namespace SirenOfShame {
             listViewItem1});
             this._buildDefinitions.Location = new System.Drawing.Point(0, 106);
             this._buildDefinitions.Name = "_buildDefinitions";
-            this._buildDefinitions.Size = new System.Drawing.Size(708, 199);
+            this._buildDefinitions.Size = new System.Drawing.Size(709, 199);
             this._buildDefinitions.SmallImageList = this.balls;
             this._buildDefinitions.TabIndex = 36;
             this._buildDefinitions.UseCompatibleStateImageBehavior = false;
@@ -928,7 +963,7 @@ namespace SirenOfShame {
             // comment
             // 
             this.comment.Text = "Comment";
-            this.comment.Width = 250;
+            this.comment.Width = 158;
             // 
             // viewUser1
             // 
@@ -937,24 +972,8 @@ namespace SirenOfShame {
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 106);
             this.viewUser1.Name = "viewUser1";
-            this.viewUser1.Size = new System.Drawing.Size(708, 199);
+            this.viewUser1.Size = new System.Drawing.Size(709, 199);
             this.viewUser1.TabIndex = 41;
-            // 
-            // _newsFeed1
-            // 
-            this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsFeed1.Location = new System.Drawing.Point(0, 31);
-            this._newsFeed1.Name = "_newsFeed1";
-            this._newsFeed1.Size = new System.Drawing.Size(171, 168);
-            this._newsFeed1.TabIndex = 10;
-            // 
-            // _buildStats
-            // 
-            this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildStats.Location = new System.Drawing.Point(0, 31);
-            this._buildStats.Name = "_buildStats";
-            this._buildStats.Size = new System.Drawing.Size(171, 168);
-            this._buildStats.TabIndex = 8;
             // 
             // MainForm
             // 
@@ -990,10 +1009,10 @@ namespace SirenOfShame {
             this._configurationMenu.ResumeLayout(false);
             this._sirenMenu.ResumeLayout(false);
             this._panelRight.ResumeLayout(false);
+            this._rightPanelButtons.ResumeLayout(false);
             this._userMenu.ResumeLayout(false);
             this._panelAlert.ResumeLayout(false);
             this._panelAlert.PerformLayout();
-            this._rightPanelButtons.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1077,9 +1096,10 @@ namespace SirenOfShame {
       private System.Windows.Forms.ColumnHeader User;
       private System.Windows.Forms.ColumnHeader Reputation;
       private System.Windows.Forms.Panel _rightPanelButtons;
-      private System.Windows.Forms.Button _usersButton;
       private System.Windows.Forms.Button _newsButton;
+      private System.Windows.Forms.Button _usersButton;
       private NewsFeed _newsFeed1;
+      private System.Windows.Forms.ImageList imageList29;
 	}
 }
 

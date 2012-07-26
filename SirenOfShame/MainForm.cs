@@ -523,6 +523,8 @@ namespace SirenOfShame
             _buildStats.Visible = rightMenu == RightMenu.BuildStats;
             _users.Visible = rightMenu == RightMenu.Users;
             _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
+            _usersButton.ImageKey = _users.Visible ? "PersonSelected.png" : "PersonDeselected.png";
+            _newsButton.ImageKey = _newsFeed1.Visible ? "NewsSelected.png" : "NewsDeselected.png";
         }
 
         private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
@@ -1170,14 +1172,21 @@ namespace SirenOfShame
             }
         }
 
+        private void NewsButtonClick(object sender, EventArgs e)
+        {
+            SetRightMenu(RightMenu.NewsFeed);
+        }
+
         private void UsersButtonClick(object sender, EventArgs e)
         {
             SetRightMenu(RightMenu.Users);
         }
 
-        private void NewsButtonClick(object sender, EventArgs e)
+        private void RightPanelButtonsResize(object sender, EventArgs e)
         {
-            SetRightMenu(RightMenu.NewsFeed);
+            var halfWidth = _rightPanelButtons.Width/2;
+            _newsButton.Width = halfWidth;
+            _usersButton.Width = halfWidth;
         }
     }
 }
