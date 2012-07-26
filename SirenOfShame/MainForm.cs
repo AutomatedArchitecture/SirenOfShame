@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -31,8 +30,7 @@ namespace SirenOfShame
         private readonly bool _canViewLogs;
         readonly SosDb _sosDb = new SosDb();
         readonly Timer _showAlertAnimation = new Timer();
-        readonly Timer _flashListViewItemTimer = new Timer();
-        
+
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
@@ -47,10 +45,11 @@ namespace SirenOfShame
             viewUser1.OnClose += ViewUserOnClose;
             _buildStats.OnClose += BuildStatsOnClose;
             viewUser1.Initilaize(_settings);
-            _flashListViewItemTimer.Interval = 100;
-            _flashListViewItemTimer.Tick += FlashListViewItemTimerTick;
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
+            _userList.OnUserSelected += UsersListOnOnUserSelected;
+            _userList.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
+            _userList.Settings = _settings;
             
             if (SirenOfShameDevice.IsConnected)
             {
@@ -73,6 +72,25 @@ namespace SirenOfShame
             {
                 _viewLog.Enabled = false;
                 _canViewLogs = false;
+            }
+        }
+
+        private void UsersListOnOnUserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args)
+        {
+            _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
+            _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
+        }
+
+        private void UsersListOnOnUserSelected(object sender, UserSelectedArgs args)
+        {
+            var rawName = args.RawName;
+            var aUserIsSelected = rawName != null;
+            _buildDefinitions.Visible = !aUserIsSelected;
+            viewUser1.Visible = aUserIsSelected;
+            if (aUserIsSelected)
+            {
+                var selectedPerson = _settings.People.First(i => i.RawName == rawName);
+                viewUser1.SetUser(selectedPerson);
             }
         }
 
@@ -126,14 +144,13 @@ namespace SirenOfShame
             return listViewItem;
         }
 
-        private static ListViewItem.ListViewSubItem AddSubItem(ListViewItem lvi, string name, string value)
+        private static void AddSubItem(ListViewItem lvi, string name, string value)
         {
             var subItem = new ListViewItem.ListViewSubItem(lvi, value)
             {
                 Name = name
             };
             lvi.SubItems.Add(subItem);
-            return subItem;
         }
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
@@ -280,11 +297,7 @@ namespace SirenOfShame
                 {
                     NewAchievement.ShowForm(_settings, achievement, args.Person, this, modal: false);
                 }
-                foreach (ListViewItem listItem in _users.Items)
-                {
-                    if ((string) listItem.Tag == args.Person.RawName)
-                        listItem.Selected = true;
-                }
+                _userList.SelectUser(args.Person);
             });
         }
 
@@ -521,9 +534,9 @@ namespace SirenOfShame
         private void SetRightMenu(RightMenu rightMenu)
         {
             _buildStats.Visible = rightMenu == RightMenu.BuildStats;
-            _users.Visible = rightMenu == RightMenu.Users;
+            _userList.Visible = rightMenu == RightMenu.Users;
             _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
-            _usersButton.ImageKey = _users.Visible ? "PersonSelected.png" : "PersonDeselected.png";
+            _usersButton.ImageKey = _userList.Visible ? "PersonSelected.png" : "PersonDeselected.png";
             _newsButton.ImageKey = _newsFeed1.Visible ? "NewsSelected.png" : "NewsDeselected.png";
         }
 
@@ -539,58 +552,11 @@ namespace SirenOfShame
             _buildStats.SetStats(count, failed, percentFailed);
         }
 
-        private readonly List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
-
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
-            _users.Items.Clear();
-            var filteredPeople = _showAllPeople ? _settings.People : _settings.VisiblePeople;
-            var personSettings = filteredPeople
-                .Select(i => new {i.RawName, i.DisplayName, Reputation = i.GetReputation()})
-                .OrderByDescending(i => i.Reputation);
-            foreach (var person in personSettings)
-            {
-                BuildStatus newlyChangedBuildStatus = changedBuildStatuses == null ? null : changedBuildStatuses.FirstOrDefault(i => i.RequestedBy == person.RawName);
-                bool newlyChanged = newlyChangedBuildStatus != null;
-
-                ListViewItem lvi = new ListViewItem(person.DisplayName) {UseItemStyleForSubItems = false};
-                string reputation = GetReputation(person.Reputation, newlyChangedBuildStatus);
-                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", reputation);
-                if (newlyChanged)
-                    FlashListViewSubItem(subItem);
-                lvi.Tag = person.RawName;
-                _users.Items.Add(lvi);
-            }
-            _flashListViewItemTimer.Start();
+            _userList.RefreshUserStats(changedBuildStatuses);
         }
 
-        private static string GetReputation(int reputation, BuildStatus newlyChangedBuildStatus)
-        {
-            string reputationStr = reputation.ToString(CultureInfo.InvariantCulture);
-            if (newlyChangedBuildStatus == null) return reputationStr;
-            string delta = newlyChangedBuildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? "-4" : "+1";
-            return string.Format("{0} ({1})", reputationStr, delta);
-        }
-
-        private void FlashListViewSubItem(ListViewItem.ListViewSubItem lvi)
-        {
-            lvi.ForeColor = Color.Red;
-            _listViewItemsToFlash.Add(lvi);
-            if (!_flashListViewItemTimer.Enabled)
-            {
-                _flashListViewItemTimer.Start();
-            }
-        }
-
-        private PersonSetting GetActivePerson()
-        {
-            var listViewItem = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return null;
-
-            var rawName = (string)listViewItem.Tag;
-            return _settings.People.FirstOrDefault(u => u.RawName == rawName);
-        }
-        
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
             var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
@@ -972,37 +938,6 @@ namespace SirenOfShame
             RefreshStats(null);
         }
 
-        private void UsersMouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Right) return;
-            ListViewItem lvi = GetSelectedUser();
-            var anyUserSelected = lvi != null;
-            _editUserName.Visible = anyUserSelected;
-            _hideUser.Visible = anyUserSelected;
-            if (anyUserSelected)
-            {
-                var person = GetActivePerson();
-                _hideUser.Text = person.Hidden ? "Show" : "Hide";
-            }
-            _userMenu.Show(_users, e.X, e.Y);
-        }
-
-        private ListViewItem GetSelectedUser()
-        {
-            return _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-        }
-
-        private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
-        {
-            var activePerson = GetActivePerson();
-            if (activePerson == null) return;
-            activePerson.DisplayName = e.Label;
-            _settings.Save();
-
-            _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
-            _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
-        }
-
         FullScreenBuildStatus _fullScreenBuildStatus = null;
 
         private void FullscreenClick(object sender, EventArgs e)
@@ -1020,30 +955,6 @@ namespace SirenOfShame
         private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
         {
             _fullScreenBuildStatus = null;
-        }
-
-        private void EditUserNameClick(object sender, EventArgs e)
-        {
-            ListViewItem lvi = GetSelectedUser();
-            if (lvi != null)
-                lvi.BeginEdit();
-        }
-
-        private void HideUserClick(object sender, EventArgs e)
-        {
-            var activePerson = GetActivePerson();
-            if (activePerson == null) return;
-            activePerson.Hidden = !activePerson.Hidden;
-            _settings.Save();
-            RefreshUserStats(null);
-        }
-
-        private bool _showAllPeople = false;
-        
-        private void ShowAllUsersCheckedChanged(object sender, EventArgs e)
-        {
-            _showAllPeople = _showAllUsers.Checked;
-            RefreshUserStats(null);
         }
 
         private void MuteClick(object sender, EventArgs e)
@@ -1069,31 +980,6 @@ namespace SirenOfShame
 
         int _panelAlertHeight;
 
-        private void FlashListViewItemTimerTick(object sender, EventArgs e)
-        {
-            if (!_listViewItemsToFlash.Any() || _listViewItemsToFlash.All(i => i.ForeColor.R == 0))
-            {
-                _listViewItemsToFlash.Clear();
-                _flashListViewItemTimer.Stop();
-            }
-
-            foreach (var listViewSubItem in _listViewItemsToFlash)
-            {
-                var existingColor = listViewSubItem.ForeColor;
-                const int amountToDecrement = 3;
-                var newRed = Math.Max(0, existingColor.R - amountToDecrement);
-                var newGreen = Math.Max(0, existingColor.G - amountToDecrement);
-                var newBlue = Math.Max(0, existingColor.B - amountToDecrement);
-                listViewSubItem.ForeColor = Color.FromArgb(newRed, newGreen, newBlue);
-                bool isBlack = newRed == 0 && newGreen == 0 && newBlue == 0;
-                bool containsDelta = listViewSubItem.Text.Contains(" ");
-                if (isBlack && containsDelta)
-                {
-                    listViewSubItem.Text = listViewSubItem.Text.Split(' ').First();
-                }
-            }
-        }
-        
         private void ShowAlertAnimationTick(object sender, EventArgs e)
         {
             bool hideAlert = !_showAlert;
@@ -1145,31 +1031,13 @@ namespace SirenOfShame
 
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {
-            // sometimes the view user is displayed but the selected items gets unselected so here's a little hack to ensure we hide the user page
-            if (_users.SelectedItems.Count == 0 && _users.Items.Count >= 1)
-            {
-                _users.Items[0].Selected = true;
-            }
-            _users.SelectedItems.Clear();
+            _userList.DeselectAllUsers();
         }
 
         private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)
         {
             var exception = (Exception) _toolStripSplitErrorButton.Tag;
             ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
-        }
-
-        private void UsersSelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedUser = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            var aUserIsSelected = selectedUser != null;
-            _buildDefinitions.Visible = !aUserIsSelected;
-            viewUser1.Visible = aUserIsSelected;
-            if (aUserIsSelected)
-            {
-                var selectedPerson = _settings.People.First(i => i.RawName == (string) selectedUser.Tag);
-                viewUser1.SetUser(selectedPerson);
-            }
         }
 
         private void NewsButtonClick(object sender, EventArgs e)
@@ -1187,6 +1055,7 @@ namespace SirenOfShame
             var halfWidth = _rightPanelButtons.Width/2;
             _newsButton.Width = halfWidth;
             _usersButton.Width = halfWidth;
+            _usersButton.Left = halfWidth;
         }
     }
 }

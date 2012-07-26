@@ -82,9 +82,6 @@ namespace SirenOfShame {
             this._panelRight = new System.Windows.Forms.Panel();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._buildStats = new SirenOfShame.BuildStats();
-            this._users = new System.Windows.Forms.ListView();
-            this.User = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Reputation = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._rightPanelButtons = new System.Windows.Forms.Panel();
             this._newsButton = new System.Windows.Forms.Button();
             this.imageList29 = new System.Windows.Forms.ImageList(this.components);
@@ -94,11 +91,6 @@ namespace SirenOfShame {
             this.label4 = new System.Windows.Forms.Label();
             this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this._userMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._editUserName = new System.Windows.Forms.ToolStripMenuItem();
-            this._hideUser = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this._showAllUsers = new System.Windows.Forms.ToolStripMenuItem();
             this._panelAlert = new System.Windows.Forms.Panel();
             this._details = new System.Windows.Forms.LinkLabel();
             this._labelAlert = new System.Windows.Forms.Label();
@@ -111,6 +103,7 @@ namespace SirenOfShame {
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewUser1 = new SirenOfShame.ViewUser();
+            this._userList = new SirenOfShame.UserList();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -125,7 +118,6 @@ namespace SirenOfShame {
             this._sirenMenu.SuspendLayout();
             this._panelRight.SuspendLayout();
             this._rightPanelButtons.SuspendLayout();
-            this._userMenu.SuspendLayout();
             this._panelAlert.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -668,9 +660,9 @@ namespace SirenOfShame {
             // 
             // _panelRight
             // 
+            this._panelRight.Controls.Add(this._userList);
             this._panelRight.Controls.Add(this._newsFeed1);
             this._panelRight.Controls.Add(this._buildStats);
-            this._panelRight.Controls.Add(this._users);
             this._panelRight.Controls.Add(this._rightPanelButtons);
             this._panelRight.Dock = System.Windows.Forms.DockStyle.Right;
             this._panelRight.Location = new System.Drawing.Point(712, 106);
@@ -694,34 +686,6 @@ namespace SirenOfShame {
             this._buildStats.Name = "_buildStats";
             this._buildStats.Size = new System.Drawing.Size(170, 166);
             this._buildStats.TabIndex = 8;
-            // 
-            // _users
-            // 
-            this._users.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this._users.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.User,
-            this.Reputation});
-            this._users.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._users.LabelEdit = true;
-            this._users.Location = new System.Drawing.Point(0, 33);
-            this._users.Name = "_users";
-            this._users.Size = new System.Drawing.Size(170, 166);
-            this._users.TabIndex = 0;
-            this._users.UseCompatibleStateImageBehavior = false;
-            this._users.View = System.Windows.Forms.View.Details;
-            this._users.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.UsersAfterLabelEdit);
-            this._users.SelectedIndexChanged += new System.EventHandler(this.UsersSelectedIndexChanged);
-            this._users.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UsersMouseUp);
-            // 
-            // User
-            // 
-            this.User.Text = "User";
-            this.User.Width = 80;
-            // 
-            // Reputation
-            // 
-            this.Reputation.Text = "Reputation";
-            this.Reputation.Width = 75;
             // 
             // _rightPanelButtons
             // 
@@ -821,43 +785,6 @@ namespace SirenOfShame {
             this.splitter1.Size = new System.Drawing.Size(3, 199);
             this.splitter1.TabIndex = 39;
             this.splitter1.TabStop = false;
-            // 
-            // _userMenu
-            // 
-            this._userMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._editUserName,
-            this._hideUser,
-            this.toolStripSeparator1,
-            this._showAllUsers});
-            this._userMenu.Name = "_userMenu";
-            this._userMenu.Size = new System.Drawing.Size(130, 76);
-            // 
-            // _editUserName
-            // 
-            this._editUserName.Name = "_editUserName";
-            this._editUserName.Size = new System.Drawing.Size(129, 22);
-            this._editUserName.Text = "Edit Name";
-            this._editUserName.Click += new System.EventHandler(this.EditUserNameClick);
-            // 
-            // _hideUser
-            // 
-            this._hideUser.Name = "_hideUser";
-            this._hideUser.Size = new System.Drawing.Size(129, 22);
-            this._hideUser.Text = "Hidden";
-            this._hideUser.Click += new System.EventHandler(this.HideUserClick);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(126, 6);
-            // 
-            // _showAllUsers
-            // 
-            this._showAllUsers.CheckOnClick = true;
-            this._showAllUsers.Name = "_showAllUsers";
-            this._showAllUsers.Size = new System.Drawing.Size(129, 22);
-            this._showAllUsers.Text = "Show All";
-            this._showAllUsers.CheckedChanged += new System.EventHandler(this.ShowAllUsersCheckedChanged);
             // 
             // _panelAlert
             // 
@@ -975,6 +902,16 @@ namespace SirenOfShame {
             this.viewUser1.Size = new System.Drawing.Size(709, 199);
             this.viewUser1.TabIndex = 41;
             // 
+            // _userList
+            // 
+            this._userList.BackColor = System.Drawing.SystemColors.Window;
+            this._userList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._userList.Location = new System.Drawing.Point(0, 33);
+            this._userList.Name = "_userList";
+            this._userList.Settings = null;
+            this._userList.Size = new System.Drawing.Size(170, 166);
+            this._userList.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1010,7 +947,6 @@ namespace SirenOfShame {
             this._sirenMenu.ResumeLayout(false);
             this._panelRight.ResumeLayout(false);
             this._rightPanelButtons.ResumeLayout(false);
-            this._userMenu.ResumeLayout(false);
             this._panelAlert.ResumeLayout(false);
             this._panelAlert.PerformLayout();
             this.ResumeLayout(false);
@@ -1077,11 +1013,6 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _fullscreen;
       private System.Windows.Forms.PictureBox pictureBox4;
       private System.Windows.Forms.Label label5;
-      private System.Windows.Forms.ContextMenuStrip _userMenu;
-      private System.Windows.Forms.ToolStripMenuItem _editUserName;
-      private System.Windows.Forms.ToolStripMenuItem _hideUser;
-      private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-      private System.Windows.Forms.ToolStripMenuItem _showAllUsers;
       private System.Windows.Forms.PictureBox pictureBox5;
       private System.Windows.Forms.Button _mute;
       private System.Windows.Forms.Button _closeAlert;
@@ -1092,14 +1023,12 @@ namespace SirenOfShame {
       private ViewUser viewUser1;
       private System.Windows.Forms.ToolStripDropDownButton _toolStripSplitErrorButton;
       private System.Windows.Forms.Button _sosOnline;
-      private System.Windows.Forms.ListView _users;
-      private System.Windows.Forms.ColumnHeader User;
-      private System.Windows.Forms.ColumnHeader Reputation;
       private System.Windows.Forms.Panel _rightPanelButtons;
       private System.Windows.Forms.Button _newsButton;
       private System.Windows.Forms.Button _usersButton;
       private NewsFeed _newsFeed1;
       private System.Windows.Forms.ImageList imageList29;
+      private UserList _userList;
 	}
 }
 

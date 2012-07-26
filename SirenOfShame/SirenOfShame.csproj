@@ -221,6 +221,12 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserList.Designer.cs">
+      <DependentUpon>UserList.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -311,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeboxEnforcer.resx">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserList.resx">
+      <DependentUpon>UserList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewUser.resx">
       <DependentUpon>ViewUser.cs</DependentUpon>
