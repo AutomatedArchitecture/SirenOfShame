@@ -19,7 +19,7 @@ namespace SirenOfShame
             richTextBox1.SelectionFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             richTextBox1.SelectedText = userName;
             richTextBox1.SelectionFont = _regularFont;
-            richTextBox1.SelectedText = " " + checkinComment;
+            richTextBox1.SelectedText = "\r\n" + checkinComment;
 
             EventDate = date;
             _eventDate.Text = date.PrettyDate();

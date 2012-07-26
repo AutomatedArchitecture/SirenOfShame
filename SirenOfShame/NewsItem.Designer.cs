@@ -31,6 +31,7 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this._eventDate = new System.Windows.Forms.Label();
+            this.avatar1 = new SirenOfShame.Avatar();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,12 +42,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 0);
+            this.richTextBox1.Location = new System.Drawing.Point(53, 0);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.richTextBox1.Size = new System.Drawing.Size(144, 62);
+            this.richTextBox1.Size = new System.Drawing.Size(94, 62);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Joe Ferner just checked in with a comment of \"Fixing Lee\'s bunk check-in\"";
             // 
@@ -75,14 +76,24 @@
             this._eventDate.TabIndex = 2;
             this._eventDate.Text = "59 minutes ago";
             // 
+            // avatar1
+            // 
+            this.avatar1.BackColor = System.Drawing.Color.Transparent;
+            this.avatar1.Location = new System.Drawing.Point(0, 0);
+            this.avatar1.Name = "avatar1";
+            this.avatar1.Size = new System.Drawing.Size(50, 50);
+            this.avatar1.TabIndex = 4;
+            // 
             // NewsItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.avatar1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.richTextBox1);
             this.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.MinimumSize = new System.Drawing.Size(0, 65);
             this.Name = "NewsItem";
             this.Size = new System.Drawing.Size(150, 83);
             this.panel1.ResumeLayout(false);
@@ -95,5 +106,6 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label _eventDate;
+        private Avatar avatar1;
     }
 }

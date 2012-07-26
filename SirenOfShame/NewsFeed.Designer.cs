@@ -37,6 +37,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Name = "NewsFeed";
+            this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.Size = new System.Drawing.Size(254, 237);
             this.Resize += new System.EventHandler(this.NewsFeedResize);
             this.ResumeLayout(false);
