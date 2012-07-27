@@ -16,6 +16,17 @@ namespace SirenOfShame
             if (handler != null) handler(this, args);
         }
 
+        public void ChangeUserAvatarId(string rawUserName, int newImageIndex)
+        {
+            IEnumerable<NewsItem> newsItemControls = NewsItemControlsForUser(rawUserName);
+            newsItemControls.ToList().ForEach(i => i.ChangeImageIndex(newImageIndex));
+        }
+
+        private IEnumerable<NewsItem> NewsItemControlsForUser(string rawUserName)
+        {
+            return GetNewsItemControls().Where(newsItemControl => newsItemControl.RawName == rawUserName);
+        }
+
         private int IncreaseWithEase(int oldValue, int destination)
         {
             int newValue = (int)(Math.Pow(oldValue, 1.6)) + 2;

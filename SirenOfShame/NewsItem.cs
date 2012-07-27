@@ -15,6 +15,15 @@ namespace SirenOfShame
         public event UserClicked OnUserClicked;
         string _lastPrettyDate;
 
+        public string RawName {
+            get { return _rawUserName; }
+        }
+
+        public void ChangeImageIndex(int index)
+        {
+            avatar1.ImageIndex = index;
+        }
+
         private void InvokeOnOnUserClicked()
         {
             UserClicked handler = OnUserClicked;

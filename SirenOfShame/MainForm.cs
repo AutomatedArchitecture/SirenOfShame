@@ -43,6 +43,7 @@ namespace SirenOfShame
             _showAlertAnimation.Interval = 1;
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
             viewUser1.OnClose += ViewUserOnClose;
+            viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
             _buildStats.OnClose += BuildStatsOnClose;
             viewUser1.Initilaize(_settings);
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
@@ -74,6 +75,11 @@ namespace SirenOfShame
                 _viewLog.Enabled = false;
                 _canViewLogs = false;
             }
+        }
+
+        private void ViewUser1OnOnUserChangedAvatarId(object sender, UserChangedAvatarIdArgs args)
+        {
+            _newsFeed1.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
         }
 
         private void NewsFeedOnOnUserClicked(object sender, UserClickedArgs args)

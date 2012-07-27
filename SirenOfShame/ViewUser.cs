@@ -10,8 +10,15 @@ namespace SirenOfShame
     {
         private SirenOfShameSettings _settings;
         public event CloseViewUser OnClose;
+        public event UserChangedAvatarId OnUserChangedAvatarId;
         private PersonSetting _personSetting;
-        
+
+        private void InvokeOnOnUserChangedAvatarId(int newImageIndex)
+        {
+            UserChangedAvatarId handler = OnUserChangedAvatarId;
+            if (handler != null) handler(this, new UserChangedAvatarIdArgs { NewImageIndex = newImageIndex, RawName = _personSetting.RawName });
+        }
+
         public ViewUser()
         {
             InitializeComponent();
@@ -54,21 +61,41 @@ namespace SirenOfShame
 
         private void ChangeAvatarLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            OpenAvatarPicker(_changeAvatar);
+        }
+
+        private void OpenAvatarPicker(Control changeAvatar)
+        {
             avatarPicker = new AvatarPicker();
             avatarPicker.Show(this);
 
-            Point locationOfLink = PointToScreen(_changeAvatar.Location);
-            avatarPicker.Location = new Point(locationOfLink.X + _changeAvatar.Width, locationOfLink.Y + _changeAvatar.Height);
+            Point locationOfLink = PointToScreen(changeAvatar.Location);
+            avatarPicker.Location = new Point(locationOfLink.X + changeAvatar.Width, locationOfLink.Y + changeAvatar.Height);
             avatarPicker.OnAvatarClicked += AvatarPickerOnOnAvatarClicked;
         }
 
         private void AvatarPickerOnOnAvatarClicked(object sender, AvatarClickedArgs args)
         {
             if (_personSetting == null) return;
-            _personSetting.AvatarId = args.Index;
+            int newImageIndex = args.Index;
+            _personSetting.AvatarId = newImageIndex;
             _settings.Save();
-            avatar1.ImageIndex = args.Index;
+            avatar1.ImageIndex = newImageIndex;
+            InvokeOnOnUserChangedAvatarId(newImageIndex);
         }
+
+        private void Avatar1Click(object sender, EventArgs e)
+        {
+            OpenAvatarPicker(avatar1);
+        }
+    }
+
+    public delegate void UserChangedAvatarId(object sender, UserChangedAvatarIdArgs args);
+
+    public class UserChangedAvatarIdArgs
+    {
+        public string RawName { get; set; }
+        public int NewImageIndex { get; set; }
     }
 
     public delegate void CloseViewUser(object sender, CloseViewUserArgs args);

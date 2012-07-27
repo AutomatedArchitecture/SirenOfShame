@@ -79,6 +79,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.label1);
+            this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "Avatar";
             this.Size = new System.Drawing.Size(50, 50);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AvatarPaint);
