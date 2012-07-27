@@ -13,6 +13,7 @@ namespace SirenOfShame
         private DateTime EventDate { get; set; }
         private readonly string _rawUserName;
         public event UserClicked OnUserClicked;
+        string _lastPrettyDate;
 
         private void InvokeOnOnUserClicked()
         {
@@ -29,17 +30,23 @@ namespace SirenOfShame
             richTextBox1.SelectedText = user.DisplayName;
             richTextBox1.SelectionFont = _regularFont;
             richTextBox1.SelectedText = "\r\n" + checkinComment;
+            _lastPrettyDate = date.PrettyDate();
+            richTextBox1.SelectionColor = Color.Gray;
+            richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
 
             avatar1.SetPerson(user);
             _rawUserName = user.RawName;
 
             EventDate = date;
-            _eventDate.Text = date.PrettyDate();
         }
 
         public void RecalculatePrettyDate()
         {
-            _eventDate.Text = EventDate.PrettyDate();
+            var lastPrettyDate = _lastPrettyDate;
+            var newPrettyDate = EventDate.PrettyDate();
+            richTextBox1.Find(lastPrettyDate);
+            richTextBox1.SelectedText = newPrettyDate;
+            _lastPrettyDate = EventDate.PrettyDate();
         }
 
         public int GetIdealHeight()
@@ -51,7 +58,7 @@ namespace SirenOfShame
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int textBoxHeight = (int)Math.Ceiling(size.Height);
 
-                return Margin.Top + Margin.Bottom + textBoxHeight + _eventDate.Height;
+                return Margin.Top + Margin.Bottom + textBoxHeight + panel1.Height;
             }
         }
 
