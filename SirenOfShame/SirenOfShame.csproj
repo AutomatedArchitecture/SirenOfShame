@@ -374,6 +374,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\TrashSmall.png" />
     <EmbeddedResource Include="Resources\Audio-Tada.wav" />
     <None Include="Resources\Play.png" />
     <None Include="Resources\separater.png" />

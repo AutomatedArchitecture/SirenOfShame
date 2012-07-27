@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib.Watcher;
@@ -80,7 +81,7 @@ namespace SirenOfShame
 
         private IEnumerable<NewsItem> GetNewsItemControls()
         {
-            return Controls
+            return _newsItemsPanel.Controls
                 .Cast<Control>()
                 .Select(i => i as NewsItem)
                 .Where(i => i != null);
@@ -90,15 +91,41 @@ namespace SirenOfShame
         {
             var newsItem = new NewsItem(args.Person, args.Title, args.EventDate) { Dock = DockStyle.Top };
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
-            Controls.Add(newsItem);
+            newsItem.MouseEnter += NewsItemOnMouseEnter;
+            _newsItemsPanel.Controls.Add(newsItem);
             newsItem.Height = 2;
             _newsItemsToOpen.Add(newsItem);
             _newsItemHeightAnimator.Start();
         }
 
+        private void NewsItemOnMouseEnter(object sender, EventArgs eventArgs)
+        {
+            EnableMouseScrollWheel();
+        }
+
+        private void EnableMouseScrollWheel()
+        {
+            _newsItemsPanel.Focus();
+        }
+
         private void NewsItemOnOnUserClicked(object sender, UserClickedArgs args)
         {
             InvokeOnOnUserClicked(args);
+        }
+
+        private void ClearNewsClick(object sender, EventArgs e)
+        {
+            _newsItemsPanel.Controls.Clear();
+        }
+
+        private void NewsFeed_MouseEnter(object sender, EventArgs e)
+        {
+            EnableMouseScrollWheel();
+        }
+
+        private void _newsItemsPanel_MouseEnter(object sender, EventArgs e)
+        {
+            EnableMouseScrollWheel();
         }
     }
 }
