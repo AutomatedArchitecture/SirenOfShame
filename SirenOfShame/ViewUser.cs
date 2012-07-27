@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -9,6 +10,7 @@ namespace SirenOfShame
     {
         private SirenOfShameSettings _settings;
         public event CloseViewUser OnClose;
+        private PersonSetting _personSetting;
         
         public ViewUser()
         {
@@ -27,6 +29,7 @@ namespace SirenOfShame
 
         public void SetUser(PersonSetting personSetting)
         {
+            _personSetting = personSetting;
             _userName.Text = personSetting.GetBothDisplayAndRawNames();
             avatar1.SetPerson(personSetting);
             flowLayoutPanel1.Controls.Clear();
@@ -47,9 +50,24 @@ namespace SirenOfShame
             }
         }
 
+        private AvatarPicker avatarPicker;
+
         private void ChangeAvatarLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            avatarPicker = new AvatarPicker();
+            avatarPicker.Show(this);
 
+            Point locationOfLink = PointToScreen(_changeAvatar.Location);
+            avatarPicker.Location = new Point(locationOfLink.X + _changeAvatar.Width, locationOfLink.Y + _changeAvatar.Height);
+            avatarPicker.OnAvatarClicked += AvatarPickerOnOnAvatarClicked;
+        }
+
+        private void AvatarPickerOnOnAvatarClicked(object sender, AvatarClickedArgs args)
+        {
+            if (_personSetting == null) return;
+            _personSetting.AvatarId = args.Index;
+            _settings.Save();
+            avatar1.ImageIndex = args.Index;
         }
     }
 

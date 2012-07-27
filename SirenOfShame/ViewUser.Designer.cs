@@ -33,8 +33,8 @@
             this._closeButton = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this._obtainedTemplate = new System.Windows.Forms.Label();
             this._unobtainedTemplate = new System.Windows.Forms.Label();
+            this._obtainedTemplate = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._changeAvatar = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -89,22 +89,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(559, 229);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
-            // _obtainedTemplate
-            // 
-            this._obtainedTemplate.AutoSize = true;
-            this._obtainedTemplate.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this._obtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._obtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._obtainedTemplate.ForeColor = System.Drawing.SystemColors.Window;
-            this._obtainedTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._obtainedTemplate.Location = new System.Drawing.Point(150, 3);
-            this._obtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
-            this._obtainedTemplate.Name = "_obtainedTemplate";
-            this._obtainedTemplate.Size = new System.Drawing.Size(143, 18);
-            this._obtainedTemplate.TabIndex = 4;
-            this._obtainedTemplate.Text = "Obtained Template";
-            this._obtainedTemplate.Visible = false;
-            // 
             // _unobtainedTemplate
             // 
             this._unobtainedTemplate.AccessibleDescription = "";
@@ -121,6 +105,22 @@
             this._unobtainedTemplate.TabIndex = 5;
             this._unobtainedTemplate.Text = "Unobtained Template";
             this._unobtainedTemplate.Visible = false;
+            // 
+            // _obtainedTemplate
+            // 
+            this._obtainedTemplate.AutoSize = true;
+            this._obtainedTemplate.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this._obtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._obtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._obtainedTemplate.ForeColor = System.Drawing.SystemColors.Window;
+            this._obtainedTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._obtainedTemplate.Location = new System.Drawing.Point(150, 3);
+            this._obtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
+            this._obtainedTemplate.Name = "_obtainedTemplate";
+            this._obtainedTemplate.Size = new System.Drawing.Size(143, 18);
+            this._obtainedTemplate.TabIndex = 4;
+            this._obtainedTemplate.Text = "Obtained Template";
+            this._obtainedTemplate.Visible = false;
             // 
             // _changeAvatar
             // 

@@ -30,5 +30,11 @@ namespace SirenOfShame
         {
             OnClick(e);
         }
+
+        public int ImageIndex
+        {
+            get { return label1.ImageIndex; }
+            set { label1.ImageIndex = value; }
+        }
     }
 }

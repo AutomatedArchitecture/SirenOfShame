@@ -71,6 +71,12 @@
     <Compile Include="Avatar.Designer.cs">
       <DependentUpon>Avatar.cs</DependentUpon>
     </Compile>
+    <Compile Include="AvatarPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AvatarPicker.Designer.cs">
+      <DependentUpon>AvatarPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="BuildFailedMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +247,9 @@
     </Compile>
     <EmbeddedResource Include="Avatar.resx">
       <DependentUpon>Avatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AvatarPicker.resx">
+      <DependentUpon>AvatarPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BuildFailedMessageBox.resx">
       <DependentUpon>BuildFailedMessageBox.cs</DependentUpon>
