@@ -89,7 +89,7 @@ namespace SirenOfShame
 
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
-            var newsItem = new NewsItem(args.Person, args.Title, args.EventDate) { Dock = DockStyle.Top };
+            var newsItem = new NewsItem(args) { Dock = DockStyle.Top };
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);

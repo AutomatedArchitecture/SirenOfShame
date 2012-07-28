@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Exceptions;
@@ -23,9 +28,14 @@ namespace SirenOfShame.Lib.Services
             if (handler != null) handler(this, args);
         }
         
-        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName)
+        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl)
         {
-            InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs { Message = message, DisplayName = displayName });
+            InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs
+            {
+                Message = message, 
+                DisplayName = displayName,
+                ImageUrl = imageUrl,
+            });
         }
 
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
@@ -138,14 +148,38 @@ namespace SirenOfShame.Lib.Services
                 if (!settings.GetSosOnlineContent()) return;
                 var connection = new HubConnection(SOS_URL);
                 var proxy = connection.CreateProxy("SosHub");
-                proxy.On("addAppNotification",
-                         data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value));
+                proxy.On("addAppNotificationV1",
+                         data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value, data.ImageUrl.Value));
                 connection.Start();
             } 
             catch (Exception ex)
             {
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
             }
+        }
+
+        private Dictionary<string, int> cachedAvatarIds = new Dictionary<string, int>();
+
+        public SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
+        {
+            int avatarId;
+            if (!cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
+            {
+                var webClient = new WebClient();
+                byte[] imageRaw = webClient.DownloadData(args.ImageUrl);
+                using (MemoryStream gravatarMs = new MemoryStream(imageRaw))
+                {
+                    Image gravatarImage = Image.FromStream(gravatarMs);
+                    avatarId = avatarImageList.Images.Add(gravatarImage, Color.Transparent);
+                }
+                cachedAvatarIds[args.ImageUrl] = avatarId;
+            }
+
+            return new SosOnlinePerson
+            {
+                AvatarId = avatarId,
+                DisplayName = args.DisplayName
+            };
         }
     }
 }

@@ -108,7 +108,7 @@ namespace SirenOfShame
             if (aUserIsSelected)
             {
                 var selectedPerson = _settings.People.First(i => i.RawName == rawName);
-                viewUser1.SetUser(selectedPerson);
+                viewUser1.SetUser(selectedPerson, _avatarImageList);
             }
         }
 
@@ -273,13 +273,16 @@ namespace SirenOfShame
 
         private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
         {
+            // this may result in a web request to retrieve the person's image, so keep it on some other thread
+            SosOnlinePerson sosOnlinePerson = _sosOnlineService.CreateSosOnlinePersonFromSosOnlineNotification(args, _avatarImageList);
             Invoke(() =>
             {
                 NewNewsItemEventArgs newNewsItemEventArgs = new NewNewsItemEventArgs
                 {
                     EventDate = DateTime.Now,
-                    Person = args.GetSosOnlinePerson(),
-                    Title = "\"" + args.Message + "\""
+                    Person = sosOnlinePerson,
+                    Title = "\"" + args.Message + "\"",
+                    AvatarImageList = _avatarImageList,
                 };
                 _newsFeed1.AddNewsItem(newNewsItemEventArgs);
             });
@@ -325,7 +328,11 @@ namespace SirenOfShame
 
         private void RulesEngineNewNewsItem(object sender, NewNewsItemEventArgs args)
         {
-            Invoke(() => _newsFeed1.AddNewsItem(args));
+            Invoke(() =>
+            {
+                args.AvatarImageList = _avatarImageList;
+                _newsFeed1.AddNewsItem(args);
+            });
         }
 
         private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
@@ -973,6 +980,11 @@ namespace SirenOfShame
         public bool CanViewLogs
         {
             get { return _canViewLogs; }
+        }
+
+        public int AvatarCount
+        {
+            get { return _avatarImageList.Images.Count; }
         }
 
         private void RefreshClick(object sender, EventArgs e)

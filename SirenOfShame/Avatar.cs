@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -12,19 +11,20 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        public int AvatarCount
-        {
-            get { return imageList1.Images.Count; }
-        }
-
         private void AvatarPaint(object sender, PaintEventArgs e)
         {
             ControlPaint.DrawBorder(e.Graphics, DisplayRectangle, Color.DarkGray, ButtonBorderStyle.Solid);
         }
 
-        public void SetPerson(PersonBase user)
+        public void SetImage(int imageListId, ImageList avatarImageList)
         {
-            label1.ImageIndex = user.AvatarId;
+            label1.ImageList = avatarImageList;
+            label1.ImageIndex = imageListId;
+        }
+
+        public void SetImage(PersonBase user, ImageList avatarImageList)
+        {
+            SetImage(user.AvatarId, avatarImageList);
         }
 
         private void Label1Click(object sender, System.EventArgs e)

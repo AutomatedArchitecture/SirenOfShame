@@ -30,7 +30,7 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
         }
 
-        public NewsItem(PersonBase user, string checkinComment, DateTime date)
+        private NewsItem(PersonBase user, string checkinComment, DateTime date, ImageList avatarImageList)
         {
             InitializeComponent();
 
@@ -43,11 +43,17 @@ namespace SirenOfShame
             richTextBox1.SelectionColor = Color.Gray;
             richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
 
-            avatar1.SetPerson(user);
+            avatar1.SetImage(user, avatarImageList);
             _rawUserName = user.RawName;
             avatar1.Cursor = user.Clickable ? Cursors.Hand : Cursors.Default;
 
             EventDate = date;
+        }
+
+        public NewsItem(NewNewsItemEventArgs args)
+            : this(args.Person, args.Title, args.EventDate, args.AvatarImageList)
+        {
+            
         }
 
         public void RecalculatePrettyDate()

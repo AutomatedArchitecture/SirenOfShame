@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
 {
@@ -13,13 +14,14 @@ namespace SirenOfShame
             if (handler != null) handler(this, new AvatarClickedArgs { Index = index });
         }
 
-        public AvatarPicker()
+        public AvatarPicker(ImageList avatarImageList)
         {
             InitializeComponent();
-            int avatarCount = new Avatar().AvatarCount;
+            int avatarCount = SirenOfShameSettings.AVATAR_COUNT;
             for (int i = 0; i < avatarCount; i++)
             {
-                Avatar avatar = new Avatar {ImageIndex = i};
+                Avatar avatar = new Avatar();
+                avatar.SetImage(i, avatarImageList);
                 avatar.Click += AvatarOnClick;
                 flowLayoutPanel1.Controls.Add(avatar);
             }

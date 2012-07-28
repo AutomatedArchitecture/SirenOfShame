@@ -14,9 +14,9 @@ namespace SirenOfShame.Test.Unit.Settings
         [TestMethod]
         public void AvatarCountConstIsCorrect()
         {
-            var avatar = new Avatar();
+            var mainForm = new MainForm();
             const int genericImageCount = 1;
-            Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT + genericImageCount, avatar.AvatarCount);
+            Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT + genericImageCount, mainForm.AvatarCount);
         }
 
         [TestMethod]

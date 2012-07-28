@@ -29,42 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Avatar));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // imageList1
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(48, 48);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "american_eskimo_puppy.png");
-            this.imageList1.Images.SetKeyName(1, "angry_dog.png");
-            this.imageList1.Images.SetKeyName(2, "basset_hound.png");
-            this.imageList1.Images.SetKeyName(3, "beagle_harrier.png");
-            this.imageList1.Images.SetKeyName(4, "black_and_white_dog.png");
-            this.imageList1.Images.SetKeyName(5, "black_lab.png");
-            this.imageList1.Images.SetKeyName(6, "cat_angry.png");
-            this.imageList1.Images.SetKeyName(7, "cat_black.png");
-            this.imageList1.Images.SetKeyName(8, "cat_fat.png");
-            this.imageList1.Images.SetKeyName(9, "cat_tabby.png");
-            this.imageList1.Images.SetKeyName(10, "cat_tongue_out.png");
-            this.imageList1.Images.SetKeyName(11, "cat_white.png");
-            this.imageList1.Images.SetKeyName(12, "chocolate_lab.png");
-            this.imageList1.Images.SetKeyName(13, "chow.png");
-            this.imageList1.Images.SetKeyName(14, "german_shepherd.png");
-            this.imageList1.Images.SetKeyName(15, "golden_retriever_puppy.png");
-            this.imageList1.Images.SetKeyName(16, "growling_pup.png");
-            this.imageList1.Images.SetKeyName(17, "jack_russell_terrier.png");
-            this.imageList1.Images.SetKeyName(18, "kromfohrlander.png");
-            this.imageList1.Images.SetKeyName(19, "poodle.png");
-            this.imageList1.Images.SetKeyName(20, "retriever.png");
-            this.imageList1.Images.SetKeyName(21, "cloud-title.png");
             // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.ImageIndex = 0;
             this.label1.ImageList = this.imageList1;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(0);

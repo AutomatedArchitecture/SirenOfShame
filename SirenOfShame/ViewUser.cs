@@ -12,6 +12,7 @@ namespace SirenOfShame
         public event CloseViewUser OnClose;
         public event UserChangedAvatarId OnUserChangedAvatarId;
         private PersonSetting _personSetting;
+        private AvatarPicker _avatarPicker;
 
         private void InvokeOnOnUserChangedAvatarId(int newImageIndex)
         {
@@ -34,11 +35,14 @@ namespace SirenOfShame
             OnClose(this, new CloseViewUserArgs());
         }
 
-        public void SetUser(PersonSetting personSetting)
+        private ImageList _avatarImageList;
+
+        public void SetUser(PersonSetting personSetting, ImageList avatarImageList)
         {
+            _avatarImageList = avatarImageList;
             _personSetting = personSetting;
             _userName.Text = personSetting.GetBothDisplayAndRawNames();
-            avatar1.SetPerson(personSetting);
+            avatar1.SetImage(personSetting, avatarImageList);
             flowLayoutPanel1.Controls.Clear();
 
             foreach (var achievementLookup in AchievementSetting.AchievementLookups)
@@ -57,8 +61,6 @@ namespace SirenOfShame
             }
         }
 
-        private AvatarPicker avatarPicker;
-
         private void ChangeAvatarLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenAvatarPicker(_changeAvatar);
@@ -66,12 +68,12 @@ namespace SirenOfShame
 
         private void OpenAvatarPicker(Control changeAvatar)
         {
-            avatarPicker = new AvatarPicker();
-            avatarPicker.Show(this);
+            _avatarPicker = new AvatarPicker(_avatarImageList);
+            _avatarPicker.Show(this);
 
             Point locationOfLink = PointToScreen(changeAvatar.Location);
-            avatarPicker.Location = new Point(locationOfLink.X + changeAvatar.Width, locationOfLink.Y + changeAvatar.Height);
-            avatarPicker.OnAvatarClicked += AvatarPickerOnOnAvatarClicked;
+            _avatarPicker.Location = new Point(locationOfLink.X + changeAvatar.Width, locationOfLink.Y + changeAvatar.Height);
+            _avatarPicker.OnAvatarClicked += AvatarPickerOnOnAvatarClicked;
         }
 
         private void AvatarPickerOnOnAvatarClicked(object sender, AvatarClickedArgs args)

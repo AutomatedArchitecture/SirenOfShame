@@ -35,7 +35,7 @@ namespace SirenOfShame {
 		private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("sdf");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("sdf");
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._toolStripSplitErrorButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._lastStatusUpdate = new System.Windows.Forms.ToolStripStatusLabel();
@@ -104,6 +104,7 @@ namespace SirenOfShame {
             this.checkedInBy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comment = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.viewUser1 = new SirenOfShame.ViewUser();
+            this._avatarImageList = new System.Windows.Forms.ImageList(this.components);
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -686,6 +687,7 @@ namespace SirenOfShame {
             this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Fill;
             this._newsFeed1.Location = new System.Drawing.Point(0, 33);
             this._newsFeed1.Name = "_newsFeed1";
+            this._newsFeed1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this._newsFeed1.Size = new System.Drawing.Size(170, 166);
             this._newsFeed1.TabIndex = 10;
             // 
@@ -870,7 +872,7 @@ namespace SirenOfShame {
             this.comment});
             this._buildDefinitions.Dock = System.Windows.Forms.DockStyle.Fill;
             this._buildDefinitions.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this._buildDefinitions.Location = new System.Drawing.Point(0, 106);
             this._buildDefinitions.Name = "_buildDefinitions";
             this._buildDefinitions.Size = new System.Drawing.Size(709, 199);
@@ -922,6 +924,33 @@ namespace SirenOfShame {
             this.viewUser1.Name = "viewUser1";
             this.viewUser1.Size = new System.Drawing.Size(709, 199);
             this.viewUser1.TabIndex = 41;
+            // 
+            // _avatarImageList
+            // 
+            this._avatarImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_avatarImageList.ImageStream")));
+            this._avatarImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this._avatarImageList.Images.SetKeyName(0, "american_eskimo_puppy.png");
+            this._avatarImageList.Images.SetKeyName(1, "angry_dog.png");
+            this._avatarImageList.Images.SetKeyName(2, "basset_hound.png");
+            this._avatarImageList.Images.SetKeyName(3, "beagle_harrier.png");
+            this._avatarImageList.Images.SetKeyName(4, "black_and_white_dog.png");
+            this._avatarImageList.Images.SetKeyName(5, "black_lab.png");
+            this._avatarImageList.Images.SetKeyName(6, "cat_angry.png");
+            this._avatarImageList.Images.SetKeyName(7, "cat_black.png");
+            this._avatarImageList.Images.SetKeyName(8, "cat_fat.png");
+            this._avatarImageList.Images.SetKeyName(9, "cat_tabby.png");
+            this._avatarImageList.Images.SetKeyName(10, "cat_tongue_out.png");
+            this._avatarImageList.Images.SetKeyName(11, "cat_white.png");
+            this._avatarImageList.Images.SetKeyName(12, "chocolate_lab.png");
+            this._avatarImageList.Images.SetKeyName(13, "chow.png");
+            this._avatarImageList.Images.SetKeyName(14, "german_shepherd.png");
+            this._avatarImageList.Images.SetKeyName(15, "golden_retriever_puppy.png");
+            this._avatarImageList.Images.SetKeyName(16, "growling_pup.png");
+            this._avatarImageList.Images.SetKeyName(17, "jack_russell_terrier.png");
+            this._avatarImageList.Images.SetKeyName(18, "kromfohrlander.png");
+            this._avatarImageList.Images.SetKeyName(19, "poodle.png");
+            this._avatarImageList.Images.SetKeyName(20, "retriever.png");
+            this._avatarImageList.Images.SetKeyName(21, "cloud-title.png");
             // 
             // MainForm
             // 
@@ -1040,6 +1069,7 @@ namespace SirenOfShame {
       private NewsFeed _newsFeed1;
       private System.Windows.Forms.ImageList imageList29;
       private UserList _userList;
+      private System.Windows.Forms.ImageList _avatarImageList;
 	}
 }
 

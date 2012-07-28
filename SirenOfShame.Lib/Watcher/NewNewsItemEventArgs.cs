@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Windows.Forms;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using log4net;
 
@@ -12,6 +14,7 @@ namespace SirenOfShame.Lib.Watcher
         public DateTime EventDate { get; set; }
         public PersonBase Person { get; set; }
         public string Title { get; set; }
+        public ImageList AvatarImageList { get; set; }
 
         public string AsCommaSeparated()
         {
