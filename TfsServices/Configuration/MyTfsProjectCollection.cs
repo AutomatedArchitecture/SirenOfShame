@@ -53,7 +53,12 @@ namespace TfsServices.Configuration
                 _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
                 _tswaClientHyperlinkService = _tfsTeamProjectCollection.GetService<TswaClientHyperlinkService>();
                 CurrentUserHasAccess = true;
-            } 
+            }
+            catch (TeamFoundationServiceUnavailableException ex)
+            {
+                _log.Debug("Can't access " + Name + ". This could be because the project collection is currently offline.", ex);
+                CurrentUserHasAccess = false;
+            }
             catch (TeamFoundationServerUnauthorizedException ex)
             {
                 _log.Debug("Unauthorized access to " + teamProjectCollectionNode, ex);
@@ -72,7 +77,18 @@ namespace TfsServices.Configuration
         
         public IEnumerable<MyTfsProject> Projects
         {
-            get { return _commonStructureService.ListAllProjects().Select(p => new MyTfsProject(p, _buildServer, this)); }
+            get
+            {
+                try
+                {
+                    return _commonStructureService.ListAllProjects().Select(p => new MyTfsProject(p, _buildServer, this));
+                } 
+                catch (TeamFoundationServiceUnavailableException)
+                {
+                    _log.Debug("Retrieving projects from " + Name + " resulted in TeamFoundationServiceUnavailableException. This could be because the project collection is currently offline.");
+                    return Enumerable.Empty<MyTfsProject>();
+                }
+            }
         }
 
         public string Name { get; set; }
