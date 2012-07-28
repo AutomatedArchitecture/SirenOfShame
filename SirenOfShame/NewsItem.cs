@@ -118,12 +118,14 @@ namespace SirenOfShame
         private static readonly Dictionary<NewsItemTypeEnum, Color> borderColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
+            { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
         };
         
         private static readonly Dictionary<NewsItemTypeEnum, Color> backgroundColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
+            { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
         };
         

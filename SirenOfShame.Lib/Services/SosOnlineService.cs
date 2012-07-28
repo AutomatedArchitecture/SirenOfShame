@@ -28,14 +28,14 @@ namespace SirenOfShame.Lib.Services
             if (handler != null) handler(this, args);
         }
         
-        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, int eventTypeId)
+        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId)
         {
             InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs
             {
                 Message = message, 
                 DisplayName = displayName,
                 ImageUrl = imageUrl,
-                EventTypeId = eventTypeId,
+                EventTypeId = (int)eventTypeId,
             });
         }
 
