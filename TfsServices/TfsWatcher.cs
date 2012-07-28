@@ -5,6 +5,7 @@ using log4net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Framework.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -58,6 +59,10 @@ namespace TfsServices
                 throw new ServerUnavailableException(ex.Message, ex);
             }
             catch (WebException ex)
+            {
+                throw new ServerUnavailableException(ex.Message, ex);
+            }
+            catch (VersionControlException ex)
             {
                 throw new ServerUnavailableException(ex.Message, ex);
             }
