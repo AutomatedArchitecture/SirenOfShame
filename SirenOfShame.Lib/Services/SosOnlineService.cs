@@ -27,7 +27,7 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage, null);
                 }
-            }, OnConnectionFail(onFail));
+            }, OnConnectionFail(onFail), settings.GetSosOnlineProxy());
         }
 
         private static void AddSosOnlineCredentials(SirenOfShameSettings settings, WebClientXml webClientXml)
@@ -59,7 +59,7 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage, null);
                 }
-            }, OnConnectionFail(onFail));
+            }, OnConnectionFail(onFail), settings.GetSosOnlineProxy());
         }
 
         private static Action<ServerUnavailableException> OnConnectionFail(Action<string, ServerUnavailableException> onFail)

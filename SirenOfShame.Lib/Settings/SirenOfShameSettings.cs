@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
@@ -73,6 +74,12 @@ namespace SirenOfShame.Lib.Settings
         public string SosOnlineUsername { get; set; }
         
         public string SosOnlinePassword { get; set; }
+
+        public string SosOnlineProxyUrl { get; set; }
+        
+        public string SosOnlineProxyUsername { get; set; }
+        
+        public string SosOnlineProxyPasswordEncrypted { get; set; }
 
         public long? SosOnlineHighWaterMark { get; set; }
 
@@ -359,6 +366,16 @@ namespace SirenOfShame.Lib.Settings
             return CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Where(i => i.Active);
         }
 
+        public void SetSosOnlineProxyPassword(string rawPassword)
+        {
+            SosOnlineProxyPasswordEncrypted = new TripleDesStringEncryptor().EncryptString(rawPassword);
+        }
+
+        public string GetSosOnlineProxyPassword()
+        {
+            return new TripleDesStringEncryptor().DecryptString(SosOnlineProxyPasswordEncrypted);
+        }
+
         public void SetSosOnlinePassword(string rawPassword)
         {
             SosOnlinePassword = new TripleDesStringEncryptor().EncryptString(rawPassword);
@@ -411,6 +428,17 @@ namespace SirenOfShame.Lib.Settings
                     }
                 }
             }
+        }
+
+        public IWebProxy GetSosOnlineProxy()
+        {
+            if (string.IsNullOrEmpty(SosOnlineProxyUrl)) return null;
+            return new WebProxy(
+                SosOnlineProxyUrl, 
+                false, 
+                new string[] { }, 
+                new NetworkCredential(SosOnlineProxyUsername, GetSosOnlinePassword())
+                );
         }
     }
 }

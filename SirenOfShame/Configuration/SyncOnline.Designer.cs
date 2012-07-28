@@ -34,6 +34,13 @@
             this._syncAlways = new System.Windows.Forms.RadioButton();
             this._syncNever = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this._proxyPassword = new System.Windows.Forms.TextBox();
+            this._proxyPasswordLabel = new System.Windows.Forms.Label();
+            this._proxyUsername = new System.Windows.Forms.TextBox();
+            this._proxyUsernameLabel = new System.Windows.Forms.Label();
+            this._useProxy = new System.Windows.Forms.CheckBox();
+            this._proxyUrl = new System.Windows.Forms.TextBox();
+            this._proxyUrlLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this._loading = new System.Windows.Forms.PictureBox();
             this._userIAm = new System.Windows.Forms.ComboBox();
@@ -61,7 +68,7 @@
             this.groupBox1.Controls.Add(this._syncNever);
             this.groupBox1.Location = new System.Drawing.Point(268, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(195, 199);
+            this.groupBox1.Size = new System.Drawing.Size(195, 283);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Synchronize";
@@ -94,6 +101,13 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox4.Controls.Add(this._proxyPassword);
+            this.groupBox4.Controls.Add(this._proxyPasswordLabel);
+            this.groupBox4.Controls.Add(this._proxyUsername);
+            this.groupBox4.Controls.Add(this._proxyUsernameLabel);
+            this.groupBox4.Controls.Add(this._useProxy);
+            this.groupBox4.Controls.Add(this._proxyUrl);
+            this.groupBox4.Controls.Add(this._proxyUrlLabel);
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this._loading);
             this.groupBox4.Controls.Add(this._userIAm);
@@ -108,15 +122,75 @@
             this.groupBox4.Controls.Add(this._sosOnlineLogin);
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(262, 199);
+            this.groupBox4.Size = new System.Drawing.Size(262, 283);
             this.groupBox4.TabIndex = 36;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Credentials";
             // 
+            // _proxyPassword
+            // 
+            this._proxyPassword.Location = new System.Drawing.Point(103, 253);
+            this._proxyPassword.Name = "_proxyPassword";
+            this._proxyPassword.PasswordChar = '*';
+            this._proxyPassword.Size = new System.Drawing.Size(148, 20);
+            this._proxyPassword.TabIndex = 41;
+            // 
+            // _proxyPasswordLabel
+            // 
+            this._proxyPasswordLabel.AutoSize = true;
+            this._proxyPasswordLabel.Location = new System.Drawing.Point(12, 256);
+            this._proxyPasswordLabel.Name = "_proxyPasswordLabel";
+            this._proxyPasswordLabel.Size = new System.Drawing.Size(56, 13);
+            this._proxyPasswordLabel.TabIndex = 40;
+            this._proxyPasswordLabel.Text = "Password:";
+            // 
+            // _proxyUsername
+            // 
+            this._proxyUsername.Location = new System.Drawing.Point(103, 227);
+            this._proxyUsername.Name = "_proxyUsername";
+            this._proxyUsername.Size = new System.Drawing.Size(148, 20);
+            this._proxyUsername.TabIndex = 39;
+            // 
+            // _proxyUsernameLabel
+            // 
+            this._proxyUsernameLabel.AutoSize = true;
+            this._proxyUsernameLabel.Location = new System.Drawing.Point(12, 230);
+            this._proxyUsernameLabel.Name = "_proxyUsernameLabel";
+            this._proxyUsernameLabel.Size = new System.Drawing.Size(58, 13);
+            this._proxyUsernameLabel.TabIndex = 38;
+            this._proxyUsernameLabel.Text = "Username:";
+            // 
+            // _useProxy
+            // 
+            this._useProxy.AutoSize = true;
+            this._useProxy.Location = new System.Drawing.Point(103, 179);
+            this._useProxy.Name = "_useProxy";
+            this._useProxy.Size = new System.Drawing.Size(74, 17);
+            this._useProxy.TabIndex = 37;
+            this._useProxy.Text = "Use Proxy";
+            this._useProxy.UseVisualStyleBackColor = true;
+            this._useProxy.CheckedChanged += new System.EventHandler(this.UseProxyCheckedChanged);
+            // 
+            // _proxyUrl
+            // 
+            this._proxyUrl.Location = new System.Drawing.Point(103, 201);
+            this._proxyUrl.Name = "_proxyUrl";
+            this._proxyUrl.Size = new System.Drawing.Size(148, 20);
+            this._proxyUrl.TabIndex = 36;
+            // 
+            // _proxyUrlLabel
+            // 
+            this._proxyUrlLabel.AutoSize = true;
+            this._proxyUrlLabel.Location = new System.Drawing.Point(12, 204);
+            this._proxyUrlLabel.Name = "_proxyUrlLabel";
+            this._proxyUrlLabel.Size = new System.Drawing.Size(52, 13);
+            this._proxyUrlLabel.TabIndex = 35;
+            this._proxyUrlLabel.Text = "Proxy Url:";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 116);
+            this.label7.Location = new System.Drawing.Point(12, 119);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 13);
             this.label7.TabIndex = 34;
@@ -140,7 +214,7 @@
             this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
             this._userIAm.FormattingEnabled = true;
-            this._userIAm.Location = new System.Drawing.Point(103, 113);
+            this._userIAm.Location = new System.Drawing.Point(103, 116);
             this._userIAm.Name = "_userIAm";
             this._userIAm.Size = new System.Drawing.Size(148, 21);
             this._userIAm.TabIndex = 33;
@@ -182,7 +256,7 @@
             this._verifyCredentials.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._verifyCredentials.ImageKey = "refresh16.png";
             this._verifyCredentials.ImageList = this.imageList1;
-            this._verifyCredentials.Location = new System.Drawing.Point(103, 143);
+            this._verifyCredentials.Location = new System.Drawing.Point(103, 146);
             this._verifyCredentials.Name = "_verifyCredentials";
             this._verifyCredentials.Size = new System.Drawing.Size(111, 23);
             this._verifyCredentials.TabIndex = 27;
@@ -256,7 +330,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.Name = "SyncOnline";
-            this.Size = new System.Drawing.Size(463, 199);
+            this.Size = new System.Drawing.Size(463, 283);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -285,5 +359,12 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox _sosOnlineLogin;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.TextBox _proxyUrl;
+        private System.Windows.Forms.Label _proxyUrlLabel;
+        private System.Windows.Forms.CheckBox _useProxy;
+        private System.Windows.Forms.TextBox _proxyPassword;
+        private System.Windows.Forms.Label _proxyPasswordLabel;
+        private System.Windows.Forms.TextBox _proxyUsername;
+        private System.Windows.Forms.Label _proxyUsernameLabel;
     }
 }
