@@ -53,6 +53,8 @@
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll2" />
         <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
+        <File Source="..\packages\SignalR.Client.0.5.2\lib\net40\SignalR.Client.dll" />
+        <File Source="..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
 
         <File Source="..\SirenOfShame\bin\Plugins\BuildBotServices.dll" />
