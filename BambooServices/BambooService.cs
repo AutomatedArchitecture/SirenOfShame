@@ -26,6 +26,8 @@ namespace BambooServices
             };
             rootUrl = GetRootUrl(rootUrl);
             var projectUrl = new Uri(rootUrl + "/rest/api/latest/plan?os_authType=basic");
+            BambooBuildDefinition[] buildDefinitions = new BambooBuildDefinition[] { };
+            //This loop may be run multiple times
             webClient.DownloadStringCompleted += (s, e) =>
             {
                 try
@@ -34,11 +36,26 @@ namespace BambooServices
                     if (doc.Root == null) throw new Exception("Could not get project list");
                     var plansElem = doc.Root.Element("plans");
                     if (plansElem == null) throw new Exception("Could not get plans element");
-                    BambooBuildDefinition[] buildDefinitions = plansElem
+                    var plansElements = doc.Descendants("plans")
+                        .Where(i => i.Attribute("size") != null)
+                        .ToArray();
+                    if (plansElements.Length != 1) throw new Exception("Retrieved " + plansElements.Length + " plans when 1 was expected");
+                    XElement firstPlan = plansElements[0];
+                    int startIndex = firstPlan.AttributeValueAsInt("start-index");
+                    int size = firstPlan.AttributeValueAsInt("size");
+                    int maxResults = firstPlan.AttributeValueAsInt("max-result");
+
+                    BambooBuildDefinition[] buildPlans = plansElem
                         .Elements("plan")
                         .Select(planXml => new BambooBuildDefinition(rootUrl, planXml))
                         .ToArray();
-                    complete(buildDefinitions);
+
+                    buildDefinitions = buildDefinitions.Concat(buildPlans).ToArray();
+                    bool moreResultsInBatch = (startIndex + maxResults) < size;
+                    if (moreResultsInBatch)
+                        webClient.DownloadStringAsync(new Uri(projectUrl.ToString() + "&start-index=" + (startIndex + maxResults)));
+                    else
+                        complete(buildDefinitions);
                 }
                 catch (Exception ex)
                 {
