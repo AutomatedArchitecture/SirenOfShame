@@ -167,6 +167,7 @@
     <Compile Include="HelpAbout.Designer.cs">
       <DependentUpon>HelpAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GraphicsHelpers.cs" />
     <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="NewAchievement.cs">
       <SubType>Form</SubType>
@@ -185,12 +186,6 @@
     </Compile>
     <Compile Include="NewsItem.Designer.cs">
       <DependentUpon>NewsItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Rectangle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Rectangle.Designer.cs">
-      <DependentUpon>Rectangle.cs</DependentUpon>
     </Compile>
     <Compile Include="Resources\AudioFile.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
@@ -238,6 +233,9 @@
     </Compile>
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransparentRichTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserList.cs">
       <SubType>UserControl</SubType>
@@ -324,9 +322,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Rectangle.resx">
-      <DependentUpon>Rectangle.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SirenConfiguration\TestSiren.resx">
       <DependentUpon>TestSiren.cs</DependentUpon>
     </EmbeddedResource>

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Helpers;
 
 namespace SirenOfShame
 {
@@ -74,7 +75,7 @@ namespace SirenOfShame
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int textBoxHeight = (int)Math.Ceiling(size.Height);
 
-                return Margin.Top + Margin.Bottom + textBoxHeight + panel1.Height;
+                return Margin.Top + Margin.Bottom + Math.Max(textBoxHeight, avatar1.Height);
             }
         }
 
@@ -88,6 +89,13 @@ namespace SirenOfShame
             bool isAvatarClickable = _rawUserName != null;
             if (isAvatarClickable)
                 InvokeOnOnUserClicked();
+        }
+
+        private void Panel1Paint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+            graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(255, 245, 245, 245)), panel1.ClientRectangle, 5);
+            graphics.DrawRoundedRectangle(new Pen(Color.LightGray), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
         }
     }
 
