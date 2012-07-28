@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Exceptions;
@@ -150,7 +150,10 @@ namespace SirenOfShame.Lib.Services
                 var proxy = connection.CreateProxy("SosHub");
                 proxy.On("addAppNotificationV1",
                          data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value, data.ImageUrl.Value));
-                connection.Start();
+                connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
+                Task result = connection.Start();
+                result.ContinueWith(t => _log.Error("Error connecting to SoS Online via SignalR", t.Exception),
+                                    TaskContinuationOptions.OnlyOnFaulted);
             } 
             catch (Exception ex)
             {
@@ -162,24 +165,43 @@ namespace SirenOfShame.Lib.Services
 
         public SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
-            int avatarId;
-            if (!cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
-            {
-                var webClient = new WebClient();
-                byte[] imageRaw = webClient.DownloadData(args.ImageUrl);
-                using (MemoryStream gravatarMs = new MemoryStream(imageRaw))
-                {
-                    Image gravatarImage = Image.FromStream(gravatarMs);
-                    avatarId = avatarImageList.Images.Add(gravatarImage, Color.Transparent);
-                }
-                cachedAvatarIds[args.ImageUrl] = avatarId;
-            }
-
+            var avatarId = GetAvatarId(args, avatarImageList);
             return new SosOnlinePerson
             {
                 AvatarId = avatarId,
                 DisplayName = args.DisplayName
             };
+        }
+
+        private int GetAvatarId(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
+        {
+            int avatarId;
+            try
+            {
+                if (!cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
+                {
+                    avatarId = GetGravatarFromWebAndAddToImageList(args, avatarImageList);
+                    cachedAvatarIds[args.ImageUrl] = avatarId;
+                }
+            } catch (Exception ex)
+            {
+                _log.Error("Error retrieving gravatar for " + args.DisplayName, ex);
+                avatarId = SirenOfShameSettings.GenericSosOnlineAvatarId;
+            }
+            return avatarId;
+        }
+
+        private static int GetGravatarFromWebAndAddToImageList(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
+        {
+            int avatarId;
+            var webClient = new WebClient();
+            byte[] imageRaw = webClient.DownloadData(args.ImageUrl);
+            using (MemoryStream gravatarMs = new MemoryStream(imageRaw))
+            {
+                Image gravatarImage = Image.FromStream(gravatarMs);
+                avatarId = avatarImageList.Images.Add(gravatarImage, Color.Transparent);
+            }
+            return avatarId;
         }
     }
 }
