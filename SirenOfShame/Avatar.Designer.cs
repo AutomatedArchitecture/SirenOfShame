@@ -59,6 +59,7 @@
             this.imageList1.Images.SetKeyName(18, "kromfohrlander.png");
             this.imageList1.Images.SetKeyName(19, "poodle.png");
             this.imageList1.Images.SetKeyName(20, "retriever.png");
+            this.imageList1.Images.SetKeyName(21, "cloud-title.png");
             // 
             // label1
             // 

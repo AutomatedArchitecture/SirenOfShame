@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
@@ -13,7 +14,19 @@ namespace SirenOfShame.Lib.Services
     public class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public const string SOS_URL = "http://sirenofshame.com";
+        public const string SOS_URL = "http://localhost:3115";
+        public event NewSosOnlineNotification OnNewSosOnlineNotification;
+
+        public void InvokeOnOnNewSosOnlineNotification(NewSosOnlineNotificationArgs args)
+        {
+            NewSosOnlineNotification handler = OnNewSosOnlineNotification;
+            if (handler != null) handler(this, args);
+        }
+        
+        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName)
+        {
+            InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs { Message = message, DisplayName = displayName });
+        }
 
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {
@@ -73,8 +86,7 @@ namespace SirenOfShame.Lib.Services
 
         public void TryToGetAndSendNewSosOnlineAlerts(SirenOfShameSettings settings, DateTime now, Action<NewAlertEventArgs> invokeNewAlert, SosWebClient webClient)
         {
-            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want to check for alerts either
-            if (settings.UpdateLocation != UpdateLocation.Auto) return;
+            if (!settings.GetSosOnlineContent()) return;
 
             bool weHaveAlreadyCheckedForAlertsToday = settings.LastCheckedForAlert != null && (now - settings.LastCheckedForAlert.Value).TotalHours < 24;
             if (weHaveAlreadyCheckedForAlertsToday) return;
@@ -110,13 +122,30 @@ namespace SirenOfShame.Lib.Services
                     _log.Error("Error retrieving alert", ex);
                 }
             };
-            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}&Version={3}",
+            string url = string.Format(SOS_URL + "/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}&Version={3}",
                 settings.SirenEverConnected,
                 settings.SoftwareInstanceId,
                 string.Join(",", settings.CiEntryPointSettings.Select(cip => cip.Name)),
                 Application.ProductVersion
                 );
             webClient.DownloadStringAsync(new Uri(url));
+        }
+
+        public void StartRealtimeConnection(SirenOfShameSettings settings)
+        {
+            try
+            {
+                if (!settings.GetSosOnlineContent()) return;
+                var connection = new HubConnection(SOS_URL);
+                var proxy = connection.CreateProxy("SosHub");
+                proxy.On("addAppNotification",
+                         data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value));
+                connection.Start();
+            } 
+            catch (Exception ex)
+            {
+                _log.Error("Unable to start realtime connection to SoS Online", ex);
+            }
         }
     }
 }

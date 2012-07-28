@@ -10,7 +10,7 @@ namespace SirenOfShame.Lib.Watcher
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(NewNewsItemEventArgs));
         
         public DateTime EventDate { get; set; }
-        public PersonSetting Person { get; set; }
+        public PersonBase Person { get; set; }
         public string Title { get; set; }
 
         public string AsCommaSeparated()

@@ -7,17 +7,17 @@ using SirenOfShame.Lib.Watcher;
 namespace SirenOfShame.Lib.Settings
 {
     [Serializable]
-    public class PersonSetting
+    public class PersonSetting : PersonBase
     {
-        public string RawName { get; set; }
-        public string DisplayName { get; set; }
+        public override string RawName { get; set; }
+        public override string DisplayName { get; set; }
         public int TotalBuilds { get; set; }
         public int FailedBuilds { get; set; }
         public bool Hidden { get; set; }
         public List<AchievementSetting> Achievements { get; set; }
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
-        public int AvatarId { get; set; }
+        public override int AvatarId { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime

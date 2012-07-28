@@ -285,6 +285,11 @@ namespace SirenOfShame.Lib.Settings
             get { return People.Where(i => !i.Hidden); }
         }
 
+        public static int GenericSosOnlineAvatarId
+        {
+            get { return AVATAR_COUNT; }
+        }
+
         private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
         {
             Rule rule = Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
@@ -429,6 +434,14 @@ namespace SirenOfShame.Lib.Settings
                     }
                 }
             }
+        }
+
+        public bool GetSosOnlineContent()
+        {
+            if (SosOnlineAlwaysOffline) return false;
+            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want random connections to SoS Online
+            if (UpdateLocation != UpdateLocation.Auto) return false;
+            return true;
         }
     }
 }

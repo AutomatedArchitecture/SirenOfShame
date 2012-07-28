@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
-using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
@@ -30,7 +30,7 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
         }
 
-        public NewsItem(PersonSetting user, string checkinComment, DateTime date)
+        public NewsItem(PersonBase user, string checkinComment, DateTime date)
         {
             InitializeComponent();
 
@@ -45,6 +45,7 @@ namespace SirenOfShame
 
             avatar1.SetPerson(user);
             _rawUserName = user.RawName;
+            avatar1.Cursor = user.Clickable ? Cursors.Hand : Cursors.Default;
 
             EventDate = date;
         }
@@ -78,7 +79,9 @@ namespace SirenOfShame
 
         private void Avatar1Click(object sender, EventArgs e)
         {
-            InvokeOnOnUserClicked();
+            bool isAvatarClickable = _rawUserName != null;
+            if (isAvatarClickable)
+                InvokeOnOnUserClicked();
         }
     }
 

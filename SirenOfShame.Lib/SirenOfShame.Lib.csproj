@@ -75,7 +75,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="SignalR.Client">
+      <HintPath>..\packages\SignalR.Client.0.5.2\lib\net40\SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -184,6 +188,8 @@
     </Compile>
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Services\NewSosOnlineNotification.cs" />
+    <Compile Include="Services\NewSosOnlineNotificationArgs.cs" />
     <Compile Include="Services\SosOnlineService.cs" />
     <Compile Include="Settings\AchievementAlertPreferenceEnum.cs" />
     <Compile Include="Settings\AchievementLookup.cs" />
@@ -209,6 +215,7 @@
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
     <Compile Include="Watcher\BuildStatusListViewItem.cs" />
+    <Compile Include="Watcher\PersonBase.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
     <Compile Include="Watcher\NewAchievementEvent.cs" />
@@ -229,6 +236,7 @@
     <Compile Include="Watcher\SetTrayIconEvent.cs" />
     <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
     <Compile Include="Watcher\SosDb.cs" />
+    <Compile Include="Watcher\SosOnlinePerson.cs" />
     <Compile Include="Watcher\StatsChangedEvent.cs" />
     <Compile Include="Watcher\StatsChangedEventArgs.cs" />
     <Compile Include="Watcher\StatusChangedEvent.cs" />

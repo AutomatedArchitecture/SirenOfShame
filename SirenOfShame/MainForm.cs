@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Resources2;
 using log4net;
 using SirenOfShame.Configuration;
@@ -238,6 +239,8 @@ namespace SirenOfShame
             EnableSirenMenuItem(false);
         }
 
+        SosOnlineService _sosOnlineService = new SosOnlineService();
+
         private void MainFormLoad(object sender, EventArgs e)
         {
             _panelAlertHeight = _panelAlert.Height;
@@ -259,10 +262,27 @@ namespace SirenOfShame
             }
 
             StartWatchingBuild();
+            _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnOnNewSosOnlineNotification;
+            _sosOnlineService.StartRealtimeConnection(_settings);
+            
             RefreshStats(null);
             SetMuteButton();
             _buildStats.InitializeBuildHistoryChart();
             _buildDefinitions.SetSortColumn(_settings);
+        }
+
+        private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
+        {
+            Invoke(() =>
+            {
+                NewNewsItemEventArgs newNewsItemEventArgs = new NewNewsItemEventArgs
+                {
+                    EventDate = DateTime.Now,
+                    Person = args.GetSosOnlinePerson(),
+                    Title = "\"" + args.Message + "\""
+                };
+                _newsFeed1.AddNewsItem(newNewsItemEventArgs);
+            });
         }
 
         private void TryUpgrade()
