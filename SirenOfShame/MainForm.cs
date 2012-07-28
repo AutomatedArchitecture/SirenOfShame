@@ -283,6 +283,7 @@ namespace SirenOfShame
                     Person = sosOnlinePerson,
                     Title = "\"" + args.Message + "\"",
                     AvatarImageList = _avatarImageList,
+                    NewsItemType = (NewsItemTypeEnum)args.EventTypeId
                 };
                 _newsFeed1.AddNewsItem(newNewsItemEventArgs);
             });

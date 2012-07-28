@@ -247,10 +247,27 @@ namespace SirenOfShame.Lib.Watcher
             {
                 Person = person,
                 EventDate = DateTime.Now,
-                Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus)
+                Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
+                NewsItemType = GetNewsItemType(),
+                ReputationChange = GetReputationChange()
             };
         }
 
+        private int? GetReputationChange()
+        {
+            if (BuildStatusEnum == BuildStatusEnum.Working) return 1;
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return -4;
+            return null;
+        }
+
+        private NewsItemTypeEnum GetNewsItemType()
+        {
+            if (BuildStatusEnum == BuildStatusEnum.Working) return NewsItemTypeEnum.BuildSuccess;
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return NewsItemTypeEnum.BuildFailed;
+            if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
+            return NewsItemTypeEnum.BuildUnknown;
+        }
+        
         private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
         {
             var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Working;

@@ -17,7 +17,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 EventDate = new DateTime(2010, 1, 2, 3, 4, 5, 6),
                 Person = person,
-                Title = "Hello world"
+                Title = "Hello world",
+                NewsItemType = NewsItemTypeEnum.BuildFailed,
+                ReputationChange = -1,
             };
             var asCommaSeparated = args.AsCommaSeparated();
             var result = NewNewsItemEventArgs.FromCommaSeparated(asCommaSeparated, settings);
@@ -25,6 +27,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Bob", result.Person.RawName);
             Assert.AreEqual("Hello world", result.Title);
             Assert.AreEqual(new DateTime(2010, 1, 2, 3, 4, 5, 6), result.EventDate);
+            Assert.AreEqual(NewsItemTypeEnum.BuildFailed, result.NewsItemType);
+            Assert.AreEqual(-1, result.ReputationChange);
         }
         
         [TestMethod]
@@ -36,6 +40,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 EventDate = new DateTime(2010, 1, 2, 3, 4, 5, 6),
                 Person = person,
+                NewsItemType = NewsItemTypeEnum.BuildFailed,
                 Title = ",Hello, world,"
             };
             var asCommaSeparated = args.AsCommaSeparated();

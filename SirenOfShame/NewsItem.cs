@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
@@ -9,6 +10,7 @@ namespace SirenOfShame
 {
     public partial class NewsItem : UserControl
     {
+        private readonly NewsItemTypeEnum _newsItemEventType;
         readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
         private DateTime EventDate { get; set; }
@@ -31,8 +33,12 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
         }
 
-        private NewsItem(PersonBase user, string checkinComment, DateTime date, ImageList avatarImageList)
+        private NewsItem(PersonBase user, string checkinComment, DateTime date, ImageList avatarImageList, NewsItemTypeEnum newsItemEventType)
         {
+            _newsItemEventType = newsItemEventType;
+            _rawUserName = user.RawName;
+            _lastPrettyDate = date.PrettyDate();
+            
             InitializeComponent();
 
             richTextBox1.Clear();
@@ -40,19 +46,17 @@ namespace SirenOfShame
             richTextBox1.SelectedText = user.DisplayName;
             richTextBox1.SelectionFont = _regularFont;
             richTextBox1.SelectedText = "\r\n" + checkinComment;
-            _lastPrettyDate = date.PrettyDate();
             richTextBox1.SelectionColor = Color.Gray;
             richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
 
             avatar1.SetImage(user, avatarImageList);
-            _rawUserName = user.RawName;
             avatar1.Cursor = user.Clickable ? Cursors.Hand : Cursors.Default;
 
             EventDate = date;
         }
 
         public NewsItem(NewNewsItemEventArgs args)
-            : this(args.Person, args.Title, args.EventDate, args.AvatarImageList)
+            : this(args.Person, args.Title, args.EventDate, args.AvatarImageList, args.NewsItemType)
         {
             
         }
@@ -94,8 +98,38 @@ namespace SirenOfShame
         private void Panel1Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
-            graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(255, 245, 245, 245)), panel1.ClientRectangle, 5);
-            graphics.DrawRoundedRectangle(new Pen(Color.LightGray), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
+            graphics.FillRoundedRectangle(new SolidBrush(GetBackgroundColorForEventType(_newsItemEventType)), panel1.ClientRectangle, 5);
+            graphics.DrawRoundedRectangle(new Pen(GetPenColorForEventType(_newsItemEventType)), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
+        }
+
+        private static Color GetColorForEventType(Dictionary<NewsItemTypeEnum, Color> dictionary, NewsItemTypeEnum newsItemEventType, Color defaultColor)
+        {
+            Color color;
+            if (dictionary.TryGetValue(newsItemEventType, out color))
+                return color;
+            return defaultColor;
+        }
+        
+        private Color GetPenColorForEventType(NewsItemTypeEnum newsItemEventType)
+        {
+            return GetColorForEventType(borderColorToColorMapping, newsItemEventType, Color.LightGray);
+        }
+
+        private static readonly Dictionary<NewsItemTypeEnum, Color> borderColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
+        {
+            { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
+            { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
+        };
+        
+        private static readonly Dictionary<NewsItemTypeEnum, Color> backgroundColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
+        {
+            { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
+            { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
+        };
+        
+        private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
+        {
+            return GetColorForEventType(backgroundColorToColorMapping, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
         }
     }
 

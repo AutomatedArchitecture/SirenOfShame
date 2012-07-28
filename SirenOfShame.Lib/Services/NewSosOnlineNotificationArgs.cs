@@ -7,5 +7,7 @@ namespace SirenOfShame.Lib.Services
         public string DisplayName { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public int EventTypeId { get; set; }
     }
 }

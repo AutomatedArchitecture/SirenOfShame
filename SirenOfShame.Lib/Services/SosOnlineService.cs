@@ -28,13 +28,14 @@ namespace SirenOfShame.Lib.Services
             if (handler != null) handler(this, args);
         }
         
-        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl)
+        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, int eventTypeId)
         {
             InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs
             {
                 Message = message, 
                 DisplayName = displayName,
                 ImageUrl = imageUrl,
+                EventTypeId = eventTypeId,
             });
         }
 
@@ -148,8 +149,7 @@ namespace SirenOfShame.Lib.Services
                 if (!settings.GetSosOnlineContent()) return;
                 var connection = new HubConnection(SOS_URL);
                 var proxy = connection.CreateProxy("SosHub");
-                proxy.On("addAppNotificationV1",
-                         data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value, data.ImageUrl.Value));
+                proxy.On("addAppNotificationV1", data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value, data.ImageUrl.Value, data.EventTypeId.Value));
                 connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
                 Task result = connection.Start();
                 result.ContinueWith(t => _log.Error("Error connecting to SoS Online via SignalR", t.Exception),
