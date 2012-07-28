@@ -23,7 +23,7 @@ namespace SirenOfShame.Lib.Settings
         {
             ICryptoTransform transform = _provider.CreateEncryptor(_key, _iv);
 
-            if (text == null)
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return null;
             }
@@ -43,7 +43,7 @@ namespace SirenOfShame.Lib.Settings
         {
             ICryptoTransform transform = _provider.CreateDecryptor(_key, _iv);
 
-            if (text == null)
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return null;
             }

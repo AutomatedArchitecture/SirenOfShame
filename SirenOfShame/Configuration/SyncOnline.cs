@@ -19,9 +19,20 @@ namespace SirenOfShame.Configuration
             _settings = settings;
             InitializeComponent();
             InitializeSosOnlineSection();
+            InitializeProxySection();
             InitializeRadioButtons();
             _settings.InitializeUserIAm(_userIAm);
             _initializing = false;
+        }
+
+        private void InitializeProxySection()
+        {
+            bool proxyInfoExists = !string.IsNullOrEmpty(_settings.SosOnlineProxyUrl);
+            _useProxy.Checked = proxyInfoExists;
+            MakeProxySectionVisible(proxyInfoExists);
+            _proxyUrl.Text = _settings.SosOnlineProxyUrl;
+            _proxyUsername.Text = _settings.SosOnlineProxyUsername;
+            _proxyPassword.Text = _settings.GetSosOnlineProxyPassword();
         }
 
         private void InitializeRadioButtons()
@@ -50,6 +61,9 @@ namespace SirenOfShame.Configuration
         {
             _settings.SosOnlineUsername = _sosOnlineLogin.Text;
             _settings.SetSosOnlinePassword(_sosOnlinePassword.Text);
+            _settings.SosOnlineProxyUrl = _proxyUrl.Text;
+            _settings.SosOnlineProxyUsername = _proxyUsername.Text;
+            _settings.SetSosOnlineProxyPassword(_proxyPassword.Text);
         }
 
         private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
@@ -148,6 +162,27 @@ namespace SirenOfShame.Configuration
         {
             if (_initializing) return;
             DisableSyncAlways();
+        }
+
+        private void UseProxyCheckedChanged(object sender, EventArgs e)
+        {
+            if (!_useProxy.Checked)
+            {
+                _proxyUrl.Text = null;
+                _settings.SosOnlineProxyUrl = null;
+                _settings.Save();
+            }
+            MakeProxySectionVisible(_useProxy.Checked);
+        }
+
+        private void MakeProxySectionVisible(bool proxyInfoExists)
+        {
+            _proxyUrl.Visible = proxyInfoExists;
+            _proxyUrlLabel.Visible = proxyInfoExists;
+            _proxyUsername.Visible = proxyInfoExists;
+            _proxyUsernameLabel.Visible = proxyInfoExists;
+            _proxyPassword.Visible = proxyInfoExists;
+            _proxyPasswordLabel.Visible = proxyInfoExists;
         }
     }
 }

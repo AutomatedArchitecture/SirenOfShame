@@ -52,30 +52,38 @@ namespace TfsServices.Configuration
 
         public MyChangeset GetLatestChangeset()
         {
-            // generally there is only one workspace mapping per build definition, but there could be >1
-            IEnumerable<string> workspaceMappingServerUrls = GetNonCloakedWorkspaceMappingServerUrls();
-            var noWorkspaceMappings = !workspaceMappingServerUrls.Any();
-            if (noWorkspaceMappings)
+            try
             {
-                Log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
-                return null;
-            }
-
-            Changeset maxChangeset = null;
-            var versionControlServer = _myTfsProject.GetVersionControlServer();
-            foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
-            {
-                IEnumerable changesets = GetChangesetsFromServer(versionControlServer, workspaceMappingServerUrl);
-                Changeset changeset = GetMostRecentChangeset(changesets);
-                var thisIsTheFirstWorkspaceMapping = maxChangeset == null;
-                var theCurrentChangesetIsMoreRecentThanTheMax = thisIsTheFirstWorkspaceMapping || changeset.ChangesetId > maxChangeset.ChangesetId;
-                if (theCurrentChangesetIsMoreRecentThanTheMax)
+                // generally there is only one workspace mapping per build definition, but there could be >1
+                IEnumerable<string> workspaceMappingServerUrls = GetNonCloakedWorkspaceMappingServerUrls();
+                var noWorkspaceMappings = !workspaceMappingServerUrls.Any();
+                if (noWorkspaceMappings)
                 {
-                    maxChangeset = changeset;
+                    Log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
+                    return null;
                 }
-            }
 
-            return maxChangeset == null ? null : new MyChangeset(maxChangeset, Id, this);
+                Changeset maxChangeset = null;
+                var versionControlServer = _myTfsProject.GetVersionControlServer();
+                foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
+                {
+                    IEnumerable changesets = GetChangesetsFromServer(versionControlServer, workspaceMappingServerUrl);
+                    Changeset changeset = GetMostRecentChangeset(changesets);
+                    var thisIsTheFirstWorkspaceMapping = maxChangeset == null;
+                    var theCurrentChangesetIsMoreRecentThanTheMax = thisIsTheFirstWorkspaceMapping || changeset.ChangesetId > maxChangeset.ChangesetId;
+                    if (theCurrentChangesetIsMoreRecentThanTheMax)
+                    {
+                        maxChangeset = changeset;
+                    }
+                }
+
+                return maxChangeset == null ? null : new MyChangeset(maxChangeset, Id, this);
+            } 
+            catch (Exception ex)
+            {
+                Log.Error("Unable to retrieve comments for build definition " + Id, ex);
+                return null; // errors in getting comments 
+            }
         }
 
         private static Changeset GetMostRecentChangeset(IEnumerable changesets)

@@ -110,9 +110,11 @@ namespace SirenOfShame.Lib.Watcher
             _data[name] = value;
         }
 
-        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action, Action<ServerUnavailableException> onConnectionFail)
+        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action, Action<ServerUnavailableException> onConnectionFail, IWebProxy proxy = null)
         {
             WebClient webClient = new WebClient();
+            if (proxy != null)
+                webClient.Proxy = proxy;
             webClient.UploadValuesCompleted += (s, uploadEventArgs) =>
             {
                 try

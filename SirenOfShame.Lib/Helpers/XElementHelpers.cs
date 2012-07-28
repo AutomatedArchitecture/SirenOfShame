@@ -7,12 +7,14 @@ namespace SirenOfShame.Lib.Helpers
     {
         public static string AttributeValueOrDefault(this XElement elem, XName name)
         {
+            if (elem == null) return null;
             var attr = elem.Attribute(name);
             return attr == null ? null : attr.Value;
         }
 
         public static string AttributeValue(this XElement elem, XName name)
         {
+            if (elem == null) return null;
             var attr = elem.Attribute(name);
             if (attr == null)
             {
@@ -30,6 +32,7 @@ namespace SirenOfShame.Lib.Helpers
 
         public static bool? ElementValueAsBool(this XElement elem, XName name, bool? defaultVal)
         {
+            if (elem == null) return null;
             var val = ElementValueOrDefault(elem, name);
             if (string.IsNullOrWhiteSpace(val))
             {
@@ -41,6 +44,17 @@ namespace SirenOfShame.Lib.Helpers
                 return result;
             }
             throw new Exception("Could not parse or read element " + name);
+        }
+
+        public static int AttributeValueAsInt(this XElement elem, XName name)
+        {
+            if (elem == null) throw new Exception("Could not find " + name + " because its parent was null");
+            var val = AttributeValueOrDefault(elem, name);
+            if (string.IsNullOrWhiteSpace(val)) throw new Exception(name + " did not contain a value");
+            int result;
+            if (int.TryParse(val, out result))
+                return result;
+            throw new Exception("Could not parse " + name + " because " + val + " was not an integer");
         }
     }
 }
