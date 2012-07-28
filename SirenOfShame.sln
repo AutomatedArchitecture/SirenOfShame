@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame", "SirenOfShame\SirenOfShame.csproj", "{E292FFA7-DB35-43AA-9615-5BA819550B1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPages", "TestPages\TestPages.csproj", "{7A47F577-9B53-45D9-B109-0E11B86B2068}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbLib", "UsbLib\UsbLib.csproj", "{A54CEA5A-D773-4914-B00B-E984FD93CF59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoxLib", "SoxLib\SoxLib.csproj", "{D3DE2E68-91E4-440F-84EA-FF8F7A6370F7}"
@@ -77,18 +75,6 @@ Global
 		{E292FFA7-DB35-43AA-9615-5BA819550B1C}.Release|Win32.ActiveCfg = Release|x86
 		{E292FFA7-DB35-43AA-9615-5BA819550B1C}.Release|x86.ActiveCfg = Release|x86
 		{E292FFA7-DB35-43AA-9615-5BA819550B1C}.Release|x86.Build.0 = Release|x86
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|Win32.ActiveCfg = Release|Any CPU
-		{7A47F577-9B53-45D9-B109-0E11B86B2068}.Release|x86.ActiveCfg = Release|Any CPU
 		{A54CEA5A-D773-4914-B00B-E984FD93CF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A54CEA5A-D773-4914-B00B-E984FD93CF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A54CEA5A-D773-4914-B00B-E984FD93CF59}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

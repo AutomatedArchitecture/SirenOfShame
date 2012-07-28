@@ -79,7 +79,7 @@
             this._syncAlways.Location = new System.Drawing.Point(7, 36);
             this._syncAlways.Name = "_syncAlways";
             this._syncAlways.Size = new System.Drawing.Size(171, 17);
-            this._syncAlways.TabIndex = 1;
+            this._syncAlways.TabIndex = 11;
             this._syncAlways.Text = "Sync whenever I trigger a build";
             this._syncAlways.UseVisualStyleBackColor = true;
             this._syncAlways.CheckedChanged += new System.EventHandler(this.SyncAlwaysCheckedChanged);
@@ -91,7 +91,7 @@
             this._syncNever.Location = new System.Drawing.Point(7, 13);
             this._syncNever.Name = "_syncNever";
             this._syncNever.Size = new System.Drawing.Size(103, 17);
-            this._syncNever.TabIndex = 0;
+            this._syncNever.TabIndex = 10;
             this._syncNever.TabStop = true;
             this._syncNever.Text = "Never auto-sync";
             this._syncNever.UseVisualStyleBackColor = true;
@@ -133,7 +133,7 @@
             this._proxyPassword.Name = "_proxyPassword";
             this._proxyPassword.PasswordChar = '*';
             this._proxyPassword.Size = new System.Drawing.Size(148, 20);
-            this._proxyPassword.TabIndex = 41;
+            this._proxyPassword.TabIndex = 9;
             // 
             // _proxyPasswordLabel
             // 
@@ -149,7 +149,7 @@
             this._proxyUsername.Location = new System.Drawing.Point(103, 227);
             this._proxyUsername.Name = "_proxyUsername";
             this._proxyUsername.Size = new System.Drawing.Size(148, 20);
-            this._proxyUsername.TabIndex = 39;
+            this._proxyUsername.TabIndex = 8;
             // 
             // _proxyUsernameLabel
             // 
@@ -166,7 +166,7 @@
             this._useProxy.Location = new System.Drawing.Point(103, 179);
             this._useProxy.Name = "_useProxy";
             this._useProxy.Size = new System.Drawing.Size(74, 17);
-            this._useProxy.TabIndex = 37;
+            this._useProxy.TabIndex = 6;
             this._useProxy.Text = "Use Proxy";
             this._useProxy.UseVisualStyleBackColor = true;
             this._useProxy.CheckedChanged += new System.EventHandler(this.UseProxyCheckedChanged);
@@ -176,7 +176,7 @@
             this._proxyUrl.Location = new System.Drawing.Point(103, 201);
             this._proxyUrl.Name = "_proxyUrl";
             this._proxyUrl.Size = new System.Drawing.Size(148, 20);
-            this._proxyUrl.TabIndex = 36;
+            this._proxyUrl.TabIndex = 7;
             // 
             // _proxyUrlLabel
             // 
@@ -217,7 +217,7 @@
             this._userIAm.Location = new System.Drawing.Point(103, 116);
             this._userIAm.Name = "_userIAm";
             this._userIAm.Size = new System.Drawing.Size(148, 21);
-            this._userIAm.TabIndex = 33;
+            this._userIAm.TabIndex = 4;
             // 
             // label4
             // 
@@ -234,7 +234,7 @@
             this._sosOnlineStatus.Location = new System.Drawing.Point(100, 43);
             this._sosOnlineStatus.Name = "_sosOnlineStatus";
             this._sosOnlineStatus.Size = new System.Drawing.Size(100, 13);
-            this._sosOnlineStatus.TabIndex = 30;
+            this._sosOnlineStatus.TabIndex = 1;
             this._sosOnlineStatus.Text = "Have never synced";
             // 
             // label1
@@ -259,7 +259,7 @@
             this._verifyCredentials.Location = new System.Drawing.Point(103, 146);
             this._verifyCredentials.Name = "_verifyCredentials";
             this._verifyCredentials.Size = new System.Drawing.Size(111, 23);
-            this._verifyCredentials.TabIndex = 27;
+            this._verifyCredentials.TabIndex = 5;
             this._verifyCredentials.Text = "Verify and Sync";
             this._verifyCredentials.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._verifyCredentials.UseVisualStyleBackColor = false;
@@ -279,7 +279,7 @@
             this._sosOnlinePassword.Name = "_sosOnlinePassword";
             this._sosOnlinePassword.PasswordChar = '*';
             this._sosOnlinePassword.Size = new System.Drawing.Size(148, 20);
-            this._sosOnlinePassword.TabIndex = 26;
+            this._sosOnlinePassword.TabIndex = 3;
             this._sosOnlinePassword.TextChanged += new System.EventHandler(this._sosOnlinePassword_TextChanged);
             // 
             // _createAccount
@@ -290,7 +290,7 @@
             this._createAccount.Location = new System.Drawing.Point(95, 16);
             this._createAccount.Name = "_createAccount";
             this._createAccount.Size = new System.Drawing.Size(156, 21);
-            this._createAccount.TabIndex = 31;
+            this._createAccount.TabIndex = 0;
             this._createAccount.TabStop = true;
             this._createAccount.Text = "Create New Account";
             this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -319,7 +319,7 @@
             this._sosOnlineLogin.Location = new System.Drawing.Point(103, 64);
             this._sosOnlineLogin.Name = "_sosOnlineLogin";
             this._sosOnlineLogin.Size = new System.Drawing.Size(148, 20);
-            this._sosOnlineLogin.TabIndex = 25;
+            this._sosOnlineLogin.TabIndex = 2;
             this._sosOnlineLogin.TextChanged += new System.EventHandler(this._sosOnlineLogin_TextChanged);
             // 
             // SyncOnline
@@ -331,6 +331,7 @@
             this.Controls.Add(this.groupBox4);
             this.Name = "SyncOnline";
             this.Size = new System.Drawing.Size(463, 283);
+            this.Load += new System.EventHandler(this.SyncOnlineLoad);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);

@@ -433,11 +433,15 @@ namespace SirenOfShame.Lib.Settings
         public IWebProxy GetSosOnlineProxy()
         {
             if (string.IsNullOrEmpty(SosOnlineProxyUrl)) return null;
+            if (string.IsNullOrEmpty(SosOnlineProxyUsername))
+            {
+                return new WebProxy(SosOnlineProxyUrl);
+            }
             return new WebProxy(
                 SosOnlineProxyUrl, 
                 false, 
-                new string[] { }, 
-                new NetworkCredential(SosOnlineProxyUsername, GetSosOnlinePassword())
+                new string[] { },
+                new NetworkCredential(SosOnlineProxyUsername, GetSosOnlineProxyPassword())
                 );
         }
     }

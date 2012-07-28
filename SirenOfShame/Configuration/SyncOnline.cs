@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
@@ -23,6 +24,11 @@ namespace SirenOfShame.Configuration
             InitializeRadioButtons();
             _settings.InitializeUserIAm(_userIAm);
             _initializing = false;
+        }
+
+        private void OnClosing(object sender, CancelEventArgs cancelEventArgs)
+        {
+            SaveSosOnlineSettings();
         }
 
         private void InitializeProxySection()
@@ -64,6 +70,7 @@ namespace SirenOfShame.Configuration
             _settings.SosOnlineProxyUrl = _proxyUrl.Text;
             _settings.SosOnlineProxyUsername = _proxyUsername.Text;
             _settings.SetSosOnlineProxyPassword(_proxyPassword.Text);
+            _settings.Save();
         }
 
         private void OnAddBuildsSuccess(DateTime sosOnlineHighWaterMark)
@@ -183,6 +190,11 @@ namespace SirenOfShame.Configuration
             _proxyUsernameLabel.Visible = proxyInfoExists;
             _proxyPassword.Visible = proxyInfoExists;
             _proxyPasswordLabel.Visible = proxyInfoExists;
+        }
+
+        private void SyncOnlineLoad(object sender, EventArgs e)
+        {
+            if (ParentForm != null) ParentForm.Closing += OnClosing;
         }
     }
 }
