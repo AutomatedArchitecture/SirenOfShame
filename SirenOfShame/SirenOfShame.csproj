@@ -187,6 +187,9 @@
     <Compile Include="NewsItem.Designer.cs">
       <DependentUpon>NewsItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pill.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Resources\AudioFile.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />

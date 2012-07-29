@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
@@ -39,33 +40,43 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
         }
 
-        private NewsItem(PersonBase user, string checkinComment, DateTime date, ImageList avatarImageList, NewsItemTypeEnum newsItemEventType)
+        public NewsItem(NewNewsItemEventArgs args)
         {
-            _newsItemEventType = newsItemEventType;
-            _rawUserName = user.RawName;
-            _lastPrettyDate = date.PrettyDate();
+            _newsItemEventType = args.NewsItemType;
+            _rawUserName = args.Person.RawName;
+            _lastPrettyDate = args.EventDate.PrettyDate();
             
             InitializeComponent();
 
-            _userName.Text = user.DisplayName;
-            _userName.BackColor = GetBackgroundColorForEventType(newsItemEventType);
+            _userName.Text = args.Person.DisplayName;
+            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
+
+            SetReputationChange(args.ReputationChange, args.NewsItemType);
 
             richTextBox1.Clear();
             richTextBox1.SelectionFont = _regularFont;
-            richTextBox1.SelectedText = "\r\n" + checkinComment;
+            richTextBox1.SelectedText = "\r\n" + args.Title;
             richTextBox1.SelectionColor = Color.Gray;
             richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
 
-            avatar1.SetImage(user, avatarImageList);
-            avatar1.Cursor = user.Clickable ? Cursors.Hand : Cursors.Default;
+            avatar1.SetImage(args.Person, args.AvatarImageList);
+            avatar1.Cursor = args.Person.Clickable ? Cursors.Hand : Cursors.Default;
 
-            EventDate = date;
+            EventDate = args.EventDate;
         }
 
-        public NewsItem(NewNewsItemEventArgs args)
-            : this(args.Person, args.Title, args.EventDate, args.AvatarImageList, args.NewsItemType)
+        private void SetReputationChange(int? reputationChange, NewsItemTypeEnum newsItemType)
         {
-            
+            _reputationChange.Visible = reputationChange != null;
+            if (reputationChange == null) return;
+            _reputationChange.BackColor = Color.Transparent;
+            _reputationChange.PillColor = GetPenColorForEventType(newsItemType);
+            _reputationChange.Text = GetNumericAsDelta(reputationChange.Value);
+        }
+
+        private string GetNumericAsDelta(int value)
+        {
+            return value > 0 ? "+" + value : value.ToString(CultureInfo.InvariantCulture);
         }
 
         public void RecalculatePrettyDate()

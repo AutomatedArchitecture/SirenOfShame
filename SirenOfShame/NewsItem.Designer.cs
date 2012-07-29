@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this._reputationChange = new SirenOfShame.Pill();
             this._userName = new System.Windows.Forms.Label();
             this.richTextBox1 = new SirenOfShame.TransparentRichTextBox();
             this.avatar1 = new SirenOfShame.Avatar();
@@ -40,6 +41,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this._reputationChange);
             this.panel1.Controls.Add(this._userName);
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Location = new System.Drawing.Point(53, 0);
@@ -48,6 +50,20 @@
             this.panel1.Size = new System.Drawing.Size(94, 100);
             this.panel1.TabIndex = 5;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1Paint);
+            // 
+            // _reputationChange
+            // 
+            this._reputationChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._reputationChange.BackColor = System.Drawing.Color.DarkRed;
+            this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._reputationChange.ForeColor = System.Drawing.Color.White;
+            this._reputationChange.Location = new System.Drawing.Point(72, -1);
+            this._reputationChange.Name = "_reputationChange";
+            this._reputationChange.PillColor = System.Drawing.Color.Empty;
+            this._reputationChange.Size = new System.Drawing.Size(21, 17);
+            this._reputationChange.TabIndex = 2;
+            this._reputationChange.Text = "+1";
+            this._reputationChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _userName
             // 
@@ -111,5 +127,6 @@
         private System.Windows.Forms.Panel panel1;
         private TransparentRichTextBox richTextBox1;
         private System.Windows.Forms.Label _userName;
+        private Pill _reputationChange;
     }
 }
