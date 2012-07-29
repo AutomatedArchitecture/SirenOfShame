@@ -31,6 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this._clearNews = new System.Windows.Forms.Button();
             this._newsItemsPanel = new System.Windows.Forms.Panel();
+            this._noNews = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,11 +61,22 @@
             // 
             this._newsItemsPanel.AutoScroll = true;
             this._newsItemsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 5);
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 22);
             this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(254, 214);
+            this._newsItemsPanel.Size = new System.Drawing.Size(254, 197);
             this._newsItemsPanel.TabIndex = 1;
             this._newsItemsPanel.MouseEnter += new System.EventHandler(this._newsItemsPanel_MouseEnter);
+            // 
+            // _noNews
+            // 
+            this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
+            this._noNews.ForeColor = System.Drawing.Color.Gray;
+            this._noNews.Location = new System.Drawing.Point(0, 5);
+            this._noNews.Name = "_noNews";
+            this._noNews.Size = new System.Drawing.Size(254, 17);
+            this._noNews.TabIndex = 2;
+            this._noNews.Text = "No news is good news";
+            this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NewsFeed
             // 
@@ -72,6 +84,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this._newsItemsPanel);
+            this.Controls.Add(this._noNews);
             this.Controls.Add(this.panel1);
             this.Name = "NewsFeed";
             this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -88,6 +101,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button _clearNews;
         private System.Windows.Forms.Panel _newsItemsPanel;
+        private System.Windows.Forms.Label _noNews;
 
 
     }

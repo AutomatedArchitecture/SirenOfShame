@@ -90,6 +90,7 @@ namespace SirenOfShame
 
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
+            _noNews.Visible = false;
             var newsItem = new NewsItem(args) { Dock = DockStyle.Top };
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
@@ -117,6 +118,7 @@ namespace SirenOfShame
         private void ClearNewsClick(object sender, EventArgs e)
         {
             _newsItemsPanel.Controls.Clear();
+            _noNews.Visible = true;
         }
 
         private void NewsFeed_MouseEnter(object sender, EventArgs e)
