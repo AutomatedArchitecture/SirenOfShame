@@ -83,8 +83,9 @@ namespace SirenOfShame
 
         private void WriteTitle(NewNewsItemEventArgs args)
         {
+            string title = args.NewsItemType == NewsItemTypeEnum.SosOnlineComment ? "\"" + args.Title + "\"" : args.Title;
             richTextBox1.SelectionFont = _regularFont;
-            richTextBox1.SelectedText = "\r\n" + args.Title;
+            richTextBox1.SelectedText = "\r\n" + title;
         }
 
         private void WriteProject(NewNewsItemEventArgs args)
@@ -168,6 +169,10 @@ namespace SirenOfShame
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 139, 64, 222) },
         };
@@ -176,6 +181,10 @@ namespace SirenOfShame
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
+            { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 235, 245, 251) },
+            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 235, 245, 251) },
+            { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 235, 245, 251) },
+            { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 236, 226, 255) },
         };
