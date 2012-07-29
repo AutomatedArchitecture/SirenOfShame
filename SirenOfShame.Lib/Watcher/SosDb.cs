@@ -133,8 +133,12 @@ namespace SirenOfShame.Lib.Watcher
         public void ExportNewNewsItem(NewNewsItemEventArgs args)
         {
             var location = GetEventsLocation();
-            string contents = args.AsCommaSeparated() + "\r\n";
-            File.AppendAllText(location, contents);
+            string asCommaSeparated = args.AsCommaSeparated();
+            if (!string.IsNullOrEmpty(asCommaSeparated))
+            {
+                string contents = asCommaSeparated + "\r\n";
+                File.AppendAllText(location, contents);
+            }
         }
 
         public List<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet)

@@ -11,7 +11,7 @@ namespace SirenOfShame
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             base.OnPaintBackground(pevent);
-            pevent.Graphics.FillRoundedRectangle(new SolidBrush(PillColor), ClientRectangle, 5);
+            pevent.Graphics.FillRoundedRectangle(new SolidBrush(PillColor), ClientRectangle, 5, RectangleEdgeFilter.TopRight | RectangleEdgeFilter.BottomLeft);
         }
     }
 }

@@ -55,7 +55,7 @@
             // 
             this._reputationChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._reputationChange.BackColor = System.Drawing.Color.DarkRed;
-            this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._reputationChange.ForeColor = System.Drawing.Color.White;
             this._reputationChange.Location = new System.Drawing.Point(72, -1);
             this._reputationChange.Name = "_reputationChange";

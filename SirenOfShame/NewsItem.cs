@@ -54,6 +54,8 @@ namespace SirenOfShame
             SetReputationChange(args.ReputationChange, args.NewsItemType);
 
             richTextBox1.Clear();
+            richTextBox1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            richTextBox1.SelectedText = "\r\n" + args.Project;
             richTextBox1.SelectionFont = _regularFont;
             richTextBox1.SelectedText = "\r\n" + args.Title;
             richTextBox1.SelectionColor = Color.Gray;
@@ -70,7 +72,9 @@ namespace SirenOfShame
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
             _reputationChange.BackColor = Color.Transparent;
-            _reputationChange.PillColor = GetPenColorForEventType(newsItemType);
+            _reputationChange.PillColor = reputationChange.Value < 0
+                                              ? Color.FromArgb(255, 203, 59, 75)
+                                              : Color.FromArgb(255, 43, 151, 71);
             _reputationChange.Text = GetNumericAsDelta(reputationChange.Value);
         }
 
@@ -117,7 +121,7 @@ namespace SirenOfShame
         {
             Graphics graphics = e.Graphics;
             graphics.FillRoundedRectangle(new SolidBrush(GetBackgroundColorForEventType(_newsItemEventType)), panel1.ClientRectangle, 5);
-            graphics.DrawRoundedRectangle(new Pen(GetPenColorForEventType(_newsItemEventType)), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
+            graphics.DrawRoundedRectangle(new Pen(GetBorderColorForEventType(_newsItemEventType)), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
         }
 
         private static Color GetColorForEventType(Dictionary<NewsItemTypeEnum, Color> dictionary, NewsItemTypeEnum newsItemEventType, Color defaultColor)
@@ -128,19 +132,19 @@ namespace SirenOfShame
             return defaultColor;
         }
         
-        private Color GetPenColorForEventType(NewsItemTypeEnum newsItemEventType)
+        private Color GetBorderColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(borderColorToColorMapping, newsItemEventType, Color.LightGray);
+            return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, Color.LightGray);
         }
 
-        private static readonly Dictionary<NewsItemTypeEnum, Color> borderColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
+        private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
         };
         
-        private static readonly Dictionary<NewsItemTypeEnum, Color> backgroundColorToColorMapping = new Dictionary<NewsItemTypeEnum, Color>
+        private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
@@ -149,7 +153,7 @@ namespace SirenOfShame
         
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(backgroundColorToColorMapping, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
+            return GetColorForEventType(_newsTypeToBackgroundColorMap, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
         }
 
         private void NewsItemResize(object sender, EventArgs e)

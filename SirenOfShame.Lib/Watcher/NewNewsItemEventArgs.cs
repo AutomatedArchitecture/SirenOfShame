@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -24,6 +25,7 @@ namespace SirenOfShame.Lib.Watcher
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(NewNewsItemEventArgs));
         
+        public string Project { get; set; }
         public DateTime EventDate { get; set; }
         public PersonBase Person { get; set; }
         public string Title { get; set; }
@@ -31,9 +33,28 @@ namespace SirenOfShame.Lib.Watcher
         public NewsItemTypeEnum NewsItemType { get; set; }
         public int? ReputationChange { get; set; }
 
+        private static string MakeCsvSafe(string s)
+        {
+            return string.IsNullOrEmpty(s) ? "" : s.Replace(',', ' ');
+        }
+
         public string AsCommaSeparated()
         {
-            return string.Format("{0},{1},{2},{3},{4}", EventDate.Ticks, Person.RawName, (int)NewsItemType, ReputationChange, Title);
+            try
+            {
+                return string.Format("{0},{1},{2},{3},{4},{5}",
+                                     EventDate.Ticks,
+                                     MakeCsvSafe(Person.RawName),
+                                     (int) NewsItemType,
+                                     ReputationChange,
+                                     MakeCsvSafe(Project),
+                                     Title);
+            } 
+            catch (Exception ex)
+            {
+                _log.Error("Failed to serialize news item", ex);
+                return null;
+            }
         }
 
         public static NewNewsItemEventArgs FromCommaSeparated(string commaSeparated, SirenOfShameSettings settings)
@@ -46,12 +67,13 @@ namespace SirenOfShame.Lib.Watcher
                     _log.Error("Found a news item with fewer than three elements" + commaSeparated);
                     return null;
                 }
-                var eventDate = GetEventDate(elements);
-                var person = GetPerson(settings, elements);
-                if (person == null) return null;
-                var newsItemType = GetNewsItemType(elements);
-                var reputationChange = GetReputationChange(elements);
-                var title = GetTitle(elements);
+                var eventDate = GetEventDate(elements[0]);
+                var person = GetPerson(settings, elements[1]);
+                if (person == null) throw new Exception("Unable to find user " + elements[1]);
+                var newsItemType = GetNewsItemType(elements[2]);
+                var reputationChange = GetReputationChange(elements[3]);
+                var project = GetProject(elements[4]);
+                var title = GetTitle(elements, 5);
                 return new NewNewsItemEventArgs
                 {
                     EventDate = eventDate,
@@ -59,6 +81,7 @@ namespace SirenOfShame.Lib.Watcher
                     Title = title,
                     NewsItemType = newsItemType,
                     ReputationChange = reputationChange,
+                    Project = project
                 };
             } 
             catch (Exception ex)
@@ -68,36 +91,41 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private static int? GetReputationChange(string[] elements)
+        private static string GetProject(string element)
         {
-            var reputationChangeRaw = elements[3];
+            return element;
+        }
+
+        private static int? GetReputationChange(string element)
+        {
+            var reputationChangeRaw = element;
             if (string.IsNullOrEmpty(reputationChangeRaw)) return null;
             return int.Parse(reputationChangeRaw);
         }
 
-        private static NewsItemTypeEnum GetNewsItemType(string[] elements)
+        private static NewsItemTypeEnum GetNewsItemType(string element)
         {
-            var newsItemTypeRaw = elements[2];
+            var newsItemTypeRaw = element;
             var newsItemTypeInt = int.Parse(newsItemTypeRaw);
             return (NewsItemTypeEnum) newsItemTypeInt;
         }
 
-        private static string GetTitle(string[] elements)
+        private static string GetTitle(IEnumerable<string> elements, int commentStart)
         {
-            var title = string.Join(",", elements.Skip(4));
+            var title = string.Join(",", elements.Skip(commentStart));
             return title;
         }
 
-        private static DateTime GetEventDate(string[] elements)
+        private static DateTime GetEventDate(string element)
         {
-            var eventDateTicks = long.Parse(elements[0]);
+            var eventDateTicks = long.Parse(element);
             var eventDate = new DateTime(eventDateTicks);
             return eventDate;
         }
 
-        private static PersonSetting GetPerson(SirenOfShameSettings settings, string[] elements)
+        private static PersonSetting GetPerson(SirenOfShameSettings settings, string element)
         {
-            var rawName = elements[1];
+            var rawName = element;
             var person = settings.FindPersonByRawName(rawName);
             if (person == null)
             {

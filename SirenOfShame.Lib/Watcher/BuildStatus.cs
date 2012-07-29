@@ -248,6 +248,7 @@ namespace SirenOfShame.Lib.Watcher
                 Person = person,
                 EventDate = DateTime.Now,
                 Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
+                Project = Name,
                 NewsItemType = GetNewsItemType(),
                 ReputationChange = GetReputationChange()
             };
@@ -275,14 +276,14 @@ namespace SirenOfShame.Lib.Watcher
             var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && BuildStatusEnum == BuildStatusEnum.Broken;
             var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
 
-            if (inProgress) return string.Format("Initiated a build on {0} with a comment of '{1}'", Name, Comment);
-            if (wasBrokenNowWorking) return string.Format("+1 Fixed the broken build on " + Name + "!");
-            if (wasWorkingNowBroken) return string.Format("-4 Broke the build on " + Name);
-            if (wasBrokenNowBroken) return string.Format("-4 Failed to fix the build on " + Name);
-            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("+1 Built " + Name + " successfully");
+            if (inProgress) return string.Format("'{1}'", Name, Comment);
+            if (wasBrokenNowWorking) return string.Format("Fixed the broken build");
+            if (wasWorkingNowBroken) return string.Format("Broke the build");
+            if (wasBrokenNowBroken) return string.Format("Failed to fix the build");
+            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Successful build");
             
             // some other previous status? this should never happen
-            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("-4 Broke the build on " + Name);
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build");
 
             throw new Exception("Unknown build status: " + BuildStatusEnum);
         }

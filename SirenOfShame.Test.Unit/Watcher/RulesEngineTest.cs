@@ -21,7 +21,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
             var newNewsItem = rulesEngine.NewNewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
-            Assert.AreEqual("Initiated a build on " + RulesEngineWrapper.BUILD1_ID + " with a comment of 'Fixing a typo'", newNewsItem.Title);
+            Assert.AreEqual("'Fixing a typo'", newNewsItem.Title);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
             var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
-            Assert.AreEqual("+1 Built Build Def 1 successfully", latestNewsItem.Title);
+            Assert.AreEqual("Successful build", latestNewsItem.Title);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
             var newNewsItem = rulesEngine.NewNewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
-            Assert.AreEqual("+1 Fixed the broken build on Build Def 1!", newNewsItem.Title);
+            Assert.AreEqual("Fixed the broken build", newNewsItem.Title);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
             var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
-            Assert.AreEqual("-4 Failed to fix the build on Build Def 1", latestNewsItem.Title);
+            Assert.AreEqual("Failed to fix the build", latestNewsItem.Title);
         }
 
         [TestMethod]
