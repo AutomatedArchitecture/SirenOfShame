@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -44,6 +45,9 @@ namespace SirenOfShame
             _userName.Text = personSetting.GetBothDisplayAndRawNames();
             avatar1.SetImage(personSetting, avatarImageList);
             flowLayoutPanel1.Controls.Clear();
+            _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
+            _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
+            _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";
 
             foreach (var achievementLookup in AchievementSetting.AchievementLookups)
             {
