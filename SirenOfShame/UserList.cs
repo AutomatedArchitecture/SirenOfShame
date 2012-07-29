@@ -25,12 +25,12 @@ namespace SirenOfShame
         readonly Timer _flashListViewItemTimer = new Timer();
         private readonly List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
-        private void InvokeOnUserDisplayNameChanged()
+        private void InvokeOnUserDisplayNameChanged(string rawName, string displayName)
         {
             var onUserDisplayNameChanged = OnUserDisplayNameChanged;
             if (onUserDisplayNameChanged != null)
             {
-                onUserDisplayNameChanged(this, new UserDisplayNameChangedArgs());
+                onUserDisplayNameChanged(this, new UserDisplayNameChangedArgs { RawUserName = rawName, NewDisplayName = displayName });
             }
         }
 
@@ -116,10 +116,11 @@ namespace SirenOfShame
         {
             var activePerson = GetActivePerson();
             if (activePerson == null) return;
+
             activePerson.DisplayName = e.Label;
             Settings.Save();
 
-            InvokeOnUserDisplayNameChanged();
+            InvokeOnUserDisplayNameChanged(activePerson.RawName, activePerson.DisplayName);
         }
 
         private void UsersMouseUp(object sender, MouseEventArgs e)
@@ -214,6 +215,8 @@ namespace SirenOfShame
 
     public class UserDisplayNameChangedArgs
     {
+        public string RawUserName { get; set; }
+        public string NewDisplayName { get; set; }
     }
 
     public delegate void UserSelected(object sender, UserSelectedArgs args);

@@ -92,6 +92,7 @@ namespace SirenOfShame
         {
             _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
             _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
+            _newsFeed1.RefreshDisplayNames(_settings, args);
         }
 
         private void UsersListOnOnUserSelected(object sender, UserSelectedArgs args)

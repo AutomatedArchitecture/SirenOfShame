@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -126,6 +127,14 @@ namespace SirenOfShame
         private void _newsItemsPanel_MouseEnter(object sender, EventArgs e)
         {
             EnableMouseScrollWheel();
+        }
+
+        public void RefreshDisplayNames(SirenOfShameSettings settings, UserDisplayNameChangedArgs args)
+        {
+            GetNewsItemControls()
+                .Where(i => i.RawName == args.RawUserName)
+                .ToList()
+                .ForEach(i => i.DisplayName = args.NewDisplayName);
         }
     }
 }

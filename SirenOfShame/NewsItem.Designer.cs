@@ -28,11 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.panel1 = new System.Windows.Forms.Panel();
+            this._userName = new System.Windows.Forms.Label();
             this.richTextBox1 = new SirenOfShame.TransparentRichTextBox();
             this.avatar1 = new SirenOfShame.Avatar();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this._userName);
+            this.panel1.Controls.Add(this.richTextBox1);
+            this.panel1.Location = new System.Drawing.Point(53, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(4);
+            this.panel1.Size = new System.Drawing.Size(94, 100);
+            this.panel1.TabIndex = 5;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1Paint);
+            // 
+            // _userName
+            // 
+            this._userName.AutoEllipsis = true;
+            this._userName.BackColor = System.Drawing.Color.Transparent;
+            this._userName.Dock = System.Windows.Forms.DockStyle.Top;
+            this._userName.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._userName.Location = new System.Drawing.Point(4, 4);
+            this._userName.Margin = new System.Windows.Forms.Padding(0);
+            this._userName.Name = "_userName";
+            this._userName.Size = new System.Drawing.Size(86, 13);
+            this._userName.TabIndex = 1;
+            this._userName.Text = "Bob Smith";
             // 
             // richTextBox1
             // 
@@ -59,19 +88,6 @@
             this.avatar1.TabIndex = 4;
             this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.richTextBox1);
-            this.panel1.Location = new System.Drawing.Point(53, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(4);
-            this.panel1.Size = new System.Drawing.Size(94, 100);
-            this.panel1.TabIndex = 5;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel1Paint);
-            // 
             // NewsItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -79,10 +95,11 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.avatar1);
-            this.Margin = new System.Windows.Forms.Padding(0, 6, 0, 10);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.MinimumSize = new System.Drawing.Size(0, 65);
             this.Name = "NewsItem";
             this.Size = new System.Drawing.Size(150, 103);
+            this.Resize += new System.EventHandler(this.NewsItemResize);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -93,5 +110,6 @@
         private Avatar avatar1;
         private System.Windows.Forms.Panel panel1;
         private TransparentRichTextBox richTextBox1;
+        private System.Windows.Forms.Label _userName;
     }
 }

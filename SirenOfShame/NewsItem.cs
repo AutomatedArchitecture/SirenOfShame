@@ -22,6 +22,12 @@ namespace SirenOfShame
             get { return _rawUserName; }
         }
 
+        public string DisplayName
+        {
+            get { return _userName.Text; }
+            set { _userName.Text = value; }
+        }
+
         public void ChangeImageIndex(int index)
         {
             avatar1.ImageIndex = index;
@@ -41,9 +47,10 @@ namespace SirenOfShame
             
             InitializeComponent();
 
+            _userName.Text = user.DisplayName;
+            _userName.BackColor = GetBackgroundColorForEventType(newsItemEventType);
+
             richTextBox1.Clear();
-            richTextBox1.SelectionFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            richTextBox1.SelectedText = user.DisplayName;
             richTextBox1.SelectionFont = _regularFont;
             richTextBox1.SelectedText = "\r\n" + checkinComment;
             richTextBox1.SelectionColor = Color.Gray;
@@ -74,12 +81,12 @@ namespace SirenOfShame
         {
             using (Graphics g = CreateGraphics())
             {
-                const int marginToAccountForBoldFont = 1;
-                int renderWidth = richTextBox1.Width - marginToAccountForBoldFont;
+                int renderWidth = richTextBox1.Width;
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
-                int textBoxHeight = (int)Math.Ceiling(size.Height);
+                int richTextBoxHeight = (int)Math.Ceiling(size.Height);
+                int mainContentHeight = richTextBoxHeight + _userName.Height;
 
-                return Margin.Top + Margin.Bottom + Math.Max(textBoxHeight, avatar1.Height);
+                return Math.Max(mainContentHeight, avatar1.Height);
             }
         }
 
@@ -132,6 +139,12 @@ namespace SirenOfShame
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
             return GetColorForEventType(backgroundColorToColorMapping, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
+        }
+
+        private void NewsItemResize(object sender, EventArgs e)
+        {
+            // this fixes a drawing issue on the panel where it wouldn't always redraw the rounded corners background
+            panel1.Invalidate();
         }
     }
 
