@@ -131,8 +131,6 @@ namespace SirenOfShame.Lib.Settings
 
         public int? SoftwareInstanceId { get; set; }
 
-        public bool HideReputation { get; set; }
-
         public bool Mute { get; set; }
 
         public volatile string _fileName;

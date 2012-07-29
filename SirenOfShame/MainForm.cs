@@ -571,19 +571,14 @@ namespace SirenOfShame
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             if (buildDefinitionSelected)
-                SetRightMenu(RightMenu.BuildStats);
-            else
-                ResetRightMenu();
-            _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
-            if (_panelRight.Visible)
             {
-                if (!buildDefinitionSelected && !_settings.HideReputation)
-                {
-                    RefreshUserStats(changedBuildStatuses);
-                } else
-                {
-                    RefreshProjectStats(buildDefinitionSetting);
-                }
+                SetRightMenu(RightMenu.BuildStats);
+                RefreshProjectStats(buildDefinitionSetting);
+            }
+            else
+            {
+                ResetRightMenu();
+                RefreshUserStats(changedBuildStatuses);
             }
         }
         

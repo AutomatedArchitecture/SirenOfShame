@@ -41,7 +41,6 @@
             this._checkForUpdates = new System.Windows.Forms.Button();
             this._updateLocationAuto = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this._hideReputation = new System.Windows.Forms.CheckBox();
             this._recalculate = new System.Windows.Forms.Button();
             this._neverShowAchievements = new System.Windows.Forms.RadioButton();
             this._alwaysShowNewAchievements = new System.Windows.Forms.RadioButton();
@@ -92,12 +91,12 @@
             // 
             // _pollInterval
             // 
-            this._pollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._pollInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._pollInterval.Location = new System.Drawing.Point(11, 29);
             this._pollInterval.Maximum = 60;
             this._pollInterval.Name = "_pollInterval";
-            this._pollInterval.Size = new System.Drawing.Size(546, 42);
+            this._pollInterval.Size = new System.Drawing.Size(546, 45);
             this._pollInterval.TabIndex = 0;
             this._pollInterval.Value = 1;
             this._pollInterval.ValueChanged += new System.EventHandler(this.PollIntervalValueChanged);
@@ -111,12 +110,12 @@
             this._viewLog.TabIndex = 8;
             this._viewLog.Text = "View Log...";
             this._viewLog.UseVisualStyleBackColor = true;
-            this._viewLog.Click += new System.EventHandler(ViewLogClick);
+            this._viewLog.Click += new System.EventHandler(this.ViewLogClick);
             // 
             // _updateLocations
             // 
-            this._updateLocations.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._updateLocations.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._updateLocations.Controls.Add(this._updateLocationNever);
             this._updateLocations.Controls.Add(this._updateLocationOtherLocation);
             this._updateLocations.Controls.Add(this._updateLocationOther);
@@ -140,8 +139,8 @@
             // 
             // _updateLocationOtherLocation
             // 
-            this._updateLocationOtherLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._updateLocationOtherLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._updateLocationOtherLocation.Enabled = false;
             this._updateLocationOtherLocation.Location = new System.Drawing.Point(56, 25);
             this._updateLocationOtherLocation.Name = "_updateLocationOtherLocation";
@@ -168,7 +167,7 @@
             this._checkForUpdates.TabIndex = 12;
             this._checkForUpdates.Text = "Check for Updates Now";
             this._checkForUpdates.UseVisualStyleBackColor = true;
-            this._checkForUpdates.Click += new System.EventHandler(CheckForUpdatesClick);
+            this._checkForUpdates.Click += new System.EventHandler(this.CheckForUpdatesClick);
             // 
             // _updateLocationAuto
             // 
@@ -184,8 +183,8 @@
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.Gray;
@@ -195,16 +194,6 @@
             this.textBox1.Size = new System.Drawing.Size(483, 44);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Examples:\r\nfile:///c|/temp/\r\nhttp://myupdate.com/";
-            // 
-            // _hideReputation
-            // 
-            this._hideReputation.AutoSize = true;
-            this._hideReputation.Location = new System.Drawing.Point(451, 17);
-            this._hideReputation.Name = "_hideReputation";
-            this._hideReputation.Size = new System.Drawing.Size(98, 17);
-            this._hideReputation.TabIndex = 15;
-            this._hideReputation.Text = "Hide reputation";
-            this._hideReputation.UseVisualStyleBackColor = true;
             // 
             // _recalculate
             // 
@@ -276,8 +265,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this._pollInterval);
             this.groupBox1.Controls.Add(this._duration);
             this.groupBox1.Location = new System.Drawing.Point(12, 10);
@@ -289,8 +278,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this._updateLocations);
             this.groupBox2.Location = new System.Drawing.Point(13, 119);
             this.groupBox2.Name = "groupBox2";
@@ -301,9 +290,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this._hideReputation);
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this._recalculate);
             this.groupBox3.Controls.Add(this._onlyShowMyAchievements);
             this.groupBox3.Controls.Add(this.label7);
@@ -359,7 +347,6 @@
         private System.Windows.Forms.RadioButton _updateLocationOther;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button _checkForUpdates;
-        private System.Windows.Forms.CheckBox _hideReputation;
         private System.Windows.Forms.RadioButton _updateLocationNever;
         private System.Windows.Forms.Button _recalculate;
         private System.Windows.Forms.RadioButton _neverShowAchievements;
