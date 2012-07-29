@@ -57,6 +57,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             var newAchievement = NewAchievement;
             if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
+            achievements.ForEach(i => InvokeNewNewsItem(i.AsNewNewsItem(person), newsIsBothLocalAndNew: true));
         }
 
         public void InvokePlayWindowsAudio(string location)

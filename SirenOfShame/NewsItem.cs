@@ -45,29 +45,56 @@ namespace SirenOfShame
             _newsItemEventType = args.NewsItemType;
             _rawUserName = args.Person.RawName;
             _lastPrettyDate = args.EventDate.PrettyDate();
+            EventDate = args.EventDate;
             
             InitializeComponent();
 
-            _userName.Text = args.Person.DisplayName;
-            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
-
-            SetReputationChange(args.ReputationChange, args.NewsItemType);
-
-            richTextBox1.Clear();
-            richTextBox1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            richTextBox1.SelectedText = "\r\n" + args.Project;
-            richTextBox1.SelectionFont = _regularFont;
-            richTextBox1.SelectedText = "\r\n" + args.Title;
-            richTextBox1.SelectionColor = Color.Gray;
-            richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
-
-            avatar1.SetImage(args.Person, args.AvatarImageList);
-            avatar1.Cursor = args.Person.Clickable ? Cursors.Hand : Cursors.Default;
-
-            EventDate = args.EventDate;
+            InitializeUserNameLabel(args);
+            InitializeReputationChangeLabel(args.ReputationChange, args.NewsItemType);
+            InitializeRichTextBox(args);
+            InitializeAvatar(args);
         }
 
-        private void SetReputationChange(int? reputationChange, NewsItemTypeEnum newsItemType)
+        private void InitializeAvatar(NewNewsItemEventArgs args)
+        {
+            avatar1.SetImage(args.Person, args.AvatarImageList);
+            avatar1.Cursor = args.Person.Clickable ? Cursors.Hand : Cursors.Default;
+        }
+
+        private void InitializeRichTextBox(NewNewsItemEventArgs args)
+        {
+            richTextBox1.Clear();
+            WriteProject(args);
+            WriteTitle(args);
+            WriteDate();
+        }
+
+        private void InitializeUserNameLabel(NewNewsItemEventArgs args)
+        {
+            _userName.Text = args.Person.DisplayName;
+            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
+        }
+
+        private void WriteDate()
+        {
+            richTextBox1.SelectionColor = Color.Gray;
+            richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
+        }
+
+        private void WriteTitle(NewNewsItemEventArgs args)
+        {
+            richTextBox1.SelectionFont = _regularFont;
+            richTextBox1.SelectedText = "\r\n" + args.Title;
+        }
+
+        private void WriteProject(NewNewsItemEventArgs args)
+        {
+            if (string.IsNullOrEmpty(args.Project)) return;
+            richTextBox1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            richTextBox1.SelectedText = "\r\n" + args.Project;
+        }
+
+        private void InitializeReputationChangeLabel(int? reputationChange, NewsItemTypeEnum newsItemType)
         {
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
@@ -142,6 +169,7 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
+            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 139, 64, 222) },
         };
         
         private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
@@ -149,6 +177,7 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
+            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 236, 226, 255) },
         };
         
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
