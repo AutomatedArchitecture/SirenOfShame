@@ -570,8 +570,10 @@ namespace SirenOfShame
         private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
         {
             bool buildDefinitionSelected = buildDefinitionSetting != null;
-            RightMenu rightMenu = buildDefinitionSelected ? RightMenu.BuildStats : RightMenu.Users;
-            //SetRightMenu(rightMenu);
+            if (buildDefinitionSelected)
+                SetRightMenu(RightMenu.BuildStats);
+            else
+                ResetRightMenu();
             _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
             if (_panelRight.Visible)
             {
@@ -587,13 +589,26 @@ namespace SirenOfShame
         
         const string NEWS_SELECTED_PNG = "NewsSelected.png";
         const string PERSON_SELECTED_PNG = "PersonSelected.png";
+        private RightMenu _lastMainRightMenu = RightMenu.NewsFeed;
 
+        private void ResetRightMenu()
+        {
+            SetRightMenu(_lastMainRightMenu);
+        }
+        
         private void SetRightMenu(RightMenu rightMenu)
         {
+            StoreLastMainRightMenu(rightMenu);
             _buildStats.Visible = rightMenu == RightMenu.BuildStats;
             _userList.Visible = rightMenu == RightMenu.Users;
             _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
             ResetRightMenuButtons();
+        }
+
+        private void StoreLastMainRightMenu(RightMenu rightMenu)
+        {
+            if (rightMenu == RightMenu.NewsFeed || rightMenu == RightMenu.Users)
+                _lastMainRightMenu = rightMenu;
         }
 
         private void ResetRightMenuButtons()
