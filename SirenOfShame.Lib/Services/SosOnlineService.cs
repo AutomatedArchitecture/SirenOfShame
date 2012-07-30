@@ -22,21 +22,28 @@ namespace SirenOfShame.Lib.Services
         public const string SOS_URL = "http://localhost:3115";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
 
-        public void InvokeOnOnNewSosOnlineNotification(NewSosOnlineNotificationArgs args)
+        public void InvokeOnOnNewSosOnlineNotification(dynamic data)
         {
-            NewSosOnlineNotification handler = OnNewSosOnlineNotification;
-            if (handler != null) handler(this, args);
+            InvokeOnOnNewSosOnlineNotification(data.Message.Value,
+                                               data.DisplayName.Value,
+                                               data.ImageUrl.Value,
+                                               data.EventTypeId.Value,
+                                               data.Username.Value
+                                               );
         }
         
-        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId)
+        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId, string userName)
         {
-            InvokeOnOnNewSosOnlineNotification(new NewSosOnlineNotificationArgs
+            var args = new NewSosOnlineNotificationArgs
             {
                 Message = message, 
                 DisplayName = displayName,
                 ImageUrl = imageUrl,
                 EventTypeId = (int)eventTypeId,
-            });
+                UserName = userName,
+            };
+            NewSosOnlineNotification handler = OnNewSosOnlineNotification;
+            if (handler != null) handler(this, args);
         }
 
         public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
@@ -149,7 +156,7 @@ namespace SirenOfShame.Lib.Services
                 if (!settings.GetSosOnlineContent()) return;
                 var connection = new HubConnection(SOS_URL);
                 var proxy = connection.CreateProxy("SosHub");
-                proxy.On("addAppNotificationV1", data => InvokeOnOnNewSosOnlineNotification(data.Message.Value, data.DisplayName.Value, data.ImageUrl.Value, data.EventTypeId.Value));
+                proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
                 connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
                 Task result = connection.Start();
                 result.ContinueWith(t => _log.Error("Error connecting to SoS Online via SignalR", t.Exception),

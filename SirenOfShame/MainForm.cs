@@ -274,6 +274,11 @@ namespace SirenOfShame
 
         private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
         {
+            NewsItemTypeEnum newItemType = (NewsItemTypeEnum)args.EventTypeId;
+            bool currentUserAuthoredEvent = args.UserName == _settings.SosOnlineUsername;
+            bool reputationChangeOrAchievement = newItemType == NewsItemTypeEnum.SosOnlineReputationChange ||
+                                                 newItemType == NewsItemTypeEnum.SosOnlineNewAchievement;
+            if (currentUserAuthoredEvent && reputationChangeOrAchievement) return;
             // this may result in a web request to retrieve the person's image, so keep it on some other thread
             SosOnlinePerson sosOnlinePerson = _sosOnlineService.CreateSosOnlinePersonFromSosOnlineNotification(args, _avatarImageList);
             Invoke(() =>
@@ -284,7 +289,7 @@ namespace SirenOfShame
                     Person = sosOnlinePerson,
                     Title = args.Message,
                     AvatarImageList = _avatarImageList,
-                    NewsItemType = (NewsItemTypeEnum)args.EventTypeId
+                    NewsItemType = newItemType
                 };
                 _newsFeed1.AddNewsItem(newNewsItemEventArgs);
             });

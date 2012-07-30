@@ -170,11 +170,11 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 88, 135, 182) },
-            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 213, 160, 9) },
             { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 88, 135, 182) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
-            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 139, 64, 222) },
+            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 213, 160, 9) },
         };
         
         private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
@@ -182,11 +182,11 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 235, 245, 251) },
-            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 235, 245, 251) },
+            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 248, 227, 201) },
             { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 235, 245, 251) },
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
-            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 236, 226, 255) },
+            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 248, 227, 201) },
         };
         
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
