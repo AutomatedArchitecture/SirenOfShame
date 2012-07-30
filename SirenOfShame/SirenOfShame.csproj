@@ -246,6 +246,12 @@
     <Compile Include="UserList.Designer.cs">
       <DependentUpon>UserList.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserPanel.Designer.cs">
+      <DependentUpon>UserPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,6 +349,9 @@
     <EmbeddedResource Include="UserList.resx">
       <DependentUpon>UserList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserPanel.resx">
+      <DependentUpon>UserPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ViewUser.resx">
       <DependentUpon>ViewUser.cs</DependentUpon>
     </EmbeddedResource>
@@ -390,6 +399,7 @@
     <None Include="Resources\ball_gray_big.png" />
     <EmbeddedResource Include="Resources\Audio-Applause.wav" />
     <None Include="Resources\AchievementBackground.png" />
+    <None Include="Resources\AchievementBall.png" />
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
     <None Include="Resources\CloseButton.png" />

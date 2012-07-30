@@ -31,6 +31,7 @@ namespace SirenOfShame
         private readonly bool _canViewLogs;
         readonly SosDb _sosDb = new SosDb();
         readonly Timer _showAlertAnimation = new Timer();
+        readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
@@ -45,13 +46,13 @@ namespace SirenOfShame
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
             viewUser1.OnClose += ViewUserOnClose;
             viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
+            viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
             _buildStats.OnClose += BuildStatsOnClose;
             viewUser1.Initilaize(_settings);
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
             _userList.OnUserSelected += UsersListOnOnUserSelected;
-            _userList.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
-            _userList.Settings = _settings;
+            _userList.Initialize(_settings, _avatarImageList);
             _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
             
             if (SirenOfShameDevice.IsConnected)
@@ -81,6 +82,7 @@ namespace SirenOfShame
         private void ViewUser1OnOnUserChangedAvatarId(object sender, UserChangedAvatarIdArgs args)
         {
             _newsFeed1.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
+            _userList.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
         }
 
         private void NewsFeedOnOnUserClicked(object sender, UserClickedArgs args)
@@ -101,16 +103,26 @@ namespace SirenOfShame
             ShowViewUserPage(rawName);
         }
 
+        private void ShowInMainWindow(MainWindowEnum mainWindow)
+        {
+            _buildDefinitions.Visible = mainWindow == MainWindowEnum.ViewBuilds;
+            viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
+        }
+        
         private void ShowViewUserPage(string rawName)
         {
             var aUserIsSelected = rawName != null;
-            _buildDefinitions.Visible = !aUserIsSelected;
-            viewUser1.Visible = aUserIsSelected;
-            if (aUserIsSelected)
-            {
-                var selectedPerson = _settings.People.First(i => i.RawName == rawName);
-                viewUser1.SetUser(selectedPerson, _avatarImageList);
-            }
+            var windowToShow = aUserIsSelected ? MainWindowEnum.ViewUser : MainWindowEnum.ViewBuilds;
+            ShowInMainWindow(windowToShow);
+            if (!aUserIsSelected) return;
+            var selectedPerson = _settings.People.First(i => i.RawName == rawName);
+            ShowViewUserPage(selectedPerson);
+        }
+
+        private void ShowViewUserPage(PersonSetting selectedPerson)
+        {
+            if (selectedPerson == null) return;
+            viewUser1.SetUser(selectedPerson, _avatarImageList);
         }
 
         private void BuildStatsOnClose(object sender, CloseBuildStatsArgs args)
@@ -240,8 +252,6 @@ namespace SirenOfShame
             EnableSirenMenuItem(false);
         }
 
-        SosOnlineService _sosOnlineService = new SosOnlineService();
-
         private void MainFormLoad(object sender, EventArgs e)
         {
             _panelAlertHeight = _panelAlert.Height;
@@ -253,7 +263,7 @@ namespace SirenOfShame
 
             TryUpgrade();
 
-            SetRightMenu(RightMenu.NewsFeed);
+            SetRightMenu(RightMenuEnum.NewsFeed);
 
 
             if (_settings.TryToFindOldAchievementsAtNextOpportunity)
@@ -356,7 +366,7 @@ namespace SirenOfShame
                 {
                     NewAchievement.ShowForm(_settings, achievement, args.Person, this, modal: false);
                 }
-                _userList.SelectUser(args.Person);
+                ShowViewUserPage(args.Person);
             });
         }
 
@@ -565,11 +575,17 @@ namespace SirenOfShame
             }
         }
 
-        private enum RightMenu
+        private enum RightMenuEnum
         {
             Users = 0,
             BuildStats = 1,
             NewsFeed = 2
+        }
+
+        private enum MainWindowEnum
+        {
+            ViewBuilds = 0,
+            ViewUser = 1,
         }
 
         private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
@@ -577,7 +593,7 @@ namespace SirenOfShame
             bool buildDefinitionSelected = buildDefinitionSetting != null;
             if (buildDefinitionSelected)
             {
-                SetRightMenu(RightMenu.BuildStats);
+                SetRightMenu(RightMenuEnum.BuildStats);
                 RefreshProjectStats(buildDefinitionSetting);
             }
             else
@@ -589,25 +605,25 @@ namespace SirenOfShame
         
         const string NEWS_SELECTED_PNG = "NewsSelected.png";
         const string PERSON_SELECTED_PNG = "PersonSelected.png";
-        private RightMenu _lastMainRightMenu = RightMenu.NewsFeed;
+        private RightMenuEnum _lastMainRightMenu = RightMenuEnum.NewsFeed;
 
         private void ResetRightMenu()
         {
             SetRightMenu(_lastMainRightMenu);
         }
         
-        private void SetRightMenu(RightMenu rightMenu)
+        private void SetRightMenu(RightMenuEnum rightMenu)
         {
             StoreLastMainRightMenu(rightMenu);
-            _buildStats.Visible = rightMenu == RightMenu.BuildStats;
-            _userList.Visible = rightMenu == RightMenu.Users;
-            _newsFeed1.Visible = rightMenu == RightMenu.NewsFeed;
+            _buildStats.Visible = rightMenu == RightMenuEnum.BuildStats;
+            _userList.Visible = rightMenu == RightMenuEnum.Users;
+            _newsFeed1.Visible = rightMenu == RightMenuEnum.NewsFeed;
             ResetRightMenuButtons();
         }
 
-        private void StoreLastMainRightMenu(RightMenu rightMenu)
+        private void StoreLastMainRightMenu(RightMenuEnum rightMenu)
         {
-            if (rightMenu == RightMenu.NewsFeed || rightMenu == RightMenu.Users)
+            if (rightMenu == RightMenuEnum.NewsFeed || rightMenu == RightMenuEnum.Users)
                 _lastMainRightMenu = rightMenu;
         }
 
@@ -1113,7 +1129,7 @@ namespace SirenOfShame
 
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {
-            _userList.DeselectAllUsers();
+            ShowInMainWindow(MainWindowEnum.ViewBuilds);
         }
 
         private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)
@@ -1124,12 +1140,12 @@ namespace SirenOfShame
 
         private void NewsButtonClick(object sender, EventArgs e)
         {
-            SetRightMenu(RightMenu.NewsFeed);
+            SetRightMenu(RightMenuEnum.NewsFeed);
         }
 
         private void UsersButtonClick(object sender, EventArgs e)
         {
-            SetRightMenu(RightMenu.Users);
+            SetRightMenu(RightMenuEnum.Users);
         }
 
         private void RightPanelButtonsResize(object sender, EventArgs e)

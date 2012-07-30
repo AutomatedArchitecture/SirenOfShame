@@ -12,6 +12,7 @@ namespace SirenOfShame
         private SirenOfShameSettings _settings;
         public event CloseViewUser OnClose;
         public event UserChangedAvatarId OnUserChangedAvatarId;
+        public event UserDisplayNameChanged OnUserDisplayNameChanged;
         private PersonSetting _personSetting;
         private AvatarPicker _avatarPicker;
 
@@ -19,6 +20,12 @@ namespace SirenOfShame
         {
             UserChangedAvatarId handler = OnUserChangedAvatarId;
             if (handler != null) handler(this, new UserChangedAvatarIdArgs { NewImageIndex = newImageIndex, RawName = _personSetting.RawName });
+        }
+
+        public void InvokeOnUserDisplayNameChanged(UserDisplayNameChangedArgs args)
+        {
+            UserDisplayNameChanged handler = OnUserDisplayNameChanged;
+            if (handler != null) handler(this, args);
         }
 
         public ViewUser()
@@ -108,5 +115,13 @@ namespace SirenOfShame
 
     public class CloseViewUserArgs
     {
+    }
+
+    public delegate void UserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args);
+
+    public class UserDisplayNameChangedArgs
+    {
+        public string RawUserName { get; set; }
+        public string NewDisplayName { get; set; }
     }
 }

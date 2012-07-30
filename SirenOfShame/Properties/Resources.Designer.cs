@@ -67,6 +67,13 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AchievementBall {
+            get {
+                object obj = ResourceManager.GetObject("AchievementBall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap ball_gray_big {
             get {
                 object obj = ResourceManager.GetObject("ball_gray_big", resourceCulture);
