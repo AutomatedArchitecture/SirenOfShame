@@ -25,11 +25,10 @@ namespace SirenOfShame
 
         public string DisplayName
         {
-            get { return _userName.Text; }
             set { _userName.Text = value; }
         }
 
-        public string BuildId { get; set; }
+        public string BuildId { get; private set; }
 
         public void ChangeImageIndex(int index)
         {
@@ -165,10 +164,10 @@ namespace SirenOfShame
         
         private Color GetBorderColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, Color.LightGray);
+            return GetColorForEventType(NewsTypeToBorderColorMap, newsItemEventType, Color.LightGray);
         }
 
-        private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
+        private static readonly Dictionary<NewsItemTypeEnum, Color> NewsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
@@ -180,7 +179,7 @@ namespace SirenOfShame
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 213, 160, 9) },
         };
         
-        private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
+        private static readonly Dictionary<NewsItemTypeEnum, Color> NewsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
@@ -194,7 +193,7 @@ namespace SirenOfShame
 
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(_newsTypeToBackgroundColorMap, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
+            return GetColorForEventType(NewsTypeToBackgroundColorMap, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
         }
 
         private void NewsItemResize(object sender, EventArgs e)
@@ -208,7 +207,18 @@ namespace SirenOfShame
             _newsItemEventType = args.NewsItemType;
             InitializeReputationChangeLabel(args.ReputationChange);
             Invalidate();
+            richTextBox1.Invalidate();
             _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
+        }
+
+        private void RichTextBox1MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void Avatar1MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib.Settings;
@@ -138,12 +137,12 @@ namespace SirenOfShame
             _noNews.Visible = true;
         }
 
-        private void NewsFeed_MouseEnter(object sender, EventArgs e)
+        private void NewsFeedMouseEnter(object sender, EventArgs e)
         {
             EnableMouseScrollWheel();
         }
 
-        private void _newsItemsPanel_MouseEnter(object sender, EventArgs e)
+        private void NewsItemsPanelMouseEnter(object sender, EventArgs e)
         {
             EnableMouseScrollWheel();
         }

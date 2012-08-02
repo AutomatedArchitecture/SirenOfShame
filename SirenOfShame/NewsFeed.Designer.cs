@@ -65,7 +65,7 @@
             this._newsItemsPanel.Name = "_newsItemsPanel";
             this._newsItemsPanel.Size = new System.Drawing.Size(254, 197);
             this._newsItemsPanel.TabIndex = 1;
-            this._newsItemsPanel.MouseEnter += new System.EventHandler(this._newsItemsPanel_MouseEnter);
+            this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
             // 
             // _noNews
             // 
@@ -89,7 +89,7 @@
             this.Name = "NewsFeed";
             this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.Size = new System.Drawing.Size(254, 237);
-            this.MouseEnter += new System.EventHandler(this.NewsFeed_MouseEnter);
+            this.MouseEnter += new System.EventHandler(this.NewsFeedMouseEnter);
             this.Resize += new System.EventHandler(this.NewsFeedResize);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

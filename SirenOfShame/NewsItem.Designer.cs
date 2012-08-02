@@ -92,6 +92,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(86, 92);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "Joe Ferner just checked in with a comment of \"Fixing Lee\'s bunk check-in\"";
+            this.richTextBox1.MouseEnter += new System.EventHandler(this.RichTextBox1MouseEnter);
             // 
             // avatar1
             // 
@@ -103,6 +104,7 @@
             this.avatar1.Size = new System.Drawing.Size(50, 50);
             this.avatar1.TabIndex = 4;
             this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
+            this.avatar1.MouseEnter += new System.EventHandler(this.Avatar1MouseEnter);
             // 
             // NewsItem
             // 
