@@ -250,7 +250,8 @@ namespace SirenOfShame.Lib.Watcher
                 Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
                 Project = Name,
                 NewsItemType = GetNewsItemType(),
-                ReputationChange = GetReputationChange()
+                ReputationChange = GetReputationChange(),
+                BuildId = BuildId
             };
         }
 

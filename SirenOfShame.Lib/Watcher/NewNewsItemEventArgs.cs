@@ -32,23 +32,42 @@ namespace SirenOfShame.Lib.Watcher
         public ImageList AvatarImageList { get; set; }
         public NewsItemTypeEnum NewsItemType { get; set; }
         public int? ReputationChange { get; set; }
+        public string BuildId { get; set; }
+
+        public bool ShouldUpdateOldInProgressNewsItem
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(BuildId) && (
+                    NewsItemType == NewsItemTypeEnum.BuildFailed ||
+                    NewsItemType == NewsItemTypeEnum.BuildSuccess ||
+                    NewsItemType == NewsItemTypeEnum.BuildUnknown
+                    );
+            }
+        }
 
         private static string MakeCsvSafe(string s)
         {
-            return string.IsNullOrEmpty(s) ? "" : s.Replace(',', ' ');
+            return string.IsNullOrEmpty(s) ? "" : RemoveNewlines(s.Replace(',', ' '));
+        }
+
+        private static string RemoveNewlines(string s)
+        {
+            return string.IsNullOrEmpty(s) ? "" : s.Replace("\r\n", " ").Replace("\n", " ");
         }
 
         public string AsCommaSeparated()
         {
             try
             {
-                return string.Format("{0},{1},{2},{3},{4},{5}",
+                return string.Format("{0},{1},{2},{3},{4},{5},{6}",
                                      EventDate.Ticks,
                                      MakeCsvSafe(Person.RawName),
                                      (int) NewsItemType,
                                      ReputationChange,
                                      MakeCsvSafe(Project),
-                                     Title);
+                                     MakeCsvSafe(BuildId),
+                                     RemoveNewlines(Title));
             } 
             catch (Exception ex)
             {
@@ -62,7 +81,7 @@ namespace SirenOfShame.Lib.Watcher
             try
             {
                 var elements = commaSeparated.Split(',');
-                if (elements.Length < 3)
+                if (elements.Length < 6)
                 {
                     _log.Error("Found a news item with fewer than three elements" + commaSeparated);
                     return null;
@@ -72,8 +91,9 @@ namespace SirenOfShame.Lib.Watcher
                 if (person == null) throw new Exception("Unable to find user " + elements[1]);
                 var newsItemType = GetNewsItemType(elements[2]);
                 var reputationChange = GetReputationChange(elements[3]);
-                var project = GetProject(elements[4]);
-                var title = GetTitle(elements, 5);
+                var project = GetString(elements[4]);
+                var buildId = GetString(elements[5]);
+                var title = GetTitle(elements, 6);
                 return new NewNewsItemEventArgs
                 {
                     EventDate = eventDate,
@@ -81,6 +101,7 @@ namespace SirenOfShame.Lib.Watcher
                     Title = title,
                     NewsItemType = newsItemType,
                     ReputationChange = reputationChange,
+                    BuildId = buildId,
                     Project = project
                 };
             } 
@@ -91,8 +112,9 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private static string GetProject(string element)
+        private static string GetString(string element)
         {
+            if (string.IsNullOrEmpty(element)) return null;
             return element;
         }
 

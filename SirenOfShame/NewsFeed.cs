@@ -90,8 +90,25 @@ namespace SirenOfShame
 
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
+            if (args.ShouldUpdateOldInProgressNewsItem)
+                TryToFindAndUpdateOldInProgressNewsItem(args);
+            else
+                AddNewsItemToPanel(args);
+        }
+
+        private void TryToFindAndUpdateOldInProgressNewsItem(NewNewsItemEventArgs args)
+        {
+            var oldBuild = GetNewsItemControls().FirstOrDefault(i => i.BuildId == args.BuildId);
+            if (oldBuild != null)
+                oldBuild.UpdateState(args);
+            else
+                AddNewsItemToPanel(args);
+        }
+
+        private void AddNewsItemToPanel(NewNewsItemEventArgs args)
+        {
             _noNews.Visible = false;
-            var newsItem = new NewsItem(args) { Dock = DockStyle.Top };
+            var newsItem = new NewsItem(args) {Dock = DockStyle.Top};
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);

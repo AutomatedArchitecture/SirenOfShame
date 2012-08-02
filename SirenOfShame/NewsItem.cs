@@ -11,7 +11,7 @@ namespace SirenOfShame
 {
     public partial class NewsItem : UserControl
     {
-        private readonly NewsItemTypeEnum _newsItemEventType;
+        private NewsItemTypeEnum _newsItemEventType;
         readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
         private DateTime EventDate { get; set; }
@@ -29,6 +29,8 @@ namespace SirenOfShame
             set { _userName.Text = value; }
         }
 
+        public string BuildId { get; set; }
+
         public void ChangeImageIndex(int index)
         {
             avatar1.ImageIndex = index;
@@ -45,12 +47,13 @@ namespace SirenOfShame
             _newsItemEventType = args.NewsItemType;
             _rawUserName = args.Person.RawName;
             _lastPrettyDate = args.EventDate.PrettyDate();
+            BuildId = args.BuildId;
             EventDate = args.EventDate;
             
             InitializeComponent();
 
             InitializeUserNameLabel(args);
-            InitializeReputationChangeLabel(args.ReputationChange, args.NewsItemType);
+            InitializeReputationChangeLabel(args.ReputationChange);
             InitializeRichTextBox(args);
             InitializeAvatar(args);
         }
@@ -95,7 +98,7 @@ namespace SirenOfShame
             richTextBox1.SelectedText = "\r\n" + args.Project;
         }
 
-        private void InitializeReputationChangeLabel(int? reputationChange, NewsItemTypeEnum newsItemType)
+        private void InitializeReputationChangeLabel(int? reputationChange)
         {
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
@@ -188,7 +191,7 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 248, 227, 201) },
         };
-        
+
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
             return GetColorForEventType(_newsTypeToBackgroundColorMap, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
@@ -198,6 +201,14 @@ namespace SirenOfShame
         {
             // this fixes a drawing issue on the panel where it wouldn't always redraw the rounded corners background
             panel1.Invalidate();
+        }
+
+        public void UpdateState(NewNewsItemEventArgs args)
+        {
+            _newsItemEventType = args.NewsItemType;
+            InitializeReputationChangeLabel(args.ReputationChange);
+            Invalidate();
+            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
         }
     }
 
