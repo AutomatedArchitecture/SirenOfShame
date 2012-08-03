@@ -165,6 +165,13 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap nav_up_right {
+            get {
+                object obj = ResourceManager.GetObject("nav_up_right", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap question_big {
             get {
                 object obj = ResourceManager.GetObject("question_big", resourceCulture);

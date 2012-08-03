@@ -45,9 +45,9 @@
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._projectName.ForeColor = System.Drawing.Color.White;
-            this._projectName.Location = new System.Drawing.Point(0, 0);
+            this._projectName.Location = new System.Drawing.Point(8, 8);
             this._projectName.Name = "_projectName";
-            this._projectName.Size = new System.Drawing.Size(328, 35);
+            this._projectName.Size = new System.Drawing.Size(320, 35);
             this._projectName.TabIndex = 0;
             this._projectName.Text = "Project Name";
             // 
@@ -55,7 +55,7 @@
             // 
             this._buildId.AutoSize = true;
             this._buildId.ForeColor = System.Drawing.Color.White;
-            this._buildId.Location = new System.Drawing.Point(4, 73);
+            this._buildId.Location = new System.Drawing.Point(10, 83);
             this._buildId.Name = "_buildId";
             this._buildId.Size = new System.Drawing.Size(31, 13);
             this._buildId.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             this._startTime.AutoSize = true;
             this._startTime.ForeColor = System.Drawing.Color.White;
-            this._startTime.Location = new System.Drawing.Point(5, 54);
+            this._startTime.Location = new System.Drawing.Point(10, 64);
             this._startTime.Name = "_startTime";
             this._startTime.Size = new System.Drawing.Size(53, 13);
             this._startTime.TabIndex = 2;
@@ -74,8 +74,9 @@
             // _requestedBy
             // 
             this._requestedBy.AutoSize = true;
+            this._requestedBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._requestedBy.ForeColor = System.Drawing.Color.White;
-            this._requestedBy.Location = new System.Drawing.Point(4, 35);
+            this._requestedBy.Location = new System.Drawing.Point(10, 45);
             this._requestedBy.Name = "_requestedBy";
             this._requestedBy.Size = new System.Drawing.Size(82, 13);
             this._requestedBy.TabIndex = 3;
@@ -85,9 +86,9 @@
             // 
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.White;
-            this._comment.Location = new System.Drawing.Point(110, 35);
+            this._comment.Location = new System.Drawing.Point(110, 45);
             this._comment.Name = "_comment";
-            this._comment.Size = new System.Drawing.Size(215, 65);
+            this._comment.Size = new System.Drawing.Size(205, 51);
             this._comment.TabIndex = 4;
             this._comment.Text = "Resolving user story #192 - refactoring the dependency on the calendar control";
             // 
@@ -95,7 +96,7 @@
             // 
             this._duration.AutoSize = true;
             this._duration.ForeColor = System.Drawing.Color.White;
-            this._duration.Location = new System.Drawing.Point(5, 92);
+            this._duration.Location = new System.Drawing.Point(10, 102);
             this._duration.Name = "_duration";
             this._duration.Size = new System.Drawing.Size(28, 13);
             this._duration.TabIndex = 5;
@@ -103,16 +104,20 @@
             // 
             // _details
             // 
-            this._details.AutoSize = true;
+            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._details.ForeColor = System.Drawing.Color.White;
+            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
+            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._details.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(286, 100);
+            this._details.Location = new System.Drawing.Point(258, 98);
             this._details.Name = "_details";
-            this._details.Size = new System.Drawing.Size(39, 13);
+            this._details.Size = new System.Drawing.Size(57, 20);
             this._details.TabIndex = 6;
-            this._details.TabStop = true;
             this._details.Text = "Details";
+            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._details_LinkClicked);
             // 
             // ViewBuildSmall
@@ -128,7 +133,7 @@
             this.Controls.Add(this._buildId);
             this.Controls.Add(this._projectName);
             this.Name = "ViewBuildSmall";
-            this.Size = new System.Drawing.Size(328, 116);
+            this.Size = new System.Drawing.Size(328, 129);
             this.ResumeLayout(false);
             this.PerformLayout();
 
