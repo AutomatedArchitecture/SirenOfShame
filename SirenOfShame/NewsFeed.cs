@@ -107,7 +107,10 @@ namespace SirenOfShame
         private void AddNewsItemToPanel(NewNewsItemEventArgs args)
         {
             _noNews.Visible = false;
-            var newsItem = new NewsItem(args) {Dock = DockStyle.Top};
+            var newsItem = new NewsItem(args)
+            {
+                Dock = DockStyle.Top,
+            };
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);

@@ -95,9 +95,6 @@
     <Compile Include="BuildStats.Designer.cs">
       <DependentUpon>BuildStats.cs</DependentUpon>
     </Compile>
-    <Compile Include="BuildStatusListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Configuration\AddRule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -252,6 +249,18 @@
     <Compile Include="UserPanel.Designer.cs">
       <DependentUpon>UserPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewBuilds.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewBuilds.Designer.cs">
+      <DependentUpon>ViewBuilds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewBuildSmall.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewBuildSmall.Designer.cs">
+      <DependentUpon>ViewBuildSmall.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -352,6 +361,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewBuilds.resx">
+      <DependentUpon>ViewBuilds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewBuildSmall.resx">
+      <DependentUpon>ViewBuildSmall.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewUser.resx">
       <DependentUpon>ViewUser.cs</DependentUpon>

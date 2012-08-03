@@ -37,6 +37,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.panel1.Controls.Add(this._clearNews);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 219);
@@ -60,6 +61,7 @@
             // _newsItemsPanel
             // 
             this._newsItemsPanel.AutoScroll = true;
+            this._newsItemsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this._newsItemsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._newsItemsPanel.Location = new System.Drawing.Point(0, 22);
             this._newsItemsPanel.Name = "_newsItemsPanel";

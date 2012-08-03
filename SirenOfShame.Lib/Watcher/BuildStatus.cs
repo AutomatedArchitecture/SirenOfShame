@@ -99,8 +99,8 @@ namespace SirenOfShame.Lib.Watcher
                 return BallsEnum.Gray;
             }
         }
-
-        public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        
+        public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             BuildStatus previousStatus;
             previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
@@ -108,10 +108,11 @@ namespace SirenOfShame.Lib.Watcher
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
             string startTime = FormatAsDayMonthTime(StartedTime);
             long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
-            string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
+            string requestedBy = settings.FindAddPerson(RequestedBy).DisplayName;
 
-            var result = new BuildStatusListViewItem
+            var result = new BuildStatusDto
             {
+                BuildStatusEnum = BuildStatusEnum,
                 ImageIndex = (int)BallIndex,
                 StartTime = startTime,
                 StartTimeTicks = startTimeTicks,

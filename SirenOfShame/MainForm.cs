@@ -93,7 +93,7 @@ namespace SirenOfShame
         private void UsersListOnOnUserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args)
         {
             _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
-            _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
+            _viewBuilds.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
             _newsFeed1.RefreshDisplayNames(_settings, args);
         }
 
@@ -105,7 +105,7 @@ namespace SirenOfShame
 
         private void ShowInMainWindow(MainWindowEnum mainWindow)
         {
-            _buildDefinitions.Visible = mainWindow == MainWindowEnum.ViewBuilds;
+            _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
             viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
         }
         
@@ -127,7 +127,8 @@ namespace SirenOfShame
 
         private void BuildStatsOnClose(object sender, CloseBuildStatsArgs args)
         {
-            _buildDefinitions.SelectedItems.Clear();
+            // todo: test on build stats closed
+            //_buildDefinitions.SelectedItems.Clear();
         }
 
         private void SetAutomaticUpdaterSettings()
@@ -159,30 +160,30 @@ namespace SirenOfShame
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
-        public static ListViewItem AsListViewItem(BuildStatusListViewItem buildStatusListViewItem)
-        {
-            var listViewItem = new ListViewItem(buildStatusListViewItem.Name)
-                                   {
-                                       ImageIndex = buildStatusListViewItem.ImageIndex
-                                   };
+        //public static ListViewItem AsListViewItem(BuildStatusDto buildStatusDto)
+        //{
+        //    var listViewItem = new ListViewItem(buildStatusDto.Name)
+        //                           {
+        //                               ImageIndex = buildStatusDto.ImageIndex
+        //                           };
 
-            AddSubItem(listViewItem, "ID", buildStatusListViewItem.BuildId);
-            AddSubItem(listViewItem, "StartTime", buildStatusListViewItem.StartTime);
-            AddSubItem(listViewItem, "Duration", buildStatusListViewItem.Duration);
-            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedByDisplayName);
-            AddSubItem(listViewItem, "Comment", buildStatusListViewItem.Comment);
-            listViewItem.Tag = buildStatusListViewItem.Id;
-            return listViewItem;
-        }
+        //    AddSubItem(listViewItem, "ID", buildStatusDto.BuildId);
+        //    AddSubItem(listViewItem, "StartTime", buildStatusDto.StartTime);
+        //    AddSubItem(listViewItem, "Duration", buildStatusDto.Duration);
+        //    AddSubItem(listViewItem, "RequestedBy", buildStatusDto.RequestedByDisplayName);
+        //    AddSubItem(listViewItem, "Comment", buildStatusDto.Comment);
+        //    listViewItem.Tag = buildStatusDto.Id;
+        //    return listViewItem;
+        //}
 
-        private static void AddSubItem(ListViewItem lvi, string name, string value)
-        {
-            var subItem = new ListViewItem.ListViewSubItem(lvi, value)
-            {
-                Name = name
-            };
-            lvi.SubItems.Add(subItem);
-        }
+        //private static void AddSubItem(ListViewItem lvi, string name, string value)
+        //{
+        //    var subItem = new ListViewItem.ListViewSubItem(lvi, value)
+        //    {
+        //        Name = name
+        //    };
+        //    lvi.SubItems.Add(subItem);
+        //}
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
@@ -205,7 +206,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _lastRefreshStatusEventArgs = args;
-                _buildDefinitions.RefreshListViewWithBuildStatus(args);
+                _viewBuilds.RefreshListViewWithBuildStatus(args);
                 if (InFullscreenMode)
                 {
                     _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);
@@ -279,7 +280,6 @@ namespace SirenOfShame
             RefreshStats(null);
             SetMuteButton();
             _buildStats.InitializeBuildHistoryChart();
-            _buildDefinitions.SetSortColumn(_settings);
         }
 
         private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
@@ -450,7 +450,6 @@ namespace SirenOfShame
             }
             else
             {
-                // ToDo: Show() on MainFormMove was causing an infinite loop on startup. What was it for? Permanently remove if this was necessary LR.
                 Show(); 
             }
         }
@@ -551,29 +550,17 @@ namespace SirenOfShame
             configureSiren.ShowDialog(this);
         }
 
-        private void BuildDefinitionsDoubleClick(object sender, EventArgs e)
-        {
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return;
-            string buildId = (string)listViewItem.Tag;
-            BuildStatusListViewItem buildStatusListViewItem = _lastRefreshStatusEventArgs.BuildStatusListViewItems.First(i => i.Id == buildId);
-            var url = buildStatusListViewItem.Url;
-            if (!string.IsNullOrWhiteSpace(url) && url.StartsWith("http"))
-            {
-                Process.Start(url);
-            }
-        }
+        // ToDo: On select build show right-menu, etc
+        //private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
+        //{
+        //    BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
 
-        private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
-            if (e.Button == MouseButtons.Right)
-            {
-                _buildMenu.Show(_buildDefinitions, e.X, e.Y);
-                _affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
-            }
-        }
+        //    if (e.Button == MouseButtons.Right)
+        //    {
+        //        _buildMenu.Show(_buildDefinitions, e.X, e.Y);
+        //        _affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
+        //    }
+        //}
 
         private enum RightMenuEnum
         {
@@ -652,18 +639,21 @@ namespace SirenOfShame
 
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return null;
+            return null;
 
-            string buildId = (string)listViewItem.Tag;
+            // ToDo: Do we really still need to get an active build definition
+            //var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            //if (listViewItem == null) return null;
 
-            var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
-            if (buildDefinitionSetting == null)
-            {
-                _log.Error("Could not find a build definition settings for id " + buildId);
-                return null;
-            }
-            return buildDefinitionSetting;
+            //string buildId = (string)listViewItem.Tag;
+
+            //var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
+            //if (buildDefinitionSetting == null)
+            //{
+            //    _log.Error("Could not find a build definition settings for id " + buildId);
+            //    return null;
+            //}
+            //return buildDefinitionSetting;
         }
 
         private void AffectsTrayIconClick(object sender, EventArgs e)
@@ -930,15 +920,16 @@ namespace SirenOfShame
             _settings.Save();
         }
 
-        private void StopWatchingClick(object sender, EventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            if (buildDefinitionSetting == null) return;
-            buildDefinitionSetting.Active = false;
-            _settings.Save();
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem != null) listViewItem.Remove();
-        }
+        // ToDo: Implement stop watching
+        //private void StopWatchingClick(object sender, EventArgs e)
+        //{
+        //    BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
+        //    if (buildDefinitionSetting == null) return;
+        //    buildDefinitionSetting.Active = false;
+        //    _settings.Save();
+        //    var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+        //    if (listViewItem != null) listViewItem.Remove();
+        //}
 
         private void OpenSettingsClick(object sender, EventArgs e)
         {
@@ -1031,11 +1022,6 @@ namespace SirenOfShame
             upgrade.ShowDialog(this);
         }
 
-        private void BuildDefinitionsSelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshStats(null);
-        }
-
         FullScreenBuildStatus _fullScreenBuildStatus = null;
 
         private void FullscreenClick(object sender, EventArgs e)
@@ -1112,20 +1098,21 @@ namespace SirenOfShame
             }
         }
 
-        private void BuildDefinitionsColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            if (_settings.SortColumn == e.Column)
-            {
-                _settings.SortDescending = !_settings.SortDescending;
-            } 
-            else
-            {
-                _settings.SortDescending = false;
-            }
-            _settings.SortColumn = e.Column;
-            _settings.Save();
-            _buildDefinitions.SetSortColumn(_settings);
-        }
+        // ToDo: Implement sorting?
+        //private void BuildDefinitionsColumnClick(object sender, ColumnClickEventArgs e)
+        //{
+        //    if (_settings.SortColumn == e.Column)
+        //    {
+        //        _settings.SortDescending = !_settings.SortDescending;
+        //    } 
+        //    else
+        //    {
+        //        _settings.SortDescending = false;
+        //    }
+        //    _settings.SortColumn = e.Column;
+        //    _settings.Save();
+        //    _buildDefinitions.SetSortColumn(_settings);
+        //}
 
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {

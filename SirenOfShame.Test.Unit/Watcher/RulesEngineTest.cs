@@ -452,7 +452,7 @@ Hello World
 
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
-            BuildStatusListViewItem buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
+            BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);

@@ -47,7 +47,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.MinimumSize = new System.Drawing.Size(48, 48);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 50);
+            this.label1.Size = new System.Drawing.Size(48, 48);
             this.label1.TabIndex = 1;
             this.label1.Click += new System.EventHandler(this.Label1Click);
             // 
@@ -59,7 +59,7 @@
             this.Controls.Add(this.label1);
             this.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Name = "Avatar";
-            this.Size = new System.Drawing.Size(50, 50);
+            this.Size = new System.Drawing.Size(48, 48);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AvatarPaint);
             this.ResumeLayout(false);
 

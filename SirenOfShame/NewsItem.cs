@@ -5,13 +5,11 @@ using System.Globalization;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
-using SirenOfShame.Helpers;
 
 namespace SirenOfShame
 {
     public partial class NewsItem : UserControl
     {
-        private NewsItemTypeEnum _newsItemEventType;
         readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
 
         private DateTime EventDate { get; set; }
@@ -43,7 +41,6 @@ namespace SirenOfShame
 
         public NewsItem(NewNewsItemEventArgs args)
         {
-            _newsItemEventType = args.NewsItemType;
             _rawUserName = args.Person.RawName;
             _lastPrettyDate = args.EventDate.PrettyDate();
             BuildId = args.BuildId;
@@ -55,6 +52,15 @@ namespace SirenOfShame
             InitializeReputationChangeLabel(args.ReputationChange);
             InitializeRichTextBox(args);
             InitializeAvatar(args);
+            InitializeMetroColors(args);
+        }
+
+        private void InitializeMetroColors(NewNewsItemEventArgs args)
+        {
+            Color backColor = GetBackgroundColorForEventType(args.NewsItemType);
+            _metroPanel.BackColor = backColor;
+            _userName.BackColor = backColor;
+            richTextBox1.BackColor = backColor;
         }
 
         private void InitializeAvatar(NewNewsItemEventArgs args)
@@ -74,7 +80,6 @@ namespace SirenOfShame
         private void InitializeUserNameLabel(NewNewsItemEventArgs args)
         {
             _userName.Text = args.Person.DisplayName;
-            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
         }
 
         private void WriteDate()
@@ -129,7 +134,8 @@ namespace SirenOfShame
                 int renderWidth = richTextBox1.Width;
                 SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
                 int richTextBoxHeight = (int)Math.Ceiling(size.Height);
-                int mainContentHeight = richTextBoxHeight + _userName.Height;
+                int margins = (panel1.Location.Y + _metroPanel.Location.Y) * 2;
+                int mainContentHeight = richTextBoxHeight + _userName.Height + margins;
 
                 return Math.Max(mainContentHeight, avatar1.Height);
             }
@@ -147,13 +153,6 @@ namespace SirenOfShame
                 InvokeOnOnUserClicked();
         }
 
-        private void Panel1Paint(object sender, PaintEventArgs e)
-        {
-            Graphics graphics = e.Graphics;
-            graphics.FillRoundedRectangle(new SolidBrush(GetBackgroundColorForEventType(_newsItemEventType)), panel1.ClientRectangle, 5);
-            graphics.DrawRoundedRectangle(new Pen(GetBorderColorForEventType(_newsItemEventType)), 0, 0, panel1.Width - 1, panel1.Height - 1, 5);
-        }
-
         private static Color GetColorForEventType(Dictionary<NewsItemTypeEnum, Color> dictionary, NewsItemTypeEnum newsItemEventType, Color defaultColor)
         {
             Color color;
@@ -162,12 +161,7 @@ namespace SirenOfShame
             return defaultColor;
         }
         
-        private Color GetBorderColorForEventType(NewsItemTypeEnum newsItemEventType)
-        {
-            return GetColorForEventType(NewsTypeToBorderColorMap, newsItemEventType, Color.LightGray);
-        }
-
-        private static readonly Dictionary<NewsItemTypeEnum, Color> NewsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
+        private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
             { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
@@ -179,21 +173,9 @@ namespace SirenOfShame
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 213, 160, 9) },
         };
         
-        private static readonly Dictionary<NewsItemTypeEnum, Color> NewsTypeToBackgroundColorMap = new Dictionary<NewsItemTypeEnum, Color>
-        {
-            { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 219, 255, 228) },
-            { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 235, 245, 251) },
-            { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 235, 245, 251) },
-            { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 248, 227, 201) },
-            { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 235, 245, 251) },
-            { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 235, 245, 251) },
-            { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 255, 234, 226) },
-            { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 248, 227, 201) },
-        };
-
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(NewsTypeToBackgroundColorMap, newsItemEventType, Color.FromArgb(255, 245, 245, 245));
+            return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, Color.FromArgb(255, 40, 95, 152));
         }
 
         private void NewsItemResize(object sender, EventArgs e)
@@ -204,11 +186,10 @@ namespace SirenOfShame
 
         public void UpdateState(NewNewsItemEventArgs args)
         {
-            _newsItemEventType = args.NewsItemType;
             InitializeReputationChangeLabel(args.ReputationChange);
             Invalidate();
             richTextBox1.Invalidate();
-            _userName.BackColor = GetBackgroundColorForEventType(args.NewsItemType);
+            InitializeMetroColors(args);
         }
 
         private void RichTextBox1MouseEnter(object sender, EventArgs e)

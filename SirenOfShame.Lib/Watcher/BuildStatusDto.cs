@@ -1,9 +1,8 @@
-﻿using System;
-using SirenOfShame.Lib.Settings;
+﻿using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Watcher
 {
-    public class BuildStatusListViewItem
+    public class BuildStatusDto
     {
         public int ImageIndex { get; set; }
         public string Comment { get; set; }
@@ -16,6 +15,7 @@ namespace SirenOfShame.Lib.Watcher
         public string Name { get; set; }
         public string Url { get; set; }
         public string BuildId { get; set; }
+        public BuildStatusEnum BuildStatusEnum { get; set; }
 
         public void SetDisplayName(SirenOfShameSettings settings)
         {

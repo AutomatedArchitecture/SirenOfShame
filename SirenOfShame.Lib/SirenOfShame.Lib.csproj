@@ -214,7 +214,7 @@
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
-    <Compile Include="Watcher\BuildStatusListViewItem.cs" />
+    <Compile Include="Watcher\BuildStatusDto.cs" />
     <Compile Include="Watcher\PersonBase.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />

@@ -272,9 +272,8 @@ namespace SirenOfShame.Lib.Watcher
 
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
         {
-            IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
-                .OrderBy(s => s.Name)
-                .Select(bs => bs.AsBuildStatusListViewItem(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings));
+            IEnumerable<BuildStatusDto> buildStatusListViewItems = buildStatuses
+                .Select(bs => bs.AsBuildStatusDto(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings));
 
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
