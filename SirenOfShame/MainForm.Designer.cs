@@ -117,7 +117,7 @@ namespace SirenOfShame {
             // 
             // statusStrip1
             // 
-            this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._toolStripSplitErrorButton,
             this._lastStatusUpdate});
@@ -676,6 +676,7 @@ namespace SirenOfShame {
             // 
             // _panelRight
             // 
+            this._panelRight.BackColor = System.Drawing.Color.Transparent;
             this._panelRight.Controls.Add(this._userList);
             this._panelRight.Controls.Add(this._newsFeed1);
             this._panelRight.Controls.Add(this._buildStats);
@@ -688,7 +689,7 @@ namespace SirenOfShame {
             // 
             // _rightPanelButtons
             // 
-            this._rightPanelButtons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._rightPanelButtons.BackColor = System.Drawing.Color.Transparent;
             this._rightPanelButtons.Controls.Add(this._usersButton);
             this._rightPanelButtons.Controls.Add(this._newsButton);
             this._rightPanelButtons.Dock = System.Windows.Forms.DockStyle.Top;
@@ -788,11 +789,11 @@ namespace SirenOfShame {
             // 
             // splitter1
             // 
-            this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(712, 106);
+            this.splitter1.Location = new System.Drawing.Point(714, 106);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 293);
+            this.splitter1.Size = new System.Drawing.Size(1, 293);
             this.splitter1.TabIndex = 39;
             this.splitter1.TabStop = false;
             // 
@@ -879,12 +880,13 @@ namespace SirenOfShame {
             // 
             // _viewBuilds
             // 
-            this._viewBuilds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
+            this._viewBuilds.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this._viewBuilds.Dock = System.Windows.Forms.DockStyle.Fill;
             this._viewBuilds.Location = new System.Drawing.Point(0, 106);
             this._viewBuilds.Name = "_viewBuilds";
             this._viewBuilds.Padding = new System.Windows.Forms.Padding(32, 0, 0, 0);
-            this._viewBuilds.Size = new System.Drawing.Size(712, 293);
+            this._viewBuilds.Size = new System.Drawing.Size(714, 293);
             this._viewBuilds.TabIndex = 42;
             // 
             // viewUser1
@@ -893,12 +895,12 @@ namespace SirenOfShame {
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 106);
             this.viewUser1.Name = "viewUser1";
-            this.viewUser1.Size = new System.Drawing.Size(712, 293);
+            this.viewUser1.Size = new System.Drawing.Size(714, 293);
             this.viewUser1.TabIndex = 41;
             // 
             // _userList
             // 
-            this._userList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._userList.BackColor = System.Drawing.Color.Transparent;
             this._userList.Dock = System.Windows.Forms.DockStyle.Fill;
             this._userList.Location = new System.Drawing.Point(0, 36);
             this._userList.Margin = new System.Windows.Forms.Padding(0);
@@ -909,7 +911,7 @@ namespace SirenOfShame {
             // 
             // _newsFeed1
             // 
-            this._newsFeed1.BackColor = System.Drawing.SystemColors.Window;
+            this._newsFeed1.BackColor = System.Drawing.Color.Transparent;
             this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Fill;
             this._newsFeed1.Location = new System.Drawing.Point(0, 36);
             this._newsFeed1.Margin = new System.Windows.Forms.Padding(0);
@@ -919,6 +921,7 @@ namespace SirenOfShame {
             // 
             // _buildStats
             // 
+            this._buildStats.BackColor = System.Drawing.Color.Transparent;
             this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this._buildStats.Location = new System.Drawing.Point(0, 36);
             this._buildStats.Name = "_buildStats";
@@ -929,6 +932,9 @@ namespace SirenOfShame {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.BackgroundImage = global::SirenOfShame.Properties.Resources.MainBackground;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(924, 421);
             this.Controls.Add(this._viewBuilds);
             this.Controls.Add(this.viewUser1);

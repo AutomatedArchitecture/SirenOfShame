@@ -99,9 +99,9 @@
             this.avatar1.BackColor = System.Drawing.Color.Transparent;
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
-            this.avatar1.Location = new System.Drawing.Point(3, 3);
+            this.avatar1.Location = new System.Drawing.Point(5, 5);
             this.avatar1.Name = "avatar1";
-            this.avatar1.Size = new System.Drawing.Size(50, 50);
+            this.avatar1.Size = new System.Drawing.Size(48, 48);
             this.avatar1.TabIndex = 4;
             this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
             this.avatar1.MouseEnter += new System.EventHandler(this.Avatar1MouseEnter);

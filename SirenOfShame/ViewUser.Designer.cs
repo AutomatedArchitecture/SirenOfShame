@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewUser));
             this._userName = new System.Windows.Forms.Label();
             this._achievementsText = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -144,7 +145,7 @@
             this._back.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this._back.FlatAppearance.BorderSize = 0;
             this._back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._back.Image = global::SirenOfShame.Properties.Resources.nav_left;
+            this._back.Image = ((System.Drawing.Image)(resources.GetObject("_back.Image")));
             this._back.Location = new System.Drawing.Point(1, 0);
             this._back.Name = "_back";
             this._back.Size = new System.Drawing.Size(32, 32);
@@ -190,9 +191,9 @@
             this.avatar1.BackColor = System.Drawing.Color.Transparent;
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
-            this.avatar1.Location = new System.Drawing.Point(44, 49);
+            this.avatar1.Location = new System.Drawing.Point(45, 49);
             this.avatar1.Name = "avatar1";
-            this.avatar1.Size = new System.Drawing.Size(50, 50);
+            this.avatar1.Size = new System.Drawing.Size(48, 48);
             this.avatar1.TabIndex = 7;
             this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
             // 

@@ -429,6 +429,7 @@
     <None Include="Resources\gradient33.png" />
     <None Include="Resources\gradient15.png" />
     <None Include="Resources\nav_left.png" />
+    <None Include="Resources\MainBackground.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

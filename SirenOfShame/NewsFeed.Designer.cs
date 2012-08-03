@@ -37,7 +37,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Controls.Add(this._clearNews);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 219);
@@ -61,22 +61,22 @@
             // _newsItemsPanel
             // 
             this._newsItemsPanel.AutoScroll = true;
-            this._newsItemsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
             this._newsItemsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 17);
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 43);
             this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(254, 202);
+            this._newsItemsPanel.Size = new System.Drawing.Size(254, 176);
             this._newsItemsPanel.TabIndex = 1;
             this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
             // 
             // _noNews
             // 
-            this._noNews.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._noNews.BackColor = System.Drawing.Color.Transparent;
             this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
             this._noNews.ForeColor = System.Drawing.Color.Gray;
             this._noNews.Location = new System.Drawing.Point(0, 0);
             this._noNews.Name = "_noNews";
-            this._noNews.Size = new System.Drawing.Size(254, 17);
+            this._noNews.Size = new System.Drawing.Size(254, 43);
             this._noNews.TabIndex = 2;
             this._noNews.Text = "No news is good news";
             this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -85,7 +85,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.Controls.Add(this._newsItemsPanel);
             this.Controls.Add(this._noNews);
             this.Controls.Add(this.panel1);
