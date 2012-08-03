@@ -172,6 +172,20 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap navigate_down2 {
+            get {
+                object obj = ResourceManager.GetObject("navigate_down2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap navigate_up {
+            get {
+                object obj = ResourceManager.GetObject("navigate_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap question_big {
             get {
                 object obj = ResourceManager.GetObject("question_big", resourceCulture);

@@ -255,6 +255,7 @@ namespace SirenOfShame
 
         private void MainFormLoad(object sender, EventArgs e)
         {
+            ShowRibbon(false);
             _panelAlertHeight = _panelAlert.Height;
             _log.Debug("Form1 loaded");
             if (_settings == null)
@@ -1159,6 +1160,17 @@ namespace SirenOfShame
         private void UsersButtonMouseLeave(object sender, EventArgs e)
         {
             ResetRightMenuButtons();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ShowRibbon(!_ribbonPanel.Visible);
+        }
+
+        private void ShowRibbon(bool show)
+        {
+            button1.Image = show ? Properties.Resources.navigate_down2 : Properties.Resources.navigate_up;
+            _ribbonPanel.Visible = show;
         }
     }
 }
