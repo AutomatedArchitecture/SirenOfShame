@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this._userName = new System.Windows.Forms.Label();
-            this._closeButton = new System.Windows.Forms.PictureBox();
             this._achievementsText = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this._unobtainedTemplate = new System.Windows.Forms.Label();
@@ -38,11 +37,11 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._changeAvatar = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._back = new System.Windows.Forms.Button();
             this._reputation = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this._achievementCount = new System.Windows.Forms.Label();
             this.avatar1 = new SirenOfShame.Avatar();
-            ((System.ComponentModel.ISupportInitialize)(this._closeButton)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -54,23 +53,11 @@
             this._userName.BackColor = System.Drawing.Color.Transparent;
             this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userName.ForeColor = System.Drawing.Color.White;
-            this._userName.Location = new System.Drawing.Point(11, 2);
+            this._userName.Location = new System.Drawing.Point(38, 1);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(86, 31);
             this._userName.TabIndex = 0;
             this._userName.Text = "label1";
-            // 
-            // _closeButton
-            // 
-            this._closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._closeButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._closeButton.Image = global::SirenOfShame.Properties.Resources.CloseButton2;
-            this._closeButton.Location = new System.Drawing.Point(612, 9);
-            this._closeButton.Name = "_closeButton";
-            this._closeButton.Size = new System.Drawing.Size(12, 12);
-            this._closeButton.TabIndex = 1;
-            this._closeButton.TabStop = false;
-            this._closeButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
             // _achievementsText
             // 
@@ -91,9 +78,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this._unobtainedTemplate);
             this.flowLayoutPanel1.Controls.Add(this._obtainedTemplate);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(76, 68);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(100, 68);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(559, 215);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(537, 217);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // _unobtainedTemplate
@@ -133,7 +120,7 @@
             // 
             this._changeAvatar.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._changeAvatar.LinkColor = System.Drawing.Color.White;
-            this._changeAvatar.Location = new System.Drawing.Point(13, 98);
+            this._changeAvatar.Location = new System.Drawing.Point(44, 97);
             this._changeAvatar.Name = "_changeAvatar";
             this._changeAvatar.Size = new System.Drawing.Size(50, 19);
             this._changeAvatar.TabIndex = 8;
@@ -144,19 +131,32 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._back);
             this.panel1.Controls.Add(this._userName);
-            this.panel1.Controls.Add(this._closeButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(633, 30);
+            this.panel1.Size = new System.Drawing.Size(635, 36);
             this.panel1.TabIndex = 9;
+            // 
+            // _back
+            // 
+            this._back.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this._back.FlatAppearance.BorderSize = 0;
+            this._back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._back.Image = global::SirenOfShame.Properties.Resources.nav_left;
+            this._back.Location = new System.Drawing.Point(1, 0);
+            this._back.Name = "_back";
+            this._back.Size = new System.Drawing.Size(32, 32);
+            this._back.TabIndex = 2;
+            this._back.UseVisualStyleBackColor = true;
+            this._back.Click += new System.EventHandler(this.CloseButtonClick);
             // 
             // _reputation
             // 
             this._reputation.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._reputation.ForeColor = System.Drawing.Color.White;
-            this._reputation.Location = new System.Drawing.Point(5, 120);
+            this._reputation.Location = new System.Drawing.Point(36, 119);
             this._reputation.Name = "_reputation";
             this._reputation.Size = new System.Drawing.Size(67, 27);
             this._reputation.TabIndex = 10;
@@ -167,10 +167,10 @@
             // 
             this.flowLayoutPanel2.Controls.Add(this._achievementCount);
             this.flowLayoutPanel2.Controls.Add(this._achievementsText);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(73, 49);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(97, 49);
             this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(232, 19);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(208, 19);
             this.flowLayoutPanel2.TabIndex = 11;
             // 
             // _achievementCount
@@ -190,7 +190,7 @@
             this.avatar1.BackColor = System.Drawing.Color.Transparent;
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
-            this.avatar1.Location = new System.Drawing.Point(13, 50);
+            this.avatar1.Location = new System.Drawing.Point(44, 49);
             this.avatar1.Name = "avatar1";
             this.avatar1.Size = new System.Drawing.Size(50, 50);
             this.avatar1.TabIndex = 7;
@@ -201,7 +201,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this._reputation);
             this.Controls.Add(this._changeAvatar);
@@ -209,8 +208,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Name = "ViewUser";
-            this.Size = new System.Drawing.Size(633, 281);
-            ((System.ComponentModel.ISupportInitialize)(this._closeButton)).EndInit();
+            this.Size = new System.Drawing.Size(635, 283);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -224,7 +222,6 @@
         #endregion
 
         private System.Windows.Forms.Label _userName;
-        private System.Windows.Forms.PictureBox _closeButton;
         private System.Windows.Forms.Label _achievementsText;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label _obtainedTemplate;
@@ -236,5 +233,6 @@
         private System.Windows.Forms.Label _reputation;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label _achievementCount;
+        private System.Windows.Forms.Button _back;
     }
 }

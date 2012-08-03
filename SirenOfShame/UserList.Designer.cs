@@ -37,7 +37,7 @@
             this._usersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this._usersPanel.Location = new System.Drawing.Point(0, 0);
             this._usersPanel.Name = "_usersPanel";
-            this._usersPanel.Size = new System.Drawing.Size(172, 194);
+            this._usersPanel.Size = new System.Drawing.Size(295, 273);
             this._usersPanel.TabIndex = 2;
             // 
             // UserList
@@ -47,7 +47,7 @@
             this.BackColor = System.Drawing.SystemColors.Window;
             this.Controls.Add(this._usersPanel);
             this.Name = "UserList";
-            this.Size = new System.Drawing.Size(172, 194);
+            this.Size = new System.Drawing.Size(295, 273);
             this.ResumeLayout(false);
 
         }

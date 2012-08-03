@@ -50,6 +50,7 @@ namespace SirenOfShame {
             this._fullscreen = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this._configureSiren = new System.Windows.Forms.Button();
+            this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
             this._sirenMore = new System.Windows.Forms.Button();
             this._configureCiServer = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -61,7 +62,6 @@ namespace SirenOfShame {
             this._timeboxEnforcer = new System.Windows.Forms.Button();
             this._automaticUpdater = new wyDay.Controls.AutomaticUpdater();
             this._openSettings = new System.Windows.Forms.Button();
-            this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
             this._testSiren = new System.Windows.Forms.Button();
             this._refresh = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -330,6 +330,14 @@ namespace SirenOfShame {
             this._configureSiren.UseVisualStyleBackColor = false;
             this._configureSiren.Click += new System.EventHandler(this.ConfigureSirenClick);
             // 
+            // _toolbar16
+            // 
+            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
+            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
+            this._toolbar16.Images.SetKeyName(0, "recycle.bmp");
+            this._toolbar16.Images.SetKeyName(1, "window_gear.bmp");
+            this._toolbar16.Images.SetKeyName(2, "alarm.bmp");
+            // 
             // _sirenMore
             // 
             this._sirenMore.BackColor = System.Drawing.Color.Transparent;
@@ -511,14 +519,6 @@ namespace SirenOfShame {
             this._openSettings.UseVisualStyleBackColor = false;
             this._openSettings.Click += new System.EventHandler(this.OpenSettingsClick);
             // 
-            // _toolbar16
-            // 
-            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
-            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
-            this._toolbar16.Images.SetKeyName(0, "recycle.bmp");
-            this._toolbar16.Images.SetKeyName(1, "window_gear.bmp");
-            this._toolbar16.Images.SetKeyName(2, "alarm.bmp");
-            // 
             // _testSiren
             // 
             this._testSiren.BackColor = System.Drawing.Color.Transparent;
@@ -694,7 +694,7 @@ namespace SirenOfShame {
             this._rightPanelButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this._rightPanelButtons.Location = new System.Drawing.Point(0, 0);
             this._rightPanelButtons.Name = "_rightPanelButtons";
-            this._rightPanelButtons.Size = new System.Drawing.Size(209, 33);
+            this._rightPanelButtons.Size = new System.Drawing.Size(209, 36);
             this._rightPanelButtons.TabIndex = 9;
             this._rightPanelButtons.Resize += new System.EventHandler(this.RightPanelButtonsResize);
             // 
@@ -708,7 +708,7 @@ namespace SirenOfShame {
             this._usersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._usersButton.ImageKey = "businessmen.bmp";
             this._usersButton.ImageList = this._toolbar32;
-            this._usersButton.Location = new System.Drawing.Point(109, 0);
+            this._usersButton.Location = new System.Drawing.Point(109, 2);
             this._usersButton.Name = "_usersButton";
             this._usersButton.Size = new System.Drawing.Size(100, 32);
             this._usersButton.TabIndex = 0;
@@ -726,7 +726,7 @@ namespace SirenOfShame {
             this._newsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._newsButton.ImageKey = "messages.bmp";
             this._newsButton.ImageList = this._toolbar32;
-            this._newsButton.Location = new System.Drawing.Point(0, 0);
+            this._newsButton.Location = new System.Drawing.Point(0, 2);
             this._newsButton.Name = "_newsButton";
             this._newsButton.Size = new System.Drawing.Size(103, 32);
             this._newsButton.TabIndex = 1;
@@ -798,7 +798,7 @@ namespace SirenOfShame {
             // 
             // _panelAlert
             // 
-            this._panelAlert.BackColor = System.Drawing.Color.LightCoral;
+            this._panelAlert.BackColor = System.Drawing.Color.IndianRed;
             this._panelAlert.Controls.Add(this._details);
             this._panelAlert.Controls.Add(this._labelAlert);
             this._panelAlert.Controls.Add(this._closeAlert);
@@ -814,6 +814,7 @@ namespace SirenOfShame {
             this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._details.AutoSize = true;
             this._details.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._details.LinkColor = System.Drawing.Color.White;
             this._details.Location = new System.Drawing.Point(418, 2);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(107, 17);
@@ -827,6 +828,7 @@ namespace SirenOfShame {
             this._labelAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this._labelAlert.AutoSize = true;
             this._labelAlert.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._labelAlert.ForeColor = System.Drawing.Color.White;
             this._labelAlert.Location = new System.Drawing.Point(4, 2);
             this._labelAlert.Name = "_labelAlert";
             this._labelAlert.Size = new System.Drawing.Size(325, 17);
@@ -836,14 +838,14 @@ namespace SirenOfShame {
             // _closeAlert
             // 
             this._closeAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._closeAlert.BackColor = System.Drawing.Color.LightCoral;
+            this._closeAlert.BackColor = System.Drawing.Color.IndianRed;
             this._closeAlert.BackgroundImage = global::SirenOfShame.Properties.Resources.CloseButton1;
             this._closeAlert.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this._closeAlert.FlatAppearance.BorderSize = 0;
             this._closeAlert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._closeAlert.Location = new System.Drawing.Point(896, 0);
             this._closeAlert.Name = "_closeAlert";
-            this._closeAlert.Size = new System.Drawing.Size(25, 20);
+            this._closeAlert.Size = new System.Drawing.Size(25, 21);
             this._closeAlert.TabIndex = 41;
             this._closeAlert.UseVisualStyleBackColor = false;
             this._closeAlert.Click += new System.EventHandler(this.CloseAlertClick);
@@ -888,7 +890,6 @@ namespace SirenOfShame {
             // viewUser1
             // 
             this.viewUser1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.viewUser1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 106);
             this.viewUser1.Name = "viewUser1";
@@ -899,29 +900,29 @@ namespace SirenOfShame {
             // 
             this._userList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this._userList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._userList.Location = new System.Drawing.Point(0, 33);
+            this._userList.Location = new System.Drawing.Point(0, 36);
             this._userList.Margin = new System.Windows.Forms.Padding(0);
             this._userList.Name = "_userList";
             this._userList.Settings = null;
-            this._userList.Size = new System.Drawing.Size(209, 260);
+            this._userList.Size = new System.Drawing.Size(209, 257);
             this._userList.TabIndex = 11;
             // 
             // _newsFeed1
             // 
             this._newsFeed1.BackColor = System.Drawing.SystemColors.Window;
             this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsFeed1.Location = new System.Drawing.Point(0, 33);
+            this._newsFeed1.Location = new System.Drawing.Point(0, 36);
             this._newsFeed1.Margin = new System.Windows.Forms.Padding(0);
             this._newsFeed1.Name = "_newsFeed1";
-            this._newsFeed1.Size = new System.Drawing.Size(209, 260);
+            this._newsFeed1.Size = new System.Drawing.Size(209, 257);
             this._newsFeed1.TabIndex = 10;
             // 
             // _buildStats
             // 
             this._buildStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildStats.Location = new System.Drawing.Point(0, 33);
+            this._buildStats.Location = new System.Drawing.Point(0, 36);
             this._buildStats.Name = "_buildStats";
-            this._buildStats.Size = new System.Drawing.Size(209, 260);
+            this._buildStats.Size = new System.Drawing.Size(209, 257);
             this._buildStats.TabIndex = 8;
             // 
             // MainForm
