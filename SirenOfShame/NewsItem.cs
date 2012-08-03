@@ -10,8 +10,6 @@ namespace SirenOfShame
 {
     public partial class NewsItem : UserControl
     {
-        readonly Font _regularFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-
         private DateTime EventDate { get; set; }
         private readonly string _rawUserName;
         public event UserClicked OnUserClicked;
@@ -58,8 +56,7 @@ namespace SirenOfShame
         private void InitializeMetroColors(NewNewsItemEventArgs args)
         {
             Color backColor = GetBackgroundColorForEventType(args.NewsItemType);
-            _metroPanel.BackColor = backColor;
-            _userName.BackColor = backColor;
+            _leftPanel.BackColor = backColor;
         }
 
         private void InitializeAvatar(NewNewsItemEventArgs args)
@@ -95,10 +92,9 @@ namespace SirenOfShame
         {
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
-            _reputationChange.BackColor = Color.Transparent;
-            _reputationChange.PillColor = reputationChange.Value < 0
-                                              ? Color.FromArgb(255, 203, 59, 75)
-                                              : Color.FromArgb(255, 43, 151, 71);
+            _reputationChange.BackColor = reputationChange.Value < 0
+                                              ? Color.FromArgb(255, 222, 64, 82)
+                                              : Color.FromArgb(255, 50, 175, 82);
             _reputationChange.Text = GetNumericAsDelta(reputationChange.Value);
         }
 
@@ -115,16 +111,6 @@ namespace SirenOfShame
         public int GetIdealHeight()
         {
             return 110;
-            //using (Graphics g = CreateGraphics())
-            //{
-            //    int renderWidth = richTextBox1.Width;
-            //    SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
-            //    int richTextBoxHeight = (int)Math.Ceiling(size.Height);
-            //    int margins = (panel1.Location.Y + _metroPanel.Location.Y) * 2;
-            //    int mainContentHeight = richTextBoxHeight + _userName.Height + margins;
-
-            //    return Math.Max(mainContentHeight, avatar1.Height);
-            //}
         }
 
         public bool IsAtIdealHeight()
