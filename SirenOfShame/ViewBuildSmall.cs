@@ -24,20 +24,19 @@ namespace SirenOfShame
             _url = buildStatusDto.Url;
             
             _projectName.Text = buildStatusDto.Name;
-            _buildId.Text = buildStatusDto.BuildId;
             _startTime.Text = buildStatusDto.StartTime;
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedBy;
             _comment.Text = buildStatusDto.Comment;
-            // ImageIndex = buildStatusDto.ImageIndex
+            _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
         }
 
         private void SetBackgroundColors(BuildStatusEnum buildStatusEnum)
         {
             Color backgroundColor = GetBackgroundColor(buildStatusEnum);
-            BackColor = backgroundColor;
             _projectName.BackColor = backgroundColor;
+            _buildStatusIcon.BackColor = backgroundColor;
         }
 
         private Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)

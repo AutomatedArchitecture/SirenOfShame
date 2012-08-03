@@ -15,7 +15,6 @@ namespace SirenOfShame
         private DateTime EventDate { get; set; }
         private readonly string _rawUserName;
         public event UserClicked OnUserClicked;
-        string _lastPrettyDate;
 
         public string RawName {
             get { return _rawUserName; }
@@ -42,7 +41,6 @@ namespace SirenOfShame
         public NewsItem(NewNewsItemEventArgs args)
         {
             _rawUserName = args.Person.RawName;
-            _lastPrettyDate = args.EventDate.PrettyDate();
             BuildId = args.BuildId;
             EventDate = args.EventDate;
             
@@ -50,7 +48,9 @@ namespace SirenOfShame
 
             InitializeUserNameLabel(args);
             InitializeReputationChangeLabel(args.ReputationChange);
-            InitializeRichTextBox(args);
+            WriteProject(args);
+            WriteTitle(args);
+            WriteDate(args.EventDate);
             InitializeAvatar(args);
             InitializeMetroColors(args);
         }
@@ -60,7 +60,6 @@ namespace SirenOfShame
             Color backColor = GetBackgroundColorForEventType(args.NewsItemType);
             _metroPanel.BackColor = backColor;
             _userName.BackColor = backColor;
-            richTextBox1.BackColor = backColor;
         }
 
         private void InitializeAvatar(NewNewsItemEventArgs args)
@@ -69,37 +68,27 @@ namespace SirenOfShame
             avatar1.Cursor = args.Person.Clickable ? Cursors.Hand : Cursors.Default;
         }
 
-        private void InitializeRichTextBox(NewNewsItemEventArgs args)
-        {
-            richTextBox1.Clear();
-            WriteProject(args);
-            WriteTitle(args);
-            WriteDate();
-        }
-
         private void InitializeUserNameLabel(NewNewsItemEventArgs args)
         {
             _userName.Text = args.Person.DisplayName;
         }
 
-        private void WriteDate()
+        private void WriteDate(DateTime eventDate)
         {
-            richTextBox1.SelectionColor = Color.Gray;
-            richTextBox1.SelectedText = "\r\n\r\n" + _lastPrettyDate;
+            _when.Text = eventDate.PrettyDate();
         }
 
         private void WriteTitle(NewNewsItemEventArgs args)
         {
             string title = args.NewsItemType == NewsItemTypeEnum.SosOnlineComment ? "\"" + args.Title + "\"" : args.Title;
-            richTextBox1.SelectionFont = _regularFont;
-            richTextBox1.SelectedText = "\r\n" + title;
+            _title.Text = title;
         }
 
         private void WriteProject(NewNewsItemEventArgs args)
         {
-            if (string.IsNullOrEmpty(args.Project)) return;
-            richTextBox1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            richTextBox1.SelectedText = "\r\n" + args.Project;
+            _project.Visible = !string.IsNullOrEmpty(args.Project);
+            if (args.Project == null) return;
+            _project.Text = args.Project.ToUpperInvariant();
         }
 
         private void InitializeReputationChangeLabel(int? reputationChange)
@@ -120,25 +109,22 @@ namespace SirenOfShame
 
         public void RecalculatePrettyDate()
         {
-            var lastPrettyDate = _lastPrettyDate;
-            var newPrettyDate = EventDate.PrettyDate();
-            richTextBox1.Find(lastPrettyDate);
-            richTextBox1.SelectedText = newPrettyDate;
-            _lastPrettyDate = EventDate.PrettyDate();
+            WriteDate(EventDate);
         }
 
         public int GetIdealHeight()
         {
-            using (Graphics g = CreateGraphics())
-            {
-                int renderWidth = richTextBox1.Width;
-                SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
-                int richTextBoxHeight = (int)Math.Ceiling(size.Height);
-                int margins = (panel1.Location.Y + _metroPanel.Location.Y) * 2;
-                int mainContentHeight = richTextBoxHeight + _userName.Height + margins;
+            return 110;
+            //using (Graphics g = CreateGraphics())
+            //{
+            //    int renderWidth = richTextBox1.Width;
+            //    SizeF size = g.MeasureString(richTextBox1.Text, _regularFont, renderWidth);
+            //    int richTextBoxHeight = (int)Math.Ceiling(size.Height);
+            //    int margins = (panel1.Location.Y + _metroPanel.Location.Y) * 2;
+            //    int mainContentHeight = richTextBoxHeight + _userName.Height + margins;
 
-                return Math.Max(mainContentHeight, avatar1.Height);
-            }
+            //    return Math.Max(mainContentHeight, avatar1.Height);
+            //}
         }
 
         public bool IsAtIdealHeight()
@@ -181,23 +167,21 @@ namespace SirenOfShame
         private void NewsItemResize(object sender, EventArgs e)
         {
             // this fixes a drawing issue on the panel where it wouldn't always redraw the rounded corners background
-            panel1.Invalidate();
         }
 
         public void UpdateState(NewNewsItemEventArgs args)
         {
             InitializeReputationChangeLabel(args.ReputationChange);
-            Invalidate();
-            richTextBox1.Invalidate();
+            //Invalidate();
             InitializeMetroColors(args);
         }
 
-        private void RichTextBox1MouseEnter(object sender, EventArgs e)
+        private void Avatar1MouseEnter(object sender, EventArgs e)
         {
             OnMouseEnter(e);
         }
 
-        private void Avatar1MouseEnter(object sender, EventArgs e)
+        private void TitleMouseEnter(object sender, EventArgs e)
         {
             OnMouseEnter(e);
         }

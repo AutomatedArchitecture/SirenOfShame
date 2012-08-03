@@ -234,9 +234,6 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransparentRichTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserList.cs">
       <SubType>UserControl</SubType>
     </Compile>

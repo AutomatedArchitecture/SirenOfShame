@@ -13,7 +13,7 @@ namespace SirenOfShame.Lib.Watcher
         Red = 0,
         Green = 1,
         Gray = 2,
-        Triangle = 7
+        Triangle = 3
     }
 
     public class BuildStatus
