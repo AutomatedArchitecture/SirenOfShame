@@ -406,7 +406,6 @@
   <ItemGroup>
     <None Include="Resources\TrashSmall.png" />
     <EmbeddedResource Include="Resources\Audio-Tada.wav" />
-    <None Include="Resources\Play.png" />
     <None Include="Resources\separater.png" />
     <None Include="Resources\RibbonBackground.png" />
     <Content Include="FirmwareUpgrade.xml">
@@ -425,7 +424,6 @@
     <Content Include="Resources\Audio-Ding.wav" />
     <None Include="Resources\CloseButton2.png" />
     <None Include="Resources\cloud-title.png" />
-    <Content Include="Resources\Fullscreen.png" />
     <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\gradient33.png" />
@@ -438,9 +436,6 @@
     <None Include="Resources\splash.png" />
     <Resource Include="SirenOfShameTrayBlank.ico" />
     <Content Include="Resources\SirenOfShameTrayGreen.ico" />
-    <EmbeddedResource Include="Resources\ball_gray.png" />
-    <EmbeddedResource Include="Resources\ball_green.png" />
-    <EmbeddedResource Include="Resources\ball_red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this._projectGroupBox = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this._comment = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this._status = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this._startTime = new System.Windows.Forms.TextBox();
-            this._finishTime = new System.Windows.Forms.TextBox();
             this._requestedBy = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this._finishTime = new System.Windows.Forms.TextBox();
+            this._startTime = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this._status = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this._comment = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this._projectGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,32 +64,58 @@
             this._projectGroupBox.TabStop = false;
             this._projectGroupBox.Text = "Project Name";
             // 
-            // label1
+            // _requestedBy
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Comment";
-            // 
-            // _comment
-            // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this._requestedBy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._comment.Location = new System.Drawing.Point(86, 19);
-            this._comment.Name = "_comment";
-            this._comment.Size = new System.Drawing.Size(282, 20);
-            this._comment.TabIndex = 1;
+            this._requestedBy.Location = new System.Drawing.Point(86, 124);
+            this._requestedBy.Name = "_requestedBy";
+            this._requestedBy.Size = new System.Drawing.Size(282, 20);
+            this._requestedBy.TabIndex = 9;
+            this._requestedBy.Text = "Zzz";
             // 
-            // label2
+            // label5
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(43, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Status";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 127);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(74, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Requested By";
+            // 
+            // _finishTime
+            // 
+            this._finishTime.Location = new System.Drawing.Point(86, 98);
+            this._finishTime.Name = "_finishTime";
+            this._finishTime.ReadOnly = true;
+            this._finishTime.Size = new System.Drawing.Size(152, 20);
+            this._finishTime.TabIndex = 7;
+            // 
+            // _startTime
+            // 
+            this._startTime.Location = new System.Drawing.Point(86, 72);
+            this._startTime.Name = "_startTime";
+            this._startTime.ReadOnly = true;
+            this._startTime.Size = new System.Drawing.Size(152, 20);
+            this._startTime.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(28, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "End Time";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(25, 75);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Start Time";
             // 
             // _status
             // 
@@ -106,57 +132,33 @@
             this._status.TabIndex = 3;
             this._status.SelectedIndexChanged += new System.EventHandler(this._status_SelectedIndexChanged);
             // 
-            // label3
+            // label2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 75);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Start Time";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(43, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(37, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Status";
             // 
-            // label4
+            // _comment
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(28, 101);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "End Time";
-            // 
-            // _startTime
-            // 
-            this._startTime.Location = new System.Drawing.Point(86, 72);
-            this._startTime.Name = "_startTime";
-            this._startTime.ReadOnly = true;
-            this._startTime.Size = new System.Drawing.Size(152, 20);
-            this._startTime.TabIndex = 6;
-            // 
-            // _finishTime
-            // 
-            this._finishTime.Location = new System.Drawing.Point(86, 98);
-            this._finishTime.Name = "_finishTime";
-            this._finishTime.ReadOnly = true;
-            this._finishTime.Size = new System.Drawing.Size(152, 20);
-            this._finishTime.TabIndex = 7;
-            // 
-            // _requestedBy
-            // 
-            this._requestedBy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._requestedBy.Location = new System.Drawing.Point(86, 124);
-            this._requestedBy.Name = "_requestedBy";
-            this._requestedBy.Size = new System.Drawing.Size(282, 20);
-            this._requestedBy.TabIndex = 9;
+            this._comment.Location = new System.Drawing.Point(86, 19);
+            this._comment.Name = "_comment";
+            this._comment.Size = new System.Drawing.Size(282, 20);
+            this._comment.TabIndex = 1;
+            this._comment.Text = "This is a test";
             // 
-            // label5
+            // label1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 127);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Requested By";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Comment";
             // 
             // MockProject
             // 

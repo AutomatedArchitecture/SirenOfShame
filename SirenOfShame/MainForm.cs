@@ -590,8 +590,6 @@ namespace SirenOfShame
             }
         }
         
-        const string NEWS_SELECTED_PNG = "NewsSelected.png";
-        const string PERSON_SELECTED_PNG = "PersonSelected.png";
         private RightMenuEnum _lastMainRightMenu = RightMenuEnum.NewsFeed;
 
         private void ResetRightMenu()
@@ -616,8 +614,8 @@ namespace SirenOfShame
 
         private void ResetRightMenuButtons()
         {
-            _usersButton.ImageKey = _userList.Visible ? PERSON_SELECTED_PNG : "PersonDeselected.png";
-            _newsButton.ImageKey = _newsFeed1.Visible ? NEWS_SELECTED_PNG : "NewsDeselected.png";
+            _usersButton.BackColor = Color.Transparent;
+            _newsButton.BackColor = Color.Transparent;
         }
 
         private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
@@ -1050,7 +1048,7 @@ namespace SirenOfShame
 
         private void SetMuteButton()
         {
-            _mute.ImageIndex = _settings.Mute ? 5 : 6;
+            _mute.ImageKey = _settings.Mute ? "loudspeaker_forbidden.bmp" : "loudspeaker.bmp";
             _mute.Text = _settings.Mute ? "Unmute" : "Mute";
         }
 
@@ -1145,12 +1143,12 @@ namespace SirenOfShame
 
         private void NewsButtonMouseEnter(object sender, EventArgs e)
         {
-            _newsButton.ImageKey = NEWS_SELECTED_PNG;
+            _newsButton.BackColor = Color.FromArgb(255, 20, 20, 20);
         }
 
         private void UsersButtonMouseEnter(object sender, EventArgs e)
         {
-            _usersButton.ImageKey = PERSON_SELECTED_PNG;
+            _usersButton.BackColor = Color.FromArgb(255, 20, 20, 20);
         }
 
         private void NewsButtonMouseLeave(object sender, EventArgs e)

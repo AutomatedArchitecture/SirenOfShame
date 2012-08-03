@@ -63,17 +63,18 @@
             this._newsItemsPanel.AutoScroll = true;
             this._newsItemsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this._newsItemsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 22);
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 17);
             this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(254, 197);
+            this._newsItemsPanel.Size = new System.Drawing.Size(254, 202);
             this._newsItemsPanel.TabIndex = 1;
             this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
             // 
             // _noNews
             // 
+            this._noNews.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
             this._noNews.ForeColor = System.Drawing.Color.Gray;
-            this._noNews.Location = new System.Drawing.Point(0, 5);
+            this._noNews.Location = new System.Drawing.Point(0, 0);
             this._noNews.Name = "_noNews";
             this._noNews.Size = new System.Drawing.Size(254, 17);
             this._noNews.TabIndex = 2;
@@ -88,8 +89,8 @@
             this.Controls.Add(this._newsItemsPanel);
             this.Controls.Add(this._noNews);
             this.Controls.Add(this.panel1);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NewsFeed";
-            this.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.Size = new System.Drawing.Size(254, 237);
             this.MouseEnter += new System.EventHandler(this.NewsFeedMouseEnter);
             this.Resize += new System.EventHandler(this.NewsFeedResize);

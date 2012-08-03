@@ -52,10 +52,11 @@
             // 
             this._userName.AutoSize = true;
             this._userName.BackColor = System.Drawing.Color.Transparent;
-            this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._userName.ForeColor = System.Drawing.Color.White;
             this._userName.Location = new System.Drawing.Point(11, 2);
             this._userName.Name = "_userName";
-            this._userName.Size = new System.Drawing.Size(70, 26);
+            this._userName.Size = new System.Drawing.Size(86, 31);
             this._userName.TabIndex = 0;
             this._userName.Text = "label1";
             // 
@@ -75,6 +76,7 @@
             // 
             this._achievementsText.AutoSize = true;
             this._achievementsText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._achievementsText.ForeColor = System.Drawing.Color.White;
             this._achievementsText.Location = new System.Drawing.Point(18, 0);
             this._achievementsText.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this._achievementsText.Name = "_achievementsText";
@@ -130,6 +132,7 @@
             // _changeAvatar
             // 
             this._changeAvatar.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._changeAvatar.LinkColor = System.Drawing.Color.White;
             this._changeAvatar.Location = new System.Drawing.Point(13, 98);
             this._changeAvatar.Name = "_changeAvatar";
             this._changeAvatar.Size = new System.Drawing.Size(50, 19);
@@ -141,7 +144,6 @@
             // 
             // panel1
             // 
-            this.panel1.BackgroundImage = global::SirenOfShame.Properties.Resources.gradient33;
             this.panel1.Controls.Add(this._userName);
             this.panel1.Controls.Add(this._closeButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -153,6 +155,7 @@
             // _reputation
             // 
             this._reputation.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._reputation.ForeColor = System.Drawing.Color.White;
             this._reputation.Location = new System.Drawing.Point(5, 120);
             this._reputation.Name = "_reputation";
             this._reputation.Size = new System.Drawing.Size(67, 27);
@@ -174,6 +177,7 @@
             // 
             this._achievementCount.AutoSize = true;
             this._achievementCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._achievementCount.ForeColor = System.Drawing.Color.White;
             this._achievementCount.Location = new System.Drawing.Point(3, 0);
             this._achievementCount.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this._achievementCount.Name = "_achievementCount";
@@ -196,7 +200,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this._reputation);
