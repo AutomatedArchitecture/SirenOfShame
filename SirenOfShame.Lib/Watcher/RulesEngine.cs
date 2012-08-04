@@ -489,7 +489,7 @@ namespace SirenOfShame.Lib.Watcher
             IEnumerable<BuildStatus> buildStatuses = _settings.CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .Where(bd => bd.Active)
-                .Select(bd => bd.AsUnknownBuildStatus());
+                .Select(bd => bd.AsUnknownBuildStatus(SosDb));
             InvokeRefreshStatus(buildStatuses);
         }
 

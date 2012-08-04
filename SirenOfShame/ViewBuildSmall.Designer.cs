@@ -42,8 +42,8 @@
             // 
             // _projectName
             // 
-            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -80,17 +80,17 @@
             // 
             // _comment
             // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(5, 53);
             this._comment.Name = "_comment";
-            this._comment.Size = new System.Drawing.Size(228, 49);
+            this._comment.Size = new System.Drawing.Size(228, 50);
             this._comment.TabIndex = 4;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-                "for the day, the jerk.";
+    "for the day, the jerk.";
             // 
             // _duration
             // 
@@ -98,7 +98,7 @@
             this._duration.AutoSize = true;
             this._duration.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._duration.ForeColor = System.Drawing.Color.Black;
-            this._duration.Location = new System.Drawing.Point(4, 99);
+            this._duration.Location = new System.Drawing.Point(4, 100);
             this._duration.Name = "_duration";
             this._duration.Size = new System.Drawing.Size(40, 20);
             this._duration.TabIndex = 5;
@@ -114,13 +114,13 @@
             this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._details.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(166, 99);
+            this._details.Location = new System.Drawing.Point(166, 100);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(57, 20);
             this._details.TabIndex = 6;
             this._details.Text = "Details";
             this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._details_LinkClicked);
+            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DetailsLinkClicked);
             // 
             // imageList1
             // 
@@ -128,8 +128,8 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Magenta;
             this.imageList1.Images.SetKeyName(0, "error.bmp");
             this.imageList1.Images.SetKeyName(1, "ok.bmp");
-            this.imageList1.Images.SetKeyName(2, "unknown.bmp");
-            this.imageList1.Images.SetKeyName(3, "clock.bmp");
+            this.imageList1.Images.SetKeyName(2, "clock.bmp");
+            this.imageList1.Images.SetKeyName(3, "unknown.bmp");
             // 
             // _buildStatusIcon
             // 
@@ -155,7 +155,7 @@
             this.Controls.Add(this._startTime);
             this.Controls.Add(this._projectName);
             this.Name = "ViewBuildSmall";
-            this.Size = new System.Drawing.Size(236, 129);
+            this.Size = new System.Drawing.Size(236, 130);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -18,7 +18,7 @@ namespace MockCiServerServices
             {
                 if (_serverForm == null)
                 {
-                    Thread.Sleep(3000); // wait for the splash screen to disappear
+                    Thread.Sleep(5000); // wait for the splash screen to disappear
                     Application.OpenForms.Cast<Form>().FirstOrDefault().Invoke(() =>
                     {
                         _serverForm = new MockCiServerForm();

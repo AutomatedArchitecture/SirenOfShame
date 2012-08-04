@@ -27,18 +27,39 @@ namespace SirenOfShame.Lib.Settings {
         public List<string> People { get; set; }
 	    public string BuildServer { get; set; }
 
-	    public BuildStatus AsUnknownBuildStatus()
+	    public BuildStatus AsUnknownBuildStatus(SosDb sosDb)
 	    {
-	        return new BuildStatus
+	        var lastKnownBuild = sosDb.ReadAll(this).LastOrDefault();
+            var comment = lastKnownBuild == null ? null : lastKnownBuild.Comment;
+            var startedTime = lastKnownBuild == null ? null : lastKnownBuild.StartedTime;
+            // SosDb doesn't store local start time, so use the server's start time
+            var localStartTime = lastKnownBuild == null ? DateTime.MinValue : lastKnownBuild.StartedTime ?? DateTime.MinValue;
+	        var buildId = lastKnownBuild == null ? null : lastKnownBuild.BuildId;
+            var requestedBy = lastKnownBuild == null ? null : lastKnownBuild.RequestedBy;
+            var finishedTime = lastKnownBuild == null ? null : lastKnownBuild.FinishedTime;
+	        var url = lastKnownBuild == null ? null : lastKnownBuild.Url;
+	        
+            return new BuildStatus
 	        {
 	            BuildStatusEnum = BuildStatusEnum.Unknown,
 	            BuildDefinitionId = Id,
 	            Name = Name,
-                StartedTime = null
+                StartedTime = startedTime,
+                Comment = comment,
+                LocalStartTime = localStartTime,
+                BuildId = buildId,
+                RequestedBy = requestedBy,
+                FinishedTime = finishedTime,
+                Url = url
 	        };
 	    }
 
-        public bool ContainsPerson(BuildStatus buildStatus)
+	    private string GetLastComment(BuildStatus lastKnownBuild)
+	    {
+	        return lastKnownBuild == null ? null : lastKnownBuild.Comment;
+	    }
+
+	    public bool ContainsPerson(BuildStatus buildStatus)
         {
             if (buildStatus == null) return false;
             return People.Any(p => p == buildStatus.RequestedBy);

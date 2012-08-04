@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
@@ -10,7 +11,18 @@ namespace SirenOfShame
         public ViewBuilds()
         {
             InitializeComponent();
+
+            _prettyDateTimer.Interval = 20000;
+            _prettyDateTimer.Tick += PrettyDateTimerOnTick;
+            _prettyDateTimer.Start();
         }
+
+        private void PrettyDateTimerOnTick(object sender, EventArgs eventArgs)
+        {
+            GetViewBuilds().ToList().ForEach(i => i.RecalculatePrettyDate());
+        }
+
+        private Timer _prettyDateTimer = new Timer();
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
         {

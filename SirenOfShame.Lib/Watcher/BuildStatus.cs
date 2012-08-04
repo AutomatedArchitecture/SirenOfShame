@@ -106,16 +106,14 @@ namespace SirenOfShame.Lib.Watcher
             previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            string startTime = FormatAsDayMonthTime(StartedTime);
-            long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
             string requestedBy = settings.FindAddPerson(RequestedBy).DisplayName;
 
             var result = new BuildStatusDto
             {
                 BuildStatusEnum = BuildStatusEnum,
                 ImageIndex = (int)BallIndex,
-                StartTime = startTime,
-                StartTimeTicks = startTimeTicks,
+                StartTime = FormatAsDayMonthTime(StartedTime),
+                LocalStartTime = LocalStartTime == DateTime.MinValue ? StartedTime : LocalStartTime,
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
@@ -142,7 +140,7 @@ namespace SirenOfShame.Lib.Watcher
             if (dateTimeFormatInfo == null) return "M/d";
             var shortDatePattern = dateTimeFormatInfo.ShortDatePattern;
             var dateSeparator = dateTimeFormatInfo.DateSeparator;
-            string dayMonthPattern = shortDatePattern.TrimEnd(new[] {'y', 'Y', dateSeparator[0]});
+            string dayMonthPattern = shortDatePattern.TrimEnd(new[] { 'y', 'Y', dateSeparator[0] });
             return dayMonthPattern;
         }
 
@@ -278,7 +276,7 @@ namespace SirenOfShame.Lib.Watcher
             var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && BuildStatusEnum == BuildStatusEnum.Broken;
             var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
 
-            if (inProgress) return string.Format("'{1}'", Name, Comment);
+            if (inProgress) return string.Format("'{0}'", Comment);
             if (wasBrokenNowWorking) return string.Format("Fixed the broken build");
             if (wasWorkingNowBroken) return string.Format("Broke the build");
             if (wasBrokenNowBroken) return string.Format("Failed to fix the build");
