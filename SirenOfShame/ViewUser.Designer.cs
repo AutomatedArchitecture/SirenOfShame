@@ -39,6 +39,7 @@
             this._changeAvatar = new System.Windows.Forms.LinkLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this._back = new System.Windows.Forms.Button();
+            this._displayNameTextbox = new System.Windows.Forms.TextBox();
             this._reputation = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this._achievementCount = new System.Windows.Forms.Label();
@@ -52,6 +53,7 @@
             // 
             this._userName.AutoSize = true;
             this._userName.BackColor = System.Drawing.Color.Transparent;
+            this._userName.Cursor = System.Windows.Forms.Cursors.Hand;
             this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userName.ForeColor = System.Drawing.Color.White;
             this._userName.Location = new System.Drawing.Point(38, 1);
@@ -59,6 +61,7 @@
             this._userName.Size = new System.Drawing.Size(86, 31);
             this._userName.TabIndex = 0;
             this._userName.Text = "label1";
+            this._userName.Click += new System.EventHandler(this.UserNameClick);
             // 
             // _achievementsText
             // 
@@ -81,7 +84,7 @@
             this.flowLayoutPanel1.Controls.Add(this._obtainedTemplate);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(100, 68);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(537, 217);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(517, 217);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // _unobtainedTemplate
@@ -89,14 +92,15 @@
             this._unobtainedTemplate.AccessibleDescription = "";
             this._unobtainedTemplate.AccessibleName = "";
             this._unobtainedTemplate.AutoSize = true;
-            this._unobtainedTemplate.BackColor = System.Drawing.Color.LightGray;
+            this._unobtainedTemplate.BackColor = System.Drawing.Color.DimGray;
             this._unobtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._unobtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._unobtainedTemplate.ForeColor = System.Drawing.Color.Gray;
+            this._unobtainedTemplate.ForeColor = System.Drawing.Color.Silver;
             this._unobtainedTemplate.Location = new System.Drawing.Point(3, 3);
             this._unobtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
             this._unobtainedTemplate.Name = "_unobtainedTemplate";
-            this._unobtainedTemplate.Size = new System.Drawing.Size(141, 18);
+            this._unobtainedTemplate.Padding = new System.Windows.Forms.Padding(2);
+            this._unobtainedTemplate.Size = new System.Drawing.Size(145, 22);
             this._unobtainedTemplate.TabIndex = 5;
             this._unobtainedTemplate.Text = "Unobtained Template";
             this._unobtainedTemplate.Visible = false;
@@ -104,15 +108,16 @@
             // _obtainedTemplate
             // 
             this._obtainedTemplate.AutoSize = true;
-            this._obtainedTemplate.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this._obtainedTemplate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(175)))), ((int)(((byte)(82)))));
             this._obtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._obtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._obtainedTemplate.ForeColor = System.Drawing.SystemColors.Window;
             this._obtainedTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._obtainedTemplate.Location = new System.Drawing.Point(150, 3);
+            this._obtainedTemplate.Location = new System.Drawing.Point(154, 3);
             this._obtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
             this._obtainedTemplate.Name = "_obtainedTemplate";
-            this._obtainedTemplate.Size = new System.Drawing.Size(143, 18);
+            this._obtainedTemplate.Padding = new System.Windows.Forms.Padding(2);
+            this._obtainedTemplate.Size = new System.Drawing.Size(147, 22);
             this._obtainedTemplate.TabIndex = 4;
             this._obtainedTemplate.Text = "Obtained Template";
             this._obtainedTemplate.Visible = false;
@@ -134,6 +139,7 @@
             // 
             this.panel1.Controls.Add(this._back);
             this.panel1.Controls.Add(this._userName);
+            this.panel1.Controls.Add(this._displayNameTextbox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -152,6 +158,17 @@
             this._back.TabIndex = 2;
             this._back.UseVisualStyleBackColor = true;
             this._back.Click += new System.EventHandler(this.CloseButtonClick);
+            // 
+            // _displayNameTextbox
+            // 
+            this._displayNameTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._displayNameTextbox.Location = new System.Drawing.Point(41, 1);
+            this._displayNameTextbox.Name = "_displayNameTextbox";
+            this._displayNameTextbox.Size = new System.Drawing.Size(331, 32);
+            this._displayNameTextbox.TabIndex = 3;
+            this._displayNameTextbox.Visible = false;
+            this._displayNameTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DisplayNameTextboxKeyDown);
+            this._displayNameTextbox.Leave += new System.EventHandler(this.DisplayNameTextboxLeave);
             // 
             // _reputation
             // 
@@ -235,5 +252,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label _achievementCount;
         private System.Windows.Forms.Button _back;
+        private System.Windows.Forms.TextBox _displayNameTextbox;
     }
 }

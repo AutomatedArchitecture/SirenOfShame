@@ -866,7 +866,7 @@ namespace SirenOfShame {
             // 
             // viewUser1
             // 
-            this.viewUser1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.viewUser1.BackColor = System.Drawing.Color.Transparent;
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 122);
             this.viewUser1.Name = "viewUser1";

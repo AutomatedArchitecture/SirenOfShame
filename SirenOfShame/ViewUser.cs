@@ -67,6 +67,7 @@ namespace SirenOfShame
                 label.BorderStyle = cloneFrom.BorderStyle;
                 label.AutoSize = cloneFrom.AutoSize;
                 label.Margin = cloneFrom.Margin;
+                label.Padding = cloneFrom.Padding;
                 flowLayoutPanel1.Controls.Add(label);
                 toolTip1.SetToolTip(label, achievementLookup.Description);
             }
@@ -100,6 +101,50 @@ namespace SirenOfShame
         private void Avatar1Click(object sender, EventArgs e)
         {
             OpenAvatarPicker(avatar1);
+        }
+
+        private void UserNameClick(object sender, EventArgs e)
+        {
+            MakeUserNameEditable(true);
+        }
+
+        private void MakeUserNameEditable(bool editable)
+        {
+            _userName.Visible = !editable;
+            _displayNameTextbox.Visible = editable;
+            if (editable)
+            {
+                _displayNameTextbox.Text = _personSetting.DisplayName;
+            }
+        }
+
+        private void DisplayNameTextboxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                _displayNameTextbox.Text = _personSetting.DisplayName;
+                MakeUserNameEditable(false);
+            }
+            else if (e.KeyCode == Keys.Enter)
+            {
+                SaveDisplayName();
+            }
+        }
+
+        private void SaveDisplayName()
+        {
+            string newDisplayName = _displayNameTextbox.Text;
+            _personSetting.DisplayName = newDisplayName;
+            _settings.Save();
+            InvokeOnUserDisplayNameChanged(new UserDisplayNameChangedArgs
+            {RawUserName = _personSetting.RawName, NewDisplayName = newDisplayName});
+            MakeUserNameEditable(false);
+            _userName.Text = _personSetting.GetBothDisplayAndRawNames();
+        }
+
+        private void DisplayNameTextboxLeave(object sender, EventArgs e)
+        {
+            SaveDisplayName();
         }
     }
 
