@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -50,6 +51,7 @@ namespace SirenOfShame
                                           {
                                               Dock = DockStyle.Top,
                                               Cursor = Cursors.Hand,
+                                              BackColor = Color.Transparent,
                                           };
                 userPanel.MouseEnter += UserPanelMouseEnter;
                 userPanel.Click += UserPanelClick;

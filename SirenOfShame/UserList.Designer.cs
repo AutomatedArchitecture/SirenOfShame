@@ -28,24 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._usersPanel = new System.Windows.Forms.Panel();
+            this._usersPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _usersPanel
             // 
-            this._usersPanel.AutoScroll = true;
             this._usersPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._usersPanel.Location = new System.Drawing.Point(0, 0);
+            this._usersPanel.Location = new System.Drawing.Point(0, 32);
             this._usersPanel.Name = "_usersPanel";
-            this._usersPanel.Size = new System.Drawing.Size(295, 273);
+            this._usersPanel.Size = new System.Drawing.Size(295, 241);
             this._usersPanel.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(295, 32);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Leaders";
             // 
             // UserList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.Black;
             this.Controls.Add(this._usersPanel);
+            this.Controls.Add(this.label1);
             this.Name = "UserList";
             this.Size = new System.Drawing.Size(295, 273);
             this.ResumeLayout(false);
@@ -54,6 +67,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel _usersPanel;
+        private System.Windows.Forms.FlowLayoutPanel _usersPanel;
+        private System.Windows.Forms.Label label1;
     }
 }

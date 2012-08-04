@@ -51,7 +51,7 @@
             this._projectName.Location = new System.Drawing.Point(0, 0);
             this._projectName.Name = "_projectName";
             this._projectName.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
-            this._projectName.Size = new System.Drawing.Size(236, 24);
+            this._projectName.Size = new System.Drawing.Size(230, 24);
             this._projectName.TabIndex = 0;
             this._projectName.Text = "Project Name";
             this._projectName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -60,7 +60,7 @@
             // 
             this._startTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._startTime.ForeColor = System.Drawing.Color.Black;
-            this._startTime.Location = new System.Drawing.Point(104, 34);
+            this._startTime.Location = new System.Drawing.Point(98, 34);
             this._startTime.Name = "_startTime";
             this._startTime.Size = new System.Drawing.Size(119, 13);
             this._startTime.TabIndex = 2;
@@ -87,10 +87,10 @@
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(5, 53);
             this._comment.Name = "_comment";
-            this._comment.Size = new System.Drawing.Size(228, 50);
+            this._comment.Size = new System.Drawing.Size(222, 52);
             this._comment.TabIndex = 4;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-    "for the day, the jerk.";
+    "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             // 
             // _duration
             // 
@@ -98,7 +98,7 @@
             this._duration.AutoSize = true;
             this._duration.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._duration.ForeColor = System.Drawing.Color.Black;
-            this._duration.Location = new System.Drawing.Point(4, 100);
+            this._duration.Location = new System.Drawing.Point(4, 108);
             this._duration.Name = "_duration";
             this._duration.Size = new System.Drawing.Size(40, 20);
             this._duration.TabIndex = 5;
@@ -114,7 +114,7 @@
             this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._details.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
             this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(166, 100);
+            this._details.Location = new System.Drawing.Point(170, 108);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(57, 20);
             this._details.TabIndex = 6;
@@ -137,7 +137,7 @@
             this._buildStatusIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._buildStatusIcon.ImageKey = "clock.bmp";
             this._buildStatusIcon.ImageList = this.imageList1;
-            this._buildStatusIcon.Location = new System.Drawing.Point(212, 0);
+            this._buildStatusIcon.Location = new System.Drawing.Point(206, 0);
             this._buildStatusIcon.Name = "_buildStatusIcon";
             this._buildStatusIcon.Size = new System.Drawing.Size(24, 24);
             this._buildStatusIcon.TabIndex = 7;
@@ -154,8 +154,9 @@
             this.Controls.Add(this._requestedBy);
             this.Controls.Add(this._startTime);
             this.Controls.Add(this._projectName);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ViewBuildSmall";
-            this.Size = new System.Drawing.Size(236, 130);
+            this.Size = new System.Drawing.Size(230, 132);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -54,11 +54,6 @@ namespace SirenOfShame.Lib.Settings {
 	        };
 	    }
 
-	    private string GetLastComment(BuildStatus lastKnownBuild)
-	    {
-	        return lastKnownBuild == null ? null : lastKnownBuild.Comment;
-	    }
-
 	    public bool ContainsPerson(BuildStatus buildStatus)
         {
             if (buildStatus == null) return false;

@@ -110,7 +110,7 @@ namespace SirenOfShame
 
         public int GetIdealHeight()
         {
-            return 110;
+            return 132;
         }
 
         public bool IsAtIdealHeight()

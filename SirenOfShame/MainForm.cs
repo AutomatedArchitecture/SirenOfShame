@@ -29,7 +29,6 @@ namespace SirenOfShame
         private RulesEngine _rulesEngine;
         private readonly string _logFilename;
         private readonly bool _canViewLogs;
-        readonly SosDb _sosDb = new SosDb();
         readonly Timer _showAlertAnimation = new Timer();
         readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
@@ -47,7 +46,6 @@ namespace SirenOfShame
             viewUser1.OnClose += ViewUserOnClose;
             viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
             viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
-            _buildStats.OnClose += BuildStatsOnClose;
             viewUser1.Initilaize(_settings);
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
@@ -265,9 +263,6 @@ namespace SirenOfShame
 
             TryUpgrade();
 
-            SetRightMenu(RightMenuEnum.NewsFeed);
-
-
             if (_settings.TryToFindOldAchievementsAtNextOpportunity)
             {
                 FindOldAchievements.TryFindOldAchievements(_settings);
@@ -280,7 +275,6 @@ namespace SirenOfShame
             
             RefreshStats(null);
             SetMuteButton();
-            _buildStats.InitializeBuildHistoryChart();
         }
 
         private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
@@ -563,13 +557,6 @@ namespace SirenOfShame
         //    }
         //}
 
-        private enum RightMenuEnum
-        {
-            Users = 0,
-            BuildStats = 1,
-            NewsFeed = 2
-        }
-
         private enum MainWindowEnum
         {
             ViewBuilds = 0,
@@ -578,58 +565,21 @@ namespace SirenOfShame
 
         private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
         {
-            bool buildDefinitionSelected = buildDefinitionSetting != null;
-            if (buildDefinitionSelected)
-            {
-                SetRightMenu(RightMenuEnum.BuildStats);
-                RefreshProjectStats(buildDefinitionSetting);
-            }
-            else
-            {
-                ResetRightMenu();
-                RefreshUserStats(changedBuildStatuses);
-            }
+            RefreshUserStats(changedBuildStatuses);
         }
         
-        private RightMenuEnum _lastMainRightMenu = RightMenuEnum.NewsFeed;
+        // todo: Re-implement per-project charting on the view project page
+        //private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
+        //{
+        //    var definitions = _sosDb.ReadAll(buildDefinitionSetting);
 
-        private void ResetRightMenu()
-        {
-            SetRightMenu(_lastMainRightMenu);
-        }
-        
-        private void SetRightMenu(RightMenuEnum rightMenu)
-        {
-            StoreLastMainRightMenu(rightMenu);
-            _buildStats.Visible = rightMenu == RightMenuEnum.BuildStats;
-            _userList.Visible = rightMenu == RightMenuEnum.Users;
-            _newsFeed1.Visible = rightMenu == RightMenuEnum.NewsFeed;
-            ResetRightMenuButtons();
-        }
+        //    _buildStats.GraphBuildHistory(definitions);
 
-        private void StoreLastMainRightMenu(RightMenuEnum rightMenu)
-        {
-            if (rightMenu == RightMenuEnum.NewsFeed || rightMenu == RightMenuEnum.Users)
-                _lastMainRightMenu = rightMenu;
-        }
-
-        private void ResetRightMenuButtons()
-        {
-            _usersButton.BackColor = Color.Transparent;
-            _newsButton.BackColor = Color.Transparent;
-        }
-
-        private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
-        {
-            var definitions = _sosDb.ReadAll(buildDefinitionSetting);
-
-            _buildStats.GraphBuildHistory(definitions);
-
-            var count = definitions.Count;
-            var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
-            double percentFailed = count == 0 ? 0 : ((double) failed)/count;
-            _buildStats.SetStats(count, failed, percentFailed);
-        }
+        //    var count = definitions.Count;
+        //    var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
+        //    double percentFailed = count == 0 ? 0 : ((double) failed)/count;
+        //    _buildStats.SetStats(count, failed, percentFailed);
+        //}
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
@@ -1124,52 +1074,14 @@ namespace SirenOfShame
             ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
         }
 
-        private void NewsButtonClick(object sender, EventArgs e)
-        {
-            SetRightMenu(RightMenuEnum.NewsFeed);
-        }
-
-        private void UsersButtonClick(object sender, EventArgs e)
-        {
-            SetRightMenu(RightMenuEnum.Users);
-        }
-
-        private void RightPanelButtonsResize(object sender, EventArgs e)
-        {
-            var halfWidth = _rightPanelButtons.Width/2;
-            _newsButton.Width = halfWidth;
-            _usersButton.Width = halfWidth;
-            _usersButton.Left = halfWidth;
-        }
-
-        private void NewsButtonMouseEnter(object sender, EventArgs e)
-        {
-            _newsButton.BackColor = Color.FromArgb(255, 20, 20, 20);
-        }
-
-        private void UsersButtonMouseEnter(object sender, EventArgs e)
-        {
-            _usersButton.BackColor = Color.FromArgb(255, 20, 20, 20);
-        }
-
-        private void NewsButtonMouseLeave(object sender, EventArgs e)
-        {
-            ResetRightMenuButtons();
-        }
-
-        private void UsersButtonMouseLeave(object sender, EventArgs e)
-        {
-            ResetRightMenuButtons();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void ShowRibbonClick(object sender, EventArgs e)
         {
             ShowRibbon(!_ribbonPanel.Visible);
         }
 
         private void ShowRibbon(bool show)
         {
-            button1.Image = show ? Properties.Resources.navigate_down2 : Properties.Resources.navigate_up;
+            _showRibbon.Image = show ? Properties.Resources.navigate_down2 : Properties.Resources.navigate_up;
             _ribbonPanel.Visible = show;
         }
     }
