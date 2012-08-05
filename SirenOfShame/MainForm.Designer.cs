@@ -68,11 +68,6 @@ namespace SirenOfShame {
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
-            this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
-            this._when = new System.Windows.Forms.ToolStripMenuItem();
-            this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._configurationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._checkForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this._viewLog = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,7 +99,6 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
-            this._buildMenu.SuspendLayout();
             this._configurationMenu.SuspendLayout();
             this._sirenMenu.SuspendLayout();
             this._panelAlert.SuspendLayout();
@@ -594,44 +588,6 @@ namespace SirenOfShame {
             // 
             this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
             // 
-            // _buildMenu
-            // 
-            this._buildMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._affectsTrayIcon,
-            this._stopWatching,
-            this._when,
-            this._toolStripSeparator1});
-            this._buildMenu.Name = "_buildMenu";
-            this._buildMenu.Size = new System.Drawing.Size(164, 76);
-            this._buildMenu.Text = "BuildMenu";
-            this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
-            // 
-            // _affectsTrayIcon
-            // 
-            this._affectsTrayIcon.Checked = true;
-            this._affectsTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._affectsTrayIcon.Name = "_affectsTrayIcon";
-            this._affectsTrayIcon.Size = new System.Drawing.Size(163, 22);
-            this._affectsTrayIcon.Text = "Affects Tray Icon";
-            this._affectsTrayIcon.Click += new System.EventHandler(this.AffectsTrayIconClick);
-            // 
-            // _stopWatching
-            // 
-            this._stopWatching.Name = "_stopWatching";
-            this._stopWatching.Size = new System.Drawing.Size(163, 22);
-            this._stopWatching.Text = "Stop Watching";
-            // 
-            // _when
-            // 
-            this._when.Name = "_when";
-            this._when.Size = new System.Drawing.Size(163, 22);
-            this._when.Text = "When";
-            // 
-            // _toolStripSeparator1
-            // 
-            this._toolStripSeparator1.Name = "_toolStripSeparator1";
-            this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
-            // 
             // _configurationMenu
             // 
             this._configurationMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -808,7 +764,7 @@ namespace SirenOfShame {
             this._avatarImageList.Images.SetKeyName(18, "kromfohrlander.png");
             this._avatarImageList.Images.SetKeyName(19, "poodle.png");
             this._avatarImageList.Images.SetKeyName(20, "retriever.png");
-            this._avatarImageList.Images.SetKeyName(21, "cloud-title.png");
+            this._avatarImageList.Images.SetKeyName(21, "cloud.png");
             // 
             // panel1
             // 
@@ -908,7 +864,6 @@ namespace SirenOfShame {
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
-            this._buildMenu.ResumeLayout(false);
             this._configurationMenu.ResumeLayout(false);
             this._sirenMenu.ResumeLayout(false);
             this._panelAlert.ResumeLayout(false);
@@ -933,11 +888,6 @@ namespace SirenOfShame {
         private System.Windows.Forms.Button _configureRules;
         private System.Windows.Forms.Button _refresh;
         private System.Windows.Forms.Button _testSiren;
-        private System.Windows.Forms.ContextMenuStrip _buildMenu;
-        private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
-        private System.Windows.Forms.ToolStripMenuItem _when;
-        private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem _stopWatching;
         private System.Windows.Forms.Button _openSettings;
       private wyDay.Controls.AutomaticUpdater _automaticUpdater;
       private System.Windows.Forms.Button _timeboxEnforcer;

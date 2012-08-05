@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
     public partial class ViewBuilds : UserControl
     {
+        private SirenOfShameSettings _settings;
+
         public ViewBuilds()
         {
             InitializeComponent();
@@ -22,7 +25,7 @@ namespace SirenOfShame
             GetViewBuilds().ToList().ForEach(i => i.RecalculatePrettyDate());
         }
 
-        private Timer _prettyDateTimer = new Timer();
+        private readonly Timer _prettyDateTimer = new Timer();
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
         {
@@ -42,7 +45,7 @@ namespace SirenOfShame
             }
             if (ViewBuildsCount == 0)
             {
-                Control[] listViewItems = buildStatusListViewItems.Select(i => new ViewBuildSmall(i)).ToArray();
+                var listViewItems = buildStatusListViewItems.Select(i => new ViewBuildSmall(i, _settings)).ToArray();
                 flowLayoutPanel1.Controls.AddRange(listViewItems);
             }
             else
@@ -62,6 +65,11 @@ namespace SirenOfShame
         private IEnumerable<ViewBuildSmall> GetViewBuilds()
         {
             return flowLayoutPanel1.Controls.Cast<ViewBuildSmall>();
+        }
+
+        public void Initialize(SirenOfShameSettings settings)
+        {
+            _settings = settings;
         }
     }
 }

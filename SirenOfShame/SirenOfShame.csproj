@@ -427,6 +427,7 @@
     <None Include="Resources\nav_up_right.png" />
     <None Include="Resources\navigate_down2.png" />
     <None Include="Resources\navigate_up.png" />
+    <None Include="Resources\gear.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

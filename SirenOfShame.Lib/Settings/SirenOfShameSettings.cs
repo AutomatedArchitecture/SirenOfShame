@@ -133,7 +133,7 @@ namespace SirenOfShame.Lib.Settings
 
         public bool Mute { get; set; }
 
-        public volatile string _fileName;
+        public string _fileName;
 
         public DateTime? AlertClosed { get; set; }
 
@@ -150,7 +150,7 @@ namespace SirenOfShame.Lib.Settings
             Save(fileName);
         }
 
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
 
@@ -474,6 +474,13 @@ namespace SirenOfShame.Lib.Settings
                 new string[] { },
                 new NetworkCredential(SosOnlineProxyUsername, GetSosOnlineProxyPassword())
                 );
+        }
+
+        public BuildDefinitionSetting FindBuildDefinitionByName(string buildName)
+        {
+            return CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .FirstOrDefault(bds => bds.Id == buildName);
         }
     }
 }

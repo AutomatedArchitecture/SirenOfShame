@@ -76,10 +76,11 @@
             this._noNews.ForeColor = System.Drawing.Color.Gray;
             this._noNews.Location = new System.Drawing.Point(0, 32);
             this._noNews.Name = "_noNews";
+            this._noNews.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this._noNews.Size = new System.Drawing.Size(254, 43);
             this._noNews.TabIndex = 2;
             this._noNews.Text = "No news is good news";
-            this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label1
             // 

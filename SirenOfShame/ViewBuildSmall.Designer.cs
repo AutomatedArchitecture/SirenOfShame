@@ -35,9 +35,17 @@
             this._requestedBy = new System.Windows.Forms.Label();
             this._comment = new System.Windows.Forms.Label();
             this._duration = new System.Windows.Forms.Label();
-            this._details = new System.Windows.Forms.LinkLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._details = new System.Windows.Forms.LinkLabel();
+            this._editRules = new System.Windows.Forms.Label();
             this._buildStatusIcon = new System.Windows.Forms.Label();
+            this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
+            this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
+            this._when = new System.Windows.Forms.ToolStripMenuItem();
+            this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._buildMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // _projectName
@@ -104,24 +112,6 @@
             this._duration.TabIndex = 5;
             this._duration.Text = "9:53";
             // 
-            // _details
-            // 
-            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._details.BackColor = System.Drawing.Color.Transparent;
-            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._details.ForeColor = System.Drawing.Color.Black;
-            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
-            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._details.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
-            this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(170, 108);
-            this._details.Name = "_details";
-            this._details.Size = new System.Drawing.Size(57, 20);
-            this._details.TabIndex = 6;
-            this._details.Text = "Details";
-            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DetailsLinkClicked);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -130,6 +120,32 @@
             this.imageList1.Images.SetKeyName(1, "ok.bmp");
             this.imageList1.Images.SetKeyName(2, "clock.bmp");
             this.imageList1.Images.SetKeyName(3, "unknown.bmp");
+            // 
+            // _details
+            // 
+            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._details.ForeColor = System.Drawing.Color.Black;
+            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
+            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._details.LinkColor = System.Drawing.Color.White;
+            this._details.Location = new System.Drawing.Point(209, 108);
+            this._details.Name = "_details";
+            this._details.Size = new System.Drawing.Size(18, 20);
+            this._details.TabIndex = 6;
+            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
+            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DetailsLinkClicked);
+            // 
+            // _editRules
+            // 
+            this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
+            this._editRules.Location = new System.Drawing.Point(188, 110);
+            this._editRules.Name = "_editRules";
+            this._editRules.Size = new System.Drawing.Size(16, 16);
+            this._editRules.TabIndex = 8;
+            this._editRules.Click += new System.EventHandler(this.EditRulesClick);
             // 
             // _buildStatusIcon
             // 
@@ -142,11 +158,51 @@
             this._buildStatusIcon.Size = new System.Drawing.Size(24, 24);
             this._buildStatusIcon.TabIndex = 7;
             // 
+            // _buildMenu
+            // 
+            this._buildMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._affectsTrayIcon,
+            this._stopWatching,
+            this._when,
+            this._toolStripSeparator1});
+            this._buildMenu.Name = "_buildMenu";
+            this._buildMenu.Size = new System.Drawing.Size(164, 98);
+            this._buildMenu.Text = "BuildMenu";
+            this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
+            // 
+            // _affectsTrayIcon
+            // 
+            this._affectsTrayIcon.Checked = true;
+            this._affectsTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._affectsTrayIcon.Name = "_affectsTrayIcon";
+            this._affectsTrayIcon.Size = new System.Drawing.Size(163, 22);
+            this._affectsTrayIcon.Text = "Affects Tray Icon";
+            this._affectsTrayIcon.Click += new System.EventHandler(this.AffectsTrayIconClick);
+            // 
+            // _stopWatching
+            // 
+            this._stopWatching.Name = "_stopWatching";
+            this._stopWatching.Size = new System.Drawing.Size(163, 22);
+            this._stopWatching.Text = "Stop Watching";
+            this._stopWatching.Click += new System.EventHandler(this.StopWatchingClick);
+            // 
+            // _when
+            // 
+            this._when.Name = "_when";
+            this._when.Size = new System.Drawing.Size(163, 22);
+            this._when.Text = "When";
+            // 
+            // _toolStripSeparator1
+            // 
+            this._toolStripSeparator1.Name = "_toolStripSeparator1";
+            this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            // 
             // ViewBuildSmall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this._editRules);
             this.Controls.Add(this._buildStatusIcon);
             this.Controls.Add(this._details);
             this.Controls.Add(this._duration);
@@ -157,6 +213,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ViewBuildSmall";
             this.Size = new System.Drawing.Size(230, 132);
+            this._buildMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,5 +229,12 @@
         private System.Windows.Forms.LinkLabel _details;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label _buildStatusIcon;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label _editRules;
+        private System.Windows.Forms.ContextMenuStrip _buildMenu;
+        private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
+        private System.Windows.Forms.ToolStripMenuItem _stopWatching;
+        private System.Windows.Forms.ToolStripMenuItem _when;
+        private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
     }
 }
