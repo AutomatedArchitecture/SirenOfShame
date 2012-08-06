@@ -121,11 +121,14 @@
   <data name="navigate_down2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\navigate_down2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RibbonMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RibbonMore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CloseButton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseButton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="SirenOfShameTrayBlank" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\SirenOfShameTrayBlank.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TrashSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TrashSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="navigate_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\navigate_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -157,9 +160,6 @@
   <data name="CloseButton1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CloseButton.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ball_gray_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ball_gray_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="gradient15" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -178,6 +178,9 @@
   <data name="loading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\loading.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SirenOfShameTrayRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SirenOfShameTrayRed.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,16 +196,16 @@
   <data name="gradient33" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gradient33.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CloseButton2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CloseButton2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="RibbonMore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RibbonMore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TrashSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TrashSmall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ball_gray_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ball_gray_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="question_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\question_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="circle20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\circle20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

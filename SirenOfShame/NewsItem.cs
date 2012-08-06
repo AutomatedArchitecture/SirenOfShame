@@ -57,6 +57,7 @@ namespace SirenOfShame
         {
             Color backColor = GetBackgroundColorForEventType(args.NewsItemType);
             _leftPanel.BackColor = backColor;
+            _userName.BackColor = backColor;
         }
 
         private void InitializeAvatar(NewNewsItemEventArgs args)
