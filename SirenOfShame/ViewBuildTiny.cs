@@ -1,16 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
-    public sealed partial class ViewBuildSmall : ViewBuildBase
+    public sealed partial class ViewBuildTiny : ViewBuildBase
     {
-        public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings) : base(settings)
+        public ViewBuildTiny(BuildStatusDto buildStatusDto, SirenOfShameSettings settings) : base(settings)
         {
             InitializeComponent();
             InitializeLabels(buildStatusDto);
@@ -22,9 +20,7 @@ namespace SirenOfShame
             
             _projectName.Text = buildStatusDto.Name;
             InitializeStartTime(buildStatusDto);
-            _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedBy;
-            _comment.Text = buildStatusDto.Comment;
             _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
         }
@@ -40,14 +36,7 @@ namespace SirenOfShame
             Color backgroundColor = GetBackgroundColor(buildStatusEnum);
             _projectName.BackColor = backgroundColor;
             _buildStatusIcon.BackColor = backgroundColor;
-        }
-
-        private void DetailsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(Url) && Url.StartsWith("http"))
-            {
-                Process.Start(Url);
-            }
+            _editRules.BackColor = backgroundColor;
         }
 
         public void RecalculatePrettyDate()

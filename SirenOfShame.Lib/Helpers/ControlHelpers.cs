@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using log4net;
 
@@ -7,6 +9,15 @@ namespace SirenOfShame.Lib.Helpers
     public static class ControlHelpers
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ControlHelpers));
+
+        public static void ClearAndDispose(this Control control)
+        {
+            if (control == null) return;
+            List<Control> ctrls = control.Controls.Cast<Control>().ToList();
+            control.Controls.Clear();
+            foreach (Control c in ctrls)
+                c.Dispose();
+        }
 
         public static void Invoke(this Control ctrl, Action a)
         {

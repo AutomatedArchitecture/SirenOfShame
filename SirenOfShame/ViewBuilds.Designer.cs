@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this._mainFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this._overflowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // _mainFlowLayoutPanel
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(38, 32);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(478, 335);
-            this.flowLayoutPanel1.TabIndex = 0;
+            this._mainFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
+            this._mainFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._mainFlowLayoutPanel.Location = new System.Drawing.Point(38, 32);
+            this._mainFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this._mainFlowLayoutPanel.Name = "_mainFlowLayoutPanel";
+            this._mainFlowLayoutPanel.Size = new System.Drawing.Size(478, 235);
+            this._mainFlowLayoutPanel.TabIndex = 0;
             // 
             // label1
             // 
@@ -54,12 +55,21 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Builds";
             // 
+            // _overflowLayoutPanel
+            // 
+            this._overflowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._overflowLayoutPanel.Location = new System.Drawing.Point(38, 267);
+            this._overflowLayoutPanel.Name = "_overflowLayoutPanel";
+            this._overflowLayoutPanel.Size = new System.Drawing.Size(478, 100);
+            this._overflowLayoutPanel.TabIndex = 0;
+            // 
             // ViewBuilds
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.Controls.Add(this.flowLayoutPanel1);
+            this.Controls.Add(this._mainFlowLayoutPanel);
+            this.Controls.Add(this._overflowLayoutPanel);
             this.Controls.Add(this.label1);
             this.Name = "ViewBuilds";
             this.Padding = new System.Windows.Forms.Padding(38, 0, 0, 0);
@@ -70,7 +80,8 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel _mainFlowLayoutPanel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel _overflowLayoutPanel;
     }
 }

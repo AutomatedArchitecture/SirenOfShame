@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
@@ -51,7 +52,7 @@ namespace SirenOfShame
             _personSetting = personSetting;
             _userName.Text = personSetting.GetBothDisplayAndRawNames();
             avatar1.SetImage(personSetting, avatarImageList);
-            flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.ClearAndDispose();
             _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
             _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
             _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";

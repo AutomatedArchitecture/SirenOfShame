@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -137,7 +138,7 @@ namespace SirenOfShame
 
         private void ClearNewsClick(object sender, EventArgs e)
         {
-            _newsItemsPanel.Controls.Clear();
+            _newsItemsPanel.ClearAndDispose();
             _noNews.Visible = true;
         }
 
