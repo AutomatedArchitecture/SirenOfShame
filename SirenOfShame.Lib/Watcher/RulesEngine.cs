@@ -277,7 +277,7 @@ namespace SirenOfShame.Lib.Watcher
 
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
-            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusListViewItems = buildStatusListViewItems });
+            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
         }
 
         private void TimerTick(object sender, EventArgs e)

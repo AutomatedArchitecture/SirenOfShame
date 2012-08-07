@@ -27,34 +27,40 @@ namespace SirenOfShame
 
         private readonly Timer _prettyDateTimer = new Timer();
 
-        public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args)
+        public void RefreshBuildStatuses(RefreshStatusEventArgs args)
         {
-            var buildStatusListViewItems = args.BuildStatusListViewItems.ToList();
-            bool numberOfBuildsChanged = ViewBuildsCount != 0 && ViewBuildsCount != buildStatusListViewItems.Count();
+            var buildStatusDtos = args.BuildStatusDtos.ToList();
+            bool numberOfBuildsChanged = ViewBuildsCount != 0 && ViewBuildsCount != buildStatusDtos.Count();
 
-            var listViewItemsJoinedStatus = (
-                from listViewItem in GetViewBuilds()
-                join buildStatus in buildStatusListViewItems on listViewItem.BuildName equals buildStatus.Name
-                select new { listViewItem, buildStatus }
+            var buildStatusDtosAndControl = (
+                from control in GetViewBuilds()
+                join buildStatusDto in buildStatusDtos on control.BuildName equals buildStatusDto.Name
+                orderby buildStatusDto.LocalStartTime descending 
+                select new { control, buildStatusDto }
                 ).ToList();
 
-            var someBuildNameChanged = listViewItemsJoinedStatus.Count != buildStatusListViewItems.Count;
-            if (numberOfBuildsChanged || someBuildNameChanged)
+            var anyBuildNameChanged = buildStatusDtosAndControl.Count != buildStatusDtos.Count;
+            if (numberOfBuildsChanged || anyBuildNameChanged)
             {
                 flowLayoutPanel1.Controls.Clear();
             }
             if (ViewBuildsCount == 0)
             {
-                var listViewItems = buildStatusListViewItems.Select(i => new ViewBuildSmall(i, _settings)).ToArray();
-                flowLayoutPanel1.Controls.AddRange(listViewItems);
+                buildStatusDtos
+                    .OrderByDescending(i => i.LocalStartTime)
+                    .Select(i => new ViewBuildSmall(i, _settings))
+                    .ToList()
+                    .ForEach(i => flowLayoutPanel1.Controls.Add(i));
             }
             else
             {
-                listViewItemsJoinedStatus.ToList().ForEach(i => i.listViewItem.UpdateListItem(i.buildStatus));
+                for (int i = 0; i < buildStatusDtosAndControl.Count; i++)
+                {
+                    var buildStatusAndControl = buildStatusDtosAndControl[i];
+                    buildStatusAndControl.control.UpdateListItem(buildStatusAndControl.buildStatusDto);
+                    flowLayoutPanel1.Controls.SetChildIndex(buildStatusAndControl.control, i);
+                }
             }
-
-            // todo: implement sorting
-            //Sort();
         }
 
         private int ViewBuildsCount

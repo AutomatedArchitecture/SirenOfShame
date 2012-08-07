@@ -91,7 +91,7 @@ namespace SirenOfShame
         private void UsersListOnOnUserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args)
         {
             _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
-            _viewBuilds.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
+            _viewBuilds.RefreshBuildStatuses(_lastRefreshStatusEventArgs);
             _newsFeed1.RefreshDisplayNames(_settings, args);
         }
 
@@ -197,7 +197,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _lastRefreshStatusEventArgs = args;
-                _viewBuilds.RefreshListViewWithBuildStatus(args);
+                _viewBuilds.RefreshBuildStatuses(args);
                 if (InFullscreenMode)
                 {
                     _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);

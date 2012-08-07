@@ -250,9 +250,9 @@ Hello World
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             RefreshStatusEventArgs refreshStatusEventArgs = rulesEngine.RefreshStatusEvents[1];
-            Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusListViewItems.Count());
-            Assert.AreEqual("http://win7ci:8081/job/SvnTest/32/", refreshStatusEventArgs.BuildStatusListViewItems.First().Url);
-            Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusListViewItems.First().BuildId);
+            Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusDtos.Count());
+            Assert.AreEqual("http://win7ci:8081/job/SvnTest/32/", refreshStatusEventArgs.BuildStatusDtos.First().Url);
+            Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusDtos.First().BuildId);
         }
 
         [TestMethod]
@@ -451,8 +451,8 @@ Hello World
             });
 
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
-            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
-            BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.Count());
+            BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
@@ -1089,7 +1089,7 @@ Hello World
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual("2/2 2:02 AM",
-                            rulesEngine.RefreshStatusEvents.Last().BuildStatusListViewItems.First().StartTime);
+                            rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTime);
         }
 
         [TestMethod]
@@ -1116,7 +1116,7 @@ Hello World
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             var lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
-            Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusListViewItems.Count());
+            Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusDtos.Count());
         }
 
         [TestMethod]

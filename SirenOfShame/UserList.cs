@@ -36,15 +36,24 @@ namespace SirenOfShame
         {
             var userPanelsAndTheirPerson = from panel in GetUserPanels()
                                            join person in Settings.People on panel.RawName equals person.RawName
+                                           orderby person.GetReputation() descending
                                            select new {panel, person};
-            userPanelsAndTheirPerson.ToList().ForEach(i => i.panel.RefreshStats(i.person));
+
+            int i = 0;
+            foreach (var panelAndPerson in userPanelsAndTheirPerson)
+            {
+                panelAndPerson.panel.RefreshStats(panelAndPerson.person);
+                _usersPanel.Controls.SetChildIndex(panelAndPerson.panel, i);
+                i++;
+            }
+            
         }
 
         public void Initialize(SirenOfShameSettings settings, ImageList avatarImageList)
         {
             Settings = settings;
 
-            var peopleByReputation = settings.People.OrderBy(i => i.GetReputation());
+            var peopleByReputation = settings.People.OrderByDescending(i => i.GetReputation());
             foreach (var person in peopleByReputation)
             {
                 UserPanel userPanel = new UserPanel(person, avatarImageList)

@@ -114,6 +114,7 @@ namespace SirenOfShame
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);
+            _newsItemsPanel.Controls.SetChildIndex(newsItem, 0);
             newsItem.Height = 2;
             _newsItemsToOpen.Add(newsItem);
             _newsItemHeightAnimator.Start();

@@ -4,11 +4,11 @@ using SirenOfShame.Lib.Settings;
 namespace SirenOfShame.Lib.Watcher
 {
     public class RefreshStatusEventArgs {
-        public IEnumerable<BuildStatusDto> BuildStatusListViewItems { get; set; }
+        public IEnumerable<BuildStatusDto> BuildStatusDtos { get; set; }
 
         public void RefreshDisplayNames(SirenOfShameSettings settings)
         {
-            foreach (var buildStatusDto in BuildStatusListViewItems)
+            foreach (var buildStatusDto in BuildStatusDtos)
             {
                 buildStatusDto.SetDisplayName(settings);
             }
