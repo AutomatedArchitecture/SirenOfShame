@@ -78,7 +78,6 @@ namespace SirenOfShame {
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this._buildHistoryZedGraph = new ZedGraph.ZedGraphControl();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this._panelAlert = new System.Windows.Forms.Panel();
             this._details = new System.Windows.Forms.LinkLabel();
             this._labelAlert = new System.Windows.Forms.Label();
@@ -86,10 +85,10 @@ namespace SirenOfShame {
             this._avatarImageList = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this._showRibbon = new System.Windows.Forms.Button();
-            this._viewBuilds = new SirenOfShame.ViewBuilds();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.UserList();
             this.viewUser1 = new SirenOfShame.ViewUser();
+            this._viewBuilds = new SirenOfShame.ViewBuilds();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -675,16 +674,6 @@ namespace SirenOfShame {
             this._buildHistoryZedGraph.Size = new System.Drawing.Size(171, 116);
             this._buildHistoryZedGraph.TabIndex = 12;
             // 
-            // splitter1
-            // 
-            this.splitter1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(795, 122);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(1, 339);
-            this.splitter1.TabIndex = 39;
-            this.splitter1.TabStop = false;
-            // 
             // _panelAlert
             // 
             this._panelAlert.BackColor = System.Drawing.Color.IndianRed;
@@ -788,22 +777,11 @@ namespace SirenOfShame {
             this._showRibbon.UseVisualStyleBackColor = true;
             this._showRibbon.Click += new System.EventHandler(this.ShowRibbonClick);
             // 
-            // _viewBuilds
-            // 
-            this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
-            this._viewBuilds.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this._viewBuilds.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._viewBuilds.Location = new System.Drawing.Point(0, 122);
-            this._viewBuilds.Name = "_viewBuilds";
-            this._viewBuilds.Padding = new System.Windows.Forms.Padding(32, 0, 0, 0);
-            this._viewBuilds.Size = new System.Drawing.Size(586, 339);
-            this._viewBuilds.TabIndex = 42;
-            // 
             // _newsFeed1
             // 
             this._newsFeed1.BackColor = System.Drawing.Color.Transparent;
             this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Right;
-            this._newsFeed1.Location = new System.Drawing.Point(586, 122);
+            this._newsFeed1.Location = new System.Drawing.Point(587, 122);
             this._newsFeed1.Margin = new System.Windows.Forms.Padding(0);
             this._newsFeed1.Name = "_newsFeed1";
             this._newsFeed1.Size = new System.Drawing.Size(209, 339);
@@ -826,8 +804,19 @@ namespace SirenOfShame {
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 122);
             this.viewUser1.Name = "viewUser1";
-            this.viewUser1.Size = new System.Drawing.Size(586, 339);
+            this.viewUser1.Size = new System.Drawing.Size(587, 339);
             this.viewUser1.TabIndex = 41;
+            // 
+            // _viewBuilds
+            // 
+            this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
+            this._viewBuilds.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this._viewBuilds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._viewBuilds.Location = new System.Drawing.Point(0, 122);
+            this._viewBuilds.Name = "_viewBuilds";
+            this._viewBuilds.Padding = new System.Windows.Forms.Padding(32, 0, 0, 0);
+            this._viewBuilds.Size = new System.Drawing.Size(587, 339);
+            this._viewBuilds.TabIndex = 42;
             // 
             // MainForm
             // 
@@ -840,7 +829,6 @@ namespace SirenOfShame {
             this.Controls.Add(this._viewBuilds);
             this.Controls.Add(this.viewUser1);
             this.Controls.Add(this._newsFeed1);
-            this.Controls.Add(this.splitter1);
             this.Controls.Add(this._userList);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this._panelAlert);
@@ -906,7 +894,6 @@ namespace SirenOfShame {
       private System.Windows.Forms.ContextMenuStrip _sirenMenu;
       private System.Windows.Forms.ToolStripMenuItem _upgradeFirmwareMenuItem;
       private System.Windows.Forms.Button _configureSiren;
-      private System.Windows.Forms.Splitter splitter1;
       //private System.Windows.Forms.Panel _panelBuildStats;
       //private System.Windows.Forms.Label _percentFailed;
       private System.Windows.Forms.Label label8;
@@ -924,18 +911,18 @@ namespace SirenOfShame {
       private System.Windows.Forms.Panel _panelAlert;
       private System.Windows.Forms.Label _labelAlert;
       private System.Windows.Forms.LinkLabel _details;
-      private ViewUser viewUser1;
       private System.Windows.Forms.ToolStripDropDownButton _toolStripSplitErrorButton;
       private System.Windows.Forms.Button _sosOnline;
       private System.Windows.Forms.ImageList imageList29;
       private System.Windows.Forms.ImageList _avatarImageList;
-      private ViewBuilds _viewBuilds;
       private System.Windows.Forms.ImageList _toolbar32;
       private System.Windows.Forms.ImageList _toolbar16;
       private System.Windows.Forms.Panel panel1;
       private System.Windows.Forms.Button _showRibbon;
-      private UserList _userList;
       private NewsFeed _newsFeed1;
+      private UserList _userList;
+      private ViewBuilds _viewBuilds;
+      private ViewUser viewUser1;
 	}
 }
 

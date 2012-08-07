@@ -775,7 +775,7 @@ namespace SirenOfShame
 
         private void ShowRibbon(bool show)
         {
-            _showRibbon.Image = show ? Properties.Resources.navigate_down2 : Properties.Resources.navigate_up;
+            _showRibbon.Image = show ? Properties.Resources.navigate_up : Properties.Resources.navigate_down2;
             _ribbonPanel.Visible = show;
         }
     }
