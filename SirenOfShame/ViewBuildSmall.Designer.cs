@@ -45,6 +45,7 @@
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._editRulesTop = new System.Windows.Forms.Label();
             this._buildMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -198,11 +199,22 @@
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
             this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
+            // _editRulesTop
+            // 
+            this._editRulesTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._editRulesTop.Image = ((System.Drawing.Image)(resources.GetObject("_editRulesTop.Image")));
+            this._editRulesTop.Location = new System.Drawing.Point(188, 4);
+            this._editRulesTop.Name = "_editRulesTop";
+            this._editRulesTop.Size = new System.Drawing.Size(16, 16);
+            this._editRulesTop.TabIndex = 9;
+            this._editRulesTop.Click += new System.EventHandler(this.EditRulesClick);
+            // 
             // ViewBuildSmall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this._editRulesTop);
             this.Controls.Add(this._editRules);
             this.Controls.Add(this._buildStatusIcon);
             this.Controls.Add(this._details);
@@ -237,5 +249,6 @@
         private System.Windows.Forms.ToolStripMenuItem _stopWatching;
         private System.Windows.Forms.ToolStripMenuItem _when;
         private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
+        private System.Windows.Forms.Label _editRulesTop;
     }
 }

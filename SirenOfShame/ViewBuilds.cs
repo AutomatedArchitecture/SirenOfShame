@@ -47,6 +47,19 @@ namespace SirenOfShame
             {
                 UpdateDetailsInExistingControls(buildStatusDtosAndControl);
             }
+            InitializeDisplayModes();
+        }
+
+        private void InitializeDisplayModes()
+        {
+            int smallControlCount = GetIdealSmallControlCount();
+            var controls = GetViewBuilds().ToList();
+            for (int i = 0; i < controls.Count; i++)
+            {
+                var control = controls[i];
+                var mode = i < smallControlCount ? ViewBuildDisplayMode.Normal : ViewBuildDisplayMode.Tiny;
+                control.SetDisplayMode(mode);
+            }
         }
 
         private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(List<BuildStatusDtoAndControl> buildStatusDtosAndControl, List<BuildStatusDto> buildStatusDtos)
@@ -89,21 +102,12 @@ namespace SirenOfShame
 
         private void CreateControlsAndAddToPanels(IEnumerable<BuildStatusDto> buildStatusDtos)
         {
-            int smallControlCount = GetIdealSmallControlCount();
-            
             var buildsOrdered = buildStatusDtos
                 .OrderByDescending(i => i.LocalStartTime)
                 .ToList();
 
             buildsOrdered
-                .Take(smallControlCount)
                 .Select(i => new ViewBuildSmall(i, _settings))
-                .ToList()
-                .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
-
-            buildsOrdered
-                .Skip(smallControlCount)
-                .Select(i => new ViewBuildTiny(i, _settings))
                 .ToList()
                 .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
         }
@@ -119,9 +123,9 @@ namespace SirenOfShame
             get { return _mainFlowLayoutPanel.Controls.Count; }
         }
 
-        private IEnumerable<ViewBuildBase> GetViewBuilds()
+        private IEnumerable<ViewBuildSmall> GetViewBuilds()
         {
-            return _mainFlowLayoutPanel.Controls.Cast<ViewBuildBase>();
+            return _mainFlowLayoutPanel.Controls.Cast<ViewBuildSmall>();
         }
 
         public void Initialize(SirenOfShameSettings settings)

@@ -8,12 +8,28 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
+    public enum ViewBuildDisplayMode
+    {
+        Normal = 0,
+        Tiny = 1
+    }
+    
     public sealed partial class ViewBuildSmall : ViewBuildBase
     {
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings) : base(settings)
         {
             InitializeComponent();
             InitializeLabels(buildStatusDto);
+        }
+
+        public void SetDisplayMode(ViewBuildDisplayMode displayMode)
+        {
+            _editRulesTop.Visible = displayMode == ViewBuildDisplayMode.Tiny;
+            _editRules.Visible = displayMode == ViewBuildDisplayMode.Normal;
+            _comment.Visible = displayMode == ViewBuildDisplayMode.Normal;
+            _duration.Visible = displayMode == ViewBuildDisplayMode.Normal;
+            _details.Visible = displayMode == ViewBuildDisplayMode.Normal;
+            Height = displayMode == ViewBuildDisplayMode.Normal ? 132 : 60;
         }
 
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)
@@ -40,6 +56,7 @@ namespace SirenOfShame
             Color backgroundColor = GetBackgroundColor(buildStatusEnum);
             _projectName.BackColor = backgroundColor;
             _buildStatusIcon.BackColor = backgroundColor;
+            _editRulesTop.BackColor = backgroundColor;
         }
 
         private void DetailsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

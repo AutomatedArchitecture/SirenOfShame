@@ -146,12 +146,6 @@
     <Compile Include="ViewBuildBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ViewBuildTiny.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ViewBuildTiny.Designer.cs">
-      <DependentUpon>ViewBuildTiny.cs</DependentUpon>
-    </Compile>
     <Compile Include="FullScreenBuildStatus.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -308,9 +302,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewBuildTiny.resx">
-      <DependentUpon>ViewBuildTiny.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FullScreenBuildStatus.resx">
       <DependentUpon>FullScreenBuildStatus.cs</DependentUpon>
