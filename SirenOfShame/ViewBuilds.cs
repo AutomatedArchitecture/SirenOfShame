@@ -114,10 +114,15 @@ namespace SirenOfShame
 
         private int GetIdealSmallControlCount()
         {
-            // todo: do lots of complicated math to get a magic number
-            return 4;
+            const int margin = 4;
+            return ((_mainFlowLayoutPanel.Width) / (margin + ViewBuildSmall.WIDTH + margin) * 2);
         }
 
+        private void ViewBuildsResize(object sender, EventArgs e)
+        {
+            InitializeDisplayModes();
+        }
+        
         private int ViewBuildsCount
         {
             get { return _mainFlowLayoutPanel.Controls.Count; }

@@ -16,7 +16,12 @@ namespace SirenOfShame
     
     public sealed partial class ViewBuildSmall : ViewBuildBase
     {
-        public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings) : base(settings)
+        const int NORMAL_HEIGHT = 132;
+        const int TINY_HEIGHT = 60;
+        public const int WIDTH = 230;
+
+        public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
+            : base(settings)
         {
             InitializeComponent();
             InitializeLabels(buildStatusDto);
@@ -29,7 +34,8 @@ namespace SirenOfShame
             _comment.Visible = displayMode == ViewBuildDisplayMode.Normal;
             _duration.Visible = displayMode == ViewBuildDisplayMode.Normal;
             _details.Visible = displayMode == ViewBuildDisplayMode.Normal;
-            Height = displayMode == ViewBuildDisplayMode.Normal ? 132 : 60;
+            Height = displayMode == ViewBuildDisplayMode.Normal ? NORMAL_HEIGHT : TINY_HEIGHT;
+            Width = WIDTH;
         }
 
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)
