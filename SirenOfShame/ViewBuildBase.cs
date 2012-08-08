@@ -360,11 +360,18 @@ namespace SirenOfShame
             affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
         }
 
-        protected void RecalculatePrettyDate(Label startTime)
+        protected virtual Label GetStartTimeLabel()
         {
-            startTime.Visible = LocalStartTime.HasValue;
+            return null;
+        }
+        
+        public virtual void RecalculatePrettyDate()
+        {
+            var startTimeLabel = GetStartTimeLabel();
+            if (startTimeLabel == null) return;
+            startTimeLabel.Visible = LocalStartTime.HasValue;
             if (!LocalStartTime.HasValue) return;
-            startTime.Text = LocalStartTime.Value.PrettyDate();
+            startTimeLabel.Text = LocalStartTime.Value.PrettyDate();
         }
     }
 }

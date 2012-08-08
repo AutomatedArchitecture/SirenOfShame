@@ -13,7 +13,7 @@ namespace SirenOfShame
         private class BuildStatusDtoAndControl
         {
             public BuildStatusDto BuildStatusDto { get; set; }
-            public ViewBuildSmall Control { get; set; }
+            public ViewBuildBase Control { get; set; }
         }
 
         private SirenOfShameSettings _settings;
@@ -89,11 +89,29 @@ namespace SirenOfShame
 
         private void CreateControlsAndAddToPanels(IEnumerable<BuildStatusDto> buildStatusDtos)
         {
-            buildStatusDtos
+            int smallControlCount = GetIdealSmallControlCount();
+            
+            var buildsOrdered = buildStatusDtos
                 .OrderByDescending(i => i.LocalStartTime)
+                .ToList();
+
+            buildsOrdered
+                .Take(smallControlCount)
                 .Select(i => new ViewBuildSmall(i, _settings))
                 .ToList()
                 .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
+
+            buildsOrdered
+                .Skip(smallControlCount)
+                .Select(i => new ViewBuildTiny(i, _settings))
+                .ToList()
+                .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
+        }
+
+        private int GetIdealSmallControlCount()
+        {
+            // todo: do lots of complicated math to get a magic number
+            return 4;
         }
 
         private int ViewBuildsCount
@@ -101,9 +119,9 @@ namespace SirenOfShame
             get { return _mainFlowLayoutPanel.Controls.Count; }
         }
 
-        private IEnumerable<ViewBuildSmall> GetViewBuilds()
+        private IEnumerable<ViewBuildBase> GetViewBuilds()
         {
-            return _mainFlowLayoutPanel.Controls.Cast<ViewBuildSmall>();
+            return _mainFlowLayoutPanel.Controls.Cast<ViewBuildBase>();
         }
 
         public void Initialize(SirenOfShameSettings settings)

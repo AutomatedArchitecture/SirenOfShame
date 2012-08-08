@@ -50,9 +50,9 @@ namespace SirenOfShame
             }
         }
 
-        public void RecalculatePrettyDate()
+        protected override Label GetStartTimeLabel()
         {
-            RecalculatePrettyDate(_startTime);
+            return _startTime;
         }
 
         private void BuildMenuOpening(object sender, CancelEventArgs e)

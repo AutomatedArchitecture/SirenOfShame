@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -39,9 +40,9 @@ namespace SirenOfShame
             _editRules.BackColor = backgroundColor;
         }
 
-        public void RecalculatePrettyDate()
+        protected override Label GetStartTimeLabel()
         {
-            RecalculatePrettyDate(_startTime);
+            return _startTime;
         }
 
         private void BuildMenuOpening(object sender, CancelEventArgs e)
