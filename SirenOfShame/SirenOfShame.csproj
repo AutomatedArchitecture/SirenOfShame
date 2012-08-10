@@ -246,6 +246,12 @@
     <Compile Include="UserPanel.Designer.cs">
       <DependentUpon>UserPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewBuildBig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewBuildBig.Designer.cs">
+      <DependentUpon>ViewBuildBig.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewBuilds.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -358,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewBuildBig.resx">
+      <DependentUpon>ViewBuildBig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewBuilds.resx">
       <DependentUpon>ViewBuilds.cs</DependentUpon>

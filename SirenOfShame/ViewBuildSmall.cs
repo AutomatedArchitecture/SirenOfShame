@@ -19,6 +19,7 @@ namespace SirenOfShame
         const int NORMAL_HEIGHT = 132;
         const int TINY_HEIGHT = 60;
         public const int WIDTH = 230;
+        public const int MARGIN = 4;
 
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
             : base(settings)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
@@ -45,7 +46,8 @@ namespace MockCiServerServices
                         FinishedTime = _finishedTime,
                         StartedTime = _startedTime,
                         RequestedBy = _requestedBy.Text,
-                        LocalStartTime = _localStartTime
+                        LocalStartTime = _localStartTime,
+                        BuildId = _startedTime.HasValue ? _startedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture) : null
                     };
                 });
             return buildStatus;

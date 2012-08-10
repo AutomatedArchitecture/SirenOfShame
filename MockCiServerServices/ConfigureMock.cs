@@ -25,9 +25,9 @@ namespace MockCiServerServices
         private void ConfigureMock_Load(object sender, System.EventArgs e)
         {
             _projects.Nodes.Clear();
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 1") { Tag = new MockBuildDefinition("Project 1", "Project 1") });
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 2") { Tag = new MockBuildDefinition("Project 2", "Project 2") });
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 3") { Tag = new MockBuildDefinition("Project 3", "Project 3") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 1") { Tag = new MockBuildDefinition("Project1", "Project 1") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 2") { Tag = new MockBuildDefinition("Project2", "Project 2") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 3") { Tag = new MockBuildDefinition("Project3", "Project 3") });
         }
 
         private void _projects_AfterCheck(object sender, System.Windows.Forms.TreeViewEventArgs e)

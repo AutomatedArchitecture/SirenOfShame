@@ -476,11 +476,11 @@ namespace SirenOfShame.Lib.Settings
                 );
         }
 
-        public BuildDefinitionSetting FindBuildDefinitionByName(string buildName)
+        public BuildDefinitionSetting FindBuildDefinitionById(string buildId)
         {
             return CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
-                .FirstOrDefault(bds => bds.Id == buildName);
+                .FirstOrDefault(bds => bds.Id == buildId);
         }
     }
 }

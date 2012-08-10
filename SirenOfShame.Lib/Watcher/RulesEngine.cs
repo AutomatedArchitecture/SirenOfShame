@@ -469,7 +469,7 @@ namespace SirenOfShame.Lib.Watcher
         private void RetrieveAndFireOldNewsItems(bool initialStart)
         {
             if (!initialStart) return;
-            var newsItems = SosDb.GetMostRecentNewsItems(_settings, 10);
+            var newsItems = SosDb.GetMostRecentNewsItems(_settings, 5);
             newsItems
                 .OrderBy(i => i.EventDate)
                 .ToList()
