@@ -102,9 +102,14 @@ namespace SirenOfShame.Lib.Watcher
                 });
         }
         
-        public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        public IList<BuildStatus> ReadAll(string buildId)
         {
-            string location = GetBuildLocation(buildDefinitionSetting);
+            var location = GetBuildLocation(buildId);
+            return ReadAllFromLocation(location);
+        }
+
+        private IList<BuildStatus> ReadAllFromLocation(string location)
+        {
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
@@ -113,6 +118,12 @@ namespace SirenOfShame.Lib.Watcher
                 .Where(i => i != null) // ignore parse errors
                 .ToList();
             return statuses;
+        }
+
+        public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string location = GetBuildLocation(buildDefinitionSetting);
+            return ReadAllFromLocation(location);
         }
 
         public string ExportNewBuilds(SirenOfShameSettings settings)

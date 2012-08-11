@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBuilds));
             this._mainFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._buildsLabel = new System.Windows.Forms.Label();
             this._back = new System.Windows.Forms.Button();
-            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._mainFlowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,18 @@
             this._mainFlowLayoutPanel.Name = "_mainFlowLayoutPanel";
             this._mainFlowLayoutPanel.Size = new System.Drawing.Size(530, 335);
             this._mainFlowLayoutPanel.TabIndex = 0;
+            // 
+            // _viewBuildBig
+            // 
+            this._viewBuildBig.BackColor = System.Drawing.Color.White;
+            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
+            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
+            this._viewBuildBig.Name = "_viewBuildBig";
+            this._viewBuildBig.Settings = null;
+            this._viewBuildBig.SirenOfShameDevice = null;
+            this._viewBuildBig.Size = new System.Drawing.Size(408, 173);
+            this._viewBuildBig.TabIndex = 0;
+            this._viewBuildBig.Visible = false;
             // 
             // _buildsLabel
             // 
@@ -72,16 +84,6 @@
             this._back.UseVisualStyleBackColor = true;
             this._back.Visible = false;
             this._back.Click += new System.EventHandler(this.BackClick);
-            // 
-            // _viewBuildBig
-            // 
-            this._viewBuildBig.BackColor = System.Drawing.Color.White;
-            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
-            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
-            this._viewBuildBig.Name = "_viewBuildBig";
-            this._viewBuildBig.Size = new System.Drawing.Size(408, 140);
-            this._viewBuildBig.TabIndex = 0;
-            this._viewBuildBig.Visible = false;
             // 
             // ViewBuilds
             // 

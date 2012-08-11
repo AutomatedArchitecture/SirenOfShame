@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
 
@@ -10,11 +11,20 @@ namespace SirenOfShame
         public ViewBuildBig()
         {
             InitializeComponent();
+            buildStats1.InitializeBuildHistoryChart();
         }
 
         public void InitializeForBuild(BuildStatusDto buildStatusDto)
         {
             InitializeLabels(buildStatusDto);
+            InitializeBuildStats(buildStatusDto);
+        }
+
+        private void InitializeBuildStats(BuildStatusDto buildStatusDto)
+        {
+            var sosDb = new SosDb();
+            var lastFiveBuilds = sosDb.ReadAll(buildStatusDto.Id).Reverse().Take(5);
+            buildStats1.GraphBuildHistory(lastFiveBuilds.ToList());
         }
 
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)

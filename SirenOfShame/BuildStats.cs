@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
@@ -15,15 +14,8 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
-        readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
-
-        public void SetStats(int count, int failed, double percentFailed)
-        {
-            _buildCount.Text = count.ToString(CultureInfo.InvariantCulture);
-            _failedBuilds.Text = failed.ToString(CultureInfo.InvariantCulture);
-            _percentFailed.Text = percentFailed.ToString("p");
-        }
+        readonly Fill _failFill = new Fill(Color.FromArgb(255, 222, 64, 82));
+        readonly Fill _successFill = new Fill(Color.FromArgb(255, 50, 175, 82));
 
         public void GraphBuildHistory(IList<BuildStatus> buildStatuses)
         {
