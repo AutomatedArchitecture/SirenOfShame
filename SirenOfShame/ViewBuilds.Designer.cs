@@ -79,7 +79,6 @@
             this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
             this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
             this._viewBuildBig.Name = "_viewBuildBig";
-            this._viewBuildBig.SirenOfShameDevice = null;
             this._viewBuildBig.Size = new System.Drawing.Size(408, 140);
             this._viewBuildBig.TabIndex = 0;
             this._viewBuildBig.Visible = false;

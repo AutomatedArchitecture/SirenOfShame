@@ -55,15 +55,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._projectName.Cursor = System.Windows.Forms.Cursors.Hand;
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._projectName.ForeColor = System.Drawing.Color.White;
             this._projectName.Location = new System.Drawing.Point(0, 0);
             this._projectName.Name = "_projectName";
             this._projectName.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
-            this._projectName.Size = new System.Drawing.Size(230, 24);
+            this._projectName.Size = new System.Drawing.Size(206, 24);
             this._projectName.TabIndex = 0;
             this._projectName.Text = "Project Name";
             this._projectName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._projectName.Click += new System.EventHandler(this.ProjectNameClick);
             // 
             // _startTime
             // 
@@ -75,6 +77,7 @@
             this._startTime.TabIndex = 2;
             this._startTime.Text = "8/2/2012";
             this._startTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this._startTime.Click += new System.EventHandler(this.StartTimeClick);
             // 
             // _requestedBy
             // 
@@ -86,6 +89,7 @@
             this._requestedBy.Size = new System.Drawing.Size(96, 13);
             this._requestedBy.TabIndex = 3;
             this._requestedBy.Text = "Lee Richardson";
+            this._requestedBy.Click += new System.EventHandler(this.RequestedByClick);
             // 
             // _comment
             // 
@@ -100,6 +104,7 @@
             this._comment.TabIndex = 4;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
     "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
+            this._comment.Click += new System.EventHandler(this.CommentClick);
             // 
             // _duration
             // 
@@ -112,6 +117,7 @@
             this._duration.Size = new System.Drawing.Size(40, 20);
             this._duration.TabIndex = 5;
             this._duration.Text = "9:53";
+            this._duration.Click += new System.EventHandler(this.DurationClick);
             // 
             // imageList1
             // 
@@ -201,11 +207,13 @@
             // 
             // _editRulesTop
             // 
+            this._editRulesTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._editRulesTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._editRulesTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this._editRulesTop.Image = ((System.Drawing.Image)(resources.GetObject("_editRulesTop.Image")));
-            this._editRulesTop.Location = new System.Drawing.Point(188, 4);
+            this._editRulesTop.Location = new System.Drawing.Point(182, 0);
             this._editRulesTop.Name = "_editRulesTop";
-            this._editRulesTop.Size = new System.Drawing.Size(16, 16);
+            this._editRulesTop.Size = new System.Drawing.Size(24, 24);
             this._editRulesTop.TabIndex = 9;
             this._editRulesTop.Click += new System.EventHandler(this.EditRulesClick);
             // 

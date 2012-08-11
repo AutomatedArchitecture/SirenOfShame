@@ -17,7 +17,7 @@ namespace SirenOfShame
 {
     public class ViewBuildBase : UserControl
     {
-        protected readonly SirenOfShameSettings Settings;
+        public SirenOfShameSettings Settings { get; set; }
         protected string Url;
         protected DateTime? LocalStartTime;
         public string BuildId { get; private set; }
@@ -26,13 +26,14 @@ namespace SirenOfShame
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
-        // required for Visual Studio designer support :(
-        public ViewBuildBase() { }
+        public ViewBuildBase()
+        {
+            IocContainer.Instance.Compose(this);
+        }
 
-        public ViewBuildBase(SirenOfShameSettings settings)
+        public ViewBuildBase(SirenOfShameSettings settings) : this()
         {
             Settings = settings;
-            IocContainer.Instance.Compose(this);
         }
 
         protected virtual void InitializeLabels(BuildStatusDto buildStatusDto)
@@ -352,7 +353,7 @@ namespace SirenOfShame
             Settings.Save();
         }
 
-        protected void EditRulesClick(Label editRules, ContextMenuStrip buildMenu, ToolStripMenuItem affectsTrayIcon)
+        protected void EditRulesClick(Control editRules, ContextMenuStrip buildMenu, ToolStripMenuItem affectsTrayIcon)
         {
             BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
             var location = PointToScreen(editRules.Location);

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
 
@@ -11,7 +12,7 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        public void Initialize(BuildStatusDto buildStatusDto)
+        public void InitializeForBuild(BuildStatusDto buildStatusDto)
         {
             InitializeLabels(buildStatusDto);
         }
@@ -45,6 +46,26 @@ namespace SirenOfShame
         protected override Label GetStartTimeLabel()
         {
             return _startTime;
+        }
+
+        private void EditRulesClick(object sender, System.EventArgs e)
+        {
+            EditRulesClick(_editRules, _buildMenu, _affectsTrayIcon);
+        }
+
+        private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            BuildMenuOpening(sender, e, _buildMenu, _when, _affectsTrayIcon, _stopWatching, _toolStripSeparator1);
+        }
+
+        private void StopWatchingClick(object sender, EventArgs e)
+        {
+            StopWatchingClick();
+        }
+
+        private void AffectsTrayIconClick(object sender, EventArgs e)
+        {
+            AffectsTrayIconClick();
         }
 
     }

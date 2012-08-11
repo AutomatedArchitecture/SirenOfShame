@@ -55,7 +55,7 @@ namespace SirenOfShame
         private void InitializeViewBuildBig(BuildStatusDto buildStatusDto)
         {
             if (buildStatusDto == null) return;
-            _viewBuildBig.Initialize(buildStatusDto);
+            _viewBuildBig.InitializeForBuild(buildStatusDto);
         }
 
         private void InitializeLabelsForBuild(bool viewAllBuilds)
@@ -217,6 +217,7 @@ namespace SirenOfShame
         public void Initialize(SirenOfShameSettings settings)
         {
             _settings = settings;
+            _viewBuildBig.Settings = _settings;
         }
 
         private void BackClick(object sender, EventArgs e)

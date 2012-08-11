@@ -39,6 +39,12 @@
             this._projectName = new System.Windows.Forms.Label();
             this._details = new System.Windows.Forms.LinkLabel();
             this._editRules = new System.Windows.Forms.Label();
+            this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
+            this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
+            this._when = new System.Windows.Forms.ToolStripMenuItem();
+            this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._buildMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // _duration
@@ -143,11 +149,52 @@
             // _editRules
             // 
             this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
             this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
             this._editRules.Location = new System.Drawing.Point(362, 112);
             this._editRules.Name = "_editRules";
             this._editRules.Size = new System.Drawing.Size(16, 16);
             this._editRules.TabIndex = 18;
+            this._editRules.Click += new System.EventHandler(this.EditRulesClick);
+            // 
+            // _buildMenu
+            // 
+            this._buildMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._affectsTrayIcon,
+            this._stopWatching,
+            this._when,
+            this._toolStripSeparator1});
+            this._buildMenu.Name = "_buildMenu";
+            this._buildMenu.Size = new System.Drawing.Size(164, 98);
+            this._buildMenu.Text = "BuildMenu";
+            this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
+            // 
+            // _affectsTrayIcon
+            // 
+            this._affectsTrayIcon.Checked = true;
+            this._affectsTrayIcon.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._affectsTrayIcon.Name = "_affectsTrayIcon";
+            this._affectsTrayIcon.Size = new System.Drawing.Size(163, 22);
+            this._affectsTrayIcon.Text = "Affects Tray Icon";
+            this._affectsTrayIcon.Click += new System.EventHandler(this.AffectsTrayIconClick);
+            // 
+            // _stopWatching
+            // 
+            this._stopWatching.Name = "_stopWatching";
+            this._stopWatching.Size = new System.Drawing.Size(163, 22);
+            this._stopWatching.Text = "Stop Watching";
+            this._stopWatching.Click += new System.EventHandler(this.StopWatchingClick);
+            // 
+            // _when
+            // 
+            this._when.Name = "_when";
+            this._when.Size = new System.Drawing.Size(163, 22);
+            this._when.Text = "When";
+            // 
+            // _toolStripSeparator1
+            // 
+            this._toolStripSeparator1.Name = "_toolStripSeparator1";
+            this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
             // ViewBuildBig
             // 
@@ -165,6 +212,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ViewBuildBig";
             this.Size = new System.Drawing.Size(408, 140);
+            this._buildMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +229,10 @@
         private System.Windows.Forms.Label _projectName;
         private System.Windows.Forms.LinkLabel _details;
         private System.Windows.Forms.Label _editRules;
+        private System.Windows.Forms.ContextMenuStrip _buildMenu;
+        private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
+        private System.Windows.Forms.ToolStripMenuItem _stopWatching;
+        private System.Windows.Forms.ToolStripMenuItem _when;
+        private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
     }
 }

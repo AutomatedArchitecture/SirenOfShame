@@ -86,7 +86,7 @@ namespace SirenOfShame
 
         private void EditRulesClick(object sender, EventArgs e)
         {
-            EditRulesClick(_editRules, _buildMenu, _affectsTrayIcon);
+            EditRulesClick((Control)sender, _buildMenu, _affectsTrayIcon);
         }
 
         private void AffectsTrayIconClick(object sender, EventArgs e)
@@ -97,6 +97,31 @@ namespace SirenOfShame
         private void StopWatchingClick(object sender, EventArgs e)
         {
             StopWatchingClick();
+        }
+
+        private void CommentClick(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void ProjectNameClick(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void RequestedByClick(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void StartTimeClick(object sender, EventArgs e)
+        {
+            OnClick(e);
+        }
+
+        private void DurationClick(object sender, EventArgs e)
+        {
+            OnClick(e);
         }
 
 
