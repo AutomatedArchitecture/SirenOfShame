@@ -23,7 +23,7 @@ namespace SirenOfShame
         private void InitializeBuildStats(BuildStatusDto buildStatusDto)
         {
             var sosDb = new SosDb();
-            var lastFiveBuilds = sosDb.ReadAll(buildStatusDto.Id).Reverse().Take(5);
+            var lastFiveBuilds = sosDb.ReadAll(buildStatusDto.Id).Reverse().Take(5).Reverse();
             buildStats1.GraphBuildHistory(lastFiveBuilds.ToList());
         }
 

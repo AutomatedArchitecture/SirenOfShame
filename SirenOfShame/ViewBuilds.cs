@@ -1,18 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using SirenOfShame.Lib;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
-using SirenOfShame.Lib.Helpers;
-using log4net;
 
 namespace SirenOfShame
 {
     public partial class ViewBuilds : UserControl
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ViewBuilds));
         private SirenOfShameSettings _settings;
         private readonly Timer _prettyDateTimer = new Timer();
         private List<BuildStatusDto> _lastBuildStatusDtos = new List<BuildStatusDto>();
@@ -80,7 +77,7 @@ namespace SirenOfShame
             }
             else
             {
-                UpdateDetailsInExistingControls(buildStatusDtosAndControl);
+                UpdateExistingControls(buildStatusDtosAndControl);
             }
             InitializeDisplayModes();
         }
@@ -118,9 +115,10 @@ namespace SirenOfShame
             return idealSmallControlCount < controlCount ? ViewBuildDisplayMode.Normal : ViewBuildDisplayMode.Tiny;
         }
 
-        private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(List<BuildStatusDtoAndControl> buildStatusDtosAndControl, List<BuildStatusDto> buildStatusDtos)
+        private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection buildStatusDtosAndControl, ICollection<BuildStatusDto> buildStatusDtos)
         {
-            bool numberOfBuildsChanged = ViewBuildsCount != 0 && ViewBuildsCount != buildStatusDtos.Count();
+            int visibleViewBuildControls = VisibleViewBuildControls;
+            bool numberOfBuildsChanged = visibleViewBuildControls != 0 && visibleViewBuildControls != buildStatusDtos.Count();
             var anyBuildNameChanged = buildStatusDtosAndControl.Count != buildStatusDtos.Count;
             if (numberOfBuildsChanged || anyBuildNameChanged)
             {
@@ -128,9 +126,14 @@ namespace SirenOfShame
             }
         }
 
+        private int VisibleViewBuildControls
+        {
+            get { return _mainFlowLayoutPanel.Controls.Cast<Control>().Count(i => i.Visible); }
+        }
+
         private bool NoChildControlsExist
         {
-            get { return ViewBuildsCount == 1; }
+            get { return VisibleViewBuildControls == 0; }
         }
 
         private void RemoveAllSmallBuildControls()
@@ -141,23 +144,40 @@ namespace SirenOfShame
                 _mainFlowLayoutPanel.Controls.Remove(viewBuildSmall);
                 viewBuildSmall.Dispose();
             }
+            _viewBuildBig.Visible = false;
         }
 
         private IEnumerable<BuildStatusDtoAndControl> GetBuildStatusDtoAndControls(IEnumerable<BuildStatusDto> buildStatusDtos)
         {
-            return from control in GetSmallViewBuilds()
-                   join buildStatusDto in buildStatusDtos on control.BuildId equals buildStatusDto.BuildId
+            return from control in GetViewBuilds() 
+                   where control.Visible
+                   join buildStatusDto in buildStatusDtos on control.BuildId equals buildStatusDto.Id
                    orderby buildStatusDto.LocalStartTime descending 
                    select new BuildStatusDtoAndControl { Control = control, BuildStatusDto = buildStatusDto };
         }
 
-        private void UpdateDetailsInExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        private void UpdateExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
         {
-            for (int i = 0; i < buildStatusDtosAndControl.Count; i++)
+            UpdateDetailsInExistingControls(buildStatusDtosAndControl);
+            SortExistingControls(buildStatusDtosAndControl);
+        }
+
+        private static void UpdateDetailsInExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        {
+            foreach (var buildStatusAndControl in buildStatusDtosAndControl)
             {
-                var buildStatusAndControl = buildStatusDtosAndControl[i];
                 buildStatusAndControl.Control.UpdateListItem(buildStatusAndControl.BuildStatusDto);
-                _mainFlowLayoutPanel.Controls.SetChildIndex(buildStatusAndControl.Control, i);
+            }
+        }
+
+        private void SortExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        {
+            var buildsExceptActiveOne = buildStatusDtosAndControl.Where(i => i.Control != _viewBuildBig).ToList();
+            var startIndex = _viewBuildBig.Visible ? 1 : 0;
+            for (int i = 0; i < buildsExceptActiveOne.Count; i++)
+            {
+                var buildStatusAndControl = buildsExceptActiveOne[i];
+                _mainFlowLayoutPanel.Controls.SetChildIndex(buildStatusAndControl.Control, i + startIndex);
             }
         }
 
@@ -196,11 +216,6 @@ namespace SirenOfShame
             InitializeDisplayModes();
         }
         
-        private int ViewBuildsCount
-        {
-            get { return _mainFlowLayoutPanel.Controls.Count; }
-        }
-
         private IEnumerable<ViewBuildSmall> GetSmallViewBuilds()
         {
             return _mainFlowLayoutPanel.Controls
