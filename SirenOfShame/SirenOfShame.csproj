@@ -440,7 +440,6 @@
     <None Include="Resources\navigate_down2.png" />
     <None Include="Resources\navigate_up.png" />
     <None Include="Resources\gear.png" />
-    <None Include="Resources\circle20.png" />
     <None Include="Resources\gear_white.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Windows.Forms;
@@ -17,21 +16,21 @@ namespace SirenOfShame
 {
     public class ViewBuildBase : UserControl
     {
-        public SirenOfShameSettings Settings { get; set; }
+        public SirenOfShameSettings Settings { private get; set; }
         protected string Url;
-        protected DateTime? LocalStartTime;
+        public DateTime? LocalStartTime { get; protected set; }
         public string BuildId { get; private set; }
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ViewBuildBase));
+        private static readonly ILog Log = MyLogManager.GetLogger(typeof(ViewBuildBase));
 
         [Import(typeof(ISirenOfShameDevice))]
-        public ISirenOfShameDevice SirenOfShameDevice { get; set; }
+        public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
 
-        public ViewBuildBase()
+        protected ViewBuildBase()
         {
             IocContainer.Instance.Compose(this);
         }
 
-        public ViewBuildBase(SirenOfShameSettings settings) : this()
+        protected ViewBuildBase(SirenOfShameSettings settings) : this()
         {
             Settings = settings;
         }
@@ -42,7 +41,7 @@ namespace SirenOfShame
             Url = buildStatusDto.Url;
         }
 
-        protected readonly IEnumerable<KeyValuePair<int?, string>> Durations = new List<KeyValuePair<int?, string>>
+        private readonly IEnumerable<KeyValuePair<int?, string>> _durations = new List<KeyValuePair<int?, string>>
         {
             new KeyValuePair<int?, string>(1, "1 Second"),
             new KeyValuePair<int?, string>(5, "5 Seconds"),
@@ -76,14 +75,12 @@ namespace SirenOfShame
             InitializeLabels(buildStatus);
         }
 
-        protected BuildDefinitionSetting GetActiveBuildDefinitionSetting()
+        private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
             return Settings.FindBuildDefinitionById(BuildId);
         }
 
         protected void BuildMenuOpening(
-            object sender, 
-            CancelEventArgs e, 
             ContextMenuStrip buildMenu, 
             ToolStripMenuItem when, 
             ToolStripMenuItem affectsTrayIcon,
@@ -214,7 +211,7 @@ namespace SirenOfShame
 
             if (tag == null)
             {
-                _log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
+                Log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
                 return;
             }
 
@@ -304,7 +301,7 @@ namespace SirenOfShame
             if (rule != null)
                 duration = ledPattern == null ? rule.AudioDuration : rule.LightsDuration;
 
-            var durations = Durations.Select(d => new ToolStripMenuItem(d.Value)
+            var durations = _durations.Select(d => new ToolStripMenuItem(d.Value)
             {
                 Checked = patternIsMatch && duration == d.Key,
                 Tag = new RuleDropDownItemTag
@@ -366,7 +363,7 @@ namespace SirenOfShame
             return null;
         }
         
-        public virtual void RecalculatePrettyDate()
+        public void RecalculatePrettyDate()
         {
             var startTimeLabel = GetStartTimeLabel();
             if (startTimeLabel == null) return;

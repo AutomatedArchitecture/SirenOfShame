@@ -37,6 +37,7 @@ namespace SirenOfShame
             InitializeViewBuildBig(buildStatusDto);
             InitializeDisplayModes();
             InitializeSmallBuildsVisibility(buildId);
+            SortExistingControls();
         }
 
         private void InitializeSmallBuildsVisibility(string activeBuildId)
@@ -156,13 +157,13 @@ namespace SirenOfShame
                    select new BuildStatusDtoAndControl { Control = control, BuildStatusDto = buildStatusDto };
         }
 
-        private void UpdateExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        private void UpdateExistingControls(IEnumerable<BuildStatusDtoAndControl> buildStatusDtosAndControl)
         {
             UpdateDetailsInExistingControls(buildStatusDtosAndControl);
-            SortExistingControls(buildStatusDtosAndControl);
+            SortExistingControls();
         }
 
-        private static void UpdateDetailsInExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        private static void UpdateDetailsInExistingControls(IEnumerable<BuildStatusDtoAndControl> buildStatusDtosAndControl)
         {
             foreach (var buildStatusAndControl in buildStatusDtosAndControl)
             {
@@ -170,14 +171,14 @@ namespace SirenOfShame
             }
         }
 
-        private void SortExistingControls(List<BuildStatusDtoAndControl> buildStatusDtosAndControl)
+        private void SortExistingControls()
         {
-            var buildsExceptActiveOne = buildStatusDtosAndControl.Where(i => i.Control != _viewBuildBig).ToList();
+            var buildsExceptActiveOne = GetSmallViewBuilds().OrderBy(i => i.LocalStartTime).ToList();
             var startIndex = _viewBuildBig.Visible ? 1 : 0;
             for (int i = 0; i < buildsExceptActiveOne.Count; i++)
             {
                 var buildStatusAndControl = buildsExceptActiveOne[i];
-                _mainFlowLayoutPanel.Controls.SetChildIndex(buildStatusAndControl.Control, i + startIndex);
+                _mainFlowLayoutPanel.Controls.SetChildIndex(buildStatusAndControl, i + startIndex);
             }
         }
 

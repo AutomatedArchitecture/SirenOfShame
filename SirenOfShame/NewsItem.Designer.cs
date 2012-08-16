@@ -29,56 +29,51 @@
         private void InitializeComponent()
         {
             this._userName = new System.Windows.Forms.Label();
-            this._leftPanel = new System.Windows.Forms.Panel();
             this._project = new System.Windows.Forms.Label();
             this._when = new System.Windows.Forms.Label();
             this._title = new System.Windows.Forms.Label();
             this._reputationChange = new System.Windows.Forms.Label();
+            this._leftPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.avatar1 = new SirenOfShame.Avatar();
+            this._leftPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // _userName
             // 
-            this._userName.AutoEllipsis = true;
+            this._userName.AutoSize = true;
             this._userName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._userName.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userName.ForeColor = System.Drawing.Color.White;
-            this._userName.Location = new System.Drawing.Point(9, 2);
+            this._userName.Location = new System.Drawing.Point(0, 0);
             this._userName.Margin = new System.Windows.Forms.Padding(0);
             this._userName.Name = "_userName";
-            this._userName.Size = new System.Drawing.Size(167, 18);
+            this._userName.Size = new System.Drawing.Size(73, 15);
             this._userName.TabIndex = 1;
             this._userName.Text = "Bob Smith";
-            // 
-            // _leftPanel
-            // 
-            this._leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
-            this._leftPanel.Location = new System.Drawing.Point(0, 0);
-            this._leftPanel.Name = "_leftPanel";
-            this._leftPanel.Size = new System.Drawing.Size(176, 20);
-            this._leftPanel.TabIndex = 8;
             // 
             // _project
             // 
             this._project.AutoSize = true;
-            this._project.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._project.ForeColor = System.Drawing.Color.DimGray;
-            this._project.Location = new System.Drawing.Point(54, 42);
+            this._project.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this._project.ForeColor = System.Drawing.Color.White;
+            this._project.Location = new System.Drawing.Point(171, 0);
+            this._project.Margin = new System.Windows.Forms.Padding(0);
             this._project.Name = "_project";
             this._project.Size = new System.Drawing.Size(49, 13);
             this._project.TabIndex = 7;
             this._project.Text = "Project 1";
+            this._project.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // _when
             // 
             this._when.AutoSize = true;
-            this._when.BackColor = System.Drawing.Color.Transparent;
+            this._when.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._when.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._when.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._when.ForeColor = System.Drawing.Color.DimGray;
-            this._when.Location = new System.Drawing.Point(54, 24);
+            this._when.ForeColor = System.Drawing.Color.Gainsboro;
+            this._when.Location = new System.Drawing.Point(98, 0);
+            this._when.Margin = new System.Windows.Forms.Padding(0);
             this._when.Name = "_when";
             this._when.Size = new System.Drawing.Size(73, 13);
             this._when.TabIndex = 6;
@@ -86,39 +81,54 @@
             // 
             // _title
             // 
-            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._title.AutoEllipsis = true;
             this._title.ForeColor = System.Drawing.Color.Black;
-            this._title.Location = new System.Drawing.Point(6, 71);
+            this._title.Location = new System.Drawing.Point(54, 0);
             this._title.Name = "_title";
-            this._title.Size = new System.Drawing.Size(167, 39);
+            this._title.Size = new System.Drawing.Size(153, 49);
             this._title.TabIndex = 5;
             this._title.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-    "for the day, the rat";
+                "for the day, the rat";
             this._title.MouseEnter += new System.EventHandler(this.TitleMouseEnter);
             // 
             // _reputationChange
             // 
             this._reputationChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._reputationChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
-            this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._reputationChange.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._reputationChange.ForeColor = System.Drawing.Color.White;
-            this._reputationChange.Image = global::SirenOfShame.Properties.Resources.circle20;
-            this._reputationChange.Location = new System.Drawing.Point(156, 0);
+            this._reputationChange.Location = new System.Drawing.Point(73, 0);
+            this._reputationChange.Margin = new System.Windows.Forms.Padding(0);
             this._reputationChange.Name = "_reputationChange";
-            this._reputationChange.Size = new System.Drawing.Size(20, 20);
+            this._reputationChange.Size = new System.Drawing.Size(25, 15);
             this._reputationChange.TabIndex = 2;
             this._reputationChange.Text = "+1";
             this._reputationChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _leftPanel
+            // 
+            this._leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._leftPanel.Controls.Add(this._userName);
+            this._leftPanel.Controls.Add(this._reputationChange);
+            this._leftPanel.Controls.Add(this._when);
+            this._leftPanel.Controls.Add(this._project);
+            this._leftPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this._leftPanel.Location = new System.Drawing.Point(0, 51);
+            this._leftPanel.Margin = new System.Windows.Forms.Padding(0);
+            this._leftPanel.Name = "_leftPanel";
+            this._leftPanel.Size = new System.Drawing.Size(230, 14);
+            this._leftPanel.TabIndex = 8;
             // 
             // avatar1
             // 
             this.avatar1.BackColor = System.Drawing.Color.Transparent;
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
-            this.avatar1.Location = new System.Drawing.Point(0, 20);
+            this.avatar1.Location = new System.Drawing.Point(0, 0);
             this.avatar1.Name = "avatar1";
             this.avatar1.Size = new System.Drawing.Size(48, 48);
             this.avatar1.TabIndex = 4;
@@ -130,20 +140,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.avatar1);
-            this.Controls.Add(this._reputationChange);
-            this.Controls.Add(this._project);
-            this.Controls.Add(this._when);
-            this.Controls.Add(this._title);
-            this.Controls.Add(this._userName);
             this.Controls.Add(this._leftPanel);
+            this.Controls.Add(this.avatar1);
+            this.Controls.Add(this._title);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(176, 65);
             this.Name = "NewsItem";
-            this.Size = new System.Drawing.Size(176, 120);
+            this.Size = new System.Drawing.Size(230, 65);
             this.Resize += new System.EventHandler(this.NewsItemResize);
+            this._leftPanel.ResumeLayout(false);
+            this._leftPanel.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -155,6 +162,6 @@
         private System.Windows.Forms.Label _when;
         private System.Windows.Forms.Label _title;
         private System.Windows.Forms.Label _project;
-        private System.Windows.Forms.Panel _leftPanel;
+        private System.Windows.Forms.FlowLayoutPanel _leftPanel;
     }
 }

@@ -51,8 +51,8 @@
             // 
             // _projectName
             // 
-            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -93,9 +93,9 @@
             // 
             // _comment
             // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(5, 53);
@@ -103,7 +103,7 @@
             this._comment.Size = new System.Drawing.Size(222, 52);
             this._comment.TabIndex = 4;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-    "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
+                "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             this._comment.Click += new System.EventHandler(this.CommentClick);
             // 
             // _duration
@@ -148,6 +148,7 @@
             // _editRules
             // 
             this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
             this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
             this._editRules.Location = new System.Drawing.Point(188, 110);
             this._editRules.Name = "_editRules";

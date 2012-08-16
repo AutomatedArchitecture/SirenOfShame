@@ -58,14 +58,14 @@ namespace SirenOfShame
             return _startTime;
         }
 
-        private void EditRulesClick(object sender, System.EventArgs e)
+        private void EditRulesClick(object sender, EventArgs e)
         {
             EditRulesClick(_editRules, _buildMenu, _affectsTrayIcon);
         }
 
         private void BuildMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            BuildMenuOpening(sender, e, _buildMenu, _when, _affectsTrayIcon, _stopWatching, _toolStripSeparator1);
+            BuildMenuOpening(_buildMenu, _when, _affectsTrayIcon, _stopWatching, _toolStripSeparator1);
         }
 
         private void StopWatchingClick(object sender, EventArgs e)

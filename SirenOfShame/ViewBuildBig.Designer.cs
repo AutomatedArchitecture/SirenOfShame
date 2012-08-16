@@ -135,8 +135,8 @@
             // 
             // _projectName
             // 
-            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -163,9 +163,8 @@
             // 
             // _comment
             // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(13, 53);
@@ -173,7 +172,7 @@
             this._comment.Size = new System.Drawing.Size(256, 92);
             this._comment.TabIndex = 11;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-    "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
+                "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             // 
             // _requestedBy
             // 
@@ -199,9 +198,9 @@
             // 
             // buildStats1
             // 
-            this.buildStats1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buildStats1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.buildStats1.Location = new System.Drawing.Point(280, 53);
             this.buildStats1.Name = "buildStats1";
             this.buildStats1.Size = new System.Drawing.Size(125, 92);

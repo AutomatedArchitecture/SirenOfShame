@@ -81,7 +81,7 @@ namespace SirenOfShame
 
         private void BuildMenuOpening(object sender, CancelEventArgs e)
         {
-            BuildMenuOpening(sender, e, _buildMenu, _when, _affectsTrayIcon, _stopWatching, _toolStripSeparator1);
+            BuildMenuOpening(_buildMenu, _when, _affectsTrayIcon, _stopWatching, _toolStripSeparator1);
         }
 
         private void EditRulesClick(object sender, EventArgs e)

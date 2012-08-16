@@ -57,7 +57,10 @@ namespace SirenOfShame
         {
             Color backColor = GetBackgroundColorForEventType(args.NewsItemType);
             _leftPanel.BackColor = backColor;
+            _project.BackColor = backColor;
             _userName.BackColor = backColor;
+            _when.BackColor = backColor;
+            _reputationChange.BackColor = backColor;
         }
 
         private void InitializeAvatar(NewNewsItemEventArgs args)
@@ -93,9 +96,6 @@ namespace SirenOfShame
         {
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
-            _reputationChange.BackColor = reputationChange.Value < 0
-                                              ? Color.FromArgb(255, 222, 64, 82)
-                                              : Color.FromArgb(255, 50, 175, 82);
             _reputationChange.Text = GetNumericAsDelta(reputationChange.Value);
         }
 
@@ -111,7 +111,7 @@ namespace SirenOfShame
 
         public int GetIdealHeight()
         {
-            return 132;
+            return 62;
         }
 
         public bool IsAtIdealHeight()
@@ -133,7 +133,7 @@ namespace SirenOfShame
                 return color;
             return defaultColor;
         }
-        
+
         private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
             { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
@@ -145,7 +145,7 @@ namespace SirenOfShame
             { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 213, 160, 9) },
         };
-        
+
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
             return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, Color.FromArgb(255, 40, 95, 152));
