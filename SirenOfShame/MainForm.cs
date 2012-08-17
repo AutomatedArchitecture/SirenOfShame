@@ -438,7 +438,7 @@ namespace SirenOfShame
             }
             else
             {
-                Show(); 
+                //Show(); 
             }
         }
 
