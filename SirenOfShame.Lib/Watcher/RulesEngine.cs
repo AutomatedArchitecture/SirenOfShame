@@ -24,9 +24,10 @@ namespace SirenOfShame.Lib.Watcher
             public BuildStatusEnum? PreviousBuildStatus { get; set; }
         }
         
+        private const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
-        protected IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
-        protected IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
+        private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
+        private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
@@ -45,7 +46,7 @@ namespace SirenOfShame.Lib.Watcher
         public event NewAchievementEvent NewAchievement;
         public event NewNewsItemEvent NewNewsItem;
 
-        public void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
+        private void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
         {
             var newNewsItem = NewNewsItem;
             if (newsIsBothLocalAndNew)
@@ -53,7 +54,7 @@ namespace SirenOfShame.Lib.Watcher
             if (newNewsItem != null) newNewsItem(this, args);
         }
 
-        public void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        private void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
         {
             var newAchievement = NewAchievement;
             if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
@@ -68,13 +69,13 @@ namespace SirenOfShame.Lib.Watcher
             if (playWindowsAudio != null) playWindowsAudio(this, new PlayWindowsAudioEventArgs { Location = location });
         }
 
-        public void InvokeSetTrayIcon(TrayIcon trayIcon)
+        private void InvokeSetTrayIcon(TrayIcon trayIcon)
         {
             SetTrayIconEvent setTrayIcon = SetTrayIcon;
             if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
         }
 
-        public void InvokeNewAlert(NewAlertEventArgs args)
+        private void InvokeNewAlert(NewAlertEventArgs args)
         {
             NewAlertEvent newAlert = NewAlert;
             if (newAlert != null) newAlert(this, args);
@@ -469,7 +470,7 @@ namespace SirenOfShame.Lib.Watcher
         private void RetrieveAndFireOldNewsItems(bool initialStart)
         {
             if (!initialStart) return;
-            var newsItems = SosDb.GetMostRecentNewsItems(_settings, 5);
+            var newsItems = SosDb.GetMostRecentNewsItems(_settings, NEWS_ITEMS_TO_GET_ON_STARTUP);
             newsItems
                 .OrderBy(i => i.EventDate)
                 .ToList()
