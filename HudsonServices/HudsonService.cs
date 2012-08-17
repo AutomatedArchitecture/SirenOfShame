@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Xml.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
@@ -14,40 +13,53 @@ namespace HudsonServices
 {
     public class HudsonService : ServiceBase
     {
+        protected override XDocument DownloadXml(string url, string userName, string password, string cookie = null)
+        {
+            WebClientXml webClientXml = new WebClientXml
+            {
+                // hudson/jenkins api's apparently always require base64 encoded credentials rather than basic auth
+                AuthenticationType = AuthenticationTypeEnum.Base64EncodeInHeader
+            };
+
+            return webClientXml.DownloadXml(url, userName, password, cookie);
+        }
+        
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
 
         public delegate void GetProjectsCompleteDelegate(HudsonBuildDefinition[] buildDefinitions);
 
         public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError)
         {
-            WebClient webClient = new WebClient
+            WebClientXml webClient = new WebClientXml
             {
-                Credentials = new NetworkCredential(userName, password)
+                AuthenticationType = AuthenticationTypeEnum.Base64EncodeInHeader,
+                UserName = userName,
+                Password = password
             };
             rootUrl = GetRootUrl(rootUrl);
-            var projectUrl = new Uri(rootUrl + "/api/xml");
-            webClient.DownloadStringCompleted += (s, e) =>
+
+            webClient.DownloadXmlAsync(rootUrl + "/api/xml", onSuccess: doc =>
             {
-                try
+                if (doc.Root == null)
                 {
-                    XDocument doc = XDocument.Parse(e.Result);
-                    if (doc.Root == null)
-                    {
-                        throw new Exception("Could not get project list");
-                    }
-                    HudsonBuildDefinition[] buildDefinitions = doc.Root
-                        .Elements("job")
-                        .Select(projectXml => new HudsonBuildDefinition(rootUrl, projectXml))
-                        .ToArray();
-                    complete(buildDefinitions);
+                    onError(new Exception("No results returned"));
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    _log.Error("Error connecting to server", ex);
-                    onError(ex);
-                }
+                HudsonBuildDefinition[] buildDefinitions = doc.Root
+                    .Elements("job")
+                    .Select(projectXml => new HudsonBuildDefinition(rootUrl, projectXml))
+                    .ToArray();
+                complete(buildDefinitions);
+            }, onError: OnError(onError));
+        }
+
+        private static Action<Exception> OnError(Action<Exception> onError)
+        {
+            return delegate(Exception ex)
+            {
+                _log.Error("Error connecting to server", ex);
+                onError(ex);
             };
-            webClient.DownloadStringAsync(projectUrl);
         }
 
         private string GetRootUrl(string rootUrl)
