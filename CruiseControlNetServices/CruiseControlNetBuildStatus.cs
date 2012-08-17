@@ -68,14 +68,34 @@ namespace CruiseControlNetServices
             StartedTime = GetStartedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
             FinishedTime = GetFinishedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
             Comment = null;
-            RequestedBy = null;
+            RequestedBy = GetRequestedBy(projectElem);
 
             var webUrl = projectElem.AttributeValueOrDefault("webUrl");
             string lastBuildTimeAsId = ParseCruiseControlDateToId(lastBuildTimeStr);
             Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
-            BuildId = lastBuildTimeAsId;
-
+            BuildId = GetBuildIdOrDefault(projectElem, lastBuildTimeAsId);
+            
             buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
+        }
+
+        private string GetBuildIdOrDefault(XElement projectElem, string defaultVal)
+        {
+            var lastBuildLabel = projectElem.AttributeValueOrDefault("lastBuildLabel");
+            if (string.IsNullOrEmpty(lastBuildLabel) || lastBuildLabel == "UNKNOWN") return defaultVal;
+            return lastBuildLabel;
+        }
+
+        private string GetRequestedBy(XElement projectElem)
+        {
+            var messages = projectElem.Element("messages");
+            if (messages == null) return null;
+            var breakers = messages.Elements("message").FirstOrDefault(i => i.Attribute("kind") != null && i.Attribute("kind").Value == "Breakers");
+            if (breakers == null) return null;
+            var breakersText = breakers.AttributeValueOrDefault("text");
+            if (breakersText == null) return null;
+            var firstBreaker = breakersText.Split(',').FirstOrDefault();
+            if (firstBreaker == null) return null;
+            return firstBreaker.Trim();
         }
 
         private DateTime? GetFinishedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum buildStatusEnum, DateTime? lastBuildTime)
