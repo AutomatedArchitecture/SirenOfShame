@@ -16,20 +16,12 @@ namespace TeamCityServices
         public string RootUrl { get; set; }
         public override string Id { get { return _id; } }
         public override string Name { get { return _name; } }
-        public string Href { get; set; }
-        public string ProjectName { get; set; }
-        public string ProjectId { get; set; }
-        public string WebUrl { get; set; }
 
         public TeamCityBuildDefinition(string rootUrl, XElement buildTypeXml)
         {
             RootUrl = rootUrl;
             _id = buildTypeXml.AttributeValueOrDefault("id");
             _name = buildTypeXml.AttributeValueOrDefault("name");
-            Href = buildTypeXml.AttributeValueOrDefault("href");
-            ProjectName = buildTypeXml.AttributeValueOrDefault("projectName");
-            ProjectId = buildTypeXml.AttributeValueOrDefault("projectId");
-            WebUrl = buildTypeXml.AttributeValueOrDefault("webUrl");
         }
     }
 }

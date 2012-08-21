@@ -78,6 +78,7 @@ namespace SirenOfShame
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            if (_settings == null) throw new Exception("_settings was null");
             if (_alwaysShowNewAchievements.Checked)
             {
                 _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.Always;
@@ -89,16 +90,16 @@ namespace SirenOfShame
             if (_onlyShowMyAchievements.Checked)
             {
                 _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-                if (_userIAm.SelectedItem as string == "")
+                if (_userIAm.SelectedItem == null || _userIAm.SelectedItem == "")
                 {
                     MessageBox.Show("Please either select who you are or select a different notification option.");
                     e.Cancel = true;
                 }
                 else
                 {
-                    _settings.MyRawName = ((PersonSetting) _userIAm.SelectedItem).RawName;
+                    PersonSetting personSetting = (PersonSetting) _userIAm.SelectedItem;
+                    _settings.MyRawName = personSetting.RawName;
                 }
-
             }
             _settings.Save();
         }
