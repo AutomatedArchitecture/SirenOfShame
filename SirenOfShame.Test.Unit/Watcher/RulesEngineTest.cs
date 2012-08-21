@@ -13,6 +13,33 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void SubsequentBuildStatusRequest_UsesLocalTimeSoXMinuesAgoIsAccurate()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
+            var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            Assert.AreNotEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
+            Assert.IsTrue((DateTime.Now - buildStatusDto.LocalStartTime).TotalSeconds < 30, "LocalStartTime should have been less than 30 seconds ago aka as close to Now() as possible.");
+        }
+        
+        [TestMethod]
+        public void InitialBuildStatusRequest_UsesServerTimeSinceLocalTimeIsNotAvaiable()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
+        }
+        
+        [TestMethod]
         public void BuildInitiated_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -457,7 +484,7 @@ Hello World
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
-            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTime);
+            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTimeShort);
             Assert.AreEqual("1:01", buildStatus.Duration);
         }
 
@@ -1089,7 +1116,7 @@ Hello World
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual("2/2 2:02 AM",
-                            rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTime);
+                            rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTimeShort);
         }
 
         [TestMethod]

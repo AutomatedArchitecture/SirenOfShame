@@ -327,6 +327,11 @@ namespace SirenOfShame.Lib.Settings
         /// </summary>
         public PersonSetting FindAddPerson(string requestedBy, int avatarCount)
         {
+            if (string.IsNullOrEmpty(requestedBy))
+            {
+                _log.Warn("Tried to add a person with a null RawName");
+                return null;
+            };
             var person = FindPersonByRawName(requestedBy);
             if (person != null) return person;
             person = new PersonSetting

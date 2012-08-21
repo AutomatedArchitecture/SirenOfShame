@@ -173,7 +173,7 @@ namespace SirenOfShame
 
         private void SortExistingControls()
         {
-            var buildsExceptActiveOne = GetSmallViewBuilds().OrderBy(i => i.LocalStartTime).ToList();
+            var buildsExceptActiveOne = GetSmallViewBuilds().OrderByDescending(i => i.LocalStartTime).ToList();
             var startIndex = _viewBuildBig.Visible ? 1 : 0;
             for (int i = 0; i < buildsExceptActiveOne.Count; i++)
             {

@@ -103,17 +103,18 @@ namespace SirenOfShame.Lib.Watcher
         public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             BuildStatus previousStatus;
-            previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
+            bool previousStatusExists = previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            string requestedBy = settings.FindAddPerson(RequestedBy).DisplayName;
+            PersonSetting personSetting = settings.FindAddPerson(RequestedBy);
+            string requestedBy = personSetting == null ? RequestedBy : personSetting.DisplayName;
 
             var result = new BuildStatusDto
             {
                 BuildStatusEnum = BuildStatusEnum,
                 ImageIndex = (int)BallIndex,
-                StartTime = FormatAsDayMonthTime(StartedTime),
-                LocalStartTime = LocalStartTime == DateTime.MinValue ? StartedTime : LocalStartTime,
+                StartTimeShort = FormatAsDayMonthTime(StartedTime),
+                LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,

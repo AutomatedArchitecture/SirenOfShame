@@ -42,7 +42,7 @@ namespace SirenOfShame
             {
                 SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
                 SetText(buildStatusListViewItem.Name, row, 1);
-                SetText(buildStatusListViewItem.StartTime, row, 2);
+                SetText(buildStatusListViewItem.StartTimeShort, row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
                 SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);
                 SetText(buildStatusListViewItem.Comment, row, 5);

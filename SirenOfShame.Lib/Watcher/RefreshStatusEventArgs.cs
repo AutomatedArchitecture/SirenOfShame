@@ -4,7 +4,7 @@ using SirenOfShame.Lib.Settings;
 namespace SirenOfShame.Lib.Watcher
 {
     public class RefreshStatusEventArgs {
-        public IEnumerable<BuildStatusDto> BuildStatusDtos { get; set; }
+        public IList<BuildStatusDto> BuildStatusDtos { get; set; }
 
         public void RefreshDisplayNames(SirenOfShameSettings settings)
         {

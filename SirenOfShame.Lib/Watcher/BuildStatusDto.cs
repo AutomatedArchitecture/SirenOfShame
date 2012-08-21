@@ -7,8 +7,8 @@ namespace SirenOfShame.Lib.Watcher
     {
         public int ImageIndex { get; set; }
         public string Comment { get; set; }
-        public string StartTime { get; set; }
-        public DateTime? LocalStartTime { get; set; }
+        public string StartTimeShort { get; set; }
+        public DateTime LocalStartTime { get; set; }
         public string Duration { get; set; }
         public string RequestedBy { get; set; }
         public string RequestedByDisplayName { get; set; }
