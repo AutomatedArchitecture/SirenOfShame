@@ -18,7 +18,7 @@ namespace SirenOfShame
     {
         public SirenOfShameSettings Settings { private get; set; }
         protected string Url;
-        public DateTime? LocalStartTime { get; protected set; }
+        public DateTime LocalStartTime { get; protected set; }
         public string BuildId { get; private set; }
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(ViewBuildBase));
 
@@ -367,9 +367,10 @@ namespace SirenOfShame
         {
             var startTimeLabel = GetStartTimeLabel();
             if (startTimeLabel == null) return;
-            startTimeLabel.Visible = LocalStartTime.HasValue;
-            if (!LocalStartTime.HasValue) return;
-            startTimeLabel.Text = LocalStartTime.Value.PrettyDate();
+            bool badDate = LocalStartTime == DateTime.MinValue;
+            startTimeLabel.Visible = !badDate;
+            if (badDate) return;
+            startTimeLabel.Text = LocalStartTime.PrettyDate();
         }
     }
 }
