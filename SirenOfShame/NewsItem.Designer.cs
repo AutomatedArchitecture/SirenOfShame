@@ -40,7 +40,6 @@
             // 
             // _userName
             // 
-            this._userName.AutoSize = true;
             this._userName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._userName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -48,6 +47,7 @@
             this._userName.Location = new System.Drawing.Point(4, 0);
             this._userName.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this._userName.Name = "_userName";
+            this._userName.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
             this._userName.Size = new System.Drawing.Size(73, 15);
             this._userName.TabIndex = 1;
             this._userName.Text = "Bob Smith";

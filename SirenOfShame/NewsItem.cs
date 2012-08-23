@@ -20,7 +20,14 @@ namespace SirenOfShame
 
         public string DisplayName
         {
-            set { _userName.Text = value; }
+            set
+            {
+                _userName.Text = value;
+                using (Graphics g = CreateGraphics())
+                {
+                    _userName.Width = (int)g.MeasureString(_userName.Text, _userName.Font).Width;
+                }
+            }
         }
 
         public string BuildId { get; private set; }
@@ -71,7 +78,7 @@ namespace SirenOfShame
 
         private void InitializeUserNameLabel(NewNewsItemEventArgs args)
         {
-            _userName.Text = args.Person.DisplayName;
+            DisplayName = args.Person.DisplayName;
         }
 
         private void WriteDate(DateTime eventDate)
@@ -136,19 +143,19 @@ namespace SirenOfShame
 
         private static readonly Dictionary<NewsItemTypeEnum, Color> _newsTypeToBorderColorMap = new Dictionary<NewsItemTypeEnum, Color>
         {
-            { NewsItemTypeEnum.BuildSuccess, Color.FromArgb(255, 50, 175, 82) },
-            { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 88, 135, 182) },
-            { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 88, 135, 182) },
+            { NewsItemTypeEnum.BuildSuccess, ViewBuildBase.SuccessColor },
+            { NewsItemTypeEnum.SosOnlineComment, Color.FromArgb(255, 0, 102, 221) },
+            { NewsItemTypeEnum.SosOnlineMisc, Color.FromArgb(255, 73, 175, 205) },
             { NewsItemTypeEnum.SosOnlineNewAchievement, Color.FromArgb(255, 213, 160, 9) },
-            { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 88, 135, 182) },
-            { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 88, 135, 182) },
-            { NewsItemTypeEnum.BuildFailed, Color.FromArgb(255, 222, 64, 82) },
+            { NewsItemTypeEnum.SosOnlineNewMember, Color.FromArgb(255, 73, 175, 205) },
+            { NewsItemTypeEnum.SosOnlineReputationChange, Color.FromArgb(255, 73, 175, 205) },
+            { NewsItemTypeEnum.BuildFailed, ViewBuildBase.FailColor },
             { NewsItemTypeEnum.NewAchievement, Color.FromArgb(255, 213, 160, 9) },
         };
 
         private static Color GetBackgroundColorForEventType(NewsItemTypeEnum newsItemEventType)
         {
-            return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, Color.FromArgb(255, 40, 95, 152));
+            return GetColorForEventType(_newsTypeToBorderColorMap, newsItemEventType, ViewBuildBase.PrimaryColor);
         }
 
         private void NewsItemResize(object sender, EventArgs e)

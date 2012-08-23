@@ -57,7 +57,7 @@
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Cursor = System.Windows.Forms.Cursors.Hand;
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._projectName.ForeColor = System.Drawing.Color.White;
+            this._projectName.ForeColor = System.Drawing.Color.WhiteSmoke;
             this._projectName.Location = new System.Drawing.Point(0, 0);
             this._projectName.Name = "_projectName";
             this._projectName.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
@@ -70,7 +70,7 @@
             // _startTime
             // 
             this._startTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._startTime.ForeColor = System.Drawing.Color.Black;
+            this._startTime.ForeColor = System.Drawing.Color.DimGray;
             this._startTime.Location = new System.Drawing.Point(98, 34);
             this._startTime.Name = "_startTime";
             this._startTime.Size = new System.Drawing.Size(119, 13);

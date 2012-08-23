@@ -51,15 +51,19 @@ namespace SirenOfShame
             new KeyValuePair<int?, string>(null, "Until the build Passes"),
         };
 
-        private readonly Dictionary<BuildStatusEnum, Color> _buildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
+        public static Color SuccessColor = Color.FromArgb(255, 81, 163, 81);
+        public static Color FailColor = Color.FromArgb(255, 189, 54, 47);
+        public static Color PrimaryColor = Color.FromArgb(255, 40, 95, 152);
+
+        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
         {
-            { BuildStatusEnum.Working, Color.FromArgb(255, 50, 175, 82) },
-            { BuildStatusEnum.Broken, Color.FromArgb(255, 222, 64, 82) },
+            { BuildStatusEnum.Working, SuccessColor },
+            { BuildStatusEnum.Broken, FailColor },
         };
 
         protected Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)
         {
-            return GetColorForBuildType(_buildStatusToColorMap, buildStatusEnum, Color.FromArgb(255, 40, 95, 152));
+            return GetColorForBuildType(BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
         }
 
         private static Color GetColorForBuildType(Dictionary<BuildStatusEnum, Color> dictionary, BuildStatusEnum newsItemEventType, Color defaultColor)
