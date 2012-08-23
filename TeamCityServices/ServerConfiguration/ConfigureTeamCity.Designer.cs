@@ -107,7 +107,7 @@
             this._projects.Size = new System.Drawing.Size(389, 120);
             this._projects.TabIndex = 4;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
-            this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this._projects_BeforeExpand);
+            this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.ProjectsBeforeExpand);
             // 
             // label4
             // 
