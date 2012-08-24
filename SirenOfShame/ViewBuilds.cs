@@ -205,6 +205,7 @@ namespace SirenOfShame
                 var buildStatusAndControl = buildsExceptActiveOne[i];
                 _mainFlowLayoutPanel.Controls.SetChildIndex(buildStatusAndControl, i + startIndex);
             }
+            _mainFlowLayoutPanel.Controls.SetChildIndex(_viewBuildBig, 0);
         }
 
         private void CreateControlsAndAddToPanels(IEnumerable<BuildStatusDto> buildStatusDtos)
