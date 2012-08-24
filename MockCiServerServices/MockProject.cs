@@ -47,7 +47,8 @@ namespace MockCiServerServices
                         StartedTime = _startedTime,
                         RequestedBy = _requestedBy.Text,
                         LocalStartTime = _localStartTime,
-                        BuildId = _startedTime.HasValue ? _startedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture) : null
+                        BuildId = _startedTime.HasValue ? _startedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture) : null,
+                        Url = "http://www.google.com"
                     };
                 });
             return buildStatus;

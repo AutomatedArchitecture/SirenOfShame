@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -20,6 +19,7 @@ namespace SirenOfShame
         const int TINY_HEIGHT = 60;
         public const int WIDTH = 230;
         public const int MARGIN = 4;
+        private ViewBuildDisplayMode _displayMode;
 
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
             : base(settings)
@@ -30,13 +30,19 @@ namespace SirenOfShame
 
         public void SetDisplayMode(ViewBuildDisplayMode displayMode)
         {
+            _displayMode = displayMode;
             _editRulesTop.Visible = displayMode == ViewBuildDisplayMode.Tiny;
             _editRules.Visible = displayMode == ViewBuildDisplayMode.Normal;
             _comment.Visible = displayMode == ViewBuildDisplayMode.Normal;
             _duration.Visible = displayMode == ViewBuildDisplayMode.Normal;
-            _details.Visible = displayMode == ViewBuildDisplayMode.Normal;
+            SetDetailsVisibility();
             Height = displayMode == ViewBuildDisplayMode.Normal ? NORMAL_HEIGHT : TINY_HEIGHT;
             Width = WIDTH;
+        }
+
+        private void SetDetailsVisibility()
+        {
+            _details.Visible = _displayMode == ViewBuildDisplayMode.Normal && !string.IsNullOrEmpty(Url);
         }
 
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)
@@ -50,6 +56,7 @@ namespace SirenOfShame
             _comment.Text = buildStatusDto.Comment;
             _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
+            SetDetailsVisibility();
         }
 
         private void InitializeStartTime(BuildStatusDto buildStatusDto)
@@ -64,14 +71,6 @@ namespace SirenOfShame
             _projectName.BackColor = backgroundColor;
             _buildStatusIcon.BackColor = backgroundColor;
             _editRulesTop.BackColor = backgroundColor;
-        }
-
-        private void DetailsLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(Url) && Url.StartsWith("http"))
-            {
-                Process.Start(Url);
-            }
         }
 
         protected override Label GetStartTimeLabel()
@@ -122,6 +121,11 @@ namespace SirenOfShame
         private void DurationClick(object sender, EventArgs e)
         {
             OnClick(e);
+        }
+
+        private void DetailsClick(object sender, EventArgs e)
+        {
+            LaunchUrl();
         }
 
 

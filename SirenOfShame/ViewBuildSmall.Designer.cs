@@ -37,7 +37,7 @@
             this._duration = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._details = new System.Windows.Forms.LinkLabel();
+            this._details = new System.Windows.Forms.Label();
             this._editRules = new System.Windows.Forms.Label();
             this._buildStatusIcon = new System.Windows.Forms.Label();
             this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -51,8 +51,8 @@
             // 
             // _projectName
             // 
-            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -93,9 +93,9 @@
             // 
             // _comment
             // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(5, 53);
@@ -103,7 +103,7 @@
             this._comment.Size = new System.Drawing.Size(222, 52);
             this._comment.TabIndex = 4;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-                "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
+    "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             this._comment.Click += new System.EventHandler(this.CommentClick);
             // 
             // _duration
@@ -132,25 +132,26 @@
             // 
             this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
             this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._details.ForeColor = System.Drawing.Color.Black;
             this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
             this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(209, 108);
+            this._details.Location = new System.Drawing.Point(188, 109);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(18, 20);
             this._details.TabIndex = 6;
             this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
-            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.DetailsLinkClicked);
+            this._details.Visible = false;
+            this._details.Click += new System.EventHandler(this.DetailsClick);
             // 
             // _editRules
             // 
             this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
             this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
-            this._editRules.Location = new System.Drawing.Point(188, 110);
+            this._editRules.Location = new System.Drawing.Point(212, 111);
             this._editRules.Name = "_editRules";
             this._editRules.Size = new System.Drawing.Size(16, 16);
             this._editRules.TabIndex = 8;
@@ -224,12 +225,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this._editRulesTop);
-            this.Controls.Add(this._editRules);
             this.Controls.Add(this._buildStatusIcon);
-            this.Controls.Add(this._details);
             this.Controls.Add(this._duration);
+            this.Controls.Add(this._editRules);
             this.Controls.Add(this._comment);
             this.Controls.Add(this._requestedBy);
+            this.Controls.Add(this._details);
             this.Controls.Add(this._startTime);
             this.Controls.Add(this._projectName);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -248,7 +249,7 @@
         private System.Windows.Forms.Label _requestedBy;
         private System.Windows.Forms.Label _comment;
         private System.Windows.Forms.Label _duration;
-        private System.Windows.Forms.LinkLabel _details;
+        private System.Windows.Forms.Label _details;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label _buildStatusIcon;
         private System.Windows.Forms.ToolTip toolTip1;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -375,6 +376,14 @@ namespace SirenOfShame
             startTimeLabel.Visible = !badDate;
             if (badDate) return;
             startTimeLabel.Text = LocalStartTime.PrettyDate();
+        }
+
+        internal void LaunchUrl()
+        {
+            if (!string.IsNullOrWhiteSpace(Url) && Url.StartsWith("http"))
+            {
+                Process.Start(Url);
+            }
         }
     }
 }

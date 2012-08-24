@@ -90,6 +90,7 @@ namespace SirenOfShame
 
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
+            if (args == null || args.Person == null) return;
             if (args.ShouldUpdateOldInProgressNewsItem)
                 TryToFindAndUpdateOldInProgressNewsItem(args);
             else

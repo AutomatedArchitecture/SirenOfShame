@@ -42,7 +42,7 @@ namespace MockCiServerServices
         
         private IEnumerable<BuildStatus> GetAdditionalBuilds()
         {
-            var additionalBuilds = int.Parse(_additionalBuilds.Text);
+            var additionalBuilds = GetAdditionalBuildsCount();
 
             for (int i = 0; i < additionalBuilds; i++)
             {
@@ -58,6 +58,13 @@ namespace MockCiServerServices
                     BuildId = "#" + i,
                 };
             }
+        }
+
+        private int GetAdditionalBuildsCount()
+        {
+            if (_additionalBuilds == null) return 0;
+            if (string.IsNullOrEmpty(_additionalBuilds.Text)) return 0;
+            return int.Parse(_additionalBuilds.Text);
         }
 
         public void StopWatching()

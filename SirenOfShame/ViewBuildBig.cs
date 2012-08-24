@@ -38,6 +38,7 @@ namespace SirenOfShame
             _projectName.Text = buildStatusDto.Name;
             _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
+            _details.Visible = !string.IsNullOrEmpty(buildStatusDto.Url);
         }
 
         private void InitializeStartTime(BuildStatusDto buildStatusDto)
@@ -76,6 +77,11 @@ namespace SirenOfShame
         private void AffectsTrayIconClick(object sender, EventArgs e)
         {
             AffectsTrayIconClick();
+        }
+
+        private void DetailsClick(object sender, EventArgs e)
+        {
+            LaunchUrl();
         }
 
     }

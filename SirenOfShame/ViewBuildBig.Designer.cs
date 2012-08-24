@@ -37,7 +37,7 @@
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._editRules = new System.Windows.Forms.Label();
-            this._details = new System.Windows.Forms.LinkLabel();
+            this._details = new System.Windows.Forms.Label();
             this._buildStatusIcon = new System.Windows.Forms.Label();
             this._projectName = new System.Windows.Forms.Label();
             this._duration = new System.Windows.Forms.Label();
@@ -101,7 +101,7 @@
             this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
             this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
-            this._editRules.Location = new System.Drawing.Point(362, 151);
+            this._editRules.Location = new System.Drawing.Point(387, 156);
             this._editRules.Name = "_editRules";
             this._editRules.Size = new System.Drawing.Size(16, 16);
             this._editRules.TabIndex = 18;
@@ -111,16 +111,18 @@
             // 
             this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
             this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._details.ForeColor = System.Drawing.Color.Black;
             this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
             this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._details.LinkColor = System.Drawing.Color.White;
-            this._details.Location = new System.Drawing.Point(384, 149);
+            this._details.Location = new System.Drawing.Point(363, 155);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(18, 20);
             this._details.TabIndex = 17;
             this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._details.Visible = false;
+            this._details.Click += new System.EventHandler(this.DetailsClick);
             // 
             // _buildStatusIcon
             // 
@@ -135,8 +137,8 @@
             // 
             // _projectName
             // 
-            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._projectName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._projectName.AutoEllipsis = true;
             this._projectName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._projectName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -163,8 +165,8 @@
             // 
             // _comment
             // 
-            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this._comment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this._comment.AutoEllipsis = true;
             this._comment.ForeColor = System.Drawing.Color.Black;
             this._comment.Location = new System.Drawing.Point(13, 53);
@@ -172,7 +174,7 @@
             this._comment.Size = new System.Drawing.Size(256, 92);
             this._comment.TabIndex = 11;
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-                "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
+    "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             // 
             // _requestedBy
             // 
@@ -198,9 +200,9 @@
             // 
             // buildStats1
             // 
-            this.buildStats1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.buildStats1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buildStats1.Location = new System.Drawing.Point(280, 53);
             this.buildStats1.Name = "buildStats1";
             this.buildStats1.Size = new System.Drawing.Size(125, 92);
@@ -212,11 +214,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.buildStats1);
-            this.Controls.Add(this._editRules);
-            this.Controls.Add(this._details);
             this.Controls.Add(this._buildStatusIcon);
             this.Controls.Add(this._projectName);
+            this.Controls.Add(this._editRules);
             this.Controls.Add(this._duration);
+            this.Controls.Add(this._details);
             this.Controls.Add(this._comment);
             this.Controls.Add(this._requestedBy);
             this.Controls.Add(this._startTime);
@@ -238,7 +240,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label _buildStatusIcon;
         private System.Windows.Forms.Label _projectName;
-        private System.Windows.Forms.LinkLabel _details;
+        private System.Windows.Forms.Label _details;
         private System.Windows.Forms.Label _editRules;
         private System.Windows.Forms.ContextMenuStrip _buildMenu;
         private System.Windows.Forms.ToolStripMenuItem _affectsTrayIcon;
