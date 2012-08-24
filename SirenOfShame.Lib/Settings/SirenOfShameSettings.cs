@@ -67,6 +67,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool SirenEverConnected { get; set; }
 
+        public bool NeverShowGettingStarted { get; set; }
+
         public UpdateLocation UpdateLocation { get; set; }
 
         public int? SortColumn { get; set; }
@@ -486,6 +488,16 @@ namespace SirenOfShame.Lib.Settings
             return CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .FirstOrDefault(bds => bds.Id == buildId);
+        }
+
+        public bool IsGettingStarted()
+        {
+            if (NeverShowGettingStarted) return false;
+            bool anyServers = CiEntryPointSettings.Any();
+            if (!anyServers) return true;
+            bool connected = !string.IsNullOrEmpty(SosOnlineUsername);
+            bool alwaysOffline = SosOnlineAlwaysOffline;
+            return !connected && !alwaysOffline;
         }
     }
 }

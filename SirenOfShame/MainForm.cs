@@ -47,20 +47,12 @@ namespace SirenOfShame
             viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
             viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
             viewUser1.Initilaize(_settings);
-            SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
-            SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
             _userList.OnUserSelected += UsersListOnOnUserSelected;
             _userList.Initialize(_settings, _avatarImageList);
             _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
-            
-            if (SirenOfShameDevice.IsConnected)
-            {
-                SirenofShameDeviceConnected(this, new EventArgs());
-            }
-            else
-            {
-                SirenofShameDeviceDisconnected(this, new EventArgs());
-            }
+            _viewBuilds.OnGettingStartedClick += ViewBuildsOnOnGettingStartedClick;
+
+            InitializeSirenOfShameDevice();
 
             SetAutomaticUpdaterSettings();
 
@@ -74,6 +66,36 @@ namespace SirenOfShame
             {
                 _viewLog.Enabled = false;
                 _canViewLogs = false;
+            }
+        }
+
+        private void ViewBuildsOnOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
+        {
+            if (args.GettingStartedClickType == GettingStartedClickTypeEnum.ConfigureServer)
+            {
+                OpenConfigureServerDialog();
+            }
+            if (args.GettingStartedClickType == GettingStartedClickTypeEnum.ConfigureSosOnline)
+            {
+                OpenConfigureSosOnlineDialog();
+            }
+        }
+
+        private void InitializeSirenOfShameDevice()
+        {
+            if (SirenOfShameDevice == null)
+            {
+                _log.Error("SirenOfShameDevice was null in MainForm. This probably means that MEF failed to perform the dependency injection.");
+                return;
+            }
+            SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
+            SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
+            if (SirenOfShameDevice.IsConnected)
+            {
+                SirenofShameDeviceConnected(this, new EventArgs());
+            } else
+            {
+                SirenofShameDeviceDisconnected(this, new EventArgs());
             }
         }
 
@@ -436,10 +458,6 @@ namespace SirenOfShame
             {
                 Hide();
             }
-            else
-            {
-                //Show(); 
-            }
         }
 
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -509,11 +527,22 @@ namespace SirenOfShame
 
         private void SosOnlineClick(object sender, EventArgs e)
         {
+            OpenConfigureSosOnlineDialog();
+        }
+
+        private void OpenConfigureSosOnlineDialog()
+        {
             var configureSosOnline = new ConfigureSosOnline(_settings);
             configureSosOnline.ShowDialog();
+            _viewBuilds.ReinitializeGettingStarted();
         }
 
         private void ConfigureServersClick(object sender, EventArgs e)
+        {
+            OpenConfigureServerDialog();
+        }
+
+        private void OpenConfigureServerDialog()
         {
             bool anyChanges = ConfigureServers.Show(_settings);
             if (anyChanges)
@@ -524,6 +553,7 @@ namespace SirenOfShame
             }
             Activate();
             Focus();
+            _viewBuilds.ReinitializeGettingStarted();
         }
 
         private void TestSirenClick(object sender, EventArgs e)

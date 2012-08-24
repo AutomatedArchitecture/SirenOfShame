@@ -12,6 +12,32 @@ namespace SirenOfShame.Test.Unit.Settings
     public class SirenOfShameSettingsTest
     {
         [TestMethod]
+        public void IsGettingStarted_OneServerAndAlwaysOffline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineAlwaysOffline = true;
+            settings.CiEntryPointSettings.Add(new CiEntryPointSetting());
+            Assert.IsFalse(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
+        public void IsGettingStarted_OneServerAndIsSosOnline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineUsername = "Bob";
+            settings.CiEntryPointSettings.Add(new CiEntryPointSetting());
+            Assert.IsFalse(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
+        public void IsGettingStarted_NoServerNoSosOnline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineUsername = null;
+            Assert.IsTrue(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
         public void AvatarCountConstIsCorrect()
         {
             var mainForm = new MainForm();

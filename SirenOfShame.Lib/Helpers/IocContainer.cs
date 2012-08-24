@@ -33,7 +33,6 @@ namespace SirenOfShame.Lib.Helpers
             if (!Directory.Exists(_pluginsDirectory))
             {
                 Log.Error(_pluginsDirectory + " does not exist, using current directory");
-                MessageBox.Show("Unable to find plugins directory at: " + _pluginsDirectory);
                 return;
             }
             _catalog = new AggregateCatalog(

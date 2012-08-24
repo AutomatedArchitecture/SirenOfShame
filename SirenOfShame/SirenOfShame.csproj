@@ -143,6 +143,12 @@
     <Compile Include="Configuration\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GettingStarted.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GettingStarted.Designer.cs">
+      <DependentUpon>GettingStarted.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewBuildBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -314,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FullScreenEnforcer.resx">
       <DependentUpon>FullScreenEnforcer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GettingStarted.resx">
+      <DependentUpon>GettingStarted.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpAbout.resx">
       <DependentUpon>HelpAbout.cs</DependentUpon>

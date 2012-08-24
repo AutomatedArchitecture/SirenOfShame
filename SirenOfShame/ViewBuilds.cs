@@ -10,6 +10,23 @@ namespace SirenOfShame
 {
     public partial class ViewBuilds : UserControl
     {
+        public event GettingStartedClick OnGettingStartedClick;
+
+        private void InvokeOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
+        {
+            if (args.GettingStartedClickType == GettingStartedClickTypeEnum.NeverShowGettingStarted)
+            {
+                _settings.NeverShowGettingStarted = true;
+                _settings.Save();
+                DisposeGettingStarted();
+            } 
+            else
+            {
+                GettingStartedClick handler = OnGettingStartedClick;
+                if (handler != null) handler(this, args);
+            }
+        }
+
         private SirenOfShameSettings _settings;
         private readonly Timer _prettyDateTimer = new Timer();
         private List<BuildStatusDto> _lastBuildStatusDtos = new List<BuildStatusDto>();
@@ -23,6 +40,8 @@ namespace SirenOfShame
         public ViewBuilds()
         {
             InitializeComponent();
+
+            _gettingStarted.OnGettingStartedClick += InvokeOnGettingStartedClick;
 
             _prettyDateTimer.Interval = 20000;
             _prettyDateTimer.Tick += PrettyDateTimerOnTick;
@@ -234,11 +253,42 @@ namespace SirenOfShame
         {
             _settings = settings;
             _viewBuildBig.Settings = _settings;
+
+            InitializeGettingStarted();
+        }
+
+        private void InitializeGettingStarted()
+        {
+            bool gettingStartedWasPreviouslyClosed = _gettingStarted == null;
+            if (gettingStartedWasPreviouslyClosed) return;
+            
+            bool isGettingStarted = _settings.IsGettingStarted();
+            _gettingStarted.Visible = isGettingStarted;
+            if (isGettingStarted)
+            {
+                _gettingStarted.Initialize(_settings);
+            } 
+            else
+            {
+                DisposeGettingStarted();
+            }
+        }
+
+        private void DisposeGettingStarted()
+        {
+            _gettingStarted.OnGettingStartedClick -= InvokeOnGettingStartedClick;
+            _gettingStarted.Dispose();
+            _gettingStarted = null;
         }
 
         private void BackClick(object sender, EventArgs e)
         {
             InitializeForBuild(null);
+        }
+
+        public void ReinitializeGettingStarted()
+        {
+            InitializeGettingStarted();
         }
     }
 }
