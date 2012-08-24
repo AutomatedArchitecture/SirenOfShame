@@ -63,9 +63,9 @@
             // 
             this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
             this._newsItemsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 75);
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 85);
             this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(254, 144);
+            this._newsItemsPanel.Size = new System.Drawing.Size(254, 134);
             this._newsItemsPanel.TabIndex = 1;
             this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
             // 
@@ -74,7 +74,7 @@
             this._noNews.BackColor = System.Drawing.Color.Transparent;
             this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
             this._noNews.ForeColor = System.Drawing.Color.Gray;
-            this._noNews.Location = new System.Drawing.Point(0, 32);
+            this._noNews.Location = new System.Drawing.Point(0, 42);
             this._noNews.Name = "_noNews";
             this._noNews.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
             this._noNews.Size = new System.Drawing.Size(254, 43);
@@ -90,7 +90,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(254, 32);
+            this.label1.Size = new System.Drawing.Size(254, 42);
             this.label1.TabIndex = 4;
             this.label1.Text = "News";
             // 
@@ -103,6 +103,7 @@
             this.Controls.Add(this._noNews);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
+            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NewsFeed";
             this.Size = new System.Drawing.Size(254, 237);

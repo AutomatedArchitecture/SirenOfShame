@@ -240,11 +240,11 @@
     <Compile Include="TimeboxEnforcer.Designer.cs">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserList.cs">
+    <Compile Include="Leaders.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserList.Designer.cs">
-      <DependentUpon>UserList.cs</DependentUpon>
+    <Compile Include="Leaders.Designer.cs">
+      <DependentUpon>Leaders.cs</DependentUpon>
     </Compile>
     <Compile Include="UserPanel.cs">
       <SubType>UserControl</SubType>
@@ -368,8 +368,8 @@
     <EmbeddedResource Include="TimeboxEnforcer.resx">
       <DependentUpon>TimeboxEnforcer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserList.resx">
-      <DependentUpon>UserList.cs</DependentUpon>
+    <EmbeddedResource Include="Leaders.resx">
+      <DependentUpon>Leaders.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.cs</DependentUpon>

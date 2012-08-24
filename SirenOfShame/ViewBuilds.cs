@@ -88,18 +88,24 @@ namespace SirenOfShame
 
         public void RefreshBuildStatuses(RefreshStatusEventArgs args)
         {
-            _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
-            var buildStatusDtosAndControl = GetBuildStatusDtoAndControls(_lastBuildStatusDtos).ToList();
-            RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(buildStatusDtosAndControl, _lastBuildStatusDtos);
-            if (NoChildControlsExist)
+            SuspendLayout();
+            try
             {
-                CreateControlsAndAddToPanels(_lastBuildStatusDtos);
-            }
-            else
+                _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
+                var buildStatusDtosAndControl = GetBuildStatusDtoAndControls(_lastBuildStatusDtos).ToList();
+                RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(buildStatusDtosAndControl, _lastBuildStatusDtos);
+                if (NoChildControlsExist)
+                {
+                    CreateControlsAndAddToPanels(_lastBuildStatusDtos);
+                } else
+                {
+                    UpdateExistingControls(buildStatusDtosAndControl);
+                }
+                InitializeDisplayModes();
+            } finally
             {
-                UpdateExistingControls(buildStatusDtosAndControl);
+                ResumeLayout();
             }
-            InitializeDisplayModes();
         }
 
         private bool IsViewBuildBigVisible
@@ -233,7 +239,15 @@ namespace SirenOfShame
 
         private void ViewBuildsResize(object sender, EventArgs e)
         {
-            InitializeDisplayModes();
+            SuspendLayout();
+            try
+            {
+                InitializeDisplayModes();
+            } 
+            finally
+            {
+                ResumeLayout();
+            }
         }
         
         private IEnumerable<ViewBuildSmall> GetSmallViewBuilds()

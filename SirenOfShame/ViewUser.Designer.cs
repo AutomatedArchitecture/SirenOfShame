@@ -44,7 +44,6 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this._achievementCount = new System.Windows.Forms.Label();
             this.avatar1 = new SirenOfShame.Avatar();
-            this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -80,8 +79,6 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this._unobtainedTemplate);
-            this.flowLayoutPanel1.Controls.Add(this._obtainedTemplate);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(100, 68);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(517, 217);
@@ -96,7 +93,7 @@
             this._unobtainedTemplate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._unobtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._unobtainedTemplate.ForeColor = System.Drawing.Color.Silver;
-            this._unobtainedTemplate.Location = new System.Drawing.Point(3, 3);
+            this._unobtainedTemplate.Location = new System.Drawing.Point(308, 46);
             this._unobtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
             this._unobtainedTemplate.Name = "_unobtainedTemplate";
             this._unobtainedTemplate.Padding = new System.Windows.Forms.Padding(2);
@@ -113,7 +110,7 @@
             this._obtainedTemplate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._obtainedTemplate.ForeColor = System.Drawing.SystemColors.Window;
             this._obtainedTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._obtainedTemplate.Location = new System.Drawing.Point(154, 3);
+            this._obtainedTemplate.Location = new System.Drawing.Point(459, 46);
             this._obtainedTemplate.Margin = new System.Windows.Forms.Padding(3);
             this._obtainedTemplate.Name = "_obtainedTemplate";
             this._obtainedTemplate.Padding = new System.Windows.Forms.Padding(2);
@@ -143,7 +140,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(635, 36);
+            this.panel1.Size = new System.Drawing.Size(635, 42);
             this.panel1.TabIndex = 9;
             // 
             // _back
@@ -219,21 +216,23 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this._obtainedTemplate);
+            this.Controls.Add(this._unobtainedTemplate);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this._reputation);
             this.Controls.Add(this._changeAvatar);
             this.Controls.Add(this.avatar1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
             this.Name = "ViewUser";
             this.Size = new System.Drawing.Size(635, 283);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

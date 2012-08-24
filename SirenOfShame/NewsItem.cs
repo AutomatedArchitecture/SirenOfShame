@@ -179,6 +179,13 @@ namespace SirenOfShame
         {
             OnMouseEnter(e);
         }
+
+        private void UserNameClick(object sender, EventArgs e)
+        {
+            bool isUserClickable = _rawUserName != null;
+            if (isUserClickable)
+                InvokeOnOnUserClicked();
+        }
     }
 
     public delegate void UserClicked(object sender, UserClickedArgs args);

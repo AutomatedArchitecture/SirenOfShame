@@ -13,10 +13,17 @@ namespace SirenOfShame.Lib.Helpers
         public static void ClearAndDispose(this Control control)
         {
             if (control == null) return;
-            List<Control> ctrls = control.Controls.Cast<Control>().ToList();
-            control.Controls.Clear();
-            foreach (Control c in ctrls)
-                c.Dispose();
+            control.SuspendLayout();
+            try
+            {
+                List<Control> ctrls = control.Controls.Cast<Control>().ToList();
+                control.Controls.Clear();
+                foreach (Control c in ctrls)
+                    c.Dispose();
+            } finally
+            {
+                control.ResumeLayout();
+            }
         }
 
         public static void Invoke(this Control ctrl, Action a)

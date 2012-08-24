@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBuilds));
             this._mainFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._buildsLabel = new System.Windows.Forms.Label();
             this._back = new System.Windows.Forms.Button();
-            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._gettingStarted = new SirenOfShame.GettingStarted();
             this._mainFlowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -42,11 +42,21 @@
             this._mainFlowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
             this._mainFlowLayoutPanel.Controls.Add(this._viewBuildBig);
             this._mainFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._mainFlowLayoutPanel.Location = new System.Drawing.Point(38, 189);
+            this._mainFlowLayoutPanel.Location = new System.Drawing.Point(38, 199);
             this._mainFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this._mainFlowLayoutPanel.Name = "_mainFlowLayoutPanel";
-            this._mainFlowLayoutPanel.Size = new System.Drawing.Size(530, 270);
+            this._mainFlowLayoutPanel.Size = new System.Drawing.Size(530, 260);
             this._mainFlowLayoutPanel.TabIndex = 0;
+            // 
+            // _viewBuildBig
+            // 
+            this._viewBuildBig.BackColor = System.Drawing.Color.White;
+            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
+            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
+            this._viewBuildBig.Name = "_viewBuildBig";
+            this._viewBuildBig.Size = new System.Drawing.Size(408, 173);
+            this._viewBuildBig.TabIndex = 0;
+            this._viewBuildBig.Visible = false;
             // 
             // _buildsLabel
             // 
@@ -56,7 +66,7 @@
             this._buildsLabel.ForeColor = System.Drawing.Color.White;
             this._buildsLabel.Location = new System.Drawing.Point(38, 0);
             this._buildsLabel.Name = "_buildsLabel";
-            this._buildsLabel.Size = new System.Drawing.Size(530, 32);
+            this._buildsLabel.Size = new System.Drawing.Size(530, 42);
             this._buildsLabel.TabIndex = 1;
             this._buildsLabel.Text = "Builds";
             // 
@@ -74,21 +84,11 @@
             this._back.Visible = false;
             this._back.Click += new System.EventHandler(this.BackClick);
             // 
-            // _viewBuildBig
-            // 
-            this._viewBuildBig.BackColor = System.Drawing.Color.White;
-            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
-            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
-            this._viewBuildBig.Name = "_viewBuildBig";
-            this._viewBuildBig.Size = new System.Drawing.Size(408, 173);
-            this._viewBuildBig.TabIndex = 0;
-            this._viewBuildBig.Visible = false;
-            // 
             // _gettingStarted
             // 
             this._gettingStarted.BackColor = System.Drawing.Color.Transparent;
             this._gettingStarted.Dock = System.Windows.Forms.DockStyle.Top;
-            this._gettingStarted.Location = new System.Drawing.Point(38, 32);
+            this._gettingStarted.Location = new System.Drawing.Point(38, 42);
             this._gettingStarted.Name = "_gettingStarted";
             this._gettingStarted.Size = new System.Drawing.Size(530, 157);
             this._gettingStarted.TabIndex = 4;
@@ -103,6 +103,7 @@
             this.Controls.Add(this._gettingStarted);
             this.Controls.Add(this._back);
             this.Controls.Add(this._buildsLabel);
+            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ViewBuilds";
             this.Padding = new System.Windows.Forms.Padding(38, 0, 0, 0);

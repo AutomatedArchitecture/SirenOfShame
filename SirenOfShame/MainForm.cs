@@ -808,5 +808,15 @@ namespace SirenOfShame
             _showRibbon.Image = show ? Properties.Resources.navigate_up : Properties.Resources.navigate_down2;
             _ribbonPanel.Visible = show;
         }
+
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        {
+            SuspendLayout();
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            ResumeLayout();
+        }
     }
 }

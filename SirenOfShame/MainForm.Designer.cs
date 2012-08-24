@@ -88,7 +88,7 @@ namespace SirenOfShame {
             this._viewBuilds = new SirenOfShame.ViewBuilds();
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
-            this._userList = new SirenOfShame.UserList();
+            this._userList = new SirenOfShame.Leaders();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -835,6 +835,7 @@ namespace SirenOfShame {
             this.Controls.Add(this._panelAlert);
             this.Controls.Add(this._ribbonPanel);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -842,6 +843,8 @@ namespace SirenOfShame {
             this.Text = "Siren of Shame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
             this.Load += new System.EventHandler(this.MainFormLoad);
+            this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.Move += new System.EventHandler(this.MainFormMove);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -921,7 +924,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Panel panel1;
       private System.Windows.Forms.Button _showRibbon;
       private NewsFeed _newsFeed1;
-      private UserList _userList;
+      private Leaders _userList;
       private ViewBuilds _viewBuilds;
       private ViewUser viewUser1;
 	}

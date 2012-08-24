@@ -41,6 +41,7 @@
             // _userName
             // 
             this._userName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._userName.Cursor = System.Windows.Forms.Cursors.Hand;
             this._userName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userName.ForeColor = System.Drawing.Color.White;
@@ -51,6 +52,7 @@
             this._userName.Size = new System.Drawing.Size(73, 15);
             this._userName.TabIndex = 1;
             this._userName.Text = "Bob Smith";
+            this._userName.Click += new System.EventHandler(this.UserNameClick);
             // 
             // _project
             // 
@@ -81,9 +83,9 @@
             // 
             // _title
             // 
-            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._title.AutoEllipsis = true;
             this._title.ForeColor = System.Drawing.Color.Black;
             this._title.Location = new System.Drawing.Point(54, 4);
@@ -91,7 +93,7 @@
             this._title.Size = new System.Drawing.Size(153, 40);
             this._title.TabIndex = 5;
             this._title.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-                "for the day, the rat";
+    "for the day, the rat";
             this._title.MouseEnter += new System.EventHandler(this.TitleMouseEnter);
             // 
             // _reputationChange
@@ -143,6 +145,7 @@
             this.Controls.Add(this._leftPanel);
             this.Controls.Add(this.avatar1);
             this.Controls.Add(this._title);
+            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "NewsItem";
             this.Size = new System.Drawing.Size(230, 61);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -8,9 +7,9 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
-    public partial class UserList : UserControl
+    public partial class Leaders : UserControl
     {
-        public UserList()
+        public Leaders()
         {
             InitializeComponent();
         }
@@ -58,9 +57,8 @@ namespace SirenOfShame
             {
                 UserPanel userPanel = new UserPanel(person, avatarImageList)
                                           {
-                                              Dock = DockStyle.Top,
+                                              Width = _usersPanel.Width - 40,
                                               Cursor = Cursors.Hand,
-                                              BackColor = Color.Transparent,
                                           };
                 userPanel.MouseEnter += UserPanelMouseEnter;
                 userPanel.Click += UserPanelClick;

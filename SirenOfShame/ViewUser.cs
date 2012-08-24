@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -32,6 +33,21 @@ namespace SirenOfShame
         public ViewUser()
         {
             InitializeComponent();
+
+            foreach (var achievementLookup in AchievementSetting.AchievementLookups)
+            {
+                var label = new Label { Text = achievementLookup.Name };
+                var cloneFrom = _unobtainedTemplate;
+                label.Font = cloneFrom.Font;
+                label.ForeColor = cloneFrom.ForeColor;
+                label.BackColor = cloneFrom.BackColor;
+                label.BorderStyle = cloneFrom.BorderStyle;
+                label.AutoSize = cloneFrom.AutoSize;
+                label.Margin = cloneFrom.Margin;
+                label.Padding = cloneFrom.Padding;
+                flowLayoutPanel1.Controls.Add(label);
+                toolTip1.SetToolTip(label, achievementLookup.Description);
+            }
         }
 
         public void Initilaize(SirenOfShameSettings settings)
@@ -48,29 +64,31 @@ namespace SirenOfShame
 
         public void SetUser(PersonSetting personSetting, ImageList avatarImageList)
         {
-            _avatarImageList = avatarImageList;
-            _personSetting = personSetting;
-            _userName.Text = personSetting.GetBothDisplayAndRawNames();
-            avatar1.SetImage(personSetting, avatarImageList);
-            flowLayoutPanel1.ClearAndDispose();
-            _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
-            _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
-            _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";
+            SuspendLayout();
+            try {
+                _avatarImageList = avatarImageList;
+                _personSetting = personSetting;
+                _userName.Text = personSetting.GetBothDisplayAndRawNames();
+                avatar1.SetImage(personSetting, avatarImageList);
+                _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
+                _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
+                _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";
 
-            foreach (var achievementLookup in AchievementSetting.AchievementLookups)
+                int achievementIndex = 0;
+                foreach (var achievementLookup in AchievementSetting.AchievementLookups)
+                {
+                    bool hasUserAchieved = personSetting.Achievements.Any(i => i.AchievementId == (int)achievementLookup.Id);
+                    var cloneFrom = hasUserAchieved ? _obtainedTemplate : _unobtainedTemplate;
+                    Control control = flowLayoutPanel1.Controls[achievementIndex];
+                    Debug.Assert(control != null);
+                    control.BackColor = cloneFrom.BackColor;
+                    control.ForeColor = cloneFrom.ForeColor;
+                    achievementIndex++;
+                }
+            } 
+            finally
             {
-                var label = new Label {Text = achievementLookup.Name};
-                bool hasUserAchieved = personSetting.Achievements.Any(i => i.AchievementId == (int)achievementLookup.Id);
-                var cloneFrom = hasUserAchieved ? _obtainedTemplate : _unobtainedTemplate;
-                label.Font = cloneFrom.Font;
-                label.ForeColor = cloneFrom.ForeColor;
-                label.BackColor = cloneFrom.BackColor;
-                label.BorderStyle = cloneFrom.BorderStyle;
-                label.AutoSize = cloneFrom.AutoSize;
-                label.Margin = cloneFrom.Margin;
-                label.Padding = cloneFrom.Padding;
-                flowLayoutPanel1.Controls.Add(label);
-                toolTip1.SetToolTip(label, achievementLookup.Description);
+                ResumeLayout();
             }
         }
 
