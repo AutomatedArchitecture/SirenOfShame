@@ -100,6 +100,7 @@
             this.panel1.Size = new System.Drawing.Size(248, 48);
             this.panel1.TabIndex = 3;
             this.panel1.Click += new System.EventHandler(this.Panel1Click);
+            this.panel1.MouseEnter += new System.EventHandler(this.panel1_MouseEnter);
             // 
             // avatar1
             // 

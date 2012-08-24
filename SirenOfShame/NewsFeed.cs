@@ -129,7 +129,8 @@ namespace SirenOfShame
 
         private void EnableMouseScrollWheel()
         {
-            _newsItemsPanel.Focus();
+            if (Parent.ContainsFocus) 
+                _newsItemsPanel.Focus();
         }
 
         private void NewsItemOnOnUserClicked(object sender, UserClickedArgs args)

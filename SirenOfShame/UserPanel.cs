@@ -75,5 +75,10 @@ namespace SirenOfShame
         {
             OnClick(new EventArgs());
         }
+
+        private void panel1_MouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(new EventArgs());
+        }
     }
 }

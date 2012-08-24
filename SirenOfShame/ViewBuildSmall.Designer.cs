@@ -66,6 +66,7 @@
             this._projectName.Text = "Project Name";
             this._projectName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._projectName.Click += new System.EventHandler(this.ProjectNameClick);
+            this._projectName.MouseEnter += new System.EventHandler(this.ProjectNameMouseEnter);
             // 
             // _startTime
             // 
@@ -78,6 +79,7 @@
             this._startTime.Text = "8/2/2012";
             this._startTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this._startTime.Click += new System.EventHandler(this.StartTimeClick);
+            this._startTime.MouseEnter += new System.EventHandler(this.StartTimeMouseEnter);
             // 
             // _requestedBy
             // 
@@ -90,6 +92,7 @@
             this._requestedBy.TabIndex = 3;
             this._requestedBy.Text = "Lee Richardson";
             this._requestedBy.Click += new System.EventHandler(this.RequestedByClick);
+            this._requestedBy.MouseEnter += new System.EventHandler(this.RequestedByMouseEnter);
             // 
             // _comment
             // 
@@ -105,6 +108,7 @@
             this._comment.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
     "for the day, the jerk.  Build and run is a terrible, terrible thing to do.";
             this._comment.Click += new System.EventHandler(this.CommentClick);
+            this._comment.MouseEnter += new System.EventHandler(this.CommentMouseEnter);
             // 
             // _duration
             // 
@@ -118,6 +122,7 @@
             this._duration.TabIndex = 5;
             this._duration.Text = "9:53";
             this._duration.Click += new System.EventHandler(this.DurationClick);
+            this._duration.MouseEnter += new System.EventHandler(this.DurationMouseEnter);
             // 
             // imageList1
             // 

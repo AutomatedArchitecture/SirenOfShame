@@ -15,7 +15,7 @@ namespace SirenOfShame
         }
 
         public event UserSelected OnUserSelected;
-        public SirenOfShameSettings Settings { get; set; }
+        public SirenOfShameSettings Settings { private get; set; }
 
         private void InvokeOnUserSelected(string rawName)
         {
@@ -78,7 +78,8 @@ namespace SirenOfShame
 
         private void EnableMouseScrollWheel()
         {
-            _usersPanel.Focus();
+            if (Parent.ContainsFocus) 
+                _usersPanel.Focus();
         }
 
         public void ChangeUserAvatarId(string rawName, int newImageIndex)
@@ -91,6 +92,11 @@ namespace SirenOfShame
         private UserPanel GetUserPanel(string rawName)
         {
             return GetUserPanels().FirstOrDefault(i => i.RawName == rawName);
+        }
+
+        private void UsersPanelMouseEnter(object sender, EventArgs e)
+        {
+            EnableMouseScrollWheel();
         }
     }
 

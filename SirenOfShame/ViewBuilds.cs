@@ -224,9 +224,21 @@ namespace SirenOfShame
         {
             var viewBuildSmall = new ViewBuildSmall(i, _settings);
             viewBuildSmall.Click += ViewBuildSmallOnClick;
+            viewBuildSmall.MouseEnter += ViewBuildSmallOnMouseEnter;
             return viewBuildSmall;
         }
 
+        private void ViewBuildSmallOnMouseEnter(object sender, EventArgs e)
+        {
+            EnableMouseScrollWheel();
+        }
+
+        private void EnableMouseScrollWheel()
+        {
+            if (Parent.ContainsFocus)
+                _mainFlowLayoutPanel.Focus();
+        }
+        
         private void ViewBuildSmallOnClick(object sender, EventArgs eventArgs)
         {
             ViewBuildSmall viewBuildSmall = (ViewBuildSmall)sender;
@@ -304,6 +316,11 @@ namespace SirenOfShame
         public void ReinitializeGettingStarted()
         {
             InitializeGettingStarted();
+        }
+
+        private void MainFlowLayoutPanelMouseEnter(object sender, EventArgs e)
+        {
+            EnableMouseScrollWheel();
         }
     }
 }

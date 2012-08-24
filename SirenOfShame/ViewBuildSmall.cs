@@ -128,6 +128,31 @@ namespace SirenOfShame
             LaunchUrl();
         }
 
+        private void CommentMouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void ProjectNameMouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void DurationMouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void RequestedByMouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void StartTimeMouseEnter(object sender, EventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
 
     }
 }
