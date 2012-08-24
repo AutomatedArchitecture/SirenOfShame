@@ -4,7 +4,7 @@ namespace SirenOfShame.Lib.Watcher
 {
     public abstract class ServiceBase
     {
-        protected XDocument DownloadXml(string url, string userName, string password, string cookie = null)
+        protected virtual XDocument DownloadXml(string url, string userName, string password, string cookie = null)
         {
             WebClientXml webClientXml = new WebClientXml();
             return webClientXml.DownloadXml(url, userName, password, cookie);

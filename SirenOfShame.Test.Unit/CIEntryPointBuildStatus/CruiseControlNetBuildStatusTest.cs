@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
 using CruiseControlNetServices;
-using HudsonServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -18,6 +17,33 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
         {
             string actual = CruiseControlNetBuildStatus.ParseCruiseControlDateToId("2012-02-25T22:56:14.4092432-05:00");
             Assert.AreEqual("20120225225614", actual);
+        }
+
+        [TestMethod]
+        public void CruiseControlNetBuildStatus_BrokenWithAuthor()
+        {
+            var document = ResourceManager.CruiseControlNetBrokenWithAuthor;
+            BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
+            buildDefinitionSetting.Name = "Name";
+            buildDefinitionSetting.Id = "BuildDefinitionId";
+            XElement projectElement = document.Root.Element("Project");
+            CruiseControlNetBuildStatus.ClearCache();
+            CruiseControlNetBuildStatus buildStatus = new CruiseControlNetBuildStatus(projectElement);
+
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+            Assert.AreEqual("Lee", buildStatus.RequestedBy);
+            Assert.IsNotNull(buildStatus.StartedTime);
+            AssertAreClose(new DateTime(2012, 8, 16, 19, 23, 34, 276), buildStatus.StartedTime.Value);
+            Assert.IsNull(buildStatus.Comment);
+            Assert.IsNotNull(buildStatus.FinishedTime);
+            AssertAreClose(new DateTime(2012, 8, 16, 19, 23, 34, 276), buildStatus.FinishedTime.Value);
+            Assert.AreEqual("20120816192334", buildStatus.BuildId);
+        }
+
+        private void AssertAreClose(DateTime expected, DateTime actual)
+        {
+            var diff = expected - actual;
+            Assert.IsTrue(diff.TotalSeconds <= 1, HudsonBuildStatusTest.DateAsCode(actual));
         }
 
         [TestMethod]
@@ -66,9 +92,8 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual(DateTime.Now.ToString(), buildStatus.StartedTime.Value.ToString());
             Assert.IsNull(buildStatus.Comment);
             Assert.IsNull(buildStatus.FinishedTime);
-            //Assert.AreEqual(DateTime.Now.ToString(), buildStatus.FinishedTime.Value.ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value));
             Assert.AreEqual("http://VMXP/ccnet/server/local/project/CruiseControlNetProj1/build/log20110828202005.xml/ViewBuildReport.aspx", buildStatus.Url);
-            Assert.AreEqual("20110828202005", buildStatus.BuildId);
+            Assert.AreEqual("3", buildStatus.BuildId);
         }
         
         [TestMethod]

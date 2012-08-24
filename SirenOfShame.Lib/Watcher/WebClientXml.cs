@@ -10,8 +10,19 @@ using log4net;
 
 namespace SirenOfShame.Lib.Watcher
 {
+    public enum AuthenticationTypeEnum
+    {
+        BasicAuth = 0,
+        Base64EncodeInHeader = 1
+    }
+    
     public class WebClientXml
     {
+        public WebClientXml()
+        {
+            AuthenticationType = AuthenticationTypeEnum.BasicAuth;
+        }
+
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(WebClientXml));
         private NameValueCollection _data = new NameValueCollection();
         
@@ -23,23 +34,62 @@ namespace SirenOfShame.Lib.Watcher
                 "The remote server returned an error: (503) Server Unavailable",
             };
 
+        public AuthenticationTypeEnum AuthenticationType { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Cookie { get; set; }
+
+        private string Base64Encode(string data)
+        {
+            try
+            {
+                byte[] encDataByte = System.Text.Encoding.UTF8.GetBytes(data);
+                string encodedData = Convert.ToBase64String(encDataByte);
+                return encodedData;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error in base64Encode" + e.Message);
+            }
+        }
+
         protected virtual bool IsServerUnavailable(string errorResult)
         {
             return _serverUnavailableTriggers.Any(errorResult.Contains);
         }
-        
+
+        public void DownloadXmlAsync(string url, Action<XDocument> onSuccess = null, Action<Exception> onError = null)
+        {
+            var webClient = GetWebClient(UserName, Password, Cookie);
+            try
+            {
+                webClient.DownloadStringCompleted += (sender, args) =>
+                {
+                    try
+                    {
+                        XDocument doc = XDocument.Parse(args.Result);
+                        if (doc.Root == null)
+                        {
+                            if (onError != null) onError(new Exception("No results returned"));
+                        }
+                        if (onSuccess != null) onSuccess(doc);
+                    } 
+                    catch (Exception ex)
+                    {
+                        if (onError != null) onError(ex);
+                    }
+                };
+                webClient.DownloadStringAsync(new Uri(url));
+            }
+            catch (WebException webException)
+            {
+                throw ToServerUnavailableException(url, webException);
+            }
+        }
+
         public XDocument DownloadXml(string url, string userName, string password, string cookie = null)
         {
-            var webClient = new WebClient
-            {
-                Credentials = new NetworkCredential(userName, password),
-                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
-            };
-
-            if (cookie != null)
-            {
-                webClient.Headers.Add("Cookie", cookie);
-            }
+            var webClient = GetWebClient(userName, password, cookie);
 
             try
             {
@@ -49,6 +99,32 @@ namespace SirenOfShame.Lib.Watcher
             {
                 throw ToServerUnavailableException(url, webException);
             }
+        }
+
+        private WebClient GetWebClient(string userName, string password, string cookie)
+        {
+            var webClient = new WebClient
+            {
+                Credentials = new NetworkCredential(userName, password),
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
+            };
+
+            if (AuthenticationType == AuthenticationTypeEnum.BasicAuth && !string.IsNullOrEmpty(userName))
+            {
+                webClient.Credentials = new NetworkCredential(userName, password);
+            }
+            if (AuthenticationType == AuthenticationTypeEnum.Base64EncodeInHeader && !string.IsNullOrEmpty(userName))
+            {
+                string base64String = Base64Encode(userName + ":" + password);
+                webClient.Headers.Add("Authorization", "Basic " + base64String);
+            }
+
+            if (cookie != null)
+            {
+                webClient.Headers.Add("Cookie", cookie);
+            }
+            
+            return webClient;
         }
 
         private static XDocument TryParseXmlResult(string url, string resultString)

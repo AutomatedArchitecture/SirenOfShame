@@ -39,11 +39,21 @@ namespace TeamCityServices.ServerConfiguration
             ReloadProjects();
         }
 
+        private void ClearProjectNodes()
+        {
+            var treeNodes = _projects.Nodes.Cast<TreeNode>().ToArray();
+            foreach (var treeNode in treeNodes)
+            {
+                treeNode.Tag = null;
+                _projects.Nodes.Remove(treeNode);
+            }
+        }
+
         private void ReloadProjects()
         {
             try
             {
-                _projects.Nodes.Clear();
+                ClearProjectNodes();
                 _projects.Nodes.Add("Loading...");
                 _service.GetProjects(_url.Text, _userName.Text, _password.Text, GetProjectsComplete, GetProjectsError);
             } catch (Exception ex)
@@ -55,7 +65,7 @@ namespace TeamCityServices.ServerConfiguration
         private void GetProjectsError(Exception ex)
         {
             _log.Error("Error connecting to server", ex);
-            _projects.Nodes.Clear();
+            ClearProjectNodes();
 
             string message = ex.Message;
             if (ex.InnerException != null)
@@ -72,7 +82,7 @@ namespace TeamCityServices.ServerConfiguration
             _ciEntryPointSetting.SetPassword(_password.Text);
             Settings.Save();
 
-            _projects.Nodes.Clear();
+            ClearProjectNodes();
             var teamCityProjects = projects.OrderBy(i => i.Name);
             foreach (TeamCityProject project in teamCityProjects)
             {
@@ -90,7 +100,7 @@ namespace TeamCityServices.ServerConfiguration
             }
         }
 
-        private void _projects_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        private void ProjectsBeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             LoadBuildDefinitions(e.Node);
         }
@@ -131,7 +141,11 @@ namespace TeamCityServices.ServerConfiguration
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();
             }
-            ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
+            var threeStateTreeNode = e.Node as ThreeStateTreeNode;
+            if (threeStateTreeNode != null)
+            {
+                threeStateTreeNode.UpdateStateOfRelatedNodes();
+            }
         }
     }
 }

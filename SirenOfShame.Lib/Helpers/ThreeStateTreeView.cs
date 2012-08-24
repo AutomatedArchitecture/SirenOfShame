@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace SirenOfShame.Lib.Helpers
@@ -25,11 +24,11 @@ namespace SirenOfShame.Lib.Helpers
             base.DefWndProc(ref m);
             if (m.Msg == WM_PAINT)
             {
-                int Y = 0;
+                int y = 0;
                 Graphics g = CreateGraphics();
 
                 if (Nodes.Count > 0)
-                    PaintNodes(Nodes[0], g, ref Y);
+                    PaintNodes(Nodes[0], g, ref y);
                 g.Dispose();
             }
         }

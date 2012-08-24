@@ -40,7 +40,7 @@ namespace SirenOfShame.Lib.Helpers
         /// </summary>
         /// <param name="text">The string for the label of the new tree node.</param>
         /// <param name="children">An array of child ThreeStateTreeNodes.</param>
-        public ThreeStateTreeNode(string text, ThreeStateTreeNode[] children)
+        public ThreeStateTreeNode(string text, TreeNode[] children)
             : base(text, children)
         {
             CommonConstructor();
@@ -69,7 +69,7 @@ namespace SirenOfShame.Lib.Helpers
         /// <param name="imageIndex">The image index of the unselected image in the parent TreeView's <see cref="http://msdn2.microsoft.com/en-us/library/system.windows.forms.treeview.imagelist.aspx">ImageList</see>.</param>
         /// <param name="selectedImageIndex">The image index of the selected image in the parent TreeView's <see cref="http://msdn2.microsoft.com/en-us/library/system.windows.forms.treeview.imagelist.aspx">ImageList</see>.</param>
         /// <param name="children">An array of child ThreeStateTreeNodes.</param>
-        public ThreeStateTreeNode(string text, int imageIndex, int selectedImageIndex, ThreeStateTreeNode[] children)
+        public ThreeStateTreeNode(string text, int imageIndex, int selectedImageIndex, TreeNode[] children)
             : base(text, imageIndex, selectedImageIndex, children)
         {
             CommonConstructor();
@@ -89,7 +89,7 @@ namespace SirenOfShame.Lib.Helpers
         /// <summary>
         /// The current state of the checkbox.
         /// </summary>
-        private CheckBoxState mState = CheckBoxState.Unchecked;
+        private CheckBoxState _mState = CheckBoxState.Unchecked;
 
         private bool _updateCheckInternal;
 
@@ -102,18 +102,18 @@ namespace SirenOfShame.Lib.Helpers
         {
             get
             {
-                if (mState == CheckBoxState.Indeterminate)
+                if (_mState == CheckBoxState.Indeterminate)
                 {
-                    return mState;
+                    return _mState;
                 }
                 return Checked ? CheckBoxState.Checked : CheckBoxState.Unchecked;
             }
             set
             {
-                if (mState != value)
+                if (_mState != value)
                 {
-                    mState = value;
-                    Checked = (mState == CheckBoxState.Checked);
+                    _mState = value;
+                    Checked = (_mState == CheckBoxState.Checked);
                 }
             }
         }
@@ -217,13 +217,12 @@ namespace SirenOfShame.Lib.Helpers
         /// </summary>
         private void UpdateChildNodeState()
         {
-            ThreeStateTreeNode child;
             foreach (TreeNode node in Nodes)
             {
                 // It is possible node is not a ThreeStateTreeNode, so check first.
                 if (node is ThreeStateTreeNode)
                 {
-                    child = node as ThreeStateTreeNode;
+                    ThreeStateTreeNode child = node as ThreeStateTreeNode;
                     child.State = State;
                     child.Checked = (State != CheckBoxState.Unchecked);
                     child.UpdateChildNodeState();
