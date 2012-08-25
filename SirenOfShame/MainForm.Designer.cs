@@ -815,7 +815,6 @@ namespace SirenOfShame {
             this._userList.Location = new System.Drawing.Point(796, 122);
             this._userList.Margin = new System.Windows.Forms.Padding(0);
             this._userList.Name = "_userList";
-            this._userList.Settings = null;
             this._userList.Size = new System.Drawing.Size(209, 339);
             this._userList.TabIndex = 11;
             // 
@@ -843,8 +842,8 @@ namespace SirenOfShame {
             this.Text = "Siren of Shame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
             this.Load += new System.EventHandler(this.MainFormLoad);
-            this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin);
-            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
+            this.ResizeBegin += new System.EventHandler(this.MainFormResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.MainFormResizeEnd);
             this.Move += new System.EventHandler(this.MainFormMove);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

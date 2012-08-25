@@ -111,7 +111,6 @@
             this.Name = "NewsFeed";
             this.Size = new System.Drawing.Size(258, 237);
             this.MouseEnter += new System.EventHandler(this.NewsFeedMouseEnter);
-            this.Resize += new System.EventHandler(this.NewsFeedResize);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -58,6 +58,7 @@
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.label1);
             this.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DoubleBuffered = true;
             this.Name = "Avatar";
             this.Size = new System.Drawing.Size(48, 48);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AvatarPaint);
