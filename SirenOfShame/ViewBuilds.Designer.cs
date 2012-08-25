@@ -62,6 +62,7 @@
             this._buildsLabel.ForeColor = System.Drawing.Color.White;
             this._buildsLabel.Location = new System.Drawing.Point(38, 0);
             this._buildsLabel.Name = "_buildsLabel";
+            this._buildsLabel.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
             this._buildsLabel.Size = new System.Drawing.Size(530, 42);
             this._buildsLabel.TabIndex = 1;
             this._buildsLabel.Text = "Builds";
@@ -72,7 +73,7 @@
             this._back.FlatAppearance.BorderSize = 0;
             this._back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._back.Image = ((System.Drawing.Image)(resources.GetObject("_back.Image")));
-            this._back.Location = new System.Drawing.Point(0, 0);
+            this._back.Location = new System.Drawing.Point(0, 4);
             this._back.Name = "_back";
             this._back.Size = new System.Drawing.Size(32, 32);
             this._back.TabIndex = 3;

@@ -146,7 +146,7 @@
             this.Controls.Add(this.avatar1);
             this.Controls.Add(this._title);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 8, 4, 0);
             this.Name = "NewsItem";
             this.Size = new System.Drawing.Size(230, 61);
             this.Resize += new System.EventHandler(this.NewsItemResize);

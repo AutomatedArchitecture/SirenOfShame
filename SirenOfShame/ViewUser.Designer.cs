@@ -55,7 +55,7 @@
             this._userName.Cursor = System.Windows.Forms.Cursors.Hand;
             this._userName.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._userName.ForeColor = System.Drawing.Color.White;
-            this._userName.Location = new System.Drawing.Point(38, 1);
+            this._userName.Location = new System.Drawing.Point(38, 5);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(86, 31);
             this._userName.TabIndex = 0;
@@ -149,7 +149,7 @@
             this._back.FlatAppearance.BorderSize = 0;
             this._back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._back.Image = ((System.Drawing.Image)(resources.GetObject("_back.Image")));
-            this._back.Location = new System.Drawing.Point(1, 0);
+            this._back.Location = new System.Drawing.Point(1, 4);
             this._back.Name = "_back";
             this._back.Size = new System.Drawing.Size(32, 32);
             this._back.TabIndex = 2;
@@ -159,7 +159,7 @@
             // _displayNameTextbox
             // 
             this._displayNameTextbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._displayNameTextbox.Location = new System.Drawing.Point(41, 1);
+            this._displayNameTextbox.Location = new System.Drawing.Point(41, 4);
             this._displayNameTextbox.Name = "_displayNameTextbox";
             this._displayNameTextbox.Size = new System.Drawing.Size(331, 32);
             this._displayNameTextbox.TabIndex = 3;

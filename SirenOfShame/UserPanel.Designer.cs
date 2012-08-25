@@ -121,7 +121,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(104)))), ((int)(((byte)(100)))), ((int)(((byte)(103)))));
             this.Controls.Add(this.panel1);
             this.Controls.Add(this._displayName);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 8, 4, 0);
             this.Name = "UserPanel";
             this.Size = new System.Drawing.Size(248, 62);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
