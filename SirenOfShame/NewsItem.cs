@@ -25,7 +25,7 @@ namespace SirenOfShame
                 _userName.Text = value;
                 using (Graphics g = CreateGraphics())
                 {
-                    _userName.Width = (int)g.MeasureString(_userName.Text, _userName.Font).Width;
+                    _userName.Width = ((int) g.MeasureString(_userName.Text, _userName.Font).Width) + 6;
                 }
             }
         }
