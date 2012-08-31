@@ -149,6 +149,7 @@
     <Compile Include="GettingStarted.Designer.cs">
       <DependentUpon>GettingStarted.cs</DependentUpon>
     </Compile>
+    <Compile Include="HeightAnimator.cs" />
     <Compile Include="ViewBuildBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

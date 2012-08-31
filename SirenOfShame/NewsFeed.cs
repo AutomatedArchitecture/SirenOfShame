@@ -41,19 +41,10 @@ namespace SirenOfShame
             return GetNewsItemControls().Where(newsItemControl => newsItemControl.RawName == rawUserName);
         }
 
-        private static readonly int[] _easingIncrease = new [] { 1,2,3,4,5,7,9,11,13,15,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,69,73,77 };
-        
-        private int IncreaseWithEase(int oldValue, int destination)
-        {
-            int nextValue = _easingIncrease.FirstOrDefault(i => i > oldValue);
-            if (nextValue == default(int)) nextValue = destination;
-            return Math.Min(nextValue, destination);
-        }
-
         public NewsFeed()
         {
             InitializeComponent();
-            _newsItemHeightAnimator.Interval = 16;
+            _newsItemHeightAnimator.Interval = HeightAnimator.HALF_SECOND_ANIMATION_SPEED;
             _newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
             _prettyDateCalculator.Interval = 10000;
             _prettyDateCalculator.Tick += PrettyDateCalculatorOnTick;
@@ -83,7 +74,7 @@ namespace SirenOfShame
                 int idealHeight = newsItem.GetIdealHeight();
                 if (newsItem.Height < idealHeight)
                 {
-                    newsItem.Height = IncreaseWithEase(newsItem.Height, idealHeight);
+                    newsItem.Height = HeightAnimator.IncreaseWithEase(newsItem.Height, idealHeight);
                 }
             }
         }
