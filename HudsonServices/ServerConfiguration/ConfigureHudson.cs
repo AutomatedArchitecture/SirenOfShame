@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
@@ -31,7 +30,7 @@ namespace HudsonServices.ServerConfiguration
             }
         }
 
-        private void _connect_Click(object sender, EventArgs e)
+        private void ConnectClick(object sender, EventArgs e)
         {
             ReloadProjects();
         }
@@ -80,9 +79,9 @@ namespace HudsonServices.ServerConfiguration
 
         private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is HudsonBuildDefinition)
+            HudsonBuildDefinition buildDefinition = e.Node.Tag as HudsonBuildDefinition;
+            if (buildDefinition != null)
             {
-                var buildDefinition = (HudsonBuildDefinition)e.Node.Tag;
                 var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _hudsonCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();

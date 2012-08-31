@@ -4,8 +4,8 @@ namespace SirenOfShame
 {
     public partial class SosMessageBox : Form
     {
-        public bool Button1Clicked;
-        public bool Button2Clicked;
+        private bool _button1Clicked;
+        private bool _button2Clicked;
         
         public static DialogResult Show(string title, string body, string button1Text, DialogResult button1DialogResult = DialogResult.OK)
         {
@@ -26,13 +26,13 @@ namespace SirenOfShame
 
             msg.ShowDialog();
 
-            if (msg.Button1Clicked) return button1DialogResult;
-            if (msg.Button2Clicked) return button2DialogResult;
+            if (msg._button1Clicked) return button1DialogResult;
+            if (msg._button2Clicked) return button2DialogResult;
             
             return DialogResult.Cancel;
         }
-        
-        public SosMessageBox()
+
+        private SosMessageBox()
         {
             InitializeComponent();
 
@@ -42,13 +42,13 @@ namespace SirenOfShame
 
         private void Button1Click(object sender, System.EventArgs e)
         {
-            Button1Clicked = true;
+            _button1Clicked = true;
             Close();
         }
 
         private void Button2Click(object sender, System.EventArgs e)
         {
-            Button2Clicked = true;
+            _button2Clicked = true;
             Close();
         }
     }

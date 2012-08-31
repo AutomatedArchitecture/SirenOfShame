@@ -1,4 +1,7 @@
-﻿namespace BambooServices.ServerConfiguration
+﻿using SirenOfShame;
+using SirenOfShame.Lib;
+
+namespace BambooServices.ServerConfiguration
 {
     partial class ConfigureBamboo
     {
@@ -34,7 +37,7 @@
             this._password = new System.Windows.Forms.TextBox();
             this._userName = new System.Windows.Forms.TextBox();
             this._projects = new SirenOfShame.Lib.Helpers.ThreeStateTreeView();
-            this._connect = new System.Windows.Forms.Button();
+            this._connect = new SosButton();
             this.label1 = new System.Windows.Forms.Label();
             this._url = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
@@ -150,7 +153,7 @@
         private System.Windows.Forms.TextBox _password;
         private System.Windows.Forms.TextBox _userName;
         private SirenOfShame.Lib.Helpers.ThreeStateTreeView _projects;
-        private System.Windows.Forms.Button _connect;
+        private SosButton _connect;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox _url;
     }

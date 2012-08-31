@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.Configuration
+﻿using SirenOfShame.Lib;
+
+namespace SirenOfShame.Configuration
 {
     partial class SyncOnline
     {
@@ -47,7 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this._sosOnlineStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._verifyCredentials = new System.Windows.Forms.Button();
+            this._verifyCredentials = new SosButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._sosOnlinePassword = new System.Windows.Forms.TextBox();
             this._createAccount = new System.Windows.Forms.LinkLabel();
@@ -66,6 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this._syncAlways);
             this.groupBox1.Controls.Add(this._syncNever);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(268, 0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(195, 283);
@@ -120,6 +123,7 @@
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this._sosOnlineLogin);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(262, 283);
@@ -248,13 +252,12 @@
             // 
             // _verifyCredentials
             // 
-            this._verifyCredentials.BackColor = System.Drawing.Color.Transparent;
             this._verifyCredentials.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
             this._verifyCredentials.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._verifyCredentials.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._verifyCredentials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._verifyCredentials.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._verifyCredentials.ImageKey = "refresh16.png";
+            this._verifyCredentials.ImageKey = "refresh.bmp";
             this._verifyCredentials.ImageList = this.imageList1;
             this._verifyCredentials.Location = new System.Drawing.Point(103, 146);
             this._verifyCredentials.Name = "_verifyCredentials";
@@ -268,10 +271,8 @@
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "ball_green.png");
-            this.imageList1.Images.SetKeyName(1, "ball_red.png");
-            this.imageList1.Images.SetKeyName(2, "refresh16.png");
+            this.imageList1.TransparentColor = System.Drawing.Color.Magenta;
+            this.imageList1.Images.SetKeyName(0, "refresh.bmp");
             // 
             // _sosOnlinePassword
             // 
@@ -287,6 +288,7 @@
             this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._createAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._createAccount.LinkColor = System.Drawing.Color.White;
             this._createAccount.Location = new System.Drawing.Point(95, 16);
             this._createAccount.Name = "_createAccount";
             this._createAccount.Size = new System.Drawing.Size(156, 21);
@@ -294,6 +296,7 @@
             this._createAccount.TabStop = true;
             this._createAccount.Text = "Create New Account";
             this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this._createAccount.VisitedLinkColor = System.Drawing.Color.White;
             this._createAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccountLinkClicked);
             // 
             // label5
@@ -326,9 +329,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "SyncOnline";
             this.Size = new System.Drawing.Size(463, 283);
             this.Load += new System.EventHandler(this.SyncOnlineLoad);
@@ -353,7 +357,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label _sosOnlineStatus;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button _verifyCredentials;
+        private SosButton _verifyCredentials;
         private System.Windows.Forms.TextBox _sosOnlinePassword;
         private System.Windows.Forms.LinkLabel _createAccount;
         private System.Windows.Forms.Label label5;

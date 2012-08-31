@@ -211,6 +211,9 @@
     <Compile Include="Settings\Upgrades\Upgrade4To5.cs" />
     <Compile Include="Settings\Upgrades\UpgradeBase.cs" />
     <Compile Include="Settings\Upgrades\Upgrade0To1.cs" />
+    <Compile Include="SosButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />

@@ -174,31 +174,6 @@ namespace SirenOfShame
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
-        //public static ListViewItem AsListViewItem(BuildStatusDto buildStatusDto)
-        //{
-        //    var listViewItem = new ListViewItem(buildStatusDto.Name)
-        //                           {
-        //                               ImageIndex = buildStatusDto.ImageIndex
-        //                           };
-
-        //    AddSubItem(listViewItem, "ID", buildStatusDto.BuildId);
-        //    AddSubItem(listViewItem, "StartTime", buildStatusDto.StartTime);
-        //    AddSubItem(listViewItem, "Duration", buildStatusDto.Duration);
-        //    AddSubItem(listViewItem, "RequestedBy", buildStatusDto.RequestedByDisplayName);
-        //    AddSubItem(listViewItem, "Comment", buildStatusDto.Comment);
-        //    listViewItem.Tag = buildStatusDto.Id;
-        //    return listViewItem;
-        //}
-
-        //private static void AddSubItem(ListViewItem lvi, string name, string value)
-        //{
-        //    var subItem = new ListViewItem.ListViewSubItem(lvi, value)
-        //    {
-        //        Name = name
-        //    };
-        //    lvi.SubItems.Add(subItem);
-        //}
-
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
             Invoke(() => RefreshStats(args.ChangedBuildStatuses));
@@ -577,36 +552,11 @@ namespace SirenOfShame
             configureSiren.ShowDialog(this);
         }
 
-        // ToDo: On select build show right-menu, etc
-        //private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
-        //{
-        //    BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
-        //    if (e.Button == MouseButtons.Right)
-        //    {
-        //        _buildMenu.Show(_buildDefinitions, e.X, e.Y);
-        //        _affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
-        //    }
-        //}
-
         private enum MainWindowEnum
         {
             ViewBuilds = 0,
             ViewUser = 1,
         }
-
-        // todo: Re-implement per-project charting on the view project page
-        //private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
-        //{
-        //    var definitions = _sosDb.ReadAll(buildDefinitionSetting);
-
-        //    _buildStats.GraphBuildHistory(definitions);
-
-        //    var count = definitions.Count;
-        //    var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
-        //    double percentFailed = count == 0 ? 0 : ((double) failed)/count;
-        //    _buildStats.SetStats(count, failed, percentFailed);
-        //}
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
@@ -779,22 +729,6 @@ namespace SirenOfShame
                 Process.Start(sInfo);
             }
         }
-
-        // ToDo: Implement sorting?
-        //private void BuildDefinitionsColumnClick(object sender, ColumnClickEventArgs e)
-        //{
-        //    if (_settings.SortColumn == e.Column)
-        //    {
-        //        _settings.SortDescending = !_settings.SortDescending;
-        //    } 
-        //    else
-        //    {
-        //        _settings.SortDescending = false;
-        //    }
-        //    _settings.SortColumn = e.Column;
-        //    _settings.Save();
-        //    _buildDefinitions.SetSortColumn(_settings);
-        //}
 
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {

@@ -1,4 +1,7 @@
-﻿namespace TfsServices.Configuration {
+﻿using SirenOfShame;
+using SirenOfShame.Lib;
+
+namespace TfsServices.Configuration {
 	sealed partial class ConfigureTfs {
 		/// <summary> 
 		/// Required designer variable.
@@ -32,7 +35,7 @@
             this.username = new System.Windows.Forms.TextBox();
             this.someoneElse = new System.Windows.Forms.RadioButton();
             this.windowsCredentials = new System.Windows.Forms.RadioButton();
-            this._go = new System.Windows.Forms.Button();
+            this._go = new SosButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -196,7 +199,7 @@
 		private System.Windows.Forms.TextBox _url;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button _go;
+        private SosButton _go;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox password;

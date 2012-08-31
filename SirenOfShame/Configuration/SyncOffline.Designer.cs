@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.Configuration
+﻿using SirenOfShame.Lib;
+
+namespace SirenOfShame.Configuration
 {
     partial class SyncOffline
     {
@@ -38,7 +40,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this._saveResults = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._copyBuildsToClipboard = new System.Windows.Forms.LinkLabel();
@@ -46,6 +47,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this._userIAm = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this._saveResults = new SosButton();
             this.SuspendLayout();
             // 
             // _result
@@ -125,29 +127,9 @@
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "ball_green.png");
-            this.imageList1.Images.SetKeyName(1, "ball_red.png");
-            this.imageList1.Images.SetKeyName(2, "refresh16.png");
-            // 
-            // _saveResults
-            // 
-            this._saveResults.BackColor = System.Drawing.Color.Transparent;
-            this._saveResults.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
-            this._saveResults.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._saveResults.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._saveResults.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._saveResults.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._saveResults.ImageKey = "refresh16.png";
-            this._saveResults.ImageList = this.imageList1;
-            this._saveResults.Location = new System.Drawing.Point(150, 266);
-            this._saveResults.Name = "_saveResults";
-            this._saveResults.Size = new System.Drawing.Size(101, 23);
-            this._saveResults.TabIndex = 44;
-            this._saveResults.Text = "Save Results";
-            this._saveResults.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._saveResults.UseVisualStyleBackColor = false;
-            this._saveResults.Click += new System.EventHandler(this.SaveResultsClick);
+            this.imageList1.TransparentColor = System.Drawing.Color.Magenta;
+            this.imageList1.Images.SetKeyName(0, "refresh.bmp");
+            this.imageList1.Images.SetKeyName(1, "check.bmp");
             // 
             // label1
             // 
@@ -170,6 +152,7 @@
             // _copyBuildsToClipboard
             // 
             this._copyBuildsToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._copyBuildsToClipboard.LinkColor = System.Drawing.Color.White;
             this._copyBuildsToClipboard.Location = new System.Drawing.Point(281, 134);
             this._copyBuildsToClipboard.Name = "_copyBuildsToClipboard";
             this._copyBuildsToClipboard.Size = new System.Drawing.Size(113, 18);
@@ -177,11 +160,13 @@
             this._copyBuildsToClipboard.TabStop = true;
             this._copyBuildsToClipboard.Text = "Copy to Clipboard";
             this._copyBuildsToClipboard.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this._copyBuildsToClipboard.VisitedLinkColor = System.Drawing.Color.White;
             this._copyBuildsToClipboard.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyBuildsToClipboardLinkClicked);
             // 
             // _copyAchievementsToClipboard
             // 
             this._copyAchievementsToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._copyAchievementsToClipboard.LinkColor = System.Drawing.Color.White;
             this._copyAchievementsToClipboard.Location = new System.Drawing.Point(281, 198);
             this._copyAchievementsToClipboard.Name = "_copyAchievementsToClipboard";
             this._copyAchievementsToClipboard.Size = new System.Drawing.Size(113, 18);
@@ -189,6 +174,7 @@
             this._copyAchievementsToClipboard.TabStop = true;
             this._copyAchievementsToClipboard.Text = "Copy to Clipboard";
             this._copyAchievementsToClipboard.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this._copyAchievementsToClipboard.VisitedLinkColor = System.Drawing.Color.White;
             this._copyAchievementsToClipboard.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyAchievementsToClipboardLinkClicked);
             // 
             // label7
@@ -224,11 +210,32 @@
             this.label3.TabIndex = 51;
             this.label3.Text = "Manual Sync Instructions";
             // 
+            // _saveResults
+            // 
+            this._saveResults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._saveResults.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(39)))), ((int)(((byte)(38)))));
+            this._saveResults.FlatAppearance.BorderSize = 0;
+            this._saveResults.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._saveResults.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._saveResults.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._saveResults.ForeColor = System.Drawing.Color.White;
+            this._saveResults.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._saveResults.ImageIndex = 1;
+            this._saveResults.ImageList = this.imageList1;
+            this._saveResults.Location = new System.Drawing.Point(150, 266);
+            this._saveResults.Name = "_saveResults";
+            this._saveResults.Size = new System.Drawing.Size(102, 23);
+            this._saveResults.TabIndex = 44;
+            this._saveResults.Text = "Save Results";
+            this._saveResults.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._saveResults.UseVisualStyleBackColor = false;
+            this._saveResults.Click += new System.EventHandler(this.SaveResultsClick);
+            // 
             // SyncOffline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Window;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label7);
             this.Controls.Add(this._userIAm);
@@ -244,6 +251,7 @@
             this.Controls.Add(this._exportedBuilds);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
+            this.ForeColor = System.Drawing.Color.White;
             this.Name = "SyncOffline";
             this.Size = new System.Drawing.Size(397, 324);
             this.ResumeLayout(false);
@@ -253,7 +261,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button _saveResults;
+        private SosButton _saveResults;
         private System.Windows.Forms.TextBox _result;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
