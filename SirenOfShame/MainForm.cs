@@ -114,7 +114,7 @@ namespace SirenOfShame
         {
             _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
             _viewBuilds.RefreshBuildStatuses(_lastRefreshStatusEventArgs);
-            _newsFeed1.RefreshDisplayNames(_settings, args);
+            _newsFeed1.RefreshDisplayNames(args);
         }
 
         private void UsersListOnOnUserSelected(object sender, UserSelectedArgs args)
@@ -327,7 +327,16 @@ namespace SirenOfShame
 
         private void StartWatchingBuild()
         {
-            RulesEngine.Start();
+            _newsFeed1.SuspendLayout();
+            _viewBuilds.SuspendLayout();
+            try
+            {
+                RulesEngine.Start();
+            } finally
+            {
+                _newsFeed1.ResumeLayout();
+                _viewBuilds.ResumeLayout();
+            }
         }
 
         private void StopWatchingBuild()
@@ -809,12 +818,12 @@ namespace SirenOfShame
             _ribbonPanel.Visible = show;
         }
 
-        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        private void MainFormResizeBegin(object sender, EventArgs e)
         {
             SuspendLayout();
         }
 
-        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        private void MainFormResizeEnd(object sender, EventArgs e)
         {
             ResumeLayout();
         }

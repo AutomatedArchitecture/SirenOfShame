@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib.Helpers;
-using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -11,6 +10,19 @@ namespace SirenOfShame
     public partial class NewsFeed : UserControl
     {
         public event UserClicked OnUserClicked;
+        private bool _doAnimations = true;
+
+        public new void SuspendLayout()
+        {
+            _doAnimations = false;
+            base.SuspendLayout();
+        }
+
+        public new void ResumeLayout()
+        {
+            _doAnimations = true;
+            base.ResumeLayout();
+        }
 
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
@@ -29,16 +41,19 @@ namespace SirenOfShame
             return GetNewsItemControls().Where(newsItemControl => newsItemControl.RawName == rawUserName);
         }
 
+        private static readonly int[] _easingIncrease = new [] { 1,2,3,4,5,7,9,11,13,15,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59,62,65,69,73,77 };
+        
         private int IncreaseWithEase(int oldValue, int destination)
         {
-            int newValue = (int)(Math.Pow(oldValue, 1.6)) + 2;
-            return Math.Min(newValue, destination);
+            int nextValue = _easingIncrease.FirstOrDefault(i => i > oldValue);
+            if (nextValue == default(int)) nextValue = destination;
+            return Math.Min(nextValue, destination);
         }
 
         public NewsFeed()
         {
             InitializeComponent();
-            _newsItemHeightAnimator.Interval = 50;
+            _newsItemHeightAnimator.Interval = 16;
             _newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
             _prettyDateCalculator.Interval = 10000;
             _prettyDateCalculator.Tick += PrettyDateCalculatorOnTick;
@@ -71,13 +86,6 @@ namespace SirenOfShame
                     newsItem.Height = IncreaseWithEase(newsItem.Height, idealHeight);
                 }
             }
-        }
-
-        private void NewsFeedResize(object sender, EventArgs e)
-        {
-            GetNewsItemControls()
-                .ToList()
-                .ForEach(i => i.Height = i.GetIdealHeight());
         }
 
         private IEnumerable<NewsItem> GetNewsItemControls()
@@ -117,7 +125,7 @@ namespace SirenOfShame
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);
             _newsItemsPanel.Controls.SetChildIndex(newsItem, 0);
-            newsItem.Height = 2;
+            newsItem.Height = _doAnimations ? 1 : newsItem.GetIdealHeight();
             _newsItemsToOpen.Add(newsItem);
             _newsItemHeightAnimator.Start();
         }
@@ -154,7 +162,7 @@ namespace SirenOfShame
             EnableMouseScrollWheel();
         }
 
-        public void RefreshDisplayNames(SirenOfShameSettings settings, UserDisplayNameChangedArgs args)
+        public void RefreshDisplayNames(UserDisplayNameChangedArgs args)
         {
             GetNewsItemControls()
                 .Where(i => i.RawName == args.RawUserName)
