@@ -152,7 +152,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public List<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet)
+        public IEnumerable<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings)
         {
             var location = GetEventsLocation();
             if (!File.Exists(location)) return new List<NewNewsItemEventArgs>();
@@ -160,7 +160,12 @@ namespace SirenOfShame.Lib.Watcher
             return lines
                 .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
                 .Where(i => i != null)
-                .Reverse()
+                .Reverse();
+        }
+        
+        public List<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet)
+        {
+            return GetMostRecentNewsItems(settings)
                 .Take(newsItemsToGet)
                 .ToList();
         }

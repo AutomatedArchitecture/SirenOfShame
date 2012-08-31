@@ -456,6 +456,7 @@
     <None Include="Resources\gear_white.png" />
     <None Include="Resources\GettingStarted\earth.bmp" />
     <None Include="Resources\loadingBlue.gif" />
+    <None Include="Resources\funnel.bmp" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

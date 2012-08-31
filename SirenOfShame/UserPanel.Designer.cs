@@ -54,12 +54,12 @@
             // 
             this._reputation.AutoSize = true;
             this._reputation.BackColor = System.Drawing.Color.Transparent;
-            this._reputation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._reputation.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._reputation.ForeColor = System.Drawing.Color.Black;
-            this._reputation.Location = new System.Drawing.Point(54, 7);
+            this._reputation.Location = new System.Drawing.Point(54, 2);
             this._reputation.Margin = new System.Windows.Forms.Padding(0);
             this._reputation.Name = "_reputation";
-            this._reputation.Size = new System.Drawing.Size(36, 20);
+            this._reputation.Size = new System.Drawing.Size(40, 24);
             this._reputation.TabIndex = 0;
             this._reputation.Text = "255";
             this._reputation.Click += new System.EventHandler(this.ReputationClick);

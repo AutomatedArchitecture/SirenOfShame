@@ -143,6 +143,7 @@ namespace SirenOfShame
         {
             if (selectedPerson == null) return;
             viewUser1.SetUser(selectedPerson, _avatarImageList);
+            _newsFeed1.AddUserFilter(_settings, selectedPerson, _avatarImageList);
         }
 
         private void SetAutomaticUpdaterSettings()
@@ -734,6 +735,7 @@ namespace SirenOfShame
         private void ViewUserOnClose(object sender, CloseViewUserArgs args)
         {
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
+            _newsFeed1.ClearFilter(_settings, _avatarImageList);
         }
 
         private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)

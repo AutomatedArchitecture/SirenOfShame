@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -44,6 +45,7 @@ namespace SirenOfShame
         public NewsFeed()
         {
             InitializeComponent();
+            ResetFunnelVisibility();
             _newsItemHeightAnimator.Interval = HeightAnimator.HALF_SECOND_ANIMATION_SPEED;
             _newsItemHeightAnimator.Tick += NewsItemHeightAnimatorOnTick;
             _prettyDateCalculator.Interval = 10000;
@@ -159,6 +161,49 @@ namespace SirenOfShame
                 .Where(i => i.RawName == args.RawUserName)
                 .ToList()
                 .ForEach(i => i.DisplayName = args.NewDisplayName);
+        }
+
+        private string _filterPerson = null;
+
+        public void AddUserFilter(SirenOfShameSettings settings, PersonSetting selectedPerson, ImageList avatarImageList)
+        {
+            _filterPerson = selectedPerson.RawName;
+            ResetFunnelVisibility();
+
+            IEnumerable<NewNewsItemEventArgs> recentEventsByPerson = new SosDb().GetMostRecentNewsItems(settings)
+                .Where(i => i.Person.RawName == _filterPerson)
+                .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP);
+
+            _newsItemsPanel.ClearAndDispose();
+            SuspendLayout();
+            foreach (NewNewsItemEventArgs newsItem in recentEventsByPerson)
+            {
+                newsItem.AvatarImageList = avatarImageList;
+                AddNewsItem(newsItem);
+            }
+            ResumeLayout();
+        }
+
+        private void ResetFunnelVisibility()
+        {
+            _filterButton.Visible = _filterPerson != null;
+        }
+
+        public void ClearFilter(SirenOfShameSettings settings, ImageList avatarImageList)
+        {
+            _filterPerson = null;
+            ResetFunnelVisibility();
+            
+            _newsItemsPanel.ClearAndDispose();
+            IEnumerable<NewNewsItemEventArgs> recentEventsByPerson = new SosDb().
+                GetMostRecentNewsItems(settings, RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP);
+            SuspendLayout();
+            foreach (NewNewsItemEventArgs newsItem in recentEventsByPerson)
+            {
+                newsItem.AvatarImageList = avatarImageList;
+                AddNewsItem(newsItem);
+            }
+            ResumeLayout();
         }
     }
 }

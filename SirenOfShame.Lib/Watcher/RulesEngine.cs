@@ -23,8 +23,8 @@ namespace SirenOfShame.Lib.Watcher
             public BuildStatusEnum? PreviousWorkingOrBrokenBuildStatus { get; set; }
             public BuildStatusEnum? PreviousBuildStatus { get; set; }
         }
-        
-        private const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
+
+        public const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
         private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }

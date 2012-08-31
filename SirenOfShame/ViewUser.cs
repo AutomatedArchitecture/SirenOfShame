@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
@@ -24,7 +23,7 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserChangedAvatarIdArgs { NewImageIndex = newImageIndex, RawName = _personSetting.RawName });
         }
 
-        public void InvokeOnUserDisplayNameChanged(UserDisplayNameChangedArgs args)
+        private void InvokeOnUserDisplayNameChanged(UserDisplayNameChangedArgs args)
         {
             UserDisplayNameChanged handler = OnUserDisplayNameChanged;
             if (handler != null) handler(this, args);
