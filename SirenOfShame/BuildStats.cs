@@ -22,8 +22,8 @@ namespace SirenOfShame
             GraphPane myPane = _buildHistoryZedGraph.GraphPane;
             myPane.CurveList.Clear();
 
-            IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
-            foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
+            IEnumerable<BuildStatus> lastFewBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
+            foreach (BuildStatus buildStatus in lastFewBuildStatuses)
             {
                 if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
                 var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
@@ -70,18 +70,5 @@ namespace SirenOfShame
             _buildHistoryZedGraph.IsEnableZoom = false;
             myPane.BarSettings.ClusterScaleWidth = 60;
         }
-
-        public event CloseBuildStats OnClose;
-        
-        private void CloseClick(object sender, System.EventArgs e)
-        {
-            OnClose(this, new CloseBuildStatsArgs());
-        }
-    }
-
-    public delegate void CloseBuildStats(object sender, CloseBuildStatsArgs args);
-
-    public class CloseBuildStatsArgs
-    {
     }
 }

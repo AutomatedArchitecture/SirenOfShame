@@ -182,6 +182,7 @@ namespace SirenOfShame
         private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
         {
             RefreshUserStats(changedBuildStatuses);
+            _viewBuilds.RefreshStats();
         }
 
         /// <summary>

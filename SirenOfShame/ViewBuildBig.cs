@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,14 +18,15 @@ namespace SirenOfShame
         public void InitializeForBuild(BuildStatusDto buildStatusDto)
         {
             InitializeLabels(buildStatusDto);
-            InitializeBuildStats(buildStatusDto);
+            InitializeBuildStats();
         }
 
-        private void InitializeBuildStats(BuildStatusDto buildStatusDto)
+        private void InitializeBuildStats()
         {
+            if (BuildId == null) return;
             var sosDb = new SosDb();
-            var lastFiveBuilds = sosDb.ReadAll(buildStatusDto.Id).Reverse().Take(5).Reverse();
-            buildStats1.GraphBuildHistory(lastFiveBuilds.ToList());
+            var allBuilds = sosDb.ReadAll(BuildId);
+            buildStats1.GraphBuildHistory(allBuilds);
         }
 
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)
@@ -36,9 +38,17 @@ namespace SirenOfShame
             _requestedBy.Text = buildStatusDto.RequestedBy;
             _comment.Text = buildStatusDto.Comment;
             _projectName.Text = buildStatusDto.Name;
-            _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
+            SetBuildStatusIcon(buildStatusDto);
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
             _details.Visible = !string.IsNullOrEmpty(buildStatusDto.Url);
+        }
+
+        private void SetBuildStatusIcon(BuildStatusDto buildStatusDto)
+        {
+            bool inProgress = buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress;
+            _buildStatusIcon.Visible = !inProgress;
+            _loading.Visible = inProgress;
+            _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
         }
 
         private void InitializeStartTime(BuildStatusDto buildStatusDto)
@@ -84,5 +94,9 @@ namespace SirenOfShame
             LaunchUrl();
         }
 
+        public void RefreshStats()
+        {
+            InitializeBuildStats();
+        }
     }
 }

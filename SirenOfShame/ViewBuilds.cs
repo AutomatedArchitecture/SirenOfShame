@@ -322,5 +322,11 @@ namespace SirenOfShame
         {
             EnableMouseScrollWheel();
         }
+
+        public void RefreshStats()
+        {
+            if (_viewBuildBig != null)
+                _viewBuildBig.RefreshStats();
+        }
     }
 }

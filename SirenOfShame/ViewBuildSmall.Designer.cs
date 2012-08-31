@@ -37,6 +37,7 @@
             this._duration = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._details = new System.Windows.Forms.Label();
             this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,6 @@
             this._editRulesTop = new System.Windows.Forms.Label();
             this._buildStatusIcon = new System.Windows.Forms.Label();
             this._editRules = new System.Windows.Forms.Label();
-            this._details = new System.Windows.Forms.Label();
             this._buildMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
             this.SuspendLayout();
@@ -135,6 +135,24 @@
             this.imageList1.Images.SetKeyName(2, "clock.bmp");
             this.imageList1.Images.SetKeyName(3, "unknown.bmp");
             // 
+            // _details
+            // 
+            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._details.ForeColor = System.Drawing.Color.Black;
+            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
+            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._details.Location = new System.Drawing.Point(188, 109);
+            this._details.Name = "_details";
+            this._details.Size = new System.Drawing.Size(18, 20);
+            this._details.TabIndex = 6;
+            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
+            this._details.Visible = false;
+            this._details.Click += new System.EventHandler(this.DetailsClick);
+            // 
             // _buildMenu
             // 
             this._buildMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -176,6 +194,7 @@
             // 
             // _loading
             // 
+            this._loading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._loading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._loading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this._loading.Image = global::SirenOfShame.Properties.Resources.loadingBlue;
@@ -219,24 +238,6 @@
             this._editRules.Size = new System.Drawing.Size(16, 16);
             this._editRules.TabIndex = 8;
             this._editRules.Click += new System.EventHandler(this.EditRulesClick);
-            // 
-            // _details
-            // 
-            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._details.BackColor = System.Drawing.Color.Transparent;
-            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._details.ForeColor = System.Drawing.Color.Black;
-            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
-            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._details.Location = new System.Drawing.Point(188, 109);
-            this._details.Name = "_details";
-            this._details.Size = new System.Drawing.Size(18, 20);
-            this._details.TabIndex = 6;
-            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
-            this._details.Visible = false;
-            this._details.Click += new System.EventHandler(this.DetailsClick);
             // 
             // ViewBuildSmall
             // 

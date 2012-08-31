@@ -45,7 +45,9 @@
             this._requestedBy = new System.Windows.Forms.Label();
             this._startTime = new System.Windows.Forms.Label();
             this.buildStats1 = new SirenOfShame.BuildStats();
+            this._loading = new System.Windows.Forms.PictureBox();
             this._buildMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
             this.SuspendLayout();
             // 
             // imageList1
@@ -208,11 +210,25 @@
             this.buildStats1.Size = new System.Drawing.Size(125, 92);
             this.buildStats1.TabIndex = 19;
             // 
+            // _loading
+            // 
+            this._loading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._loading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._loading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this._loading.Image = global::SirenOfShame.Properties.Resources.loadingBlue;
+            this._loading.Location = new System.Drawing.Point(389, 3);
+            this._loading.Name = "_loading";
+            this._loading.Size = new System.Drawing.Size(16, 16);
+            this._loading.TabIndex = 35;
+            this._loading.TabStop = false;
+            this._loading.Visible = false;
+            // 
             // ViewBuildBig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this._loading);
             this.Controls.Add(this.buildStats1);
             this.Controls.Add(this._buildStatusIcon);
             this.Controls.Add(this._projectName);
@@ -226,6 +242,7 @@
             this.Name = "ViewBuildBig";
             this.Size = new System.Drawing.Size(408, 179);
             this._buildMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,5 +265,6 @@
         private System.Windows.Forms.ToolStripMenuItem _when;
         private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
         private BuildStats buildStats1;
+        private System.Windows.Forms.PictureBox _loading;
     }
 }
