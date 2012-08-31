@@ -239,5 +239,10 @@ namespace SirenOfShame.Lib.Watcher
         {
             return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
+
+        public string GetBuildDataAsHash()
+        {
+            return string.Format("{0}-{1}-{2}-{3}", BuildDefinitionId, BuildId, StartedTime, RequestedBy);
+        }
     }
 }

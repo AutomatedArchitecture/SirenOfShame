@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.TeamFoundation.VersionControl.Client;
+﻿using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace TfsServices.Configuration
 {
@@ -8,35 +7,14 @@ namespace TfsServices.Configuration
     /// </summary>
     public class MyChangeset
     {
-        private readonly Changeset _changeset;
-        private readonly string _buildDefinitionId;
-        private readonly MyTfsBuildDefinition _myTfsBuildDefinition;
-
-        public MyChangeset(Changeset changeset, string buildDefinitionId, MyTfsBuildDefinition myTfsBuildDefinition)
+        public MyChangeset(Changeset changeset)
         {
-            _changeset = changeset;
-            _buildDefinitionId = buildDefinitionId;
-            _myTfsBuildDefinition = myTfsBuildDefinition;
+            ChangesetId = changeset.ChangesetId;
+            Comment = changeset.Comment;
         }
 
-        public int ChangesetId
-        {
-            get { return _changeset.ChangesetId; }
-        }
+        public int ChangesetId { get; private set; }
 
-        public string BuildDefinitionId
-        {
-            get { return _buildDefinitionId; }
-        }
-
-        public string Comment
-        {
-            get { return _changeset.Comment; }
-        }
-
-        public string ConvertTfsUriToUrl(Uri uri)
-        {
-            return _myTfsBuildDefinition.ConvertTfsUriToUrl(uri);
-        }
+        public string Comment { get; private set; }
     }
 }

@@ -48,14 +48,14 @@ namespace TfsServices.Configuration
             return new TreeNode(Name) { Tag = Id, Checked = active };
         }
 
-        private const int DeletionId = 0;
+        private const int DELETION_ID = 0;
 
         public MyChangeset GetLatestChangeset()
         {
             try
             {
                 // generally there is only one workspace mapping per build definition, but there could be >1
-                IEnumerable<string> workspaceMappingServerUrls = GetNonCloakedWorkspaceMappingServerUrls();
+                IList<string> workspaceMappingServerUrls = GetNonCloakedWorkspaceMappingServerUrls().ToList();
                 var noWorkspaceMappings = !workspaceMappingServerUrls.Any();
                 if (noWorkspaceMappings)
                 {
@@ -77,7 +77,7 @@ namespace TfsServices.Configuration
                     }
                 }
 
-                return maxChangeset == null ? null : new MyChangeset(maxChangeset, Id, this);
+                return maxChangeset == null ? null : new MyChangeset(maxChangeset);
             } 
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace TfsServices.Configuration
         {
             return versionControlServer.QueryHistory(workspaceMappingServerUrl,
                                                      VersionSpec.Latest,
-                                                     DeletionId,
+                                                     DELETION_ID,
                                                      RecursionType.Full,
                                                      null,
                                                      null,
