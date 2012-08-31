@@ -113,12 +113,20 @@ namespace SirenOfShame
             get { return _viewBuildBig.Visible; }
         }
         
+        public static int GetIdealSmallRows(int count)
+        {
+            if (count <= 8) return 2;
+            if (count <= 10) return 1;
+            return 0;
+        }
+        
         private void InitializeDisplayModes()
         {
             int idealSmallControlCountPerRow = GetIdealSmallControlCountPerRow();
             _viewBuildBig.Width = GetIdealBigControlWidth(idealSmallControlCountPerRow);
-            var idealSmallControlCount = idealSmallControlCountPerRow*2;
+
             var controls = GetSmallViewBuilds().ToList();
+            var idealSmallControlCount = idealSmallControlCountPerRow * GetIdealSmallRows(controls.Count);
             for (int i = 0; i < controls.Count; i++)
             {
                 var control = controls[i];
