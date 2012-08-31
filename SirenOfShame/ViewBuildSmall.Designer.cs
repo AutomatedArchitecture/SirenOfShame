@@ -37,16 +37,18 @@
             this._duration = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this._details = new System.Windows.Forms.Label();
-            this._editRules = new System.Windows.Forms.Label();
-            this._buildStatusIcon = new System.Windows.Forms.Label();
             this._buildMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._affectsTrayIcon = new System.Windows.Forms.ToolStripMenuItem();
             this._stopWatching = new System.Windows.Forms.ToolStripMenuItem();
             this._when = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this._loading = new System.Windows.Forms.PictureBox();
             this._editRulesTop = new System.Windows.Forms.Label();
+            this._buildStatusIcon = new System.Windows.Forms.Label();
+            this._editRules = new System.Windows.Forms.Label();
+            this._details = new System.Windows.Forms.Label();
             this._buildMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
             this.SuspendLayout();
             // 
             // _projectName
@@ -61,7 +63,7 @@
             this._projectName.Location = new System.Drawing.Point(0, 0);
             this._projectName.Name = "_projectName";
             this._projectName.Padding = new System.Windows.Forms.Padding(6, 2, 2, 2);
-            this._projectName.Size = new System.Drawing.Size(206, 24);
+            this._projectName.Size = new System.Drawing.Size(230, 24);
             this._projectName.TabIndex = 0;
             this._projectName.Text = "Project Name";
             this._projectName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -133,46 +135,6 @@
             this.imageList1.Images.SetKeyName(2, "clock.bmp");
             this.imageList1.Images.SetKeyName(3, "unknown.bmp");
             // 
-            // _details
-            // 
-            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._details.BackColor = System.Drawing.Color.Transparent;
-            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._details.ForeColor = System.Drawing.Color.Black;
-            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
-            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._details.Location = new System.Drawing.Point(188, 109);
-            this._details.Name = "_details";
-            this._details.Size = new System.Drawing.Size(18, 20);
-            this._details.TabIndex = 6;
-            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
-            this._details.Visible = false;
-            this._details.Click += new System.EventHandler(this.DetailsClick);
-            // 
-            // _editRules
-            // 
-            this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
-            this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
-            this._editRules.Location = new System.Drawing.Point(212, 111);
-            this._editRules.Name = "_editRules";
-            this._editRules.Size = new System.Drawing.Size(16, 16);
-            this._editRules.TabIndex = 8;
-            this._editRules.Click += new System.EventHandler(this.EditRulesClick);
-            // 
-            // _buildStatusIcon
-            // 
-            this._buildStatusIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buildStatusIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
-            this._buildStatusIcon.ImageKey = "clock.bmp";
-            this._buildStatusIcon.ImageList = this.imageList1;
-            this._buildStatusIcon.Location = new System.Drawing.Point(206, 0);
-            this._buildStatusIcon.Name = "_buildStatusIcon";
-            this._buildStatusIcon.Size = new System.Drawing.Size(24, 24);
-            this._buildStatusIcon.TabIndex = 7;
-            // 
             // _buildMenu
             // 
             this._buildMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -181,7 +143,7 @@
             this._when,
             this._toolStripSeparator1});
             this._buildMenu.Name = "_buildMenu";
-            this._buildMenu.Size = new System.Drawing.Size(164, 98);
+            this._buildMenu.Size = new System.Drawing.Size(164, 76);
             this._buildMenu.Text = "BuildMenu";
             this._buildMenu.Opening += new System.ComponentModel.CancelEventHandler(this.BuildMenuOpening);
             // 
@@ -212,6 +174,18 @@
             this._toolStripSeparator1.Name = "_toolStripSeparator1";
             this._toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
+            // _loading
+            // 
+            this._loading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._loading.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this._loading.Image = global::SirenOfShame.Properties.Resources.loadingBlue;
+            this._loading.Location = new System.Drawing.Point(209, 4);
+            this._loading.Name = "_loading";
+            this._loading.Size = new System.Drawing.Size(16, 16);
+            this._loading.TabIndex = 34;
+            this._loading.TabStop = false;
+            this._loading.Visible = false;
+            // 
             // _editRulesTop
             // 
             this._editRulesTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -224,11 +198,52 @@
             this._editRulesTop.TabIndex = 9;
             this._editRulesTop.Click += new System.EventHandler(this.EditRulesClick);
             // 
+            // _buildStatusIcon
+            // 
+            this._buildStatusIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._buildStatusIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
+            this._buildStatusIcon.ImageKey = "clock.bmp";
+            this._buildStatusIcon.ImageList = this.imageList1;
+            this._buildStatusIcon.Location = new System.Drawing.Point(206, 0);
+            this._buildStatusIcon.Name = "_buildStatusIcon";
+            this._buildStatusIcon.Size = new System.Drawing.Size(24, 24);
+            this._buildStatusIcon.TabIndex = 7;
+            // 
+            // _editRules
+            // 
+            this._editRules.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._editRules.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._editRules.Image = global::SirenOfShame.Properties.Resources.gear;
+            this._editRules.Location = new System.Drawing.Point(212, 111);
+            this._editRules.Name = "_editRules";
+            this._editRules.Size = new System.Drawing.Size(16, 16);
+            this._editRules.TabIndex = 8;
+            this._editRules.Click += new System.EventHandler(this.EditRulesClick);
+            // 
+            // _details
+            // 
+            this._details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._details.BackColor = System.Drawing.Color.Transparent;
+            this._details.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._details.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._details.ForeColor = System.Drawing.Color.Black;
+            this._details.Image = global::SirenOfShame.Properties.Resources.nav_up_right;
+            this._details.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._details.Location = new System.Drawing.Point(188, 109);
+            this._details.Name = "_details";
+            this._details.Size = new System.Drawing.Size(18, 20);
+            this._details.TabIndex = 6;
+            this._details.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this._details, "Open webpage to view details");
+            this._details.Visible = false;
+            this._details.Click += new System.EventHandler(this.DetailsClick);
+            // 
             // ViewBuildSmall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this._loading);
             this.Controls.Add(this._editRulesTop);
             this.Controls.Add(this._buildStatusIcon);
             this.Controls.Add(this._duration);
@@ -242,6 +257,7 @@
             this.Name = "ViewBuildSmall";
             this.Size = new System.Drawing.Size(230, 132);
             this._buildMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,5 +281,6 @@
         private System.Windows.Forms.ToolStripMenuItem _when;
         private System.Windows.Forms.ToolStripSeparator _toolStripSeparator1;
         private System.Windows.Forms.Label _editRulesTop;
+        private System.Windows.Forms.PictureBox _loading;
     }
 }

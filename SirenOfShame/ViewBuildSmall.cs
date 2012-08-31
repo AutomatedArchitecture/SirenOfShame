@@ -54,9 +54,17 @@ namespace SirenOfShame
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedBy;
             _comment.Text = buildStatusDto.Comment;
-            _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
+            SetBuildStatusIcon(buildStatusDto);
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
             SetDetailsVisibility();
+        }
+
+        private void SetBuildStatusIcon(BuildStatusDto buildStatusDto)
+        {
+            bool inProgress = buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress;
+            _buildStatusIcon.Visible = !inProgress;
+            _loading.Visible = inProgress;
+            _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
         }
 
         private void InitializeStartTime(BuildStatusDto buildStatusDto)
@@ -71,6 +79,7 @@ namespace SirenOfShame
             _projectName.BackColor = backgroundColor;
             _buildStatusIcon.BackColor = backgroundColor;
             _editRulesTop.BackColor = backgroundColor;
+            _loading.BackColor = backgroundColor;
         }
 
         protected override Label GetStartTimeLabel()
