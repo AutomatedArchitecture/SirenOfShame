@@ -89,7 +89,7 @@ namespace SirenOfShame.Lib.Watcher
             return BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Broken;
         }
 
-        public BallsEnum BallIndex
+        private BallsEnum BallIndex
         {
             get
             {
@@ -238,6 +238,10 @@ namespace SirenOfShame.Lib.Watcher
         private static string DateAsExport(DateTime? dateTime)
         {
             return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public string GetBuildDataAsHash() {
+            return string.Format("{0}-{1}-{2}-{3}", BuildDefinitionId, BuildId, StartedTime, RequestedBy);
         }
 
         public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
