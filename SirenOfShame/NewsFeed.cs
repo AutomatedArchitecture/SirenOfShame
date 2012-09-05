@@ -2,28 +2,17 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
-    public partial class NewsFeed : UserControl
+    public partial class NewsFeed : UserControlBase
     {
         public event UserClicked OnUserClicked;
         private bool _doAnimations = true;
-
-        public new void SuspendLayout()
-        {
-            _doAnimations = false;
-            base.SuspendLayout();
-        }
-
-        public new void ResumeLayout()
-        {
-            _doAnimations = true;
-            base.ResumeLayout();
-        }
 
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
@@ -109,18 +98,25 @@ namespace SirenOfShame
 
         private void AddNewsItemToPanel(NewNewsItemEventArgs args)
         {
+            var newsItem = AddNewsItemToPanel();
+            newsItem.Initialize(args);
+            _newsItemsPanel.Controls.SetChildIndex(newsItem, 0);
+            newsItem.Height = _doAnimations ? 1 : newsItem.GetIdealHeight();
+            _newsItemsToOpen.Add(newsItem);
+            _newsItemHeightAnimator.Start();
+        }
+
+        private NewsItem AddNewsItemToPanel()
+        {
             _noNews.Visible = false;
-            var newsItem = new NewsItem(args)
+            var newsItem = new NewsItem
             {
                 Dock = DockStyle.Top,
             };
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
             newsItem.MouseEnter += NewsItemOnMouseEnter;
             _newsItemsPanel.Controls.Add(newsItem);
-            _newsItemsPanel.Controls.SetChildIndex(newsItem, 0);
-            newsItem.Height = _doAnimations ? 1 : newsItem.GetIdealHeight();
-            _newsItemsToOpen.Add(newsItem);
-            _newsItemHeightAnimator.Start();
+            return newsItem;
         }
 
         private void NewsItemOnMouseEnter(object sender, EventArgs eventArgs)
@@ -168,20 +164,19 @@ namespace SirenOfShame
         public void AddUserFilter(SirenOfShameSettings settings, PersonSetting selectedPerson, ImageList avatarImageList)
         {
             _filterPerson = selectedPerson.RawName;
-            ResetFunnelVisibility();
+            _loading.Visible = true;
 
-            IEnumerable<NewNewsItemEventArgs> recentEventsByPerson = new SosDb().GetMostRecentNewsItems(settings)
-                .Where(i => i.Person.RawName == _filterPerson)
-                .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP);
-
-            _newsItemsPanel.ClearAndDispose();
-            SuspendLayout();
-            foreach (NewNewsItemEventArgs newsItem in recentEventsByPerson)
+            new SosDb().GetMostRecentNewsItems(settings, recentEvent => Invoke(() =>
             {
-                newsItem.AvatarImageList = avatarImageList;
-                AddNewsItem(newsItem);
-            }
-            ResumeLayout();
+                _loading.Visible = false;
+                ResetFunnelVisibility();
+                _noNews.Visible = false;
+                var recentEventsByPerson = recentEvent.Where(i => i.Person.RawName == _filterPerson)
+                    .FilterOutOvercomeByEventsNewsItems()
+                    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                    .ToList();
+                ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
+            }));
         }
 
         private void ResetFunnelVisibility()
@@ -192,18 +187,62 @@ namespace SirenOfShame
         public void ClearFilter(SirenOfShameSettings settings, ImageList avatarImageList)
         {
             _filterPerson = null;
+            _loading.Visible = true;
             ResetFunnelVisibility();
-            
-            _newsItemsPanel.ClearAndDispose();
-            IEnumerable<NewNewsItemEventArgs> recentEventsByPerson = new SosDb().
-                GetMostRecentNewsItems(settings, RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP);
-            SuspendLayout();
-            foreach (NewNewsItemEventArgs newsItem in recentEventsByPerson)
+
+            new SosDb().GetMostRecentNewsItems(settings, recentEvents => Invoke(() =>
             {
+                _loading.Visible = false;
+                _noNews.Visible = false;
+                var recentEventsByPerson = recentEvents.FilterOutOvercomeByEventsNewsItems()
+                    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                    .ToList();
+                ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
+            }));
+        }
+
+        private void ReinitializeNewsItems(List<NewNewsItemEventArgs> newsItems, ImageList avatarImageList)
+        {
+            EnsureWeHaveXNewsItemControls(newsItems.Count);
+            var newsItemControls = GetNewsItemControls().ToList();
+            for (int i = 0; i < newsItems.Count; i++)
+            {
+                var newsItem = newsItems[i];
                 newsItem.AvatarImageList = avatarImageList;
-                AddNewsItem(newsItem);
+                var newsItemControl = newsItemControls[i];
+                newsItemControl.Initialize(newsItem);
             }
-            ResumeLayout();
+        }
+
+        private void EnsureWeHaveXNewsItemControls(int newCount)
+        {
+            List<NewsItem> newsItems = GetNewsItemControls().ToList();
+            var oldCount = newsItems.Count();
+            bool weNeedToDeleteNewsItemControls = newCount < oldCount;
+            if (weNeedToDeleteNewsItemControls)
+            {
+                int numberOfNewsItemsToDelete = oldCount - newCount;
+                DeleteXNewsItemControls(newsItems, numberOfNewsItemsToDelete);
+            }
+            bool weNeedToAddNewsItemControls = newCount > oldCount;
+            if (weNeedToAddNewsItemControls)
+            {
+                int numberOfNewsItemsToAdd = newCount - oldCount;
+                for (int i = 0; i < numberOfNewsItemsToAdd; i++)
+                {
+                    AddNewsItemToPanel();
+                }
+            }
+        }
+
+        private void DeleteXNewsItemControls(IEnumerable<NewsItem> newsItems, int numberOfNewsItemsToDelete)
+        {
+            IEnumerable<NewsItem> newsItemsToDelete = newsItems.Take(numberOfNewsItemsToDelete);
+            foreach (var newsItem in newsItemsToDelete)
+            {
+                _newsItemsPanel.Controls.Remove(newsItem);
+                newsItem.Dispose();
+            }
         }
     }
 }

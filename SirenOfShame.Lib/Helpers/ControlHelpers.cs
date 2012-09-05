@@ -9,6 +9,19 @@ namespace SirenOfShame.Lib.Helpers
     public static class ControlHelpers
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ControlHelpers));
+        
+        public static void SuspendLayout(Control control, Action action)
+        {
+            control.SuspendLayout();
+            try
+            {
+                action();
+            } 
+            finally
+            {
+                control.ResumeLayout();
+            }
+        }
 
         public static void ClearAndDispose(this Control control)
         {

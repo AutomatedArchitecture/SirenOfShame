@@ -429,7 +429,7 @@ namespace SirenOfShame.Lib.Watcher
 
         readonly Timer _timer = new Timer();
 
-        public void Start(bool initialStart = true)
+        public void Start(bool initialStart)
         {
             var ciEntryPointSettings = _settings.CiEntryPointSettings
                 .Where(s => !string.IsNullOrEmpty(s.Url))
@@ -464,18 +464,6 @@ namespace SirenOfShame.Lib.Watcher
                 InvokeUpdateStatusBar("");
                 InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
             }
-
-            RetrieveAndFireOldNewsItems(initialStart);
-        }
-
-        private void RetrieveAndFireOldNewsItems(bool initialStart)
-        {
-            if (!initialStart) return;
-            var newsItems = SosDb.GetMostRecentNewsItems(_settings, NEWS_ITEMS_TO_GET_ON_STARTUP);
-            newsItems
-                .OrderBy(i => i.EventDate)
-                .ToList()
-                .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: false));
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)

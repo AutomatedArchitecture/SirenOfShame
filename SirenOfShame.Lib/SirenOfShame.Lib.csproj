@@ -127,6 +127,9 @@
     <Compile Include="ConfigureSirenDialog.Designer.cs">
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Device\AudioPattern.cs" />
     <Compile Include="Device\ManualControlData.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilder.cs" />
@@ -171,6 +174,7 @@
     <Compile Include="Helpers\FactoryExportProvider.cs" />
     <Compile Include="Helpers\IEnumerableHelpers.cs" />
     <Compile Include="Helpers\IocContainer.cs" />
+    <Compile Include="Helpers\NewsItemHelper.cs" />
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\SiUnitHelpers.cs" />

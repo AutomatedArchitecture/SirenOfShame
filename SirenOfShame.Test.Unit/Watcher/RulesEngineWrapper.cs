@@ -50,7 +50,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.NewAchievement += (sender, arg) => NewAchievementEvents.Add(arg);
             _rulesEngine.NewNewsItem += (sender, arg) => NewNewsItemEvents.Add(arg);
 
-            _rulesEngine.Start();
+            _rulesEngine.Start(initialStart: true);
         }
 
         private readonly FakeRulesEngine _rulesEngine;

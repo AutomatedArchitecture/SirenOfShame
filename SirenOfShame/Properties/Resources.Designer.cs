@@ -116,13 +116,6 @@ namespace SirenOfShame.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap cloud_title {
-            get {
-                object obj = ResourceManager.GetObject("cloud-title", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap earth {
             get {
                 object obj = ResourceManager.GetObject("earth", resourceCulture);
@@ -130,9 +123,9 @@ namespace SirenOfShame.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap funnel {
+        internal static System.Drawing.Bitmap funnel1 {
             get {
-                object obj = ResourceManager.GetObject("funnel", resourceCulture);
+                object obj = ResourceManager.GetObject("funnel1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -161,13 +154,6 @@ namespace SirenOfShame.Properties {
         internal static System.Drawing.Bitmap gradient33 {
             get {
                 object obj = ResourceManager.GetObject("gradient33", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap JoesFavorite3 {
-            get {
-                object obj = ResourceManager.GetObject("JoesFavorite3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

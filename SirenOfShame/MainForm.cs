@@ -26,8 +26,8 @@ namespace SirenOfShame
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MainForm));
         SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
         private RulesEngine _rulesEngine;
-        private readonly string _logFilename;
-        private readonly bool _canViewLogs;
+        private string _logFilename;
+        private bool _canViewLogs;
         readonly Timer _showAlertAnimation = new Timer();
         readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
@@ -40,33 +40,57 @@ namespace SirenOfShame
             IocContainer.Instance.Compose(this);
             InitializeComponent();
 
-            _viewBuilds.Initialize(_settings);
-            _showAlertAnimation.Interval = 1;
-            _showAlertAnimation.Tick += ShowAlertAnimationTick;
-            viewUser1.OnClose += ViewUserOnClose;
-            viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
-            viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
-            viewUser1.Initilaize(_settings);
-            _userList.OnUserSelected += UsersListOnOnUserSelected;
-            _userList.Initialize(_settings, _avatarImageList);
-            _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
-            _viewBuilds.OnGettingStartedClick += ViewBuildsOnOnGettingStartedClick;
-
+            InitializeViewBuilds();
+            InitializeViewUser();
+            InitializeNewsFeed();
+            InitializeUserList();
             InitializeSirenOfShameDevice();
-
             SetAutomaticUpdaterSettings();
 
+            _showAlertAnimation.Interval = 1;
+            _showAlertAnimation.Tick += ShowAlertAnimationTick;
+
+            InitializeLogging();
+        }
+
+        private void InitializeLogging()
+        {
             try
             {
                 _logFilename = MyLogManager.GetLogFilename();
                 _viewLog.Enabled = true;
                 _canViewLogs = true;
-            }
-            catch (Exception)
+            } catch (Exception)
             {
                 _viewLog.Enabled = false;
                 _canViewLogs = false;
             }
+        }
+
+        private void InitializeUserList()
+        {
+            _userList.OnUserSelected += UsersListOnOnUserSelected;
+            _userList.Initialize(_settings, _avatarImageList);
+        }
+
+        private void InitializeViewUser()
+        {
+            viewUser1.OnClose += ViewUserOnClose;
+            viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
+            viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
+            viewUser1.Initilaize(_settings);
+        }
+
+        private void InitializeViewBuilds()
+        {
+            _viewBuilds.OnGettingStartedClick += ViewBuildsOnOnGettingStartedClick;
+            _viewBuilds.Initialize(_settings);
+        }
+
+        private void InitializeNewsFeed()
+        {
+            _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
+            _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
         }
 
         private void ViewBuildsOnOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
@@ -304,16 +328,7 @@ namespace SirenOfShame
 
         private void StartWatchingBuild()
         {
-            _newsFeed1.SuspendLayout();
-            _viewBuilds.SuspendLayout();
-            try
-            {
-                RulesEngine.Start();
-            } finally
-            {
-                _newsFeed1.ResumeLayout();
-                _viewBuilds.ResumeLayout();
-            }
+            ControlHelpers.SuspendLayout(_viewBuilds, () => RulesEngine.Start(initialStart: true));
         }
 
         private void StopWatchingBuild()

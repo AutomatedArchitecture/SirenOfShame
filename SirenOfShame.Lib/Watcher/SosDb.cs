@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Watcher
@@ -24,25 +26,23 @@ namespace SirenOfShame.Lib.Watcher
 
         private static void UpdateStatsInSettings(BuildStatus buildStatus, SirenOfShameSettings settings)
         {
-            if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
+            if (string.IsNullOrEmpty(buildStatus.RequestedBy)) return;
+            var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
             {
-                var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
-                if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
-                {
-                    personSetting.FailedBuilds++;
-                }
-                personSetting.TotalBuilds++;
-                settings.Save();
+                personSetting.FailedBuilds++;
             }
+            personSetting.TotalBuilds++;
+            settings.Save();
         }
 
         private void AppendToFile(BuildStatus buildStatus)
         {
             string[] items = new[]
             {
-                buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(),
-                buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(),
-                ((int) buildStatus.BuildStatusEnum).ToString(),
+                buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
+                buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
+                ((int) buildStatus.BuildStatusEnum).ToString(CultureInfo.InvariantCulture),
                 buildStatus.RequestedBy,
             };
             string contents = string.Join(",", items) + "\r\n";
@@ -55,7 +55,7 @@ namespace SirenOfShame.Lib.Watcher
             return GetBuildLocation(buildStatus.BuildDefinitionId);
         }
 
-        protected static string RemoveIllegalCharacters(string s)
+        private static string RemoveIllegalCharacters(string s)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()) + "\\.";
             Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
@@ -152,22 +152,23 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public IEnumerable<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings)
+        public void GetMostRecentNewsItems(SirenOfShameSettings settings, Action<IList<NewNewsItemEventArgs>> onGetNewsItems)
         {
             var location = GetEventsLocation();
-            if (!File.Exists(location)) return new List<NewNewsItemEventArgs>();
-            string[] lines = File.ReadAllLines(location);
-            return lines
-                .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
-                .Where(i => i != null)
-                .Reverse();
+            if (!File.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
+
+            var newsItemGetter = new Task<List<NewNewsItemEventArgs>> (() => File.ReadAllLines(location)
+                                                                                .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
+                                                                                .Where(i => i != null)
+                                                                                .Reverse()
+                                                                                .ToList());
+            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result));
+            newsItemGetter.Start();
         }
-        
-        public List<NewNewsItemEventArgs> GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet)
+
+        public void GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet, Action<IEnumerable<NewNewsItemEventArgs>> onGetNewsItems)
         {
-            return GetMostRecentNewsItems(settings)
-                .Take(newsItemsToGet)
-                .ToList();
+            GetMostRecentNewsItems(settings, newNewsItems => onGetNewsItems(newNewsItems.Take(newsItemsToGet)));
         }
     }
 }

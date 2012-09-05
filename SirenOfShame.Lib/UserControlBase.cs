@@ -2,19 +2,13 @@
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
 
-namespace SirenOfShame
+namespace SirenOfShame.Lib
 {
-    public class FormBase : Form
+    public class UserControlBase : UserControl
     {
-        protected FormBase()
-        {
-            ShowInTaskbar = false;
-        }
-
         public void Invoke(Action a)
         {
             ControlHelpers.Invoke(this, a);
         }
-
     }
 }

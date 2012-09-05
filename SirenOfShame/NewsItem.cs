@@ -11,7 +11,7 @@ namespace SirenOfShame
     public partial class NewsItem : UserControl
     {
         private DateTime EventDate { get; set; }
-        private readonly string _rawUserName;
+        private string _rawUserName;
         public event UserClicked OnUserClicked;
 
         public string RawName {
@@ -43,13 +43,16 @@ namespace SirenOfShame
             if (handler != null) handler(this, new UserClickedArgs { RawUserName = _rawUserName});
         }
 
-        public NewsItem(NewNewsItemEventArgs args)
+        public NewsItem()
+        {
+            InitializeComponent();
+        }
+
+        public void Initialize(NewNewsItemEventArgs args)
         {
             _rawUserName = args.Person.RawName;
             BuildId = args.BuildId;
             EventDate = args.EventDate;
-            
-            InitializeComponent();
 
             InitializeUserNameLabel(args);
             InitializeReputationChangeLabel(args.ReputationChange);
@@ -166,7 +169,6 @@ namespace SirenOfShame
         public void UpdateState(NewNewsItemEventArgs args)
         {
             InitializeReputationChangeLabel(args.ReputationChange);
-            //Invalidate();
             InitializeMetroColors(args);
         }
 
