@@ -174,7 +174,6 @@
     <Compile Include="Helpers\FactoryExportProvider.cs" />
     <Compile Include="Helpers\IEnumerableHelpers.cs" />
     <Compile Include="Helpers\IocContainer.cs" />
-    <Compile Include="Helpers\NewsItemHelper.cs" />
     <Compile Include="Helpers\ObjectHelpers.cs" />
     <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\SiUnitHelpers.cs" />

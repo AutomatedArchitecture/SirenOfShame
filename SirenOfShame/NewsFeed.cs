@@ -12,7 +12,6 @@ namespace SirenOfShame
     public partial class NewsFeed : UserControlBase
     {
         public event UserClicked OnUserClicked;
-        private bool _doAnimations = true;
 
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
@@ -81,6 +80,7 @@ namespace SirenOfShame
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
             if (args == null || args.Person == null) return;
+            if (_filterPerson != null && _filterPerson != args.Person.RawName) return;
             if (args.ShouldUpdateOldInProgressNewsItem)
                 TryToFindAndUpdateOldInProgressNewsItem(args);
             else
@@ -101,7 +101,7 @@ namespace SirenOfShame
             var newsItem = AddNewsItemToPanel();
             newsItem.Initialize(args);
             _newsItemsPanel.Controls.SetChildIndex(newsItem, 0);
-            newsItem.Height = _doAnimations ? 1 : newsItem.GetIdealHeight();
+            newsItem.Height = 1;
             _newsItemsToOpen.Add(newsItem);
             _newsItemHeightAnimator.Start();
         }
@@ -172,7 +172,7 @@ namespace SirenOfShame
                 ResetFunnelVisibility();
                 _noNews.Visible = false;
                 var recentEventsByPerson = recentEvent.Where(i => i.Person.RawName == _filterPerson)
-                    .FilterOutOvercomeByEventsNewsItems()
+                    .GroupBy(i => i.BuildId)
                     .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
                     .ToList();
                 ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
@@ -194,23 +194,31 @@ namespace SirenOfShame
             {
                 _loading.Visible = false;
                 _noNews.Visible = false;
-                var recentEventsByPerson = recentEvents.FilterOutOvercomeByEventsNewsItems()
+                var recentEventsByPerson = recentEvents
+                    .GroupBy(i => i.BuildId)
                     .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
                     .ToList();
                 ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
             }));
         }
 
-        private void ReinitializeNewsItems(List<NewNewsItemEventArgs> newsItems, ImageList avatarImageList)
+        private void ReinitializeNewsItems(List<IGrouping<string, NewNewsItemEventArgs>> newsItems, ImageList avatarImageList)
         {
             EnsureWeHaveXNewsItemControls(newsItems.Count);
             var newsItemControls = GetNewsItemControls().ToList();
             for (int i = 0; i < newsItems.Count; i++)
             {
-                var newsItem = newsItems[i];
-                newsItem.AvatarImageList = avatarImageList;
-                var newsItemControl = newsItemControls[i];
-                newsItemControl.Initialize(newsItem);
+                var newsItemGrouping = newsItems[i];
+                var newsItemsReversed = newsItemGrouping.Reverse().ToList();
+                var firstNewsItem = newsItemsReversed.First();
+                firstNewsItem.AvatarImageList = avatarImageList;
+                var firstNewsItemControl = newsItemControls[i];
+                firstNewsItemControl.Initialize(firstNewsItem);
+                var subsequentNewsItems = newsItemsReversed.Skip(1);
+                foreach (var newsItem in subsequentNewsItems)
+                {
+                    firstNewsItemControl.UpdateState(newsItem);
+                }
             }
         }
 
