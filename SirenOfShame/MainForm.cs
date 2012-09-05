@@ -84,7 +84,13 @@ namespace SirenOfShame
         private void InitializeViewBuilds()
         {
             _viewBuilds.OnGettingStartedClick += ViewBuildsOnOnGettingStartedClick;
+            _viewBuilds.SelectedBuildChanged += ViewBuildsOnSelectedBuildChanged;
             _viewBuilds.Initialize(_settings);
+        }
+
+        private void ViewBuildsOnSelectedBuildChanged(object sender, SelectedBuildChangedArgs args)
+        {
+            _newsFeed1.AddBuildFilter(_settings, args.BuildId, _avatarImageList);
         }
 
         private void InitializeNewsFeed()

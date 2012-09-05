@@ -11,6 +11,13 @@ namespace SirenOfShame
     public partial class ViewBuilds : UserControl
     {
         public event GettingStartedClick OnGettingStartedClick;
+        public event SelectedBuildChanged SelectedBuildChanged;
+
+        private void OnSelectedBuildChanged(string buildId)
+        {
+            SelectedBuildChanged handler = SelectedBuildChanged;
+            if (handler != null) handler(this, new SelectedBuildChangedArgs { BuildId = buildId });
+        }
 
         private void InvokeOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
         {
@@ -50,6 +57,7 @@ namespace SirenOfShame
 
         private void InitializeForBuild(string buildId)
         {
+            OnSelectedBuildChanged(buildId);
             bool viewAllBuilds = buildId == null;
             var buildStatusDto = _lastBuildStatusDtos.FirstOrDefault(i => i.Id == buildId);
             InitializeLabelsForBuild(viewAllBuilds);
@@ -336,5 +344,12 @@ namespace SirenOfShame
             if (_viewBuildBig != null)
                 _viewBuildBig.RefreshStats();
         }
+    }
+
+    public delegate void SelectedBuildChanged(object sender, SelectedBuildChangedArgs args);
+
+    public class SelectedBuildChangedArgs
+    {
+        public string BuildId { get; set; }
     }
 }

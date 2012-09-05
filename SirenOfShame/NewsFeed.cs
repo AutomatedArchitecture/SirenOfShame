@@ -80,7 +80,7 @@ namespace SirenOfShame
         public void AddNewsItem(NewNewsItemEventArgs args)
         {
             if (args == null || args.Person == null) return;
-            if (_filterPerson != null && _filterPerson != args.Person.RawName) return;
+            if (!IncludeInFilter(args)) return;
             if (args.ShouldUpdateOldInProgressNewsItem)
                 TryToFindAndUpdateOldInProgressNewsItem(args);
             else
@@ -160,23 +160,52 @@ namespace SirenOfShame
         }
 
         private string _filterPerson = null;
+        private string _filterBuildId = null;
+
+        public void AddBuildFilter(SirenOfShameSettings settings, string buildId, ImageList avatarImageList)
+        {
+            ClearAllFilters();
+            _filterBuildId = buildId;
+            ApplyFilters(settings, avatarImageList);
+        }
 
         public void AddUserFilter(SirenOfShameSettings settings, PersonSetting selectedPerson, ImageList avatarImageList)
         {
+            ClearAllFilters();
             _filterPerson = selectedPerson.RawName;
-            _loading.Visible = true;
+            ApplyFilters(settings, avatarImageList);
+        }
 
-            new SosDb().GetMostRecentNewsItems(settings, recentEvent => Invoke(() =>
-            {
-                _loading.Visible = false;
-                ResetFunnelVisibility();
-                _noNews.Visible = false;
-                var recentEventsByPerson = recentEvent.Where(i => i.Person.RawName == _filterPerson)
-                    .GroupBy(i => i.BuildId)
-                    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
-                    .ToList();
-                ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
-            }));
+        private void ApplyFilters(SirenOfShameSettings settings, ImageList avatarImageList)
+        {
+            _loading.Visible = true;
+            _filterButton.Visible = false;
+
+            new SosDb().GetMostRecentNewsItems(settings,
+                recentEvent => Invoke(() =>
+                {
+                    _loading.Visible = false;
+                    ResetFunnelVisibility();
+                    _noNews.Visible = false;
+                    var recentEventsByPerson = recentEvent
+                        .Where(IncludeInFilter)
+                        .GroupBy(i => i.BuildId)
+                        .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                        .ToList();
+                    ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
+                }));
+        }
+
+        private bool IncludeInFilter(NewNewsItemEventArgs i)
+        {
+            return IncludeInFilter(i, _filterPerson, _filterBuildId);
+        }
+
+        public static bool IncludeInFilter(NewNewsItemEventArgs newsItem, string filterPerson, string filterBuildId)
+        {
+            if (filterPerson == null && filterBuildId == null) return true;
+            if (filterPerson != null) return newsItem.Person.RawName == filterPerson;
+            return newsItem.IsSosOnlineEvent || newsItem.Project == filterBuildId;
         }
 
         private void ResetFunnelVisibility()
@@ -186,20 +215,14 @@ namespace SirenOfShame
 
         public void ClearFilter(SirenOfShameSettings settings, ImageList avatarImageList)
         {
-            _filterPerson = null;
-            _loading.Visible = true;
-            ResetFunnelVisibility();
+            ClearAllFilters();
+            ApplyFilters(settings, avatarImageList);
+        }
 
-            new SosDb().GetMostRecentNewsItems(settings, recentEvents => Invoke(() =>
-            {
-                _loading.Visible = false;
-                _noNews.Visible = false;
-                var recentEventsByPerson = recentEvents
-                    .GroupBy(i => i.BuildId)
-                    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
-                    .ToList();
-                ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
-            }));
+        private void ClearAllFilters()
+        {
+            _filterPerson = null;
+            _filterBuildId = null;
         }
 
         private void ReinitializeNewsItems(List<IGrouping<string, NewNewsItemEventArgs>> newsItems, ImageList avatarImageList)

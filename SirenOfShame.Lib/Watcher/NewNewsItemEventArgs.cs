@@ -34,6 +34,11 @@ namespace SirenOfShame.Lib.Watcher
         public int? ReputationChange { get; set; }
         public string BuildId { get; set; }
 
+        public bool IsSosOnlineEvent
+        {
+            get { return NewsItemType < NewsItemTypeEnum.BuildStarted; }
+        }
+
         public bool ShouldUpdateOldInProgressNewsItem
         {
             get
