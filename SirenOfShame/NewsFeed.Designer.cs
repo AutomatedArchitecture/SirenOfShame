@@ -33,9 +33,9 @@
             this._newsItemsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._noNews = new System.Windows.Forms.Label();
             this._topPanel = new System.Windows.Forms.Panel();
+            this._loading = new System.Windows.Forms.PictureBox();
             this._filterButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this._loading = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this._topPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
@@ -66,9 +66,9 @@
             // 
             // _newsItemsPanel
             // 
-            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._newsItemsPanel.AutoScroll = true;
             this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
             this._newsItemsPanel.Location = new System.Drawing.Point(0, 45);
@@ -101,6 +101,18 @@
             this._topPanel.Size = new System.Drawing.Size(258, 42);
             this._topPanel.TabIndex = 5;
             // 
+            // _loading
+            // 
+            this._loading.Dock = System.Windows.Forms.DockStyle.Left;
+            this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
+            this._loading.Location = new System.Drawing.Point(113, 0);
+            this._loading.Name = "_loading";
+            this._loading.Size = new System.Drawing.Size(21, 42);
+            this._loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._loading.TabIndex = 34;
+            this._loading.TabStop = false;
+            this._loading.Visible = false;
+            // 
             // _filterButton
             // 
             this._filterButton.BackColor = System.Drawing.Color.Transparent;
@@ -119,6 +131,7 @@
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
             this.label1.ForeColor = System.Drawing.Color.White;
@@ -128,18 +141,9 @@
             this.label1.Size = new System.Drawing.Size(89, 42);
             this.label1.TabIndex = 5;
             this.label1.Text = "News";
-            // 
-            // _loading
-            // 
-            this._loading.Dock = System.Windows.Forms.DockStyle.Left;
-            this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
-            this._loading.Location = new System.Drawing.Point(113, 0);
-            this._loading.Name = "_loading";
-            this._loading.Size = new System.Drawing.Size(21, 42);
-            this._loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this._loading.TabIndex = 34;
-            this._loading.TabStop = false;
-            this._loading.Visible = false;
+            this.label1.Click += new System.EventHandler(this.Label1Click);
+            this.label1.MouseEnter += new System.EventHandler(this.Label1MouseEnter);
+            this.label1.MouseLeave += new System.EventHandler(this.Label1MouseLeave);
             // 
             // NewsFeed
             // 

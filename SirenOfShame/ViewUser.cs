@@ -11,7 +11,7 @@ namespace SirenOfShame
     public partial class ViewUser : UserControl
     {
         private SirenOfShameSettings _settings;
-        public event CloseViewUser OnClose;
+        public event CloseScreen OnClose;
         public event UserChangedAvatarId OnUserChangedAvatarId;
         public event UserDisplayNameChanged OnUserDisplayNameChanged;
         private PersonSetting _personSetting;
@@ -54,9 +54,11 @@ namespace SirenOfShame
             _settings = settings;
         }
 
-        private void CloseButtonClick(object sender, EventArgs e)
+        private void InvokeOnClose()
         {
-            OnClose(this, new CloseViewUserArgs());
+            var onClose = OnClose;
+            if (onClose != null)
+                OnClose(this, new CloseScreenArgs());
         }
 
         private ImageList _avatarImageList;
@@ -164,6 +166,11 @@ namespace SirenOfShame
         {
             SaveDisplayName();
         }
+
+        private void BackClick(object sender, EventArgs e)
+        {
+            InvokeOnClose();
+        }
     }
 
     public delegate void UserChangedAvatarId(object sender, UserChangedAvatarIdArgs args);
@@ -174,9 +181,9 @@ namespace SirenOfShame
         public int NewImageIndex { get; set; }
     }
 
-    public delegate void CloseViewUser(object sender, CloseViewUserArgs args);
+    public delegate void CloseScreen(object sender, CloseScreenArgs args);
 
-    public class CloseViewUserArgs
+    public class CloseScreenArgs
     {
     }
 

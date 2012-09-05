@@ -76,9 +76,9 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(100, 68);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(517, 217);
@@ -154,7 +154,7 @@
             this._back.Size = new System.Drawing.Size(32, 32);
             this._back.TabIndex = 2;
             this._back.UseVisualStyleBackColor = true;
-            this._back.Click += new System.EventHandler(this.CloseButtonClick);
+            this._back.Click += new System.EventHandler(this.BackClick);
             // 
             // _displayNameTextbox
             // 

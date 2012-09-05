@@ -45,12 +45,23 @@ namespace SirenOfShame
             InitializeNewsFeed();
             InitializeUserList();
             InitializeSirenOfShameDevice();
+            InitializeViewAllNews();
             SetAutomaticUpdaterSettings();
 
             _showAlertAnimation.Interval = 1;
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
 
             InitializeLogging();
+        }
+
+        private void InitializeViewAllNews()
+        {
+            viewAllNews1.OnClose += ViewAllNews1OnOnClose;
+        }
+
+        private void ViewAllNews1OnOnClose(object sender, CloseScreenArgs args)
+        {
+            ShowInMainWindow(MainWindowEnum.ViewBuilds);
         }
 
         private void InitializeLogging()
@@ -95,8 +106,14 @@ namespace SirenOfShame
 
         private void InitializeNewsFeed()
         {
-            _newsFeed1.OnUserClicked += NewsFeedOnOnUserClicked;
+            _newsFeed1.OnUserClicked += NewsFeedOnUserClicked;
+            _newsFeed1.OnViewAllNews += NewsFeed1OnViewAllNews;
             _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
+        }
+
+        private void NewsFeed1OnViewAllNews(object sender, ViewAllNewsArgs args)
+        {
+            ShowInMainWindow(MainWindowEnum.ViewAllNews);
         }
 
         private void ViewBuildsOnOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
@@ -135,7 +152,7 @@ namespace SirenOfShame
             _userList.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
         }
 
-        private void NewsFeedOnOnUserClicked(object sender, UserClickedArgs args)
+        private void NewsFeedOnUserClicked(object sender, UserClickedArgs args)
         {
             ShowViewUserPage(args.RawUserName);
         }
@@ -157,6 +174,10 @@ namespace SirenOfShame
         {
             _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
             viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
+            viewAllNews1.Visible = mainWindow == MainWindowEnum.ViewAllNews;
+
+            _newsFeed1.Visible = mainWindow != MainWindowEnum.ViewAllNews;
+            _userList.Visible = mainWindow != MainWindowEnum.ViewAllNews;
         }
         
         private void ShowViewUserPage(string rawName)
@@ -579,6 +600,7 @@ namespace SirenOfShame
         {
             ViewBuilds = 0,
             ViewUser = 1,
+            ViewAllNews
         }
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
@@ -753,7 +775,7 @@ namespace SirenOfShame
             }
         }
 
-        private void ViewUserOnClose(object sender, CloseViewUserArgs args)
+        private void ViewUserOnClose(object sender, CloseScreenArgs args)
         {
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
             _newsFeed1.ClearFilter(_settings, _avatarImageList);
