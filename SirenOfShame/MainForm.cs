@@ -172,12 +172,15 @@ namespace SirenOfShame
 
         private void ShowInMainWindow(MainWindowEnum mainWindow)
         {
-            _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
-            viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
-            viewAllNews1.Visible = mainWindow == MainWindowEnum.ViewAllNews;
+            this.SuspendDrawing(() =>
+            {
+                _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
+                viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
+                viewAllNews1.Visible = mainWindow == MainWindowEnum.ViewAllNews;
 
-            _newsFeed1.Visible = mainWindow != MainWindowEnum.ViewAllNews;
-            _userList.Visible = mainWindow != MainWindowEnum.ViewAllNews;
+                _newsFeed1.Visible = mainWindow != MainWindowEnum.ViewAllNews;
+                _userList.Visible = mainWindow != MainWindowEnum.ViewAllNews;
+            });
         }
         
         private void ShowViewUserPage(string rawName)
@@ -795,7 +798,7 @@ namespace SirenOfShame
         private void ShowRibbon(bool show)
         {
             _showRibbon.Image = show ? Properties.Resources.navigate_up : Properties.Resources.navigate_down2;
-            _ribbonPanel.Visible = show;
+            _ribbonPanel.SuspendDrawing(() => _ribbonPanel.Visible = show);
         }
 
         private void MainFormResizeBegin(object sender, EventArgs e)

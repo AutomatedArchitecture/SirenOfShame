@@ -124,7 +124,6 @@
             this.Name = "ViewBuilds";
             this.Padding = new System.Windows.Forms.Padding(38, 0, 0, 0);
             this.Size = new System.Drawing.Size(568, 459);
-            this.Resize += new System.EventHandler(this.ViewBuildsResize);
             this._mainFlowLayoutPanel.ResumeLayout(false);
             this._scrollbarHider.ResumeLayout(false);
             this.ResumeLayout(false);

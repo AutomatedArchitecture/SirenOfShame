@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -57,14 +58,17 @@ namespace SirenOfShame
 
         private void InitializeForBuild(string buildId)
         {
-            OnSelectedBuildChanged(buildId);
-            bool viewAllBuilds = buildId == null;
-            var buildStatusDto = _lastBuildStatusDtos.FirstOrDefault(i => i.Id == buildId);
-            InitializeLabelsForBuild(viewAllBuilds);
-            InitializeViewBuildBig(buildStatusDto);
-            InitializeDisplayModes();
-            InitializeSmallBuildsVisibility(buildId);
-            SortExistingControls();
+            this.SuspendDrawing(() =>
+            {
+                OnSelectedBuildChanged(buildId);
+                bool viewAllBuilds = buildId == null;
+                var buildStatusDto = _lastBuildStatusDtos.FirstOrDefault(i => i.Id == buildId);
+                InitializeLabelsForBuild(viewAllBuilds);
+                InitializeViewBuildBig(buildStatusDto);
+                InitializeDisplayModes();
+                InitializeSmallBuildsVisibility(buildId);
+                SortExistingControls();
+            });
         }
 
         private void InitializeSmallBuildsVisibility(string activeBuildId)
@@ -96,24 +100,17 @@ namespace SirenOfShame
 
         public void RefreshBuildStatuses(RefreshStatusEventArgs args)
         {
-            SuspendLayout();
-            try
+            _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
+            var buildStatusDtosAndControl = GetBuildStatusDtoAndControls(_lastBuildStatusDtos).ToList();
+            RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(buildStatusDtosAndControl, _lastBuildStatusDtos);
+            if (NoChildControlsExist)
             {
-                _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
-                var buildStatusDtosAndControl = GetBuildStatusDtoAndControls(_lastBuildStatusDtos).ToList();
-                RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(buildStatusDtosAndControl, _lastBuildStatusDtos);
-                if (NoChildControlsExist)
-                {
-                    CreateControlsAndAddToPanels(_lastBuildStatusDtos);
-                } else
-                {
-                    UpdateExistingControls(buildStatusDtosAndControl);
-                }
-                InitializeDisplayModes();
-            } finally
+                CreateControlsAndAddToPanels(_lastBuildStatusDtos);
+            } else
             {
-                ResumeLayout();
+                UpdateExistingControls(buildStatusDtosAndControl);
             }
+            InitializeDisplayModes();
         }
 
         private bool IsViewBuildBigVisible
@@ -226,14 +223,17 @@ namespace SirenOfShame
 
         private void CreateControlsAndAddToPanels(IEnumerable<BuildStatusDto> buildStatusDtos)
         {
-            var buildsOrdered = buildStatusDtos
-                .OrderByDescending(i => i.LocalStartTime)
-                .ToList();
+            this.SuspendDrawing(() =>
+            {
+                var buildsOrdered = buildStatusDtos
+                    .OrderByDescending(i => i.LocalStartTime)
+                    .ToList();
 
-            buildsOrdered
-                .Select(CreateViewBuildSmall)
-                .ToList()
-                .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
+                buildsOrdered
+                    .Select(CreateViewBuildSmall)
+                    .ToList()
+                    .ForEach(i => _mainFlowLayoutPanel.Controls.Add(i));
+            });
         }
 
         private ViewBuildSmall CreateViewBuildSmall(BuildStatusDto i)
@@ -266,19 +266,6 @@ namespace SirenOfShame
             return (_mainFlowLayoutPanel.Width) / (ViewBuildSmall.MARGIN + ViewBuildSmall.WIDTH + ViewBuildSmall.MARGIN);
         }
 
-        private void ViewBuildsResize(object sender, EventArgs e)
-        {
-            SuspendLayout();
-            try
-            {
-                InitializeDisplayModes();
-            } 
-            finally
-            {
-                ResumeLayout();
-            }
-        }
-        
         private IEnumerable<ViewBuildSmall> GetSmallViewBuilds()
         {
             return _mainFlowLayoutPanel.Controls
