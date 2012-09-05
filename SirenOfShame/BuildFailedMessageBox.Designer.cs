@@ -32,14 +32,14 @@ namespace SirenOfShame
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BuildFailedMessageBox));
             this._body = new System.Windows.Forms.Label();
-            this._ok = new SosButton();
+            this._ok = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();
             // 
             // _body
             // 
-            this._body.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._body.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._body.ForeColor = System.Drawing.Color.White;
             this._body.Location = new System.Drawing.Point(12, 9);
             this._body.Name = "_body";
@@ -49,8 +49,8 @@ namespace SirenOfShame
             // 
             // _ok
             // 
-            this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._ok.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._ok.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this._ok.FlatAppearance.BorderSize = 0;
@@ -81,6 +81,7 @@ namespace SirenOfShame
             this.Name = "BuildFailedMessageBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BuildFailedMessageBox";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
