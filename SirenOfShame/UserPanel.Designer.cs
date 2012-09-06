@@ -78,7 +78,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SirenOfShame.Properties.Resources.AchievementBall;
-            this.pictureBox1.Location = new System.Drawing.Point(95, 8);
+            this.pictureBox1.Location = new System.Drawing.Point(97, 8);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(10, 10);
@@ -90,7 +90,7 @@
             // 
             this._achievements.AutoSize = true;
             this._achievements.ForeColor = System.Drawing.Color.DimGray;
-            this._achievements.Location = new System.Drawing.Point(104, 6);
+            this._achievements.Location = new System.Drawing.Point(106, 6);
             this._achievements.Name = "_achievements";
             this._achievements.Size = new System.Drawing.Size(13, 13);
             this._achievements.TabIndex = 2;
@@ -100,8 +100,8 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this._totalBuilds);
             this.panel1.Controls.Add(this.label5);
@@ -150,7 +150,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(129, 6);
+            this.label1.Location = new System.Drawing.Point(132, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(16, 13);
             this.label1.TabIndex = 9;
@@ -163,7 +163,7 @@
             this._failPercent.AutoSize = true;
             this._failPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._failPercent.ForeColor = System.Drawing.Color.DimGray;
-            this._failPercent.Location = new System.Drawing.Point(144, 6);
+            this._failPercent.Location = new System.Drawing.Point(147, 6);
             this._failPercent.Name = "_failPercent";
             this._failPercent.Size = new System.Drawing.Size(39, 13);
             this._failPercent.TabIndex = 6;
@@ -188,7 +188,7 @@
             this._successfulBuildsInARow.AutoSize = true;
             this._successfulBuildsInARow.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._successfulBuildsInARow.ForeColor = System.Drawing.Color.DimGray;
-            this._successfulBuildsInARow.Location = new System.Drawing.Point(117, 27);
+            this._successfulBuildsInARow.Location = new System.Drawing.Point(120, 27);
             this._successfulBuildsInARow.Name = "_successfulBuildsInARow";
             this._successfulBuildsInARow.Size = new System.Drawing.Size(19, 13);
             this._successfulBuildsInARow.TabIndex = 7;
@@ -210,7 +210,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(91, 27);
+            this.label2.Location = new System.Drawing.Point(94, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 4;

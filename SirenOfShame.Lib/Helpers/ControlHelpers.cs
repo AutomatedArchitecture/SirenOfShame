@@ -42,7 +42,8 @@ namespace SirenOfShame.Lib.Helpers
 
         public static void Invoke(this Control ctrl, Action a)
         {
-            if (ctrl.InvokeRequired)
+            bool invokeRequired = ctrl.InvokeRequired;
+            if (invokeRequired)
             {
                 try
                 {

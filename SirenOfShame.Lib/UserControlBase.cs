@@ -6,7 +6,7 @@ namespace SirenOfShame.Lib
 {
     public class UserControlBase : UserControl
     {
-        public void Invoke(Action a)
+        protected void Invoke(Action a)
         {
             ControlHelpers.Invoke(this, a);
         }

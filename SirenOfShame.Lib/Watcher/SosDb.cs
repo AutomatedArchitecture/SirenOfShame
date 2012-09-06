@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using SirenOfShame.Lib.Settings;
 
@@ -157,12 +158,14 @@ namespace SirenOfShame.Lib.Watcher
             var location = GetEventsLocation();
             if (!File.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
 
+            var context = TaskScheduler.FromCurrentSynchronizationContext();
+            
             var newsItemGetter = new Task<List<NewNewsItemEventArgs>> (() => File.ReadAllLines(location)
                                                                                 .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
                                                                                 .Where(i => i != null)
                                                                                 .Reverse()
                                                                                 .ToList());
-            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result));
+            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result), context);
             newsItemGetter.Start();
         }
 

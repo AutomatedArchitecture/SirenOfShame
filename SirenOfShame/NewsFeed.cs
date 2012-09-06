@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib;
@@ -190,18 +191,19 @@ namespace SirenOfShame
             _filterButton.Visible = false;
 
             new SosDb().GetMostRecentNewsItems(settings,
-                recentEvent => Invoke(() =>
-                {
-                    _loading.Visible = false;
-                    ResetFunnelVisibility();
-                    _noNews.Visible = false;
-                    var recentEventsByPerson = recentEvent
-                        .Where(IncludeInFilter)
-                        .GroupBy(i => i.BuildId)
-                        .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
-                        .ToList();
-                    ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
-                }));
+                recentEvent =>
+                    {
+                        var recentEventsByPerson = recentEvent
+                            .Where(IncludeInFilter)
+                            .GroupBy(i => i.BuildId ?? i.EventDate.ToString(CultureInfo.InvariantCulture))
+                            .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                            .ToList();
+                        
+                        _loading.Visible = false;
+                        ResetFunnelVisibility();
+                        _noNews.Visible = false;
+                        this.SuspendDrawing(() => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
+                });
         }
 
         private bool IncludeInFilter(NewNewsItemEventArgs i)
