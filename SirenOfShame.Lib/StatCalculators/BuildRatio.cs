@@ -11,7 +11,7 @@ namespace SirenOfShame.Lib.StatCalculators
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildRatio));
 
-        public override void SetStats(PersonSetting personSetting, List<BuildStatus> currentBuildDefinitionOrderedChronoligically, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
+        public override void SetStats(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {
             var buildRatio = CalculateLowestBuildRatioAfter50Builds(personSetting, allActiveBuildDefinitionsOrderedChronoligically);
             personSetting.CurrentBuildRatio = CalculateCurrentBuildRatio(personSetting, allActiveBuildDefinitionsOrderedChronoligically);
@@ -52,7 +52,7 @@ namespace SirenOfShame.Lib.StatCalculators
                 {
                     var oldLowestRatio = lowestRatio;
                     lowestRatio = Math.Min(currentRatio, lowestRatio);
-                    if (oldLowestRatio != lowestRatio)
+                    if (Math.Abs(oldLowestRatio - lowestRatio) > .001)
                     {
                         lowestRatioAchieved = buildStatus.StartedTime;
                     }

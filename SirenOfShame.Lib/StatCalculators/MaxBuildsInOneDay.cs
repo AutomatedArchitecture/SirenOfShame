@@ -11,9 +11,9 @@ namespace SirenOfShame.Lib.StatCalculators
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MaxBuildsInOneDay));
 
-        public override void SetStats(PersonSetting personSetting, List<BuildStatus> currentBuildDefinitionOrderedChronoligically, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
+        public override void SetStats(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {
-            personSetting.MaxBuildsInOneDay = GetMaxBuildsInOneDay(personSetting, currentBuildDefinitionOrderedChronoligically);
+            personSetting.MaxBuildsInOneDay = GetMaxBuildsInOneDay(personSetting, allActiveBuildDefinitionsOrderedChronoligically);
         }
 
         public static int GetMaxBuildsInOneDay(PersonSetting personSetting, List<BuildStatus> currentBuildDefinitionOrderedChronoligically)

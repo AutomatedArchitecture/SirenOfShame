@@ -83,7 +83,7 @@ namespace SirenOfShame.Lib.Settings
                 MyCumulativeBuildTime = MyCumulativeBuildTime == null ? buildDuration : MyCumulativeBuildTime + buildDuration;
             }
 
-            CalculateStats(allActiveBuildDefinitionsOrderedChronoligically, currentBuildDefinitionOrderedChronoligically);
+            CalculateStats(allActiveBuildDefinitionsOrderedChronoligically);
 
             List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
@@ -117,7 +117,7 @@ namespace SirenOfShame.Lib.Settings
                 .Select(i => i.AchievementEnum);
         }
 
-        public void CalculateStats(List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically, List<BuildStatus> currentBuildDefinitionOrderedChronoligically) {
+        public void CalculateStats(List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically) {
             List<StatCalculatorBase> statCalculators = new List<StatCalculatorBase>
             {
                 new FixedSomeoneElsesBuild(),
@@ -126,7 +126,7 @@ namespace SirenOfShame.Lib.Settings
                 new BuildRatio(),
             };
 
-            statCalculators.ForEach(i => i.SetStats(this, currentBuildDefinitionOrderedChronoligically, allActiveBuildDefinitionsOrderedChronoligically));
+            statCalculators.ForEach(i => i.SetStats(this, allActiveBuildDefinitionsOrderedChronoligically));
         }
 
         public bool HasAchieved(AchievementEnum achievement)

@@ -1,4 +1,8 @@
-﻿namespace SirenOfShame.Lib.Settings.Upgrades
+﻿using System.Collections.Generic;
+using System.Linq;
+using SirenOfShame.Lib.Watcher;
+
+namespace SirenOfShame.Lib.Settings.Upgrades
 {
     public class Upgrade6To7 : UpgradeBase
     {
@@ -13,17 +17,13 @@
 
         public override void Upgrade(SirenOfShameSettings settings)
         {
-            //SosDb sosDb = new SosDb();
-            //List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically = sosDb
-            //    .ReadAll(settings.GetAllActiveBuildDefinitions())
-            //    .OrderBy(i => i.StartedTime)
-            //    .ToList();
+            SosDb sosDb = new SosDb();
+            List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically = sosDb
+                .ReadAll(settings.GetAllActiveBuildDefinitions())
+                .OrderBy(i => i.StartedTime)
+                .ToList();
 
-            //List<BuildStatus> currentBuildDefinitionOrderedChronoligically = allActiveBuildDefinitionsOrderedChronoligically
-            //    .Where(i => i.BuildDefinitionId == build.BuildDefinitionId)
-            //    .ToList();
-
-            //sirenOfShameSettings.People.ForEach(i => i.CalculateNewAchievements());
+            settings.People.ForEach(i => i.CalculateStats(allActiveBuildDefinitionsOrderedChronoligically));
         }
     }
 }

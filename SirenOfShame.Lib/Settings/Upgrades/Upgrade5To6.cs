@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace SirenOfShame.Lib.Settings.Upgrades
+﻿namespace SirenOfShame.Lib.Settings.Upgrades
 {
     public class Upgrade5To6 : UpgradeBase
     {

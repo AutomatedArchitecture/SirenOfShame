@@ -6,10 +6,6 @@ namespace SirenOfShame.Lib.StatCalculators
 {
     public abstract class StatCalculatorBase
     {
-        public abstract void SetStats(
-            PersonSetting personSetting,
-            List<BuildStatus> currentBuildDefinitionOrderedChronoligically,
-            List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically
-            );
+        public abstract void SetStats(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically);
     }
 }
