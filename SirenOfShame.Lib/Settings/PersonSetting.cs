@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SirenOfShame.Lib.Achievements;
+using SirenOfShame.Lib.StatCalculators;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Settings
@@ -18,6 +19,11 @@ namespace SirenOfShame.Lib.Settings
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
         public override int AvatarId { get; set; }
+        public int NumberOfTimesFixedSomeoneElsesBuild { get; set; }
+        public int NumberOfTimesPerformedBackToBackBuilds { get; set; }
+        public int MaxBuildsInOneDay { get; set; }
+        public double CurrentBuildRatio { get; set; }
+        public double? LowestBuildRatioAfter50Builds { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime
@@ -77,10 +83,7 @@ namespace SirenOfShame.Lib.Settings
                 MyCumulativeBuildTime = MyCumulativeBuildTime == null ? buildDuration : MyCumulativeBuildTime + buildDuration;
             }
 
-            int howManyTimesHasFixedSomeoneElsesBuild = CiNinja.HowManyTimesHasFixedSomeoneElsesBuild(currentBuildDefinitionOrderedChronoligically, RawName);
-            int howManyTimesHasPerformedBackToBackBuilds = ArribaArribaAndaleAndale.HowManyTimesHasPerformedBackToBackBuilds(this, currentBuildDefinitionOrderedChronoligically);
-            int maxBuildsInOneDay = InTheZone.MaxBuildsInOneDay(this, currentBuildDefinitionOrderedChronoligically);
-            double? lowestBuildRatio = Critical.CalculateLowestBuildRatio(this, allActiveBuildDefinitionsOrderedChronoligically);
+            CalculateStats(allActiveBuildDefinitionsOrderedChronoligically, currentBuildDefinitionOrderedChronoligically);
 
             List<AchievementBase> possibleAchievements = new List<AchievementBase>
             {
@@ -93,17 +96,17 @@ namespace SirenOfShame.Lib.Settings
                 new TimeWarrior(this),
                 new ChronMaster(this),
                 new ChronGrandMaster(this),
-                new CiNinja(this, howManyTimesHasFixedSomeoneElsesBuild),
-                new Assassin(this, howManyTimesHasFixedSomeoneElsesBuild),
+                new CiNinja(this),
+                new Assassin(this),
                 new LikeLightning(this, currentBuildDefinitionOrderedChronoligically),
                 new ReputationRebound(this, allActiveBuildDefinitionsOrderedChronoligically),
-                new ArribaArribaAndaleAndale(this, howManyTimesHasPerformedBackToBackBuilds),
-                new SpeedDaemon(this, howManyTimesHasPerformedBackToBackBuilds),
-                new InTheZone(this, maxBuildsInOneDay),
-                new Terminator(this, maxBuildsInOneDay),
+                new ArribaArribaAndaleAndale(this),
+                new SpeedDaemon(this),
+                new InTheZone(this),
+                new Terminator(this),
                 new AndGotAwayWithIt(this, currentBuildDefinitionOrderedChronoligically),
-                new Critical(this, lowestBuildRatio),
-                new Perfectionist(this, lowestBuildRatio),
+                new Critical(this),
+                new Perfectionist(this),
                 new Macgyver(this, currentBuildDefinitionOrderedChronoligically),
                 new Napoleon(this, settings.People),
                 new ShamePusher(this, settings)
@@ -114,12 +117,24 @@ namespace SirenOfShame.Lib.Settings
                 .Select(i => i.AchievementEnum);
         }
 
+        public void CalculateStats(List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically, List<BuildStatus> currentBuildDefinitionOrderedChronoligically) {
+            List<StatCalculatorBase> statCalculators = new List<StatCalculatorBase>
+            {
+                new FixedSomeoneElsesBuild(),
+                new BackToBackBuilds(),
+                new MaxBuildsInOneDay(),
+                new BuildRatio(),
+            };
+
+            statCalculators.ForEach(i => i.SetStats(this, currentBuildDefinitionOrderedChronoligically, allActiveBuildDefinitionsOrderedChronoligically));
+        }
+
         public bool HasAchieved(AchievementEnum achievement)
         {
             return Achievements.Any(i => i.AchievementId == (int)achievement);
         }
 
-        public void AddAchievements(IList<AchievementLookup> newAchievements)
+        public void AddAchievements(IEnumerable<AchievementLookup> newAchievements)
         {
             foreach (var achievementLookup in newAchievements)
             {

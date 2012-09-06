@@ -6,9 +6,9 @@ namespace SirenOfShame.Lib.Achievements
     {
         private readonly int _howManyTimesHasPerformedBackToBackBuilds;
 
-        public SpeedDaemon(PersonSetting personSetting, int howManyTimesHasPerformedBackToBackBuilds) : base(personSetting)
+        public SpeedDaemon(PersonSetting personSetting) : base(personSetting)
         {
-            _howManyTimesHasPerformedBackToBackBuilds = howManyTimesHasPerformedBackToBackBuilds;
+            _howManyTimesHasPerformedBackToBackBuilds = personSetting.NumberOfTimesPerformedBackToBackBuilds;
         }
 
         public override AchievementEnum AchievementEnum

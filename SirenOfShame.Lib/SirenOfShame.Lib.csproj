@@ -127,6 +127,12 @@
     <Compile Include="ConfigureSirenDialog.Designer.cs">
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />
+    <Compile Include="StatCalculators\BackToBackBuilds.cs" />
+    <Compile Include="StatCalculators\BuildRatio.cs" />
+    <Compile Include="StatCalculators\FixedSomeoneElsesBuild.cs" />
+    <Compile Include="StatCalculators\MaxBuildsInOneDay.cs" />
+    <Compile Include="StatCalculators\StatCalculatorBase.cs" />
     <Compile Include="UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

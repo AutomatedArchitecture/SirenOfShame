@@ -156,7 +156,7 @@ namespace SirenOfShame.Lib.Settings
 
         public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
 
-        public virtual void Save(string fileName)
+        public void Save(string fileName)
         {
             lock (_lock)
             {
@@ -242,7 +242,8 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade2To3(),
                                    new Upgrade3To4(),
                                    new Upgrade4To5(), 
-                                   new Upgrade5To6(AVATAR_COUNT)
+                                   new Upgrade5To6(AVATAR_COUNT),
+                                   new Upgrade6To7(), 
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
@@ -319,21 +320,13 @@ namespace SirenOfShame.Lib.Settings
             TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
         }
 
-        public PersonSetting FindAddPerson(string requestedBy)
-        {
-            return FindAddPerson(requestedBy, AVATAR_COUNT);
-        }
-        
-        /// <summary>
-        /// This overload is just for testing. I should mark it virtual or make AVATAR_COUNT not const, but I'm lazy.
-        /// </summary>
-        public PersonSetting FindAddPerson(string requestedBy, int avatarCount)
+        public PersonSetting FindAddPerson(string requestedBy, int avatarCount = AVATAR_COUNT)
         {
             if (string.IsNullOrEmpty(requestedBy))
             {
                 _log.Warn("Tried to add a person with a null RawName");
                 return null;
-            };
+            }
             var person = FindPersonByRawName(requestedBy);
             if (person != null) return person;
             person = new PersonSetting

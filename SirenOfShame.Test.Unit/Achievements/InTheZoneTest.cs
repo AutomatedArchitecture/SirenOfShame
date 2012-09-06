@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.StatCalculators;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
@@ -19,7 +19,7 @@ namespace SirenOfShame.Test.Unit.Achievements
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 1)},
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 2, 1, 1, 1)},
             };
-            var max = InTheZone.MaxBuildsInOneDay(personSetting, builds);
+            var max = MaxBuildsInOneDay.GetMaxBuildsInOneDay(personSetting, builds);
             Assert.AreEqual(1, max);
         }
         
@@ -33,7 +33,7 @@ namespace SirenOfShame.Test.Unit.Achievements
                 new BuildStatus { RequestedBy = "someoneElse", StartedTime = new DateTime(2010, 1, 1, 1, 5, 1)},
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 2, 1, 1, 1)},
             };
-            var max = InTheZone.MaxBuildsInOneDay(personSetting, builds);
+            var max = MaxBuildsInOneDay.GetMaxBuildsInOneDay(personSetting, builds);
             Assert.AreEqual(1, max);
         }
         
@@ -47,7 +47,7 @@ namespace SirenOfShame.Test.Unit.Achievements
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 5, 1)},
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 2, 1, 1, 1)},
             };
-            var max = InTheZone.MaxBuildsInOneDay(personSetting, builds);
+            var max = MaxBuildsInOneDay.GetMaxBuildsInOneDay(personSetting, builds);
             Assert.AreEqual(2, max);
         }
         
@@ -59,7 +59,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             {
                 new BuildStatus { RequestedBy = "currentUser", StartedTime = null},
             };
-            var max = InTheZone.MaxBuildsInOneDay(personSetting, builds);
+            var max = MaxBuildsInOneDay.GetMaxBuildsInOneDay(personSetting, builds);
             Assert.AreEqual(0, max);
         }
     }
