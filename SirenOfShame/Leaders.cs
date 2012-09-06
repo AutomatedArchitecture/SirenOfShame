@@ -57,7 +57,6 @@ namespace SirenOfShame
             {
                 UserPanel userPanel = new UserPanel(person, avatarImageList)
                                           {
-                                              Width = _usersPanel.Width - 40,
                                               Cursor = Cursors.Hand,
                                           };
                 userPanel.MouseEnter += UserPanelMouseEnter;

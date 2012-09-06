@@ -24,6 +24,7 @@ namespace SirenOfShame.Lib.Settings
         public int MaxBuildsInOneDay { get; set; }
         public double CurrentBuildRatio { get; set; }
         public double? LowestBuildRatioAfter50Builds { get; set; }
+        public int CurrentSuccessInARow { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime
@@ -124,6 +125,7 @@ namespace SirenOfShame.Lib.Settings
                 new BackToBackBuilds(),
                 new MaxBuildsInOneDay(),
                 new BuildRatio(),
+                new SuccessInARow(),
             };
 
             statCalculators.ForEach(i => i.SetStats(this, allActiveBuildDefinitionsOrderedChronoligically));

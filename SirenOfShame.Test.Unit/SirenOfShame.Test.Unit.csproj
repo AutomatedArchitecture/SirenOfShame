@@ -86,6 +86,7 @@
     <Compile Include="Settings\Upgrades\Upgrade2To3Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade1To2Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade0To1Test.cs" />
+    <Compile Include="StatCalculators\SuccessInARowTest.cs" />
     <Compile Include="TestHelpers\AssertHelpers.cs" />
     <Compile Include="UI\NewsFeedTest.cs" />
     <Compile Include="UI\ViewBuildsTest.cs" />

@@ -32,6 +32,11 @@ namespace MockCiServerServices
             }
         }
 
+        private string ProjectId
+        {
+            get { return ProjectName.Replace(" ", ""); }
+        }
+
         public BuildStatus GetBuildStatus()
         {
             BuildStatus buildStatus = null;
@@ -40,7 +45,7 @@ namespace MockCiServerServices
                     buildStatus = new BuildStatus
                     {
                         Name = ProjectName,
-                        BuildDefinitionId = ProjectName,
+                        BuildDefinitionId = ProjectId,
                         BuildStatusEnum = _buildStatus,
                         Comment = _comment.Text,
                         FinishedTime = _finishedTime,

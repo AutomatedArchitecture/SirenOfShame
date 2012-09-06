@@ -133,6 +133,7 @@
     <Compile Include="StatCalculators\FixedSomeoneElsesBuild.cs" />
     <Compile Include="StatCalculators\MaxBuildsInOneDay.cs" />
     <Compile Include="StatCalculators\StatCalculatorBase.cs" />
+    <Compile Include="StatCalculators\SuccessInARow.cs" />
     <Compile Include="UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

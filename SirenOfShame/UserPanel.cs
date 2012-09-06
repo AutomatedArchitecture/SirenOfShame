@@ -64,6 +64,10 @@ namespace SirenOfShame
         {
             _reputation.Text = person.GetReputation().ToString(CultureInfo.InvariantCulture);
             _achievements.Text = person.Achievements.Count.ToString(CultureInfo.InvariantCulture);
+            _failPercent.Text = string.Format("{0:p1}", person.CurrentBuildRatio);
+            _successfulBuildsInARow.Text = string.Format("{0}", person.CurrentSuccessInARow);
+            _fixedSomeoneElsesBuild.Text = string.Format("{0}", person.NumberOfTimesFixedSomeoneElsesBuild);
+            _totalBuilds.Text = string.Format("{0}", person.TotalBuilds);
         }
 
         private void Panel1Click(object sender, EventArgs e)
@@ -71,12 +75,7 @@ namespace SirenOfShame
             OnClick(new EventArgs());
         }
 
-        private void FlowLayoutPanel1Click(object sender, EventArgs e)
-        {
-            OnClick(new EventArgs());
-        }
-
-        private void panel1_MouseEnter(object sender, EventArgs e)
+        private void Panel1MouseEnter(object sender, EventArgs e)
         {
             OnMouseEnter(new EventArgs());
         }
