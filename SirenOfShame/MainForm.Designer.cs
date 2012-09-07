@@ -92,7 +92,6 @@ namespace SirenOfShame {
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.Leaders();
-            this.viewAllNews1 = new SirenOfShame.ViewAllNews();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -847,15 +846,6 @@ namespace SirenOfShame {
             this._userList.Size = new System.Drawing.Size(209, 333);
             this._userList.TabIndex = 11;
             // 
-            // viewAllNews1
-            // 
-            this.viewAllNews1.BackColor = System.Drawing.Color.Transparent;
-            this.viewAllNews1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.viewAllNews1.Location = new System.Drawing.Point(0, 128);
-            this.viewAllNews1.Name = "viewAllNews1";
-            this.viewAllNews1.Size = new System.Drawing.Size(1005, 333);
-            this.viewAllNews1.TabIndex = 45;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -868,7 +858,6 @@ namespace SirenOfShame {
             this.Controls.Add(this.viewUser1);
             this.Controls.Add(this._newsFeed1);
             this.Controls.Add(this._userList);
-            this.Controls.Add(this.viewAllNews1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this._panelAlert);
             this.Controls.Add(this._highlightPanel);
@@ -966,7 +955,6 @@ namespace SirenOfShame {
       private Separator separator4;
       private Separator separator3;
       private Separator separator2;
-      private ViewAllNews viewAllNews1;
 	}
 }
 

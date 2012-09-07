@@ -66,9 +66,9 @@
             // 
             // _newsItemsPanel
             // 
-            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._newsItemsPanel.AutoScroll = true;
             this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
             this._newsItemsPanel.Location = new System.Drawing.Point(0, 45);
@@ -131,7 +131,7 @@
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
             this.label1.ForeColor = System.Drawing.Color.White;
@@ -141,9 +141,6 @@
             this.label1.Size = new System.Drawing.Size(89, 42);
             this.label1.TabIndex = 5;
             this.label1.Text = "News";
-            this.label1.Click += new System.EventHandler(this.Label1Click);
-            this.label1.MouseEnter += new System.EventHandler(this.Label1MouseEnter);
-            this.label1.MouseLeave += new System.EventHandler(this.Label1MouseLeave);
             // 
             // NewsFeed
             // 

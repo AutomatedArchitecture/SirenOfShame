@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib;
@@ -13,13 +12,6 @@ namespace SirenOfShame
     public partial class NewsFeed : UserControlBase
     {
         public event UserClicked OnUserClicked;
-        public event ViewAllNewsDelegate OnViewAllNews;
-
-        private void InvokeOnViewAllNews()
-        {
-            ViewAllNewsDelegate handler = OnViewAllNews;
-            if (handler != null) handler(this, new ViewAllNewsArgs());
-        }
 
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
@@ -282,21 +274,6 @@ namespace SirenOfShame
                 _newsItemsPanel.Controls.Remove(newsItem);
                 newsItem.Dispose();
             }
-        }
-
-        private void Label1MouseEnter(object sender, EventArgs e)
-        {
-            label1.ForeColor = Color.FromArgb(196, 65, 0);
-        }
-
-        private void Label1MouseLeave(object sender, EventArgs e)
-        {
-            label1.ForeColor = Color.White;
-        }
-
-        private void Label1Click(object sender, EventArgs e)
-        {
-            InvokeOnViewAllNews();
         }
     }
 }

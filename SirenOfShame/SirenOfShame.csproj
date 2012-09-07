@@ -153,8 +153,6 @@
     <Compile Include="Separator.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ViewAllNewsDelegate.cs" />
-    <Compile Include="ViewAllNewsArgs.cs" />
     <Compile Include="ViewBuildBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -276,12 +274,6 @@
     <Compile Include="ViewBuildSmall.Designer.cs">
       <DependentUpon>ViewBuildSmall.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewAllNews.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ViewAllNews.Designer.cs">
-      <DependentUpon>ViewAllNews.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -394,9 +386,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ViewBuildSmall.resx">
       <DependentUpon>ViewBuildSmall.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ViewAllNews.resx">
-      <DependentUpon>ViewAllNews.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ViewUser.resx">
       <DependentUpon>ViewUser.cs</DependentUpon>
