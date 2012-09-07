@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -12,11 +13,20 @@ namespace SirenOfShame
     public partial class NewsFeed : UserControlBase
     {
         public event UserClicked OnUserClicked;
+        public event SendMessageToSosOnline OnSendMessageToSosOnline;
+
+        public SosOnlineService _sosOnlineService = new SosOnlineService();
 
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
             UserClicked handler = OnUserClicked;
             if (handler != null) handler(this, args);
+        }
+
+        public void InvokeSendMessageToSosOnline(string message)
+        {
+            SendMessageToSosOnline handler = OnSendMessageToSosOnline;
+            if (handler != null) handler(this, new SendMessageToSosOnlineArgs { Message = message});
         }
 
         public void ChangeUserAvatarId(string rawUserName, int newImageIndex)
@@ -275,5 +285,34 @@ namespace SirenOfShame
                 newsItem.Dispose();
             }
         }
+
+        private void MessageKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                SubmitMessage();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void SubmitMessage()
+        {
+            if (!string.IsNullOrEmpty(_message.Text))
+                InvokeSendMessageToSosOnline(_message.Text);
+            _message.Text = "";
+        }
+
+        private void AddMessageClick(object sender, EventArgs e)
+        {
+            SubmitMessage();
+        }
+    }
+
+    public delegate void SendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args);
+
+    public class SendMessageToSosOnlineArgs
+    {
+        public string Message { get; set; }
     }
 }

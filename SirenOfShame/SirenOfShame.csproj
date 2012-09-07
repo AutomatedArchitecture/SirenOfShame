@@ -280,6 +280,9 @@
     <Compile Include="ViewUser.Designer.cs">
       <DependentUpon>ViewUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaterMarkTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Avatar.resx">
       <DependentUpon>Avatar.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -458,6 +461,8 @@
     <None Include="Resources\loadingBlue.gif" />
     <None Include="Resources\funnel.bmp" />
     <None Include="Resources\funnel.png" />
+    <None Include="Resources\delete2.png" />
+    <None Include="Resources\nav_right.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

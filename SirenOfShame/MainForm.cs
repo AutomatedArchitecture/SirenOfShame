@@ -96,7 +96,13 @@ namespace SirenOfShame
         private void InitializeNewsFeed()
         {
             _newsFeed1.OnUserClicked += NewsFeedOnUserClicked;
+            _newsFeed1.OnSendMessageToSosOnline += NewsFeed1OnOnSendMessageToSosOnline;
             _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
+        }
+
+        private void NewsFeed1OnOnSendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args)
+        {
+            _sosOnlineService.SendMessage(_settings, args.Message);
         }
 
         private void ViewBuildsOnOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)

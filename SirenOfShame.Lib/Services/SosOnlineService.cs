@@ -22,7 +22,7 @@ namespace SirenOfShame.Lib.Services
         public const string SOS_URL = "http://localhost:3115";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
 
-        public void InvokeOnOnNewSosOnlineNotification(dynamic data)
+        private void InvokeOnOnNewSosOnlineNotification(dynamic data)
         {
             InvokeOnOnNewSosOnlineNotification(data.Message.Value,
                                                data.DisplayName.Value,
@@ -31,8 +31,8 @@ namespace SirenOfShame.Lib.Services
                                                data.Username.Value
                                                );
         }
-        
-        public void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId, string userName)
+
+        private void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId, string userName)
         {
             var args = new NewSosOnlineNotificationArgs
             {
@@ -149,16 +149,19 @@ namespace SirenOfShame.Lib.Services
             webClient.DownloadStringAsync(new Uri(url));
         }
 
+        private HubConnection _connection;
+        private IHubProxy _proxy;
+
         public void StartRealtimeConnection(SirenOfShameSettings settings)
         {
             try
             {
                 if (!settings.GetSosOnlineContent()) return;
-                var connection = new HubConnection(SOS_URL);
-                var proxy = connection.CreateProxy("SosHub");
-                proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
-                connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
-                Task result = connection.Start();
+                _connection = new HubConnection(SOS_URL);
+                _proxy = _connection.CreateProxy("SosHub");
+                _proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
+                _connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
+                Task result = _connection.Start();
                 result.ContinueWith(t => _log.Error("Error connecting to SoS Online via SignalR", t.Exception),
                                     TaskContinuationOptions.OnlyOnFaulted);
             } 
@@ -168,7 +171,7 @@ namespace SirenOfShame.Lib.Services
             }
         }
 
-        private Dictionary<string, int> cachedAvatarIds = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _cachedAvatarIds = new Dictionary<string, int>();
 
         public SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
@@ -185,10 +188,10 @@ namespace SirenOfShame.Lib.Services
             int avatarId;
             try
             {
-                if (!cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
+                if (!_cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
                 {
                     avatarId = GetGravatarFromWebAndAddToImageList(args, avatarImageList);
-                    cachedAvatarIds[args.ImageUrl] = avatarId;
+                    _cachedAvatarIds[args.ImageUrl] = avatarId;
                 }
             } catch (Exception ex)
             {
@@ -209,6 +212,31 @@ namespace SirenOfShame.Lib.Services
                 avatarId = avatarImageList.Images.Add(gravatarImage, Color.Transparent);
             }
             return avatarId;
+        }
+
+        public void SendMessage(SirenOfShameSettings settings, string message)
+        {
+            WebClientXml webClientXml = new WebClientXml();
+            AddSosOnlineCredentials(settings, webClientXml);
+            webClientXml.Add("message", message);
+            webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/AddMessage", doc =>
+            {
+                string success = doc.Descendants("Success").First().Value;
+                if (success == "true")
+                {
+                    _log.Debug("Message successfully added");
+                }
+                else
+                {
+                    string errorMessage = doc.Descendants("ErrorMessage").First().Value;
+                    _log.Error("Failed to add message: " + errorMessage);
+                }
+            }, OnConnectionFail, settings.GetSosOnlineProxy());
+        }
+
+        private void OnConnectionFail(ServerUnavailableException obj)
+        {
+            _log.Error("Failed to connect to SoS Online.", obj);
         }
     }
 }

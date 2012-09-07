@@ -116,6 +116,13 @@ namespace SirenOfShame.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap delete2 {
+            get {
+                object obj = ResourceManager.GetObject("delete2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap earth {
             get {
                 object obj = ResourceManager.GetObject("earth", resourceCulture);
@@ -182,6 +189,13 @@ namespace SirenOfShame.Properties {
         internal static System.Drawing.Bitmap nav_left {
             get {
                 object obj = ResourceManager.GetObject("nav_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap nav_right {
+            get {
+                object obj = ResourceManager.GetObject("nav_right", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
