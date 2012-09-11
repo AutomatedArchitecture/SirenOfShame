@@ -23,7 +23,7 @@ namespace SirenOfShame.Lib.StatCalculators
             var currentUserBuilds = allActiveBuildDefinitionsOrderedChronoligically.Where(i => i.RequestedBy == personSetting.RawName).ToList();
             var totalBuilds = currentUserBuilds.Count;
             var unsuccessfulBuilds = currentUserBuilds.Count(i => i.BuildStatusEnum == BuildStatusEnum.Broken);
-            return (double)unsuccessfulBuilds/totalBuilds;
+            return totalBuilds == 0 ? 0 : (double)unsuccessfulBuilds/totalBuilds;
         }
 
         public static double? CalculateLowestBuildRatioAfter50Builds(PersonSetting personSetting, IEnumerable<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)

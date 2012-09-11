@@ -64,7 +64,7 @@ namespace SirenOfShame
         {
             _reputation.Text = person.GetReputation().ToString(CultureInfo.InvariantCulture);
             _achievements.Text = person.Achievements.Count.ToString(CultureInfo.InvariantCulture);
-            _failPercent.Text = string.Format("{0:p1}", person.CurrentBuildRatio);
+            _failPercent.Text = string.Format("{0:p1}", person.CurrentBuildRatio).Replace(" ", "");
             _successfulBuildsInARow.Text = string.Format("{0}", person.CurrentSuccessInARow);
             _fixedSomeoneElsesBuild.Text = string.Format("{0}", person.NumberOfTimesFixedSomeoneElsesBuild);
             _totalBuilds.Text = string.Format("{0}", person.TotalBuilds);
