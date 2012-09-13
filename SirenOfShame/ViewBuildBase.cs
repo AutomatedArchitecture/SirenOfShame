@@ -38,7 +38,7 @@ namespace SirenOfShame
 
         protected virtual void InitializeLabels(BuildStatusDto buildStatusDto)
         {
-            BuildId = buildStatusDto.Name;
+            BuildId = buildStatusDto.Id;
             Url = buildStatusDto.Url;
         }
 

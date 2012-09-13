@@ -112,7 +112,8 @@ namespace SirenOfShame
             if (NoChildControlsExist)
             {
                 CreateControlsAndAddToPanels(_lastBuildStatusDtos);
-            } else
+            }
+            else
             {
                 UpdateExistingControls(buildStatusDtosAndControl);
             }
