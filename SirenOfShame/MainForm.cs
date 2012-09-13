@@ -51,6 +51,7 @@ namespace SirenOfShame
             _showAlertAnimation.Tick += ShowAlertAnimationTick;
 
             InitializeLogging();
+            ShowInMainWindow(MainWindowEnum.ViewBuilds);
         }
 
         private void InitializeLogging()
@@ -165,6 +166,10 @@ namespace SirenOfShame
             {
                 _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
                 viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
+                if (mainWindow == MainWindowEnum.ViewBuilds)
+                {
+                    _viewBuilds.RefreshBuildStatuses();
+                }
             });
         }
         

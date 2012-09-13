@@ -101,6 +101,12 @@ namespace SirenOfShame
         public void RefreshBuildStatuses(RefreshStatusEventArgs args)
         {
             _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
+            if (!Visible) return;
+            RefreshBuildStatuses();
+        }
+
+        public void RefreshBuildStatuses()
+        {
             var buildStatusDtosAndControl = GetBuildStatusDtoAndControls(_lastBuildStatusDtos).ToList();
             RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(buildStatusDtosAndControl, _lastBuildStatusDtos);
             if (NoChildControlsExist)
