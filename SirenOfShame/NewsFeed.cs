@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Linq;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
-using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -15,15 +15,13 @@ namespace SirenOfShame
         public event UserClicked OnUserClicked;
         public event SendMessageToSosOnline OnSendMessageToSosOnline;
 
-        public SosOnlineService _sosOnlineService = new SosOnlineService();
-
         private void InvokeOnOnUserClicked(UserClickedArgs args)
         {
             UserClicked handler = OnUserClicked;
             if (handler != null) handler(this, args);
         }
 
-        public void InvokeSendMessageToSosOnline(string message)
+        private void InvokeSendMessageToSosOnline(string message)
         {
             SendMessageToSosOnline handler = OnSendMessageToSosOnline;
             if (handler != null) handler(this, new SendMessageToSosOnlineArgs { Message = message});
@@ -192,18 +190,19 @@ namespace SirenOfShame
             _filterButton.Visible = false;
 
             new SosDb().GetMostRecentNewsItems(settings,
-                recentEvent => Invoke(() =>
-                {
-                    _loading.Visible = false;
-                    ResetFunnelVisibility();
-                    _noNews.Visible = false;
-                    var recentEventsByPerson = recentEvent
-                        .Where(IncludeInFilter)
-                        .GroupBy(i => i.BuildId)
-                        .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
-                        .ToList();
-                    ControlHelpers.SuspendLayout(this, () => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
-                }));
+                recentEvent =>
+                    {
+                        var recentEventsByPerson = recentEvent
+                            .Where(IncludeInFilter)
+                            .GroupBy(i => i.BuildId ?? i.EventDate.ToString(CultureInfo.InvariantCulture))
+                            .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                            .ToList();
+                        
+                        _loading.Visible = false;
+                        ResetFunnelVisibility();
+                        _noNews.Visible = false;
+                        this.SuspendDrawing(() => ReinitializeNewsItems(recentEventsByPerson, avatarImageList));
+                });
         }
 
         private bool IncludeInFilter(NewNewsItemEventArgs i)

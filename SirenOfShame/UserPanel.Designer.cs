@@ -42,8 +42,8 @@
             this._successfulBuildsInARow = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.avatar1 = new SirenOfShame.Avatar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.avatar1 = new SirenOfShame.Avatar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -78,7 +78,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SirenOfShame.Properties.Resources.AchievementBall;
-            this.pictureBox1.Location = new System.Drawing.Point(95, 8);
+            this.pictureBox1.Location = new System.Drawing.Point(102, 8);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(10, 10);
@@ -90,7 +90,7 @@
             // 
             this._achievements.AutoSize = true;
             this._achievements.ForeColor = System.Drawing.Color.DimGray;
-            this._achievements.Location = new System.Drawing.Point(104, 6);
+            this._achievements.Location = new System.Drawing.Point(111, 6);
             this._achievements.Name = "_achievements";
             this._achievements.Size = new System.Drawing.Size(13, 13);
             this._achievements.TabIndex = 2;
@@ -100,13 +100,13 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this._failPercent);
             this.panel1.Controls.Add(this._totalBuilds);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this._failPercent);
             this.panel1.Controls.Add(this._achievements);
             this.panel1.Controls.Add(this._fixedSomeoneElsesBuild);
             this.panel1.Controls.Add(this._successfulBuildsInARow);
@@ -127,7 +127,7 @@
             this._totalBuilds.AutoSize = true;
             this._totalBuilds.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._totalBuilds.ForeColor = System.Drawing.Color.DimGray;
-            this._totalBuilds.Location = new System.Drawing.Point(69, 27);
+            this._totalBuilds.Location = new System.Drawing.Point(111, 27);
             this._totalBuilds.Name = "_totalBuilds";
             this._totalBuilds.Size = new System.Drawing.Size(25, 13);
             this._totalBuilds.TabIndex = 11;
@@ -138,7 +138,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(58, 27);
+            this.label5.Location = new System.Drawing.Point(101, 27);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(15, 13);
             this.label5.TabIndex = 10;
@@ -150,7 +150,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(129, 6);
+            this.label1.Location = new System.Drawing.Point(141, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(16, 13);
             this.label1.TabIndex = 9;
@@ -163,11 +163,11 @@
             this._failPercent.AutoSize = true;
             this._failPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._failPercent.ForeColor = System.Drawing.Color.DimGray;
-            this._failPercent.Location = new System.Drawing.Point(144, 6);
+            this._failPercent.Location = new System.Drawing.Point(152, 6);
             this._failPercent.Name = "_failPercent";
-            this._failPercent.Size = new System.Drawing.Size(39, 13);
+            this._failPercent.Size = new System.Drawing.Size(36, 13);
             this._failPercent.TabIndex = 6;
-            this._failPercent.Text = "00.0 %";
+            this._failPercent.Text = "00.0%";
             this._failPercent.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.toolTip1.SetToolTip(this._failPercent, "Fail %");
             // 
@@ -176,7 +176,7 @@
             this._fixedSomeoneElsesBuild.AutoSize = true;
             this._fixedSomeoneElsesBuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._fixedSomeoneElsesBuild.ForeColor = System.Drawing.Color.DimGray;
-            this._fixedSomeoneElsesBuild.Location = new System.Drawing.Point(169, 27);
+            this._fixedSomeoneElsesBuild.Location = new System.Drawing.Point(167, 27);
             this._fixedSomeoneElsesBuild.Name = "_fixedSomeoneElsesBuild";
             this._fixedSomeoneElsesBuild.Size = new System.Drawing.Size(13, 13);
             this._fixedSomeoneElsesBuild.TabIndex = 8;
@@ -188,7 +188,7 @@
             this._successfulBuildsInARow.AutoSize = true;
             this._successfulBuildsInARow.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._successfulBuildsInARow.ForeColor = System.Drawing.Color.DimGray;
-            this._successfulBuildsInARow.Location = new System.Drawing.Point(117, 27);
+            this._successfulBuildsInARow.Location = new System.Drawing.Point(81, 27);
             this._successfulBuildsInARow.Name = "_successfulBuildsInARow";
             this._successfulBuildsInARow.Size = new System.Drawing.Size(19, 13);
             this._successfulBuildsInARow.TabIndex = 7;
@@ -198,7 +198,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(136, 27);
+            this.label3.Location = new System.Drawing.Point(134, 27);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 5;
@@ -210,7 +210,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(91, 27);
+            this.label2.Location = new System.Drawing.Point(55, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 4;
