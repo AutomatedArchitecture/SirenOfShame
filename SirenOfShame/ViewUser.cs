@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame
@@ -65,31 +66,32 @@ namespace SirenOfShame
 
         public void SetUser(PersonSetting personSetting, ImageList avatarImageList)
         {
-            SuspendLayout();
-            try {
-                _avatarImageList = avatarImageList;
-                _personSetting = personSetting;
-                _userName.Text = personSetting.GetBothDisplayAndRawNames();
-                avatar1.SetImage(personSetting, avatarImageList);
-                _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
-                _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
-                _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";
-
-                int achievementIndex = 0;
-                foreach (var achievementLookup in AchievementSetting.AchievementLookups)
-                {
-                    bool hasUserAchieved = personSetting.Achievements.Any(i => i.AchievementId == (int)achievementLookup.Id);
-                    var cloneFrom = hasUserAchieved ? _obtainedTemplate : _unobtainedTemplate;
-                    Control control = flowLayoutPanel1.Controls[achievementIndex];
-                    Debug.Assert(control != null);
-                    control.BackColor = cloneFrom.BackColor;
-                    control.ForeColor = cloneFrom.ForeColor;
-                    achievementIndex++;
-                }
-            } 
-            finally
+            this.SuspendDrawing(() =>
             {
-                ResumeLayout();
+                _avatarImageList = avatarImageList;
+                avatar1.SetImage(personSetting, avatarImageList);
+                _personSetting = personSetting;
+                SetUser(personSetting);
+            });
+        }
+
+        private void SetUser(PersonSetting personSetting)
+        {
+            _userName.Text = personSetting.GetBothDisplayAndRawNames();
+            _reputation.Text = personSetting.GetReputation().ToString(CultureInfo.InvariantCulture);
+            _achievementCount.Text = personSetting.Achievements.Count.ToString(CultureInfo.InvariantCulture);
+            _achievementsText.Text = personSetting.Achievements.Count == 1 ? "Achievement" : "Achievements";
+
+            int achievementIndex = 0;
+            foreach (var achievementLookup in AchievementSetting.AchievementLookups)
+            {
+                bool hasUserAchieved = personSetting.Achievements.Any(i => i.AchievementId == (int) achievementLookup.Id);
+                var cloneFrom = hasUserAchieved ? _obtainedTemplate : _unobtainedTemplate;
+                Control control = flowLayoutPanel1.Controls[achievementIndex];
+                Debug.Assert(control != null);
+                control.BackColor = cloneFrom.BackColor;
+                control.ForeColor = cloneFrom.ForeColor;
+                achievementIndex++;
             }
         }
 
@@ -170,6 +172,14 @@ namespace SirenOfShame
         private void BackClick(object sender, EventArgs e)
         {
             InvokeOnClose();
+        }
+
+        public void NewAchievements(PersonSetting person)
+        {
+            if (!Visible) return;
+            var currentlyDisplayedUserJustGotNewAchievements = _personSetting.RawName == person.RawName;
+            if (!currentlyDisplayedUserJustGotNewAchievements) return;
+            SetUser(person);
         }
     }
 

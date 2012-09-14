@@ -389,10 +389,11 @@ namespace SirenOfShame
             {
                 _log.Debug(args.Person + " achieved " + achievement.Name);
             }
-            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
-            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
             Invoke(() =>
             {
+                viewUser1.NewAchievements(args.Person);
+                if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
+                if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
                 foreach (var achievement in args.Achievements)
                 {
                     NewAchievement.ShowForm(_settings, achievement, args.Person, this, modal: false);
