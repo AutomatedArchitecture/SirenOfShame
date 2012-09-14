@@ -176,8 +176,7 @@ namespace SirenOfShame
         private void ShowViewUserPage(string rawName)
         {
             var aUserIsSelected = rawName != null;
-            var windowToShow = aUserIsSelected ? MainWindowEnum.ViewUser : MainWindowEnum.ViewBuilds;
-            ShowInMainWindow(windowToShow);
+            if (!aUserIsSelected) ShowInMainWindow(MainWindowEnum.ViewBuilds);
             if (!aUserIsSelected) return;
             var selectedPerson = _settings.People.First(i => i.RawName == rawName);
             ShowViewUserPage(selectedPerson);
@@ -186,6 +185,7 @@ namespace SirenOfShame
         private void ShowViewUserPage(PersonSetting selectedPerson)
         {
             if (selectedPerson == null) return;
+            ShowInMainWindow(MainWindowEnum.ViewUser);
             viewUser1.SetUser(selectedPerson, _avatarImageList);
             _newsFeed1.AddUserFilter(_settings, selectedPerson, _avatarImageList);
         }
