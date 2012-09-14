@@ -59,7 +59,7 @@
             this._project.AutoSize = true;
             this._project.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this._project.ForeColor = System.Drawing.Color.White;
-            this._project.Location = new System.Drawing.Point(175, 0);
+            this._project.Location = new System.Drawing.Point(164, 0);
             this._project.Margin = new System.Windows.Forms.Padding(0);
             this._project.Name = "_project";
             this._project.Size = new System.Drawing.Size(49, 13);
@@ -74,7 +74,7 @@
             this._when.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._when.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._when.ForeColor = System.Drawing.Color.Gainsboro;
-            this._when.Location = new System.Drawing.Point(77, 0);
+            this._when.Location = new System.Drawing.Point(91, 0);
             this._when.Margin = new System.Windows.Forms.Padding(0);
             this._when.Name = "_when";
             this._when.Size = new System.Drawing.Size(73, 13);
@@ -83,9 +83,9 @@
             // 
             // _title
             // 
-            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._title.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._title.AutoEllipsis = true;
             this._title.ForeColor = System.Drawing.Color.Black;
             this._title.Location = new System.Drawing.Point(54, 4);
@@ -93,7 +93,7 @@
             this._title.Size = new System.Drawing.Size(153, 40);
             this._title.TabIndex = 5;
             this._title.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
-    "for the day, the rat";
+                "for the day, the rat";
             this._title.MouseEnter += new System.EventHandler(this.TitleMouseEnter);
             // 
             // _reputationChange
@@ -103,26 +103,27 @@
             this._reputationChange.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._reputationChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._reputationChange.ForeColor = System.Drawing.Color.White;
-            this._reputationChange.Location = new System.Drawing.Point(150, 0);
+            this._reputationChange.Location = new System.Drawing.Point(77, 0);
             this._reputationChange.Margin = new System.Windows.Forms.Padding(0);
             this._reputationChange.Name = "_reputationChange";
-            this._reputationChange.Size = new System.Drawing.Size(25, 15);
+            this._reputationChange.Size = new System.Drawing.Size(14, 13);
             this._reputationChange.TabIndex = 2;
             this._reputationChange.Text = "+1";
             this._reputationChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // _leftPanel
             // 
+            this._leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this._leftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(95)))), ((int)(((byte)(152)))));
             this._leftPanel.Controls.Add(this._userName);
-            this._leftPanel.Controls.Add(this._when);
             this._leftPanel.Controls.Add(this._reputationChange);
+            this._leftPanel.Controls.Add(this._when);
             this._leftPanel.Controls.Add(this._project);
-            this._leftPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this._leftPanel.Location = new System.Drawing.Point(0, 47);
             this._leftPanel.Margin = new System.Windows.Forms.Padding(0);
             this._leftPanel.Name = "_leftPanel";
-            this._leftPanel.Size = new System.Drawing.Size(230, 14);
+            this._leftPanel.Size = new System.Drawing.Size(300, 14);
             this._leftPanel.TabIndex = 8;
             // 
             // avatar1

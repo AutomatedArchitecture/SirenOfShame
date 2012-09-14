@@ -18,15 +18,28 @@ namespace SirenOfShame
             get { return _rawUserName; }
         }
 
+        private static void SetLabelTextAndWidth(Label label, UserControl parent, string text, int padding)
+        {
+                label.Text = text;
+                using (Graphics g = parent.CreateGraphics())
+                {
+                    label.Width = ((int)g.MeasureString(label.Text, label.Font).Width) + padding;
+                }
+        }
+        
         public string DisplayName
         {
             set
             {
-                _userName.Text = value;
-                using (Graphics g = CreateGraphics())
-                {
-                    _userName.Width = ((int) g.MeasureString(_userName.Text, _userName.Font).Width) + 6;
-                }
+                SetLabelTextAndWidth(_userName, this, value, 6);
+            }
+        }
+
+        private string ReputationChange
+        {
+            set
+            {
+                SetLabelTextAndWidth(_reputationChange, this, value, 6);
             }
         }
 
@@ -106,7 +119,7 @@ namespace SirenOfShame
         {
             _reputationChange.Visible = reputationChange != null;
             if (reputationChange == null) return;
-            _reputationChange.Text = GetNumericAsDelta(reputationChange.Value);
+            ReputationChange = GetNumericAsDelta(reputationChange.Value);
         }
 
         private string GetNumericAsDelta(int value)
