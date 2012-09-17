@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using log4net;
@@ -64,6 +65,11 @@ namespace TfsServices
             }
             catch (VersionControlException ex)
             {
+                throw new ServerUnavailableException(ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error getting build status", ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
         }
