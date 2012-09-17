@@ -7,16 +7,25 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace SirenOfShame.Lib.Watcher
 {
     public class SosDb
     {
         private readonly string _folder = SirenOfShameSettings.GetSosAppDataFolder();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosDb));
 
         protected virtual void Write(string location, string contents)
         {
-            File.AppendAllText(location, contents);
+            try
+            {
+                File.AppendAllText(location, contents);
+            } 
+            catch (IOException ex)
+            {
+                _log.Error("Unable to write: " + contents + " to " + location, ex);
+            }
         }
         
         public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
@@ -149,7 +158,14 @@ namespace SirenOfShame.Lib.Watcher
             if (!string.IsNullOrEmpty(asCommaSeparated))
             {
                 string contents = asCommaSeparated + "\r\n";
-                File.AppendAllText(location, contents);
+                try
+                {
+                    File.AppendAllText(location, contents);
+                } 
+                catch (IOException ex)
+                {
+                    _log.Error("Unable to export news item: " + contents, ex);
+                }
             }
         }
 
