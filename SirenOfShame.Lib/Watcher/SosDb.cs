@@ -175,13 +175,14 @@ namespace SirenOfShame.Lib.Watcher
             if (!File.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
 
             var context = TaskScheduler.FromCurrentSynchronizationContext();
-            
+
             var newsItemGetter = new Task<List<NewNewsItemEventArgs>> (() => File.ReadAllLines(location)
                                                                                 .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
                                                                                 .Where(i => i != null)
                                                                                 .Reverse()
                                                                                 .ToList());
-            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result), context);
+            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result), new CancellationToken(), TaskContinuationOptions.OnlyOnRanToCompletion, context);
+            newsItemGetter.ContinueWith(t => { _log.Error(t.Exception); onGetNewsItems(new List<NewNewsItemEventArgs>()); }, new CancellationToken(), TaskContinuationOptions.OnlyOnFaulted, context);
             newsItemGetter.Start();
         }
 
