@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using log4net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
@@ -66,6 +67,10 @@ namespace TfsServices
             catch (VersionControlException ex)
             {
                 throw new ServerUnavailableException(ex.Message, ex);
+            }
+            catch (ThreadAbortException ex)
+            {
+                throw new ServerUnavailableException("Thread aborted", ex);
             }
             catch (Exception ex)
             {

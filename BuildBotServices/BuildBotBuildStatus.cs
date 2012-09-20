@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Watcher;
 using System.Dynamic;
 using System.Collections;
 using System.Web.Script.Serialization;
 using System.Collections.ObjectModel;
 using System.Text;
+using log4net;
 
 namespace BuildBotServices
 {
@@ -188,27 +187,29 @@ namespace BuildBotServices
 
     public class BuildBotBuildStatus : BuildStatus
     {
-        protected class DynamicJsonObject : DynamicObject
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildBotBuildStatus));
+        
+        private class DynamicJsonObject : DynamicObject
         {
             private IDictionary<string, object> Dictionary { get; set; }
 
             public DynamicJsonObject(IDictionary<string, object> dictionary)
             {
-                this.Dictionary = dictionary;
+                Dictionary = dictionary;
             }
 
             public override bool TryGetMember(GetMemberBinder binder, out object result)
             {
                 var name = binder.Name;
-                if (string.Compare(binder.Name, "MinusOne", true) == 0 && this.Dictionary.ContainsKey("-1"))
+                if (string.Compare(binder.Name, "MinusOne", StringComparison.OrdinalIgnoreCase) == 0 && Dictionary.ContainsKey("-1"))
                 {
                     name = "-1";
                 }
-                else if (string.Compare(binder.Name, "MinusTwo", true) == 0 && this.Dictionary.ContainsKey("-2"))
+                else if (String.Compare(binder.Name, "MinusTwo", StringComparison.OrdinalIgnoreCase) == 0 && Dictionary.ContainsKey("-2"))
                 {
                     name = "-2";
                 }
-                result = this.Dictionary[name];
+                result = Dictionary[name];
                 
 
                 if (result is IDictionary<string, object>)
@@ -224,11 +225,11 @@ namespace BuildBotServices
                     result = new List<object>((result as ArrayList).ToArray());
                 }
 
-                return this.Dictionary.ContainsKey(name);
+                return Dictionary.ContainsKey(name);
             }
         }
 
-        protected class DynamicJsonConverter : JavaScriptConverter
+        private class DynamicJsonConverter : JavaScriptConverter
         {
             public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
             {
@@ -250,23 +251,23 @@ namespace BuildBotServices
 
             public override IEnumerable<Type> SupportedTypes
             {
-                get { return new ReadOnlyCollection<Type>(new List<Type>(new Type[] { typeof(object) })); }
+                get { return new ReadOnlyCollection<Type>(new List<Type>(new[] { typeof(object) })); }
             }
         }
 
         private static readonly Dictionary<string, BuildStatusInfo> _buildStatusInfo = new Dictionary<string, BuildStatusInfo>();
 
-        private static DateTime FromUnixTime(double _time)
+        private static DateTime FromUnixTime(double time)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return epoch.AddSeconds(_time).ToLocalTime();
+            return epoch.AddSeconds(time).ToLocalTime();
         }
         
-        public BuildBotBuildStatus(string _JSONQuery, string _rootURL)
+        public BuildBotBuildStatus(string jsonQuery, string rootUrl)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();
             jss.RegisterConverters(new JavaScriptConverter[] { new DynamicJsonConverter() });
-            dynamic buildStatus = jss.Deserialize<object>(_JSONQuery) as dynamic;
+            dynamic buildStatus = jss.Deserialize<object>(jsonQuery) as dynamic;
             dynamic mostRecentBuild = buildStatus.MinusOne;
 
             Name = BuildDefinitionId = mostRecentBuild.builderName;
@@ -327,12 +328,12 @@ namespace BuildBotServices
                 if( changes.Count > 0 && changes[0].GetType() == typeof(Dictionary<String,object>))
                 {
                     var change = changes[0] as Dictionary<string, object>;
-                    Comment = change["comments"].ToString();
+                    if (change != null) Comment = change["comments"].ToString();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //drat
+                _log.Error("Error retrieving build bot comments", ex);
             }
             if (Comment == null)
             {
@@ -350,7 +351,7 @@ namespace BuildBotServices
                     {
                         sb.Append(", ");
                     }
-                    sb.Append(fools[i].ToString());
+                    sb.Append(fools[i]);
                 }
                 RequestedBy = sb.ToString();
             }
@@ -367,21 +368,22 @@ namespace BuildBotServices
                     RequestedBy = null;
                 }
             }
-            
-            var webUrl = new Uri(_rootURL + "/builders/" + mostRecentBuild.builderName + "/builds/" + mostRecentBuild.number as string);
+
+            var uriString = rootUrl + "/builders/" + mostRecentBuild.builderName + "/builds/" + mostRecentBuild.number as string;
+            var webUrl = new Uri(uriString);
             Url = webUrl.ToString();
             BuildId = mostRecentBuild.number.ToString();
 
             buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
         }
 
-        private ArrayList GetProperty(string _propertyName, dynamic _buildStatus)
+        private ArrayList GetProperty(string propertyName, dynamic buildStatus)
         {
             try
             {
-                foreach (ArrayList property in _buildStatus.properties)
+                foreach (ArrayList property in buildStatus.properties)
                 {
-                    if (property.Count > 0 && property[0].ToString().Equals(_propertyName))
+                    if (property.Count > 0 && property[0].ToString().Equals(propertyName))
                     {
                         return property;
                     }
@@ -399,11 +401,6 @@ namespace BuildBotServices
             public DateTime? StartedTime { get; set; }
             public DateTime? FinishedTime { get; set; }
             public BuildStatusEnum? LastBuildStatusEnum { get; set; }
-        }
-
-        public static void ClearCache()
-        {
-            _buildStatusInfo.Clear();
         }
     }
 }
