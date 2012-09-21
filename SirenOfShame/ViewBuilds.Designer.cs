@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewBuilds));
             this._mainFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._buildsLabel = new System.Windows.Forms.Label();
             this._back = new System.Windows.Forms.Button();
             this._scrollbarHider = new System.Windows.Forms.Panel();
-            this._viewBuildBig = new SirenOfShame.ViewBuildBig();
             this._gettingStarted = new SirenOfShame.GettingStarted();
             this._mainFlowLayoutPanel.SuspendLayout();
             this._scrollbarHider.SuspendLayout();
@@ -53,6 +53,17 @@
             this._mainFlowLayoutPanel.Size = new System.Drawing.Size(550, 260);
             this._mainFlowLayoutPanel.TabIndex = 0;
             this._mainFlowLayoutPanel.MouseEnter += new System.EventHandler(this.MainFlowLayoutPanelMouseEnter);
+            // 
+            // _viewBuildBig
+            // 
+            this._viewBuildBig.BackColor = System.Drawing.Color.White;
+            this._mainFlowLayoutPanel.SetFlowBreak(this._viewBuildBig, true);
+            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
+            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
+            this._viewBuildBig.Name = "_viewBuildBig";
+            this._viewBuildBig.Size = new System.Drawing.Size(408, 173);
+            this._viewBuildBig.TabIndex = 0;
+            this._viewBuildBig.Visible = false;
             // 
             // _buildsLabel
             // 
@@ -90,16 +101,6 @@
             this._scrollbarHider.Size = new System.Drawing.Size(530, 260);
             this._scrollbarHider.TabIndex = 5;
             // 
-            // _viewBuildBig
-            // 
-            this._viewBuildBig.BackColor = System.Drawing.Color.White;
-            this._viewBuildBig.Location = new System.Drawing.Point(4, 4);
-            this._viewBuildBig.Margin = new System.Windows.Forms.Padding(4);
-            this._viewBuildBig.Name = "_viewBuildBig";
-            this._viewBuildBig.Size = new System.Drawing.Size(408, 173);
-            this._viewBuildBig.TabIndex = 0;
-            this._viewBuildBig.Visible = false;
-            // 
             // _gettingStarted
             // 
             this._gettingStarted.BackColor = System.Drawing.Color.Transparent;
@@ -124,6 +125,7 @@
             this.Name = "ViewBuilds";
             this.Padding = new System.Windows.Forms.Padding(38, 0, 0, 0);
             this.Size = new System.Drawing.Size(568, 459);
+            this.Resize += new System.EventHandler(this.ViewBuildsResize);
             this._mainFlowLayoutPanel.ResumeLayout(false);
             this._scrollbarHider.ResumeLayout(false);
             this.ResumeLayout(false);
