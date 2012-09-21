@@ -338,6 +338,11 @@ namespace SirenOfShame
             if (_viewBuildBig != null)
                 _viewBuildBig.RefreshStats();
         }
+
+        private void ViewBuildsResize(object sender, EventArgs e)
+        {
+            InitializeDisplayModes();
+        }
     }
 
     public delegate void SelectedBuildChanged(object sender, SelectedBuildChangedArgs args);
