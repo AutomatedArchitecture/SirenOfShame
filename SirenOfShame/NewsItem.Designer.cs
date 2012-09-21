@@ -128,7 +128,7 @@
             // 
             // avatar1
             // 
-            this.avatar1.BackColor = System.Drawing.Color.Transparent;
+            this.avatar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
             this.avatar1.Location = new System.Drawing.Point(0, 0);

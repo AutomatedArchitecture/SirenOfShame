@@ -34,16 +34,16 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this._achievements = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._failPercent = new System.Windows.Forms.Label();
             this._totalBuilds = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._failPercent = new System.Windows.Forms.Label();
             this._fixedSomeoneElsesBuild = new System.Windows.Forms.Label();
             this._successfulBuildsInARow = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.avatar1 = new SirenOfShame.Avatar();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -122,6 +122,19 @@
             this.panel1.Click += new System.EventHandler(this.Panel1Click);
             this.panel1.MouseEnter += new System.EventHandler(this.Panel1MouseEnter);
             // 
+            // _failPercent
+            // 
+            this._failPercent.AutoSize = true;
+            this._failPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._failPercent.ForeColor = System.Drawing.Color.DimGray;
+            this._failPercent.Location = new System.Drawing.Point(152, 6);
+            this._failPercent.Name = "_failPercent";
+            this._failPercent.Size = new System.Drawing.Size(36, 13);
+            this._failPercent.TabIndex = 6;
+            this._failPercent.Text = "00.0%";
+            this._failPercent.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this._failPercent, "Fail %");
+            // 
             // _totalBuilds
             // 
             this._totalBuilds.AutoSize = true;
@@ -157,19 +170,6 @@
             this.label1.Text = "F:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolTip1.SetToolTip(this.label1, "Fail %");
-            // 
-            // _failPercent
-            // 
-            this._failPercent.AutoSize = true;
-            this._failPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._failPercent.ForeColor = System.Drawing.Color.DimGray;
-            this._failPercent.Location = new System.Drawing.Point(152, 6);
-            this._failPercent.Name = "_failPercent";
-            this._failPercent.Size = new System.Drawing.Size(36, 13);
-            this._failPercent.TabIndex = 6;
-            this._failPercent.Text = "00.0%";
-            this._failPercent.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.toolTip1.SetToolTip(this._failPercent, "Fail %");
             // 
             // _fixedSomeoneElsesBuild
             // 
@@ -220,7 +220,7 @@
             // 
             // avatar1
             // 
-            this.avatar1.BackColor = System.Drawing.Color.Transparent;
+            this.avatar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.avatar1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.avatar1.ImageIndex = -1;
             this.avatar1.Location = new System.Drawing.Point(0, 0);
