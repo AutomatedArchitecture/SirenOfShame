@@ -70,6 +70,7 @@ namespace TfsServices
             }
             catch (ThreadAbortException ex)
             {
+                // todo: Shouldn't this be just throw; ??? test
                 throw new ServerUnavailableException("Thread aborted", ex);
             }
             catch (Exception ex)
