@@ -307,10 +307,21 @@ namespace SirenOfShame
 
             StartWatchingBuild();
             _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnOnNewSosOnlineNotification;
+            _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
             _sosOnlineService.StartRealtimeConnection(_settings);
             
             RefreshStats(null);
             SetMuteButton();
+        }
+
+        private void SosOnlineOnStatusChange(object sender, SosOnlineStatusChangeArgs args)
+        {
+            Invoke(() =>
+            {
+                _sosOnlineStatus.Text = string.Format("Sos Online: " + args.TextStatus);
+                if (args.Exception != null) _sosOnlineError.Tag = args.Exception;
+                _sosOnlineError.Visible = args.Exception != null;
+            });
         }
 
         private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
@@ -799,6 +810,12 @@ namespace SirenOfShame
         private void MainFormResizeEnd(object sender, EventArgs e)
         {
             ResumeLayout();
+        }
+
+        private void SosOnlineErrorClick(object sender, EventArgs e)
+        {
+            var exception = (Exception)_sosOnlineError.Tag;
+            ExceptionMessageBox.Show(this, "Sos Online Error", exception.Message, exception);
         }
     }
 }

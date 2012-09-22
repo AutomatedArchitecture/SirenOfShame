@@ -43,10 +43,6 @@ namespace SirenOfShame {
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._ribbonPanel = new System.Windows.Forms.Panel();
-            this.separator4 = new SirenOfShame.Separator();
-            this.separator3 = new SirenOfShame.Separator();
-            this.separator2 = new SirenOfShame.Separator();
-            this.separator1 = new SirenOfShame.Separator();
             this._sosOnline = new System.Windows.Forms.Button();
             this._toolbar32 = new System.Windows.Forms.ImageList(this.components);
             this._mute = new System.Windows.Forms.Button();
@@ -67,7 +63,6 @@ namespace SirenOfShame {
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._configurationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._checkForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this._viewLog = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,20 +83,28 @@ namespace SirenOfShame {
             this._highlightPanel2 = new System.Windows.Forms.Panel();
             this._highlightPanel = new System.Windows.Forms.Panel();
             this._highlightPanel3 = new System.Windows.Forms.Panel();
+            this._sosOnlineStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this._viewBuilds = new SirenOfShame.ViewBuilds();
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.Leaders();
+            this.separator4 = new SirenOfShame.Separator();
+            this.separator3 = new SirenOfShame.Separator();
+            this.separator2 = new SirenOfShame.Separator();
+            this.separator1 = new SirenOfShame.Separator();
+            this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._sosOnlineError = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this._configurationMenu.SuspendLayout();
             this._sirenMenu.SuspendLayout();
             this._panelAlert.SuspendLayout();
             this.panel1.SuspendLayout();
             this._highlightPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -109,7 +112,10 @@ namespace SirenOfShame {
             this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._toolStripSplitErrorButton,
-            this._lastStatusUpdate});
+            this._lastStatusUpdate,
+            this.toolStripStatusLabel2,
+            this._sosOnlineError,
+            this._sosOnlineStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 461);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1005, 22);
@@ -133,7 +139,7 @@ namespace SirenOfShame {
             // 
             this._lastStatusUpdate.ForeColor = System.Drawing.Color.Silver;
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(119, 17);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // notifyIcon
@@ -151,19 +157,19 @@ namespace SirenOfShame {
             this.openToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.minimizedMenu.Name = "contextMenuStrip1";
-            this.minimizedMenu.Size = new System.Drawing.Size(101, 48);
+            this.minimizedMenu.Size = new System.Drawing.Size(104, 48);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItemClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
@@ -196,38 +202,6 @@ namespace SirenOfShame {
             this._ribbonPanel.Name = "_ribbonPanel";
             this._ribbonPanel.Size = new System.Drawing.Size(1005, 88);
             this._ribbonPanel.TabIndex = 37;
-            // 
-            // separator4
-            // 
-            this.separator4.Location = new System.Drawing.Point(326, 0);
-            this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(2, 88);
-            this.separator4.TabIndex = 27;
-            this.separator4.Text = "separator4";
-            // 
-            // separator3
-            // 
-            this.separator3.Location = new System.Drawing.Point(468, 0);
-            this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(2, 88);
-            this.separator3.TabIndex = 26;
-            this.separator3.Text = "separator3";
-            // 
-            // separator2
-            // 
-            this.separator2.Location = new System.Drawing.Point(541, 0);
-            this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(2, 88);
-            this.separator2.TabIndex = 25;
-            this.separator2.Text = "separator2";
-            // 
-            // separator1
-            // 
-            this.separator1.Location = new System.Drawing.Point(684, 0);
-            this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(2, 88);
-            this.separator1.TabIndex = 24;
-            this.separator1.Text = "separator1";
             // 
             // _sosOnline
             // 
@@ -579,29 +553,25 @@ namespace SirenOfShame {
             this.label1.Text = "Configuration";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // buildStatusBindingSource
-            // 
-            this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
-            // 
             // _configurationMenu
             // 
             this._configurationMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._checkForUpdates,
             this._viewLog});
             this._configurationMenu.Name = "_configurationMenu";
-            this._configurationMenu.Size = new System.Drawing.Size(166, 48);
+            this._configurationMenu.Size = new System.Drawing.Size(174, 48);
             // 
             // _checkForUpdates
             // 
             this._checkForUpdates.Name = "_checkForUpdates";
-            this._checkForUpdates.Size = new System.Drawing.Size(165, 22);
+            this._checkForUpdates.Size = new System.Drawing.Size(173, 22);
             this._checkForUpdates.Text = "Check For Updates";
             this._checkForUpdates.Click += new System.EventHandler(this.CheckForUpdatesClick);
             // 
             // _viewLog
             // 
             this._viewLog.Name = "_viewLog";
-            this._viewLog.Size = new System.Drawing.Size(165, 22);
+            this._viewLog.Size = new System.Drawing.Size(173, 22);
             this._viewLog.Text = "View Logs...";
             this._viewLog.Click += new System.EventHandler(this.ViewLogClick);
             // 
@@ -610,12 +580,12 @@ namespace SirenOfShame {
             this._sirenMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._upgradeFirmwareMenuItem});
             this._sirenMenu.Name = "_configurationMenu";
-            this._sirenMenu.Size = new System.Drawing.Size(175, 26);
+            this._sirenMenu.Size = new System.Drawing.Size(181, 26);
             // 
             // _upgradeFirmwareMenuItem
             // 
             this._upgradeFirmwareMenuItem.Name = "_upgradeFirmwareMenuItem";
-            this._upgradeFirmwareMenuItem.Size = new System.Drawing.Size(174, 22);
+            this._upgradeFirmwareMenuItem.Size = new System.Drawing.Size(180, 22);
             this._upgradeFirmwareMenuItem.Text = "Upgrade Firmware...";
             this._upgradeFirmwareMenuItem.Click += new System.EventHandler(this.SirenUpgradeFirmwareClick);
             // 
@@ -805,6 +775,20 @@ namespace SirenOfShame {
             this._highlightPanel3.Size = new System.Drawing.Size(1005, 1);
             this._highlightPanel3.TabIndex = 26;
             // 
+            // _sosOnlineStatus
+            // 
+            this._sosOnlineStatus.ForeColor = System.Drawing.Color.Silver;
+            this._sosOnlineStatus.Name = "_sosOnlineStatus";
+            this._sosOnlineStatus.Size = new System.Drawing.Size(131, 17);
+            this._sosOnlineStatus.Text = "Sos Online: Connecting";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.Silver;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel2.Text = "|";
+            // 
             // _viewBuilds
             // 
             this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
@@ -846,6 +830,55 @@ namespace SirenOfShame {
             this._userList.Size = new System.Drawing.Size(209, 333);
             this._userList.TabIndex = 11;
             // 
+            // separator4
+            // 
+            this.separator4.Location = new System.Drawing.Point(326, 0);
+            this.separator4.Name = "separator4";
+            this.separator4.Size = new System.Drawing.Size(2, 88);
+            this.separator4.TabIndex = 27;
+            this.separator4.Text = "separator4";
+            // 
+            // separator3
+            // 
+            this.separator3.Location = new System.Drawing.Point(468, 0);
+            this.separator3.Name = "separator3";
+            this.separator3.Size = new System.Drawing.Size(2, 88);
+            this.separator3.TabIndex = 26;
+            this.separator3.Text = "separator3";
+            // 
+            // separator2
+            // 
+            this.separator2.Location = new System.Drawing.Point(541, 0);
+            this.separator2.Name = "separator2";
+            this.separator2.Size = new System.Drawing.Size(2, 88);
+            this.separator2.TabIndex = 25;
+            this.separator2.Text = "separator2";
+            // 
+            // separator1
+            // 
+            this.separator1.Location = new System.Drawing.Point(684, 0);
+            this.separator1.Name = "separator1";
+            this.separator1.Size = new System.Drawing.Size(2, 88);
+            this.separator1.TabIndex = 24;
+            this.separator1.Text = "separator1";
+            // 
+            // buildStatusBindingSource
+            // 
+            this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
+            // 
+            // _sosOnlineError
+            // 
+            this._sosOnlineError.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._sosOnlineError.Image = global::SirenOfShame.Properties.Resources.question_big;
+            this._sosOnlineError.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._sosOnlineError.Name = "_sosOnlineError";
+            this._sosOnlineError.ShowDropDownArrow = false;
+            this._sosOnlineError.Size = new System.Drawing.Size(20, 20);
+            this._sosOnlineError.Text = "toolStripSplitButton1";
+            this._sosOnlineError.ToolTipText = "Error Occured";
+            this._sosOnlineError.Visible = false;
+            this._sosOnlineError.Click += new System.EventHandler(this.SosOnlineErrorClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -879,13 +912,13 @@ namespace SirenOfShame {
             this.minimizedMenu.ResumeLayout(false);
             this._ribbonPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._automaticUpdater)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this._configurationMenu.ResumeLayout(false);
             this._sirenMenu.ResumeLayout(false);
             this._panelAlert.ResumeLayout(false);
             this._panelAlert.PerformLayout();
             this.panel1.ResumeLayout(false);
             this._highlightPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.buildStatusBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -955,6 +988,9 @@ namespace SirenOfShame {
       private Separator separator4;
       private Separator separator3;
       private Separator separator2;
+      private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+      private System.Windows.Forms.ToolStripStatusLabel _sosOnlineStatus;
+      private System.Windows.Forms.ToolStripDropDownButton _sosOnlineError;
 	}
 }
 

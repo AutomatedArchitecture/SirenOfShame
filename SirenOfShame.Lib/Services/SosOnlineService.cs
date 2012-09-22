@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SignalR.Client;
 using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Network;
@@ -22,6 +23,13 @@ namespace SirenOfShame.Lib.Services
         public const string SOS_URL = "http://sirenofshame.com";
         //public const string SOS_URL = "http://localhost:3115";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
+        public event SosOnlineStatusChange OnSosOnlineStatusChange;
+
+        private void InvokeOnSosOnlineStatusChange(string status, Exception exception = null)
+        {
+            SosOnlineStatusChange handler = OnSosOnlineStatusChange;
+            if (handler != null) handler(this, new SosOnlineStatusChangeArgs { TextStatus = status, Exception = exception });
+        }
 
         private void InvokeOnOnNewSosOnlineNotification(dynamic data)
         {
@@ -157,19 +165,55 @@ namespace SirenOfShame.Lib.Services
         {
             try
             {
-                if (!settings.GetSosOnlineContent()) return;
+                if (!settings.GetSosOnlineContent())
+                {
+                    InvokeOnSosOnlineStatusChange("Disabled");
+                    return;
+                }
+                InvokeOnSosOnlineStatusChange("Connecting");
                 _connection = new HubConnection(SOS_URL);
                 _proxy = _connection.CreateProxy("SosHub");
                 _proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
-                _connection.Error += ex => _log.Error("Error connecting to SoS Online via SignalR", ex);
+                _connection.Error += ConnectionOnError;
+                _connection.StateChanged += ConnectionOnStateChanged;
+                _connection.Closed += ConnectionOnClosed;
                 Task result = _connection.Start();
-                result.ContinueWith(t => _log.Error("Error connecting to SoS Online via SignalR", t.Exception),
-                                    TaskContinuationOptions.OnlyOnFaulted);
+                result.ContinueWith(ConnectionOnError, TaskContinuationOptions.OnlyOnFaulted);
             } 
             catch (Exception ex)
             {
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
             }
+        }
+
+        private void ConnectionOnClosed()
+        {
+            _log.Debug("Sos Online: closed");
+            InvokeOnSosOnlineStatusChange("Closed");
+        }
+
+        private void ConnectionOnStateChanged(StateChange stateChange)
+        {
+            _log.Debug("Sos Online: " + stateChange.NewState);
+            if (stateChange.NewState == ConnectionState.Connected)
+                InvokeOnSosOnlineStatusChange("Connected");
+            if (stateChange.NewState == ConnectionState.Disconnected)
+                InvokeOnSosOnlineStatusChange("Disconnected");
+            if (stateChange.NewState == ConnectionState.Reconnecting)
+                InvokeOnSosOnlineStatusChange("Reconnecting");
+            if (stateChange.NewState == ConnectionState.Connecting)
+                InvokeOnSosOnlineStatusChange("Connecting");
+        }
+
+        private void ConnectionOnError(Task obj)
+        {
+            ConnectionOnError(obj.Exception);
+        }
+
+        private void ConnectionOnError(Exception ex)
+        {
+            InvokeOnSosOnlineStatusChange("Error", ex);
+            _log.Error("Error connecting to SoS Online via SignalR", ex);
         }
 
         private readonly Dictionary<string, int> _cachedAvatarIds = new Dictionary<string, int>();
@@ -219,7 +263,7 @@ namespace SirenOfShame.Lib.Services
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
-            webClientXml.Add("message", message);
+            webClientXml.Add("Message", message);
             webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/AddMessage", doc =>
             {
                 string success = doc.Descendants("Success").First().Value;
@@ -239,5 +283,13 @@ namespace SirenOfShame.Lib.Services
         {
             _log.Error("Failed to connect to SoS Online.", obj);
         }
+    }
+
+    public delegate void SosOnlineStatusChange(object sender, SosOnlineStatusChangeArgs args);
+
+    public class SosOnlineStatusChangeArgs
+    {
+        public string TextStatus { get; set; }
+        public Exception Exception { get; set; }
     }
 }
