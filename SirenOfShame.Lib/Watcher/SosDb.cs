@@ -182,7 +182,16 @@ namespace SirenOfShame.Lib.Watcher
                                                                                 .Reverse()
                                                                                 .ToList());
             newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result), new CancellationToken(), TaskContinuationOptions.OnlyOnRanToCompletion, context);
-            newsItemGetter.ContinueWith(t => { _log.Error(t.Exception); onGetNewsItems(new List<NewNewsItemEventArgs>()); }, new CancellationToken(), TaskContinuationOptions.OnlyOnFaulted, context);
+            newsItemGetter.ContinueWith(t =>
+            {
+                if (t.Exception != null)
+                {
+                    var exception = t.Exception.InnerExceptions.First();
+                    if (!(exception is FileNotFoundException))
+                        _log.Error(exception);
+                }
+                onGetNewsItems(new List<NewNewsItemEventArgs>());
+            }, new CancellationToken(), TaskContinuationOptions.OnlyOnFaulted, context);
             newsItemGetter.Start();
         }
 

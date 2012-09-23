@@ -16,7 +16,7 @@ namespace SirenOfShame.Lib.Settings
                 Person = person,
                 EventDate = DateTime.Now,
                 NewsItemType = NewsItemTypeEnum.NewAchievement,
-                Project = null,
+                BuildDefinitionId = null,
                 ReputationChange = null,
                 Title = "Achieved " + Name,
             };

@@ -25,7 +25,7 @@ namespace SirenOfShame.Lib.Watcher
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(NewNewsItemEventArgs));
         
-        public string Project { get; set; }
+        public string BuildDefinitionId { get; set; }
         public DateTime EventDate { get; set; }
         public PersonBase Person { get; set; }
         public string Title { get; set; }
@@ -33,7 +33,7 @@ namespace SirenOfShame.Lib.Watcher
         public NewsItemTypeEnum NewsItemType { get; set; }
         public int? ReputationChange { get; set; }
         public string BuildId { get; set; }
-
+        
         public bool IsSosOnlineEvent
         {
             get { return NewsItemType < NewsItemTypeEnum.BuildStarted; }
@@ -70,7 +70,7 @@ namespace SirenOfShame.Lib.Watcher
                                      MakeCsvSafe(Person.RawName),
                                      (int) NewsItemType,
                                      ReputationChange,
-                                     MakeCsvSafe(Project),
+                                     MakeCsvSafe(BuildDefinitionId),
                                      MakeCsvSafe(BuildId),
                                      RemoveNewlines(Title));
             } 
@@ -96,7 +96,7 @@ namespace SirenOfShame.Lib.Watcher
                 if (person == null) throw new Exception("Unable to find user " + elements[1]);
                 var newsItemType = GetNewsItemType(elements[2]);
                 var reputationChange = GetReputationChange(elements[3]);
-                var project = GetString(elements[4]);
+                var buildDefinitionId = GetString(elements[4]);
                 var buildId = GetString(elements[5]);
                 var title = GetTitle(elements, 6);
                 return new NewNewsItemEventArgs
@@ -107,7 +107,7 @@ namespace SirenOfShame.Lib.Watcher
                     NewsItemType = newsItemType,
                     ReputationChange = reputationChange,
                     BuildId = buildId,
-                    Project = project
+                    BuildDefinitionId = buildDefinitionId
                 };
             } 
             catch (Exception ex)

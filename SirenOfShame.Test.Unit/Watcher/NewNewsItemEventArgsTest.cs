@@ -19,7 +19,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Person = person,
                 Title = "Hello world",
                 NewsItemType = NewsItemTypeEnum.BuildFailed,
-                Project = "Project 1",
+                BuildDefinitionId = "Project 1",
                 ReputationChange = -1,
                 BuildId = "5",
             };
@@ -31,7 +31,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(new DateTime(2010, 1, 2, 3, 4, 5, 6), result.EventDate);
             Assert.AreEqual(NewsItemTypeEnum.BuildFailed, result.NewsItemType);
             Assert.AreEqual(-1, result.ReputationChange);
-            Assert.AreEqual("Project 1", result.Project);
+            Assert.AreEqual("Project 1", result.BuildDefinitionId);
             Assert.AreEqual("5", result.BuildId);
         }
         
@@ -46,7 +46,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Person = person,
                 NewsItemType = NewsItemTypeEnum.BuildFailed,
                 Title = ",Hello, world,",
-                Project = "Project 1"
+                BuildDefinitionId = "Project 1"
             };
             var asCommaSeparated = args.AsCommaSeparated();
             var result = NewNewsItemEventArgs.FromCommaSeparated(asCommaSeparated, settings);
@@ -66,7 +66,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 NewsItemType = NewsItemTypeEnum.BuildFailed,
                 Title = @"Hello
 world",
-                Project = "Project 1"
+                BuildDefinitionId = "Project 1"
             };
             var asCommaSeparated = args.AsCommaSeparated();
             var result = NewNewsItemEventArgs.FromCommaSeparated(asCommaSeparated, settings);

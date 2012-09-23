@@ -168,12 +168,12 @@ namespace SirenOfShame
         }
 
         private string _filterPerson = null;
-        private string _filterBuildId = null;
+        private string _filterBuildDefinitionId = null;
 
         public void AddBuildFilter(SirenOfShameSettings settings, string buildId, ImageList avatarImageList)
         {
             ClearAllFilters();
-            _filterBuildId = buildId;
+            _filterBuildDefinitionId = buildId;
             ApplyFilters(settings, avatarImageList);
         }
 
@@ -207,19 +207,19 @@ namespace SirenOfShame
 
         private bool IncludeInFilter(NewNewsItemEventArgs i)
         {
-            return IncludeInFilter(i, _filterPerson, _filterBuildId);
+            return IncludeInFilter(i, _filterPerson, _filterBuildDefinitionId);
         }
 
-        public static bool IncludeInFilter(NewNewsItemEventArgs newsItem, string filterPerson, string filterBuildId)
+        public static bool IncludeInFilter(NewNewsItemEventArgs newsItem, string filterPerson, string filterBuildDefinitionId)
         {
-            if (filterPerson == null && filterBuildId == null) return true;
+            if (filterPerson == null && filterBuildDefinitionId == null) return true;
             if (filterPerson != null) return newsItem.Person.RawName == filterPerson;
-            return newsItem.IsSosOnlineEvent || newsItem.Project == filterBuildId;
+            return newsItem.IsSosOnlineEvent || newsItem.BuildDefinitionId == filterBuildDefinitionId;
         }
 
         private void ResetFunnelVisibility()
         {
-            _filterButton.Visible = _filterPerson != null;
+            _filterButton.Visible = _filterPerson != null || _filterBuildDefinitionId != null;
         }
 
         public void ClearFilter(SirenOfShameSettings settings, ImageList avatarImageList)
@@ -231,7 +231,7 @@ namespace SirenOfShame
         private void ClearAllFilters()
         {
             _filterPerson = null;
-            _filterBuildId = null;
+            _filterBuildDefinitionId = null;
         }
 
         private void ReinitializeNewsItems(List<IGrouping<string, NewNewsItemEventArgs>> newsItems, ImageList avatarImageList)

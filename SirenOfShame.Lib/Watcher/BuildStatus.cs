@@ -252,7 +252,7 @@ namespace SirenOfShame.Lib.Watcher
                 Person = person,
                 EventDate = DateTime.Now,
                 Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
-                Project = Name,
+                BuildDefinitionId = BuildDefinitionId,
                 NewsItemType = GetNewsItemType(),
                 ReputationChange = GetReputationChange(),
                 BuildId = BuildId

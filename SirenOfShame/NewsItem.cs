@@ -110,9 +110,9 @@ namespace SirenOfShame
 
         private void WriteProject(NewNewsItemEventArgs args)
         {
-            _project.Visible = !string.IsNullOrEmpty(args.Project);
-            if (args.Project == null) return;
-            _project.Text = args.Project.ToUpperInvariant();
+            _project.Visible = !string.IsNullOrEmpty(args.BuildDefinitionId);
+            if (args.BuildDefinitionId == null) return;
+            _project.Text = args.BuildDefinitionId.ToUpperInvariant();
         }
 
         private void InitializeReputationChangeLabel(int? reputationChange)
