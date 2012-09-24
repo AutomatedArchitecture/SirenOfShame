@@ -1,4 +1,7 @@
-﻿namespace HudsonServices.ServerConfiguration
+﻿using SirenOfShame;
+using SirenOfShame.Lib;
+
+namespace HudsonServices.ServerConfiguration
 {
     partial class ConfigureHudson
     {
@@ -30,7 +33,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this._url = new System.Windows.Forms.TextBox();
-            this._connect = new System.Windows.Forms.Button();
+            this._connect = new SosButton();
             this._projects = new SirenOfShame.Lib.Helpers.ThreeStateTreeView();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -66,7 +69,7 @@
             this._connect.TabIndex = 3;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
-            this._connect.Click += new System.EventHandler(this._connect_Click);
+            this._connect.Click += new System.EventHandler(this.ConnectClick);
             // 
             // _projects
             // 
@@ -146,7 +149,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox _url;
-        private System.Windows.Forms.Button _connect;
+        private SosButton _connect;
         private SirenOfShame.Lib.Helpers.ThreeStateTreeView _projects;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

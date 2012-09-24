@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -75,7 +75,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Client">
+      <HintPath>..\packages\SignalR.Client.0.5.3\lib\net40\SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -123,6 +130,16 @@
     <Compile Include="ConfigureSirenDialog.Designer.cs">
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />
+    <Compile Include="StatCalculators\BackToBackBuilds.cs" />
+    <Compile Include="StatCalculators\BuildRatio.cs" />
+    <Compile Include="StatCalculators\FixedSomeoneElsesBuild.cs" />
+    <Compile Include="StatCalculators\MaxBuildsInOneDay.cs" />
+    <Compile Include="StatCalculators\StatCalculatorBase.cs" />
+    <Compile Include="StatCalculators\SuccessInARow.cs" />
+    <Compile Include="UserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Device\AudioPattern.cs" />
     <Compile Include="Device\ManualControlData.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilder.cs" />
@@ -168,6 +185,7 @@
     <Compile Include="Helpers\IEnumerableHelpers.cs" />
     <Compile Include="Helpers\IocContainer.cs" />
     <Compile Include="Helpers\ObjectHelpers.cs" />
+    <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\SiUnitHelpers.cs" />
     <Compile Include="Helpers\ThreeStateTreeNode.cs" />
     <Compile Include="Helpers\ThreeStateTreeView.cs">
@@ -183,6 +201,8 @@
     </Compile>
     <Compile Include="Services\AudioFileService.cs" />
     <Compile Include="Services\LedFileService.cs" />
+    <Compile Include="Services\NewSosOnlineNotification.cs" />
+    <Compile Include="Services\NewSosOnlineNotificationArgs.cs" />
     <Compile Include="Services\SosOnlineService.cs" />
     <Compile Include="Settings\AchievementAlertPreferenceEnum.cs" />
     <Compile Include="Settings\AchievementLookup.cs" />
@@ -197,22 +217,29 @@
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDESStringEncryptor.cs" />
     <Compile Include="Settings\UpdateLocation.cs" />
+    <Compile Include="Settings\Upgrades\Upgrade5To6.cs" />
     <Compile Include="Settings\Upgrades\Upgrade1To2.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3.cs" />
     <Compile Include="Settings\Upgrades\Upgrade3To4.cs" />
     <Compile Include="Settings\Upgrades\Upgrade4To5.cs" />
     <Compile Include="Settings\Upgrades\UpgradeBase.cs" />
     <Compile Include="Settings\Upgrades\Upgrade0To1.cs" />
+    <Compile Include="SosButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
-    <Compile Include="Watcher\BuildStatusListViewItem.cs" />
+    <Compile Include="Watcher\BuildStatusDto.cs" />
+    <Compile Include="Watcher\PersonBase.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
     <Compile Include="Watcher\NewAchievementEvent.cs" />
     <Compile Include="Watcher\NewAchievementEventArgs.cs" />
     <Compile Include="Watcher\NewAlertEvent.cs" />
     <Compile Include="Watcher\NewAlertEventArgs.cs" />
+    <Compile Include="Watcher\NewNewsItemEvent.cs" />
+    <Compile Include="Watcher\NewNewsItemEventArgs.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEvent.cs" />
     <Compile Include="Watcher\PlayWindowsAudioEventArgs.cs" />
     <Compile Include="Watcher\RefreshStatusEventArgs.cs" />
@@ -225,6 +252,7 @@
     <Compile Include="Watcher\SetTrayIconEvent.cs" />
     <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
     <Compile Include="Watcher\SosDb.cs" />
+    <Compile Include="Watcher\SosOnlinePerson.cs" />
     <Compile Include="Watcher\StatsChangedEvent.cs" />
     <Compile Include="Watcher\StatsChangedEventArgs.cs" />
     <Compile Include="Watcher\StatusChangedEvent.cs" />
@@ -282,6 +310,9 @@
     <EmbeddedResource Include="WavViewControl.resx">
       <DependentUpon>WavViewControl.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

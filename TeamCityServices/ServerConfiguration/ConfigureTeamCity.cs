@@ -11,7 +11,7 @@ namespace TeamCityServices.ServerConfiguration
 {
     public partial class ConfigureTeamCity : ConfigureServerBase
     {
-        private const string PlacehoderText = "Loading...";
+        private const string PLACEHODER_TEXT = "Loading...";
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly CiEntryPointSetting _ciEntryPointSetting;
@@ -34,7 +34,7 @@ namespace TeamCityServices.ServerConfiguration
             }
         }
 
-        private void _connect_Click(object sender, EventArgs e)
+        private void ConnectClick(object sender, EventArgs e)
         {
             ReloadProjects();
         }
@@ -94,7 +94,7 @@ namespace TeamCityServices.ServerConfiguration
                     State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
                 node.State = CheckBoxState.Indeterminate;
-                node.Nodes.Add(PlacehoderText);
+                node.Nodes.Add(PLACEHODER_TEXT);
                 _projects.Nodes.Add(node);
                 LoadBuildDefinitions(node);
             }
@@ -107,7 +107,7 @@ namespace TeamCityServices.ServerConfiguration
 
         private void LoadBuildDefinitions(TreeNode node)
         {
-            if (node.Tag is TeamCityProject && node.Nodes.Count == 1 && node.Nodes[0].Text == PlacehoderText)
+            if (node.Tag is TeamCityProject && node.Nodes.Count == 1 && node.Nodes[0].Text == PLACEHODER_TEXT)
             {
                 _service.GetBuildDefinitions((TeamCityProject)node.Tag, _userName.Text, _password.Text, buildDefinitions =>
                 {
@@ -134,9 +134,9 @@ namespace TeamCityServices.ServerConfiguration
 
         private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag is TeamCityBuildDefinition)
+            TeamCityBuildDefinition buildDefinition = e.Node.Tag as TeamCityBuildDefinition;
+            if (buildDefinition != null)
             {
-                var buildDefinition = (TeamCityBuildDefinition)e.Node.Tag;
                 var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();

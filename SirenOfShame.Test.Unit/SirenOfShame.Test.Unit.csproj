@@ -64,6 +64,7 @@
     <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\TravisCiBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
+    <Compile Include="Helpers\PrettyDateHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
       <SubType>Designer</SubType>
@@ -81,16 +82,21 @@
     <Compile Include="Settings\PersonSettingTest.cs" />
     <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
+    <Compile Include="Settings\Upgrades\Upgrade5To6Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade1To2Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade0To1Test.cs" />
+    <Compile Include="StatCalculators\SuccessInARowTest.cs" />
     <Compile Include="TestHelpers\AssertHelpers.cs" />
+    <Compile Include="UI\NewsFeedTest.cs" />
+    <Compile Include="UI\ViewBuildsTest.cs" />
     <Compile Include="Util\BuildStatusUtilTest.cs" />
     <Compile Include="Watcher\BuildStatusTest.cs" />
     <Compile Include="Watcher\CiEntryPointSettingFake.cs" />
     <Compile Include="Watcher\FakeRulesEngine.cs" />
     <Compile Include="Watcher\FakeWebClient.cs" />
     <Compile Include="Watcher\NewAlertEventArgsTest.cs" />
+    <Compile Include="Watcher\NewNewsItemEventArgsTest.cs" />
     <Compile Include="Watcher\RulesEngineTest.cs" />
     <Compile Include="Watcher\RulesEngineWrapper.cs" />
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />

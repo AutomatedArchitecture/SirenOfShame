@@ -13,7 +13,7 @@ namespace SirenOfShame.Lib.Watcher
         Red = 0,
         Green = 1,
         Gray = 2,
-        Triangle = 7
+        Triangle = 3
     }
 
     public class BuildStatus
@@ -89,7 +89,7 @@ namespace SirenOfShame.Lib.Watcher
             return BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Broken;
         }
 
-        public BallsEnum BallIndex
+        private BallsEnum BallIndex
         {
             get
             {
@@ -99,22 +99,22 @@ namespace SirenOfShame.Lib.Watcher
                 return BallsEnum.Gray;
             }
         }
-
-        public BuildStatusListViewItem AsBuildStatusListViewItem(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        
+        public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             BuildStatus previousStatus;
-            previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
+            bool previousStatusExists = previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            string startTime = FormatAsDayMonthTime(StartedTime);
-            long startTimeTicks = StartedTime == null ? 0 : StartedTime.Value.Ticks;
-            string requestedBy = RequestedBy == null ? "" : RequestedBy.Split('\\').LastOrDefault();
+            PersonSetting personSetting = settings.FindAddPerson(RequestedBy);
+            string requestedBy = personSetting == null ? RequestedBy : personSetting.DisplayName;
 
-            var result = new BuildStatusListViewItem
+            var result = new BuildStatusDto
             {
+                BuildStatusEnum = BuildStatusEnum,
                 ImageIndex = (int)BallIndex,
-                StartTime = startTime,
-                StartTimeTicks = startTimeTicks,
+                StartTimeShort = FormatAsDayMonthTime(StartedTime),
+                LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
                 Duration = duration,
                 RequestedBy = requestedBy,
                 Comment = Comment,
@@ -141,7 +141,7 @@ namespace SirenOfShame.Lib.Watcher
             if (dateTimeFormatInfo == null) return "M/d";
             var shortDatePattern = dateTimeFormatInfo.ShortDatePattern;
             var dateSeparator = dateTimeFormatInfo.DateSeparator;
-            string dayMonthPattern = shortDatePattern.TrimEnd(new[] {'y', 'Y', dateSeparator[0]});
+            string dayMonthPattern = shortDatePattern.TrimEnd(new[] { 'y', 'Y', dateSeparator[0] });
             return dayMonthPattern;
         }
 
@@ -183,7 +183,7 @@ namespace SirenOfShame.Lib.Watcher
             return previousDuration - currentDuration;
         }
 
-        public void Changed(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
+        public void FireApplicableRulesEngineEvents(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
         {
             var rule = rules
                 .Where(r => r.IsMatch(this, previousWorkingOrBrokenStatus))
@@ -240,9 +240,57 @@ namespace SirenOfShame.Lib.Watcher
             return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
 
-        public string GetBuildDataAsHash()
-        {
+        public string GetBuildDataAsHash() {
             return string.Format("{0}-{1}-{2}-{3}", BuildDefinitionId, BuildId, StartedTime, RequestedBy);
+        }
+
+        public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        {
+            var person = settings.FindAddPerson(RequestedBy);
+            return new NewNewsItemEventArgs
+            {
+                Person = person,
+                EventDate = DateTime.Now,
+                Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
+                BuildDefinitionId = BuildDefinitionId,
+                NewsItemType = GetNewsItemType(),
+                ReputationChange = GetReputationChange(),
+                BuildId = BuildId
+            };
+        }
+
+        private int? GetReputationChange()
+        {
+            if (BuildStatusEnum == BuildStatusEnum.Working) return 1;
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return -4;
+            return null;
+        }
+
+        private NewsItemTypeEnum GetNewsItemType()
+        {
+            if (BuildStatusEnum == BuildStatusEnum.Working) return NewsItemTypeEnum.BuildSuccess;
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return NewsItemTypeEnum.BuildFailed;
+            if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
+            return NewsItemTypeEnum.BuildUnknown;
+        }
+        
+        private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
+        {
+            var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Working;
+            var wasBrokenNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Broken;
+            var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && BuildStatusEnum == BuildStatusEnum.Broken;
+            var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
+
+            if (inProgress) return string.Format("'{0}'", Comment);
+            if (wasBrokenNowWorking) return string.Format("Fixed the broken build");
+            if (wasWorkingNowBroken) return string.Format("Broke the build");
+            if (wasBrokenNowBroken) return string.Format("Failed to fix the build");
+            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Successful build");
+            
+            // some other previous status? this should never happen
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build");
+
+            throw new Exception("Unknown build status: " + BuildStatusEnum);
         }
     }
 }

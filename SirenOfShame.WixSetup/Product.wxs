@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is application version number, update for each release -->
-<?define Version = "1.6.4" ?>
+<?define Version = "2.0.1" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
@@ -53,6 +53,8 @@
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll2" />
         <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
+        <File Source="..\packages\SignalR.Client.0.5.3\lib\net40\SignalR.Client.dll" />
+        <File Source="..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
 
         <File Source="..\SirenOfShame\bin\Plugins\BuildBotServices.dll" />

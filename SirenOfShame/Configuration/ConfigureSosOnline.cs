@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 
@@ -32,7 +33,7 @@ namespace SirenOfShame.Configuration
 
         private void LoadChildControl()
         {
-            panel1.Controls.Clear();
+            panel1.ClearAndDispose();
             var childControl = GetChildControl();
             childControl.Dock = DockStyle.Fill;
             panel1.Controls.Add(childControl);

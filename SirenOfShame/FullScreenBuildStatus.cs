@@ -25,7 +25,7 @@ namespace SirenOfShame
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args, SirenOfShameSettings settings)
         {
-            int buildCount = args.BuildStatusListViewItems.Count();
+            int buildCount = args.BuildStatusDtos.Count();
 
             if (buildCount != _oldBuildCount)
             {
@@ -38,11 +38,11 @@ namespace SirenOfShame
             }
 
             int row = 2;
-            foreach (var buildStatusListViewItem in args.BuildStatusListViewItems)
+            foreach (var buildStatusListViewItem in args.BuildStatusDtos)
             {
                 SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
                 SetText(buildStatusListViewItem.Name, row, 1);
-                SetText(buildStatusListViewItem.StartTime, row, 2);
+                SetText(buildStatusListViewItem.StartTimeShort, row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
                 SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);
                 SetText(buildStatusListViewItem.Comment, row, 5);

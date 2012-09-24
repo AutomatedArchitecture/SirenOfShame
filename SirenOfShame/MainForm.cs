@@ -4,12 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
-using SirenOfShame.Resources2;
+using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Configuration;
 using SirenOfShame.Lib;
@@ -27,12 +26,11 @@ namespace SirenOfShame
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MainForm));
         SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
         private RulesEngine _rulesEngine;
-        private readonly string _logFilename;
-        private readonly bool _canViewLogs;
-        readonly SosDb _sosDb = new SosDb();
+        private string _logFilename;
+        private bool _canViewLogs;
         readonly Timer _showAlertAnimation = new Timer();
-        readonly Timer _flashListViewItemTimer = new Timer();
-        
+        readonly SosOnlineService _sosOnlineService = new SosOnlineService();
+
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { get; set; }
 
@@ -42,43 +40,154 @@ namespace SirenOfShame
             IocContainer.Instance.Compose(this);
             InitializeComponent();
 
-            _showAlertAnimation.Interval = 1;
-            _showAlertAnimation.Tick += ShowAlertAnimationTick;
-            viewUser1.OnClose += ViewUserOnClose;
-            _buildStats.OnClose += BuildStatsOnClose;
-            viewUser1.Initilaize(_settings);
-            _flashListViewItemTimer.Interval = 100;
-            _flashListViewItemTimer.Tick += FlashListViewItemTimerTick;
-            SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
-            SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
-            
-            if (SirenOfShameDevice.IsConnected)
-            {
-                SirenofShameDeviceConnected(this, new EventArgs());
-            }
-            else
-            {
-                SirenofShameDeviceDisconnected(this, new EventArgs());
-            }
-
+            InitializeViewBuilds();
+            InitializeViewUser();
+            InitializeNewsFeed();
+            InitializeUserList();
+            InitializeSirenOfShameDevice();
             SetAutomaticUpdaterSettings();
 
+            _showAlertAnimation.Interval = 1;
+            _showAlertAnimation.Tick += ShowAlertAnimationTick;
+
+            InitializeLogging();
+            ShowInMainWindow(MainWindowEnum.ViewBuilds);
+        }
+
+        private void InitializeLogging()
+        {
             try
             {
                 _logFilename = MyLogManager.GetLogFilename();
                 _viewLog.Enabled = true;
                 _canViewLogs = true;
-            }
-            catch (Exception)
+            } catch (Exception)
             {
                 _viewLog.Enabled = false;
                 _canViewLogs = false;
             }
         }
 
-        private void BuildStatsOnClose(object sender, CloseBuildStatsArgs args)
+        private void InitializeUserList()
         {
-            _buildDefinitions.SelectedItems.Clear();
+            _userList.OnUserSelected += UsersListOnOnUserSelected;
+            _userList.Initialize(_settings, _avatarImageList);
+        }
+
+        private void InitializeViewUser()
+        {
+            viewUser1.OnClose += ViewUserOnClose;
+            viewUser1.OnUserChangedAvatarId += ViewUser1OnOnUserChangedAvatarId;
+            viewUser1.OnUserDisplayNameChanged += UsersListOnOnUserDisplayNameChanged;
+            viewUser1.Initilaize(_settings);
+        }
+
+        private void InitializeViewBuilds()
+        {
+            _viewBuilds.OnGettingStartedClick += ViewBuildsOnOnGettingStartedClick;
+            _viewBuilds.SelectedBuildChanged += ViewBuildsOnSelectedBuildChanged;
+            _viewBuilds.Initialize(_settings);
+        }
+
+        private void ViewBuildsOnSelectedBuildChanged(object sender, SelectedBuildChangedArgs args)
+        {
+            _newsFeed1.AddBuildFilter(_settings, args.BuildId, _avatarImageList);
+        }
+
+        private void InitializeNewsFeed()
+        {
+            _newsFeed1.OnUserClicked += NewsFeedOnUserClicked;
+            _newsFeed1.OnSendMessageToSosOnline += NewsFeed1OnOnSendMessageToSosOnline;
+            _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
+        }
+
+        private void NewsFeed1OnOnSendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args)
+        {
+            _sosOnlineService.SendMessage(_settings, args.Message);
+        }
+
+        private void ViewBuildsOnOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
+        {
+            if (args.GettingStartedClickType == GettingStartedClickTypeEnum.ConfigureServer)
+            {
+                OpenConfigureServerDialog();
+            }
+            if (args.GettingStartedClickType == GettingStartedClickTypeEnum.ConfigureSosOnline)
+            {
+                OpenConfigureSosOnlineDialog();
+            }
+        }
+
+        private void InitializeSirenOfShameDevice()
+        {
+            if (SirenOfShameDevice == null)
+            {
+                _log.Error("SirenOfShameDevice was null in MainForm. This probably means that MEF failed to perform the dependency injection.");
+                return;
+            }
+            SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
+            SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
+            if (SirenOfShameDevice.IsConnected)
+            {
+                SirenofShameDeviceConnected(this, new EventArgs());
+            } else
+            {
+                SirenofShameDeviceDisconnected(this, new EventArgs());
+            }
+        }
+
+        private void ViewUser1OnOnUserChangedAvatarId(object sender, UserChangedAvatarIdArgs args)
+        {
+            _newsFeed1.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
+            _userList.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
+        }
+
+        private void NewsFeedOnUserClicked(object sender, UserClickedArgs args)
+        {
+            ShowViewUserPage(args.RawUserName);
+        }
+
+        private void UsersListOnOnUserDisplayNameChanged(object sender, UserDisplayNameChangedArgs args)
+        {
+            _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
+            _viewBuilds.RefreshBuildStatuses(_lastRefreshStatusEventArgs);
+            _newsFeed1.RefreshDisplayNames(args);
+        }
+
+        private void UsersListOnOnUserSelected(object sender, UserSelectedArgs args)
+        {
+            var rawName = args.RawName;
+            ShowViewUserPage(rawName);
+        }
+
+        private void ShowInMainWindow(MainWindowEnum mainWindow)
+        {
+            this.SuspendDrawing(() =>
+            {
+                _viewBuilds.Visible = mainWindow == MainWindowEnum.ViewBuilds;
+                viewUser1.Visible = mainWindow == MainWindowEnum.ViewUser;
+                if (mainWindow == MainWindowEnum.ViewBuilds)
+                {
+                    _viewBuilds.RefreshBuildStatuses();
+                }
+            });
+        }
+        
+        private void ShowViewUserPage(string rawName)
+        {
+            var aUserIsSelected = rawName != null;
+            if (!aUserIsSelected) ShowInMainWindow(MainWindowEnum.ViewBuilds);
+            if (!aUserIsSelected) return;
+            var selectedPerson = _settings.People.First(i => i.RawName == rawName);
+            ShowViewUserPage(selectedPerson);
+        }
+
+        private void ShowViewUserPage(PersonSetting selectedPerson)
+        {
+            if (selectedPerson == null) return;
+            ShowInMainWindow(MainWindowEnum.ViewUser);
+            viewUser1.SetUser(selectedPerson, _avatarImageList);
+            _newsFeed1.AddUserFilter(_settings, selectedPerson, _avatarImageList);
         }
 
         private void SetAutomaticUpdaterSettings()
@@ -110,32 +219,6 @@ namespace SirenOfShame
             BuildFailedMessageBox.ShowOnce("Siren of Shame", args.DialogText, args.OkText);
         }
 
-        public static ListViewItem AsListViewItem(BuildStatusListViewItem buildStatusListViewItem)
-        {
-            var listViewItem = new ListViewItem(buildStatusListViewItem.Name)
-                                   {
-                                       ImageIndex = buildStatusListViewItem.ImageIndex
-                                   };
-
-            AddSubItem(listViewItem, "ID", buildStatusListViewItem.BuildId);
-            AddSubItem(listViewItem, "StartTime", buildStatusListViewItem.StartTime);
-            AddSubItem(listViewItem, "Duration", buildStatusListViewItem.Duration);
-            AddSubItem(listViewItem, "RequestedBy", buildStatusListViewItem.RequestedByDisplayName);
-            AddSubItem(listViewItem, "Comment", buildStatusListViewItem.Comment);
-            listViewItem.Tag = buildStatusListViewItem.Id;
-            return listViewItem;
-        }
-
-        private static ListViewItem.ListViewSubItem AddSubItem(ListViewItem lvi, string name, string value)
-        {
-            var subItem = new ListViewItem.ListViewSubItem(lvi, value)
-            {
-                Name = name
-            };
-            lvi.SubItems.Add(subItem);
-            return subItem;
-        }
-
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
             Invoke(() => RefreshStats(args.ChangedBuildStatuses));
@@ -143,8 +226,8 @@ namespace SirenOfShame
 
         private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
         {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            RefreshStats(buildDefinitionSetting, changedBuildStatuses);
+            RefreshUserStats(changedBuildStatuses);
+            _viewBuilds.RefreshStats();
         }
 
         /// <summary>
@@ -157,7 +240,7 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _lastRefreshStatusEventArgs = args;
-                _buildDefinitions.RefreshListViewWithBuildStatus(args);
+                _viewBuilds.RefreshBuildStatuses(args);
                 if (InFullscreenMode)
                 {
                     _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);
@@ -206,15 +289,16 @@ namespace SirenOfShame
 
         private void MainFormLoad(object sender, EventArgs e)
         {
+            ShowRibbon(false);
             _panelAlertHeight = _panelAlert.Height;
             _log.Debug("Form1 loaded");
             if (_settings == null)
             {
                 _settings = new SirenOfShameSettings();
             }
-            
-            _settings.TryUpgrade();
-            
+
+            TryUpgrade();
+
             if (_settings.TryToFindOldAchievementsAtNextOpportunity)
             {
                 FindOldAchievements.TryFindOldAchievements(_settings);
@@ -222,10 +306,50 @@ namespace SirenOfShame
             }
 
             StartWatchingBuild();
+            _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnOnNewSosOnlineNotification;
+            _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
+            _sosOnlineService.StartRealtimeConnection(_settings);
+            
             RefreshStats(null);
             SetMuteButton();
-            _buildStats.InitializeBuildHistoryChart();
-            _buildDefinitions.SetSortColumn(_settings);
+        }
+
+        private void SosOnlineOnStatusChange(object sender, SosOnlineStatusChangeArgs args)
+        {
+            Invoke(() =>
+            {
+                _sosOnlineStatus.Text = string.Format("Sos Online: " + args.TextStatus);
+                if (args.Exception != null) _sosOnlineError.Tag = args.Exception;
+                _sosOnlineError.Visible = args.Exception != null;
+            });
+        }
+
+        private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
+        {
+            NewsItemTypeEnum newItemType = (NewsItemTypeEnum)args.EventTypeId;
+            bool currentUserAuthoredEvent = args.UserName == _settings.SosOnlineUsername;
+            bool reputationChangeOrAchievement = newItemType == NewsItemTypeEnum.SosOnlineReputationChange ||
+                                                 newItemType == NewsItemTypeEnum.SosOnlineNewAchievement;
+            if (currentUserAuthoredEvent && reputationChangeOrAchievement) return;
+            // this may result in a web request to retrieve the person's image, so keep it on some other thread
+            SosOnlinePerson sosOnlinePerson = _sosOnlineService.CreateSosOnlinePersonFromSosOnlineNotification(args, _avatarImageList);
+            Invoke(() =>
+            {
+                NewNewsItemEventArgs newNewsItemEventArgs = new NewNewsItemEventArgs
+                {
+                    EventDate = DateTime.Now,
+                    Person = sosOnlinePerson,
+                    Title = args.Message,
+                    AvatarImageList = _avatarImageList,
+                    NewsItemType = newItemType
+                };
+                _newsFeed1.AddNewsItem(newNewsItemEventArgs);
+            });
+        }
+
+        private void TryUpgrade()
+        {
+            _settings.TryUpgrade();
         }
 
         private RulesEngine RulesEngine
@@ -235,7 +359,7 @@ namespace SirenOfShame
 
         private void StartWatchingBuild()
         {
-            RulesEngine.Start();
+            ControlHelpers.SuspendLayout(_viewBuilds, () => RulesEngine.Start(initialStart: true));
         }
 
         private void StopWatchingBuild()
@@ -257,7 +381,17 @@ namespace SirenOfShame
             rulesEngine.StatsChanged += RulesEngineStatsChanged;
             rulesEngine.NewAlert += RulesEngineNewAlert;
             rulesEngine.NewAchievement += RulesEngineNewAchievement;
+            rulesEngine.NewNewsItem += RulesEngineNewNewsItem;
             return rulesEngine;
+        }
+
+        private void RulesEngineNewNewsItem(object sender, NewNewsItemEventArgs args)
+        {
+            Invoke(() =>
+            {
+                args.AvatarImageList = _avatarImageList;
+                _newsFeed1.AddNewsItem(args);
+            });
         }
 
         private void RulesEngineNewAchievement(object sender, NewAchievementEventArgs args)
@@ -266,19 +400,16 @@ namespace SirenOfShame
             {
                 _log.Debug(args.Person + " achieved " + achievement.Name);
             }
-            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
-            if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
             Invoke(() =>
             {
+                viewUser1.NewAchievements(args.Person);
+                if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Never) return;
+                if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.OnlyForMe && !_settings.IsMeOrDefault(args.Person, true)) return;
                 foreach (var achievement in args.Achievements)
                 {
                     NewAchievement.ShowForm(_settings, achievement, args.Person, this, modal: false);
                 }
-                foreach (ListViewItem listItem in _users.Items)
-                {
-                    if ((string) listItem.Tag == args.Person.RawName)
-                        listItem.Selected = true;
-                }
+                ShowViewUserPage(args.Person);
             });
         }
 
@@ -360,11 +491,6 @@ namespace SirenOfShame
             {
                 Hide();
             }
-            else
-            {
-                // ToDo: Show() on MainFormMove was causing an infinite loop on startup. What was it for? Permanently remove if this was necessary LR.
-                Show(); 
-            }
         }
 
         private void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -434,11 +560,22 @@ namespace SirenOfShame
 
         private void SosOnlineClick(object sender, EventArgs e)
         {
+            OpenConfigureSosOnlineDialog();
+        }
+
+        private void OpenConfigureSosOnlineDialog()
+        {
             var configureSosOnline = new ConfigureSosOnline(_settings);
             configureSosOnline.ShowDialog();
+            _viewBuilds.ReinitializeGettingStarted();
         }
 
         private void ConfigureServersClick(object sender, EventArgs e)
+        {
+            OpenConfigureServerDialog();
+        }
+
+        private void OpenConfigureServerDialog()
         {
             bool anyChanges = ConfigureServers.Show(_settings);
             if (anyChanges)
@@ -449,6 +586,7 @@ namespace SirenOfShame
             }
             Activate();
             Focus();
+            _viewBuilds.ReinitializeGettingStarted();
         }
 
         private void TestSirenClick(object sender, EventArgs e)
@@ -463,400 +601,15 @@ namespace SirenOfShame
             configureSiren.ShowDialog(this);
         }
 
-        private void BuildDefinitionsDoubleClick(object sender, EventArgs e)
+        private enum MainWindowEnum
         {
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return;
-            string buildId = (string)listViewItem.Tag;
-            BuildStatusListViewItem buildStatusListViewItem = _lastRefreshStatusEventArgs.BuildStatusListViewItems.First(i => i.Id == buildId);
-            var url = buildStatusListViewItem.Url;
-            if (!string.IsNullOrWhiteSpace(url) && url.StartsWith("http"))
-            {
-                Process.Start(url);
-            }
+            ViewBuilds = 0,
+            ViewUser = 1,
         }
-
-        private void BuildDefinitionsMouseUp(object sender, MouseEventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
-            if (e.Button == MouseButtons.Right)
-            {
-                _buildMenu.Show(_buildDefinitions, e.X, e.Y);
-                _affectsTrayIcon.Checked = buildDefinitionSetting == null || buildDefinitionSetting.AffectsTrayIcon;
-            }
-        }
-
-        private void RefreshStats(BuildDefinitionSetting buildDefinitionSetting, IList<BuildStatus> changedBuildStatuses)
-        {
-            bool buildDefinitionSelected = buildDefinitionSetting != null;
-            _buildStats.Visible = buildDefinitionSelected;
-            _userStats.Visible = !buildDefinitionSelected;
-            _panelRight.Visible = _settings.People.Any() && (buildDefinitionSelected || !_settings.HideReputation);
-            if (_panelRight.Visible)
-            {
-                if (!buildDefinitionSelected && !_settings.HideReputation)
-                {
-                    RefreshUserStats(changedBuildStatuses);
-                } else
-                {
-                    RefreshProjectStats(buildDefinitionSetting);
-                }
-            }
-        }
-
-        private void RefreshProjectStats(BuildDefinitionSetting buildDefinitionSetting)
-        {
-            var definitions = _sosDb.ReadAll(buildDefinitionSetting);
-
-            _buildStats.GraphBuildHistory(definitions);
-
-            var count = definitions.Count;
-            var failed = definitions.Count(s => s.BuildStatusEnum == BuildStatusEnum.Broken);
-            double percentFailed = count == 0 ? 0 : ((double) failed)/count;
-            _buildStats.SetStats(count, failed, percentFailed);
-        }
-
-        private List<ListViewItem.ListViewSubItem> _listViewItemsToFlash = new List<ListViewItem.ListViewSubItem>();
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
-            _users.Items.Clear();
-            var filteredPeople = _showAllPeople ? _settings.People : _settings.VisiblePeople;
-            var personSettings = filteredPeople
-                .Select(i => new {i.RawName, i.DisplayName, Reputation = i.GetReputation()})
-                .OrderByDescending(i => i.Reputation);
-            foreach (var person in personSettings)
-            {
-                BuildStatus newlyChangedBuildStatus = changedBuildStatuses == null ? null : changedBuildStatuses.FirstOrDefault(i => i.RequestedBy == person.RawName);
-                bool newlyChanged = newlyChangedBuildStatus != null;
-
-                ListViewItem lvi = new ListViewItem(person.DisplayName) {UseItemStyleForSubItems = false};
-                string reputation = GetReputation(person.Reputation, newlyChangedBuildStatus);
-                ListViewItem.ListViewSubItem subItem = AddSubItem(lvi, "Reputation", reputation);
-                if (newlyChanged)
-                    FlashListViewSubItem(subItem);
-                lvi.Tag = person.RawName;
-                _users.Items.Add(lvi);
-            }
-            _flashListViewItemTimer.Start();
-        }
-
-        private static string GetReputation(int reputation, BuildStatus newlyChangedBuildStatus)
-        {
-            string reputationStr = reputation.ToString(CultureInfo.InvariantCulture);
-            if (newlyChangedBuildStatus == null) return reputationStr;
-            string delta = newlyChangedBuildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? "-4" : "+1";
-            return string.Format("{0} ({1})", reputationStr, delta);
-        }
-
-        private void FlashListViewSubItem(ListViewItem.ListViewSubItem lvi)
-        {
-            lvi.ForeColor = Color.Red;
-            _listViewItemsToFlash.Add(lvi);
-            if (!_flashListViewItemTimer.Enabled)
-            {
-                _flashListViewItemTimer.Start();
-            }
-        }
-
-        private PersonSetting GetActivePerson()
-        {
-            var listViewItem = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return null;
-
-            var rawName = (string)listViewItem.Tag;
-            return _settings.People.FirstOrDefault(u => u.RawName == rawName);
-        }
-        
-        private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
-        {
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem == null) return null;
-
-            string buildId = (string)listViewItem.Tag;
-
-            var buildDefinitionSetting = _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).FirstOrDefault(bds => bds.Id == buildId);
-            if (buildDefinitionSetting == null)
-            {
-                _log.Error("Could not find a build definition settings for id " + buildId);
-                return null;
-            }
-            return buildDefinitionSetting;
-        }
-
-        private void AffectsTrayIconClick(object sender, EventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            if (buildDefinitionSetting == null) return;
-
-            buildDefinitionSetting.AffectsTrayIcon = !buildDefinitionSetting.AffectsTrayIcon;
-            _settings.Save();
-        }
-
-        private static void AddToolStripItems(ToolStripItemCollection items, IEnumerable<ToolStripMenuItem> toolStripItems)
-        {
-            foreach (ToolStripMenuItem toolStripItem in toolStripItems)
-            {
-                items.Add(toolStripItem);
-            }
-        }
-        
-        private void BuildMenuOpening(object sender, CancelEventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-
-            IEnumerable<ToolStripMenuItem> toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person: null));
-            _when.DropDownItems.Clear();
-            AddToolStripItems(_when.DropDownItems, toolStripItems);
-
-            _buildMenu.Items.Clear();
-            if (buildDefinitionSetting != null)
-            {
-                _buildMenu.Items.Add(_affectsTrayIcon);
-                _buildMenu.Items.Add(_stopWatching);
-            }
-            _buildMenu.Items.Add(_when);
-            if (buildDefinitionSetting != null)
-            {
-                _buildMenu.Items.Add(_toolStripSeparator1);
-                AddToolStripItems(_buildMenu.Items, buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
-            }
-        }
-
-        private ToolStripMenuItem PersonMenu(string person, BuildDefinitionSetting buildDefinitionSetting)
-        {
-            var displayName = _settings.TryGetDisplayName(person);
-            ToolStripMenuItem menu = new ToolStripMenuItem(displayName);
-            var toolStripItems = Rule.TriggerTypes.Select(i => WhenMenu(i, buildDefinitionSetting, person));
-            AddToolStripItems(menu.DropDownItems, toolStripItems);
-            return menu;
-        }
-
-        private ToolStripMenuItem WhenMenu(KeyValuePair<TriggerType, string> triggerTypeDescription, BuildDefinitionSetting buildDefinitionSetting, string person)
-        {
-            var triggerType = triggerTypeDescription.Key;
-            string buildDefinitionId = buildDefinitionSetting == null ? null : buildDefinitionSetting.Id;
-            var rule = _settings.FindRule(triggerType, buildDefinitionId, person);
-
-            var menuItem = new ToolStripMenuItem(triggerTypeDescription.Value);
-
-            var trayAlertMenu = new ToolStripMenuItem("Display a quick tray alert")
-            {
-                Checked = rule != null && rule.AlertType == AlertType.TrayAlert,
-                Tag = new RuleDropDownItemTag { AlertType = AlertType.TrayAlert, BuildDefinitionId = buildDefinitionId, TriggerPerson = person, TriggerType = triggerType }
-            };
-            trayAlertMenu.Click += RuleDropDownItemClick;
-            var modalDialogMenu = new ToolStripMenuItem("Open a modal dialog")
-            {
-                Checked = rule != null && rule.AlertType == AlertType.ModalDialog,
-                Tag = new RuleDropDownItemTag { AlertType = AlertType.ModalDialog, BuildDefinitionId = buildDefinitionId, TriggerPerson = person, TriggerType = triggerType }
-            };
-            modalDialogMenu.Click += RuleDropDownItemClick;
-
-            menuItem.DropDownItems.Add(trayAlertMenu);
-            menuItem.DropDownItems.Add(modalDialogMenu);
-
-            bool isConnected = SirenOfShameDevice.IsConnected;
-
-            var playWindowsAudioMenu = new ToolStripMenuItem("Play the following audio in Windows");
-            var playAudioMenu = new ToolStripMenuItem("Play the following audio on the device") { Enabled = isConnected };
-            var playLightsMenu = new ToolStripMenuItem("Turn on the following light pattern") { Enabled = isConnected };
-
-            if (isConnected)
-            {
-                AddToolStripItems(playAudioMenu.DropDownItems, SirenOfShameDevice.AudioPatterns.Select(ap => AudioPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
-                playAudioMenu.Checked = playAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
-
-                AddToolStripItems(playLightsMenu.DropDownItems, SirenOfShameDevice.LedPatterns.Select(ap => LedPatternMenu(ap, rule, buildDefinitionId, triggerType, person)).ToArray());
-                playLightsMenu.Checked = playLightsMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
-            }
-
-            AddToolStripItems(playWindowsAudioMenu.DropDownItems, ResourceManager.InternalAudioFiles.Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person)).ToArray());
-            playWindowsAudioMenu.Checked = playWindowsAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
-
-            menuItem.DropDownItems.Add(playWindowsAudioMenu);
-            menuItem.DropDownItems.Add(playAudioMenu);
-            menuItem.DropDownItems.Add(playLightsMenu);
-
-            menuItem.Checked = menuItem.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
-
-            return menuItem;
-        }
-
-        private readonly IEnumerable<KeyValuePair<int?, string>> _durations = new List<KeyValuePair<int?, string>>
-        {
-            new KeyValuePair<int?, string>(1, "1 Second"),
-            new KeyValuePair<int?, string>(5, "5 Seconds"),
-            new KeyValuePair<int?, string>(10, "10 Seconds"),
-            new KeyValuePair<int?, string>(30, "30 Seconds"),
-            new KeyValuePair<int?, string>(60, "60 Seconds"),
-            new KeyValuePair<int?, string>(null, "Until the build Passes"),
-        };
-
-        private ToolStripMenuItem WindowsAudioPatternMenu(AudioFile af, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
-        {
-            bool patternIsMatch = false;
-            if (rule != null && !string.IsNullOrEmpty(rule.WindowsAudioLocation))
-                patternIsMatch = af.Location == rule.WindowsAudioLocation;
-            var menu = new ToolStripMenuItem(af.DisplayName)
-            {
-                Checked = patternIsMatch,
-                Tag = new RuleDropDownItemTag
-                {
-                    AlertType = null,
-                    BuildDefinitionId = buildDefinitionId,
-                    TriggerPerson = person,
-                    TriggerType = triggerType,
-                    LedPattern = null,
-                    WindowsAudioLocation = af.Location,
-                    AudioPattern = null,
-                    Duration = null
-                }
-            };
-            menu.Click += RuleDropDownItemClick;
-            return menu;
-        }
-
-        private ToolStripMenuItem AudioPatternMenu(AudioPattern ap, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
-        {
-            bool patternIsMatch = false;
-            if (rule != null && !rule.InheritAudioSettings && rule.AudioPattern != null)
-                patternIsMatch = rule.AudioPattern.Equals(ap);
-            var menu = new ToolStripMenuItem(ap.Name)
-            {
-                Checked = patternIsMatch
-            };
-            AddToolStripItems(menu.DropDownItems, GetDurations(rule, null, ap, patternIsMatch, buildDefinitionId, triggerType, person));
-            return menu;
-        }
-
-        private ToolStripMenuItem LedPatternMenu(LedPattern lp, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
-        {
-            bool patternIsMatch = false;
-            if (rule != null && !rule.InheritLedSettings && rule.LedPattern != null)
-                patternIsMatch = rule.LedPattern.Equals(lp);
-            var menu = new ToolStripMenuItem(lp.Name)
-            {
-                Checked = patternIsMatch
-            };
-            AddToolStripItems(menu.DropDownItems, GetDurations(rule, lp, null, patternIsMatch, buildDefinitionId, triggerType, person));
-            return menu;
-        }
-
-        private IEnumerable<ToolStripMenuItem> GetDurations(Rule rule, LedPattern ledPattern, AudioPattern audioPattern, bool patternIsMatch, string buildDefinitionId, TriggerType triggerType, string person)
-        {
-            int? duration = null;
-            if (rule != null)
-                duration = ledPattern == null ? rule.AudioDuration : rule.LightsDuration;
-
-            var durations = _durations.Select(d => new ToolStripMenuItem(d.Value)
-            {
-                Checked = patternIsMatch && duration == d.Key,
-                Tag = new RuleDropDownItemTag
-                {
-                    AlertType = null,
-                    BuildDefinitionId = buildDefinitionId,
-                    TriggerPerson = person,
-                    TriggerType = triggerType,
-                    LedPattern = ledPattern,
-                    AudioPattern = audioPattern,
-                    Duration = d.Key
-                }
-            }).ToArray();
-            foreach (var toolStripMenuItem in durations)
-            {
-                toolStripMenuItem.Click += RuleDropDownItemClick;
-            }
-            return durations;
-        }
-
-        private void RuleDropDownItemClick(object sender, EventArgs e)
-        {
-            var toolStripSender = (ToolStripItem)sender;
-            RuleDropDownItemTag tag = (RuleDropDownItemTag)toolStripSender.Tag;
-
-            if (tag == null)
-            {
-                _log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
-                return;
-            }
-
-            var rule = _settings.Rules.FirstOrDefault(r =>
-                r.TriggerType == tag.TriggerType &&
-                r.BuildDefinitionId == tag.BuildDefinitionId &&
-                r.TriggerPerson == tag.TriggerPerson
-                );
-
-            // find/add
-            if (rule == null)
-            {
-                // base new rules on any generic high level rules
-                var baseRule = _settings.Rules.FirstOrDefault(r =>
-                                                          r.TriggerType == tag.TriggerType &&
-                                                          r.BuildDefinitionId == null && r.TriggerPerson == null);
-
-                rule = new Rule
-                {
-                    TriggerType = tag.TriggerType,
-                    BuildDefinitionId = tag.BuildDefinitionId,
-                    TriggerPerson = tag.TriggerPerson,
-                };
-
-                if (baseRule != null)
-                {
-                    rule.InheritAudioSettings = baseRule.InheritAudioSettings;
-                    rule.InheritLedSettings = baseRule.InheritLedSettings;
-                    rule.AlertType = baseRule.AlertType;
-                    rule.LedPattern = baseRule.LedPattern;
-                    rule.LightsDuration = baseRule.LightsDuration;
-                    rule.WindowsAudioLocation = baseRule.WindowsAudioLocation;
-                    rule.AudioPattern = baseRule.AudioPattern;
-                    rule.AudioDuration = baseRule.AudioDuration;
-                }
-
-                _settings.Rules.Add(rule);
-            }
-
-            if (tag.AlertType != null)
-            {
-                bool uncheckedAlertType = rule.AlertType == tag.AlertType.Value;
-                rule.AlertType = uncheckedAlertType ? AlertType.NoAlert : tag.AlertType.Value;
-            }
-
-            if (!string.IsNullOrEmpty(tag.WindowsAudioLocation))
-            {
-                bool uncheckWindowsAudio = tag.WindowsAudioLocation == rule.WindowsAudioLocation;
-                rule.WindowsAudioLocation = uncheckWindowsAudio ? null : tag.WindowsAudioLocation;
-            }
-            
-            if (tag.AudioPattern != null)
-            {
-                bool uncheckAudioPattern = tag.AudioPattern.Equals(rule.AudioPattern) && tag.Duration == rule.AudioDuration;
-                rule.AudioPattern = uncheckAudioPattern ? null : tag.AudioPattern;
-                rule.AudioDuration = tag.Duration;
-                rule.InheritAudioSettings = rule.AudioPattern == null;
-            }
-
-            if (tag.LedPattern != null)
-            {
-                bool uncheckLedPattern = tag.LedPattern.Equals(rule.LedPattern) && tag.Duration == rule.LightsDuration;
-                rule.LedPattern = uncheckLedPattern ? null : tag.LedPattern;
-                rule.LightsDuration = tag.Duration;
-                rule.InheritLedSettings = rule.LedPattern == null;
-            }
-
-            _settings.Save();
-        }
-
-        private void StopWatchingClick(object sender, EventArgs e)
-        {
-            BuildDefinitionSetting buildDefinitionSetting = GetActiveBuildDefinitionSetting();
-            if (buildDefinitionSetting == null) return;
-            buildDefinitionSetting.Active = false;
-            _settings.Save();
-            var listViewItem = _buildDefinitions.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            if (listViewItem != null) listViewItem.Remove();
+            _userList.RefreshUserStats(changedBuildStatuses);
         }
 
         private void OpenSettingsClick(object sender, EventArgs e)
@@ -934,6 +687,11 @@ namespace SirenOfShame
             get { return _canViewLogs; }
         }
 
+        public int AvatarCount
+        {
+            get { return _avatarImageList.Images.Count; }
+        }
+
         private void RefreshClick(object sender, EventArgs e)
         {
             RulesEngine.RefreshAll();
@@ -943,42 +701,6 @@ namespace SirenOfShame
         {
             SirenFirmwareUpgrade upgrade = new SirenFirmwareUpgrade();
             upgrade.ShowDialog(this);
-        }
-
-        private void BuildDefinitionsSelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshStats(null);
-        }
-
-        private void UsersMouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Right) return;
-            ListViewItem lvi = GetSelectedUser();
-            var anyUserSelected = lvi != null;
-            _editUserName.Visible = anyUserSelected;
-            _hideUser.Visible = anyUserSelected;
-            if (anyUserSelected)
-            {
-                var person = GetActivePerson();
-                _hideUser.Text = person.Hidden ? "Show" : "Hide";
-            }
-            _userMenu.Show(_users, e.X, e.Y);
-        }
-
-        private ListViewItem GetSelectedUser()
-        {
-            return _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-        }
-
-        private void UsersAfterLabelEdit(object sender, LabelEditEventArgs e)
-        {
-            var activePerson = GetActivePerson();
-            if (activePerson == null) return;
-            activePerson.DisplayName = e.Label;
-            _settings.Save();
-
-            _lastRefreshStatusEventArgs.RefreshDisplayNames(_settings);
-            _buildDefinitions.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs);
         }
 
         FullScreenBuildStatus _fullScreenBuildStatus = null;
@@ -1000,30 +722,6 @@ namespace SirenOfShame
             _fullScreenBuildStatus = null;
         }
 
-        private void EditUserNameClick(object sender, EventArgs e)
-        {
-            ListViewItem lvi = GetSelectedUser();
-            if (lvi != null)
-                lvi.BeginEdit();
-        }
-
-        private void HideUserClick(object sender, EventArgs e)
-        {
-            var activePerson = GetActivePerson();
-            if (activePerson == null) return;
-            activePerson.Hidden = !activePerson.Hidden;
-            _settings.Save();
-            RefreshUserStats(null);
-        }
-
-        private bool _showAllPeople = false;
-        
-        private void ShowAllUsersCheckedChanged(object sender, EventArgs e)
-        {
-            _showAllPeople = _showAllUsers.Checked;
-            RefreshUserStats(null);
-        }
-
         private void MuteClick(object sender, EventArgs e)
         {
             _settings.Mute = !_settings.Mute;
@@ -1033,7 +731,7 @@ namespace SirenOfShame
 
         private void SetMuteButton()
         {
-            _mute.ImageIndex = _settings.Mute ? 5 : 6;
+            _mute.ImageKey = _settings.Mute ? "loudspeaker_forbidden.bmp" : "loudspeaker.bmp";
             _mute.Text = _settings.Mute ? "Unmute" : "Mute";
         }
 
@@ -1047,31 +745,6 @@ namespace SirenOfShame
 
         int _panelAlertHeight;
 
-        private void FlashListViewItemTimerTick(object sender, EventArgs e)
-        {
-            if (!_listViewItemsToFlash.Any() || _listViewItemsToFlash.All(i => i.ForeColor.R == 0))
-            {
-                _listViewItemsToFlash.Clear();
-                _flashListViewItemTimer.Stop();
-            }
-
-            foreach (var listViewSubItem in _listViewItemsToFlash)
-            {
-                var existingColor = listViewSubItem.ForeColor;
-                const int amountToDecrement = 3;
-                var newRed = Math.Max(0, existingColor.R - amountToDecrement);
-                var newGreen = Math.Max(0, existingColor.G - amountToDecrement);
-                var newBlue = Math.Max(0, existingColor.B - amountToDecrement);
-                listViewSubItem.ForeColor = Color.FromArgb(newRed, newGreen, newBlue);
-                bool isBlack = newRed == 0 && newGreen == 0 && newBlue == 0;
-                bool containsDelta = listViewSubItem.Text.Contains(" ");
-                if (isBlack && containsDelta)
-                {
-                    listViewSubItem.Text = listViewSubItem.Text.Split(' ').First();
-                }
-            }
-        }
-        
         private void ShowAlertAnimationTick(object sender, EventArgs e)
         {
             bool hideAlert = !_showAlert;
@@ -1106,29 +779,10 @@ namespace SirenOfShame
             }
         }
 
-        private void BuildDefinitionsColumnClick(object sender, ColumnClickEventArgs e)
+        private void ViewUserOnClose(object sender, CloseScreenArgs args)
         {
-            if (_settings.SortColumn == e.Column)
-            {
-                _settings.SortDescending = !_settings.SortDescending;
-            } 
-            else
-            {
-                _settings.SortDescending = false;
-            }
-            _settings.SortColumn = e.Column;
-            _settings.Save();
-            _buildDefinitions.SetSortColumn(_settings);
-        }
-
-        private void ViewUserOnClose(object sender, CloseViewUserArgs args)
-        {
-            // sometimes the view user is displayed but the selected items gets unselected so here's a little hack to ensure we hide the user page
-            if (_users.SelectedItems.Count == 0 && _users.Items.Count >= 1)
-            {
-                _users.Items[0].Selected = true;
-            }
-            _users.SelectedItems.Clear();
+            ShowInMainWindow(MainWindowEnum.ViewBuilds);
+            _newsFeed1.ClearFilter(_settings, _avatarImageList);
         }
 
         private void ToolStripSplitErrorButtonClick(object sender, EventArgs e)
@@ -1137,17 +791,31 @@ namespace SirenOfShame
             ExceptionMessageBox.Show(this, "Connection Error", exception.Message, exception);
         }
 
-        private void _users_SelectedIndexChanged(object sender, EventArgs e)
+        private void ShowRibbonClick(object sender, EventArgs e)
         {
-            var selectedUser = _users.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
-            var aUserIsSelected = selectedUser != null;
-            _buildDefinitions.Visible = !aUserIsSelected;
-            viewUser1.Visible = aUserIsSelected;
-            if (aUserIsSelected)
-            {
-                var selectedPerson = _settings.People.First(i => i.RawName == (string) selectedUser.Tag);
-                viewUser1.SetUser(selectedPerson);
-            }
+            ShowRibbon(!_ribbonPanel.Visible);
+        }
+
+        private void ShowRibbon(bool show)
+        {
+            _showRibbon.Image = show ? Properties.Resources.navigate_up : Properties.Resources.navigate_down2;
+            _ribbonPanel.SuspendDrawing(() => _ribbonPanel.Visible = show);
+        }
+
+        private void MainFormResizeBegin(object sender, EventArgs e)
+        {
+            SuspendLayout();
+        }
+
+        private void MainFormResizeEnd(object sender, EventArgs e)
+        {
+            ResumeLayout();
+        }
+
+        private void SosOnlineErrorClick(object sender, EventArgs e)
+        {
+            var exception = (Exception)_sosOnlineError.Tag;
+            ExceptionMessageBox.Show(this, "Sos Online Error", exception.Message, exception);
         }
     }
 }

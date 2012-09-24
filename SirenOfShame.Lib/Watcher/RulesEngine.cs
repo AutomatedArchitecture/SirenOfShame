@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
-using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Util;
 using Timer = System.Windows.Forms.Timer;
@@ -17,9 +17,17 @@ namespace SirenOfShame.Lib.Watcher
 {
     public class RulesEngine
     {
+        private struct ChangedBuildStatusesAndTheirPreviousState
+        {
+            public BuildStatus ChangedBuildStatus { get; set; }
+            public BuildStatusEnum? PreviousWorkingOrBrokenBuildStatus { get; set; }
+            public BuildStatusEnum? PreviousBuildStatus { get; set; }
+        }
+
+        public const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
-        protected IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
-        protected IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
+        private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
+        private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
@@ -36,11 +44,21 @@ namespace SirenOfShame.Lib.Watcher
         public event NewAlertEvent NewAlert;
         public event PlayWindowsAudioEvent PlayWindowsAudio;
         public event NewAchievementEvent NewAchievement;
+        public event NewNewsItemEvent NewNewsItem;
 
-        public void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        private void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
+        {
+            var newNewsItem = NewNewsItem;
+            if (newsIsBothLocalAndNew)
+                SosDb.ExportNewNewsItem(args);
+            if (newNewsItem != null) newNewsItem(this, args);
+        }
+
+        private void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
         {
             var newAchievement = NewAchievement;
             if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
+            achievements.ForEach(i => InvokeNewNewsItem(i.AsNewNewsItem(person), newsIsBothLocalAndNew: true));
         }
 
         public void InvokePlayWindowsAudio(string location)
@@ -51,13 +69,13 @@ namespace SirenOfShame.Lib.Watcher
             if (playWindowsAudio != null) playWindowsAudio(this, new PlayWindowsAudioEventArgs { Location = location });
         }
 
-        public void InvokeSetTrayIcon(TrayIcon trayIcon)
+        private void InvokeSetTrayIcon(TrayIcon trayIcon)
         {
             SetTrayIconEvent setTrayIcon = SetTrayIcon;
             if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
         }
 
-        public void InvokeNewAlert(NewAlertEventArgs args)
+        private void InvokeNewAlert(NewAlertEventArgs args)
         {
             NewAlertEvent newAlert = NewAlert;
             if (newAlert != null) newAlert(this, args);
@@ -98,10 +116,10 @@ namespace SirenOfShame.Lib.Watcher
         {
             PreviousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>();
             PreviousBuildStatus = new Dictionary<string, BuildStatus>();
-            _buildStatus = new BuildStatus[] { };
+            _previousBuildStatuses = new BuildStatus[] { };
         }
 
-        private BuildStatus[] _buildStatus = new BuildStatus[] { };
+        private BuildStatus[] _previousBuildStatuses = new BuildStatus[] { };
 
         private void InvokeUpdateStatusBar(string statusText, Exception exception = null)
         {
@@ -117,83 +135,122 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
+            SendCiServerConnectedEvents();
+            TryToGetAndSendNewSosOnlineAlerts();
+            BuildStatus[] allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, args.BuildStatuses);
+            IList<BuildStatus> changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
+            InvokeSetTrayIcon(allBuildStatuses);
+            InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
+            AddAnyNewPeopleToSettings(changedBuildStatuses);
+            UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
+            IList<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
+            FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
+            WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
+            NotifyIfNewAchievements(changedBuildStatuses);
+            InvokeStatsChanged(changedBuildStatuses);
+            SyncNewBuildsToSos(changedBuildStatuses);
+            InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
+            CacheBuildStatuses(changedBuildStatuses);
+        }
+
+        private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
+        {
+            changedBuildStatuses
+                .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null)
+// ReSharper disable PossibleInvalidOperationException
+                .Select(i => i.ChangedBuildStatus.AsNewsItemEventArgs(i.PreviousWorkingOrBrokenBuildStatus.Value, _settings))
+// ReSharper restore PossibleInvalidOperationException
+                .ToList()
+                .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: true));
+        }
+
+        private void WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
+        {
+            var previouslyWorkingOrBrokenBuilds = changedBuildStatusesAndTheirPreviousState
+                .Where(i => i.ChangedBuildStatus.IsWorkingOrBroken() && i.PreviousWorkingOrBrokenBuildStatus != null)
+                .ToList();
+            previouslyWorkingOrBrokenBuilds.ForEach(i => SosDb.Write(i.ChangedBuildStatus, _settings));
+        }
+
+        private void FireApplicableRulesEngineEvents(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
+        {
+            foreach (var buildStatus in changedBuildStatusesAndTheirPreviousState)
+            {
+                buildStatus.ChangedBuildStatus.FireApplicableRulesEngineEvents(buildStatus.PreviousWorkingOrBrokenBuildStatus,
+                                                                               buildStatus.PreviousBuildStatus,
+                                                                               this,
+                                                                               _settings.Rules);
+            }
+        }
+
+        private List<ChangedBuildStatusesAndTheirPreviousState> GetChangedBuildStatusesAndTheirPreviousState(IEnumerable<BuildStatus> changedBuildStatuses)
+        {
+            var result = changedBuildStatuses
+                .Select(changedBuildStatus => new ChangedBuildStatusesAndTheirPreviousState
+                {
+                    PreviousWorkingOrBrokenBuildStatus = TryGetBuildStatus(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus),
+                    PreviousBuildStatus = TryGetBuildStatus(changedBuildStatus, PreviousBuildStatus),
+                    ChangedBuildStatus = changedBuildStatus,
+                });
+            return result.ToList();
+        }
+
+        /// <summary>
+        /// We cache the build statuses primarily so we can tell the rules engine whether a build
+        /// changed from Broken->InProgress->Working or Broken->InPgoress, etc
+        /// </summary>
+        private void CacheBuildStatuses(IEnumerable<BuildStatus> changedBuildStatuses)
+        {
+            foreach (var changedBuildStatus in changedBuildStatuses)
+            {
+                SetValue(changedBuildStatus, PreviousBuildStatus);
+                if (changedBuildStatus.IsWorkingOrBroken())
+                {
+                    SetValue(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus);
+                }
+            }
+        }
+
+        private void UpdateBuildNamesInSettingsIfAnyChanged(IEnumerable<BuildStatus> changedBuildStatuses)
+        {
+            foreach (var build in changedBuildStatuses)
+            {
+                _settings.UpdateNameIfChanged(build);
+            }
+        }
+
+        private void SendCiServerConnectedEvents()
+        {
             if (_serverPreviouslyUnavailable)
             {
                 InvokeTrayNotify(ToolTipIcon.Info, "Reconnected", "Reconnected to server.");
             }
             _serverPreviouslyUnavailable = false;
-
-            GetAlertAsyncIfNewDay();
-
-            BuildStatus[] newBuildStatus = BuildStatusUtil.Merge(_buildStatus, args.BuildStatuses);
-            var oldBuildStatus = _buildStatus;
-            _buildStatus = newBuildStatus;
-
             InvokeUpdateStatusBar("Connected");
-
-            // e.g. if a build exists in newStatus but doesn't exit in oldStatus, return it.  If a build exists in
-            //  oldStatus and in newStatus and the BuildStatusEnum is different then return it.
-            var changedBuildStatuses = from newStatus in newBuildStatus
-                                       from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
-                                       where oldStatus == null || (oldStatus.StartedTime != newStatus.StartedTime) || oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum
-                                       select newStatus;
-            changedBuildStatuses = changedBuildStatuses.ToList();
-
-            BuildWatcherStatusChanged(newBuildStatus, changedBuildStatuses.ToList());
         }
 
-        private void GetAlertAsyncIfNewDay()
+        // e.g. if a build exists in newStatus but doesn't exit in oldStatus, return it.  If a build exists in
+        //  oldStatus and in newStatus and the BuildStatusEnum is different then return it.
+        private IList<BuildStatus> GetChangedBuildStatuses(BuildStatus[] allBuildStatuses)
         {
-            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want to check for alerts either
-            if (_settings.UpdateLocation != UpdateLocation.Auto) return;
-
-            bool weHaveAlreadyCheckedForAlertsToday = _settings.LastCheckedForAlert != null && (Now - _settings.LastCheckedForAlert.Value).TotalHours < 24;
-            if (weHaveAlreadyCheckedForAlertsToday) return;
+            var oldBuildStatus = _previousBuildStatuses;
+            _previousBuildStatuses = allBuildStatuses;
+            var changedBuildStatuses = from newStatus in allBuildStatuses
+                   from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
+                   where oldStatus == null || (oldStatus.StartedTime != newStatus.StartedTime) || oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum
+                   select newStatus;
             
-            _settings.LastCheckedForAlert = DateTime.Now;
-            _settings.Save();
-            SosWebClient webClient = GetWebClient();
-            webClient.DownloadStringCompleted += (s, e) =>
-            {
-                try
-                {
-                    if (e.Error != null)
-                    {
-                        _log.Error("Error retrieving alert", e.Error);
-                        return;
-                    }
-                    NewAlertEventArgs args = new NewAlertEventArgs();
-                    var successParsing = args.Instantiate(e.Result);
-                    if (successParsing)
-                    {
-                        if (_settings.SoftwareInstanceId == null)
-                        {
-                            _settings.SoftwareInstanceId = args.SoftwareInstanceId;
-                            _settings.Save();
-                        }
-                        if (_settings.AlertClosed == null || args.AlertDate > _settings.AlertClosed)
-                        {
-                            InvokeNewAlert(args);
-                        }
-                    }
-                } 
-                catch (Exception ex)
-                {
-                    _log.Error("Error retrieving alert", ex);
-                }
-            };
-            string url = string.Format("http://sirenofshame.com/GetAlert?SirenEverConnected={0}&SoftwareInstanceId={1}&ServerType={2}&Version={3}",
-                _settings.SirenEverConnected,
-                _settings.SoftwareInstanceId,
-                string.Join(",", _settings.CiEntryPointSettings.Select(cip => cip.Name)),
-                Application.ProductVersion
-                );
-            webClient.DownloadStringAsync(new Uri(url));
+            Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
+            Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
+            Debug.Assert(PreviousBuildStatus != null, "PreviousBuildStatus should never be null");
+
+            return changedBuildStatuses.ToList();
         }
 
-        protected virtual DateTime Now
+        private void TryToGetAndSendNewSosOnlineAlerts()
         {
-            get { return DateTime.Now; }
+            var sosOnlineService = new SosOnlineService();
+            sosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert, GetWebClient());
         }
 
         protected virtual SosWebClient GetWebClient()
@@ -201,8 +258,14 @@ namespace SirenOfShame.Lib.Watcher
             return new SosWebClient();
         }
 
+        protected virtual DateTime Now
+        {
+            get { return DateTime.Now; }
+        }
+
         private void InvokeStatsChanged(IList<BuildStatus> changedBuildStatuses)
         {
+            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var statsChanged = StatsChanged;
             if (statsChanged == null) return;
             statsChanged(this, new StatsChangedEventArgs { ChangedBuildStatuses = changedBuildStatuses });
@@ -210,66 +273,35 @@ namespace SirenOfShame.Lib.Watcher
 
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)
         {
-            IEnumerable<BuildStatusListViewItem> buildStatusListViewItems = buildStatuses
-                .OrderBy(s => s.Name)
-                .Select(bs => bs.AsBuildStatusListViewItem(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings));
+            IList<BuildStatusDto> buildStatusListViewItems = buildStatuses
+                .Select(bs => bs.AsBuildStatusDto(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings))
+                .ToList();
 
             var refreshStatus = RefreshStatus;
             if (refreshStatus == null) return;
-            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusListViewItems = buildStatusListViewItems });
+            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
-            if (_buildStatus.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
+            if (_previousBuildStatuses.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
             {
-                InvokeRefreshStatus(_buildStatus);
+                InvokeRefreshStatus(_previousBuildStatuses);
             }
         }
 
-        private void BuildWatcherStatusChanged(IList<BuildStatus> allBuildStatuses, IList<BuildStatus> changedBuildStatuses)
+        private void InvokeRefreshStatusIfAnythingChanged(IEnumerable<BuildStatus> allBuildStatuses, IEnumerable<BuildStatus> changedBuildStatuses)
         {
-            Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
-            Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
-            Debug.Assert(PreviousBuildStatus != null, "PreviousBuildStatus should never be null");
-
             if (changedBuildStatuses.Any())
             {
                 _log.Debug("InvokeRefreshStatus: Some build status changed");
                 InvokeRefreshStatus(allBuildStatuses);
             }
-
-            InvokeSetTrayIconForChangedBuildStatuses(allBuildStatuses);
-            AddRequestedByPersonToBuildStatusSettings(changedBuildStatuses);
-
-            foreach (var changedBuildStatus in changedBuildStatuses)
-            {
-                BuildStatusEnum? previousWorkingOrBrokenStatus = TryGetBuildStatus(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus);
-                BuildStatusEnum? previousStatus = TryGetBuildStatus(changedBuildStatus, PreviousBuildStatus);
-                changedBuildStatus.Changed(previousWorkingOrBrokenStatus, previousStatus, this, _settings.Rules);
-
-                _settings.UpdateNameIfChanged(changedBuildStatus);
-
-                SetValue(changedBuildStatus, PreviousBuildStatus);
-                if (changedBuildStatus.IsWorkingOrBroken())
-                {
-                    if (previousWorkingOrBrokenStatus != null)
-                        SosDb.Write(changedBuildStatus, _settings);
-
-                    SetValue(changedBuildStatus, PreviousWorkingOrBrokenBuildStatus);
-                }
-            }
-
-            if (changedBuildStatuses.Any(i => i.IsWorkingOrBroken()))
-            {
-                NotifyIfNewAchievements(changedBuildStatuses);
-                InvokeStatsChanged(changedBuildStatuses);
-                SyncNewBuildsToSos(changedBuildStatuses);
-            }
         }
 
         private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
+            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             if (!_settings.SosOnlineAlwaysSync) return;
             var noUsername = string.IsNullOrEmpty(_settings.SosOnlineUsername);
             if (noUsername) return;
@@ -301,8 +333,9 @@ namespace SirenOfShame.Lib.Watcher
             _settings.SosOnlineHighWaterMark = newHighWaterMark.Ticks;
         }
 
-        private void NotifyIfNewAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
+        private void NotifyIfNewAchievements(IList<BuildStatus> changedBuildStatuses)
         {
+            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var visiblePeopleWithNewChanges = from changedBuildStatus in changedBuildStatuses
                                              join person in _settings.VisiblePeople on changedBuildStatus.RequestedBy equals person.RawName
                                              where changedBuildStatus.IsWorkingOrBroken()
@@ -342,7 +375,7 @@ namespace SirenOfShame.Lib.Watcher
                 dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
         }
 
-        private void InvokeSetTrayIconForChangedBuildStatuses(IEnumerable<BuildStatus> allBuildStatuses)
+        private void InvokeSetTrayIcon(IEnumerable<BuildStatus> allBuildStatuses)
         {
             var buildStatusesAndSettings = from buildStatus in allBuildStatuses
                                            join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
@@ -353,20 +386,20 @@ namespace SirenOfShame.Lib.Watcher
             InvokeSetTrayIcon(trayIcon);
         }
 
-        private void AddRequestedByPersonToBuildStatusSettings(IEnumerable<BuildStatus> changedBuildStatuses)
+        private void AddAnyNewPeopleToSettings(IEnumerable<BuildStatus> changedBuildStatuses)
         {
             var buildStatusesWithNewPeople = from buildStatus in changedBuildStatuses
                                              join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
                                              where !setting.ContainsPerson(buildStatus)
+                                                && !string.IsNullOrEmpty(buildStatus.RequestedBy)
                                              select new { buildStatus, setting };
 
-            var buildsWithoutRequestedByPerson = buildStatusesWithNewPeople.ToList();
-            buildsWithoutRequestedByPerson
-                .Where(bss => !string.IsNullOrEmpty(bss.buildStatus.RequestedBy))
-                .ToList()
+            var buildStatusesWithNewPeopleList = buildStatusesWithNewPeople.ToList();
+            if (!buildStatusesWithNewPeopleList.Any()) return;
+
+            buildStatusesWithNewPeopleList
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
-            if (buildsWithoutRequestedByPerson.Any())
-                _settings.Save();
+            _settings.Save();
         }
 
         internal void InvokeModalDialog(string dialogText, string okText)
@@ -396,9 +429,11 @@ namespace SirenOfShame.Lib.Watcher
 
         readonly Timer _timer = new Timer();
 
-        public void Start(bool initialStart = true)
+        public void Start(bool initialStart)
         {
-            var ciEntryPointSettings = _settings.CiEntryPointSettings.Where(s => !string.IsNullOrEmpty(s.Url));
+            var ciEntryPointSettings = _settings.CiEntryPointSettings
+                .Where(s => !string.IsNullOrEmpty(s.Url))
+                .ToList();
 
             _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)
@@ -444,7 +479,7 @@ namespace SirenOfShame.Lib.Watcher
             IEnumerable<BuildStatus> buildStatuses = _settings.CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .Where(bd => bd.Active)
-                .Select(bd => bd.AsUnknownBuildStatus());
+                .Select(bd => bd.AsUnknownBuildStatus(SosDb));
             InvokeRefreshStatus(buildStatuses);
         }
 

@@ -22,24 +22,24 @@ namespace MockCiServerServices
             _ciEntryPointSetting = ciEntryPointSetting;
         }
 
-        private void ConfigureMock_Load(object sender, System.EventArgs e)
+        private void ConfigureMockLoad(object sender, System.EventArgs e)
         {
             _projects.Nodes.Clear();
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 1") { Tag = new MockBuildDefinition("Project 1", "Project 1") });
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 2") { Tag = new MockBuildDefinition("Project 2", "Project 2") });
-            _projects.Nodes.Add(new ThreeStateTreeNode("Project 3") { Tag = new MockBuildDefinition("Project 3", "Project 3") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 1") { Tag = new MockBuildDefinition("Project1", "Project 1") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 2") { Tag = new MockBuildDefinition("Project2", "Project 2") });
+            _projects.Nodes.Add(new ThreeStateTreeNode("Project 3") { Tag = new MockBuildDefinition("Project3", "Project 3") });
         }
 
-        private void _projects_AfterCheck(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        private void ProjectsAfterCheck(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
             _ciEntryPointSetting.Url = "http://mock";
             _ciEntryPointSetting.UserName = "Mock";
             _ciEntryPointSetting.SetPassword("Password");
             Settings.Save();
 
-            if (e.Node.Tag is MyBuildDefinition)
+            MyBuildDefinition buildDefinition = e.Node.Tag as MyBuildDefinition;
+            if (buildDefinition != null)
             {
-                var buildDefinition = (MyBuildDefinition)e.Node.Tag;
                 var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _mockCiEntryPoint.Name);
                 buildDefSetting.Active = e.Node.Checked;
                 Settings.Save();

@@ -6,10 +6,10 @@ namespace SirenOfShame.Lib.Achievements
     {
         private readonly int _maxBuildsInOneDay;
 
-        public Terminator(PersonSetting personSetting, int maxBuildsInOneDay)
+        public Terminator(PersonSetting personSetting)
             : base(personSetting)
         {
-            _maxBuildsInOneDay = maxBuildsInOneDay;
+            _maxBuildsInOneDay = personSetting.MaxBuildsInOneDay;
         }
 
         public override AchievementEnum AchievementEnum

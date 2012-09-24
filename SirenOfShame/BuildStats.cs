@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Watcher;
@@ -15,23 +14,16 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        readonly Fill _failFill = new Fill(Color.FromArgb(192, 80, 77));
-        readonly Fill _successFill = new Fill(Color.FromArgb(79, 129, 189));
-
-        public void SetStats(int count, int failed, double percentFailed)
-        {
-            _buildCount.Text = count.ToString(CultureInfo.InvariantCulture);
-            _failedBuilds.Text = failed.ToString(CultureInfo.InvariantCulture);
-            _percentFailed.Text = percentFailed.ToString("p");
-        }
+        readonly Fill _failFill = new Fill(Color.FromArgb(255, 222, 64, 82));
+        readonly Fill _successFill = new Fill(Color.FromArgb(255, 50, 175, 82));
 
         public void GraphBuildHistory(IList<BuildStatus> buildStatuses)
         {
             GraphPane myPane = _buildHistoryZedGraph.GraphPane;
             myPane.CurveList.Clear();
 
-            IEnumerable<BuildStatus> lastFiveBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
-            foreach (BuildStatus buildStatus in lastFiveBuildStatuses)
+            IEnumerable<BuildStatus> lastFewBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
+            foreach (BuildStatus buildStatus in lastFewBuildStatuses)
             {
                 if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
                 var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
@@ -78,18 +70,5 @@ namespace SirenOfShame
             _buildHistoryZedGraph.IsEnableZoom = false;
             myPane.BarSettings.ClusterScaleWidth = 60;
         }
-
-        public event CloseBuildStats OnClose;
-        
-        private void CloseClick(object sender, System.EventArgs e)
-        {
-            OnClose(this, new CloseBuildStatsArgs());
-        }
-    }
-
-    public delegate void CloseBuildStats(object sender, CloseBuildStatsArgs args);
-
-    public class CloseBuildStatsArgs
-    {
     }
 }

@@ -6,10 +6,10 @@ namespace SirenOfShame.Lib.Achievements
     {
         private readonly int _howManyTimesHasFixedSomeoneElsesBuild;
 
-        public Assassin(PersonSetting personSetting, int howManyTimesHasFixedSomeoneElsesBuild)
+        public Assassin(PersonSetting personSetting)
             : base(personSetting)
         {
-            _howManyTimesHasFixedSomeoneElsesBuild = howManyTimesHasFixedSomeoneElsesBuild;
+            _howManyTimesHasFixedSomeoneElsesBuild = personSetting.NumberOfTimesFixedSomeoneElsesBuild;
         }
 
         public override AchievementEnum AchievementEnum

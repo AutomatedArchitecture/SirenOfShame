@@ -27,7 +27,7 @@ namespace UsbLib
                 _details = new DeviceInterfaceDetail(_handle, _did);
                 _isValidUsbDevice = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _isValidUsbDevice = false;
             }

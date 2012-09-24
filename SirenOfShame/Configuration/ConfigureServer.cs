@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib;
@@ -72,6 +73,8 @@ namespace SirenOfShame.Configuration
         {
             ClearConfigurePanel();
             var configureServerControl = newServerType.CreateConfigurationWindow(Settings, _ciEntryPointSetting);
+            configureServerControl.BackColor = Color.Transparent;
+            configureServerControl.ForeColor = Color.White;
             _configurationContainer.Controls.Add(configureServerControl);
             _ciEntryPointSetting.Name = newServerType.Name;
         }

@@ -13,6 +13,83 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void SubsequentBuildStatusRequest_UsesLocalTimeSoXMinuesAgoIsAccurate()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
+            var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            Assert.AreNotEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
+            Assert.IsTrue((DateTime.Now - buildStatusDto.LocalStartTime).TotalSeconds < 30, "LocalStartTime should have been less than 30 seconds ago aka as close to Now() as possible.");
+        }
+        
+        [TestMethod]
+        public void InitialBuildStatusRequest_UsesServerTimeSinceLocalTimeIsNotAvaiable()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
+        }
+        
+        [TestMethod]
+        public void BuildInitiated_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
+            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
+            Assert.AreEqual("'Fixing a typo'", newNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildWorkingThenWorking_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
+            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
+            Assert.AreEqual("Successful build", latestNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildFailedThenPassed_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
+            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
+            Assert.AreEqual("Fixed the broken build", newNewsItem.Title);
+        }
+
+        [TestMethod]
+        public void BuildFailedThenFailedAgain_BuildInitiatedNewsItem()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
+            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
+            Assert.AreEqual("Failed to fix the build", latestNewsItem.Title);
+        }
+
+        [TestMethod]
         public void UserHas23And59MinutesOfBuildTime_ChecksIn_AchievesTimeWarrior()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -200,9 +277,9 @@ Hello World
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             RefreshStatusEventArgs refreshStatusEventArgs = rulesEngine.RefreshStatusEvents[1];
-            Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusListViewItems.Count());
-            Assert.AreEqual("http://win7ci:8081/job/SvnTest/32/", refreshStatusEventArgs.BuildStatusListViewItems.First().Url);
-            Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusListViewItems.First().BuildId);
+            Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusDtos.Count());
+            Assert.AreEqual("http://win7ci:8081/job/SvnTest/32/", refreshStatusEventArgs.BuildStatusDtos.First().Url);
+            Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusDtos.First().BuildId);
         }
 
         [TestMethod]
@@ -401,13 +478,13 @@ Hello World
             });
 
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
-            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.Count());
-            BuildStatusListViewItem buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusListViewItems.First();
+            Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.Count());
+            BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
             Assert.AreEqual("User1", buildStatus.RequestedBy);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
-            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTime);
+            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTimeShort);
             Assert.AreEqual("1:01", buildStatus.Duration);
         }
 
@@ -1039,7 +1116,7 @@ Hello World
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual("2/2 2:02 AM",
-                            rulesEngine.RefreshStatusEvents.Last().BuildStatusListViewItems.First().StartTime);
+                            rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTimeShort);
         }
 
         [TestMethod]
@@ -1066,7 +1143,7 @@ Hello World
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             var lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
-            Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusListViewItems.Count());
+            Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusDtos.Count());
         }
 
         [TestMethod]

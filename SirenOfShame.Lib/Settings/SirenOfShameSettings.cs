@@ -17,6 +17,8 @@ namespace SirenOfShame.Lib.Settings
     [Serializable]
     public class SirenOfShameSettings
     {
+        public const int AVATAR_COUNT = 21;
+
         [Import(typeof(ISirenOfShameDevice))]
         private ISirenOfShameDevice SirenOfShameDevice { get; set; }
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
@@ -64,6 +66,8 @@ namespace SirenOfShame.Lib.Settings
         public List<PersonSetting> People { get; set; }
 
         public bool SirenEverConnected { get; set; }
+
+        public bool NeverShowGettingStarted { get; set; }
 
         public UpdateLocation UpdateLocation { get; set; }
 
@@ -129,11 +133,9 @@ namespace SirenOfShame.Lib.Settings
 
         public int? SoftwareInstanceId { get; set; }
 
-        public bool HideReputation { get; set; }
-
         public bool Mute { get; set; }
 
-        public volatile string _fileName;
+        public string _fileName;
 
         public DateTime? AlertClosed { get; set; }
 
@@ -150,11 +152,11 @@ namespace SirenOfShame.Lib.Settings
             Save(fileName);
         }
 
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
 
-        public virtual void Save(string fileName)
+        public void Save(string fileName)
         {
             lock (_lock)
             {
@@ -240,6 +242,8 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade2To3(),
                                    new Upgrade3To4(),
                                    new Upgrade4To5(), 
+                                   new Upgrade5To6(AVATAR_COUNT),
+                                   new Upgrade6To7(), 
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 
@@ -289,6 +293,11 @@ namespace SirenOfShame.Lib.Settings
             get { return People.Where(i => !i.Hidden); }
         }
 
+        public static int GenericSosOnlineAvatarId
+        {
+            get { return AVATAR_COUNT; }
+        }
+
         private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
         {
             Rule rule = Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
@@ -311,20 +320,32 @@ namespace SirenOfShame.Lib.Settings
             TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
         }
 
-        public PersonSetting FindAddPerson(string requestedBy)
+        public PersonSetting FindAddPerson(string requestedBy, int avatarCount = AVATAR_COUNT)
         {
-            if (People == null) People = new List<PersonSetting>();
-            var person = People.FirstOrDefault(i => i.RawName == requestedBy);
+            if (string.IsNullOrEmpty(requestedBy))
+            {
+                _log.Warn("Tried to add a person with a null RawName");
+                return null;
+            }
+            var person = FindPersonByRawName(requestedBy);
             if (person != null) return person;
             person = new PersonSetting
             {
                 DisplayName = requestedBy,
                 RawName = requestedBy,
                 FailedBuilds = 0,
-                TotalBuilds = 0
+                TotalBuilds = 0,
+                AvatarId = People.Count % avatarCount
             };
             People.Add(person);
             Save();
+            return person;
+        }
+
+        public PersonSetting FindPersonByRawName(string rawName)
+        {
+            if (People == null) People = new List<PersonSetting>();
+            var person = People.FirstOrDefault(i => i.RawName == rawName);
             return person;
         }
 
@@ -430,6 +451,14 @@ namespace SirenOfShame.Lib.Settings
             }
         }
 
+        public bool GetSosOnlineContent()
+        {
+            if (SosOnlineAlwaysOffline) return false;
+            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want random connections to SoS Online
+            if (UpdateLocation != UpdateLocation.Auto) return false;
+            return true;
+        }
+        
         public IWebProxy GetSosOnlineProxy()
         {
             if (string.IsNullOrEmpty(SosOnlineProxyUrl)) return null;
@@ -443,6 +472,23 @@ namespace SirenOfShame.Lib.Settings
                 new string[] { },
                 new NetworkCredential(SosOnlineProxyUsername, GetSosOnlineProxyPassword())
                 );
+        }
+
+        public BuildDefinitionSetting FindBuildDefinitionById(string buildId)
+        {
+            return CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .FirstOrDefault(bds => bds.Id == buildId);
+        }
+
+        public bool IsGettingStarted()
+        {
+            if (NeverShowGettingStarted) return false;
+            bool anyServers = CiEntryPointSettings.Any();
+            if (!anyServers) return true;
+            bool connected = !string.IsNullOrEmpty(SosOnlineUsername);
+            bool alwaysOffline = SosOnlineAlwaysOffline;
+            return !connected && !alwaysOffline;
         }
     }
 }

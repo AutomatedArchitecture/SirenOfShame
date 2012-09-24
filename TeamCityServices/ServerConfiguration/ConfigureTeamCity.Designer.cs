@@ -1,4 +1,7 @@
-﻿namespace TeamCityServices.ServerConfiguration {
+﻿using SirenOfShame;
+using SirenOfShame.Lib;
+
+namespace TeamCityServices.ServerConfiguration {
 	partial class ConfigureTeamCity {
 		/// <summary> 
 		/// Required designer variable.
@@ -26,7 +29,7 @@
             this._url = new System.Windows.Forms.TextBox();
             this._userName = new System.Windows.Forms.TextBox();
             this._password = new System.Windows.Forms.TextBox();
-            this._connect = new System.Windows.Forms.Button();
+            this._connect = new SosButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -67,7 +70,7 @@
             this._connect.TabIndex = 3;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
-            this._connect.Click += new System.EventHandler(this._connect_Click);
+            this._connect.Click += new System.EventHandler(this.ConnectClick);
             // 
             // label1
             // 
@@ -143,7 +146,7 @@
         private System.Windows.Forms.TextBox _url;
         private System.Windows.Forms.TextBox _userName;
         private System.Windows.Forms.TextBox _password;
-        private System.Windows.Forms.Button _connect;
+        private SosButton _connect;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

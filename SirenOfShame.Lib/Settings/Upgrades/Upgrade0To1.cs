@@ -36,7 +36,6 @@ namespace SirenOfShame.Lib.Settings.Upgrades
             {
                 sirenOfShameSettings.FindAddPerson(person);
             }
-            sirenOfShameSettings.HideReputation = false;
         }
     }
 }

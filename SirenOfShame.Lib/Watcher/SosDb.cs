@@ -1,19 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace SirenOfShame.Lib.Watcher
 {
     public class SosDb
     {
         private readonly string _folder = SirenOfShameSettings.GetSosAppDataFolder();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosDb));
 
         protected virtual void Write(string location, string contents)
         {
-            File.AppendAllText(location, contents);
+            try
+            {
+                File.AppendAllText(location, contents);
+            } 
+            catch (IOException ex)
+            {
+                _log.Error("Unable to write: " + contents + " to " + location, ex);
+            }
         }
         
         public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
@@ -24,50 +36,53 @@ namespace SirenOfShame.Lib.Watcher
 
         private static void UpdateStatsInSettings(BuildStatus buildStatus, SirenOfShameSettings settings)
         {
-            if (!string.IsNullOrEmpty(buildStatus.RequestedBy))
+            if (string.IsNullOrEmpty(buildStatus.RequestedBy)) return;
+            var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
             {
-                var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
-                if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
-                {
-                    personSetting.FailedBuilds++;
-                }
-                personSetting.TotalBuilds++;
-                settings.Save();
+                personSetting.FailedBuilds++;
             }
+            personSetting.TotalBuilds++;
+            settings.Save();
         }
 
         private void AppendToFile(BuildStatus buildStatus)
         {
             string[] items = new[]
             {
-                buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(),
-                buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(),
-                ((int) buildStatus.BuildStatusEnum).ToString(),
+                buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
+                buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
+                ((int) buildStatus.BuildStatusEnum).ToString(CultureInfo.InvariantCulture),
                 buildStatus.RequestedBy,
             };
             string contents = string.Join(",", items) + "\r\n";
-            string location = GetLocation(buildStatus);
+            string location = GetBuildLocation(buildStatus);
             Write(location, contents);
         }
 
-        private string GetLocation(BuildStatus buildStatus)
+        private string GetBuildLocation(BuildStatus buildStatus)
         {
-            return GetLocation(buildStatus.BuildDefinitionId);
+            return GetBuildLocation(buildStatus.BuildDefinitionId);
         }
 
-        protected static string RemoveIllegalCharacters(string s)
+        private static string RemoveIllegalCharacters(string s)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()) + "\\.";
             Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(s, "");
         }
         
-        private string GetLocation(BuildDefinitionSetting buildDefinition)
+        private string GetBuildLocation(BuildDefinitionSetting buildDefinition)
         {
-            return GetLocation(buildDefinition.Id);
+            return GetBuildLocation(buildDefinition.Id);
         }
         
-        private string GetLocation(string buildDefinitionId)
+        private string GetEventsLocation()
+        {
+            return _folder + "\\SirenOfShameEvents.txt";
+        }
+        
+        private string GetBuildLocation(string buildDefinitionId)
         {
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
@@ -82,7 +97,7 @@ namespace SirenOfShame.Lib.Watcher
         
         protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
-            string location = GetLocation(buildDefinitionSetting);
+            string location = GetBuildLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             return lines.Select(l => l.Split(','))
@@ -97,9 +112,14 @@ namespace SirenOfShame.Lib.Watcher
                 });
         }
         
-        public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        public IList<BuildStatus> ReadAll(string buildId)
         {
-            string location = GetLocation(buildDefinitionSetting);
+            var location = GetBuildLocation(buildId);
+            return ReadAllFromLocation(location);
+        }
+
+        private IList<BuildStatus> ReadAllFromLocation(string location)
+        {
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
@@ -108,6 +128,12 @@ namespace SirenOfShame.Lib.Watcher
                 .Where(i => i != null) // ignore parse errors
                 .ToList();
             return statuses;
+        }
+
+        public IList<BuildStatus> ReadAll(BuildDefinitionSetting buildDefinitionSetting)
+        {
+            string location = GetBuildLocation(buildDefinitionSetting);
+            return ReadAllFromLocation(location);
         }
 
         public string ExportNewBuilds(SirenOfShameSettings settings)
@@ -123,6 +149,55 @@ namespace SirenOfShame.Lib.Watcher
             var buildsAsExport = buildsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
             var result = string.Join("\r\n", buildsAsExport);
             return string.IsNullOrEmpty(result) ? null : result;
+        }
+
+        public void ExportNewNewsItem(NewNewsItemEventArgs args)
+        {
+            var location = GetEventsLocation();
+            string asCommaSeparated = args.AsCommaSeparated();
+            if (!string.IsNullOrEmpty(asCommaSeparated))
+            {
+                string contents = asCommaSeparated + "\r\n";
+                try
+                {
+                    File.AppendAllText(location, contents);
+                } 
+                catch (IOException ex)
+                {
+                    _log.Error("Unable to export news item: " + contents, ex);
+                }
+            }
+        }
+
+        public void GetMostRecentNewsItems(SirenOfShameSettings settings, Action<IList<NewNewsItemEventArgs>> onGetNewsItems)
+        {
+            var location = GetEventsLocation();
+            if (!File.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
+
+            var context = TaskScheduler.FromCurrentSynchronizationContext();
+
+            var newsItemGetter = new Task<List<NewNewsItemEventArgs>> (() => File.ReadAllLines(location)
+                                                                                .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
+                                                                                .Where(i => i != null)
+                                                                                .Reverse()
+                                                                                .ToList());
+            newsItemGetter.ContinueWith(result => onGetNewsItems(result.Result), new CancellationToken(), TaskContinuationOptions.OnlyOnRanToCompletion, context);
+            newsItemGetter.ContinueWith(t =>
+            {
+                if (t.Exception != null)
+                {
+                    var exception = t.Exception.InnerExceptions.First();
+                    if (!(exception is FileNotFoundException))
+                        _log.Error(exception);
+                }
+                onGetNewsItems(new List<NewNewsItemEventArgs>());
+            }, new CancellationToken(), TaskContinuationOptions.OnlyOnFaulted, context);
+            newsItemGetter.Start();
+        }
+
+        public void GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet, Action<IEnumerable<NewNewsItemEventArgs>> onGetNewsItems)
+        {
+            GetMostRecentNewsItems(settings, newNewsItems => onGetNewsItems(newNewsItems.Take(newsItemsToGet)));
         }
     }
 }

@@ -12,6 +12,71 @@ namespace SirenOfShame.Test.Unit.Settings
     public class SirenOfShameSettingsTest
     {
         [TestMethod]
+        public void IsGettingStarted_OneServerAndAlwaysOffline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineAlwaysOffline = true;
+            settings.CiEntryPointSettings.Add(new CiEntryPointSetting());
+            Assert.IsFalse(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
+        public void IsGettingStarted_OneServerAndIsSosOnline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineUsername = "Bob";
+            settings.CiEntryPointSettings.Add(new CiEntryPointSetting());
+            Assert.IsFalse(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
+        public void IsGettingStarted_NoServerNoSosOnline()
+        {
+            SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
+            settings.SosOnlineUsername = null;
+            Assert.IsTrue(settings.IsGettingStarted());
+        }
+        
+        [TestMethod]
+        public void AvatarCountConstIsCorrect()
+        {
+            var mainForm = new MainForm();
+            const int genericImageCount = 1;
+            Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT + genericImageCount, mainForm.AvatarCount);
+        }
+
+        [TestMethod]
+        public void FindAddUser_SecondUser_AvatarIdIsTwo()
+        {
+            var settings = new SirenOfShameSettingsFake
+            {
+                People = new List<PersonSetting>
+                {
+                    new PersonSetting {RawName = "Bob"}
+                }
+            };
+            settings.FindAddPerson("Sam");
+            Assert.AreEqual(2, settings.People.Count);
+            Assert.AreEqual(1, settings.People[1].AvatarId);
+        }
+
+        [TestMethod]
+        public void FindAddUser_ThirdUserWithTwoAvatars_NewUserAvatarIdLoopsToZero()
+        {
+            var settings = new SirenOfShameSettingsFake
+            {
+                People = new List<PersonSetting>
+                {
+                    new PersonSetting {RawName = "Bob"},
+                    new PersonSetting {RawName = "Sam"}
+                }
+            };
+            settings.FindAddPerson("Sally", 2);
+            Assert.AreEqual(3, settings.People.Count);
+            Assert.AreEqual(0, settings.People[2].AvatarId);
+        }
+
+        [TestMethod]
         public void ExportNewAchievements_InitialExportWithNoAchievements_Null()
         {
             var settings = new SirenOfShameSettingsFake
@@ -127,7 +192,7 @@ namespace SirenOfShame.Test.Unit.Settings
                                    Version = null
                                };
             settings.DoUpgrade();
-            Assert.AreEqual(4, settings.Version);
+            Assert.AreEqual(7, settings.Version);
         }
         
         [TestMethod]

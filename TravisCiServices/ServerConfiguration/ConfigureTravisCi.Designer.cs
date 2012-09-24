@@ -1,4 +1,7 @@
-﻿namespace TravisCiServices.ServerConfiguration
+﻿using SirenOfShame;
+using SirenOfShame.Lib;
+
+namespace TravisCiServices.ServerConfiguration
 {
     partial class ConfigureTravisCi
     {
@@ -30,7 +33,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this._ownerName = new System.Windows.Forms.TextBox();
-            this._add = new System.Windows.Forms.Button();
+            this._add = new SosButton();
             this._projects = new SirenOfShame.Lib.Helpers.ThreeStateTreeView();
             this.label3 = new System.Windows.Forms.Label();
             this._projectName = new System.Windows.Forms.TextBox();
@@ -116,7 +119,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox _ownerName;
-        private System.Windows.Forms.Button _add;
+        private SosButton _add;
         private SirenOfShame.Lib.Helpers.ThreeStateTreeView _projects;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _projectName;

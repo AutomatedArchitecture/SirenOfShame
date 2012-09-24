@@ -1,5 +1,4 @@
-﻿using System;
-using SirenOfShame.Lib.Settings;
+﻿using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Achievements
 {
@@ -7,9 +6,9 @@ namespace SirenOfShame.Lib.Achievements
     {
         private readonly double? _lowestBuildRatio;
 
-        public Perfectionist(PersonSetting personSetting, double? lowestBuildRatio) : base(personSetting)
+        public Perfectionist(PersonSetting personSetting) : base(personSetting)
         {
-            _lowestBuildRatio = lowestBuildRatio;
+            _lowestBuildRatio = personSetting.LowestBuildRatioAfter50Builds;
         }
 
         public override AchievementEnum AchievementEnum

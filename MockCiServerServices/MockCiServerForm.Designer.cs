@@ -33,6 +33,8 @@
             this._project2 = new MockCiServerServices.MockProject();
             this._project1 = new MockCiServerServices.MockProject();
             this._serverUnavailable = new System.Windows.Forms.CheckBox();
+            this._additionalBuilds = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // _project3
@@ -75,11 +77,30 @@
             this._serverUnavailable.Text = "Server Unavailable";
             this._serverUnavailable.UseVisualStyleBackColor = true;
             // 
+            // _additionalBuilds
+            // 
+            this._additionalBuilds.Location = new System.Drawing.Point(344, 514);
+            this._additionalBuilds.Name = "_additionalBuilds";
+            this._additionalBuilds.Size = new System.Drawing.Size(47, 20);
+            this._additionalBuilds.TabIndex = 4;
+            this._additionalBuilds.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(252, 517);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Additional builds:";
+            // 
             // MockCiServerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(457, 560);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this._additionalBuilds);
             this.Controls.Add(this._serverUnavailable);
             this.Controls.Add(this._project3);
             this.Controls.Add(this._project2);
@@ -98,5 +119,7 @@
         private MockProject _project2;
         private MockProject _project3;
         private System.Windows.Forms.CheckBox _serverUnavailable;
+        private System.Windows.Forms.TextBox _additionalBuilds;
+        private System.Windows.Forms.Label label1;
     }
 }

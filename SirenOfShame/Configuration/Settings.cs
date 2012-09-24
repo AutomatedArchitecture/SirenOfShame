@@ -22,7 +22,6 @@ namespace SirenOfShame.Configuration
 
         private void InitializeReputationAndAchievementSection()
         {
-            _hideReputation.Checked = _settings.HideReputation;
             InitializeAchievementAlertPreferences();
             InitializeUserIAm();
         }
@@ -89,8 +88,6 @@ namespace SirenOfShame.Configuration
             _settings.UpdateLocationOther = _updateLocationOtherLocation.Text;
             _settings.UpdateLocation = updateLocation;
 
-            _settings.HideReputation = _hideReputation.Checked;
-
             SetShowAchievements();
             SetUserIAm();
 
@@ -146,7 +143,7 @@ namespace SirenOfShame.Configuration
             _duration.Text = string.Format("{0} seconds{1}", _pollInterval.Value, snideComment);
         }
 
-        private static void ViewLogClick(object sender, EventArgs e)
+        private void ViewLogClick(object sender, EventArgs e)
         {
             Program.Form.ViewLogs();
         }
@@ -156,7 +153,7 @@ namespace SirenOfShame.Configuration
             _updateLocationOtherLocation.Enabled = _updateLocationOther.Checked;
         }
 
-        private static void CheckForUpdatesClick(object sender, EventArgs e)
+        private void CheckForUpdatesClick(object sender, EventArgs e)
         {
             Program.Form.CheckForUpdates();
         }

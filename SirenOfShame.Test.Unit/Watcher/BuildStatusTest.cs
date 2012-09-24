@@ -85,7 +85,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             var now = new DateTime(2010, 1, 1, 1, 2, 2);
             var previousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>();
             var settings = new SirenOfShameSettingsFake();
-            var result = buildStatus.AsBuildStatusListViewItem(now, previousWorkingOrBrokenBuildStatus, settings);
+            var result = buildStatus.AsBuildStatusDto(now, previousWorkingOrBrokenBuildStatus, settings);
             Assert.AreEqual("1:01", result.Duration);
         }
         
@@ -108,7 +108,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 } } 
             };
             var settings = new SirenOfShameSettingsFake();
-            var result = buildStatus.AsBuildStatusListViewItem(now, previousWorkingOrBrokenBuildStatus, settings);
+            var result = buildStatus.AsBuildStatusDto(now, previousWorkingOrBrokenBuildStatus, settings);
             Assert.AreEqual("1:00", result.Duration); // would have been 0:00 if counting up
         }
         
@@ -134,7 +134,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 } } 
             };
             var settings = new SirenOfShameSettingsFake();
-            var result = buildStatus.AsBuildStatusListViewItem(now, previousWorkingOrBrokenBuildStatus, settings);
+            var result = buildStatus.AsBuildStatusDto(now, previousWorkingOrBrokenBuildStatus, settings);
             Assert.AreEqual("OT: 1:01", result.Duration);
         }
     }

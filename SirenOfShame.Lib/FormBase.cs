@@ -6,7 +6,7 @@ namespace SirenOfShame
 {
     public class FormBase : Form
     {
-        public FormBase()
+        protected FormBase()
         {
             ShowInTaskbar = false;
         }
