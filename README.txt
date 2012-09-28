@@ -1,0 +1,1 @@
+A devious solution for keeping the team from breaking the build ... while silmultaneously giving the illusion of making the project more fun
