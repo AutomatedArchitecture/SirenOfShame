@@ -25,14 +25,20 @@ namespace SirenOfShame.Lib.Watcher
 
         public static BuildStatus Parse(string[] lineFromSosDb)
         {
-            Debug.Assert(lineFromSosDb.Length == 4);
+            if (lineFromSosDb.Length != 4)
+            {
+                _log.Error("SosDb line was not parsable: " + lineFromSosDb);
+                return null;
+            }
+
             string startedTimeStr = lineFromSosDb[0];
             string finishedTimeStr = lineFromSosDb[1];
             string buildStatusStr = lineFromSosDb[2];
             string requestedByStr = lineFromSosDb[3];
-            
+
             try
             {
+
                 return new BuildStatus
                 {
                     StartedTime = string.IsNullOrEmpty(startedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(startedTimeStr)),
@@ -40,7 +46,7 @@ namespace SirenOfShame.Lib.Watcher
                     BuildStatusEnum = (BuildStatusEnum)int.Parse(buildStatusStr),
                     RequestedBy = requestedByStr
                 };
-            } 
+            }
             catch (Exception ex)
             {
                 _log.Error(string.Format("Error parsing a line in SosDb: {0}, {1}, {2}, {3}", startedTimeStr, finishedTimeStr, buildStatusStr, requestedByStr), ex);
@@ -99,7 +105,7 @@ namespace SirenOfShame.Lib.Watcher
                 return BallsEnum.Gray;
             }
         }
-        
+
         public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             BuildStatus previousStatus;
@@ -240,7 +246,8 @@ namespace SirenOfShame.Lib.Watcher
             return dateTime == null ? "" : dateTime.Value.Ticks.ToString(CultureInfo.InvariantCulture);
         }
 
-        public string GetBuildDataAsHash() {
+        public string GetBuildDataAsHash()
+        {
             return string.Format("{0}-{1}-{2}-{3}", BuildDefinitionId, BuildId, StartedTime, RequestedBy);
         }
 
@@ -273,7 +280,7 @@ namespace SirenOfShame.Lib.Watcher
             if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
             return NewsItemTypeEnum.BuildUnknown;
         }
-        
+
         private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
         {
             var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Working;
@@ -286,7 +293,7 @@ namespace SirenOfShame.Lib.Watcher
             if (wasWorkingNowBroken) return string.Format("Broke the build");
             if (wasBrokenNowBroken) return string.Format("Failed to fix the build");
             if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Successful build");
-            
+
             // some other previous status? this should never happen
             if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build");
 

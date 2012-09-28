@@ -21,13 +21,13 @@ namespace SirenOfShame.Lib.Watcher
             try
             {
                 File.AppendAllText(location, contents);
-            } 
+            }
             catch (IOException ex)
             {
                 _log.Error("Unable to write: " + contents + " to " + location, ex);
             }
         }
-        
+
         public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
         {
             AppendToFile(buildStatus);
@@ -53,7 +53,7 @@ namespace SirenOfShame.Lib.Watcher
                 buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
                 buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
                 ((int) buildStatus.BuildStatusEnum).ToString(CultureInfo.InvariantCulture),
-                buildStatus.RequestedBy,
+                buildStatus.RequestedBy
             };
             string contents = string.Join(",", items) + "\r\n";
             string location = GetBuildLocation(buildStatus);
@@ -71,17 +71,17 @@ namespace SirenOfShame.Lib.Watcher
             Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
             return r.Replace(s, "");
         }
-        
+
         private string GetBuildLocation(BuildDefinitionSetting buildDefinition)
         {
             return GetBuildLocation(buildDefinition.Id);
         }
-        
+
         private string GetEventsLocation()
         {
             return _folder + "\\SirenOfShameEvents.txt";
         }
-        
+
         private string GetBuildLocation(string buildDefinitionId)
         {
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
@@ -94,24 +94,17 @@ namespace SirenOfShame.Lib.Watcher
                 .AsParallel() // since there is a File.ReadAllLines for each build definition this should parallelize nicely
                 .ToList();
         }
-        
+
         protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
             string location = GetBuildLocation(buildDefinitionSetting);
             if (!File.Exists(location)) return new List<BuildStatus>();
             var lines = File.ReadAllLines(location);
             return lines.Select(l => l.Split(','))
-                .Where(l => l.Length == 4) // just in case there are partially written records
-                .Select(l => new BuildStatus
-                {
-                    StartedTime = string.IsNullOrEmpty(l[0]) ? (DateTime?) null : new DateTime(long.Parse(l[0])),
-                    FinishedTime = string.IsNullOrEmpty(l[1]) ? (DateTime?) null : new DateTime(long.Parse(l[1])),
-                    BuildStatusEnum = (BuildStatusEnum) int.Parse(l[2]),
-                    RequestedBy = l[3],
-                    BuildDefinitionId = buildDefinitionSetting.Id
-                });
+                .Select(BuildStatus.Parse)
+                .Where(i => i != null);
         }
-        
+
         public IList<BuildStatus> ReadAll(string buildId)
         {
             var location = GetBuildLocation(buildId);
@@ -161,7 +154,7 @@ namespace SirenOfShame.Lib.Watcher
                 try
                 {
                     File.AppendAllText(location, contents);
-                } 
+                }
                 catch (IOException ex)
                 {
                     _log.Error("Unable to export news item: " + contents, ex);
@@ -176,7 +169,7 @@ namespace SirenOfShame.Lib.Watcher
 
             var context = TaskScheduler.FromCurrentSynchronizationContext();
 
-            var newsItemGetter = new Task<List<NewNewsItemEventArgs>> (() => File.ReadAllLines(location)
+            var newsItemGetter = new Task<List<NewNewsItemEventArgs>>(() => File.ReadAllLines(location)
                                                                                 .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
                                                                                 .Where(i => i != null)
                                                                                 .Reverse()
@@ -193,11 +186,6 @@ namespace SirenOfShame.Lib.Watcher
                 onGetNewsItems(new List<NewNewsItemEventArgs>());
             }, new CancellationToken(), TaskContinuationOptions.OnlyOnFaulted, context);
             newsItemGetter.Start();
-        }
-
-        public void GetMostRecentNewsItems(SirenOfShameSettings settings, int newsItemsToGet, Action<IEnumerable<NewNewsItemEventArgs>> onGetNewsItems)
-        {
-            GetMostRecentNewsItems(settings, newNewsItems => onGetNewsItems(newNewsItems.Take(newsItemsToGet)));
         }
     }
 }
