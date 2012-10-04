@@ -30,14 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._addMessage = new System.Windows.Forms.Button();
+            this._clearNews = new System.Windows.Forms.Button();
             this._newsItemsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._noNews = new System.Windows.Forms.Label();
             this._topPanel = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this._addMessage = new System.Windows.Forms.Button();
-            this._clearNews = new System.Windows.Forms.Button();
             this._loading = new System.Windows.Forms.PictureBox();
             this._filterButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this._message = new SirenOfShame.WaterMarkTextBox();
             this.panel1.SuspendLayout();
@@ -56,57 +56,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(234, 18);
             this.panel1.TabIndex = 0;
-            // 
-            // _newsItemsPanel
-            // 
-            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._newsItemsPanel.AutoScroll = true;
-            this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 45);
-            this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(278, 173);
-            this._newsItemsPanel.TabIndex = 1;
-            this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
-            // 
-            // _noNews
-            // 
-            this._noNews.BackColor = System.Drawing.Color.Transparent;
-            this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
-            this._noNews.ForeColor = System.Drawing.Color.Gray;
-            this._noNews.Location = new System.Drawing.Point(0, 42);
-            this._noNews.Name = "_noNews";
-            this._noNews.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this._noNews.Size = new System.Drawing.Size(258, 43);
-            this._noNews.TabIndex = 2;
-            this._noNews.Text = "No news is good news";
-            this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // _topPanel
-            // 
-            this._topPanel.Controls.Add(this._loading);
-            this._topPanel.Controls.Add(this._filterButton);
-            this._topPanel.Controls.Add(this.label1);
-            this._topPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this._topPanel.Location = new System.Drawing.Point(0, 0);
-            this._topPanel.Name = "_topPanel";
-            this._topPanel.Size = new System.Drawing.Size(258, 42);
-            this._topPanel.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.label1.Size = new System.Drawing.Size(89, 42);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "News";
             // 
             // _addMessage
             // 
@@ -140,13 +89,50 @@
             this._clearNews.UseVisualStyleBackColor = true;
             this._clearNews.Click += new System.EventHandler(this.ClearNewsClick);
             // 
+            // _newsItemsPanel
+            // 
+            this._newsItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._newsItemsPanel.AutoScroll = true;
+            this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 39);
+            this._newsItemsPanel.Name = "_newsItemsPanel";
+            this._newsItemsPanel.Size = new System.Drawing.Size(278, 176);
+            this._newsItemsPanel.TabIndex = 1;
+            this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
+            // 
+            // _noNews
+            // 
+            this._noNews.BackColor = System.Drawing.Color.Transparent;
+            this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
+            this._noNews.ForeColor = System.Drawing.Color.Gray;
+            this._noNews.Location = new System.Drawing.Point(0, 35);
+            this._noNews.Name = "_noNews";
+            this._noNews.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            this._noNews.Size = new System.Drawing.Size(258, 43);
+            this._noNews.TabIndex = 2;
+            this._noNews.Text = "No news is good news";
+            this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // _topPanel
+            // 
+            this._topPanel.Controls.Add(this._loading);
+            this._topPanel.Controls.Add(this._filterButton);
+            this._topPanel.Controls.Add(this.label1);
+            this._topPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this._topPanel.Location = new System.Drawing.Point(0, 0);
+            this._topPanel.Name = "_topPanel";
+            this._topPanel.Size = new System.Drawing.Size(258, 35);
+            this._topPanel.TabIndex = 5;
+            // 
             // _loading
             // 
             this._loading.Dock = System.Windows.Forms.DockStyle.Left;
             this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
             this._loading.Location = new System.Drawing.Point(113, 0);
             this._loading.Name = "_loading";
-            this._loading.Size = new System.Drawing.Size(21, 42);
+            this._loading.Size = new System.Drawing.Size(21, 35);
             this._loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._loading.TabIndex = 34;
             this._loading.TabStop = false;
@@ -163,9 +149,23 @@
             this._filterButton.Image = global::SirenOfShame.Properties.Resources.funnel1;
             this._filterButton.Location = new System.Drawing.Point(89, 0);
             this._filterButton.Name = "_filterButton";
-            this._filterButton.Size = new System.Drawing.Size(24, 42);
+            this._filterButton.Size = new System.Drawing.Size(24, 35);
             this._filterButton.TabIndex = 6;
             this._filterButton.UseVisualStyleBackColor = false;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
+            this.label1.Size = new System.Drawing.Size(89, 35);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "News";
             // 
             // _message
             // 

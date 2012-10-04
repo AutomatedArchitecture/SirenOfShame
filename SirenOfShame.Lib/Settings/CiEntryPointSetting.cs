@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Lib.Settings
@@ -33,7 +34,9 @@ namespace SirenOfShame.Lib.Settings
 
         public ICiEntryPoint GetCiEntryPoint(SirenOfShameSettings settings)
         {
-            return settings.CiEntryPoints.First(s => s.Name == Name);
+            var ciEntryPoint = settings.CiEntryPoints.FirstOrDefault(s => s.Name == Name);
+            if (ciEntryPoint == null) throw new SosException("Unable to find plugin: " + Name);
+            return ciEntryPoint;
         }
 
         public List<BuildDefinitionSetting> BuildDefinitionSettings { get; set; }
