@@ -106,6 +106,11 @@ namespace TfsServices.Configuration
                 Log.Debug(ex);
                 throw new ServerUnavailableException();
             }
+            catch (Exception ex)
+            {
+                Log.Error("Error retrieving build details", ex);
+                throw new ServerUnavailableException("Error retrieving build details", ex);
+            }
             var latestBuilds = from build in buildQueryResults.Builds
                                group build by build.BuildDefinition.Id
                                into g

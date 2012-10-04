@@ -68,10 +68,13 @@ namespace TfsServices
             {
                 throw new ServerUnavailableException(ex.Message, ex);
             }
-            catch (ThreadAbortException ex)
+            catch (ThreadAbortException)
             {
-                // todo: Shouldn't this be just throw; ??? test
-                throw new ServerUnavailableException("Thread aborted", ex);
+                throw;
+            }
+            catch (ServerUnavailableException)
+            {
+                throw;
             }
             catch (Exception ex)
             {
