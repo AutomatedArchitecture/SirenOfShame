@@ -13,12 +13,6 @@ namespace SirenOfShame
             InitializeComponent();
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            ResetScreenSaverSettings();
-            base.OnVisibleChanged(e);
-        }
-
         private string TimeSpanAsText(TimeSpan timespan, OvertimeStatus overtimeStatus)
         {
             if (overtimeStatus == OvertimeStatus.Normal)

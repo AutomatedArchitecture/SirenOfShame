@@ -35,6 +35,12 @@ namespace SirenOfShame
             }
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            ResetScreenSaverSettings();
+            base.OnVisibleChanged(e);
+        }
+
         protected void ResetScreenSaverSettings()
         {
             try
