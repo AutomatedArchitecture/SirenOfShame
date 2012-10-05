@@ -165,7 +165,6 @@
             this._displayNameTextbox.TabIndex = 3;
             this._displayNameTextbox.Visible = false;
             this._displayNameTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DisplayNameTextboxKeyDown);
-            this._displayNameTextbox.Leave += new System.EventHandler(this.DisplayNameTextboxLeave);
             // 
             // _reputation
             // 

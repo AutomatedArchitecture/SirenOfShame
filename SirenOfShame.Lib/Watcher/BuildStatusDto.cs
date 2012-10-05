@@ -10,7 +10,7 @@ namespace SirenOfShame.Lib.Watcher
         public string StartTimeShort { get; set; }
         public DateTime LocalStartTime { get; set; }
         public string Duration { get; set; }
-        public string RequestedBy { get; set; }
+        public string RequestedByRawName { get; set; }
         public string RequestedByDisplayName { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
@@ -20,7 +20,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public void SetDisplayName(SirenOfShameSettings settings)
         {
-            RequestedByDisplayName = settings.TryGetDisplayName(RequestedBy);
+            var person = settings.FindAddPerson(RequestedByRawName);
+            RequestedByDisplayName = person == null ? RequestedByRawName : person.DisplayName;
         }
     }
 }

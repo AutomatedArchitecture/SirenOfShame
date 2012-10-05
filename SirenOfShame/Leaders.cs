@@ -97,6 +97,13 @@ namespace SirenOfShame
         {
             EnableMouseScrollWheel();
         }
+
+        public void RefreshDisplayNames(UserDisplayNameChangedArgs args)
+        {
+            var userPanel = GetUserPanel(args.RawUserName);
+            if (userPanel == null) return;
+            userPanel.DisplayName = args.NewDisplayName;
+        }
     }
 
     public delegate void UserSelected(object sender, UserSelectedArgs args);

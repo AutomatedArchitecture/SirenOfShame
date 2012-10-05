@@ -112,8 +112,6 @@ namespace SirenOfShame.Lib.Watcher
             bool previousStatusExists = previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
-            PersonSetting personSetting = settings.FindAddPerson(RequestedBy);
-            string requestedBy = personSetting == null ? RequestedBy : personSetting.DisplayName;
 
             var result = new BuildStatusDto
             {
@@ -122,7 +120,7 @@ namespace SirenOfShame.Lib.Watcher
                 StartTimeShort = FormatAsDayMonthTime(StartedTime),
                 LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
                 Duration = duration,
-                RequestedBy = requestedBy,
+                RequestedByRawName = RequestedBy,
                 Comment = Comment,
                 BuildId = BuildId ?? "",
                 Id = BuildDefinitionId,

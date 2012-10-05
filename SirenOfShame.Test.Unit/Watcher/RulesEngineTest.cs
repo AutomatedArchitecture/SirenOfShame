@@ -482,7 +482,7 @@ Hello World
             BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.Name);
-            Assert.AreEqual("User1", buildStatus.RequestedBy);
+            Assert.AreEqual("User1", buildStatus.RequestedByRawName);
             Assert.AreEqual("Build Def 1", buildStatus.Id);
             Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTimeShort);
             Assert.AreEqual("1:01", buildStatus.Duration);

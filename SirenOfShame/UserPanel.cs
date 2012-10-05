@@ -30,6 +30,12 @@ namespace SirenOfShame
             set { if (avatar1 != null) avatar1.ImageIndex = value; }
         }
 
+        public string DisplayName
+        {
+            get { return _displayName.Text; }
+            set { _displayName.Text = value; }
+        }
+
         private void Avatar1Click(object sender, EventArgs e)
         {
             OnClick(new EventArgs());

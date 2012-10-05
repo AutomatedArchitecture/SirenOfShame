@@ -35,7 +35,7 @@ namespace SirenOfShame
 
             InitializeStartTime(buildStatusDto);
             _duration.Text = buildStatusDto.Duration;
-            _requestedBy.Text = buildStatusDto.RequestedBy;
+            _requestedBy.Text = buildStatusDto.RequestedByDisplayName;
             _comment.Text = buildStatusDto.Comment;
             _projectName.Text = buildStatusDto.Name;
             SetBuildStatusIcon(buildStatusDto);
