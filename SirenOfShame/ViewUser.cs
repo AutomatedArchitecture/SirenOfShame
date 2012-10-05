@@ -103,7 +103,13 @@ namespace SirenOfShame
         private void OpenAvatarPicker(Control changeAvatar)
         {
             _avatarPicker = new AvatarPicker(_avatarImageList);
+            _avatarPicker.Deactivate += (sender, args) =>
+            {
+                _avatarPicker.Close();
+                _avatarPicker.Dispose();
+            };
             _avatarPicker.Show(this);
+            _avatarPicker.Activate();
 
             Point locationOfLink = PointToScreen(changeAvatar.Location);
             _avatarPicker.Location = new Point(locationOfLink.X + changeAvatar.Width, locationOfLink.Y + changeAvatar.Height);
