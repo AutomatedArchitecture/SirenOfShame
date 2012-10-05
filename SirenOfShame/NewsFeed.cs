@@ -184,6 +184,21 @@ namespace SirenOfShame
             ApplyFilters(settings, avatarImageList);
         }
 
+        private string GetFilterToolTipText()
+        {
+            if (_filterPerson != null)
+                return "Where person = " + _filterPerson;
+            if (_filterBuildDefinitionId != null)
+                return "Where build = " + _filterBuildDefinitionId;
+            return null;
+        }
+        
+        private void RefreshFilterToolTip()
+        {
+            var toolTipText = GetFilterToolTipText();
+            toolTip1.SetToolTip(_filterButton, toolTipText);
+        }
+        
         private void ApplyFilters(SirenOfShameSettings settings, ImageList avatarImageList)
         {
             _loading.Visible = true;
@@ -220,6 +235,7 @@ namespace SirenOfShame
         private void ResetFunnelVisibility()
         {
             _filterButton.Visible = _filterPerson != null || _filterBuildDefinitionId != null;
+            RefreshFilterToolTip();
         }
 
         public void ClearFilter(SirenOfShameSettings settings, ImageList avatarImageList)
