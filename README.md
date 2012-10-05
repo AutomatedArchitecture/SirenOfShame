@@ -3,12 +3,14 @@ Summary
 
 A devious solution for keeping the team from breaking the build ... while silmultaneously giving the illusion of making the project more fun
 
-For more information see: http://sirenofshame.com
+![Siren of Shame Screenshot](http://3.bp.blogspot.com/-IffqMxeHNMk/UF4rRlU7mvI/AAAAAAAACRM/thNpqfG4djg/s1600/MainScreen.png)
+
+For more information see: [http://sirenofshame.com](http://sirenofshame.com)
 
 What Is It?
 ======
 
-Siren of shame is a build monitor that connects to:
+Siren of shame is a [build monitor](http://sirenofshame.com/BuildMonitor) that connects to:
 
 * TFS (2008, 2010)
 * Jenkins (1.4)
@@ -21,7 +23,7 @@ Siren of shame is a build monitor that connects to:
 
 It's also a reputation and achievement system that optionally synchronizes to an online leader board.
 
-It is also an API for an optional USB siren that is available for purchase at http://sirenofshame.com.
+It is also an API for an optional USB siren that is available [for purchase](http://sirenofshame.com/BuyNow).
 
 Features
 ======
