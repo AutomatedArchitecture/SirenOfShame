@@ -49,7 +49,7 @@ namespace SirenOfShame
         {
             base.InitializeLabels(buildStatusDto);
             
-            _projectName.Text = buildStatusDto.Name;
+            _projectName.Text = buildStatusDto.BuildDefinitionDisplayName;
             InitializeStartTime(buildStatusDto);
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedByDisplayName;

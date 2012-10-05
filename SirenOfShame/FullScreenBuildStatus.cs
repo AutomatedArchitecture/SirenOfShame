@@ -41,7 +41,7 @@ namespace SirenOfShame
             foreach (var buildStatusListViewItem in args.BuildStatusDtos)
             {
                 SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
-                SetText(buildStatusListViewItem.Name, row, 1);
+                SetText(buildStatusListViewItem.BuildDefinitionDisplayName, row, 1);
                 SetText(buildStatusListViewItem.StartTimeShort, row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
                 SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);

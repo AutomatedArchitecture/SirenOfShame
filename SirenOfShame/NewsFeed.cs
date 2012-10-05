@@ -170,10 +170,10 @@ namespace SirenOfShame
         private string _filterPerson = null;
         private string _filterBuildDefinitionId = null;
 
-        public void AddBuildFilter(SirenOfShameSettings settings, string buildId, ImageList avatarImageList)
+        public void AddBuildFilter(SirenOfShameSettings settings, string buildDefinitionId, ImageList avatarImageList)
         {
             ClearAllFilters();
-            _filterBuildDefinitionId = buildId;
+            _filterBuildDefinitionId = buildDefinitionId;
             ApplyFilters(settings, avatarImageList);
         }
 

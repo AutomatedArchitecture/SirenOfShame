@@ -20,7 +20,7 @@ namespace SirenOfShame
         public SirenOfShameSettings Settings { private get; set; }
         protected string Url;
         public DateTime LocalStartTime { get; protected set; }
-        public string BuildId { get; private set; }
+        public string BuildDefinitionId { get; private set; }
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(ViewBuildBase));
 
         [Import(typeof(ISirenOfShameDevice))]
@@ -38,7 +38,7 @@ namespace SirenOfShame
 
         protected virtual void InitializeLabels(BuildStatusDto buildStatusDto)
         {
-            BuildId = buildStatusDto.Id;
+            BuildDefinitionId = buildStatusDto.BuildDefinitionId;
             Url = buildStatusDto.Url;
         }
 
@@ -82,7 +82,7 @@ namespace SirenOfShame
 
         private BuildDefinitionSetting GetActiveBuildDefinitionSetting()
         {
-            return Settings.FindBuildDefinitionById(BuildId);
+            return Settings.FindBuildDefinitionById(BuildDefinitionId);
         }
 
         protected void BuildMenuOpening(

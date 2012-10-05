@@ -23,6 +23,7 @@ namespace SirenOfShame.Lib.Settings
         private ISirenOfShameDevice SirenOfShameDevice { get; set; }
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
         private string _updateLocationOther;
+        private bool? _anyDuplicateSettingsCached;
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = "SirenOfShame.Resources.Audio-Plunk.wav" },
@@ -91,6 +92,28 @@ namespace SirenOfShame.Lib.Settings
 
         public bool SosOnlineAlwaysSync { get; set; }
 
+        [XmlIgnore]
+        public bool AnyDuplicateBuildNames
+        {
+            get
+            {
+                if (!_anyDuplicateSettingsCached.HasValue)
+                {
+                    // caching is a pre-optimization, but this will get called a lot and change ~never
+                    _anyDuplicateSettingsCached = CiEntryPointSettings
+                        .SelectMany(i => i.BuildDefinitionSettings)
+                        .GroupBy(i => i.Name)
+                        .Any(i => i.Count() > 1);
+                }
+                return _anyDuplicateSettingsCached.Value;
+            }
+        }
+
+        public void ClearDuplicateNameCache()
+        {
+            _anyDuplicateSettingsCached = null;
+        }
+
         public string UpdateLocationOther
         {
             get { return _updateLocationOther; }
@@ -135,7 +158,7 @@ namespace SirenOfShame.Lib.Settings
 
         public bool Mute { get; set; }
 
-        public string _fileName;
+        private string _fileName;
 
         public DateTime? AlertClosed { get; set; }
 

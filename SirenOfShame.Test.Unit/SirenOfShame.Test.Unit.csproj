@@ -65,6 +65,7 @@
     <Compile Include="CIEntryPointBuildStatus\TravisCiBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
     <Compile Include="Helpers\PrettyDateHelperTest.cs" />
+    <Compile Include="Helpers\StringHelpersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
       <SubType>Designer</SubType>

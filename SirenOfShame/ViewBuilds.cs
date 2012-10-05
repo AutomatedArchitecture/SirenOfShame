@@ -14,10 +14,10 @@ namespace SirenOfShame
         public event GettingStartedClick OnGettingStartedClick;
         public event SelectedBuildChanged SelectedBuildChanged;
 
-        private void OnSelectedBuildChanged(string buildId)
+        private void OnSelectedBuildChanged(string buildDefinitionId)
         {
             SelectedBuildChanged handler = SelectedBuildChanged;
-            if (handler != null) handler(this, new SelectedBuildChangedArgs { BuildId = buildId });
+            if (handler != null) handler(this, new SelectedBuildChangedArgs { BuildDefinitionId = buildDefinitionId });
         }
 
         private void InvokeOnGettingStartedClick(object sender, GettingStartedOpenDialogArgs args)
@@ -56,27 +56,27 @@ namespace SirenOfShame
             _prettyDateTimer.Start();
         }
 
-        private void InitializeForBuild(string buildId)
+        private void InitializeForBuild(string buildDefinitionId)
         {
             this.SuspendDrawing(() =>
             {
-                OnSelectedBuildChanged(buildId);
-                bool viewAllBuilds = buildId == null;
-                var buildStatusDto = _lastBuildStatusDtos.FirstOrDefault(i => i.Id == buildId);
+                OnSelectedBuildChanged(buildDefinitionId);
+                bool viewAllBuilds = buildDefinitionId == null;
+                var buildStatusDto = _lastBuildStatusDtos.FirstOrDefault(i => i.BuildDefinitionId == buildDefinitionId);
                 InitializeLabelsForBuild(viewAllBuilds);
                 InitializeViewBuildBig(buildStatusDto);
                 InitializeDisplayModes();
-                InitializeSmallBuildsVisibility(buildId);
+                InitializeSmallBuildsVisibility(buildDefinitionId);
                 SortExistingControls();
             });
         }
 
-        private void InitializeSmallBuildsVisibility(string activeBuildId)
+        private void InitializeSmallBuildsVisibility(string activeBuildDefinitionId)
         {
             var smallBuilds = GetSmallViewBuilds();
             foreach (var viewBuildSmall in smallBuilds)
             {
-                var isActive = viewBuildSmall.BuildId == activeBuildId;
+                var isActive = viewBuildSmall.BuildDefinitionId == activeBuildDefinitionId;
                 viewBuildSmall.Visible = !isActive;
             }
         }
@@ -197,7 +197,7 @@ namespace SirenOfShame
         {
             return from control in GetViewBuilds() 
                    where control.Visible
-                   join buildStatusDto in buildStatusDtos on control.BuildId equals buildStatusDto.Id
+                   join buildStatusDto in buildStatusDtos on control.BuildDefinitionId equals buildStatusDto.BuildDefinitionId
                    orderby buildStatusDto.LocalStartTime descending 
                    select new BuildStatusDtoAndControl { Control = control, BuildStatusDto = buildStatusDto };
         }
@@ -265,7 +265,7 @@ namespace SirenOfShame
         private void ViewBuildSmallOnClick(object sender, EventArgs eventArgs)
         {
             ViewBuildSmall viewBuildSmall = (ViewBuildSmall)sender;
-            InitializeForBuild(viewBuildSmall.BuildId);
+            InitializeForBuild(viewBuildSmall.BuildDefinitionId);
         }
 
         private int GetIdealSmallControlCountPerRow()
@@ -349,6 +349,6 @@ namespace SirenOfShame
 
     public class SelectedBuildChangedArgs
     {
-        public string BuildId { get; set; }
+        public string BuildDefinitionId { get; set; }
     }
 }

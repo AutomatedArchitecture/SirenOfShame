@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using SirenOfShame.Lib.Helpers;
 using log4net;
 using SirenOfShame.Lib.Settings;
 
@@ -38,7 +38,6 @@ namespace SirenOfShame.Lib.Watcher
 
             try
             {
-
                 return new BuildStatus
                 {
                     StartedTime = string.IsNullOrEmpty(startedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(startedTimeStr)),
@@ -113,6 +112,8 @@ namespace SirenOfShame.Lib.Watcher
 
             string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
 
+            var buildDisplayName = GetBuildDisplayName(settings, Name);
+
             var result = new BuildStatusDto
             {
                 BuildStatusEnum = BuildStatusEnum,
@@ -123,12 +124,30 @@ namespace SirenOfShame.Lib.Watcher
                 RequestedByRawName = RequestedBy,
                 Comment = Comment,
                 BuildId = BuildId ?? "",
-                Id = BuildDefinitionId,
-                Name = Name,
+                BuildDefinitionId = BuildDefinitionId,
+                BuildDefinitionDisplayName = buildDisplayName,
                 Url = Url,
             };
             result.SetDisplayName(settings);
             return result;
+        }
+
+        private string GetBuildDisplayName(SirenOfShameSettings settings, string buildDefinitionName)
+        {
+            if (!settings.AnyDuplicateBuildNames) return buildDefinitionName;
+            
+            var buildDisplayName = buildDefinitionName;
+
+            var buildDefinitionSetting = settings
+                    .CiEntryPointSettings
+                    .FirstOrDefault(i => i.BuildDefinitionSettings.Any(j => j.Id == BuildDefinitionId));
+
+            if (buildDefinitionSetting != null)
+            {
+                var buildDefUrlWithoutHttpPrefix = StringHelpers.RemoveUrlPrefix(buildDefinitionSetting.Url);
+                buildDisplayName += " (" + buildDefUrlWithoutHttpPrefix + ")";
+            }
+            return buildDisplayName;
         }
 
         private static string FormatAsDayMonthTime(DateTime? nullableDate)

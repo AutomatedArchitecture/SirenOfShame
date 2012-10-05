@@ -130,6 +130,7 @@
     <Compile Include="ConfigureSirenDialog.Designer.cs">
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />
     <Compile Include="StatCalculators\BackToBackBuilds.cs" />
     <Compile Include="StatCalculators\BuildRatio.cs" />

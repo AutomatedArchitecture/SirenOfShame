@@ -91,7 +91,7 @@ namespace SirenOfShame
 
         private void ViewBuildsOnSelectedBuildChanged(object sender, SelectedBuildChangedArgs args)
         {
-            _newsFeed1.AddBuildFilter(_settings, args.BuildId, _avatarImageList);
+            _newsFeed1.AddBuildFilter(_settings, args.BuildDefinitionId, _avatarImageList);
         }
 
         private void InitializeNewsFeed()
@@ -581,6 +581,7 @@ namespace SirenOfShame
             bool anyChanges = ConfigureServers.Show(_settings);
             if (anyChanges)
             {
+                _settings.ClearDuplicateNameCache();
                 StopWatchingBuild();
                 _rulesEngine = null; // reset the rules engine in case it changed (e.g. from TFS to Team City)
                 StartWatchingBuild();

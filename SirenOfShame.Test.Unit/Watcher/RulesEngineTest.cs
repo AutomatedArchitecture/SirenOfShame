@@ -13,6 +13,24 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void DuplicateBuildDefinitionIds_BuildDefinitionDisplayNamesGetQualified()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            var ciEntryPointSetting = rulesEngine.Settings.CiEntryPointSettings[0];
+            Assert.AreEqual("http://fake", ciEntryPointSetting.Url);
+            var buildDefinitionSetting1 = ciEntryPointSetting.BuildDefinitionSettings[0];
+            var buildDefinitionSetting2 = ciEntryPointSetting.BuildDefinitionSettings[1];
+            buildDefinitionSetting2.Name = buildDefinitionSetting1.Name;
+            rulesEngine.Settings.ClearDuplicateNameCache();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            Assert.AreEqual(1, refreshStatusEvent.BuildStatusDtos.Count);
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos[0];
+            Assert.AreEqual("Build Def 1 (fake)", buildStatusDto.BuildDefinitionDisplayName);
+        }
+
+        [TestMethod]
         public void SubsequentBuildStatusRequest_UsesLocalTimeSoXMinuesAgoIsAccurate()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -22,7 +40,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
             var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
-            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.BuildDefinitionId == RulesEngineWrapper.BUILD1_ID);
             Assert.AreNotEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
             Assert.IsTrue((DateTime.Now - buildStatusDto.LocalStartTime).TotalSeconds < 30, "LocalStartTime should have been less than 30 seconds ago aka as close to Now() as possible.");
         }
@@ -35,7 +53,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             var refreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
-            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.Id == RulesEngineWrapper.BUILD1_ID);
+            var buildStatusDto = refreshStatusEvent.BuildStatusDtos.First(i => i.BuildDefinitionId == RulesEngineWrapper.BUILD1_ID);
             Assert.AreEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
         }
         
@@ -481,9 +499,9 @@ Hello World
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.Count());
             BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[1].BuildStatusDtos.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
-            Assert.AreEqual("Build Def 1", buildStatus.Name);
+            Assert.AreEqual("Build Def 1", buildStatus.BuildDefinitionDisplayName);
             Assert.AreEqual("User1", buildStatus.RequestedByRawName);
-            Assert.AreEqual("Build Def 1", buildStatus.Id);
+            Assert.AreEqual("Build Def 1", buildStatus.BuildDefinitionId);
             Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTimeShort);
             Assert.AreEqual("1:01", buildStatus.Duration);
         }

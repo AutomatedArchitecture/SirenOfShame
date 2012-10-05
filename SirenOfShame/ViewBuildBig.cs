@@ -23,9 +23,9 @@ namespace SirenOfShame
 
         private void InitializeBuildStats()
         {
-            if (BuildId == null) return;
+            if (BuildDefinitionId == null) return;
             var sosDb = new SosDb();
-            var allBuilds = sosDb.ReadAll(BuildId);
+            var allBuilds = sosDb.ReadAll(BuildDefinitionId);
             buildStats1.GraphBuildHistory(allBuilds);
         }
 
@@ -37,7 +37,7 @@ namespace SirenOfShame
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedByDisplayName;
             _comment.Text = buildStatusDto.Comment;
-            _projectName.Text = buildStatusDto.Name;
+            _projectName.Text = buildStatusDto.BuildDefinitionDisplayName;
             SetBuildStatusIcon(buildStatusDto);
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
             _details.Visible = !string.IsNullOrEmpty(buildStatusDto.Url);

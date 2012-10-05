@@ -12,8 +12,8 @@ namespace SirenOfShame.Lib.Watcher
         public string Duration { get; set; }
         public string RequestedByRawName { get; set; }
         public string RequestedByDisplayName { get; set; }
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string BuildDefinitionId { get; set; }
+        public string BuildDefinitionDisplayName { get; set; }
         public string Url { get; set; }
         public string BuildId { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
