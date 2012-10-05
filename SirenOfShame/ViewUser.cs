@@ -34,6 +34,8 @@ namespace SirenOfShame
         {
             InitializeComponent();
 
+            _displayNameTextbox.LostFocus += DisplayNameTextboxOnLostFocus;
+
             foreach (var achievementLookup in AchievementSetting.AchievementLookups)
             {
                 var label = new Label { Text = achievementLookup.Name };
@@ -48,6 +50,11 @@ namespace SirenOfShame
                 flowLayoutPanel1.Controls.Add(label);
                 toolTip1.SetToolTip(label, achievementLookup.Description);
             }
+        }
+
+        private void DisplayNameTextboxOnLostFocus(object sender, EventArgs eventArgs)
+        {
+            SaveDisplayName();
         }
 
         public void Initilaize(SirenOfShameSettings settings)
@@ -168,11 +175,6 @@ namespace SirenOfShame
             {RawUserName = _personSetting.RawName, NewDisplayName = newDisplayName});
             MakeUserNameEditable(false);
             _userName.Text = _personSetting.GetBothDisplayAndRawNames();
-        }
-
-        private void DisplayNameTextboxLeave(object sender, EventArgs e)
-        {
-            SaveDisplayName();
         }
 
         private void BackClick(object sender, EventArgs e)
