@@ -8,6 +8,8 @@ using log4net;
 
 namespace HudsonServices
 {
+    using System.Xml.XPath;
+
     public class HudsonBuildStatus : BuildStatus
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
@@ -43,9 +45,9 @@ namespace HudsonServices
                 string timestamp = doc.Root.ElementValueOrDefault("timestamp");
                 if (changeSetItem == null)
                 {
-                    var actionElem = doc.Root.Element("action");
-                    if (actionElem == null) throw new Exception("Could not find 'action'");
-                    var causeElem = actionElem.Element("cause");
+                    var causeElem = doc.Root.XPathSelectElement("//action/cause");
+                    if (causeElem == null) throw new Exception("Could not find 'cause'");
+
                     RequestedBy = causeElem.ElementValueOrDefault("userName");
 
                     StartedTime = ParseTimestamp(timestamp);
