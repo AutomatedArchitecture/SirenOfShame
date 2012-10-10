@@ -556,7 +556,7 @@ namespace SirenOfShame
         private void ConfigureRulesClick(object sender, EventArgs e)
         {
             var configureRules = new ConfigureRules(_settings);
-            configureRules.ShowDialog();
+            configureRules.ShowDialog(this);
         }
 
         private void SosOnlineClick(object sender, EventArgs e)
@@ -567,7 +567,7 @@ namespace SirenOfShame
         private void OpenConfigureSosOnlineDialog()
         {
             var configureSosOnline = new ConfigureSosOnline(_settings);
-            configureSosOnline.ShowDialog();
+            configureSosOnline.ShowDialog(this);
             _viewBuilds.ReinitializeGettingStarted();
         }
 
@@ -594,7 +594,7 @@ namespace SirenOfShame
         private void TestSirenClick(object sender, EventArgs e)
         {
             var testSiren = new TestSiren();
-            testSiren.ShowDialog();
+            testSiren.ShowDialog(this);
         }
 
         private void ConfigureSirenClick(object sender, EventArgs e)
@@ -617,7 +617,7 @@ namespace SirenOfShame
         private void OpenSettingsClick(object sender, EventArgs e)
         {
             Settings settings = new Settings(_settings);
-            settings.ShowDialog();
+            settings.ShowDialog(this);
             RefreshStats(null); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
         }
@@ -625,13 +625,13 @@ namespace SirenOfShame
         private void TimeboxEnforcerClick(object sender, EventArgs e)
         {
             TimeboxEnforcer timeboxEnforcer = new TimeboxEnforcer();
-            timeboxEnforcer.Show();
+            timeboxEnforcer.Show(this);
         }
 
         private void HelpClick(object sender, EventArgs e)
         {
             HelpAbout helpAbout = new HelpAbout();
-            helpAbout.ShowDialog();
+            helpAbout.ShowDialog(this);
         }
 
         private void ConfigurationMoreClick(object sender, EventArgs e)
@@ -714,7 +714,7 @@ namespace SirenOfShame
                 _fullScreenBuildStatus = new FullScreenBuildStatus();
                 _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
             }
-            _fullScreenBuildStatus.Show();
+            _fullScreenBuildStatus.Show(this);
             if (_lastRefreshStatusEventArgs != null)
                 _fullScreenBuildStatus.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs, _settings);
         }
