@@ -53,7 +53,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        protected virtual bool IsServerUnavailable(string errorResult)
+        protected static bool IsServerUnavailable(string errorResult)
         {
             return _serverUnavailableTriggers.Any(errorResult.Contains);
         }
@@ -140,7 +140,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private ServerUnavailableException ToServerUnavailableException(string url, WebException webException)
+        public static ServerUnavailableException ToServerUnavailableException(string url, WebException webException)
         {
             if (webException.Response != null)
             {
