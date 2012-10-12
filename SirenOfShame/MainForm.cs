@@ -40,6 +40,7 @@ namespace SirenOfShame
             IocContainer.Instance.Compose(this);
             InitializeComponent();
 
+            InitializeToolbar();
             InitializeViewBuilds();
             InitializeViewUser();
             InitializeNewsFeed();
@@ -52,6 +53,11 @@ namespace SirenOfShame
 
             InitializeLogging();
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
+        }
+
+        private void InitializeToolbar()
+        {
+            ShowAllUsers = false;
         }
 
         private void InitializeLogging()
@@ -818,6 +824,24 @@ namespace SirenOfShame
         {
             var exception = (Exception)_sosOnlineError.Tag;
             ExceptionMessageBox.Show(this, "Sos Online Error", exception.Message, exception);
+        }
+
+        private bool _showAllUsers;
+
+        public bool ShowAllUsers
+        {
+            get { return _showAllUsers; }
+            set
+            {
+                _viewAllUsers.ImageKey = value ? "users4_checkbox_checked.bmp" : "users4_checkbox_unchecked.bmp";
+                _showAllUsers = value;
+                _userList.ShowAllUsers(value);
+            }
+        }
+        
+        private void ViewAllUsersClick(object sender, EventArgs e)
+        {
+            ShowAllUsers = !ShowAllUsers;
         }
     }
 }

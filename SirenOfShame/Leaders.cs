@@ -58,6 +58,7 @@ namespace SirenOfShame
                 UserPanel userPanel = new UserPanel(person, avatarImageList)
                                           {
                                               Cursor = Cursors.Hand,
+                                              Visible = !person.Hidden
                                           };
                 userPanel.MouseEnter += UserPanelMouseEnter;
                 userPanel.Click += UserPanelClick;
@@ -103,6 +104,16 @@ namespace SirenOfShame
             var userPanel = GetUserPanel(args.RawUserName);
             if (userPanel == null) return;
             userPanel.DisplayName = args.NewDisplayName;
+        }
+
+        public void ShowAllUsers(bool showAllUser)
+        {
+            foreach (var userPanel in GetUserPanels())
+            {
+                var rawName = userPanel.RawName;
+                var person = Settings.FindPersonByRawName(rawName);
+                userPanel.Visible = showAllUser || !person.Hidden;
+            }
         }
     }
 
