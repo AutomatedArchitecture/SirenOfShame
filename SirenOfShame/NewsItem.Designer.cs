@@ -94,7 +94,6 @@
             this._title.TabIndex = 5;
             this._title.Text = "Fixing Lee\'s bunk check-in from yesterday where he broke the build and then left " +
                 "for the day, the rat";
-            this._title.MouseEnter += new System.EventHandler(this.TitleMouseEnter);
             // 
             // _reputationChange
             // 
@@ -136,7 +135,6 @@
             this.avatar1.Size = new System.Drawing.Size(48, 48);
             this.avatar1.TabIndex = 4;
             this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
-            this.avatar1.MouseEnter += new System.EventHandler(this.Avatar1MouseEnter);
             // 
             // NewsItem
             // 

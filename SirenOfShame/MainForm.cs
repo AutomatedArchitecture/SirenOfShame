@@ -835,7 +835,7 @@ namespace SirenOfShame
             {
                 _viewAllUsers.ImageKey = value ? "users4_checkbox_checked.bmp" : "users4_checkbox_unchecked.bmp";
                 _showAllUsers = value;
-                _userList.ShowAllUsers(value);
+                _userList.SetShowAllUsers(value);
             }
         }
         

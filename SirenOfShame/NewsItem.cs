@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
 {
-    public partial class NewsItem : UserControl
+    public partial class NewsItem : UserControlBase
     {
         private DateTime EventDate { get; set; }
         private string _rawUserName;
@@ -183,16 +184,6 @@ namespace SirenOfShame
         {
             InitializeReputationChangeLabel(args.ReputationChange);
             InitializeMetroColors(args);
-        }
-
-        private void Avatar1MouseEnter(object sender, EventArgs e)
-        {
-            OnMouseEnter(e);
-        }
-
-        private void TitleMouseEnter(object sender, EventArgs e)
-        {
-            OnMouseEnter(e);
         }
 
         private void UserNameClick(object sender, EventArgs e)

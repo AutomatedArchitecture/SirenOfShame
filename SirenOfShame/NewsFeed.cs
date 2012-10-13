@@ -121,8 +121,10 @@ namespace SirenOfShame
             {
                 Dock = DockStyle.Top,
             };
+            
             newsItem.OnUserClicked += NewsItemOnOnUserClicked;
-            newsItem.MouseEnter += NewsItemOnMouseEnter;
+            newsItem.AddMouseEnterToAllControls(NewsItemOnMouseEnter);
+            
             _newsItemsPanel.Controls.Add(newsItem);
             return newsItem;
         }
