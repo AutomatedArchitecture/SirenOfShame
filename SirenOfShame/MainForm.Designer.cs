@@ -38,17 +38,25 @@ namespace SirenOfShame {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this._toolStripSplitErrorButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._lastStatusUpdate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._sosOnlineError = new System.Windows.Forms.ToolStripDropDownButton();
+            this._sosOnlineStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.minimizedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._ribbonPanel = new System.Windows.Forms.Panel();
+            this._viewAllUsers = new System.Windows.Forms.Button();
+            this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
+            this.separator4 = new SirenOfShame.Separator();
+            this.separator3 = new SirenOfShame.Separator();
+            this.separator2 = new SirenOfShame.Separator();
+            this.separator1 = new SirenOfShame.Separator();
             this._sosOnline = new System.Windows.Forms.Button();
             this._toolbar32 = new System.Windows.Forms.ImageList(this.components);
             this._mute = new System.Windows.Forms.Button();
             this._fullscreen = new System.Windows.Forms.Button();
             this._configureSiren = new System.Windows.Forms.Button();
-            this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
             this._sirenMore = new System.Windows.Forms.Button();
             this._configureCiServer = new System.Windows.Forms.Button();
             this._help = new System.Windows.Forms.Button();
@@ -83,18 +91,11 @@ namespace SirenOfShame {
             this._highlightPanel2 = new System.Windows.Forms.Panel();
             this._highlightPanel = new System.Windows.Forms.Panel();
             this._highlightPanel3 = new System.Windows.Forms.Panel();
-            this._sosOnlineStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this._viewBuilds = new SirenOfShame.ViewBuilds();
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.Leaders();
-            this.separator4 = new SirenOfShame.Separator();
-            this.separator3 = new SirenOfShame.Separator();
-            this.separator2 = new SirenOfShame.Separator();
-            this.separator1 = new SirenOfShame.Separator();
             this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._sosOnlineError = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -142,6 +143,33 @@ namespace SirenOfShame {
             this._lastStatusUpdate.Size = new System.Drawing.Size(131, 17);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.Silver;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel2.Text = "|";
+            // 
+            // _sosOnlineError
+            // 
+            this._sosOnlineError.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._sosOnlineError.Image = global::SirenOfShame.Properties.Resources.question_big;
+            this._sosOnlineError.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._sosOnlineError.Name = "_sosOnlineError";
+            this._sosOnlineError.ShowDropDownArrow = false;
+            this._sosOnlineError.Size = new System.Drawing.Size(20, 20);
+            this._sosOnlineError.Text = "toolStripSplitButton1";
+            this._sosOnlineError.ToolTipText = "Error Occured";
+            this._sosOnlineError.Visible = false;
+            this._sosOnlineError.Click += new System.EventHandler(this.SosOnlineErrorClick);
+            // 
+            // _sosOnlineStatus
+            // 
+            this._sosOnlineStatus.ForeColor = System.Drawing.Color.Silver;
+            this._sosOnlineStatus.Name = "_sosOnlineStatus";
+            this._sosOnlineStatus.Size = new System.Drawing.Size(131, 17);
+            this._sosOnlineStatus.Text = "Sos Online: Connecting";
+            // 
             // notifyIcon
             // 
             this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
@@ -175,6 +203,7 @@ namespace SirenOfShame {
             // 
             // _ribbonPanel
             // 
+            this._ribbonPanel.Controls.Add(this._viewAllUsers);
             this._ribbonPanel.Controls.Add(this.separator4);
             this._ribbonPanel.Controls.Add(this.separator3);
             this._ribbonPanel.Controls.Add(this.separator2);
@@ -202,6 +231,70 @@ namespace SirenOfShame {
             this._ribbonPanel.Name = "_ribbonPanel";
             this._ribbonPanel.Size = new System.Drawing.Size(1005, 88);
             this._ribbonPanel.TabIndex = 37;
+            // 
+            // _viewAllUsers
+            // 
+            this._viewAllUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._viewAllUsers.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this._viewAllUsers.FlatAppearance.BorderSize = 0;
+            this._viewAllUsers.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._viewAllUsers.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._viewAllUsers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._viewAllUsers.ForeColor = System.Drawing.Color.White;
+            this._viewAllUsers.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._viewAllUsers.ImageKey = "users4_checkbox_unchecked.bmp";
+            this._viewAllUsers.ImageList = this._toolbar16;
+            this._viewAllUsers.Location = new System.Drawing.Point(544, 2);
+            this._viewAllUsers.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this._viewAllUsers.Name = "_viewAllUsers";
+            this._viewAllUsers.Size = new System.Drawing.Size(112, 21);
+            this._viewAllUsers.TabIndex = 28;
+            this._viewAllUsers.Text = "        Show All Users";
+            this._viewAllUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._viewAllUsers.UseVisualStyleBackColor = false;
+            this._viewAllUsers.Click += new System.EventHandler(this.ViewAllUsersClick);
+            // 
+            // _toolbar16
+            // 
+            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
+            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
+            this._toolbar16.Images.SetKeyName(0, "alarm.bmp");
+            this._toolbar16.Images.SetKeyName(1, "recycle.bmp");
+            this._toolbar16.Images.SetKeyName(2, "window_gear.bmp");
+            this._toolbar16.Images.SetKeyName(3, "users4_checkbox_checked.bmp");
+            this._toolbar16.Images.SetKeyName(4, "users4_checkbox_unchecked.bmp");
+            // 
+            // separator4
+            // 
+            this.separator4.Location = new System.Drawing.Point(326, 0);
+            this.separator4.Name = "separator4";
+            this.separator4.Size = new System.Drawing.Size(2, 88);
+            this.separator4.TabIndex = 27;
+            this.separator4.Text = "separator4";
+            // 
+            // separator3
+            // 
+            this.separator3.Location = new System.Drawing.Point(468, 0);
+            this.separator3.Name = "separator3";
+            this.separator3.Size = new System.Drawing.Size(2, 88);
+            this.separator3.TabIndex = 26;
+            this.separator3.Text = "separator3";
+            // 
+            // separator2
+            // 
+            this.separator2.Location = new System.Drawing.Point(659, 0);
+            this.separator2.Name = "separator2";
+            this.separator2.Size = new System.Drawing.Size(2, 88);
+            this.separator2.TabIndex = 25;
+            this.separator2.Text = "separator2";
+            // 
+            // separator1
+            // 
+            this.separator1.Location = new System.Drawing.Point(803, -2);
+            this.separator1.Name = "separator1";
+            this.separator1.Size = new System.Drawing.Size(2, 88);
+            this.separator1.TabIndex = 24;
+            this.separator1.Text = "separator1";
             // 
             // _sosOnline
             // 
@@ -305,14 +398,6 @@ namespace SirenOfShame {
             this._configureSiren.UseVisualStyleBackColor = false;
             this._configureSiren.Click += new System.EventHandler(this.ConfigureSirenClick);
             // 
-            // _toolbar16
-            // 
-            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
-            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
-            this._toolbar16.Images.SetKeyName(0, "alarm.bmp");
-            this._toolbar16.Images.SetKeyName(1, "recycle.bmp");
-            this._toolbar16.Images.SetKeyName(2, "window_gear.bmp");
-            // 
             // _sirenMore
             // 
             this._sirenMore.BackColor = System.Drawing.Color.Transparent;
@@ -362,7 +447,7 @@ namespace SirenOfShame {
             this._help.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._help.ImageKey = "help.bmp";
             this._help.ImageList = this._toolbar32;
-            this._help.Location = new System.Drawing.Point(614, 2);
+            this._help.Location = new System.Drawing.Point(733, 0);
             this._help.Name = "_help";
             this._help.Size = new System.Drawing.Size(66, 69);
             this._help.TabIndex = 12;
@@ -412,7 +497,7 @@ namespace SirenOfShame {
             // 
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(221)))), ((int)(((byte)(221)))));
-            this.label3.Location = new System.Drawing.Point(549, 72);
+            this.label3.Location = new System.Drawing.Point(668, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(137, 16);
             this.label3.TabIndex = 11;
@@ -431,7 +516,7 @@ namespace SirenOfShame {
             this._timeboxEnforcer.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this._timeboxEnforcer.ImageKey = "bell3.bmp";
             this._timeboxEnforcer.ImageList = this._toolbar32;
-            this._timeboxEnforcer.Location = new System.Drawing.Point(545, 2);
+            this._timeboxEnforcer.Location = new System.Drawing.Point(664, 0);
             this._timeboxEnforcer.Name = "_timeboxEnforcer";
             this._timeboxEnforcer.Size = new System.Drawing.Size(66, 69);
             this._timeboxEnforcer.TabIndex = 6;
@@ -775,20 +860,6 @@ namespace SirenOfShame {
             this._highlightPanel3.Size = new System.Drawing.Size(1005, 1);
             this._highlightPanel3.TabIndex = 26;
             // 
-            // _sosOnlineStatus
-            // 
-            this._sosOnlineStatus.ForeColor = System.Drawing.Color.Silver;
-            this._sosOnlineStatus.Name = "_sosOnlineStatus";
-            this._sosOnlineStatus.Size = new System.Drawing.Size(131, 17);
-            this._sosOnlineStatus.Text = "Sos Online: Connecting";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.Silver;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel2.Text = "|";
-            // 
             // _viewBuilds
             // 
             this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
@@ -830,54 +901,9 @@ namespace SirenOfShame {
             this._userList.Size = new System.Drawing.Size(209, 333);
             this._userList.TabIndex = 11;
             // 
-            // separator4
-            // 
-            this.separator4.Location = new System.Drawing.Point(326, 0);
-            this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(2, 88);
-            this.separator4.TabIndex = 27;
-            this.separator4.Text = "separator4";
-            // 
-            // separator3
-            // 
-            this.separator3.Location = new System.Drawing.Point(468, 0);
-            this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(2, 88);
-            this.separator3.TabIndex = 26;
-            this.separator3.Text = "separator3";
-            // 
-            // separator2
-            // 
-            this.separator2.Location = new System.Drawing.Point(541, 0);
-            this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(2, 88);
-            this.separator2.TabIndex = 25;
-            this.separator2.Text = "separator2";
-            // 
-            // separator1
-            // 
-            this.separator1.Location = new System.Drawing.Point(684, 0);
-            this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(2, 88);
-            this.separator1.TabIndex = 24;
-            this.separator1.Text = "separator1";
-            // 
             // buildStatusBindingSource
             // 
             this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
-            // 
-            // _sosOnlineError
-            // 
-            this._sosOnlineError.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._sosOnlineError.Image = global::SirenOfShame.Properties.Resources.question_big;
-            this._sosOnlineError.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._sosOnlineError.Name = "_sosOnlineError";
-            this._sosOnlineError.ShowDropDownArrow = false;
-            this._sosOnlineError.Size = new System.Drawing.Size(20, 20);
-            this._sosOnlineError.Text = "toolStripSplitButton1";
-            this._sosOnlineError.ToolTipText = "Error Occured";
-            this._sosOnlineError.Visible = false;
-            this._sosOnlineError.Click += new System.EventHandler(this.SosOnlineErrorClick);
             // 
             // MainForm
             // 
@@ -991,6 +1017,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
       private System.Windows.Forms.ToolStripStatusLabel _sosOnlineStatus;
       private System.Windows.Forms.ToolStripDropDownButton _sosOnlineError;
+      private System.Windows.Forms.Button _viewAllUsers;
 	}
 }
 

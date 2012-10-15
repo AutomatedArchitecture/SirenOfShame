@@ -58,16 +58,43 @@ namespace SirenOfShame
                 UserPanel userPanel = new UserPanel(person, avatarImageList)
                                           {
                                               Cursor = Cursors.Hand,
+                                              Visible = !person.Hidden
                                           };
-                userPanel.MouseEnter += UserPanelMouseEnter;
-                userPanel.Click += UserPanelClick;
+
+                userPanel.AddMouseUpToAllControls(UserPanelMouseUp);
+                userPanel.AddMouseEnterToAllControls(UserPanelMouseEnter);
+
                 _usersPanel.Controls.Add(userPanel);
             }
         }
 
-        void UserPanelClick(object sender, EventArgs e)
+        private string _selectedRawName;
+
+        private void UserPanelMouseUp(object sender, MouseEventArgs e)
         {
-            InvokeOnUserSelected(((UserPanel)sender).RawName);
+            UserPanel userPanel = TraverseParentsUntilUserPanel((Control) sender);
+            if (userPanel == null) return;
+            
+            if (e.Button == MouseButtons.Right)
+            {
+                _selectedRawName = userPanel.RawName;
+                _userMenu.Show((Control)sender, e.Location);
+                var person = Settings.FindPersonByRawName(_selectedRawName);
+                _hiddenButton.Checked = person.Hidden;
+            }
+            
+            if (e.Button == MouseButtons.Left)
+            {
+                InvokeOnUserSelected(userPanel.RawName);
+            }
+        }
+
+        private UserPanel TraverseParentsUntilUserPanel(Control sender)
+        {
+            var userPanel = sender as UserPanel;
+            if (userPanel != null) return userPanel;
+            if (sender.Parent == null) return null;
+            return TraverseParentsUntilUserPanel(sender.Parent);
         }
 
         void UserPanelMouseEnter(object sender, EventArgs e)
@@ -103,6 +130,32 @@ namespace SirenOfShame
             var userPanel = GetUserPanel(args.RawUserName);
             if (userPanel == null) return;
             userPanel.DisplayName = args.NewDisplayName;
+        }
+
+        private bool _showAllUsers = false;
+        
+        public void SetShowAllUsers(bool showAllUsers)
+        {
+            _showAllUsers = showAllUsers;
+            RefreshUserPanelVisibility();
+        }
+
+        private void RefreshUserPanelVisibility()
+        {
+            foreach (var userPanel in GetUserPanels())
+            {
+                var rawName = userPanel.RawName;
+                var person = Settings.FindPersonByRawName(rawName);
+                userPanel.Visible = _showAllUsers || !person.Hidden;
+            }
+        }
+
+        private void HiddenButtonClick(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(_selectedRawName)) return;
+            var selectedPerson = Settings.FindPersonByRawName(_selectedRawName);
+            selectedPerson.Hidden = !selectedPerson.Hidden;
+            RefreshUserPanelVisibility();
         }
     }
 

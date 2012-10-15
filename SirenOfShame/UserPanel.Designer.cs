@@ -58,7 +58,6 @@
             this._displayName.Size = new System.Drawing.Size(87, 15);
             this._displayName.TabIndex = 1;
             this._displayName.Text = "Bob Shimpty";
-            this._displayName.Click += new System.EventHandler(this.DisplayNameClick);
             // 
             // _reputation
             // 
@@ -73,7 +72,6 @@
             this._reputation.TabIndex = 0;
             this._reputation.Text = "255";
             this.toolTip1.SetToolTip(this._reputation, "Reputation");
-            this._reputation.Click += new System.EventHandler(this.ReputationClick);
             // 
             // pictureBox1
             // 
@@ -84,7 +82,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(10, 10);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.PictureBox1Click);
             // 
             // _achievements
             // 
@@ -96,7 +93,6 @@
             this._achievements.TabIndex = 2;
             this._achievements.Text = "2";
             this.toolTip1.SetToolTip(this._achievements, "Achievements");
-            this._achievements.Click += new System.EventHandler(this.AchievementsClick);
             // 
             // panel1
             // 
@@ -119,8 +115,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(188, 48);
             this.panel1.TabIndex = 3;
-            this.panel1.Click += new System.EventHandler(this.Panel1Click);
-            this.panel1.MouseEnter += new System.EventHandler(this.Panel1MouseEnter);
             // 
             // _failPercent
             // 
@@ -227,8 +221,6 @@
             this.avatar1.Name = "avatar1";
             this.avatar1.Size = new System.Drawing.Size(48, 48);
             this.avatar1.TabIndex = 0;
-            this.avatar1.Click += new System.EventHandler(this.Avatar1Click);
-            this.avatar1.MouseEnter += new System.EventHandler(this.Avatar1MouseEnter);
             // 
             // UserPanel
             // 

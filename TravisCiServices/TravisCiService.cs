@@ -3,20 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using SirenOfShame.Lib;
-using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
-using log4net;
 
 namespace TravisCiServices
 {
     public class TravisCiService : ServiceBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TravisCiService));
-
         public void GetProject(string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
         {
             WebClient webClient = new WebClient();
@@ -56,12 +49,19 @@ namespace TravisCiServices
         {
             var webClient = new WebClient();
             var travisBuildDef = TravisCiBuildDefinition.FromIdString(buildDefinitionSetting.Id);
-            var url = "http://travis-ci.org/" + travisBuildDef.OwnerName + "/" + travisBuildDef.ProjectName + ".json";
-            var json = webClient.DownloadString(url);
-            var lastBuildId = GetJsonValue(json, "last_build_id");
-            url = "http://travis-ci.org/builds/" + lastBuildId + ".json";
-            json = webClient.DownloadString(url);
-            return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
+            var buildDefinitionUrl = "http://travis-ci.org/" + travisBuildDef.OwnerName + "/" + travisBuildDef.ProjectName + ".json";
+            try
+            {
+                var json = webClient.DownloadString(buildDefinitionUrl);
+                var lastBuildId = GetJsonValue(json, "last_build_id");
+                var buildUrl = "http://travis-ci.org/builds/" + lastBuildId + ".json";
+                json = webClient.DownloadString(buildUrl);
+                return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
+            }
+            catch (WebException webException)
+            {
+                throw WebClientXml.ToServerUnavailableException(buildDefinitionUrl, webException);
+            }
         }
 
         public static DateTime? GetJsonDate(string json, string key)
