@@ -18,6 +18,15 @@ namespace HudsonServices
         {
             try
             {
+                BuildDefinitionId = buildDefinitionSetting.Id;
+                Name = buildDefinitionSetting.Name;
+                BuildStatusEnum = BuildStatusEnum.Unknown;
+                StartedTime = DateTime.MinValue;
+                FinishedTime = DateTime.MinValue;
+                RequestedBy = "No builds found";
+
+                if (doc == null) return;
+
                 if (doc.Root == null) throw new Exception("Could not get root of xml");
                 var changeSet = doc.Root.Element("changeSet");
                 if (changeSet == null) throw new Exception("Could not find 'changeSet'");
@@ -37,9 +46,6 @@ namespace HudsonServices
                         BuildStatusEnum = BuildStatusEnum.Unknown;
                     }
                 }
-
-                BuildDefinitionId = buildDefinitionSetting.Id;
-                Name = buildDefinitionSetting.Name;
 
                 var changeSetItem = changeSet.Element("item");
                 string timestamp = doc.Root.ElementValueOrDefault("timestamp");

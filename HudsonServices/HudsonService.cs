@@ -88,7 +88,7 @@ namespace HudsonServices
                 var lastBuildElem = doc.Root.Element("lastBuild");
                 if (lastBuildElem == null)
                 {
-                    throw new ServerUnavailableException("No 'lastBuild' element found for " + buildDefinitionSetting + " is the server in maintenence mode or something?");
+                    return new HudsonBuildStatus(null, buildDefinitionSetting);
                 }
                 var buildNumber = lastBuildElem.ElementValueOrDefault("number");
                 var buildUrl = rootUrl + "/job/" + buildDefinitionSetting.Id + "/" + buildNumber;
