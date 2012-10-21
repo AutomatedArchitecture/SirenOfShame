@@ -24,14 +24,22 @@ namespace HudsonServices
                 if (doc == null) return;
 
                 var docRoot = LocateDocumentRoot(doc);
-                if (docRoot == null) return;
+                if (docRoot == null)
+                {
+                    _log.Error("Error parsing the following xml:" + Environment.NewLine + doc);
+                    return;
+                }
 
                 DetermineBuildUrl(docRoot);
                 DetermineBuildId(docRoot);
                 DetermineBuildStatus(docRoot);
 
                 var changeSet = GetElementByName(docRoot, "changeSet");
-                if (changeSet == null) return;
+                if (changeSet == null)
+                {
+                    _log.Error("ChangeSet not found in the following xml:" + Environment.NewLine + doc);
+                    return;
+                }
 
                 var changeSetItem = GetElementByName(changeSet, "item");
 
@@ -40,7 +48,7 @@ namespace HudsonServices
             }
             catch (Exception)
             {
-                _log.Error("Error parsing the following xml: " + doc);
+                _log.Error("Error parsing the following xml:" + Environment.NewLine + doc);
                 throw;
             }
         }
@@ -106,14 +114,14 @@ namespace HudsonServices
 
         private void DetermineChangeAuthorFromCommitInfo(XElement changeSetItem)
         {
-            var changeSetAuthor = GetElementByName(changeSetItem, "author");
+            var changeSetAuthor = GetElementByName(changeSetItem, "author", _log);
             if (changeSetAuthor != null)
             {
                 RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
             }
             else
             {
-                var userElem = GetElementByName(changeSetItem, "user");
+                var userElem = GetElementByName(changeSetItem, "user", _log);
                 if (userElem != null)
                 {
                     RequestedBy = userElem.Value;
@@ -156,22 +164,24 @@ namespace HudsonServices
             RequestedBy = causeElement.ElementValueOrDefault("userName");
         }
 
-        private XElement GetElementByName(XContainer element, string nodeName)
+        private XElement GetElementByName(XContainer element, string nodeName, ILog logger = null)
         {
             var node = element.Element(nodeName);
             if (node == null)
             {
                 BuildStatusMessage = string.Format(CultureInfo.CurrentCulture, "Could not find node '{0}' in the project xml", nodeName);
+                if (logger != null) logger.Debug(BuildStatusMessage + Environment.NewLine + element);
             }
             return node;
         }
 
-        private XElement GetElementByXPath(XContainer element, string xpath)
+        private XElement GetElementByXPath(XContainer element, string xpath, ILog logger = null)
         {
             var node = element.XPathSelectElement(xpath);
             if (node == null)
             {
                 BuildStatusMessage = string.Format(CultureInfo.CurrentCulture, "Could not find node '{0}' in the project xml", xpath);
+                if (logger != null) logger.Debug(BuildStatusMessage + Environment.NewLine + element);
             }
             return node;
         }
@@ -192,6 +202,7 @@ namespace HudsonServices
             if (docRoot == null)
             {
                 BuildStatusMessage = "Unable to parse project xml";
+                _log.Debug(BuildStatusMessage + Environment.NewLine + doc);
             }
             return docRoot;
         }
