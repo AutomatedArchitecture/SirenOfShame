@@ -33,10 +33,13 @@ namespace SirenOfShame
         {
             base.InitializeLabels(buildStatusDto);
 
+            var comment = buildStatusDto.BuildStatusMessage;
+            if (!string.IsNullOrWhiteSpace(buildStatusDto.Comment)) comment = buildStatusDto.Comment;
+
             InitializeStartTime(buildStatusDto);
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedByDisplayName;
-            _comment.Text = buildStatusDto.Comment;
+            _comment.Text = comment;
             _projectName.Text = buildStatusDto.BuildDefinitionDisplayName;
             SetBuildStatusIcon(buildStatusDto);
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
