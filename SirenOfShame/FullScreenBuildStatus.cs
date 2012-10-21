@@ -40,12 +40,15 @@ namespace SirenOfShame
             int row = 2;
             foreach (var buildStatusListViewItem in args.BuildStatusDtos)
             {
+                var comment = buildStatusListViewItem.BuildStatusMessage;
+                if (!string.IsNullOrWhiteSpace(buildStatusListViewItem.Comment)) comment = buildStatusListViewItem.Comment;
+
                 SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
                 SetText(buildStatusListViewItem.BuildDefinitionDisplayName, row, 1);
                 SetText(buildStatusListViewItem.StartTimeShort, row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
                 SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);
-                SetText(buildStatusListViewItem.Comment, row, 5);
+                SetText(comment, row, 5);
 
                 row++;
             }

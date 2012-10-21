@@ -11,6 +11,8 @@ using log4net;
 
 namespace HudsonServices
 {
+    using System.Globalization;
+
     public class HudsonService : ServiceBase
     {
         protected override XDocument DownloadXml(string url, string userName, string password, string cookie = null)
@@ -84,11 +86,14 @@ namespace HudsonServices
             try
             {
                 XDocument doc = DownloadXml(url, userName, password);
-                if (doc.Root == null) throw new Exception("Could not get project status");
+                if (doc.Root == null)
+                {
+                    return new HudsonBuildStatus(null, buildDefinitionSetting, "Could not get project status");
+                }
                 var lastBuildElem = doc.Root.Element("lastBuild");
                 if (lastBuildElem == null)
                 {
-                    throw new ServerUnavailableException("No 'lastBuild' element found for " + buildDefinitionSetting + " is the server in maintenence mode or something?");
+                    return new HudsonBuildStatus(null, buildDefinitionSetting, "No project builds found");
                 }
                 var buildNumber = lastBuildElem.ElementValueOrDefault("number");
                 var buildUrl = rootUrl + "/job/" + buildDefinitionSetting.Id + "/" + buildNumber;
@@ -100,7 +105,7 @@ namespace HudsonServices
             }
             catch (SosException ex)
             {
-                if (ex.Message.Contains("NOT_FOUND"))
+                if (ex.Message.ToLower(CultureInfo.CurrentCulture).Contains("not_found"))
                 {
                     throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
                 }
@@ -110,8 +115,7 @@ namespace HudsonServices
 
         private HudsonBuildStatus GetBuildStatusAndCommentsFromXDocument(IComparable rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, XDocument doc)
         {
-            var status = new HudsonBuildStatus(doc, buildDefinitionSetting);
-            return status;
+            return new HudsonBuildStatus(doc, buildDefinitionSetting);
         }
     }
 }
