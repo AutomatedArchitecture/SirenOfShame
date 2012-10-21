@@ -48,12 +48,15 @@ namespace SirenOfShame
         protected override void InitializeLabels(BuildStatusDto buildStatusDto)
         {
             base.InitializeLabels(buildStatusDto);
-            
+
+            var comment = buildStatusDto.BuildStatusMessage;
+            if (!string.IsNullOrWhiteSpace(buildStatusDto.Comment)) comment = buildStatusDto.Comment;
+
             _projectName.Text = buildStatusDto.BuildDefinitionDisplayName;
             InitializeStartTime(buildStatusDto);
             _duration.Text = buildStatusDto.Duration;
             _requestedBy.Text = buildStatusDto.RequestedByDisplayName;
-            _comment.Text = buildStatusDto.Comment;
+            _comment.Text = comment;
             SetBuildStatusIcon(buildStatusDto);
             SetBackgroundColors(buildStatusDto.BuildStatusEnum);
             SetDetailsVisibility();

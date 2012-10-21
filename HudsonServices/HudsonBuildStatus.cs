@@ -1,109 +1,199 @@
 ﻿using System;
+using System.Globalization;
 using System.Xml.Linq;
+using System.Xml.XPath;
+
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+
 using log4net;
 
 namespace HudsonServices
 {
-    using System.Xml.XPath;
-
     public class HudsonBuildStatus : BuildStatus
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
 
-        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting)
+        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string buildStatusMessage = null)
         {
             try
             {
-                BuildDefinitionId = buildDefinitionSetting.Id;
-                Name = buildDefinitionSetting.Name;
-                BuildStatusEnum = BuildStatusEnum.Unknown;
-                StartedTime = DateTime.MinValue;
-                FinishedTime = DateTime.MinValue;
-                RequestedBy = "No builds found";
-
+                InitialiseBuildStatus(buildDefinitionSetting, buildStatusMessage);
                 if (doc == null) return;
 
-                if (doc.Root == null) throw new Exception("Could not get root of xml");
-                var changeSet = doc.Root.Element("changeSet");
-                if (changeSet == null) throw new Exception("Could not find 'changeSet'");
+                var docRoot = LocateDocumentRoot(doc);
+                if (docRoot == null) return;
 
-                var resultStr = doc.Root.ElementValueOrDefault("result");
-                if (!string.IsNullOrWhiteSpace(resultStr))
-                {
-                    BuildStatusEnum = ToBuildStatusEnum(resultStr);
-                } else
-                {
-                    var building = doc.Root.ElementValueOrDefault("building");
-                    if (string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        BuildStatusEnum = BuildStatusEnum.InProgress;
-                    } else
-                    {
-                        BuildStatusEnum = BuildStatusEnum.Unknown;
-                    }
-                }
+                DetermineBuildUrl(docRoot);
+                DetermineBuildId(docRoot);
+                DetermineBuildStatus(docRoot);
 
-                var changeSetItem = changeSet.Element("item");
-                string timestamp = doc.Root.ElementValueOrDefault("timestamp");
-                if (changeSetItem == null)
-                {
-                    var causeElem = doc.Root.XPathSelectElement("//action/cause");
-                    if (causeElem == null) throw new Exception("Could not find 'cause'");
+                var changeSet = GetElementByName(docRoot, "changeSet");
+                if (changeSet == null) return;
 
-                    RequestedBy = causeElem.ElementValueOrDefault("userName");
+                var changeSetItem = GetElementByName(changeSet, "item");
 
-                    StartedTime = ParseTimestamp(timestamp);
-                } else
-                {
-                    var changeSetAuthor = changeSetItem.Element("author");
-                    if (changeSetAuthor != null)
-                    {
-                        RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
-                    } else
-                    {
-                        var userElem = changeSetItem.Element("user");
-                        if (userElem == null) throw new Exception("Could not find author or user on changeset");
-                        RequestedBy = userElem.Value;
-                    }
-
-                    Comment = changeSetItem.ElementValueOrDefault("msg");
-
-                    if (string.IsNullOrWhiteSpace(timestamp))
-                    {
-                        var date = changeSetItem.ElementValueOrDefault("date");
-                        if (string.IsNullOrWhiteSpace(date))
-                        {
-                            throw new Exception("Could find neither a 'date' nor a 'timestamp' in order to calculate StartedTime.");
-                        }
-                        StartedTime = ParseUnixTime(date);
-                    } else
-                    {
-                        StartedTime = ParseTimestamp(timestamp);
-                    }
-                }
-
-                var durationStr = doc.Root.ElementValueOrDefault("duration");
-                if (!string.IsNullOrWhiteSpace(durationStr))
-                {
-                    var duration = int.Parse(durationStr);
-                    FinishedTime = StartedTime == null ? (DateTime?) null : StartedTime.Value.AddMilliseconds(duration);
-                }
-
-                Url = doc.Root.ElementValueOrDefault("url");
-                if (Url != null)
-                    Url = Url.Trim();
-
-                BuildId = doc.Root.ElementValueOrDefault("number");
-            } 
+                DetermineBuildTimes(docRoot, changeSetItem);
+                DetermineChangeDetails(docRoot, changeSetItem);
+            }
             catch (Exception)
             {
                 _log.Error("Error parsing the following xml: " + doc);
                 throw;
             }
+        }
+
+        private void DetermineBuildId(XElement docRoot)
+        {
+            BuildId = docRoot.ElementValueOrDefault("number");
+        }
+
+        private void DetermineBuildStatus(XElement docRoot)
+        {
+            var resultStr = docRoot.ElementValueOrDefault("result");
+            if (!string.IsNullOrWhiteSpace(resultStr))
+            {
+                BuildStatusEnum = ToBuildStatusEnum(resultStr);
+            }
+            else
+            {
+                var building = docRoot.ElementValueOrDefault("building");
+                BuildStatusEnum = string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase)
+                                      ? BuildStatusEnum.InProgress
+                                      : BuildStatusEnum.Unknown;
+            }
+        }
+
+        private void DetermineBuildTimes(XElement docRoot, XElement changeSetItem)
+        {
+            StartedTime = null;
+            FinishedTime = null;
+
+            var timestamp = docRoot.ElementValueOrDefault("timestamp");
+            if (string.IsNullOrWhiteSpace(timestamp))
+            {
+                var date = changeSetItem.ElementValueOrDefault("date");
+                if (string.IsNullOrWhiteSpace(date))
+                {
+                    BuildStatusMessage = "Could find neither a 'date' nor a 'timestamp' in order to calculate StartedTime.";
+                    return;
+                }
+                StartedTime = ParseUnixTime(date);
+            }
+            else
+            {
+                StartedTime = ParseTimestamp(timestamp);
+            }
+
+            var durationStr = docRoot.ElementValueOrDefault("duration");
+            if (string.IsNullOrWhiteSpace(durationStr))
+            {
+                BuildStatusMessage = "Could find a 'duration' to calculate FinishedTime.";
+                return;
+            }
+
+            var duration = int.Parse(durationStr);
+            FinishedTime = StartedTime == null ? (DateTime?)null : StartedTime.Value.AddMilliseconds(duration);
+        }
+
+        private void DetermineBuildUrl(XElement docRoot)
+        {
+            Url = docRoot.ElementValueOrDefault("url");
+            if (Url != null) Url = Url.Trim();
+        }
+
+        private void DetermineChangeAuthorFromCommitInfo(XElement changeSetItem)
+        {
+            var changeSetAuthor = GetElementByName(changeSetItem, "author");
+            if (changeSetAuthor != null)
+            {
+                RequestedBy = changeSetAuthor.ElementValueOrDefault("fullName");
+            }
+            else
+            {
+                var userElem = GetElementByName(changeSetItem, "user");
+                if (userElem != null)
+                {
+                    RequestedBy = userElem.Value;
+                }
+                else
+                {
+                    BuildStatusMessage = "Could find neither an 'author' nor a 'user' in order to determine change author.";
+                }
+            }
+        }
+
+        private void DetermineChangeCommentFromBuildCause(XElement causeElement)
+        {
+            Comment = causeElement.ElementValueOrDefault("shortDescription");
+        }
+
+        private void DetermineChangeCommentFromCommitInfo(XElement changeSetItem)
+        {
+            Comment = changeSetItem.ElementValueOrDefault("msg");
+        }
+
+        private void DetermineChangeDetails(XElement docRoot, XElement changeSetItem)
+        {
+            if (changeSetItem == null)
+            {
+                var causeElement = GetElementByXPath(docRoot, "//action/cause");
+                if (causeElement == null) return;
+                DetermineChangeInitiatorFromBuildCause(causeElement);
+                DetermineChangeCommentFromBuildCause(causeElement);
+            }
+            else
+            {
+                DetermineChangeAuthorFromCommitInfo(changeSetItem);
+                DetermineChangeCommentFromCommitInfo(changeSetItem);
+            }
+        }
+
+        private void DetermineChangeInitiatorFromBuildCause(XElement causeElement)
+        {
+            RequestedBy = causeElement.ElementValueOrDefault("userName");
+        }
+
+        private XElement GetElementByName(XContainer element, string nodeName)
+        {
+            var node = element.Element(nodeName);
+            if (node == null)
+            {
+                BuildStatusMessage = string.Format(CultureInfo.CurrentCulture, "Could not find node '{0}' in the project xml", nodeName);
+            }
+            return node;
+        }
+
+        private XElement GetElementByXPath(XContainer element, string xpath)
+        {
+            var node = element.XPathSelectElement(xpath);
+            if (node == null)
+            {
+                BuildStatusMessage = string.Format(CultureInfo.CurrentCulture, "Could not find node '{0}' in the project xml", xpath);
+            }
+            return node;
+        }
+
+        private void InitialiseBuildStatus(BuildDefinitionSetting buildDefinitionSetting, string buildStatusMessage)
+        {
+            BuildDefinitionId = buildDefinitionSetting.Id;
+            Name = buildDefinitionSetting.Name;
+            BuildStatusEnum = BuildStatusEnum.Unknown;
+            StartedTime = null;
+            FinishedTime = null;
+            BuildStatusMessage = buildStatusMessage ?? string.Empty;
+        }
+
+        private XElement LocateDocumentRoot(XDocument doc)
+        {
+            var docRoot = doc.Root;
+            if (docRoot == null)
+            {
+                BuildStatusMessage = "Unable to parse project xml";
+            }
+            return docRoot;
         }
 
         private DateTime ParseTimestamp(string timestampStr)
@@ -135,6 +225,5 @@ namespace HudsonServices
                     return BuildStatusEnum.Unknown;
             }
         }
-
     }
 }
