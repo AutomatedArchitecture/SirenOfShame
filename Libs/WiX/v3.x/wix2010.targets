@@ -188,8 +188,8 @@ Copyright (c) Microsoft Corporation. All rights reserved.
   </ItemGroup>
 
   <PropertyGroup>
-    <WixToolPath Condition=" '$(WixToolPath)' == ''">$(OutputPath)\..\..\..\WixBin</WixToolPath>
-    <WixToolPath Condition=" '$(WixToolPath)' == ''">$(OutputPath)\..\..\..\WixBin</WixToolPath>
+    <WixToolPath Condition=" '$(WixToolPath)' == ''">$(MSBuildProjectDirectory)\..\Libs\WiX\WixBin</WixToolPath>
+    <WixToolPath Condition=" '$(WixToolPath)' == ''">$(MSBuildProjectDirectory)\..\Libs\WiX\WixBin</WixToolPath>
     <WixExtDir Condition=" '$(WixExtDir)' == ''">$(WixToolPath)</WixExtDir>
   </PropertyGroup>
 
