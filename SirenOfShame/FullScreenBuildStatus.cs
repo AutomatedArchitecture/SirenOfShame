@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -11,8 +14,14 @@ namespace SirenOfShame
 {
     public partial class FullScreenBuildStatus : FullScreenFormBase
     {
+        private IList<BuildStatusDto> _buildStatusDtos;
+
+        private bool _currentSortAscending = true;
+
+        private string _currentSortColumn;
+
         private int _oldBuildCount = 0;
-        
+
         public FullScreenBuildStatus()
         {
             InitializeComponent();
@@ -25,20 +34,38 @@ namespace SirenOfShame
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args, SirenOfShameSettings settings)
         {
-            int buildCount = args.BuildStatusDtos.Count();
+            _buildStatusDtos = args.BuildStatusDtos;
+            RefreshListView(x => x.BuildDefinitionDisplayName, true);
+        }
 
+        private void RefreshListView<TKey>(Expression<Func<BuildStatusDto, TKey>> sortColumn, bool retainCurrentSort = false)
+        {
+            if (_buildStatusDtos == null) return;
+
+            var buildCount = _buildStatusDtos.Count();
             if (buildCount != _oldBuildCount)
             {
                 ClearRowsBelowHeader();
                 tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + buildCount + 1;
-                for (int i = 0; i < buildCount; i++)
+                for (var i = 0; i < buildCount; i++)
+                {
                     tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+                }
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize));
                 _oldBuildCount = buildCount;
             }
 
-            int row = 2;
-            foreach (var buildStatusListViewItem in args.BuildStatusDtos)
+            var sortColumnName = ((MemberExpression)sortColumn.Body).Member.Name;
+            if (!retainCurrentSort || _currentSortColumn == null)
+            {
+                _currentSortAscending = (sortColumnName != _currentSortColumn) || !_currentSortAscending;
+                _currentSortColumn = sortColumnName;
+            }
+
+            var buildStatusListViewItems = _buildStatusDtos.AsQueryable().OrderBy(_currentSortColumn + " " + (_currentSortAscending ? "ASC" : "DESC"));
+
+            var row = 2;
+            foreach (var buildStatusListViewItem in buildStatusListViewItems)
             {
                 var comment = buildStatusListViewItem.BuildStatusMessage;
                 if (!string.IsNullOrWhiteSpace(buildStatusListViewItem.Comment)) comment = buildStatusListViewItem.Comment;
@@ -135,6 +162,31 @@ namespace SirenOfShame
         private void TableLayoutPanel1Click(object sender, EventArgs e)
         {
             ExitFullScreen();
+        }
+
+        private void DateClick(object sender, EventArgs e)
+        {
+            RefreshListView(x => x.LocalStartTime);
+        }
+
+        private void NameClick(object sender, EventArgs e)
+        {
+            RefreshListView(x => x.BuildDefinitionDisplayName);
+        }
+
+        private void DurationClick(object sender, EventArgs e)
+        {
+            RefreshListView(x => x.Duration);
+        }
+
+        private void CommitterClick(object sender, EventArgs e)
+        {
+            RefreshListView(x => x.RequestedByDisplayName);
+        }
+
+        private void CommentClick(object sender, EventArgs e)
+        {
+            RefreshListView(x => x.Comment);
         }
     }
 }
