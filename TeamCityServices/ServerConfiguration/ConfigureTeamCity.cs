@@ -41,7 +41,12 @@ namespace TeamCityServices.ServerConfiguration
 
         private void ClearProjectNodes()
         {
-            var treeNodes = _projects.Nodes.Cast<TreeNode>().ToArray();
+            ClearProjectNodes(_projects.Nodes);
+        }
+
+        private void ClearProjectNodes(TreeNodeCollection nodes)
+        {
+            var treeNodes = nodes.Cast<TreeNode>().ToArray();
             foreach (var treeNode in treeNodes)
             {
                 treeNode.Tag = null;
@@ -111,7 +116,7 @@ namespace TeamCityServices.ServerConfiguration
             {
                 _service.GetBuildDefinitions((TeamCityProject)node.Tag, _userName.Text, _password.Text, buildDefinitions =>
                 {
-                    node.Nodes.Clear();
+                    ClearProjectNodes(node.Nodes);
                     var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active);
                     foreach (TeamCityBuildDefinition buildDefinition in buildDefinitions)
                     {

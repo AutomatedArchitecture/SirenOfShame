@@ -38,3 +38,8 @@ Features
 * Awards achievements for activities like fixing other people's builds
 * Plays audio (e.g. sad trombone) for various build events
 * Pops up modal or tray alerts (configurable)
+
+Download Now
+======
+
+You can download the latest officially released msi from [Downloads](https://github.com/AutomatedArchitecture/SirenOfShame/downloads).  You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=project267) generously provided by [CodeBetter](http://codebetter.com).
