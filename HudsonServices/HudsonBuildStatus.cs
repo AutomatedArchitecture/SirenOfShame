@@ -45,10 +45,8 @@ namespace HudsonServices
                 string timestamp = doc.Root.ElementValueOrDefault("timestamp");
                 if (changeSetItem == null)
                 {
-                    var causeElem = doc.Root.XPathSelectElement("//action/cause");
-                    if (causeElem == null) throw new Exception("Could not find 'cause'");
-
-                    RequestedBy = causeElem.ElementValueOrDefault("userName");
+                    var userName = GetRequestedByFromCause(doc);
+                    RequestedBy = userName;
 
                     StartedTime = ParseTimestamp(timestamp);
                 } else
@@ -98,6 +96,20 @@ namespace HudsonServices
                 _log.Error("Error parsing the following xml: " + doc);
                 throw;
             }
+        }
+
+        private static string GetRequestedByFromCause(XDocument doc)
+        {
+            if (doc.Root == null) return null;
+            var causeElem = doc.Root.XPathSelectElement("//action/cause");
+            if (causeElem == null)
+            {
+                _log.Warn("Could not find 'cause'");
+                return null;
+            }
+
+            string userName = causeElem.ElementValueOrDefault("userName");
+            return userName;
         }
 
         private DateTime ParseTimestamp(string timestampStr)
