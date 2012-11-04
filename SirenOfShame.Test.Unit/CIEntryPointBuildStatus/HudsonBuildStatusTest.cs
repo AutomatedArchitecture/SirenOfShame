@@ -24,7 +24,7 @@ namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("anonymous", buildStatus.RequestedBy);
             Assert.AreEqual(new DateTime(2011, 12, 23, 21, 8, 21), buildStatus.StartedTime, DateAsCode(buildStatus.StartedTime.Value));
-            Assert.IsNull(buildStatus.Comment);
+            Assert.AreEqual("Started by user anonymous", buildStatus.Comment);
             Assert.AreEqual(new DateTime(2011, 12, 23, 21, 8, 22, 465), buildStatus.FinishedTime, DateAsCode(buildStatus.FinishedTime.Value)); // timestamp+duration
             Assert.AreEqual("http://win7ci:8081/job/SvnTest/30/", buildStatus.Url);
             Assert.AreEqual("30", buildStatus.BuildId);

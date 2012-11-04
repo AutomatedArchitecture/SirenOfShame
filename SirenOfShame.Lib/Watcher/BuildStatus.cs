@@ -82,6 +82,7 @@ namespace SirenOfShame.Lib.Watcher
         public string BuildId { get; set; }
         public string Url { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
+        public string BuildStatusMessage { get; set; }
         public string Comment { get; set; }
 
         public string BuildStatusDescription
@@ -117,6 +118,7 @@ namespace SirenOfShame.Lib.Watcher
             var result = new BuildStatusDto
             {
                 BuildStatusEnum = BuildStatusEnum,
+                BuildStatusMessage = BuildStatusMessage,
                 ImageIndex = (int)BallIndex,
                 StartTimeShort = FormatAsDayMonthTime(StartedTime),
                 LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
@@ -150,7 +152,7 @@ namespace SirenOfShame.Lib.Watcher
             return buildDisplayName;
         }
 
-        private static string FormatAsDayMonthTime(DateTime? nullableDate)
+        internal static string FormatAsDayMonthTime(DateTime? nullableDate)
         {
             if (nullableDate == null) return null;
             DateTime date = nullableDate.Value;

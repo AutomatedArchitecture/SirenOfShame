@@ -49,12 +49,13 @@
       <Component Id="PluginsComponent" Guid="A12F0669-DC76-4118-A95F-29E97223FB57">
         <RemoveFile Id="PurgePluginsFolder" Name="*.*" On="install" />
 
-        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\UsbLib.dll" Id="UsbLibDll2" />
-        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
-        <File Source="..\SirenOfShame.Lib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll2" />
+        <File Source="..\SirenOfShame.Lib\bin\Release\UsbLib.dll" Id="UsbLibDll2" />
+        <File Source="..\SirenOfShame.Lib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
+        <File Source="..\SirenOfShame.Lib\bin\Release\SoxLib.dll" Id="SoxLibDll2" />
         <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
         <File Source="..\packages\SignalR.Client.0.5.3\lib\net40\SignalR.Client.dll" />
         <File Source="..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll" />
+        <File Source="..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
 
         <File Source="..\SirenOfShame\bin\Plugins\BuildBotServices.dll" />
@@ -95,30 +96,29 @@
         
         <File Source="..\SirenOfShame\bin\wyUpdate.exe" />
         <File Source="..\Libs\ZedGraph.dll" />
-        <File Source="..\UsbLib\bin\Debug\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
-        <File Source="..\TeensyHidBootloaderLib\bin\x86\Debug\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll1" />
-        <File Source="..\SoxLib\bin\x86\Debug\SoxLib.dll" Id="SoxLibDll1" />
+        <File Source="..\UsbLib\bin\Release\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
+        <File Source="..\TeensyHidBootloaderLib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll1" />
+        <File Source="..\SoxLib\bin\Release\SoxLib.dll" Id="SoxLibDll1" />
         <File Source="..\Libs\log4net.dll" Id="Log4NetDll1" />
         <File Source="..\Releases\wyUpdate\client.wyc" />
         <File Source="..\Libs\wyUpdate\AutomaticUpdater.dll" />
 
-        <!-- todo: move the following TFS files into Libs -->
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.Library.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Provision.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Build.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Build.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Common.Library.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.Provision.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
       </Component>
     </DirectoryRef>
 

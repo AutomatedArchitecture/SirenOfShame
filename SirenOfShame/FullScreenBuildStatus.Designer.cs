@@ -86,6 +86,7 @@ namespace SirenOfShame
             this.label5.TabIndex = 4;
             this.label5.Text = "Comment";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.Click += new System.EventHandler(this.CommentClick);
             // 
             // label4
             // 
@@ -99,6 +100,7 @@ namespace SirenOfShame
             this.label4.TabIndex = 3;
             this.label4.Text = "Checked In By";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.Click += new System.EventHandler(this.CommitterClick);
             // 
             // label3
             // 
@@ -112,6 +114,7 @@ namespace SirenOfShame
             this.label3.TabIndex = 2;
             this.label3.Text = "Duration";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label3.Click += new System.EventHandler(this.DurationClick);
             // 
             // label2
             // 
@@ -125,6 +128,7 @@ namespace SirenOfShame
             this.label2.TabIndex = 1;
             this.label2.Text = "Date";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label2.Click += new System.EventHandler(this.DateClick);
             // 
             // _headerName
             // 
@@ -139,6 +143,7 @@ namespace SirenOfShame
             this._headerName.TabIndex = 0;
             this._headerName.Text = "Build";
             this._headerName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._headerName.Click += new System.EventHandler(this.NameClick);
             // 
             // panel1
             // 
