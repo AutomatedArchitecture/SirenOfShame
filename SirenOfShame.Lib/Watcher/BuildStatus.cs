@@ -152,7 +152,7 @@ namespace SirenOfShame.Lib.Watcher
             return buildDisplayName;
         }
 
-        private static string FormatAsDayMonthTime(DateTime? nullableDate)
+        internal static string FormatAsDayMonthTime(DateTime? nullableDate)
         {
             if (nullableDate == null) return null;
             DateTime date = nullableDate.Value;

@@ -25,9 +25,9 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Lee", buildStatus.RequestedBy);
-            Assert.AreEqual(new DateTime(2012, 3, 3, 19, 4, 23, 98), buildStatus.StartedTime, HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value));
+            Assert.AreEqual(new DateTime(2012, 3, 4, 0, 4, 23, 98), buildStatus.StartedTime.Value.ToUniversalTime(), HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value.ToUniversalTime()));
             Assert.AreEqual("breaking the build", buildStatus.Comment);
-            Assert.AreEqual(new DateTime(2012, 3, 3, 19, 4, 27, 61), buildStatus.FinishedTime, HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value)); // timestamp+duration
+            Assert.AreEqual(new DateTime(2012, 3, 4, 0, 4, 27, 61), buildStatus.FinishedTime.Value.ToUniversalTime(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value.ToUniversalTime())); // timestamp+duration
             Assert.AreEqual("2", buildStatus.BuildId);
             Assert.AreEqual("http://win7ci:8085/browse/CITEST-CITESTPLANKEY-2", buildStatus.Url);
         }

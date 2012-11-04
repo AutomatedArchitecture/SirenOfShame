@@ -19,6 +19,9 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+// Allow unit test projects to see internal objects.
+[assembly: InternalsVisibleTo("SirenOfShame.Test.Unit")]
+
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("f5ffffee-686a-4174-8887-9f08acbbdafd")]
 
