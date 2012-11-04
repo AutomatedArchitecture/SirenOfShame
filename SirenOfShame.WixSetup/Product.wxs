@@ -102,23 +102,22 @@
         <File Source="..\Releases\wyUpdate\client.wyc" />
         <File Source="..\Libs\wyUpdate\AutomaticUpdater.dll" />
 
-        <!-- todo: move the following TFS files into Libs -->
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Build.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.Common.Library.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.Provision.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
-        <File Source="C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ReferenceAssemblies\v2.0\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Build.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Build.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.Common.Library.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.VersionControl.Common.Integration.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.Cache.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.DataStore.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.Provision.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
       </Component>
     </DirectoryRef>
 
