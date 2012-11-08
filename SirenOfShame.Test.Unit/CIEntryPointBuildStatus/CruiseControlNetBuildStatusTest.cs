@@ -62,10 +62,10 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);
             Assert.IsNotNull(buildStatus.StartedTime);
-            Assert.AreEqual(new DateTime(2011, 8, 28, 13, 20, 5, 375), buildStatus.StartedTime.Value, HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value));
+            Assert.AreEqual(new DateTime(2011, 8, 28, 17, 20, 5, 375), buildStatus.StartedTime.Value.ToUniversalTime(), HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value.ToUniversalTime()));
             Assert.IsNull(buildStatus.Comment);
             Assert.IsNotNull(buildStatus.FinishedTime);
-            Assert.AreEqual(new DateTime(2011, 8, 28, 13, 20, 5, 375), buildStatus.FinishedTime.Value, HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value));
+            Assert.AreEqual(new DateTime(2011, 8, 28, 17, 20, 5, 375), buildStatus.FinishedTime.Value.ToUniversalTime(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value.ToUniversalTime()));
             //Assert.AreEqual("http://win7ci:8081/job/SvnTest/30/", buildStatus.Url);
             //Assert.AreEqual(30, buildStatus.BuildId);
         }
@@ -113,11 +113,10 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);
             Assert.IsNotNull(buildStatus.StartedTime);
-            var dateTime = new DateTime(2011, 8, 27, 13, 21, 27, 843);
-            Assert.AreEqual(dateTime.ToString(), buildStatus.StartedTime.Value.ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value));
+            Assert.AreEqual(new DateTime(2011, 8, 27, 17, 21, 27, 843).ToString(), buildStatus.StartedTime.Value.ToUniversalTime().ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value.ToUniversalTime()));
             Assert.IsNull(buildStatus.Comment);
             Assert.IsNotNull(buildStatus.FinishedTime);
-            Assert.AreEqual(new DateTime(2011, 8, 27, 13, 21, 27, 843).ToString(), buildStatus.FinishedTime.Value.ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value));
+            Assert.AreEqual(new DateTime(2011, 8, 27, 17, 21, 27, 843).ToString(), buildStatus.FinishedTime.Value.ToUniversalTime().ToString(), HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value.ToUniversalTime()));
             //Assert.AreEqual("http://win7ci:8081/job/SvnTest/30/", buildStatus.Url);
             //Assert.AreEqual(30, buildStatus.BuildId);
         }

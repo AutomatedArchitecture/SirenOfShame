@@ -164,7 +164,7 @@ namespace SirenOfShame.Test.Unit.Helpers
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
             var now = new DateTime(2010, 2, 5, 0, 0, 0, 0);
-            Assert.AreEqual("1/1/2010", d.PrettyDate(now));
+            Assert.AreEqual(d.ToString("d"), d.PrettyDate(now));
         }
 
     }

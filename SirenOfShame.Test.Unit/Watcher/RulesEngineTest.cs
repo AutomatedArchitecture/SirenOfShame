@@ -382,8 +382,7 @@ Hello World
                     RequestedBy = RulesEngineWrapper.CURRENT_USER,
                     BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
                     StartedTime = new DateTime(2010, 1, 1, 11, 33, 0)
-                }
-                );
+                });
 
             BuildDefinitionSetting buildDefinitionSetting = rulesEngine.Settings.CiEntryPointSettings.Single().BuildDefinitionSettings.Single(i => i.Id == RulesEngineWrapper.BUILD1_ID);
             Assert.AreEqual("New Name!", buildDefinitionSetting.Name);
@@ -482,6 +481,9 @@ Hello World
 
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
 
+            var startedTime = new DateTime(2010, 1, 2, 1, 1, 1);
+            var finishedTime = new DateTime(2010, 1, 2, 1, 2, 2);
+
             rulesEngine.InvokeStatusChecked(new[]
             {
                 new BuildStatus
@@ -490,8 +492,8 @@ Hello World
                     Name = "Build Def 1",
                     RequestedBy = "User1",
                     BuildDefinitionId = "Build Def 1",
-                    StartedTime = new DateTime(2010, 1, 2, 1, 1, 1),
-                    FinishedTime = new DateTime(2010, 1, 2, 1, 2, 2)
+                    StartedTime = startedTime,
+                    FinishedTime = finishedTime
                 },
             });
 
@@ -502,7 +504,7 @@ Hello World
             Assert.AreEqual("Build Def 1", buildStatus.BuildDefinitionDisplayName);
             Assert.AreEqual("User1", buildStatus.RequestedByRawName);
             Assert.AreEqual("Build Def 1", buildStatus.BuildDefinitionId);
-            Assert.AreEqual("1/2 1:01 AM", buildStatus.StartTimeShort);
+            Assert.AreEqual(BuildStatus.FormatAsDayMonthTime(startedTime), buildStatus.StartTimeShort);
             Assert.AreEqual("1:01", buildStatus.Duration);
         }
 
@@ -1114,6 +1116,8 @@ Hello World
         public void BuildStartTimeChanged_RefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();
+            var firstStartTime = new DateTime(2011, 1, 1, 1, 1, 1);
+            var secondStartTime = new DateTime(2022, 2, 2, 2, 2, 2);
 
             rulesEngine.InvokeStatusChecked(new BuildStatus
             {
@@ -1121,20 +1125,20 @@ Hello World
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
                 BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
-                StartedTime = new DateTime(2011, 1, 1, 1, 1, 1)
+                StartedTime = firstStartTime
             });
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+
             rulesEngine.InvokeStatusChecked(new BuildStatus
             {
                 BuildStatusEnum = BuildStatusEnum.Working,
                 Name = RulesEngineWrapper.BUILD2_ID,
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
                 BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
-                StartedTime = new DateTime(2022, 2, 2, 2, 2, 2)
+                StartedTime = secondStartTime
             });
             Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
-            Assert.AreEqual("2/2 2:02 AM",
-                            rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTimeShort);
+            Assert.AreEqual(BuildStatus.FormatAsDayMonthTime(secondStartTime), rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTimeShort);
         }
 
         [TestMethod]

@@ -29,6 +29,80 @@
       <Name>WixNetFxExtension</Name>
     </WixExtension>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BambooServices\BambooServices.csproj">
+      <Name>BambooServices</Name>
+      <Project>{11b36e78-b757-46aa-baf4-e8cfface74ed}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\BuildBotServices\BuildBotServices.csproj">
+      <Name>BuildBotServices</Name>
+      <Project>{2048f920-7e57-4e5b-b437-f171af65f1d6}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\CruiseControlNetServices\CruiseControlNetServices.csproj">
+      <Name>CruiseControlNetServices</Name>
+      <Project>{96eb3cca-5ee4-492e-a7da-4e5e2a3a0051}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\HudsonServices\HudsonServices.csproj">
+      <Name>HudsonServices</Name>
+      <Project>{e0983ed9-6145-4893-9782-b5a2691106e7}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
+      <Name>SirenOfShame.Lib</Name>
+      <Project>{cbb57466-4341-49bc-a61d-43a7cc656a95}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame\SirenOfShame.csproj">
+      <Name>SirenOfShame</Name>
+      <Project>{e292ffa7-db35-43aa-9615-5ba819550b1c}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\TeamCityServices\TeamCityServices.csproj">
+      <Name>TeamCityServices</Name>
+      <Project>{efe5a7fe-62d0-4ad7-9dac-e9ac5b1cc6c7}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\TfsServices\TfsServices.csproj">
+      <Name>TfsServices</Name>
+      <Project>{7d1a25f9-e971-4b09-9574-114ebd88515f}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\TravisCiServices\TravisCiServices.csproj">
+      <Name>TravisCiServices</Name>
+      <Project>{72771080-d1c2-40b4-b000-d05cee0e2b8f}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLLOCATION</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
