@@ -16,11 +16,11 @@ namespace HudsonServices
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
 
-        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string buildStatusMessage = null)
+        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string defaultBuildStatusMessage = null)
         {
             try
             {
-                InitialiseBuildStatus(buildDefinitionSetting, buildStatusMessage);
+                InitialiseBuildStatus(buildDefinitionSetting, defaultBuildStatusMessage);
                 if (doc == null) return;
 
                 var docRoot = LocateDocumentRoot(doc);
@@ -186,14 +186,14 @@ namespace HudsonServices
             return node;
         }
 
-        private void InitialiseBuildStatus(BuildDefinitionSetting buildDefinitionSetting, string buildStatusMessage)
+        private void InitialiseBuildStatus(BuildDefinitionSetting buildDefinitionSetting, string defaultBuildStatusMessage)
         {
             BuildDefinitionId = buildDefinitionSetting.Id;
             Name = buildDefinitionSetting.Name;
             BuildStatusEnum = BuildStatusEnum.Unknown;
             StartedTime = null;
             FinishedTime = null;
-            BuildStatusMessage = buildStatusMessage ?? string.Empty;
+            BuildStatusMessage = defaultBuildStatusMessage ?? string.Empty;
         }
 
         private XElement LocateDocumentRoot(XDocument doc)
