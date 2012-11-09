@@ -236,15 +236,41 @@ namespace SirenOfShame.Lib.Watcher
             var oldBuildStatus = _previousBuildStatuses;
             _previousBuildStatuses = allBuildStatuses;
             var changedBuildStatuses = from newStatus in allBuildStatuses
-                   from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
-                   where oldStatus == null || (oldStatus.StartedTime != newStatus.StartedTime) || oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum
-                   select newStatus;
+                                       from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
+                                       where DidBuildStatusChange(oldStatus, newStatus)
+                                       select newStatus;
             
             Debug.Assert(changedBuildStatuses != null, "changedBuildStatuses should not be null");
             Debug.Assert(PreviousWorkingOrBrokenBuildStatus != null, "PreviousWorkingOrBrokenBuildStatus should never be null");
             Debug.Assert(PreviousBuildStatus != null, "PreviousBuildStatus should never be null");
 
             return changedBuildStatuses.ToList();
+        }
+
+        private static bool DidBuildStatusChange(BuildStatus oldStatus, BuildStatus newStatus)
+        {
+            if (oldStatus == null) return true;
+
+            bool startTimesUnequal = oldStatus.StartedTime != newStatus.StartedTime;
+            bool buildStatusesUnequal = oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum;
+            bool buildChanged = startTimesUnequal || buildStatusesUnequal;
+            
+            if (buildChanged)
+            {
+                string message = string.Format(
+                    "Detected a build status change. BuildDefinitionId: {0}; OldStartTime: {1}; NewStartTime: {2}; OldStatus: {3}; NewStatus: {4}; BuildId: {5}; RequestedBy: {6}", 
+                    newStatus.BuildDefinitionId, 
+                    oldStatus.StartedTime, 
+                    newStatus.StartedTime, 
+                    oldStatus.BuildStatusEnum, 
+                    newStatus.BuildStatusEnum,
+                    newStatus.BuildId,
+                    newStatus.RequestedBy
+                    );
+                _log.Debug(message);
+            }
+
+            return buildChanged;
         }
 
         private void TryToGetAndSendNewSosOnlineAlerts()
