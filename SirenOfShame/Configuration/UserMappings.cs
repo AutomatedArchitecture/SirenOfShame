@@ -13,6 +13,7 @@ namespace SirenOfShame.Configuration
             _settings = settings;
             InitializeComponent();
             RefreshMappingList();
+            
         }
 
         private void AddClick(object sender, System.EventArgs e)

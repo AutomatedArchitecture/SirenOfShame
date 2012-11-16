@@ -8,7 +8,7 @@ namespace SirenOfShame.Configuration
     {
         private readonly SirenOfShameSettings _settings;
 
-        public AddMapping(SirenOfShameSettings settings)
+        public AddMapping(SirenOfShameSettings settings, string whenISeeDefaultRawName = null)
         {
             _settings = settings;
             InitializeComponent();
@@ -18,6 +18,11 @@ namespace SirenOfShame.Configuration
             {
                 _whenISee.Items.Add(personSetting.RawName);
                 _pretendItsActually.Items.Add(personSetting.RawName);
+            }
+
+            if (!string.IsNullOrEmpty(whenISeeDefaultRawName))
+            {
+                _whenISee.SelectedItem = whenISeeDefaultRawName;
             }
         }
 

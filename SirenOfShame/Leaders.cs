@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Configuration;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -150,12 +151,40 @@ namespace SirenOfShame
             }
         }
 
-        private void HiddenButtonClick(object sender, EventArgs e)
+        private void WithSelectedUser(Action<PersonSetting> action)
         {
             if (string.IsNullOrEmpty(_selectedRawName)) return;
-            var selectedPerson = Settings.FindPersonByRawName(_selectedRawName);
-            selectedPerson.Hidden = !selectedPerson.Hidden;
-            RefreshUserPanelVisibility();
+            PersonSetting selectedPerson = Settings.FindPersonByRawName(_selectedRawName);
+            if (selectedPerson == null) return;
+            action(selectedPerson);
+        }
+        
+        private void HiddenButtonClick(object sender, EventArgs e)
+        {
+            WithSelectedUser(selectedPerson =>
+            {
+                selectedPerson.Hidden = !selectedPerson.Hidden;
+                RefreshUserPanelVisibility();
+            });
+        }
+
+        private void UserMenuOpening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            WithSelectedUser(selectedPerson =>
+            {
+                _isADuplicate.Text = selectedPerson.RawName + " Is A Duplicate";
+            });
+        }
+
+        private void IsADuplicateClick(object sender, EventArgs e)
+        {
+            WithSelectedUser(selectedPerson =>
+            {
+                AddMapping addMapping = new AddMapping(Settings, selectedPerson.RawName);
+                addMapping.ShowDialog(this);
+                var userMappings = new UserMappings(Settings);
+                userMappings.ShowDialog(this);
+            });
         }
     }
 

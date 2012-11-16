@@ -40,6 +40,8 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._cancel = new SirenOfShame.Lib.SosButton();
             this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -67,20 +69,22 @@
             // 
             this._whenISee.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._whenISee.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._whenISee.FormattingEnabled = true;
             this._whenISee.Location = new System.Drawing.Point(114, 86);
             this._whenISee.Name = "_whenISee";
-            this._whenISee.Size = new System.Drawing.Size(185, 21);
+            this._whenISee.Size = new System.Drawing.Size(221, 21);
             this._whenISee.TabIndex = 59;
             // 
             // _pretendItsActually
             // 
             this._pretendItsActually.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._pretendItsActually.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._pretendItsActually.FormattingEnabled = true;
             this._pretendItsActually.Location = new System.Drawing.Point(114, 117);
             this._pretendItsActually.Name = "_pretendItsActually";
-            this._pretendItsActually.Size = new System.Drawing.Size(185, 21);
+            this._pretendItsActually.Size = new System.Drawing.Size(221, 21);
             this._pretendItsActually.TabIndex = 58;
             // 
             // label5
@@ -118,7 +122,7 @@
             this._add.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._add.ImageKey = "add.bmp";
             this._add.ImageList = this.imageList1;
-            this._add.Location = new System.Drawing.Point(194, 163);
+            this._add.Location = new System.Drawing.Point(230, 272);
             this._add.Name = "_add";
             this._add.Size = new System.Drawing.Size(105, 23);
             this._add.TabIndex = 55;
@@ -148,7 +152,7 @@
             this._cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this._cancel.ForeColor = System.Drawing.Color.White;
             this._cancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._cancel.Location = new System.Drawing.Point(129, 163);
+            this._cancel.Location = new System.Drawing.Point(165, 272);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(59, 23);
             this._cancel.TabIndex = 60;
@@ -166,6 +170,27 @@
             this.label3.TabIndex = 61;
             this.label3.Text = "To solve multiple personality disorder.";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(20, 154);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 13);
+            this.label6.TabIndex = 62;
+            this.label6.Text = "What will happen";
+            // 
+            // label7
+            // 
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(112, 154);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(228, 103);
+            this.label7.TabIndex = 63;
+            this.label7.Text = resources.GetString("label7.Text");
+            // 
             // AddMapping
             // 
             this.AcceptButton = this._add;
@@ -173,7 +198,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(309, 198);
+            this.ClientSize = new System.Drawing.Size(345, 307);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._cancel);
             this.Controls.Add(this._whenISee);
@@ -204,5 +231,7 @@
         private Lib.SosButton _cancel;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }

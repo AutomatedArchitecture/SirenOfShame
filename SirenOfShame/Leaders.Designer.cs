@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this._userMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._hiddenButton = new System.Windows.Forms.ToolStripMenuItem();
+            this._isADuplicate = new System.Windows.Forms.ToolStripMenuItem();
             this._userMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,9 +66,11 @@
             // _userMenu
             // 
             this._userMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._hiddenButton});
+            this._hiddenButton,
+            this._isADuplicate});
             this._userMenu.Name = "contextMenuStrip1";
-            this._userMenu.Size = new System.Drawing.Size(153, 48);
+            this._userMenu.Size = new System.Drawing.Size(153, 70);
+            this._userMenu.Opening += new System.ComponentModel.CancelEventHandler(this.UserMenuOpening);
             // 
             // _hiddenButton
             // 
@@ -76,6 +79,13 @@
             this._hiddenButton.Size = new System.Drawing.Size(152, 22);
             this._hiddenButton.Text = "Hidden";
             this._hiddenButton.Click += new System.EventHandler(this.HiddenButtonClick);
+            // 
+            // _isADuplicate
+            // 
+            this._isADuplicate.Name = "_isADuplicate";
+            this._isADuplicate.Size = new System.Drawing.Size(152, 22);
+            this._isADuplicate.Text = "Is A Duplicate";
+            this._isADuplicate.Click += new System.EventHandler(this.IsADuplicateClick);
             // 
             // Leaders
             // 
@@ -97,5 +107,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip _userMenu;
         private System.Windows.Forms.ToolStripMenuItem _hiddenButton;
+        private System.Windows.Forms.ToolStripMenuItem _isADuplicate;
     }
 }
