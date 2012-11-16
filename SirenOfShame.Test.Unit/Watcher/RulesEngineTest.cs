@@ -13,6 +13,26 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void UserMappingExistsForUser2ToUser1AndUser2ChecksIn_RefreshStatusLooksLikeUser1()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.UserMappings.Add(new UserMapping { WhenISee = "User2", PretendItsActually = RulesEngineWrapper.CURRENT_USER});
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.InProgress,
+                Name = "Name",
+                RequestedBy = "User2",
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                StartedTime = new DateTime(2010, 1, 1, 11, 33, 0),
+            });
+            RefreshStatusEventArgs lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
+            Assert.AreEqual(1, lastRefreshStatusEvent.BuildStatusDtos.Count);
+            BuildStatusDto buildStatusDto = lastRefreshStatusEvent.BuildStatusDtos[0];
+            Assert.AreEqual("User1", buildStatusDto.RequestedByRawName);
+        }
+        
+        [TestMethod]
         public void DuplicateBuildDefinitionIds_BuildDefinitionDisplayNamesGetQualified()
         {
             var rulesEngine = new RulesEngineWrapper();

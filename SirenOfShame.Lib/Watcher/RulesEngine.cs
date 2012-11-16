@@ -135,6 +135,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
+            ApplyUserMappings(args);
             SendCiServerConnectedEvents();
             TryToGetAndSendNewSosOnlineAlerts();
             BuildStatus[] allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, args.BuildStatuses);
@@ -151,6 +152,20 @@ namespace SirenOfShame.Lib.Watcher
             SyncNewBuildsToSos(changedBuildStatuses);
             InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
             CacheBuildStatuses(changedBuildStatuses);
+        }
+
+        private void ApplyUserMappings(StatusCheckedEventArgsArgs args)
+        {
+            foreach (var buildStatus in args.BuildStatuses)
+            {
+                string requestedBy = buildStatus.RequestedBy;
+                var userMapping = _settings.UserMappings.FirstOrDefault(i => i.WhenISee == requestedBy);
+                bool userMappingExistsForThisUser = userMapping != null;
+                if (userMappingExistsForThisUser)
+                {
+                    buildStatus.RequestedBy = userMapping.PretendItsActually;
+                }
+            }
         }
 
         private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
