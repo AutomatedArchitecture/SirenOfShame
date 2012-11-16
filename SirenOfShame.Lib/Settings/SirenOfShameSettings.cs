@@ -50,6 +50,7 @@ namespace SirenOfShame.Lib.Settings
             AudioPatterns = new List<AudioPatternSetting>();
             LedPatterns = new List<LedPatternSetting>();
             People = new List<PersonSetting>();
+            UserMappings = new List<UserMapping>();
         }
 
         public int? Version { get; set; }
@@ -65,6 +66,8 @@ namespace SirenOfShame.Lib.Settings
         public List<CiEntryPointSetting> CiEntryPointSettings { get; set; }
 
         public List<PersonSetting> People { get; set; }
+
+        public List<UserMapping> UserMappings { get; set; }
 
         public bool SirenEverConnected { get; set; }
 

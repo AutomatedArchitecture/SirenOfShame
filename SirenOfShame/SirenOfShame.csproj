@@ -98,6 +98,12 @@
     <Compile Include="BuildStats.Designer.cs">
       <DependentUpon>BuildStats.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\AddMapping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\AddMapping.Designer.cs">
+      <DependentUpon>AddMapping.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\AddRule.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,12 @@
     </Compile>
     <Compile Include="Configuration\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\UserMappings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\UserMappings.Designer.cs">
+      <DependentUpon>UserMappings.cs</DependentUpon>
     </Compile>
     <Compile Include="GettingStarted.cs">
       <SubType>UserControl</SubType>
@@ -300,6 +312,9 @@
     <EmbeddedResource Include="BuildStats.resx">
       <DependentUpon>BuildStats.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\AddMapping.resx">
+      <DependentUpon>AddMapping.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Configuration\AddRule.resx">
       <DependentUpon>AddRule.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -324,6 +339,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\UserMappings.resx">
+      <DependentUpon>UserMappings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FullScreenBuildStatus.resx">
       <DependentUpon>FullScreenBuildStatus.cs</DependentUpon>
@@ -466,6 +484,7 @@
     <None Include="Resources\funnel.png" />
     <None Include="Resources\delete2.png" />
     <None Include="Resources\nav_right.png" />
+    <None Include="Resources\id_cards.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

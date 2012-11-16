@@ -843,5 +843,11 @@ namespace SirenOfShame
         {
             ShowAllUsers = !ShowAllUsers;
         }
+
+        private void UserMappingsClick(object sender, EventArgs e)
+        {
+            var userMappings = new UserMappings(_settings);
+            userMappings.ShowDialog(this);
+        }
     }
 }

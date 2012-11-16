@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />
+    <Compile Include="Settings\UserMapping.cs" />
     <Compile Include="StatCalculators\BackToBackBuilds.cs" />
     <Compile Include="StatCalculators\BuildRatio.cs" />
     <Compile Include="StatCalculators\FixedSomeoneElsesBuild.cs" />
