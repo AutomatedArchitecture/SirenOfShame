@@ -141,7 +141,7 @@ namespace SirenOfShame
             RefreshUserPanelVisibility();
         }
 
-        private void RefreshUserPanelVisibility()
+        public void RefreshUserPanelVisibility()
         {
             foreach (var userPanel in GetUserPanels())
             {
@@ -184,6 +184,7 @@ namespace SirenOfShame
                 addMapping.ShowDialog(this);
                 var userMappings = new UserMappings(Settings);
                 userMappings.ShowDialog(this);
+                RefreshUserPanelVisibility();
             });
         }
     }

@@ -30,8 +30,10 @@ namespace SirenOfShame.Configuration
         {
             var pretendItsActually = (string)_pretendItsActually.SelectedItem;
             var whenISee = (string)_whenISee.SelectedItem;
-            if (!string.IsNullOrEmpty(whenISee) && !string.IsNullOrEmpty(pretendItsActually))
+            if (!string.IsNullOrEmpty(whenISee) && !string.IsNullOrEmpty(pretendItsActually) && whenISee != pretendItsActually)
             {
+                var whenISeePerson = _settings.FindPersonByRawName(whenISee);
+                whenISeePerson.Hidden = true;
                 _settings.UserMappings.Add(new UserMapping
                 {
                     WhenISee = whenISee,

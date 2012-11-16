@@ -848,6 +848,7 @@ namespace SirenOfShame
         {
             var userMappings = new UserMappings(_settings);
             userMappings.ShowDialog(this);
+            _userList.RefreshUserPanelVisibility();
         }
     }
 }
