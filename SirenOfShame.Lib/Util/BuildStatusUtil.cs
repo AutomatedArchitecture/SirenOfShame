@@ -32,6 +32,8 @@ namespace SirenOfShame.Lib.Util
     {
         public bool Equals(BuildStatus x, BuildStatus y)
         {
+            if (x == null && y == null) return true;
+            if (x == null || y == null) return false;
             return x.BuildDefinitionId == y.BuildDefinitionId;
         }
 
