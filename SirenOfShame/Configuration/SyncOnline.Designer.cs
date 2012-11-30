@@ -49,16 +49,21 @@ namespace SirenOfShame.Configuration
             this.label4 = new System.Windows.Forms.Label();
             this._sosOnlineStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._verifyCredentials = new SosButton();
+            this._verifyCredentials = new SirenOfShame.Lib.SosButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._sosOnlinePassword = new System.Windows.Forms.TextBox();
             this._createAccount = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this._sosOnlineLogin = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this._syncBuildStatuses = new System.Windows.Forms.RadioButton();
+            this._syncMyStuffOnly = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -69,12 +74,12 @@ namespace SirenOfShame.Configuration
             this.groupBox1.Controls.Add(this._syncAlways);
             this.groupBox1.Controls.Add(this._syncNever);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(268, 0);
+            this.groupBox1.Location = new System.Drawing.Point(268, 219);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(195, 283);
+            this.groupBox1.Size = new System.Drawing.Size(192, 61);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Synchronize";
+            this.groupBox1.Text = "When to Sync";
             // 
             // _syncAlways
             // 
@@ -252,10 +257,12 @@ namespace SirenOfShame.Configuration
             // 
             // _verifyCredentials
             // 
+            this._verifyCredentials.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._verifyCredentials.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
             this._verifyCredentials.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._verifyCredentials.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
             this._verifyCredentials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._verifyCredentials.ForeColor = System.Drawing.Color.White;
             this._verifyCredentials.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._verifyCredentials.ImageKey = "refresh.bmp";
             this._verifyCredentials.ImageList = this.imageList1;
@@ -325,11 +332,63 @@ namespace SirenOfShame.Configuration
             this._sosOnlineLogin.TabIndex = 2;
             this._sosOnlineLogin.TextChanged += new System.EventHandler(this._sosOnlineLogin_TextChanged);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this._syncBuildStatuses);
+            this.groupBox2.Controls.Add(this._syncMyStuffOnly);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(268, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(192, 207);
+            this.groupBox2.TabIndex = 38;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "What To Sync";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Location = new System.Drawing.Point(25, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(161, 89);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "Syncing build statuses is required for e-mail and SMS notifications and Android/i" +
+    "Phone/Win8 clients. Build statuses will be kept private.";
+            // 
+            // _syncBuildStatuses
+            // 
+            this._syncBuildStatuses.AutoSize = true;
+            this._syncBuildStatuses.Location = new System.Drawing.Point(7, 42);
+            this._syncBuildStatuses.Name = "_syncBuildStatuses";
+            this._syncBuildStatuses.Size = new System.Drawing.Size(138, 17);
+            this._syncBuildStatuses.TabIndex = 13;
+            this._syncBuildStatuses.Text = "My stuff + build statuses";
+            this._syncBuildStatuses.UseVisualStyleBackColor = true;
+            this._syncBuildStatuses.CheckedChanged += new System.EventHandler(this.SyncBuildStatusesCheckedChanged);
+            // 
+            // _syncMyStuffOnly
+            // 
+            this._syncMyStuffOnly.AutoSize = true;
+            this._syncMyStuffOnly.Checked = true;
+            this._syncMyStuffOnly.Location = new System.Drawing.Point(7, 19);
+            this._syncMyStuffOnly.Name = "_syncMyStuffOnly";
+            this._syncMyStuffOnly.Size = new System.Drawing.Size(182, 17);
+            this._syncMyStuffOnly.TabIndex = 12;
+            this._syncMyStuffOnly.TabStop = true;
+            this._syncMyStuffOnly.Text = "My points and achievements only";
+            this._syncMyStuffOnly.UseVisualStyleBackColor = true;
+            this._syncMyStuffOnly.CheckedChanged += new System.EventHandler(this.SyncMyStuffOnlyCheckedChanged);
+            // 
             // SyncOnline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.ForeColor = System.Drawing.Color.White;
@@ -341,6 +400,8 @@ namespace SirenOfShame.Configuration
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -371,5 +432,9 @@ namespace SirenOfShame.Configuration
         private System.Windows.Forms.Label _proxyPasswordLabel;
         private System.Windows.Forms.TextBox _proxyUsername;
         private System.Windows.Forms.Label _proxyUsernameLabel;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton _syncBuildStatuses;
+        private System.Windows.Forms.RadioButton _syncMyStuffOnly;
+        private System.Windows.Forms.Label label2;
     }
 }

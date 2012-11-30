@@ -46,6 +46,9 @@ namespace SirenOfShame.Configuration
             _syncAlways.Checked = _settings.SosOnlineAlwaysSync;
             _syncNever.Checked = !_settings.SosOnlineAlwaysSync;
             _syncAlways.Enabled = _settings.SosOnlineAlwaysSync;
+
+            _syncMyStuffOnly.Checked = _settings.SosOnlineWhatToSync == WhatToSyncEnum.MyPointAndAchievementsOnly;
+            _syncBuildStatuses.Checked = _settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses;
         }
 
         private void InitializeSosOnlineSection()
@@ -138,10 +141,17 @@ namespace SirenOfShame.Configuration
 
         private void SyncNeverCheckedChanged(object sender, EventArgs e)
         {
-            SyncRadioChanged();
+            WhenToSyncRadioChanged();
         }
 
-        private void SyncRadioChanged()
+        private void WhatToSyncRadioChanged()
+        {
+            if (_initializing) return;
+            _settings.SosOnlineWhatToSync = _syncMyStuffOnly.Checked ? WhatToSyncEnum.MyPointAndAchievementsOnly : WhatToSyncEnum.BuildStatuses;
+            _settings.Save();
+        }
+        
+        private void WhenToSyncRadioChanged()
         {
             if (_initializing) return;
             _settings.SosOnlineAlwaysSync = _syncAlways.Checked;
@@ -150,7 +160,7 @@ namespace SirenOfShame.Configuration
         
         private void SyncAlwaysCheckedChanged(object sender, EventArgs e)
         {
-            SyncRadioChanged();
+            WhenToSyncRadioChanged();
         }
 
         private void _sosOnlineLogin_TextChanged(object sender, EventArgs e)
@@ -195,6 +205,16 @@ namespace SirenOfShame.Configuration
         private void SyncOnlineLoad(object sender, EventArgs e)
         {
             if (ParentForm != null) ParentForm.Closing += OnClosing;
+        }
+
+        private void SyncMyStuffOnlyCheckedChanged(object sender, EventArgs e)
+        {
+            WhatToSyncRadioChanged();
+        }
+
+        private void SyncBuildStatusesCheckedChanged(object sender, EventArgs e)
+        {
+            WhatToSyncRadioChanged();
         }
     }
 }

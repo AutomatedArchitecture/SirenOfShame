@@ -79,6 +79,8 @@ namespace SirenOfShame.Lib.Settings
         
         public bool SortDescending { get; set; }
 
+        public WhatToSyncEnum SosOnlineWhatToSync { get; set; }
+
         public string SosOnlineUsername { get; set; }
         
         public string SosOnlinePassword { get; set; }
