@@ -2,9 +2,9 @@
 {
     public enum BuildStatusEnum
     {
-        Unknown,
-        Working,
-        Broken,
-        InProgress
+        Unknown = 0,
+        Working = 1,
+        Broken = 2,
+        InProgress = 3
     }
 }
