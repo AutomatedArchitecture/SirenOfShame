@@ -349,8 +349,7 @@ namespace SirenOfShame.Lib.Watcher
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
             var sosOnlineService = new SosOnlineService();
-            var sosDb = new SosDb();
-            var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            var exportedBuilds = SosDb.ExportNewBuilds(_settings);
             var noBuildsToExport = exportedBuilds == null;
             if (noBuildsToExport)
             {

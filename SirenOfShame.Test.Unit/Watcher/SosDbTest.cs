@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Settings;
@@ -19,7 +20,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 SosOnlineHighWaterMark = null, 
                 MyRawName = "CurrentUser"
             };
-            sosDb.BuildStatuses = new BuildStatus[] { };
+            sosDb.Write(new BuildStatus { BuildDefinitionId = "BD"}, settings);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.IsNull(result);
         }
@@ -30,12 +31,24 @@ namespace SirenOfShame.Test.Unit.Watcher
             SosDbFake sosDb = new SosDbFake();
             SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
             {
-                SosOnlineHighWaterMark = null, 
-                MyRawName = "CurrentUser"
+                SosOnlineHighWaterMark = null,
+                MyRawName = "CurrentUser",
+                CiEntryPointSettings = new List<CiEntryPointSetting>
+                {
+                    new CiEntryPointSetting
+                    {
+                        BuildDefinitionSettings = new List<BuildDefinitionSetting>
+                        {
+                            new BuildDefinitionSetting
+                            {
+                                Id = "BuildDefinitionId",
+                                Active = true
+                            }
+                        }
+                    }
+                }
             };
-            sosDb.BuildStatuses = new []
-            {
-                new BuildStatus
+            sosDb.Write(new BuildStatus
                 {
                     StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                     FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
@@ -45,8 +58,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     Name = "Name",
                     RequestedBy = "CurrentUser",
                     Comment = "Comment",
-                }
-            };
+                }, settings);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual("633979044610000000,633979044620000000,1", result);
         }
@@ -60,20 +72,17 @@ namespace SirenOfShame.Test.Unit.Watcher
                 SosOnlineHighWaterMark = null, 
                 MyRawName = "CurrentUser"
             };
-            sosDb.BuildStatuses = new []
+            sosDb.Write(new BuildStatus
             {
-                new BuildStatus
-                {
-                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                    BuildStatusEnum = BuildStatusEnum.Working,
-                    BuildDefinitionId = "BuildDefinitionId",
-                    BuildId = "BuildId",
-                    Name = "Name",
-                    RequestedBy = "SomeoneElse",
-                    Comment = "Comment",
-                }
-            };
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                BuildStatusEnum = BuildStatusEnum.Working,
+                BuildDefinitionId = "BuildDefinitionId",
+                BuildId = "BuildId",
+                Name = "Name",
+                RequestedBy = "SomeoneElse",
+                Comment = "Comment",
+            }, settings);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual(null, result);
         }
@@ -87,20 +96,17 @@ namespace SirenOfShame.Test.Unit.Watcher
                 SosOnlineHighWaterMark = 633979044610000000, 
                 MyRawName = "CurrentUser"
             };
-            sosDb.BuildStatuses = new []
+            sosDb.Write(new BuildStatus
             {
-                new BuildStatus
-                {
-                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                    BuildStatusEnum = BuildStatusEnum.Working,
-                    BuildDefinitionId = "BuildDefinitionId",
-                    BuildId = "BuildId",
-                    Name = "Name",
-                    RequestedBy = "CurrentUser",
-                    Comment = "Comment",
-                }
-            };
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                BuildStatusEnum = BuildStatusEnum.Working,
+                BuildDefinitionId = "BuildDefinitionId",
+                BuildId = "BuildId",
+                Name = "Name",
+                RequestedBy = "CurrentUser",
+                Comment = "Comment",
+            }, settings);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual(null, result);
         }
@@ -112,22 +118,33 @@ namespace SirenOfShame.Test.Unit.Watcher
             SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
             {
                 SosOnlineHighWaterMark = 633979044610000000, 
-                MyRawName = "CurrentUser"
-            };
-            sosDb.BuildStatuses = new []
-            {
-                new BuildStatus
+                MyRawName = "CurrentUser",
+                CiEntryPointSettings = new List<CiEntryPointSetting>
                 {
-                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 3),
-                    BuildStatusEnum = BuildStatusEnum.Broken,
-                    BuildDefinitionId = "BuildDefinitionId",
-                    BuildId = "BuildId",
-                    Name = "Name",
-                    RequestedBy = "CurrentUser",
-                    Comment = "Comment",
+                    new CiEntryPointSetting
+                    {
+                        BuildDefinitionSettings = new List<BuildDefinitionSetting>
+                        {
+                            new BuildDefinitionSetting
+                            {
+                                Id = "BuildDefinitionId",
+                                Active = true
+                            }
+                        }
+                    }
                 }
             };
+            sosDb.Write(new BuildStatus
+            {
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 1, 3),
+                BuildStatusEnum = BuildStatusEnum.Broken,
+                BuildDefinitionId = "BuildDefinitionId",
+                BuildId = "BuildId",
+                Name = "Name",
+                RequestedBy = "CurrentUser",
+                Comment = "Comment",
+            }, settings);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual("633979044620000000,633979044630000000,0", result);
         }

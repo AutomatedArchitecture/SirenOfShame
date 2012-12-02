@@ -16,11 +16,11 @@ namespace SirenOfShame.Lib.Watcher
         private readonly string _folder = SirenOfShameSettings.GetSosAppDataFolder();
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosDb));
 
-        protected virtual void Write(string location, string contents)
+        protected void Write(string location, string contents)
         {
             try
             {
-                File.AppendAllText(location, contents);
+                FileAdapter.AppendAllText(location, contents);
             }
             catch (IOException ex)
             {
@@ -87,7 +87,7 @@ namespace SirenOfShame.Lib.Watcher
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
 
-        public virtual IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
+        public IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
         {
             return buildDefinitionSettings
                 .SelectMany(ReadAllInternal)
@@ -95,14 +95,16 @@ namespace SirenOfShame.Lib.Watcher
                 .ToList();
         }
 
-        protected virtual IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
+        protected virtual FileAdapter FileAdapter
+        {
+            get { return new FileAdapter(); }
+        }
+
+        private IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
             string location = GetBuildLocation(buildDefinitionSetting);
-            if (!File.Exists(location)) return new List<BuildStatus>();
-            var lines = File.ReadAllLines(location);
-            return lines.Select(l => l.Split(','))
-                .Select(BuildStatus.Parse)
-                .Where(i => i != null);
+            if (!FileAdapter.Exists(location)) return new List<BuildStatus>();
+            return ReadAllFromLocation(location);
         }
 
         public IList<BuildStatus> ReadAll(string buildId)
@@ -113,8 +115,8 @@ namespace SirenOfShame.Lib.Watcher
 
         private IList<BuildStatus> ReadAllFromLocation(string location)
         {
-            if (!File.Exists(location)) return new List<BuildStatus>();
-            var lines = File.ReadAllLines(location);
+            if (!FileAdapter.Exists(location)) return new List<BuildStatus>();
+            var lines = FileAdapter.ReadAllLines(location);
             var statuses = lines.Select(l => l.Split(','))
                 .Where(l => l.Length == 4) // just in case there are partially written records
                 .Select(BuildStatus.Parse)
@@ -153,7 +155,7 @@ namespace SirenOfShame.Lib.Watcher
                 string contents = asCommaSeparated + "\r\n";
                 try
                 {
-                    File.AppendAllText(location, contents);
+                    FileAdapter.AppendAllText(location, contents);
                 }
                 catch (IOException ex)
                 {
@@ -165,11 +167,11 @@ namespace SirenOfShame.Lib.Watcher
         public void GetMostRecentNewsItems(SirenOfShameSettings settings, Action<IList<NewNewsItemEventArgs>> onGetNewsItems)
         {
             var location = GetEventsLocation();
-            if (!File.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
+            if (!FileAdapter.Exists(location)) onGetNewsItems(new List<NewNewsItemEventArgs>());
 
             var context = TaskScheduler.FromCurrentSynchronizationContext();
 
-            var newsItemGetter = new Task<List<NewNewsItemEventArgs>>(() => File.ReadAllLines(location)
+            var newsItemGetter = new Task<List<NewNewsItemEventArgs>>(() => FileAdapter.ReadAllLines(location)
                                                                                 .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
                                                                                 .Where(i => i != null)
                                                                                 .Reverse()

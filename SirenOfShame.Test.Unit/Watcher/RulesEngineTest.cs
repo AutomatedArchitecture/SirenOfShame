@@ -15,6 +15,18 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void AlwaysSyncAndICheckIn_SosOnlineServiceSynchronize()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.SosOnlineAlwaysSync = true;
+            rulesEngine.Settings.SosOnlineUsername = "jshimpty";
+            rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+        }
+        
+
+        [TestMethod]
         public void UserMappingExistsForUser2ToUser1AndUser2ChecksIn_RefreshStatusLooksLikeUser1()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1221,18 +1233,17 @@ Hello World
 
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
 
-            Assert.AreEqual(1, rulesEngine.SosDb.Files.Keys.Count);
-            var keyValuePair = rulesEngine.SosDb.Files.First();
-            Assert.AreEqual(true, keyValuePair.Key.EndsWith("Build Def 1.txt"));
-            var contents = keyValuePair.Value;
-            Assert.AreEqual(3, contents.Split('\n').Length);
-            Assert.AreEqual(@"633979044610000000,633979050100000000,1,User1
-633979044610000000,633979050100000000,2,User1
-", contents);
+            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID);
+
+            Assert.AreEqual(1, lines.Count);
+            var buildDefinition = lines.First();
+            Assert.AreEqual("User1", buildDefinition.RequestedBy);
+            Assert.AreEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildDefinition.StartedTime);
+            Assert.AreEqual(new DateTime(2010, 1, 1, 1, 10, 10), buildDefinition.FinishedTime);
+            Assert.AreEqual(null, buildDefinition.Comment);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildDefinition.BuildStatusEnum);
         }
 
         [TestMethod]
@@ -1240,7 +1251,8 @@ Hello World
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
-            Assert.AreEqual(0, rulesEngine.SosDb.Files.Keys.Count);
+            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID);
+            Assert.AreEqual(0, lines.Count);
         }
     }
 }
