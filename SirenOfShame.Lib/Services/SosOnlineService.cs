@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using SignalR.Client;
 using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Exceptions;
@@ -21,7 +22,7 @@ namespace SirenOfShame.Lib.Services
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
         public const string SOS_URL = "http://sirenofshame.com";
-        //public const string SOS_URL = "http://localhost:3115";
+        //public const string SOS_URL = "http://localhost.:3115";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 
@@ -79,6 +80,27 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("UserName", settings.SosOnlineUsername);
             // send the encrypted version of the password since we're too cheap to support SSL at present
             webClientXml.Add("Password", settings.SosOnlinePassword);
+        }
+
+        public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses)
+        {
+            WebClientXml webClientXml = new WebClientXml();
+            AddSosOnlineCredentials(settings, webClientXml);
+            string json = JsonConvert.SerializeObject(changedBuildStatuses);
+            webClientXml.Add("ChangedBuildStatuses", json);
+            if (settings.SoftwareInstanceId.HasValue)
+                webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
+            const string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
+            webClientXml.UploadValuesAndReturnXmlAsync(url,
+                                                       doc =>
+                                                       {
+                                                           string success = doc.Descendants("Success").First().Value;
+                                                           if (success != "true")
+                                                           {
+                                                               string errorMessage = doc.Descendants("ErrorMessage").First().Value;
+                                                               _log.Error("Error publishing to: " + url + " error: " + errorMessage);
+                                                           }
+                                                       }, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());
         }
 
         public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)

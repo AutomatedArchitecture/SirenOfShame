@@ -27,5 +27,9 @@ namespace SirenOfShame.Test.Unit.Services
         public override void SendMessage(SirenOfShameSettings settings, string message)
         {
         }
+
+        public override void BuildStatusChanged(SirenOfShameSettings settings, System.Collections.Generic.IList<BuildStatus> changedBuildStatuses)
+        {
+        }
     }
 }

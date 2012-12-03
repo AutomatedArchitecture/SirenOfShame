@@ -348,6 +348,19 @@ namespace SirenOfShame.Lib.Watcher
             if (!_settings.SosOnlineAlwaysSync) return;
             var noUsername = string.IsNullOrEmpty(_settings.SosOnlineUsername);
             if (noUsername) return;
+
+            TrySynchronizeBuildStatuses(changedBuildStatuses);
+            TrySynchronizeMyPointsAndAchievements(changedBuildStatuses);
+        }
+
+        private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
+        {
+            if (_settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses) return;
+            SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses);
+        }
+
+        private void TrySynchronizeMyPointsAndAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
+        {
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
             var exportedBuilds = SosDb.ExportNewBuilds(_settings);
