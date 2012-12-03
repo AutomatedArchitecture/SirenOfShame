@@ -24,7 +24,7 @@ namespace SirenOfShame
     {
         private const int TIMEOUT = 3000;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MainForm));
-        SirenOfShameSettings _settings = SirenOfShameSettings.GetAppSettings();
+        SirenOfShameSettings _settings;
         private RulesEngine _rulesEngine;
         private string _logFilename;
         private bool _canViewLogs;
@@ -36,6 +36,7 @@ namespace SirenOfShame
 
         public MainForm()
         {
+            _settings = GetAppSettings();
             _log.Info("MainForm Open");
             IocContainer.Instance.Compose(this);
             InitializeComponent();
@@ -53,6 +54,11 @@ namespace SirenOfShame
 
             InitializeLogging();
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
+        }
+
+        protected virtual SirenOfShameSettings GetAppSettings()
+        {
+            return SirenOfShameSettings.GetAppSettings();
         }
 
         private void InitializeToolbar()
@@ -167,7 +173,7 @@ namespace SirenOfShame
             ShowViewUserPage(rawName);
         }
 
-        private void ShowInMainWindow(MainWindowEnum mainWindow)
+        protected virtual void ShowInMainWindow(MainWindowEnum mainWindow)
         {
             this.SuspendDrawing(() =>
             {
@@ -609,7 +615,7 @@ namespace SirenOfShame
             configureSiren.ShowDialog(this);
         }
 
-        private enum MainWindowEnum
+        protected enum MainWindowEnum
         {
             ViewBuilds = 0,
             ViewUser = 1,

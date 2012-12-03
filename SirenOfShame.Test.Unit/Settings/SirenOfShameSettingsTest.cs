@@ -8,6 +8,18 @@ using SirenOfShame.Test.Unit.Watcher;
 
 namespace SirenOfShame.Test.Unit.Settings
 {
+    public class MyMainForm : MainForm
+    {
+        protected override SirenOfShameSettings GetAppSettings()
+        {
+            return new SirenOfShameSettingsFake();
+        }
+
+        protected override void ShowInMainWindow(MainWindowEnum mainWindow)
+        {
+        }
+    }
+
     [TestClass]
     public class SirenOfShameSettingsTest
     {
@@ -40,7 +52,7 @@ namespace SirenOfShame.Test.Unit.Settings
         [TestMethod]
         public void AvatarCountConstIsCorrect()
         {
-            var mainForm = new MainForm();
+            var mainForm = new MyMainForm();
             const int genericImageCount = 1;
             Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT + genericImageCount, mainForm.AvatarCount);
         }
