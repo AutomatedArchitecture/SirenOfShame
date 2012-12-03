@@ -79,9 +79,13 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\TravisFunkyDate.json" />
+    <Compile Include="Services\SosOnlineServiceFake.cs" />
+    <Compile Include="Services\SosOnlineServiceTest.cs" />
     <Compile Include="Service\TeamCityBuildStatusTest.cs" />
     <Compile Include="Settings\PersonSettingTest.cs" />
-    <Compile Include="Settings\SirenOfShameSettingsTest.cs" />
+    <Compile Include="Settings\SirenOfShameSettingsTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Settings\TripleDESStringEncryptorTest.cs" />
     <Compile Include="Settings\Upgrades\Upgrade5To6Test.cs" />
     <Compile Include="Settings\Upgrades\Upgrade2To3Test.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Watcher\SirenOfShameSettingsFake.cs" />
     <Compile Include="Watcher\SosDbFake.cs" />
     <Compile Include="Watcher\SosDbTest.cs" />
+    <Compile Include="Services\SosOnlineServiceDummy.cs" />
     <Compile Include="Watcher\WatcherFake.cs" />
   </ItemGroup>
   <ItemGroup>

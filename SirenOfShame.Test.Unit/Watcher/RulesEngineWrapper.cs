@@ -13,7 +13,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public const string BUILD1_ID = "Build Def 1";
         public const string BUILD2_ID = "Build Def 2";
 
-        private SosDbFake _sosDbFake = new SosDbFake();
+        private readonly SosDbFake _sosDbFake = new SosDbFake();
 
         public RulesEngineWrapper()
         {
@@ -68,11 +68,6 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<NewAchievementEventArgs> NewAchievementEvents { get; set; }
         public List<NewNewsItemEventArgs> NewNewsItemEvents { get; set; }
 
-        public void InvokeDownloadStringAsync(string e)
-        {
-            _rulesEngine.WebClient.InvokeDownloadStringCompleted(e);
-        }
-        
         public SosDbFake SosDb
         {
             get { return _sosDbFake; }

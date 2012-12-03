@@ -21,6 +21,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.Settings.SosOnlineAlwaysSync = true;
             rulesEngine.Settings.SosOnlineUsername = "jshimpty";
             rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
         }
@@ -237,80 +238,6 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(2, rulesEngine.SetLightsEvents.Count);
             Assert.AreEqual(null, rulesEngine.SetLightsEvents[1].LedPattern);
-        }
-
-        [TestMethod]
-        public void HaveNeverCheckedForAlertsButSettingsSayNeverDownload_DoNotSendAlertToUi()
-        {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.Settings.UpdateLocation = UpdateLocation.Never;
-            rulesEngine.Settings.LastCheckedForAlert = null;
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeDownloadStringAsync(@"56
-http://www.google.com
-Hello World
-633979872000000000");
-            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
-        }
-
-        [TestMethod]
-        public void LastCheckedForNewAlertsOver24HoursAgoButThisIsTheSameAlert_NoAlert()
-        {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 2));
-            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 1, 2, 2, 1);
-            rulesEngine.Settings.AlertClosed = new DateTime(2010, 1, 2);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeDownloadStringAsync(@"56
-http://www.google.com
-Hello World
-633979872000000000");
-            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
-        }
-
-        [TestMethod]
-        public void LastCheckedForNewAlerts24HoursAndOneOneSecondAgoAndThisIsANewAlert_SendAlertToUi()
-        {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 2));
-            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 1, 2, 2, 1);
-            rulesEngine.Settings.AlertClosed = new DateTime(2010, 1, 1);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeDownloadStringAsync(@"56
-http://www.google.com
-Hello World
-633979872000000000");
-            Assert.AreEqual(1, rulesEngine.NewAlertEvents.Count);
-        }
-
-        [TestMethod]
-        public void LastCheckedForNewAlertsOneSecondAgo_DoNotSendAlertToUi()
-        {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.SetNow(new DateTime(2010, 2, 2, 2, 2, 1));
-            rulesEngine.Settings.LastCheckedForAlert = new DateTime(2010, 2, 2, 2, 2, 2);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeDownloadStringAsync(@"56
-http://www.google.com
-Hello World
-633979872000000000");
-            Assert.AreEqual(0, rulesEngine.NewAlertEvents.Count);
-        }
-
-        [TestMethod]
-        public void HaveNeverCheckedForAlerts_SendAlertToUi()
-        {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.Settings.LastCheckedForAlert = null;
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeDownloadStringAsync(@"56
-http://www.google.com
-Hello World
-633979872000000000");
-            Assert.AreEqual(1, rulesEngine.NewAlertEvents.Count);
-            Assert.AreEqual("Hello World", rulesEngine.NewAlertEvents[0].Message);
-            Assert.AreEqual("http://www.google.com", rulesEngine.NewAlertEvents[0].Url);
-            Assert.AreEqual(new DateTime(2010, 1, 2), rulesEngine.NewAlertEvents[0].AlertDate);
         }
 
         [TestMethod]

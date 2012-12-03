@@ -1,26 +1,17 @@
 ﻿using System;
-using SirenOfShame.Lib.Network;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Test.Unit.Services;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
     class FakeRulesEngine : RulesEngine
     {
-        private readonly FakeWebClient _fakeWebClient = new FakeWebClient();
+        public SosOnlineService MockSosOnlineService = new SosOnlineServiceDummy();
 
         public FakeRulesEngine(SirenOfShameSettings settings) : base(settings)
         {
-        }
-
-        public FakeWebClient WebClient
-        {
-            get { return _fakeWebClient; }
-        }
-
-        protected override SosWebClient GetWebClient()
-        {
-            return _fakeWebClient;
         }
 
         DateTime _now = new DateTime(2010, 1, 2);
@@ -33,6 +24,11 @@ namespace SirenOfShame.Test.Unit.Watcher
         protected override DateTime Now
         {
             get { return _now; }
+        }
+
+        protected override SosOnlineService SosOnlineService
+        {
+            get { return MockSosOnlineService; }
         }
     }
 }

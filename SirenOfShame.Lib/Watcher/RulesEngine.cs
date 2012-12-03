@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
@@ -28,6 +27,10 @@ namespace SirenOfShame.Lib.Watcher
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
         private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
+        
+        private Thread _watcherThread;
+        readonly Timer _timer = new Timer();
+        private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
@@ -290,13 +293,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TryToGetAndSendNewSosOnlineAlerts()
         {
-            var sosOnlineService = new SosOnlineService();
-            sosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert, GetWebClient());
-        }
-
-        protected virtual SosWebClient GetWebClient()
-        {
-            return new SosWebClient();
+            SosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert);
         }
 
         protected virtual DateTime Now
@@ -340,6 +337,11 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
+        protected virtual SosOnlineService SosOnlineService
+        {
+            get { return _sosOnlineService; }
+        }
+
         private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
@@ -348,7 +350,6 @@ namespace SirenOfShame.Lib.Watcher
             if (noUsername) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
-            var sosOnlineService = new SosOnlineService();
             var exportedBuilds = SosDb.ExportNewBuilds(_settings);
             var noBuildsToExport = exportedBuilds == null;
             if (noBuildsToExport)
@@ -358,7 +359,7 @@ namespace SirenOfShame.Lib.Watcher
             }
             _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
             string exportedAchievements = _settings.ExportNewAchievements();
-            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
+            SosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
         }
 
         private void OnAddBuildsFail(string userTargedErrorMessage, ServerUnavailableException ex)
@@ -464,10 +465,6 @@ namespace SirenOfShame.Lib.Watcher
             if (stopSiren == null) return;
             stopSiren(this, new SetLightsEventArgs { LedPattern = ledPattern, Duration = duration });
         }
-
-        private Thread _watcherThread;
-
-        readonly Timer _timer = new Timer();
 
         public void Start(bool initialStart)
         {

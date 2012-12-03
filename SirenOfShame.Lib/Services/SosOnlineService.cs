@@ -55,7 +55,7 @@ namespace SirenOfShame.Lib.Services
             if (handler != null) handler(this, args);
         }
 
-        public void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
+        public virtual void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
@@ -81,7 +81,7 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("Password", settings.SosOnlinePassword);
         }
 
-        public void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
+        public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
@@ -111,7 +111,12 @@ namespace SirenOfShame.Lib.Services
             return ex => onFail("Failed to connect to SoS online", ex);
         }
 
-        public void TryToGetAndSendNewSosOnlineAlerts(SirenOfShameSettings settings, DateTime now, Action<NewAlertEventArgs> invokeNewAlert, SosWebClient webClient)
+        protected virtual SosWebClient GetWebClient()
+        {
+            return new SosWebClient();
+        }
+
+        public virtual void TryToGetAndSendNewSosOnlineAlerts(SirenOfShameSettings settings, DateTime now, Action<NewAlertEventArgs> invokeNewAlert)
         {
             if (!settings.GetSosOnlineContent()) return;
 
@@ -120,6 +125,7 @@ namespace SirenOfShame.Lib.Services
 
             settings.LastCheckedForAlert = DateTime.Now;
             settings.Save();
+            var webClient = GetWebClient();
             webClient.DownloadStringCompleted += (s, e) =>
             {
                 try
@@ -161,7 +167,7 @@ namespace SirenOfShame.Lib.Services
         private HubConnection _connection;
         private IHubProxy _proxy;
 
-        public void StartRealtimeConnection(SirenOfShameSettings settings)
+        public virtual void StartRealtimeConnection(SirenOfShameSettings settings)
         {
             try
             {
@@ -218,7 +224,7 @@ namespace SirenOfShame.Lib.Services
 
         private readonly Dictionary<string, int> _cachedAvatarIds = new Dictionary<string, int>();
 
-        public SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
+        public virtual SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
             var avatarId = GetAvatarId(args, avatarImageList);
             return new SosOnlinePerson
@@ -259,7 +265,7 @@ namespace SirenOfShame.Lib.Services
             return avatarId;
         }
 
-        public void SendMessage(SirenOfShameSettings settings, string message)
+        public virtual void SendMessage(SirenOfShameSettings settings, string message)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
