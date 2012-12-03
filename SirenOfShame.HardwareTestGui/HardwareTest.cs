@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Device;
-using SirenOfShame.Lib.Device.SdCardFileSystem;
-using SirenOfShame.Lib.Services;
 
 namespace SirenOfShame.HardwareTestGui
 {
@@ -15,6 +9,26 @@ namespace SirenOfShame.HardwareTestGui
         public HardwareTest()
         {
             InitializeComponent();
+            _deviceSetup.OnInstallFirmware += OnInstallFirmware;
+            _fullTest.OnRunTheGambitClick += FullTestOnOnRunTheGambitClick;
+        }
+
+        private void FullTestOnOnRunTheGambitClick(object sender, RunTheGambitClickDelegateArgs args)
+        {
+            _tabControl.SelectTab(0);
+            _deviceSetup.RunTheGambit();
+        }
+
+        private void OnInstallFirmware(object sender, InstallFirmwareDelegateArgs args)
+        {
+            _tabControl.SelectTab(1);
+            _installFirmwarePage.BeginInstallFirmware(OnInstallFirmwareSuccess);
+        }
+
+        private void OnInstallFirmwareSuccess()
+        {
+            _tabControl.SelectTab(3);
+            _fullTest.TabSelected();
         }
     }
 }

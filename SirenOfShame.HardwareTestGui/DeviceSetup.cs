@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +14,7 @@ namespace SirenOfShame.HardwareTestGui
     public partial class DeviceSetup : UserControl
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(DeviceSetup));
+        public event InstallFirmwareDelegate OnInstallFirmware;
 
         public DeviceSetup()
         {
@@ -38,44 +40,80 @@ namespace SirenOfShame.HardwareTestGui
 
         private void _verify_Click(object sender, EventArgs e)
         {
+            Verify();
+        }
+
+        private bool Verify()
+        {
             var results = RunStk500("-s");
             var success = results.Contains("Signature is 0x1E 0x95 0x8A");
             SetResult(_verifyResults, success);
+            return success;
         }
 
         private void _erase_Click(object sender, EventArgs e)
         {
+            Erase();
+        }
+
+        private bool Erase()
+        {
             var results = RunStk500("-e");
             var success = results.Contains("Device erased");
             SetResult(_eraseResults, success);
+            return success;
         }
 
         private void _setFuses_Click(object sender, EventArgs e)
         {
+            SetFuses();
+        }
+
+        private bool SetFuses()
+        {
             var results = RunStk500("-fD0DE -EFC");
             var success = results.Contains("Fuse bits programmed");
             SetResult(_setFusesResult, success);
+            return success;
         }
 
         private void _verifyFuses_Click(object sender, EventArgs e)
         {
+            VerifyFuses();
+        }
+
+        private bool VerifyFuses()
+        {
             var results = RunStk500("-FD0DE -GFC");
             var success = results.Contains("Fuse bits verified successfully");
             SetResult(_verifyFusesResults, success);
+            return success;
         }
 
         private void _writeBootloader_Click(object sender, EventArgs e)
         {
+            WriteBootloader();
+        }
+
+        private bool WriteBootloader()
+        {
             var results = RunStk500("\"-if" + _bootloaderFilename.Text + "\" -pf");
             var success = results.Contains("FLASH programmed");
             SetResult(_writeBootloaderResults, success);
+            return success;
         }
 
         private void _verifyBootloader_Click(object sender, EventArgs e)
         {
+            VerifyBootloader();
+        }
+
+        private bool VerifyBootloader()
+        {
             var results = RunStk500("\"-if" + _bootloaderFilename.Text + "\" -vf");
             var success = results.Contains("FLASH verified successfully");
             SetResult(_verifyBootloaderResults, success);
+            return success;
         }
 
         private void SetResult(Label results, bool success)
@@ -164,5 +202,27 @@ namespace SirenOfShame.HardwareTestGui
                 Settings.Default.Save();
             }
         }
+
+        private void _runGambit_Click(object sender, EventArgs e)
+        {
+            RunTheGambit();
+        }
+
+        public void RunTheGambit()
+        {
+            ResetResults();
+            if (!Verify()) return;
+            if (!Erase()) return;
+            if (!SetFuses()) return;
+            if (!VerifyFuses()) return;
+            if (!WriteBootloader()) return;
+            if (OnInstallFirmware != null) OnInstallFirmware(this, new InstallFirmwareDelegateArgs());
+        }
+    }
+
+    public delegate void InstallFirmwareDelegate(object sender, InstallFirmwareDelegateArgs args);
+
+    public class InstallFirmwareDelegateArgs
+    {
     }
 }

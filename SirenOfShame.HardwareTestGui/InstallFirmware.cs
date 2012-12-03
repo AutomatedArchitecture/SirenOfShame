@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ namespace SirenOfShame.HardwareTestGui
     public partial class InstallFirmware : UserControl
     {
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(InstallFirmware));
+        private Action _onInstallFirmwareSuccess;
 
         public InstallFirmware()
         {
@@ -55,6 +57,12 @@ namespace SirenOfShame.HardwareTestGui
 
         private void _begin_Click(object sender, EventArgs e)
         {
+            BeginInstallFirmware(null);
+        }
+
+        public void BeginInstallFirmware(Action onInstallFirmwareSuccess)
+        {
+            _onInstallFirmwareSuccess = onInstallFirmwareSuccess;
             Settings.Default.InstallFirmwareLocation = _firmwareFile.Text;
             Settings.Default.Save();
 
@@ -76,6 +84,7 @@ namespace SirenOfShame.HardwareTestGui
                     SetStatus("Waiting for device to connect.");
                     Program.SirenOfShameDevice.PerformFirmwareUpgrade(hexFileStream, UpdateProgress);
                     SetStatus("Upgrade complete.");
+                    this.Invoke(() => _onInstallFirmwareSuccess());
                 }
             }
             catch (Exception ex)

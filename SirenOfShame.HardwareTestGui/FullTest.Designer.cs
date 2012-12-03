@@ -46,10 +46,12 @@
             this._ledDuration = new System.Windows.Forms.NumericUpDown();
             this._audioRunTime = new System.Windows.Forms.Label();
             this._ledRunTime = new System.Windows.Forms.Label();
-            this._deviceConnect = new SirenOfShame.HardwareTestGui.DeviceConnect();
             this._configureSiren = new System.Windows.Forms.Button();
             this._uploadPatternsToPro = new System.Windows.Forms.Button();
             this._uploadProgress = new System.Windows.Forms.ProgressBar();
+            this._test = new System.Windows.Forms.Button();
+            this._runTheGambit = new System.Windows.Forms.Button();
+            this._deviceConnect = new SirenOfShame.HardwareTestGui.DeviceConnect();
             ((System.ComponentModel.ISupportInitialize)(this._audioDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._ledDuration)).BeginInit();
             this.SuspendLayout();
@@ -184,7 +186,7 @@
             this._audioDuration.Size = new System.Drawing.Size(121, 20);
             this._audioDuration.TabIndex = 14;
             this._audioDuration.Value = new decimal(new int[] {
-            50,
+            200,
             0,
             0,
             0});
@@ -201,7 +203,7 @@
             this._ledDuration.Size = new System.Drawing.Size(121, 20);
             this._ledDuration.TabIndex = 15;
             this._ledDuration.Value = new decimal(new int[] {
-            50,
+            200,
             0,
             0,
             0});
@@ -223,15 +225,6 @@
             this._ledRunTime.Size = new System.Drawing.Size(25, 13);
             this._ledRunTime.TabIndex = 17;
             this._ledRunTime.Text = "000";
-            // 
-            // _deviceConnect
-            // 
-            this._deviceConnect.Location = new System.Drawing.Point(3, 3);
-            this._deviceConnect.MaximumSize = new System.Drawing.Size(162, 30);
-            this._deviceConnect.MinimumSize = new System.Drawing.Size(162, 30);
-            this._deviceConnect.Name = "_deviceConnect";
-            this._deviceConnect.Size = new System.Drawing.Size(162, 30);
-            this._deviceConnect.TabIndex = 0;
             // 
             // _configureSiren
             // 
@@ -260,10 +253,41 @@
             this._uploadProgress.Size = new System.Drawing.Size(150, 10);
             this._uploadProgress.TabIndex = 20;
             // 
+            // _test
+            // 
+            this._test.Location = new System.Drawing.Point(3, 292);
+            this._test.Name = "_test";
+            this._test.Size = new System.Drawing.Size(156, 45);
+            this._test.TabIndex = 21;
+            this._test.Text = "Connect";
+            this._test.UseVisualStyleBackColor = true;
+            this._test.Click += new System.EventHandler(this._runTheGambit_Click);
+            // 
+            // _runTheGambit
+            // 
+            this._runTheGambit.Location = new System.Drawing.Point(174, 292);
+            this._runTheGambit.Name = "_runTheGambit";
+            this._runTheGambit.Size = new System.Drawing.Size(156, 45);
+            this._runTheGambit.TabIndex = 22;
+            this._runTheGambit.Text = "Run The Gambit";
+            this._runTheGambit.UseVisualStyleBackColor = true;
+            this._runTheGambit.Click += new System.EventHandler(this._runTheGambit_Click_1);
+            // 
+            // _deviceConnect
+            // 
+            this._deviceConnect.Location = new System.Drawing.Point(3, 3);
+            this._deviceConnect.MaximumSize = new System.Drawing.Size(162, 30);
+            this._deviceConnect.MinimumSize = new System.Drawing.Size(162, 30);
+            this._deviceConnect.Name = "_deviceConnect";
+            this._deviceConnect.Size = new System.Drawing.Size(162, 30);
+            this._deviceConnect.TabIndex = 0;
+            // 
             // FullTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._runTheGambit);
+            this.Controls.Add(this._test);
             this.Controls.Add(this._uploadProgress);
             this.Controls.Add(this._uploadPatternsToPro);
             this.Controls.Add(this._configureSiren);
@@ -283,7 +307,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._deviceConnect);
             this.Name = "FullTest";
-            this.Size = new System.Drawing.Size(439, 324);
+            this.Size = new System.Drawing.Size(439, 340);
+            this.Load += new System.EventHandler(this.FullTest_Load);
             ((System.ComponentModel.ISupportInitialize)(this._audioDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._ledDuration)).EndInit();
             this.ResumeLayout(false);
@@ -314,5 +339,7 @@
         private System.Windows.Forms.Button _configureSiren;
         private System.Windows.Forms.Button _uploadPatternsToPro;
         private System.Windows.Forms.ProgressBar _uploadProgress;
+        private System.Windows.Forms.Button _test;
+        private System.Windows.Forms.Button _runTheGambit;
     }
 }

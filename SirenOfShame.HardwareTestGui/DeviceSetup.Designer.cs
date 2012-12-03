@@ -45,6 +45,7 @@
             this._bootloaderFilename = new System.Windows.Forms.TextBox();
             this._browse = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this._runGambit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _verify
@@ -211,10 +212,21 @@
             this.label1.TabIndex = 16;
             this.label1.Text = "Bootloader Hex";
             // 
+            // _runGambit
+            // 
+            this._runGambit.Location = new System.Drawing.Point(317, 90);
+            this._runGambit.Name = "_runGambit";
+            this._runGambit.Size = new System.Drawing.Size(279, 47);
+            this._runGambit.TabIndex = 17;
+            this._runGambit.Text = "Run The Gambit";
+            this._runGambit.UseVisualStyleBackColor = true;
+            this._runGambit.Click += new System.EventHandler(this._runGambit_Click);
+            // 
             // DeviceSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._runGambit);
             this.Controls.Add(this.label1);
             this.Controls.Add(this._browse);
             this.Controls.Add(this._bootloaderFilename);
@@ -258,5 +270,6 @@
         private System.Windows.Forms.TextBox _bootloaderFilename;
         private System.Windows.Forms.Button _browse;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button _runGambit;
     }
 }

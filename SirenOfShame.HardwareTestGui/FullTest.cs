@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable InconsistentNaming
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -14,6 +15,8 @@ namespace SirenOfShame.HardwareTestGui
 {
     public partial class FullTest : UserControl
     {
+        public event RunTheGambitClickDelegate OnRunTheGambitClick;
+        
         private DateTime? _ledEndTime;
         private DateTime? _audioEndTime;
         private readonly AudioFileService _audioFileService;
@@ -60,6 +63,7 @@ namespace SirenOfShame.HardwareTestGui
 
         private void SirenOfShameDevice_Disconnected(object sender, EventArgs e)
         {
+            SetRunTheGambitButtonText();
             _audioPatterns.Items.Clear();
             _ledPatterns.Items.Clear();
             EnabledControls(false);
@@ -68,6 +72,7 @@ namespace SirenOfShame.HardwareTestGui
 
         private void SirenOfShameDevice_Connected(object sender, EventArgs e)
         {
+            SetRunTheGambitButtonText();
             Reload();
             EnabledControls(true);
             _deviceInfo.Text = Program.GetDeviceInfoAsString();
@@ -258,5 +263,49 @@ namespace SirenOfShame.HardwareTestGui
         {
             this.Invoke(() => { _uploadProgress.Value = progress; });
         }
+
+        private void SetRunTheGambitButtonText()
+        {
+            if (!Program.SirenOfShameDevice.IsConnected)
+            {
+                _test.Text = "Connect";
+            }
+            else
+            {
+                _test.Text = "Start Audio";
+            }
+        }
+        
+        private void _runTheGambit_Click(object sender, EventArgs e)
+        {
+            if (!Program.SirenOfShameDevice.IsConnected)
+            {
+                Program.SirenOfShameDevice.TryConnect();
+            } else
+            {
+                StartAudio();
+            }
+        }
+
+        public void TabSelected()
+        {
+            SetRunTheGambitButtonText();
+        }
+
+        private void FullTest_Load(object sender, EventArgs e)
+        {
+            SetRunTheGambitButtonText();
+        }
+
+        private void _runTheGambit_Click_1(object sender, EventArgs e)
+        {
+            if (OnRunTheGambitClick != null) OnRunTheGambitClick(this, new RunTheGambitClickDelegateArgs());
+        }
+    }
+
+    public delegate void RunTheGambitClickDelegate(object sender, RunTheGambitClickDelegateArgs args);
+
+    public class RunTheGambitClickDelegateArgs
+    {
     }
 }
