@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -118,6 +119,12 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void SetNow(DateTime dateTime)
         {
             _rulesEngine.SetNow(dateTime);
+        }
+
+        public SosOnlineService SosOnlineService
+        {
+            get { return _rulesEngine.MockSosOnlineService; }
+            set { _rulesEngine.MockSosOnlineService = value; }
         }
     }
 }

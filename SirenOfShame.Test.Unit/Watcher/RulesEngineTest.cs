@@ -4,8 +4,10 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -15,15 +17,23 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        public void AlwaysSyncAndICheckIn_SosOnlineServiceSynchronize()
+        public void ICheckInWithAlwaysSyncSetting_SosOnlineServiceSynchronize()
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.Settings.SosOnlineAlwaysSync = true;
             rulesEngine.Settings.SosOnlineUsername = "jshimpty";
             rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
+
+            var sosOnlineService = new Mock<SosOnlineService>();
+            sosOnlineService.Setup(i => i.Synchronize(It.IsAny<SirenOfShameSettings>(), "633979044610000000,633979050100000000,1", null, It.IsAny<Action<DateTime>>(), It.IsAny<Action<String, ServerUnavailableException>>()))
+                .Verifiable();
+            rulesEngine.SosOnlineService = sosOnlineService.Object;
+            
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            
+            sosOnlineService.Verify();
         }
         
 
