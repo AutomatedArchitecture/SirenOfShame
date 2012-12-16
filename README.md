@@ -42,4 +42,4 @@ Features
 Download Now
 ======
 
-You can download the latest officially released msi from [Downloads](https://github.com/AutomatedArchitecture/SirenOfShame/downloads).  You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=project267) generously provided by [CodeBetter](http://codebetter.com).
+You can [download](http://code.google.com/p/siren-of-shame/downloads/list) the latest officially released msi from our old [Google Code site](http://code.google.com/p/siren-of-shame/downloads/list).  You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=project267) generously provided by [CodeBetter](http://codebetter.com).
