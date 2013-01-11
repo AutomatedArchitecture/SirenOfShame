@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Xml.Linq;
 using SirenOfShame.Lib;
-using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using log4net;
@@ -10,7 +8,7 @@ namespace TravisCiServices
 {
     public class TravisCiBuildStatus : BuildStatus
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TravisCiService));
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TravisCiBuildStatus));
 
         public TravisCiBuildStatus(TravisCiBuildDefinition travisCiBuildDefinition, string jsonDoc, BuildDefinitionSetting buildDefinitionSetting)
         {
