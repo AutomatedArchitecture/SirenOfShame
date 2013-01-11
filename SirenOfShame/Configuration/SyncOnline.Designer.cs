@@ -356,8 +356,8 @@ namespace SirenOfShame.Configuration
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(161, 89);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Syncing build statuses is required for e-mail and SMS notifications and Android/i" +
-    "Phone/Win8 clients. Build statuses will be kept private.";
+            this.label2.Text = "Syncing build statuses is required for e-mail notifications and Android/iPhone/Wi" +
+    "n8 clients. Build details will be kept private.";
             // 
             // _syncBuildStatuses
             // 

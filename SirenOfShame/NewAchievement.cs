@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
@@ -89,19 +90,23 @@ namespace SirenOfShame
             }
             if (_onlyShowMyAchievements.Checked)
             {
-                _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-                if (_userIAm.SelectedItem == null || _userIAm.SelectedItem == "")
-                {
-                    MessageBox.Show("Please either select who you are or select a different notification option.");
-                    e.Cancel = true;
-                }
-                else
-                {
-                    PersonSetting personSetting = (PersonSetting) _userIAm.SelectedItem;
-                    _settings.MyRawName = personSetting.RawName;
-                }
+                TrySetMyRawNameFromUserIAm(e);
             }
             _settings.Save();
+        }
+
+        private void TrySetMyRawNameFromUserIAm(CancelEventArgs e)
+        {
+            _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
+            if (_userIAm == null || _userIAm.SelectedItem == null || _userIAm.SelectedItem == "")
+            {
+                MessageBox.Show("Please either select who you are or select a different notification option.");
+                e.Cancel = true;
+            } else
+            {
+                PersonSetting personSetting = (PersonSetting) _userIAm.SelectedItem;
+                _settings.MyRawName = personSetting.RawName;
+            }
         }
 
         private static string UrlEncode(string s)

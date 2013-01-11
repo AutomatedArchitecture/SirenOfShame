@@ -545,5 +545,10 @@ namespace SirenOfShame.Lib.Watcher
             if (_watcherThread != null)
                 _watcherThread.Abort();
         }
+
+        public void SyncAllBuildStatuses()
+        {
+            _sosOnlineService.BuildStatusChanged(_settings, PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList());
+        }
     }
 }

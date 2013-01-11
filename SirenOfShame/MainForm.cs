@@ -578,8 +578,17 @@ namespace SirenOfShame
 
         private void OpenConfigureSosOnlineDialog()
         {
+            bool didNotPreviouslySyncBuildStatuses = _settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses;
+
             var configureSosOnline = new ConfigureSosOnline(_settings);
             configureSosOnline.ShowDialog(this);
+
+            bool isNowSyncingBuildStatuses = _settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses;
+            if (didNotPreviouslySyncBuildStatuses && isNowSyncingBuildStatuses)
+            {
+                _rulesEngine.SyncAllBuildStatuses();
+            }
+
             _viewBuilds.ReinitializeGettingStarted();
         }
 

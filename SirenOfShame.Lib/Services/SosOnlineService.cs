@@ -18,6 +18,13 @@ using log4net;
 
 namespace SirenOfShame.Lib.Services
 {
+    public class ApiResultBase
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public object Result { get; set; }
+    }
+
     public class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
@@ -91,13 +98,13 @@ namespace SirenOfShame.Lib.Services
             if (settings.SoftwareInstanceId.HasValue)
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             const string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
-            webClientXml.UploadValuesAndReturnXmlAsync(url,
-                                                       doc =>
+            webClientXml.UploadValuesAndReturnStringAsync(url,
+                                                       resultsStr =>
                                                        {
-                                                           string success = doc.Descendants("Success").First().Value;
-                                                           if (success != "true")
+                                                           var result = JsonConvert.DeserializeObject<ApiResultBase>(resultsStr);
+                                                           if (!result.Success)
                                                            {
-                                                               string errorMessage = doc.Descendants("ErrorMessage").First().Value;
+                                                               string errorMessage = result.Message;
                                                                _log.Error("Error publishing to: " + url + " error: " + errorMessage);
                                                            }
                                                        }, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());

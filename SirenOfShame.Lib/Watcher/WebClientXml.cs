@@ -186,7 +186,20 @@ namespace SirenOfShame.Lib.Watcher
             _data[name] = value;
         }
 
-        public void UploadValuesAndReturnXmlAsync(string url, Action<XDocument> action, Action<ServerUnavailableException> onConnectionFail, IWebProxy proxy = null)
+        public void UploadValuesAndReturnXmlAsync(
+            string url,
+            Action<XDocument> action,
+            Action<ServerUnavailableException> onConnectionFail,
+            IWebProxy proxy = null)
+        {
+            UploadValuesAndReturnStringAsync(url, resultAsStr =>
+            {
+                XDocument doc = TryParseXmlResult(url, resultAsStr);
+                action(doc);
+            }, onConnectionFail, proxy);
+        }
+
+        public void UploadValuesAndReturnStringAsync(string url, Action<string> action, Action<ServerUnavailableException> onConnectionFail, IWebProxy proxy = null)
         {
             WebClient webClient = new WebClient();
             if (proxy != null)
@@ -198,8 +211,7 @@ namespace SirenOfShame.Lib.Watcher
                     // todo: more error handeling when authenticating
                     byte[] result = uploadEventArgs.Result;
                     string resultAsStr = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-                    XDocument doc = TryParseXmlResult(url, resultAsStr);
-                    action(doc);
+                    action(resultAsStr);
                 } 
                 catch (WebException ex)
                 {
