@@ -16,7 +16,14 @@ namespace SirenOfShame.Lib.Watcher
 
         public virtual string[] ReadAllLines(string location)
         {
-            return File.ReadAllLines(location);
+            try
+            {
+                return File.ReadAllLines(location);
+            }
+            catch (FileNotFoundException)
+            {
+                return new string[] { };
+            }
         }
     }
 }
