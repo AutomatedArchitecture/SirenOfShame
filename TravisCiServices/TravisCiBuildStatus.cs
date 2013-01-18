@@ -33,7 +33,7 @@ namespace TravisCiServices
 
         private BuildStatusEnum ToBuildStatusEnum(string result)
         {
-            if (result == null) return BuildStatusEnum.Unknown;
+            if (result == null) return BuildStatusEnum.InProgress;
             result = result.Trim().ToUpperInvariant();
             switch (result)
             {
