@@ -14,7 +14,7 @@ namespace SirenOfShame.Lib.Achievements
 
         public override AchievementEnum AchievementEnum
         {
-            get { return AchievementEnum.Legend; }
+            get { return AchievementEnum.JonSkeet; }
         }
 
         protected override bool MeetsAchievementCriteria()

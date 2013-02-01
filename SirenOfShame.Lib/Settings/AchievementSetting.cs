@@ -45,7 +45,7 @@ namespace SirenOfShame.Lib.Settings
             new AchievementLookup { Id = AchievementEnum.Assassin, Name = "Assassin", Description = "Fixed another person's build 10+ times" },
             new AchievementLookup { Id = AchievementEnum.TimeWarrior, Name = "Time Warrior", Description = "Was responsible for 24 hours of cumulative build time" },
             new AchievementLookup { Id = AchievementEnum.ChronMaster, Name = "Chron Master", Description = "Was responsible for 48 hours of cumulative build time" },
-            new AchievementLookup { Id = AchievementEnum.ChronGrandMaster, Name = "Chron Grand-Master", Description = "Was responseible for 96 hours of cumulative build time" },
+            new AchievementLookup { Id = AchievementEnum.ChronGrandMaster, Name = "Chron Grand-Master", Description = "Was responsible for 96 hours of cumulative build time" },
             new AchievementLookup { Id = AchievementEnum.ReputationRebound, Name = "Reputation Rebound", Description = "Lost 12 points from 3 consecutive failed builds, but made it back up" },
             new AchievementLookup { Id = AchievementEnum.LikeLightning, Name = "Like Lightning", Description = "Queued 3 successful builds back to back" },
             new AchievementLookup { Id = AchievementEnum.ArribaArribaAndaleAndale, Name = "ArribaArribaAndaleAndale", Description = "Queued a back to back build 5+ times" },
