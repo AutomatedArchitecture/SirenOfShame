@@ -49,12 +49,13 @@ namespace TravisCiServices
         {
             var webClient = new WebClient();
             var travisBuildDef = TravisCiBuildDefinition.FromIdString(buildDefinitionSetting.Id);
-            var buildDefinitionUrl = "http://travis-ci.org/" + travisBuildDef.OwnerName + "/" + travisBuildDef.ProjectName + ".json";
+            var buildDefinitionUrl = "https://api.travis-ci.org/repositories/" + travisBuildDef.OwnerName + "/" + travisBuildDef.ProjectName + ".json";
+
             try
             {
                 var json = webClient.DownloadString(buildDefinitionUrl);
                 var lastBuildId = GetJsonValue(json, "last_build_id");
-                var buildUrl = "http://travis-ci.org/builds/" + lastBuildId + ".json";
+                var buildUrl = "https://api.travis-ci.org/builds/" + lastBuildId + ".json";
                 json = webClient.DownloadString(buildUrl);
                 return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
             }
