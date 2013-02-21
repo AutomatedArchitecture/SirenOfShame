@@ -84,7 +84,10 @@ namespace SirenOfShame.HardwareTestGui
                     SetStatus("Waiting for device to connect.");
                     Program.SirenOfShameDevice.PerformFirmwareUpgrade(hexFileStream, UpdateProgress);
                     SetStatus("Upgrade complete.");
-                    this.Invoke(() => _onInstallFirmwareSuccess());
+                    if (_onInstallFirmwareSuccess != null)
+                    {
+                        this.Invoke(() => _onInstallFirmwareSuccess());
+                    }
                 }
             }
             catch (Exception ex)
