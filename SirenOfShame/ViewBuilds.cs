@@ -118,6 +118,7 @@ namespace SirenOfShame
                 UpdateExistingControls(buildStatusDtosAndControl);
             }
             InitializeDisplayModes();
+            ShowHideBuildsLabel();
         }
 
         private bool IsViewBuildBigVisible
@@ -301,6 +302,8 @@ namespace SirenOfShame
             
             bool isGettingStarted = _settings.IsGettingStarted();
             _gettingStarted.Visible = isGettingStarted;
+            ShowHideBuildsLabel();
+            
             if (isGettingStarted)
             {
                 _gettingStarted.Initialize(_settings);
@@ -309,6 +312,11 @@ namespace SirenOfShame
             {
                 DisposeGettingStarted();
             }
+        }
+
+        private void ShowHideBuildsLabel()
+        {
+            _buildsLabel.Visible = VisibleViewBuildControls != 0;
         }
 
         private void DisposeGettingStarted()
