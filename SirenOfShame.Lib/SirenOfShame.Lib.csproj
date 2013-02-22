@@ -131,6 +131,11 @@
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\StringHelpers.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />
     <Compile Include="Settings\UserMapping.cs" />
     <Compile Include="Settings\WhatToSyncEnum.cs" />
@@ -307,6 +312,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionMessageBox.resx">
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="WavEditor.resx">
       <DependentUpon>WavEditor.cs</DependentUpon>

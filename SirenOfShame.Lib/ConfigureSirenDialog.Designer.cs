@@ -30,20 +30,20 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSirenDialog));
-            this._close = new System.Windows.Forms.Button();
+            this._close = new SirenOfShame.Lib.SosButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this._audioAdd = new System.Windows.Forms.Button();
+            this._audioAdd = new SirenOfShame.Lib.SosButton();
             this.label1 = new System.Windows.Forms.Label();
             this._audioPatterns = new System.Windows.Forms.ListView();
             this._audioPatternNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._audioPatternTotalLengthColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this._ledAdd = new System.Windows.Forms.Button();
+            this._ledAdd = new SirenOfShame.Lib.SosButton();
             this._ledPatterns = new System.Windows.Forms.ListView();
             this._ledPatternNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._ledPatternCountColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._upload = new System.Windows.Forms.Button();
+            this._upload = new SirenOfShame.Lib.SosButton();
             this._progress = new System.Windows.Forms.ProgressBar();
             this._audioContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._audioPlay = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +54,9 @@
             this._ledPlay = new System.Windows.Forms.ToolStripMenuItem();
             this._ledRename = new System.Windows.Forms.ToolStripMenuItem();
             this._ledRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this._audioContextMenu.SuspendLayout();
@@ -62,9 +65,13 @@
             // 
             // _close
             // 
-            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._close.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._close.Location = new System.Drawing.Point(493, 328);
+            this._close.FlatAppearance.BorderSize = 0;
+            this._close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._close.ForeColor = System.Drawing.Color.White;
+            this._close.Location = new System.Drawing.Point(493, 368);
             this._close.Name = "_close";
             this._close.Size = new System.Drawing.Size(75, 23);
             this._close.TabIndex = 5;
@@ -73,20 +80,25 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this._audioAdd);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this._audioPatterns);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 83);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(564, 155);
+            this.panel1.Size = new System.Drawing.Size(564, 146);
             this.panel1.TabIndex = 14;
             // 
             // _audioAdd
             // 
             this._audioAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._audioAdd.Location = new System.Drawing.Point(481, 129);
+            this._audioAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._audioAdd.FlatAppearance.BorderSize = 0;
+            this._audioAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._audioAdd.ForeColor = System.Drawing.Color.White;
+            this._audioAdd.Location = new System.Drawing.Point(481, 120);
             this._audioAdd.Name = "_audioAdd";
             this._audioAdd.Size = new System.Drawing.Size(75, 23);
             this._audioAdd.TabIndex = 14;
@@ -97,11 +109,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Audio";
+            this.label1.Text = "Custom Audio";
             // 
             // _audioPatterns
             // 
@@ -116,7 +129,7 @@
             this._audioPatterns.LabelEdit = true;
             this._audioPatterns.Location = new System.Drawing.Point(3, 16);
             this._audioPatterns.Name = "_audioPatterns";
-            this._audioPatterns.Size = new System.Drawing.Size(553, 107);
+            this._audioPatterns.Size = new System.Drawing.Size(553, 98);
             this._audioPatterns.TabIndex = 12;
             this._audioPatterns.UseCompatibleStateImageBehavior = false;
             this._audioPatterns.View = System.Windows.Forms.View.Details;
@@ -126,7 +139,7 @@
             // 
             // _audioPatternNameColumn
             // 
-            this._audioPatternNameColumn.Text = "Name";
+            this._audioPatternNameColumn.Text = "Audio Name";
             this._audioPatternNameColumn.Width = 200;
             // 
             // _audioPatternTotalLengthColumn
@@ -136,29 +149,34 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this._ledAdd);
             this.panel2.Controls.Add(this._ledPatterns);
-            this.panel2.Location = new System.Drawing.Point(12, 173);
+            this.panel2.Location = new System.Drawing.Point(12, 235);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(564, 149);
+            this.panel2.Size = new System.Drawing.Size(564, 127);
             this.panel2.TabIndex = 15;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.Size = new System.Drawing.Size(110, 13);
             this.label2.TabIndex = 17;
-            this.label2.Text = "LEDs";
+            this.label2.Text = "Custom Light Patterns";
             // 
             // _ledAdd
             // 
             this._ledAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ledAdd.Location = new System.Drawing.Point(481, 119);
+            this._ledAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._ledAdd.FlatAppearance.BorderSize = 0;
+            this._ledAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._ledAdd.ForeColor = System.Drawing.Color.White;
+            this._ledAdd.Location = new System.Drawing.Point(481, 97);
             this._ledAdd.Name = "_ledAdd";
             this._ledAdd.Size = new System.Drawing.Size(75, 23);
             this._ledAdd.TabIndex = 15;
@@ -179,7 +197,7 @@
             this._ledPatterns.LabelEdit = true;
             this._ledPatterns.Location = new System.Drawing.Point(3, 16);
             this._ledPatterns.Name = "_ledPatterns";
-            this._ledPatterns.Size = new System.Drawing.Size(553, 97);
+            this._ledPatterns.Size = new System.Drawing.Size(553, 75);
             this._ledPatterns.TabIndex = 14;
             this._ledPatterns.UseCompatibleStateImageBehavior = false;
             this._ledPatterns.View = System.Windows.Forms.View.Details;
@@ -200,7 +218,11 @@
             // _upload
             // 
             this._upload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._upload.Location = new System.Drawing.Point(412, 328);
+            this._upload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._upload.FlatAppearance.BorderSize = 0;
+            this._upload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._upload.ForeColor = System.Drawing.Color.White;
+            this._upload.Location = new System.Drawing.Point(412, 368);
             this._upload.Name = "_upload";
             this._upload.Size = new System.Drawing.Size(75, 23);
             this._upload.TabIndex = 18;
@@ -210,7 +232,9 @@
             // 
             // _progress
             // 
-            this._progress.Location = new System.Drawing.Point(12, 328);
+            this._progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._progress.Location = new System.Drawing.Point(12, 368);
             this._progress.Name = "_progress";
             this._progress.Size = new System.Drawing.Size(394, 23);
             this._progress.TabIndex = 19;
@@ -224,33 +248,33 @@
             this._audioEdit,
             this._audioRemove});
             this._audioContextMenu.Name = "_audioContextMenu";
-            this._audioContextMenu.Size = new System.Drawing.Size(153, 114);
+            this._audioContextMenu.Size = new System.Drawing.Size(118, 92);
             // 
             // _audioPlay
             // 
             this._audioPlay.Name = "_audioPlay";
-            this._audioPlay.Size = new System.Drawing.Size(152, 22);
+            this._audioPlay.Size = new System.Drawing.Size(117, 22);
             this._audioPlay.Text = "&Play";
             this._audioPlay.Click += new System.EventHandler(this._audioPlay_Click);
             // 
             // _audioRename
             // 
             this._audioRename.Name = "_audioRename";
-            this._audioRename.Size = new System.Drawing.Size(152, 22);
+            this._audioRename.Size = new System.Drawing.Size(117, 22);
             this._audioRename.Text = "&Rename";
             this._audioRename.Click += new System.EventHandler(this._audioRename_Click);
             // 
             // _audioEdit
             // 
             this._audioEdit.Name = "_audioEdit";
-            this._audioEdit.Size = new System.Drawing.Size(152, 22);
+            this._audioEdit.Size = new System.Drawing.Size(117, 22);
             this._audioEdit.Text = "&Edit...";
             this._audioEdit.Click += new System.EventHandler(this._audioEdit_Click);
             // 
             // _audioRemove
             // 
             this._audioRemove.Name = "_audioRemove";
-            this._audioRemove.Size = new System.Drawing.Size(152, 22);
+            this._audioRemove.Size = new System.Drawing.Size(117, 22);
             this._audioRemove.Text = "Remove";
             this._audioRemove.Click += new System.EventHandler(this._audioRemove_Click);
             // 
@@ -284,11 +308,47 @@
             this._ledRemove.Text = "Remove";
             this._ledRemove.Click += new System.EventHandler(this._ledRemove_Click);
             // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Image = ((System.Drawing.Image)(resources.GetObject("label3.Image")));
+            this.label3.Location = new System.Drawing.Point(12, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 64);
+            this.label3.TabIndex = 50;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(86, 42);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(184, 13);
+            this.label4.TabIndex = 49;
+            this.label4.Text = "Upload insulting audio for co-workers.";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(82, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(194, 26);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "Configure SoS Pro";
+            // 
             // ConfigureSirenDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(588, 356);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.ClientSize = new System.Drawing.Size(588, 396);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this._progress);
             this.Controls.Add(this._upload);
             this.Controls.Add(this.panel1);
@@ -306,23 +366,24 @@
             this._audioContextMenu.ResumeLayout(false);
             this._ledContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button _close;
+        private SosButton _close;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button _audioAdd;
+        private SosButton _audioAdd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView _audioPatterns;
         private System.Windows.Forms.ColumnHeader _audioPatternNameColumn;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button _ledAdd;
+        private SosButton _ledAdd;
         private System.Windows.Forms.ListView _ledPatterns;
         private System.Windows.Forms.ColumnHeader _ledPatternNameColumn;
-        private System.Windows.Forms.Button _upload;
+        private SosButton _upload;
         private System.Windows.Forms.ProgressBar _progress;
         private System.Windows.Forms.ContextMenuStrip _audioContextMenu;
         private System.Windows.Forms.ToolStripMenuItem _audioRemove;
@@ -335,5 +396,8 @@
         private System.Windows.Forms.ToolStripMenuItem _ledRemove;
         private System.Windows.Forms.ColumnHeader _ledPatternCountColumn;
         private System.Windows.Forms.ToolStripMenuItem _audioEdit;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
