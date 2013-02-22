@@ -71,7 +71,7 @@
             this._close.FlatAppearance.BorderSize = 0;
             this._close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._close.ForeColor = System.Drawing.Color.White;
-            this._close.Location = new System.Drawing.Point(493, 368);
+            this._close.Location = new System.Drawing.Point(493, 278);
             this._close.Name = "_close";
             this._close.Size = new System.Drawing.Size(75, 23);
             this._close.TabIndex = 5;
@@ -88,7 +88,7 @@
             this.panel1.Controls.Add(this._audioPatterns);
             this.panel1.Location = new System.Drawing.Point(12, 83);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(564, 146);
+            this.panel1.Size = new System.Drawing.Size(316, 171);
             this.panel1.TabIndex = 14;
             // 
             // _audioAdd
@@ -98,7 +98,7 @@
             this._audioAdd.FlatAppearance.BorderSize = 0;
             this._audioAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._audioAdd.ForeColor = System.Drawing.Color.White;
-            this._audioAdd.Location = new System.Drawing.Point(481, 120);
+            this._audioAdd.Location = new System.Drawing.Point(233, 145);
             this._audioAdd.Name = "_audioAdd";
             this._audioAdd.Size = new System.Drawing.Size(75, 23);
             this._audioAdd.TabIndex = 14;
@@ -109,12 +109,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.Size = new System.Drawing.Size(147, 20);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Custom Audio";
+            this.label1.Text = "Custom Audio Clips";
             // 
             // _audioPatterns
             // 
@@ -127,9 +128,9 @@
             this._audioPatterns.FullRowSelect = true;
             this._audioPatterns.HideSelection = false;
             this._audioPatterns.LabelEdit = true;
-            this._audioPatterns.Location = new System.Drawing.Point(3, 16);
+            this._audioPatterns.Location = new System.Drawing.Point(3, 23);
             this._audioPatterns.Name = "_audioPatterns";
-            this._audioPatterns.Size = new System.Drawing.Size(553, 98);
+            this._audioPatterns.Size = new System.Drawing.Size(305, 112);
             this._audioPatterns.TabIndex = 12;
             this._audioPatterns.UseCompatibleStateImageBehavior = false;
             this._audioPatterns.View = System.Windows.Forms.View.Details;
@@ -139,7 +140,7 @@
             // 
             // _audioPatternNameColumn
             // 
-            this._audioPatternNameColumn.Text = "Audio Name";
+            this._audioPatternNameColumn.Text = "Name";
             this._audioPatternNameColumn.Width = 200;
             // 
             // _audioPatternTotalLengthColumn
@@ -149,25 +150,26 @@
             // 
             // panel2
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this._ledAdd);
             this.panel2.Controls.Add(this._ledPatterns);
-            this.panel2.Location = new System.Drawing.Point(12, 235);
+            this.panel2.Location = new System.Drawing.Point(334, 83);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(564, 127);
+            this.panel2.Size = new System.Drawing.Size(242, 171);
             this.panel2.TabIndex = 15;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 13);
+            this.label2.Size = new System.Drawing.Size(108, 20);
             this.label2.TabIndex = 17;
-            this.label2.Text = "Custom Light Patterns";
+            this.label2.Text = "Light Patterns";
             // 
             // _ledAdd
             // 
@@ -176,7 +178,7 @@
             this._ledAdd.FlatAppearance.BorderSize = 0;
             this._ledAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._ledAdd.ForeColor = System.Drawing.Color.White;
-            this._ledAdd.Location = new System.Drawing.Point(481, 97);
+            this._ledAdd.Location = new System.Drawing.Point(159, 141);
             this._ledAdd.Name = "_ledAdd";
             this._ledAdd.Size = new System.Drawing.Size(75, 23);
             this._ledAdd.TabIndex = 15;
@@ -195,9 +197,9 @@
             this._ledPatterns.FullRowSelect = true;
             this._ledPatterns.HideSelection = false;
             this._ledPatterns.LabelEdit = true;
-            this._ledPatterns.Location = new System.Drawing.Point(3, 16);
+            this._ledPatterns.Location = new System.Drawing.Point(3, 23);
             this._ledPatterns.Name = "_ledPatterns";
-            this._ledPatterns.Size = new System.Drawing.Size(553, 75);
+            this._ledPatterns.Size = new System.Drawing.Size(231, 112);
             this._ledPatterns.TabIndex = 14;
             this._ledPatterns.UseCompatibleStateImageBehavior = false;
             this._ledPatterns.View = System.Windows.Forms.View.Details;
@@ -208,7 +210,7 @@
             // _ledPatternNameColumn
             // 
             this._ledPatternNameColumn.Text = "Name";
-            this._ledPatternNameColumn.Width = 200;
+            this._ledPatternNameColumn.Width = 145;
             // 
             // _ledPatternCountColumn
             // 
@@ -222,7 +224,7 @@
             this._upload.FlatAppearance.BorderSize = 0;
             this._upload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._upload.ForeColor = System.Drawing.Color.White;
-            this._upload.Location = new System.Drawing.Point(412, 368);
+            this._upload.Location = new System.Drawing.Point(412, 278);
             this._upload.Name = "_upload";
             this._upload.Size = new System.Drawing.Size(75, 23);
             this._upload.TabIndex = 18;
@@ -234,7 +236,7 @@
             // 
             this._progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._progress.Location = new System.Drawing.Point(12, 368);
+            this._progress.Location = new System.Drawing.Point(12, 278);
             this._progress.Name = "_progress";
             this._progress.Size = new System.Drawing.Size(394, 23);
             this._progress.TabIndex = 19;
@@ -345,7 +347,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.ClientSize = new System.Drawing.Size(588, 396);
+            this.ClientSize = new System.Drawing.Size(588, 306);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
