@@ -284,17 +284,14 @@ namespace SirenOfShame.Lib.Device
         {
             var task = Task.Factory.StartNew(() => UploadCustomPatterns(audioPatterns, ledPatterns, InvokeOnUploadProgress));
             task.ContinueWith(t => InvokeOnUploadCompleted(null), TaskContinuationOptions.OnlyOnRanToCompletion);
-            task.ContinueWith(t => InvokeOnUploadCompleted(t.Exception), TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(t => InvokeOnUploadCompleted(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             return task;
         }
 
         private UploadAudioPattern GetAudioPatterns(AudioPatternSetting setting)
         {
             var name = setting.Name;
-            using (var stream = File.OpenRead(setting.FileName))
-            {
-                return new UploadAudioPatternStream(name, stream);
-            }
+            return new UploadAudioPatternStream(name, setting.FileName);
         }
 
         public void UploadCustomPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc)
