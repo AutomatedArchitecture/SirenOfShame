@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Device
 {
@@ -65,6 +67,16 @@ namespace SirenOfShame.Lib.Device
         event EventHandler Disconnected;
 
         /// <summary>
+        /// Event fired while uploading audio/led patterns
+        /// </summary>
+        event UploadProgressEventHandler UploadProgress;
+        
+        /// <summary>
+        /// Event fired when the upload of audio/led patterns has completed
+        /// </summary>
+        event UploadCompletedEventHandler UploadCompleted;
+        
+        /// <summary>
         /// Plays the given preloaded audio pattern on the device for the given amount of time. See <see cref="AudioPatterns"/>
         /// to get a list of audio patterns that can be passed to this method. This method can also stop a currently running pattern
         /// by passing in null to both parmeters.
@@ -116,8 +128,7 @@ namespace SirenOfShame.Lib.Device
         /// </summary>
         /// <param name="audioPatterns">The list of audio patterns to upload.</param>
         /// <param name="ledPatterns">The list of LED patterns to upload.</param>
-        /// <param name="progressFunc">Optional progress callback which will be called with numbers 0-100 for the percentage complete.</param>
-        void UploadCustomPatterns(IEnumerable<UploadAudioPattern> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc);
+        Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns);
 
         /// <summary>
         /// Try to connect to a SoS device. Returns true if successful.

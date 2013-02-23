@@ -4,9 +4,11 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Device
 {
@@ -33,6 +35,20 @@ namespace SirenOfShame.Lib.Device
 
         public event EventHandler Connected;
         public event EventHandler Disconnected;
+        public event UploadProgressEventHandler UploadProgress;
+        public event UploadCompletedEventHandler UploadCompleted;
+
+        protected virtual void InvokeOnUploadProgress(int value)
+        {
+            UploadProgressEventHandler handler = UploadProgress;
+            if (handler != null) handler(this, new UploadProgressEventHandlerArgs { Value = value });
+        }
+
+        protected virtual void InvokeOnUploadCompleted(AggregateException exception)
+        {
+            UploadCompletedEventHandler handler = UploadCompleted;
+            if (handler != null) handler(this, new UploadCompletedEventHandlerArgs { Exception = exception });
+        }
 
         public MockSirenOfShameDevice()
         {
@@ -103,7 +119,15 @@ namespace SirenOfShame.Lib.Device
 
         }
 
-        public void UploadCustomPatterns(IEnumerable<UploadAudioPattern> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc)
+        public Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
+        {
+            var task = Task.Factory.StartNew(() => UploadCustomPatterns(audioPatterns, ledPatterns, InvokeOnUploadProgress));
+            task.ContinueWith(t => InvokeOnUploadCompleted(null), TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(t => InvokeOnUploadCompleted(t.Exception), TaskContinuationOptions.OnlyOnRanToCompletion);
+            return task;
+        }
+
+        public void UploadCustomPatterns(IEnumerable<AudioPatternSetting> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc)
         {
             _dlg.AudioPatternText = audioPatterns.Select(p => p.Name).JoinAsString("\n");
             _dlg.LedPatternText = ledPatterns.Select(p => p.Name).JoinAsString("\n");

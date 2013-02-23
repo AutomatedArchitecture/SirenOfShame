@@ -4,7 +4,9 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Settings;
 using log4net;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
 using TeensyHidBootloaderLib;
@@ -49,6 +51,20 @@ namespace SirenOfShame.Lib.Device
 
         public event EventHandler Connected;
         public event EventHandler Disconnected;
+        public event UploadProgressEventHandler UploadProgress;
+        public event UploadCompletedEventHandler UploadCompleted;
+
+        protected virtual void InvokeOnUploadProgress(int value)
+        {
+            UploadProgressEventHandler handler = UploadProgress;
+            if (handler != null) handler(this, new UploadProgressEventHandlerArgs { Value = value });
+        }
+
+        protected virtual void InvokeOnUploadCompleted(AggregateException exception)
+        {
+            UploadCompletedEventHandler handler = UploadCompleted;
+            if (handler != null) handler(this, new UploadCompletedEventHandlerArgs { Exception = exception });
+        }
 
         public SirenOfShameDevice()
         {
@@ -264,12 +280,32 @@ namespace SirenOfShame.Lib.Device
             get { return _ledPatterns; }
         }
 
-        public void UploadCustomPatterns(IEnumerable<UploadAudioPattern> audioPatterns, IEnumerable<UploadLedPattern> ledPatterns, Action<int> progressFunc)
+        public Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
+        {
+            var task = Task.Factory.StartNew(() => UploadCustomPatterns(audioPatterns, ledPatterns, InvokeOnUploadProgress));
+            task.ContinueWith(t => InvokeOnUploadCompleted(null), TaskContinuationOptions.OnlyOnRanToCompletion);
+            task.ContinueWith(t => InvokeOnUploadCompleted(t.Exception), TaskContinuationOptions.OnlyOnRanToCompletion);
+            return task;
+        }
+
+        private UploadAudioPattern GetAudioPatterns(AudioPatternSetting setting)
+        {
+            var name = setting.Name;
+            using (var stream = File.OpenRead(setting.FileName))
+            {
+                return new UploadAudioPatternStream(name, stream);
+            }
+        }
+
+        public void UploadCustomPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc)
         {
             EnsureConnected();
             progressFunc(10);
 
             FileSystemBuilder fileSystemBuilder = new FileSystemBuilder();
+
+            var audioPatterns = audioPatternSettings.Select(GetAudioPatterns);
+
             using (Stream fileSystemStream = fileSystemBuilder.Build(audioPatterns, ledPatterns))
             {
                 // set the audio and led pattern count to 0 for the first run so that if the upload fails
@@ -288,7 +324,7 @@ namespace SirenOfShame.Lib.Device
 
                 // set the real audio and led pattern count
                 fileSystemStream.Position = 0;
-                fileSystemBuilder.WriteHeader(fileSystemStream, audioPatterns.Count(), ledPatterns.Count());
+                fileSystemBuilder.WriteHeader(fileSystemStream, audioPatternSettings.Count(), ledPatterns.Count());
                 fileSystemStream.Position = 0;
                 for (int address = 0; address < FlashSectorSize; address += 32)
                 {
@@ -438,5 +474,19 @@ namespace SirenOfShame.Lib.Device
                 throw new Exception("Could not get connection to device");
             }
         }
+    }
+
+    public delegate void UploadCompletedEventHandler(object sender, UploadCompletedEventHandlerArgs args);
+
+    public class UploadCompletedEventHandlerArgs
+    {
+        public AggregateException Exception { get; set; }
+    }
+
+    public delegate void UploadProgressEventHandler(object sender, UploadProgressEventHandlerArgs args);
+
+    public class UploadProgressEventHandlerArgs
+    {
+        public int Value { get; set; }
     }
 }

@@ -139,6 +139,9 @@ namespace SirenOfShame
             }
             SirenOfShameDevice.Connected += SirenofShameDeviceConnected;
             SirenOfShameDevice.Disconnected += SirenofShameDeviceDisconnected;
+            SirenOfShameDevice.UploadProgress += SirenOfShameDeviceUploadProgress;
+            SirenOfShameDevice.UploadCompleted += SirenOfShameDeviceUploadCompleted;
+
             if (SirenOfShameDevice.IsConnected)
             {
                 SirenofShameDeviceConnected(this, new EventArgs());
@@ -146,6 +149,24 @@ namespace SirenOfShame
             {
                 SirenofShameDeviceDisconnected(this, new EventArgs());
             }
+        }
+
+        private void SirenOfShameDeviceUploadCompleted(object sender, UploadCompletedEventHandlerArgs args)
+        {
+            Invoke(() =>
+            {
+                _toolStripProgressBar.Visible = false;
+                SosMessageBox.Show("Upload Done", "To use your new audio or led patterns right click on a build or in the open area to set up build rules.", "Alright");
+            });
+        }
+
+        private void SirenOfShameDeviceUploadProgress(object sender, UploadProgressEventHandlerArgs args)
+        {
+            Invoke(() =>
+            {
+                _toolStripProgressBar.Value = args.Value;
+                _toolStripProgressBar.Visible = true;
+            });
         }
 
         private void ViewUser1OnOnUserChangedAvatarId(object sender, UserChangedAvatarIdArgs args)

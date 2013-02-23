@@ -232,19 +232,25 @@ namespace SirenOfShame.HardwareTestGui
 
         private void _uploadPatternsToPro_Click(object sender, EventArgs e)
         {
-            using (var audio1Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio1.mp3"))
-            using (var audio2Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio2.mp3"))
-            {
-                var audioPatterns = new List<UploadAudioPattern>{
-                    new UploadAudioPatternStream("ext audio1", audio1Stream),
-                    new UploadAudioPatternStream("ext audio2", audio2Stream)
-                };
-                var ledPatterns = new List<UploadLedPattern>{
-                    new UploadLedPattern("ext led1", _ledPattern1),
-                    new UploadLedPattern("ext led2", _ledPattern2)
-                };
-                Program.SirenOfShameDevice.UploadCustomPatterns(audioPatterns, ledPatterns, progressFunc);
-            }
+            //using (var audio1Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio1.mp3"))
+            //using (var audio2Stream = GetAudioStream("SirenOfShame.HardwareTestGui", "Audio2.mp3"))
+            //{
+            //    var audioPatterns = new List<UploadAudioPattern>{
+            //        new UploadAudioPatternStream("ext audio1", audio1Stream),
+            //        new UploadAudioPatternStream("ext audio2", audio2Stream)
+            //    };
+            //    var ledPatterns = new List<UploadLedPattern>{
+            //        new UploadLedPattern("ext led1", _ledPattern1),
+            //        new UploadLedPattern("ext led2", _ledPattern2)
+            //    };
+            //    Program.SirenOfShameDevice.UploadProgress += UploadProgress;
+            //    Program.SirenOfShameDevice.UploadCustomPatternsAsync(audioPatterns, ledPatterns);
+            //}
+        }
+
+        private void UploadProgress(object sender, UploadProgressEventHandlerArgs args)
+        {
+            progressFunc(args.Value);
         }
 
         private Stream GetAudioStream(string resourceBase, string resourceName)

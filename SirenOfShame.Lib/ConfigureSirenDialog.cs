@@ -26,6 +26,9 @@ namespace SirenOfShame.Lib
         {
             InitializeComponent();
             _sirenOfShameDevice = sirenOfShameDevice;
+            _sirenOfShameDevice.UploadProgress += (sender, args) => Invoke(() => { _progress.Value = args.Value; });
+            // todo: Convert to async/await
+            _sirenOfShameDevice.UploadCompleted += UploadCompleted;
             _settings = settings;
 
             _audioPatterns.Items.Clear();
@@ -38,6 +41,16 @@ namespace SirenOfShame.Lib
             foreach (var ledPattern in _settings.LedPatterns)
             {
                 AddLedPattern(ledPattern);
+            }
+        }
+
+        private void UploadCompleted(object sender, UploadCompletedEventHandlerArgs args)
+        {
+            _progress.Value = 100;
+            _progress.Visible = false;
+            if (args.Exception != null)
+            {
+                OnUploadError(args.Exception);
             }
         }
 
@@ -122,26 +135,21 @@ namespace SirenOfShame.Lib
             _progress.Visible = true;
             try
             {
-                Cursor = Cursors.WaitCursor;
-                IEnumerable<UploadAudioPattern> audioPatterns = GetAudioPatterns();
-                IEnumerable<UploadLedPattern> ledPatterns = GetLedPatterns();
-                _sirenOfShameDevice.UploadCustomPatterns(audioPatterns, ledPatterns, progress =>
-                {
-                    Invoke(() => { _progress.Value = progress; });
-                });
-                _progress.Value = 100;
-                _progress.Visible = false;
+                var audioPatterns = GetAudioPatterns().ToList();
+                var ledPatterns = GetLedPatterns().ToList();
+                _sirenOfShameDevice.UploadCustomPatternsAsync(audioPatterns, ledPatterns);
             }
             catch (Exception ex)
             {
-                Log.Error("Could not upload", ex);
-                ExceptionMessageBox.Show(this, "Error Uploading", "Could not upload patterns", ex);
-                _progress.Visible = false;
+                OnUploadError(ex);
             }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
+        }
+
+        private void OnUploadError(Exception ex)
+        {
+            Log.Error("Could not upload", ex);
+            ExceptionMessageBox.Show(this, "Error Uploading", "Could not upload patterns", ex);
+            _progress.Visible = false;
         }
 
         private IEnumerable<UploadLedPattern> GetLedPatterns()
@@ -155,17 +163,9 @@ namespace SirenOfShame.Lib
             }
         }
 
-        private IEnumerable<UploadAudioPattern> GetAudioPatterns()
+        private IEnumerable<AudioPatternSetting> GetAudioPatterns()
         {
-            foreach (var item in _audioPatterns.Items.Cast<ListViewItem>())
-            {
-                var setting = (AudioPatternSetting)item.Tag;
-                var name = setting.Name;
-                using (var stream = File.OpenRead(setting.FileName))
-                {
-                    yield return new UploadAudioPatternStream(name, stream);
-                }
-            }
+            return _audioPatterns.Items.Cast<ListViewItem>().Select(item => (AudioPatternSetting)item.Tag);
         }
 
         private void ConfigureSirenDialog_FormClosing(object sender, FormClosingEventArgs e)
