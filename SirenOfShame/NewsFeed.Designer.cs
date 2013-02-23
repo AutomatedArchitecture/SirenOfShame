@@ -52,9 +52,10 @@
             this.panel1.Controls.Add(this._addMessage);
             this.panel1.Controls.Add(this._message);
             this.panel1.Controls.Add(this._clearNews);
-            this.panel1.Location = new System.Drawing.Point(0, 219);
+            this.panel1.Location = new System.Drawing.Point(0, 594);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(234, 18);
+            this.panel1.Size = new System.Drawing.Size(312, 22);
             this.panel1.TabIndex = 0;
             // 
             // _addMessage
@@ -65,9 +66,10 @@
             this._addMessage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._addMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._addMessage.Image = global::SirenOfShame.Properties.Resources.nav_right;
-            this._addMessage.Location = new System.Drawing.Point(190, -1);
+            this._addMessage.Location = new System.Drawing.Point(253, -1);
+            this._addMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._addMessage.Name = "_addMessage";
-            this._addMessage.Size = new System.Drawing.Size(18, 18);
+            this._addMessage.Size = new System.Drawing.Size(24, 22);
             this._addMessage.TabIndex = 3;
             this.toolTip1.SetToolTip(this._addMessage, "Submit message to SoS Online");
             this._addMessage.UseVisualStyleBackColor = true;
@@ -81,9 +83,10 @@
             this._clearNews.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._clearNews.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._clearNews.Image = global::SirenOfShame.Properties.Resources.delete2;
-            this._clearNews.Location = new System.Drawing.Point(216, -1);
+            this._clearNews.Location = new System.Drawing.Point(288, -1);
+            this._clearNews.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._clearNews.Name = "_clearNews";
-            this._clearNews.Size = new System.Drawing.Size(18, 18);
+            this._clearNews.Size = new System.Drawing.Size(24, 22);
             this._clearNews.TabIndex = 1;
             this.toolTip1.SetToolTip(this._clearNews, "Clear all messages");
             this._clearNews.UseVisualStyleBackColor = true;
@@ -96,9 +99,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._newsItemsPanel.AutoScroll = true;
             this._newsItemsPanel.BackColor = System.Drawing.Color.Transparent;
-            this._newsItemsPanel.Location = new System.Drawing.Point(0, 39);
+            this._newsItemsPanel.Location = new System.Drawing.Point(0, 48);
+            this._newsItemsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._newsItemsPanel.Name = "_newsItemsPanel";
-            this._newsItemsPanel.Size = new System.Drawing.Size(278, 176);
+            this._newsItemsPanel.Size = new System.Drawing.Size(371, 541);
             this._newsItemsPanel.TabIndex = 1;
             this._newsItemsPanel.MouseEnter += new System.EventHandler(this.NewsItemsPanelMouseEnter);
             // 
@@ -107,10 +111,11 @@
             this._noNews.BackColor = System.Drawing.Color.Transparent;
             this._noNews.Dock = System.Windows.Forms.DockStyle.Top;
             this._noNews.ForeColor = System.Drawing.Color.Gray;
-            this._noNews.Location = new System.Drawing.Point(0, 35);
+            this._noNews.Location = new System.Drawing.Point(0, 43);
+            this._noNews.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._noNews.Name = "_noNews";
-            this._noNews.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this._noNews.Size = new System.Drawing.Size(258, 43);
+            this._noNews.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this._noNews.Size = new System.Drawing.Size(344, 53);
             this._noNews.TabIndex = 2;
             this._noNews.Text = "No news is good news";
             this._noNews.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -122,17 +127,19 @@
             this._topPanel.Controls.Add(this.label1);
             this._topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this._topPanel.Location = new System.Drawing.Point(0, 0);
+            this._topPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._topPanel.Name = "_topPanel";
-            this._topPanel.Size = new System.Drawing.Size(258, 35);
+            this._topPanel.Size = new System.Drawing.Size(344, 43);
             this._topPanel.TabIndex = 5;
             // 
             // _loading
             // 
             this._loading.Dock = System.Windows.Forms.DockStyle.Left;
             this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
-            this._loading.Location = new System.Drawing.Point(113, 0);
+            this._loading.Location = new System.Drawing.Point(151, 0);
+            this._loading.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._loading.Name = "_loading";
-            this._loading.Size = new System.Drawing.Size(21, 35);
+            this._loading.Size = new System.Drawing.Size(28, 43);
             this._loading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._loading.TabIndex = 34;
             this._loading.TabStop = false;
@@ -147,9 +154,10 @@
             this._filterButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this._filterButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._filterButton.Image = global::SirenOfShame.Properties.Resources.funnel1;
-            this._filterButton.Location = new System.Drawing.Point(89, 0);
+            this._filterButton.Location = new System.Drawing.Point(119, 0);
+            this._filterButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._filterButton.Name = "_filterButton";
-            this._filterButton.Size = new System.Drawing.Size(24, 35);
+            this._filterButton.Size = new System.Drawing.Size(32, 43);
             this._filterButton.TabIndex = 6;
             this._filterButton.UseVisualStyleBackColor = false;
             // 
@@ -161,9 +169,10 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.label1.Size = new System.Drawing.Size(89, 35);
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Size = new System.Drawing.Size(119, 43);
             this.label1.TabIndex = 5;
             this.label1.Text = "News";
             // 
@@ -174,16 +183,17 @@
             this._message.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(153)))), ((int)(((byte)(153)))));
             this._message.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._message.ForeColor = System.Drawing.Color.White;
-            this._message.Location = new System.Drawing.Point(6, 2);
+            this._message.Location = new System.Drawing.Point(8, 2);
+            this._message.Margin = new System.Windows.Forms.Padding(4);
             this._message.Name = "_message";
-            this._message.Size = new System.Drawing.Size(186, 13);
+            this._message.Size = new System.Drawing.Size(248, 15);
             this._message.TabIndex = 2;
             this._message.WaterMarkText = "enter a message";
             this._message.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MessageKeyDown);
             // 
             // NewsFeed
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.Controls.Add(this._noNews);
@@ -193,7 +203,7 @@
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NewsFeed";
-            this.Size = new System.Drawing.Size(258, 237);
+            this.Size = new System.Drawing.Size(344, 616);
             this.MouseEnter += new System.EventHandler(this.NewsFeedMouseEnter);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
