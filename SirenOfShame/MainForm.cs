@@ -156,7 +156,19 @@ namespace SirenOfShame
             Invoke(() =>
             {
                 _toolStripProgressBar.Visible = false;
-                SosMessageBox.Show("Upload Done", "To use your new audio or led patterns right click on a build or in the open area to set up build rules.", "Alright");
+                if (args.Exception == null)
+                {
+                    SosMessageBox.Show("Upload Complete",
+                                       "To use your new audio or led patterns right click on a build or in the open area to set up build rules.",
+                                       "Alright");
+                }
+                else
+                {
+                    _log.Error("Error uploading to device", args.Exception);
+                    SosMessageBox.Show("Upload Failed",
+                                       args.Exception.InnerExceptions.First().Message,
+                                       "Rats");
+                }
             });
         }
 

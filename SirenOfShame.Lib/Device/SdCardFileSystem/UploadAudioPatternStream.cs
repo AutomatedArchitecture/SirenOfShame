@@ -6,24 +6,31 @@ namespace SirenOfShame.Lib.Device.SdCardFileSystem
     public class UploadAudioPatternStream : UploadAudioPattern
     {
         private readonly string _name;
-        private readonly Stream _stream;
+        private readonly string _fileName;
 
-        public UploadAudioPatternStream(string name, Stream stream)
+        public UploadAudioPatternStream(string name, string fileName)
         {
             _name = name;
-            _stream = stream;
+            _fileName = fileName;
         }
 
         public override string Name { get { return _name; } }
 
         public override int DataLength
         {
-            get { return (int)_stream.Length; }
+            get
+            {
+                // todo: memoize
+                using (var stream = OpenData())
+                {
+                    return (int) stream.Length;
+                }
+            }
         }
 
         public override Stream OpenData()
         {
-            return _stream;
+            return File.OpenRead(_fileName);
         }
     }
 }
