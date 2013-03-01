@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using log4net;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
@@ -280,9 +281,9 @@ namespace SirenOfShame.Lib.Device
             get { return _ledPatterns; }
         }
 
-        public Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
+        public Task UploadCustomPatternsAsync(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
         {
-            var task = Task.Factory.StartNew(() => UploadCustomPatterns(audioPatterns, ledPatterns, InvokeOnUploadProgress));
+            var task = Task.Factory.StartNew(() => UploadCustomPatterns(settings, audioPatterns, ledPatterns, InvokeOnUploadProgress));
             task.ContinueWith(t => InvokeOnUploadCompleted(null), TaskContinuationOptions.OnlyOnRanToCompletion);
             task.ContinueWith(t => InvokeOnUploadCompleted(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             return task;
@@ -294,13 +295,37 @@ namespace SirenOfShame.Lib.Device
             return new UploadAudioPatternStream(name, setting.FileName);
         }
 
-        public void UploadCustomPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc)
+        public void UploadCustomPatterns(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc)
         {
             EnsureConnected();
+            progressFunc(5);
+
+            CopyAudioToSettingsFolder(settings, audioPatternSettings);
+            SaveLedPatternsToSettings(settings, ledPatterns);
+            settings.Save();
+
             progressFunc(10);
 
             FileSystemBuilder fileSystemBuilder = new FileSystemBuilder();
 
+            UploadAudioAndLedPatterns(settings.AudioPatterns, ledPatterns, progressFunc, fileSystemBuilder);
+        }
+
+        private static void SaveLedPatternsToSettings(SirenOfShameSettings settings, IList<UploadLedPattern> ledPatterns)
+        {
+            settings.LedPatterns.Clear();
+            foreach (var item in ledPatterns)
+            {
+                settings.LedPatterns.Add(new LedPatternSetting
+                    {
+                        Name = item.Name,
+                        FileName = item.FileName
+                    });
+            }
+        }
+
+        private void UploadAudioAndLedPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc, FileSystemBuilder fileSystemBuilder)
+        {
             var audioPatterns = audioPatternSettings.Select(GetAudioPatterns);
 
             using (Stream fileSystemStream = fileSystemBuilder.Build(audioPatterns, ledPatterns))
@@ -314,8 +339,8 @@ namespace SirenOfShame.Lib.Device
                 for (int address = 0; address < fileSystemStream.Length; address += 32)
                 {
                     SendData(address, fileSystemStream);
-                    double progress = (double)address / fileSystemStream.Length;
-                    progressFunc((int)(10 + (progress * 80.0)));
+                    double progress = (double) address/fileSystemStream.Length;
+                    progressFunc((int) (10 + (progress*80.0)));
                 }
                 progressFunc(90);
 
@@ -328,6 +353,24 @@ namespace SirenOfShame.Lib.Device
                     SendData(address, fileSystemStream);
                 }
                 progressFunc(100);
+            }
+        }
+
+        private static void CopyAudioToSettingsFolder(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatternSettings)
+        {
+            settings.AudioPatterns.Clear();
+            foreach (var audioPatternSetting in audioPatternSettings)
+            {
+                var fileName = Path.GetFileName(audioPatternSetting.FileName);
+                if (fileName == null) throw new SosException("Invalid file: " + audioPatternSetting.FileName);
+                var deviceAudioFolder = SirenOfShameSettings.GetDeviceAudioFolder();
+                var newFileName = Path.Combine(deviceAudioFolder, fileName);
+                File.Copy(audioPatternSetting.FileName, newFileName);
+                settings.AudioPatterns.Add(new AudioPatternSetting
+                    {
+                        FileName = newFileName,
+                        Name = audioPatternSetting.Name,
+                    });
             }
         }
 

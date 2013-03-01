@@ -209,6 +209,11 @@ namespace SirenOfShame.Lib.Settings
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
         }
         
+        public static string GetDeviceAudioFolder()
+        {
+            return Path.Combine(GetSosAppDataFolder(), "DeviceAudio");
+        }
+
         private static string GetConfigFileName()
         {
             string path = GetSosAppDataFolder();

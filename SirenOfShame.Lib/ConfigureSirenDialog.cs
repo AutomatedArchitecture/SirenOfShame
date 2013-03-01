@@ -140,7 +140,7 @@ namespace SirenOfShame.Lib
             {
                 var audioPatterns = GetAudioPatterns().ToList();
                 var ledPatterns = GetLedPatterns().ToList();
-                _sirenOfShameDevice.UploadCustomPatternsAsync(audioPatterns, ledPatterns);
+                _sirenOfShameDevice.UploadCustomPatternsAsync(_settings, audioPatterns, ledPatterns);
             }
             catch (Exception ex)
             {
@@ -162,7 +162,7 @@ namespace SirenOfShame.Lib
                 var setting = (LedPatternSetting)item.Tag;
                 var name = setting.Name;
                 var pattern = _ledFileService.Read(setting.FileName);
-                yield return new UploadLedPattern(name, pattern);
+                yield return new UploadLedPattern(name, pattern, setting.FileName);
             }
         }
 
@@ -173,22 +173,7 @@ namespace SirenOfShame.Lib
 
         private void ConfigureSirenDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // todo: move this to on upload complete .. maybe
-            _settings.AudioPatterns.Clear();
-            foreach (var item in _audioPatterns.Items.Cast<ListViewItem>())
-            {
-                _settings.AudioPatterns.Add((AudioPatternSetting)item.Tag);
-            }
-
-            _settings.LedPatterns.Clear();
-            foreach (var item in _ledPatterns.Items.Cast<ListViewItem>())
-            {
-                _settings.LedPatterns.Add((LedPatternSetting)item.Tag);
-            }
-
             DialogResult = DialogResult.OK;
-
-            _settings.Save();
         }
 
         private void _audioPatterns_MouseUp(object sender, MouseEventArgs e)

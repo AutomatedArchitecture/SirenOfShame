@@ -126,9 +126,10 @@ namespace SirenOfShame.Lib.Device
         /// For <see cref="HardwareType"/>.Pro this method will allow you to upload custome audio and LED patterns to the device.
         /// This method is syncronous and provies a progress callback to update progress bars, etc.
         /// </summary>
+        /// <param name="settings"></param>
         /// <param name="audioPatterns">The list of audio patterns to upload.</param>
         /// <param name="ledPatterns">The list of LED patterns to upload.</param>
-        Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns);
+        Task UploadCustomPatternsAsync(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns);
 
         /// <summary>
         /// Try to connect to a SoS device. Returns true if successful.

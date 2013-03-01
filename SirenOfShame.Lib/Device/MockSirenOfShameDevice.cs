@@ -119,7 +119,7 @@ namespace SirenOfShame.Lib.Device
 
         }
 
-        public Task UploadCustomPatternsAsync(IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
+        public Task UploadCustomPatternsAsync(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatterns, IList<UploadLedPattern> ledPatterns)
         {
             var task = Task.Factory.StartNew(() => UploadCustomPatterns(audioPatterns, ledPatterns, InvokeOnUploadProgress));
             task.ContinueWith(t => InvokeOnUploadCompleted(null), TaskContinuationOptions.OnlyOnRanToCompletion);
