@@ -123,6 +123,7 @@ namespace UsbLib
             DateTime start = DateTime.Now;
             do
             {
+                if (_fileHandle == null) throw new Exception("Lost connection to device");
                 if (HidD_SetOutputReport(_fileHandle.DangerousGetHandle(), reportBuffer, (uint)reportBuffer.Length))
                 {
                     return;
