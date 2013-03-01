@@ -104,7 +104,7 @@
             this._audioAdd.TabIndex = 14;
             this._audioAdd.Text = "Add...";
             this._audioAdd.UseVisualStyleBackColor = true;
-            this._audioAdd.Click += new System.EventHandler(this._audioAdd_Click);
+            this._audioAdd.Click += new System.EventHandler(this.AudioAdd_Click);
             // 
             // label1
             // 

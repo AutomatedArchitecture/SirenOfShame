@@ -103,6 +103,7 @@ namespace SirenOfShame.Lib.Services
 
         public TimeSpan GetLength(string fileName)
         {
+            if (!File.Exists(fileName)) return new TimeSpan(0);
             var fi = new System.IO.FileInfo(fileName);
             return TimeSpan.FromSeconds((double)fi.Length / _samplingRate);
         }

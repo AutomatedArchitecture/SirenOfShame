@@ -211,7 +211,12 @@ namespace SirenOfShame.Lib.Settings
         
         public static string GetDeviceAudioFolder()
         {
-            return Path.Combine(GetSosAppDataFolder(), "DeviceAudio");
+            var location = Path.Combine(GetSosAppDataFolder(), "DeviceAudio");
+            if (!Directory.Exists(location))
+            {
+                Directory.CreateDirectory(location);
+            }
+            return location;
         }
 
         private static string GetConfigFileName()
@@ -522,6 +527,14 @@ namespace SirenOfShame.Lib.Settings
             bool connected = !string.IsNullOrEmpty(SosOnlineUsername);
             bool alwaysOffline = SosOnlineAlwaysOffline;
             return !connected && !alwaysOffline;
+        }
+
+        public IList<AudioPatternSetting> GetAllAudioPatternSettingsAlsoOnDevice(ISirenOfShameDevice sirenOfShameDevice)
+        {
+            IList<AudioPattern> audioPatterns = sirenOfShameDevice.AudioPatterns.ToList();
+            return AudioPatterns
+                .Where(aps => audioPatterns.Any(ap => ap.Name == aps.Name))
+                .ToList();
         }
     }
 }

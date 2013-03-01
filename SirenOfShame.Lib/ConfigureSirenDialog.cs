@@ -32,7 +32,8 @@ namespace SirenOfShame.Lib
             _settings = settings;
 
             _audioPatterns.Items.Clear();
-            foreach (var audioPattern in _settings.AudioPatterns)
+            var audioPatternSettings = _settings.GetAllAudioPatternSettingsAlsoOnDevice(_sirenOfShameDevice);
+            foreach (var audioPattern in audioPatternSettings)
             {
                 AddOrUpdateAudioPattern(audioPattern);
             }
@@ -57,19 +58,18 @@ namespace SirenOfShame.Lib
                 });
         }
 
-        private void _audioAdd_Click(object sender, EventArgs e)
+        private void AudioAdd_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 try
                 {
-                    string outputFileName = Path.Combine(Path.GetDirectoryName(_settings.FileName), Path.GetFileNameWithoutExtension(dlg.FileName) + ".u8");
-                    _audioFileService.Convert(dlg.FileName).WriteToFile(outputFileName);
+                    var fileName = dlg.FileName;
                     var setting = new AudioPatternSetting
                     {
-                        FileName = outputFileName,
-                        Name = Path.GetFileNameWithoutExtension(outputFileName)
+                        FileName = fileName,
+                        Name = Path.GetFileNameWithoutExtension(fileName),
                     };
                     AddOrUpdateAudioPattern(setting);
                 }

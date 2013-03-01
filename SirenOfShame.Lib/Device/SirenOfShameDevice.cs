@@ -7,7 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
+using SoxLib.Helpers;
 using log4net;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
 using TeensyHidBootloaderLib;
@@ -300,7 +302,7 @@ namespace SirenOfShame.Lib.Device
             EnsureConnected();
             progressFunc(5);
 
-            CopyAudioToSettingsFolder(settings, audioPatternSettings);
+            CopyAudioToSettingsFolderAndConvert(settings, audioPatternSettings);
             SaveLedPatternsToSettings(settings, ledPatterns);
             settings.Save();
 
@@ -340,9 +342,9 @@ namespace SirenOfShame.Lib.Device
                 {
                     SendData(address, fileSystemStream);
                     double progress = (double) address/fileSystemStream.Length;
-                    progressFunc((int) (10 + (progress*80.0)));
+                    progressFunc((int) (10 + (progress*70.0)));
                 }
-                progressFunc(90);
+                progressFunc(80);
 
                 // set the real audio and led pattern count
                 fileSystemStream.Position = 0;
@@ -351,13 +353,16 @@ namespace SirenOfShame.Lib.Device
                 for (int address = 0; address < FlashSectorSize; address += 32)
                 {
                     SendData(address, fileSystemStream);
+                    double progress = (double)address / FlashSectorSize;
+                    progressFunc((int)(80 + (progress * 20.0)));
                 }
                 progressFunc(100);
             }
         }
 
-        private static void CopyAudioToSettingsFolder(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatternSettings)
+        private static void CopyAudioToSettingsFolderAndConvert(SirenOfShameSettings settings, IList<AudioPatternSetting> audioPatternSettings)
         {
+            AudioFileService audioFileService = new AudioFileService();
             settings.AudioPatterns.Clear();
             foreach (var audioPatternSetting in audioPatternSettings)
             {
@@ -365,10 +370,14 @@ namespace SirenOfShame.Lib.Device
                 if (fileName == null) throw new SosException("Invalid file: " + audioPatternSetting.FileName);
                 var deviceAudioFolder = SirenOfShameSettings.GetDeviceAudioFolder();
                 var newFileName = Path.Combine(deviceAudioFolder, fileName);
-                File.Copy(audioPatternSetting.FileName, newFileName);
+                File.Copy(audioPatternSetting.FileName, newFileName, true);
+
+                string u8FileName = Path.Combine(deviceAudioFolder, Path.GetFileNameWithoutExtension(newFileName) + ".u8");
+                audioFileService.Convert(newFileName).WriteToFile(u8FileName);
+
                 settings.AudioPatterns.Add(new AudioPatternSetting
                     {
-                        FileName = newFileName,
+                        FileName = u8FileName,
                         Name = audioPatternSetting.Name,
                     });
             }

@@ -28,9 +28,9 @@ namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
             var ledPattern0Data = new byte[102];
             var ledPattern1Data = new byte[48];
             var ledPattern2Data = new byte[60];
-            var ledPattern0 = new UploadLedPattern("LED 0", ledPattern0Data);
-            var ledPattern1 = new UploadLedPattern("LED 1", ledPattern1Data);
-            var ledPattern2 = new UploadLedPattern("LED 2", ledPattern2Data);
+            var ledPattern0 = new UploadLedPattern("LED 0", ledPattern0Data, null);
+            var ledPattern1 = new UploadLedPattern("LED 1", ledPattern1Data, null);
+            var ledPattern2 = new UploadLedPattern("LED 2", ledPattern2Data, null);
             var ledPatterns = new[] { ledPattern0, ledPattern1, ledPattern2 };
 
             Stream resultStream = new FileSystemBuilder().Build(audioPatterns, ledPatterns);
