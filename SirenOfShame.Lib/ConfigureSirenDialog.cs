@@ -32,11 +32,12 @@ namespace SirenOfShame.Lib
             _settings = settings;
 
             _audioPatterns.Items.Clear();
-            var audioPatternSettings = _settings.GetAllAudioPatternSettingsAlsoOnDevice(_sirenOfShameDevice);
+            var audioPatternSettings = _settings.GetAllAudioPatternSettingsAlsoOnDevice(sirenOfShameDevice);
             foreach (var audioPattern in audioPatternSettings)
             {
                 AddOrUpdateAudioPattern(audioPattern);
             }
+            _missingFiles.Visible = audioPatternSettings.Count != _settings.AudioPatterns.Count;
 
             _ledPatterns.Items.Clear();
             foreach (var ledPattern in _settings.LedPatterns)

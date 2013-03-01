@@ -533,7 +533,7 @@ namespace SirenOfShame.Lib.Settings
         {
             IList<AudioPattern> audioPatterns = sirenOfShameDevice.AudioPatterns.ToList();
             return AudioPatterns
-                .Where(aps => audioPatterns.Any(ap => ap.Name == aps.Name))
+                .Where(aps => audioPatterns.Any(ap => ap.Name == aps.Name) && File.Exists(aps.FileName))
                 .ToList();
         }
     }
