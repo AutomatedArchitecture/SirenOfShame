@@ -46,12 +46,15 @@ namespace SirenOfShame.Lib
 
         private void UploadCompleted(object sender, UploadCompletedEventHandlerArgs args)
         {
-            _progress.Value = 100;
-            _progress.Visible = false;
-            if (args.Exception != null)
-            {
-                OnUploadError(args.Exception);
-            }
+            Invoke(() =>
+                {
+                    _progress.Value = 100;
+                    _progress.Visible = false;
+                    if (args.Exception != null)
+                    {
+                        OnUploadError(args.Exception);
+                    }
+                });
         }
 
         private void _audioAdd_Click(object sender, EventArgs e)
@@ -170,6 +173,7 @@ namespace SirenOfShame.Lib
 
         private void ConfigureSirenDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // todo: move this to on upload complete .. maybe
             _settings.AudioPatterns.Clear();
             foreach (var item in _audioPatterns.Items.Cast<ListViewItem>())
             {
@@ -183,6 +187,8 @@ namespace SirenOfShame.Lib
             }
 
             DialogResult = DialogResult.OK;
+
+            _settings.Save();
         }
 
         private void _audioPatterns_MouseUp(object sender, MouseEventArgs e)
