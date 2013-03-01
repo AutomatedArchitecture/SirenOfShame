@@ -159,7 +159,7 @@ namespace SirenOfShame
                 if (args.Exception == null)
                 {
                     SosMessageBox.Show("Upload Complete",
-                                       "To use your new audio or led patterns right click on a build or in the open area to set up build rules.",
+                                       "To use your new audio or led patterns you can play them from the 'show off' dialog or right click on a build or in the open area to set up build rules.",
                                        "Alright");
                 }
                 else
