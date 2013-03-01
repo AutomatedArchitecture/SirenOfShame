@@ -77,7 +77,7 @@ namespace SirenOfShame
             Close();
         }
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
             if (_settings == null) throw new Exception("_settings was null");
             if (_alwaysShowNewAchievements.Checked)
@@ -98,7 +98,7 @@ namespace SirenOfShame
         private void TrySetMyRawNameFromUserIAm(CancelEventArgs e)
         {
             _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-            if (_userIAm == null || _userIAm.SelectedItem == null || _userIAm.SelectedItem == "")
+            if (_userIAm == null || _userIAm.SelectedItem == null || (string) _userIAm.SelectedItem == "")
             {
                 MessageBox.Show("Please either select who you are or select a different notification option.");
                 e.Cancel = true;
