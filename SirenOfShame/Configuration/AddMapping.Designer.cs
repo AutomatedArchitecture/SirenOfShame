@@ -74,6 +74,7 @@
             this._whenISee.Location = new System.Drawing.Point(114, 86);
             this._whenISee.Name = "_whenISee";
             this._whenISee.Size = new System.Drawing.Size(221, 21);
+            this._whenISee.Sorted = true;
             this._whenISee.TabIndex = 59;
             // 
             // _pretendItsActually
@@ -85,6 +86,7 @@
             this._pretendItsActually.Location = new System.Drawing.Point(114, 117);
             this._pretendItsActually.Name = "_pretendItsActually";
             this._pretendItsActually.Size = new System.Drawing.Size(221, 21);
+            this._pretendItsActually.Sorted = true;
             this._pretendItsActually.TabIndex = 58;
             // 
             // label5
