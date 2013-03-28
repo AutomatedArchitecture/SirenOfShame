@@ -72,10 +72,13 @@ namespace SirenOfShame.HardwareTestGui
 
         private void SirenOfShameDevice_Connected(object sender, EventArgs e)
         {
-            SetRunTheGambitButtonText();
-            Reload();
-            EnabledControls(true);
-            _deviceInfo.Text = Program.GetDeviceInfoAsString();
+            this.Invoke(() =>
+                {
+                    SetRunTheGambitButtonText();
+                    Reload();
+                    EnabledControls(true);
+                    _deviceInfo.Text = Program.GetDeviceInfoAsString();
+                });
         }
 
         private void EnabledControls(bool enable)

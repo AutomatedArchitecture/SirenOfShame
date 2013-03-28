@@ -36,12 +36,12 @@ namespace SirenOfShame {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this._toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this._toolStripSplitErrorButton = new System.Windows.Forms.ToolStripDropDownButton();
             this._lastStatusUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this._sosOnlineError = new System.Windows.Forms.ToolStripDropDownButton();
             this._sosOnlineStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this._toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.minimizedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,6 +127,12 @@ namespace SirenOfShame {
             this.statusStrip1.TabIndex = 29;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // _toolStripProgressBar
+            // 
+            this._toolStripProgressBar.Name = "_toolStripProgressBar";
+            this._toolStripProgressBar.Size = new System.Drawing.Size(133, 20);
+            this._toolStripProgressBar.Visible = false;
+            // 
             // _toolStripSplitErrorButton
             // 
             this._toolStripSplitErrorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -134,7 +140,7 @@ namespace SirenOfShame {
             this._toolStripSplitErrorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripSplitErrorButton.Name = "_toolStripSplitErrorButton";
             this._toolStripSplitErrorButton.ShowDropDownArrow = false;
-            this._toolStripSplitErrorButton.Size = new System.Drawing.Size(20, 24);
+            this._toolStripSplitErrorButton.Size = new System.Drawing.Size(20, 23);
             this._toolStripSplitErrorButton.Text = "toolStripSplitButton1";
             this._toolStripSplitErrorButton.ToolTipText = "Error Occured";
             this._toolStripSplitErrorButton.Visible = false;
@@ -144,14 +150,14 @@ namespace SirenOfShame {
             // 
             this._lastStatusUpdate.ForeColor = System.Drawing.Color.Silver;
             this._lastStatusUpdate.Name = "_lastStatusUpdate";
-            this._lastStatusUpdate.Size = new System.Drawing.Size(162, 21);
+            this._lastStatusUpdate.Size = new System.Drawing.Size(162, 20);
             this._lastStatusUpdate.Text = "Build Last Checked: n/a";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.Silver;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 21);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 20);
             this.toolStripStatusLabel2.Text = "|";
             // 
             // _sosOnlineError
@@ -161,7 +167,7 @@ namespace SirenOfShame {
             this._sosOnlineError.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._sosOnlineError.Name = "_sosOnlineError";
             this._sosOnlineError.ShowDropDownArrow = false;
-            this._sosOnlineError.Size = new System.Drawing.Size(20, 24);
+            this._sosOnlineError.Size = new System.Drawing.Size(20, 23);
             this._sosOnlineError.Text = "toolStripSplitButton1";
             this._sosOnlineError.ToolTipText = "Error Occured";
             this._sosOnlineError.Visible = false;
@@ -171,14 +177,8 @@ namespace SirenOfShame {
             // 
             this._sosOnlineStatus.ForeColor = System.Drawing.Color.Silver;
             this._sosOnlineStatus.Name = "_sosOnlineStatus";
-            this._sosOnlineStatus.Size = new System.Drawing.Size(161, 21);
+            this._sosOnlineStatus.Size = new System.Drawing.Size(161, 20);
             this._sosOnlineStatus.Text = "Sos Online: Connecting";
-            // 
-            // _toolStripProgressBar
-            // 
-            this._toolStripProgressBar.Name = "_toolStripProgressBar";
-            this._toolStripProgressBar.Size = new System.Drawing.Size(133, 20);
-            this._toolStripProgressBar.Visible = false;
             // 
             // notifyIcon
             // 

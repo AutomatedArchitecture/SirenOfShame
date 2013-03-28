@@ -308,9 +308,21 @@ namespace SirenOfShame.Lib.Device
 
             progressFunc(10);
 
-            FileSystemBuilder fileSystemBuilder = new FileSystemBuilder();
+            UploadAudioAndLedPatterns(settings.AudioPatterns, ledPatterns, progressFunc);
+            //ResetLedsToOff();
+        }
 
-            UploadAudioAndLedPatterns(settings.AudioPatterns, ledPatterns, progressFunc, fileSystemBuilder);
+        private void ResetLedsToOff()
+        {
+            ManualControl(new ManualControlData
+            {
+                Led0 = 0x00,
+                Led1 = 0x00,
+                Led2 = 0x00,
+                Led3 = 0x00,
+                Led4 = 0x00,
+                Siren = false
+            });
         }
 
         private static void SaveLedPatternsToSettings(SirenOfShameSettings settings, IList<UploadLedPattern> ledPatterns)
@@ -326,8 +338,9 @@ namespace SirenOfShame.Lib.Device
             }
         }
 
-        private void UploadAudioAndLedPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc, FileSystemBuilder fileSystemBuilder)
+        private void UploadAudioAndLedPatterns(IList<AudioPatternSetting> audioPatternSettings, IList<UploadLedPattern> ledPatterns, Action<int> progressFunc)
         {
+            FileSystemBuilder fileSystemBuilder = new FileSystemBuilder();
             var audioPatterns = audioPatternSettings.Select(GetAudioPatterns);
 
             using (Stream fileSystemStream = fileSystemBuilder.Build(audioPatterns, ledPatterns))
@@ -370,7 +383,14 @@ namespace SirenOfShame.Lib.Device
                 if (fileName == null) throw new SosException("Invalid file: " + audioPatternSetting.FileName);
                 var deviceAudioFolder = SirenOfShameSettings.GetDeviceAudioFolder();
                 var newFileName = Path.Combine(deviceAudioFolder, fileName);
-                File.Copy(audioPatternSetting.FileName, newFileName, true);
+                try
+                {
+                    File.Copy(audioPatternSetting.FileName, newFileName, true);
+                }
+                catch (IOException ex)
+                {
+                    _log.Warn("Unable to copy the file " + newFileName, ex);
+                }
 
                 string u8FileName = Path.Combine(deviceAudioFolder, Path.GetFileNameWithoutExtension(newFileName) + ".u8");
                 audioFileService.Convert(newFileName).WriteToFile(u8FileName);
