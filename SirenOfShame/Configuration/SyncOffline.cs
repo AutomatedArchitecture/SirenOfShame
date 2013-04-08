@@ -68,6 +68,7 @@ namespace SirenOfShame.Configuration
 
         private void CopyBuildsToClipboardLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (string.IsNullOrEmpty(_exportedBuilds.Text)) return;
             _exportedBuilds.SelectAll();
             _exportedBuilds.Focus();
             Clipboard.SetText(_exportedBuilds.Text);
