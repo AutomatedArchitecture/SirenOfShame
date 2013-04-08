@@ -2,13 +2,17 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Watcher;
 using ZedGraph;
+using log4net;
 
 namespace SirenOfShame
 {
     public partial class BuildStats : UserControl
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildStats));
+
         public BuildStats()
         {
             InitializeComponent();
@@ -19,13 +23,23 @@ namespace SirenOfShame
 
         public void GraphBuildHistory(IList<BuildStatus> buildStatuses)
         {
+            if (buildStatuses == null)
+            {
+                _log.Warn("buildStatuses was null. Unable to build a graph.");
+                return;
+            }
+            if (_buildHistoryZedGraph == null || _buildHistoryZedGraph.GraphPane == null)
+            {
+                _log.Warn("_buildHistoryZedGraph was null. Unable to build a graph.");
+                return;
+            }
             GraphPane myPane = _buildHistoryZedGraph.GraphPane;
             myPane.CurveList.Clear();
 
             IEnumerable<BuildStatus> lastFewBuildStatuses = buildStatuses.Skip(buildStatuses.Count - 8);
             foreach (BuildStatus buildStatus in lastFewBuildStatuses)
             {
-                if (buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
+                if (buildStatus == null || buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
                 var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
                 Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill : _successFill;
                 var bar = myPane.AddBar(null, null, new[] { duration.TotalMinutes }, Color.White);
