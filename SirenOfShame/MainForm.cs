@@ -239,8 +239,16 @@ namespace SirenOfShame
 
         private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
         {
-            RefreshUserStats(changedBuildStatuses);
-            _viewBuilds.RefreshStats();
+            try
+            {
+                RefreshUserStats(changedBuildStatuses);
+                _viewBuilds.RefreshStats();
+            }
+            catch (Exception ex)
+            {
+                ExceptionMessageBox.Show(this, "Drat", "This tricky, hard to reproduce bug just occurred while refreshing user stats. Would you mind please sending us the details?", ex);
+                _log.Error("Error while trying to refresh stats", ex);
+            }
         }
 
         /// <summary>
