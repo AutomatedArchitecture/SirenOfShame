@@ -1,10 +1,13 @@
 using System.Drawing;
 using System.Windows.Forms;
+using log4net;
 
 namespace SirenOfShame.Lib.Helpers
 {
     public sealed class ThreeStateTreeView : TreeView
     {
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ThreeStateTreeView));
+
         private const int WM_PAINT = 0x000F;
         private readonly Bitmap _bmpIndterminate;
 
@@ -35,6 +38,11 @@ namespace SirenOfShame.Lib.Helpers
 
         private void PaintNodes(TreeNode node, Graphics g, ref int y)
         {
+            if (node == null)
+            {
+                _log.Warn("node was null in ThreeStateTreeView.PaintNodes");
+                return;
+            }
             ThreeStateTreeNode nodeThree = node as ThreeStateTreeNode;
             if (nodeThree != null && nodeThree.State == CheckBoxState.Indeterminate)
             {
