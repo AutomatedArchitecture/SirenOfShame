@@ -215,7 +215,7 @@ namespace SirenOfShame.Lib.Watcher
 
         /// <summary>
         /// We cache the build statuses primarily so we can tell the rules engine whether a build
-        /// changed from Broken->InProgress->Working or Broken->InPgoress, etc
+        /// changed from Broken->InProgress->Working or Broken->InProgress, etc
         /// </summary>
         private void CacheBuildStatuses(IEnumerable<BuildStatus> changedBuildStatuses)
         {
@@ -423,10 +423,17 @@ namespace SirenOfShame.Lib.Watcher
 
         private static void SetValue(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
         {
-            if (!dictionary.ContainsKey(changedBuildStatus.BuildDefinitionId))
-                dictionary.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
-            else
-                dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
+            try
+            {
+                if (!dictionary.ContainsKey(changedBuildStatus.BuildDefinitionId))
+                    dictionary.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
+                else
+                    dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                _log.Error("Tried to update the cache from the thread '" + Thread.CurrentThread.Name + "' but failed because the cache was previously accessed from a different thread. This could cause errors in determining whether a build changed.");
+            }
         }
 
         private void InvokeSetTrayIcon(IEnumerable<BuildStatus> allBuildStatuses)
