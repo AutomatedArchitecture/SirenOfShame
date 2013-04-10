@@ -109,7 +109,18 @@ namespace SirenOfShame
             if (buildDefinitionSetting != null)
             {
                 buildMenu.Items.Add(toolStripSeparator1);
-                AddToolStripItems(buildMenu.Items, buildDefinitionSetting.People.Select(p => PersonMenu(p, buildDefinitionSetting)).ToArray());
+
+                for (int i = 0; i < buildDefinitionSetting.People.Count; ++i)
+                {
+                    var userMapping =
+                        Settings.UserMappings.FirstOrDefault(
+                            j => j.WhenISee == buildDefinitionSetting.People[i]);
+                    if (userMapping != null)
+                        buildDefinitionSetting.People[i] = userMapping.PretendItsActually;
+                }
+                buildDefinitionSetting.People.Sort();
+                AddToolStripItems(buildMenu.Items, buildDefinitionSetting.People.Distinct().Select(
+                    p => PersonMenu(p, buildDefinitionSetting)).ToArray());
             }
         }
 

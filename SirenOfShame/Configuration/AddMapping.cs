@@ -19,6 +19,11 @@ namespace SirenOfShame.Configuration
                 _whenISee.Items.Add(personSetting.RawName);
                 _pretendItsActually.Items.Add(personSetting.RawName);
             }
+            foreach (var mapping in _settings.UserMappings)
+            {
+                _whenISee.Items.Remove(mapping.WhenISee);
+                _pretendItsActually.Items.Remove(mapping.WhenISee);
+            }
 
             if (!string.IsNullOrEmpty(whenISeeDefaultRawName))
             {
@@ -39,6 +44,8 @@ namespace SirenOfShame.Configuration
                     WhenISee = whenISee,
                     PretendItsActually = pretendItsActually
                 });
+                _whenISee.Items.Remove(whenISee);
+                _pretendItsActually.Items.Remove(whenISee);
                 _settings.Save();
             }
             Close();
