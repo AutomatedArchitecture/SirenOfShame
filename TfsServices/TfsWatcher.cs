@@ -15,8 +15,6 @@ using SirenOfShame.Lib.Watcher;
 using TfsServices.Configuration;
 using BuildStatus = SirenOfShame.Lib.Watcher.BuildStatus;
 
-// This is a useless comment
-
 namespace TfsServices
 {
     public class TfsWatcher : WatcherBase
