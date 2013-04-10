@@ -16,11 +16,13 @@ namespace TfsServices.Configuration
         private readonly IBuildDefinition _buildDefinition;
         private readonly MyTfsProject _myTfsProject;
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(MyTfsBuildDefinition));
+        private readonly MyBuildServer _myBuildServer;
 
         public MyTfsBuildDefinition(IBuildDefinition buildDefinition, MyTfsProject myTfsProject)
         {
             _buildDefinition = buildDefinition;
             _myTfsProject = myTfsProject;
+            _myBuildServer = new MyBuildServer(_buildDefinition.BuildServer, _myTfsProject);
         }
 
         public override string Name
@@ -30,12 +32,12 @@ namespace TfsServices.Configuration
 
         public override string Id
         {
-            get { return _buildDefinition.Name; }
+            get { return _buildDefinition.Id; }
         }
 
         public MyBuildServer BuildServer
         {
-            get { return new MyBuildServer(_buildDefinition.BuildServer); }
+            get { return _myBuildServer; }
         }
 
         public Uri Uri
@@ -78,7 +80,7 @@ namespace TfsServices.Configuration
                 }
 
                 return maxChangeset == null ? null : new MyChangeset(maxChangeset);
-            } 
+            }
             catch (Exception ex)
             {
                 Log.Error("Unable to retrieve comments for build definition " + Id, ex);
