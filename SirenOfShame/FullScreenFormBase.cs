@@ -23,10 +23,7 @@ namespace SirenOfShame
 
             try
             {
-                var isScreenSaverActive = (Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", "1") ?? "1").ToString();
-                if (isScreenSaverActive == "1") isScreenSaverActive = "true";
-                if (isScreenSaverActive == "0") isScreenSaverActive = "false";
-                _wasScreenSaverPreviouslyActive = bool.Parse(isScreenSaverActive);
+                _wasScreenSaverPreviouslyActive = (Registry.GetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", "1") ?? "1").Equals("1");
             }
             catch (Exception ex)
             {
@@ -35,24 +32,11 @@ namespace SirenOfShame
             }
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            ResetScreenSaverSettings();
-            base.OnVisibleChanged(e);
-        }
-
         protected void ResetScreenSaverSettings()
         {
             try
             {
-                if (Visible)
-                {
-                    Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", "0");
-                }
-                else
-                {
-                    Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", _wasScreenSaverPreviouslyActive ? "1" : "0");
-                }
+                Registry.SetValue("HKEY_CURRENT_USER\\Control Panel\\Desktop", "ScreenSaveActive", Visible || _wasScreenSaverPreviouslyActive ? "1" : "0");
             }
             catch (Exception ex)
             {
