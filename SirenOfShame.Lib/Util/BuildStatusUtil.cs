@@ -18,11 +18,15 @@ namespace SirenOfShame.Lib.Util
             var newBuildStatusesToAdd = newBuildStatuses.Except(oldBuildStatuses, buildStatusComparer);
             var unchangedBuildStatuses = from oldStatus in oldBuildStatuses
                                          join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
-                                         where newStatus.BuildStatusEnum == oldStatus.BuildStatusEnum && newStatus.StartedTime == oldStatus.StartedTime
+                                         where newStatus.BuildStatusEnum == oldStatus.BuildStatusEnum &&
+                                            newStatus.BuildQualityEnum == oldStatus.BuildQualityEnum &&
+                                            newStatus.StartedTime == oldStatus.StartedTime
                                          select oldStatus;
             var changedBuildStatuses = from oldStatus in oldBuildStatuses
                                        join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
-                                       where newStatus.BuildStatusEnum != oldStatus.BuildStatusEnum || newStatus.StartedTime != oldStatus.StartedTime
+                                       where newStatus.BuildStatusEnum != oldStatus.BuildStatusEnum || 
+                                            newStatus.BuildQualityEnum != oldStatus.BuildQualityEnum ||
+                                            newStatus.StartedTime != oldStatus.StartedTime
                                        select newStatus;
             return oldBuildStatusesToRetain.Union(newBuildStatusesToAdd).Union(unchangedBuildStatuses).Union(changedBuildStatuses).ToArray();
         }

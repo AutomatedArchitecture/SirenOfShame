@@ -174,6 +174,8 @@ namespace SirenOfShame.Lib.Settings
         [XmlIgnore]
         public bool TryToFindOldAchievementsAtNextOpportunity { get; set; }
 
+        public bool ApplyBuildQuality { get; set; }
+
         public virtual void Save()
         {
             string fileName = GetConfigFileName();
