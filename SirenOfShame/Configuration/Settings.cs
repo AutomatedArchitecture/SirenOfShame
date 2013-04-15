@@ -16,6 +16,7 @@ namespace SirenOfShame.Configuration
             InitializePollIntervalSection();
             InitializeUpdateLocationSection();
             InitializeReputationAndAchievementSection();
+            InitializeGeneralSettingsSection();
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
         }
@@ -40,6 +41,11 @@ namespace SirenOfShame.Configuration
             _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other
                                                     ? _settings.UpdateLocationOther
                                                     : "";
+        }
+
+        private void InitializeGeneralSettingsSection()
+        {
+            _checkBoxBuildQuality.Checked = _settings.ApplyBuildQuality;
         }
 
         private void InitializeUserIAm()
@@ -161,6 +167,11 @@ namespace SirenOfShame.Configuration
         private void RecalculateClick(object sender, EventArgs e)
         {
             FindOldAchievements.TryFindOldAchievements(_settings);
+        }
+
+        private void _checkBoxBuildQuality_CheckedChanged(object sender, EventArgs e)
+        {
+            _settings.ApplyBuildQuality = _checkBoxBuildQuality.Checked;
         }
     }
 }

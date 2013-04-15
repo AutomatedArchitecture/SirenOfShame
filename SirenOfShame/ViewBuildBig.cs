@@ -42,13 +42,15 @@ namespace SirenOfShame
             _comment.Text = comment;
             _projectName.Text = buildStatusDto.BuildDefinitionDisplayName;
             SetBuildStatusIcon(buildStatusDto);
-            SetBackgroundColors(buildStatusDto.BuildStatusEnum);
+            SetBackgroundColors(buildStatusDto.BuildStatusEnum, buildStatusDto.BuildQualityEnum);
             _details.Visible = !string.IsNullOrEmpty(buildStatusDto.Url);
         }
 
         private void SetBuildStatusIcon(BuildStatusDto buildStatusDto)
         {
-            bool inProgress = buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress;
+            bool inProgress = buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress ||
+                buildStatusDto.BuildQualityEnum == BuildQualityEnum.InProgress;
+ 
             _buildStatusIcon.Visible = !inProgress;
             _loading.Visible = inProgress;
             _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
@@ -60,9 +62,11 @@ namespace SirenOfShame
             RecalculatePrettyDate();
         }
 
-        private void SetBackgroundColors(BuildStatusEnum buildStatusEnum)
+        private void SetBackgroundColors(
+            BuildStatusEnum buildStatusEnum, BuildQualityEnum buildQualityEnum)
         {
-            Color backgroundColor = GetBackgroundColor(buildStatusEnum);
+            Color backgroundColor = GetBackgroundColor(
+                buildStatusEnum, buildQualityEnum);
             _projectName.BackColor = backgroundColor;
             _buildStatusIcon.BackColor = backgroundColor;
         }

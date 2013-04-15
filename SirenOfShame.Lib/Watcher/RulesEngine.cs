@@ -271,7 +271,10 @@ namespace SirenOfShame.Lib.Watcher
 
             bool startTimesUnequal = oldStatus.StartedTime != newStatus.StartedTime;
             bool buildStatusesUnequal = oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum;
-            bool buildChanged = startTimesUnequal || buildStatusesUnequal;
+            bool buildQualityUnequal = 
+                oldStatus.BuildQualityEnum != newStatus.BuildQualityEnum;
+            bool buildChanged = 
+                startTimesUnequal || buildStatusesUnequal || buildQualityUnequal;
             
             if (buildChanged)
             {
@@ -282,6 +285,8 @@ namespace SirenOfShame.Lib.Watcher
                     newStatus.StartedTime, 
                     oldStatus.BuildStatusEnum, 
                     newStatus.BuildStatusEnum,
+                    oldStatus.BuildQualityEnum,
+                    newStatus.BuildQualityEnum,
                     newStatus.BuildId,
                     newStatus.RequestedBy
                     );
@@ -435,7 +440,9 @@ namespace SirenOfShame.Lib.Watcher
                                            join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
-                .Any(bs => bs.setting.AffectsTrayIcon && bs.buildStatus.BuildStatusEnum == BuildStatusEnum.Broken);
+                .Any(bs => bs.setting.AffectsTrayIcon && (
+                    bs.buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ||
+                    bs.buildStatus.BuildQualityEnum == BuildQualityEnum.Failed));
             TrayIcon trayIcon = anyBuildBroken ? TrayIcon.Red : TrayIcon.Green;
             InvokeSetTrayIcon(trayIcon);
         }

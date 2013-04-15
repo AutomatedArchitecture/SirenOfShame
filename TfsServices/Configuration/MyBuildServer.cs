@@ -146,6 +146,27 @@ namespace TfsServices.Configuration
                     return BuildStatusEnum.Unknown;
             }
         }
+
+        private BuildQualityEnum GetBuildQualityEnum(String quality)
+        {
+            switch (quality)
+            {
+                case "Initial Test Passed":
+                case "Lab Test Passed":
+	            case "Ready for Deployment":
+	            case "Released":
+	            case "UAT Passed":
+                    return BuildQualityEnum.Passed;
+                case "Under Investigation":
+	                return BuildQualityEnum.InProgress;
+                case "Rejected":
+                    return BuildQualityEnum.Failed;
+                case "Ready for Initial Test":
+                case "Unexamined":
+                default: 
+                    return BuildQualityEnum.Unknown;
+            }    
+        }
 	
         public BuildStatus CreateBuildStatus(IBuildDetail buildDetail)
         {
@@ -154,6 +175,7 @@ namespace TfsServices.Configuration
             {
                 BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
                 BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
+                BuildQualityEnum = GetBuildQualityEnum(buildDetail.Quality),
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
@@ -189,6 +211,13 @@ namespace TfsServices.Configuration
             else
             {
                 result.RequestedBy = result.RequestedBy;
+            }
+
+            if (result.BuildQualityEnum == BuildQualityEnum.Failed)
+            {
+                result.Comment =
+                    "Build deployment or test failure. Please see test server or test results for details.\n" +
+                    result.Comment;
             }
 
             result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);

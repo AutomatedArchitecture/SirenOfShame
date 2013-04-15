@@ -56,15 +56,29 @@ namespace SirenOfShame
         public static Color FailColor = Color.FromArgb(255, 189, 54, 47);
         public static Color PrimaryColor = Color.FromArgb(255, 40, 95, 152);
 
-        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
+        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = 
+            new Dictionary<BuildStatusEnum, Color>
         {
             { BuildStatusEnum.Working, SuccessColor },
             { BuildStatusEnum.Broken, FailColor },
         };
 
-        protected Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)
+        private readonly static Dictionary<BuildQualityEnum, Color> BuildQualityToColorMap =
+            new Dictionary<BuildQualityEnum, Color>
         {
-            return GetColorForBuildType(BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
+            { BuildQualityEnum.Passed, SuccessColor },
+            { BuildQualityEnum.Failed, FailColor },
+        };
+
+        protected Color GetBackgroundColor(
+            BuildStatusEnum buildStatusEnum, BuildQualityEnum buildQualityEnum)
+        {
+            if (buildQualityEnum != BuildQualityEnum.Unknown)
+                return GetColorForBuildQuality(
+                    BuildQualityToColorMap, buildQualityEnum, PrimaryColor);
+            else
+                return GetColorForBuildType(
+                    BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
         }
 
         private static Color GetColorForBuildType(Dictionary<BuildStatusEnum, Color> dictionary, BuildStatusEnum newsItemEventType, Color defaultColor)
@@ -74,6 +88,18 @@ namespace SirenOfShame
                 return color;
             return defaultColor;
         }
+
+        private static Color GetColorForBuildQuality(
+            Dictionary<BuildQualityEnum, Color> dictionary, 
+            BuildQualityEnum newsItemEventType, 
+            Color defaultColor)
+        {
+            Color color;
+            if (dictionary.TryGetValue(newsItemEventType, out color))
+                return color;
+            return defaultColor;
+        }
+
 
         public void UpdateListItem(BuildStatusDto buildStatus)
         {

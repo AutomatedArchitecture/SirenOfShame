@@ -72,6 +72,24 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
+        private static string BuildQualityToString(
+            BuildQualityEnum buildQuality)
+        {
+            switch (buildQuality)
+            {
+                case BuildQualityEnum.Passed:
+                    return "Passed";
+                case BuildQualityEnum.Failed:
+                    return "Failed";
+                case BuildQualityEnum.Unknown:
+                    return "Unknown";
+                case BuildQualityEnum.InProgress:
+                    return "In Progress";
+                default:
+                    throw new Exception("Unknown Status " + buildQuality);
+            }
+        }
+
         public DateTime? StartedTime { get; set; }
         public DateTime? FinishedTime { get; set; }
 
@@ -82,6 +100,7 @@ namespace SirenOfShame.Lib.Watcher
         public string BuildId { get; set; }
         public string Url { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
+        public BuildQualityEnum BuildQualityEnum { get; set; }
         public string BuildStatusMessage { get; set; }
         public string Comment { get; set; }
 
@@ -99,10 +118,24 @@ namespace SirenOfShame.Lib.Watcher
         {
             get
             {
-                if (BuildStatusEnum == BuildStatusEnum.Working) return BallsEnum.Green;
-                if (BuildStatusEnum == BuildStatusEnum.Broken) return BallsEnum.Red;
-                if (BuildStatusEnum == BuildStatusEnum.Unknown) return BallsEnum.Triangle;
-                return BallsEnum.Gray;
+                if (BuildQualityEnum == BuildQualityEnum.Unknown)
+                {
+                    if (BuildStatusEnum == BuildStatusEnum.Working) 
+                        return BallsEnum.Green;
+                    if (BuildStatusEnum == BuildStatusEnum.Broken) 
+                        return BallsEnum.Red;
+                    if (BuildStatusEnum == BuildStatusEnum.Unknown)
+                        return BallsEnum.Triangle;
+                    return BallsEnum.Gray;
+                }
+                else
+                {
+                    if (BuildQualityEnum == BuildQualityEnum.Passed)
+                        return BallsEnum.Green;
+                    if (BuildQualityEnum == BuildQualityEnum.Failed)
+                        return BallsEnum.Red;
+                    return BallsEnum.Gray;
+                }
             }
         }
 
@@ -119,6 +152,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 BuildStatusEnum = BuildStatusEnum,
                 BuildStatusMessage = BuildStatusMessage,
+                BuildQualityEnum = settings.ApplyBuildQuality ? BuildQualityEnum : BuildQualityEnum.Unknown,
                 ImageIndex = (int)BallIndex,
                 StartTimeShort = FormatAsDayMonthTime(StartedTime),
                 LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
