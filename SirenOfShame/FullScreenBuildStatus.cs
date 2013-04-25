@@ -6,6 +6,7 @@ using System.Linq.Dynamic;
 using System.Linq.Expressions;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Properties;
@@ -20,16 +21,37 @@ namespace SirenOfShame
 
         private string _currentSortColumn;
 
-        private int _oldBuildCount = 0;
+        private int _oldBuildCount;
+
+        readonly Timer _prettyDateTimer = new Timer();
 
         public FullScreenBuildStatus()
         {
             InitializeComponent();
+            _prettyDateTimer.Interval = 5000;
+            _prettyDateTimer.Tick += PrettyDateTimerOnTick;
+        }
+
+        private void PrettyDateTimerOnTick(object sender, EventArgs eventArgs)
+        {
+            RefreshListView<string>(null);
         }
 
         private void FullScreenBuildStatusKeyDown(object sender, KeyEventArgs e)
         {
             ExitFullScreen();
+        }
+
+        protected override void ExitFullScreen()
+        {
+            base.ExitFullScreen();
+            _prettyDateTimer.Stop();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            _prettyDateTimer.Start();
         }
 
         public void RefreshListViewWithBuildStatus(RefreshStatusEventArgs args, SirenOfShameSettings settings)
@@ -55,11 +77,15 @@ namespace SirenOfShame
                 _oldBuildCount = buildCount;
             }
 
-            var sortColumnName = ((MemberExpression)sortColumn.Body).Member.Name;
-            if (!retainCurrentSort || _currentSortColumn == null)
+            bool thereIsANewOrderByColumn = sortColumn != null;
+            if (thereIsANewOrderByColumn)
             {
-                _currentSortAscending = (sortColumnName != _currentSortColumn) || !_currentSortAscending;
-                _currentSortColumn = sortColumnName;
+                var sortColumnName = ((MemberExpression) sortColumn.Body).Member.Name;
+                if (!retainCurrentSort || _currentSortColumn == null)
+                {
+                    _currentSortAscending = (sortColumnName != _currentSortColumn) || !_currentSortAscending;
+                    _currentSortColumn = sortColumnName;
+                }
             }
 
             var buildStatusListViewItems = _buildStatusDtos.AsQueryable().OrderBy(_currentSortColumn + " " + (_currentSortAscending ? "ASC" : "DESC"));
@@ -72,7 +98,7 @@ namespace SirenOfShame
 
                 SetImage(GetBallBigResource((BallsEnum)buildStatusListViewItem.ImageIndex), row, 0);
                 SetText(buildStatusListViewItem.BuildDefinitionDisplayName, row, 1);
-                SetText(buildStatusListViewItem.StartTimeShort, row, 2);
+                SetText(buildStatusListViewItem.LocalStartTime.PrettyDate(), row, 2);
                 SetText(buildStatusListViewItem.Duration, row, 3);
                 SetText(buildStatusListViewItem.RequestedByDisplayName, row, 4);
                 SetText(comment, row, 5);
