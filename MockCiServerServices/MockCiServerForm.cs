@@ -38,7 +38,7 @@ namespace MockCiServerServices
             return results;
         }
 
-        private DateTime startedTime = DateTime.Now;
+        private DateTime startedTime = DateTime.UtcNow;
         
         private IEnumerable<BuildStatus> GetAdditionalBuilds()
         {
