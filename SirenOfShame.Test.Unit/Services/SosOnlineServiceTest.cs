@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SirenOfShame.Lib.Exceptions;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Watcher;
 using SirenOfShame.Lib.Settings;
@@ -9,6 +13,52 @@ namespace SirenOfShame.Test.Unit.Services
     [TestClass]
     public class SosOnlineServiceTest
     {
+        [TestMethod]
+        public void BuildStatusChanged_MyPointAndAchievementsOnly_DoesNotSync()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.SosOnlineAlwaysSync = true;
+            rulesEngine.Settings.SosOnlineWhatToSync = WhatToSyncEnum.MyPointAndAchievementsOnly;
+            rulesEngine.Settings.SosOnlineUsername = "mockUsername";
+            var mock = new Mock<SosOnlineService>();
+            rulesEngine.SosOnlineService = mock.Object;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void BuildStatusChanged_SyncBuildStatuses_DoesSync()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.SosOnlineAlwaysSync = true;
+            rulesEngine.Settings.SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            rulesEngine.Settings.SosOnlineUsername = "mockUsername";
+            var mock = new Mock<SosOnlineService>();
+            rulesEngine.SosOnlineService = mock.Object;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Once());
+        }
+
+        [TestMethod]
+        public void Synchronize_ICheckInWithAlwaysSyncSetting_SosOnlineServiceSynchronize()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.SosOnlineAlwaysSync = true;
+            rulesEngine.Settings.SosOnlineUsername = "mockUsername";
+            rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
+
+            var sosOnlineService = new Mock<SosOnlineService>();
+            sosOnlineService.Setup(i => i.Synchronize(It.IsAny<SirenOfShameSettings>(), "633979044610000000,633979050100000000,1", null, It.IsAny<Action<DateTime>>(), It.IsAny<Action<String, ServerUnavailableException>>()))
+                .Verifiable();
+            rulesEngine.SosOnlineService = sosOnlineService.Object;
+
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+
+            sosOnlineService.Verify();
+        }
+
         [TestMethod]
         public void TryToGetAndSendNewSosOnlineAlerts_HaveNeverCheckedForAlerts_SendAlertToUi()
         {
