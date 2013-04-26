@@ -1,6 +1,7 @@
 ﻿// ReSharper disable InconsistentNaming
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,6 +15,45 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class RulesEngineTest
     {
+        [TestMethod]
+        public void IdenticalBuildTwice_ShouldNotTriggerTrayIconTheSecondTime()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 1, TrayIcon.Question);
+            var buildStatus = new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = RulesEngineWrapper.BUILD1_ID,
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 10, 10),
+                    Comment = "Fixing a typo"
+                };
+            rulesEngine.InvokeStatusChecked(buildStatus);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
+            rulesEngine.InvokeStatusChecked(buildStatus);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
+        }
+
+        [TestMethod]
+        public void BuildPassesThenFails_TrayIconShouldTurnRed()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.SetTrayIconEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 3, TrayIcon.Red);
+        }
+
+        private void AssertTrayIconCountAndLastColor(IList<SetTrayIconEventArgs> trayIcons, int count, TrayIcon trayIcon)
+        {
+            Assert.AreEqual(trayIcons.Count, count);
+            if (trayIcons.Any())
+                Assert.AreEqual(trayIcon, trayIcons.Last().TrayIcon);
+        }
+
         [TestMethod]
         public void UserMappingExistsForUser2ToUser1AndUser2ChecksIn_RefreshStatusLooksLikeUser1()
         {

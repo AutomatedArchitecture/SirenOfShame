@@ -143,7 +143,8 @@ namespace SirenOfShame.Lib.Watcher
             TryToGetAndSendNewSosOnlineAlerts();
             BuildStatus[] allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, args.BuildStatuses);
             IList<BuildStatus> changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
-            InvokeSetTrayIcon(allBuildStatuses);
+            if (!changedBuildStatuses.Any()) return;
+            InvokeSetTrayIcon(changedBuildStatuses);
             InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
             AddAnyNewPeopleToSettings(changedBuildStatuses);
             UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
@@ -359,8 +360,9 @@ namespace SirenOfShame.Lib.Watcher
             SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses);
         }
 
-        private void TrySynchronizeMyPointsAndAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
+        private void TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
         {
+            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
             var exportedBuilds = SosDb.ExportNewBuilds(_settings);
@@ -436,9 +438,9 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private void InvokeSetTrayIcon(IEnumerable<BuildStatus> allBuildStatuses)
+        private void InvokeSetTrayIcon(IEnumerable<BuildStatus> buildStatuses)
         {
-            var buildStatusesAndSettings = from buildStatus in allBuildStatuses
+            var buildStatusesAndSettings = from buildStatus in buildStatuses
                                            join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
