@@ -14,6 +14,20 @@ namespace SirenOfShame.Test.Unit.Services
     public class SosOnlineServiceTest
     {
         [TestMethod]
+        public void BuildStatusChanged_InProgressBuilds_DoSync()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.Settings.SosOnlineAlwaysSync = true;
+            rulesEngine.Settings.SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            rulesEngine.Settings.SosOnlineUsername = "mockUsername";
+            var mock = new Mock<SosOnlineService>();
+            rulesEngine.SosOnlineService = mock.Object;
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Exactly(2));
+        }
+
+        [TestMethod]
         public void BuildStatusChanged_MyPointAndAchievementsOnly_DoesNotSync()
         {
             var rulesEngine = new RulesEngineWrapper();
