@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Watcher;
@@ -24,7 +25,7 @@ namespace SirenOfShame.Test.Unit.Services
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Exactly(2));
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<OfflineUserDto>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -37,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Services
             var mock = new Mock<SosOnlineService>();
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Never());
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<OfflineUserDto>()), Times.Never());
         }
 
         [TestMethod]
@@ -50,7 +51,7 @@ namespace SirenOfShame.Test.Unit.Services
             var mock = new Mock<SosOnlineService>();
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>()), Times.Once());
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<OfflineUserDto>()), Times.Once());
         }
 
         [TestMethod]

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using SignalR.Client;
 using SignalR.Client.Hubs;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
@@ -28,8 +29,8 @@ namespace SirenOfShame.Lib.Services
     public class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public const string SOS_URL = "http://sirenofshame.com";
-        //public const string SOS_URL = "http://localhost.:3115";
+        //public const string SOS_URL = "http://sirenofshame.com";
+        public const string SOS_URL = "http://localhost.:3115";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 
@@ -89,12 +90,12 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("Password", settings.SosOnlinePassword);
         }
 
-        public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses)
+        public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<OfflineUserDto> changedUsers)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
-            string json = JsonConvert.SerializeObject(changedBuildStatuses);
-            webClientXml.Add("ChangedBuildStatuses", json);
+            webClientXml.Add("ChangedBuildStatuses", JsonConvert.SerializeObject(changedBuildStatuses));
+            webClientXml.Add("ChangedUsers", JsonConvert.SerializeObject(changedUsers));
             if (settings.SoftwareInstanceId.HasValue)
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             const string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";

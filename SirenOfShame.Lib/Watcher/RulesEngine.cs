@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using log4net;
@@ -356,7 +357,11 @@ namespace SirenOfShame.Lib.Watcher
         private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
         {
             if (_settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses) return;
-            SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses);
+            var requestedByPeople = _settings.VisiblePeople
+                .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
+                .Select(i => new OfflineUserDto(i))
+                .ToList();
+            SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses, requestedByPeople);
         }
 
         private void TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
@@ -556,7 +561,11 @@ namespace SirenOfShame.Lib.Watcher
 
         public void SyncAllBuildStatuses()
         {
-            _sosOnlineService.BuildStatusChanged(_settings, PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList());
+            _sosOnlineService.BuildStatusChanged(
+                _settings, 
+                PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList(),
+                _settings.People.Select(i => new OfflineUserDto(i)).ToList()
+                );
         }
     }
 }
