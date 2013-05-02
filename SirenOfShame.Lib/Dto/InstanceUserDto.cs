@@ -4,9 +4,9 @@ using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Dto
 {
-    public class OfflineUserDto
+    public class InstanceUserDto
     {
-        public OfflineUserDto(PersonSetting personSetting)
+        public InstanceUserDto(PersonSetting personSetting)
         {
             RawName = personSetting.RawName;
             Reputation = personSetting.GetReputation();
@@ -14,6 +14,10 @@ namespace SirenOfShame.Lib.Dto
             Achievements = personSetting.Achievements.Select(i => new OfflineUserAchievementDto(i)).ToList();
             AvatarId = personSetting.AvatarId;
             Hidden = personSetting.Hidden;
+            FailPercent = (int)(personSetting.CurrentBuildRatio * 100);
+            Csb = personSetting.CurrentSuccessInARow;
+            TotalBuilds = personSetting.TotalBuilds;
+            Fseb = personSetting.NumberOfTimesFixedSomeoneElsesBuild;
         }
 
         public int AvatarId { get; set; }
@@ -21,6 +25,14 @@ namespace SirenOfShame.Lib.Dto
         public string DisplayName { get; set; }
 
         public int Reputation { get; set; }
+
+        public int FailPercent { get; set; }
+        
+        public int Csb { get; set; }
+        
+        public int TotalBuilds { get; set; }
+        
+        public int Fseb { get; set; }
 
         public string RawName { get; set; }
 

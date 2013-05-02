@@ -30,7 +30,7 @@ namespace SirenOfShame.Test.Unit.Services
         {
         }
 
-        public override void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<OfflineUserDto> requestedByPeople)
+        public override void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<InstanceUserDto> requestedByPeople)
         {
         }
     }

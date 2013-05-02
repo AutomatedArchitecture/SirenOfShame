@@ -13,7 +13,7 @@ namespace SirenOfShame.Configuration
     {
         private readonly SirenOfShameSettings _settings;
 
-        private bool _initializing = true;
+        private readonly bool _initializing = true;
         
         public SyncOnline(SirenOfShameSettings settings)
         {
@@ -112,14 +112,21 @@ namespace SirenOfShame.Configuration
 
             var sosDb = new SosDb();
             var exportedBuilds = sosDb.ExportNewBuilds(_settings);
+            var sosOnlineService = new SosOnlineService();
             if (exportedBuilds == null)
             {
                 ManualSyncComplete("No new builds to export", authenticatedSuccessfully: true);
-                return;
             }
-            string exportedAchievements = _settings.ExportNewAchievements();
-            var sosOnlineService = new SosOnlineService();
-            sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
+            else
+            {
+                string exportedAchievements = _settings.ExportNewAchievements();
+                sosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnSosOnlineFailure);
+            }
+            var parent = ParentForm as ConfigureSosOnline;
+            if (parent != null)
+            {
+                parent.OnSyncAllBuildStatuses();
+            }
         }
 
         private void ManualSyncComplete(string status, bool authenticatedSuccessfully)

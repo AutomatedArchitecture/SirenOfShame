@@ -589,6 +589,7 @@ namespace SirenOfShame
             bool didNotPreviouslySyncBuildStatuses = _settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses;
 
             var configureSosOnline = new ConfigureSosOnline(_settings);
+            configureSosOnline.SyncAllBuildStatuses += ConfigureSosOnlineSyncAllBuildStatuses;
             configureSosOnline.ShowDialog(this);
 
             bool isNowSyncingBuildStatuses = _settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses;
@@ -598,6 +599,11 @@ namespace SirenOfShame
             }
 
             _viewBuilds.ReinitializeGettingStarted();
+        }
+
+        private void ConfigureSosOnlineSyncAllBuildStatuses(object sender, SyncAllBuildStatusesArgs args)
+        {
+            _rulesEngine.SyncAllBuildStatuses();
         }
 
         private void ConfigureServersClick(object sender, EventArgs e)

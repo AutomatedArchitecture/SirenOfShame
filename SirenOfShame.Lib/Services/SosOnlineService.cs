@@ -90,7 +90,7 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("Password", settings.SosOnlinePassword);
         }
 
-        public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<OfflineUserDto> changedUsers)
+        public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<InstanceUserDto> changedUsers)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
