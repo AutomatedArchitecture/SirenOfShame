@@ -51,7 +51,7 @@ namespace SirenOfShame.Lib.Settings
             LedPatterns = new List<LedPatternSetting>();
             People = new List<PersonSetting>();
             UserMappings = new List<UserMapping>();
-            SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            SosOnlineWhatToSync = WhatToSyncEnum.MyPointAndAchievementsOnly;
         }
 
         public int? Version { get; set; }
