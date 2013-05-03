@@ -157,10 +157,5 @@ namespace SirenOfShame.Configuration
         {
             Program.Form.CheckForUpdates();
         }
-
-        private void RecalculateClick(object sender, EventArgs e)
-        {
-            FindOldAchievements.TryFindOldAchievements(_settings);
-        }
     }
 }

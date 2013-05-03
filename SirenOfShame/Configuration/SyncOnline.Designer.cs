@@ -57,10 +57,10 @@ namespace SirenOfShame.Configuration
             this.label6 = new System.Windows.Forms.Label();
             this._sosOnlineLogin = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this._details = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this._syncBuildStatuses = new System.Windows.Forms.RadioButton();
             this._syncMyStuffOnly = new System.Windows.Forms.RadioButton();
-            this._details = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
@@ -350,6 +350,18 @@ namespace SirenOfShame.Configuration
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "What To Sync";
             // 
+            // _details
+            // 
+            this._details.AutoSize = true;
+            this._details.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
+            this._details.Location = new System.Drawing.Point(25, 131);
+            this._details.Name = "_details";
+            this._details.Size = new System.Drawing.Size(66, 13);
+            this._details.TabIndex = 23;
+            this._details.TabStop = true;
+            this._details.Text = "More Details";
+            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._details_LinkClicked);
+            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -384,18 +396,6 @@ namespace SirenOfShame.Configuration
             this._syncMyStuffOnly.Text = "My points and achievements only";
             this._syncMyStuffOnly.UseVisualStyleBackColor = true;
             this._syncMyStuffOnly.CheckedChanged += new System.EventHandler(this.SyncMyStuffOnlyCheckedChanged);
-            // 
-            // _details
-            // 
-            this._details.AutoSize = true;
-            this._details.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this._details.Location = new System.Drawing.Point(25, 131);
-            this._details.Name = "_details";
-            this._details.Size = new System.Drawing.Size(66, 13);
-            this._details.TabIndex = 23;
-            this._details.TabStop = true;
-            this._details.Text = "More Details";
-            this._details.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._details_LinkClicked);
             // 
             // SyncOnline
             // 

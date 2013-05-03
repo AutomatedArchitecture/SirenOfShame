@@ -119,7 +119,7 @@ namespace SirenOfShame.Configuration
             // _details
             // 
             this._details.AutoSize = true;
-            this._details.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this._details.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(83)))), ((int)(((byte)(83)))));
             this._details.Location = new System.Drawing.Point(18, 214);
             this._details.Name = "_details";
             this._details.Size = new System.Drawing.Size(66, 13);
