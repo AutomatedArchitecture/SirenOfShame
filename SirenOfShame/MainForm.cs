@@ -320,10 +320,10 @@ namespace SirenOfShame
 
             TryUpgrade();
 
-            if (_settings.TryToFindOldAchievementsAtNextOpportunity)
+            if (_settings.ShowUpgradeWindowAtNextOpportunity)
             {
                 FindOldAchievements.TryFindOldAchievements(_settings);
-                _settings.TryToFindOldAchievementsAtNextOpportunity = false;
+                _settings.ShowUpgradeWindowAtNextOpportunity = false;
             }
 
             StartWatchingBuild();
