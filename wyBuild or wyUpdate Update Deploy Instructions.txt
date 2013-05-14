@@ -40,7 +40,7 @@ Update google code home page to link to RSS post
 Save wyUpdate
 Save Visual Studio
 Commit
-Tag
+Merge to the 'Release' branch
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
