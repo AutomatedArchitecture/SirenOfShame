@@ -21,6 +21,11 @@ namespace SirenOfShame.Lib.Helpers
             if (distance.TotalDays < 7) return (int) distance.TotalDays + " days ago";
             if (distance.TotalDays < 14) return "last week";
             if (distance.TotalDays < 35) return (int)(distance.TotalDays / 7) + " weeks ago";
+            if (distance.TotalDays < 365)
+            {
+                var monthsAgo = (int) (distance.TotalDays/30);
+                return string.Format("{0} month{1} ago", monthsAgo, monthsAgo == 1 ? "" : "s");
+            }
             return dateTime.ToString("d");
         }
     }
