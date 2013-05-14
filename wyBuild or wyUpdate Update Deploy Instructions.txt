@@ -1,6 +1,6 @@
 Increment major or minor AssemblyInfo.cs AssemblyVersion is correct
 
-Build
+Build (Release configuration)
 
 wyUpdate Deploy Instructions
 	Run wyBuild
