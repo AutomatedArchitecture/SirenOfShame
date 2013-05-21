@@ -11,6 +11,14 @@ namespace SirenOfShame.Configuration
     {
         private readonly SirenOfShameSettings _settings;
 
+        public event SyncAllBuildStatusesEvent SyncAllBuildStatuses;
+
+        public virtual void OnSyncAllBuildStatuses()
+        {
+            SyncAllBuildStatusesEvent handler = SyncAllBuildStatuses;
+            if (handler != null) handler(this, new SyncAllBuildStatusesArgs());
+        }
+
         public ConfigureSosOnline(SirenOfShameSettings settings)
         {
             _settings = settings;
@@ -43,5 +51,11 @@ namespace SirenOfShame.Configuration
         {
             return _alwaysOffline.Checked ? (UserControl)new SyncOffline(_settings) : new SyncOnline(_settings);
         }
+    }
+
+    public delegate void SyncAllBuildStatusesEvent(object sender, SyncAllBuildStatusesArgs args);
+
+    public class SyncAllBuildStatusesArgs
+    {
     }
 }

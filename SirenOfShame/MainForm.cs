@@ -239,8 +239,16 @@ namespace SirenOfShame
 
         private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
         {
-            RefreshUserStats(changedBuildStatuses);
-            _viewBuilds.RefreshStats();
+            try
+            {
+                RefreshUserStats(changedBuildStatuses);
+                _viewBuilds.RefreshStats();
+            }
+            catch (Exception ex)
+            {
+                ExceptionMessageBox.Show(this, "Drat", "This tricky, hard to reproduce bug just occurred while refreshing user stats. Would you mind please sending us the details?", ex);
+                _log.Error("Error while trying to refresh stats", ex);
+            }
         }
 
         /// <summary>
@@ -581,6 +589,7 @@ namespace SirenOfShame
             bool didNotPreviouslySyncBuildStatuses = _settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses;
 
             var configureSosOnline = new ConfigureSosOnline(_settings);
+            configureSosOnline.SyncAllBuildStatuses += ConfigureSosOnlineSyncAllBuildStatuses;
             configureSosOnline.ShowDialog(this);
 
             bool isNowSyncingBuildStatuses = _settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses;
@@ -590,6 +599,11 @@ namespace SirenOfShame
             }
 
             _viewBuilds.ReinitializeGettingStarted();
+        }
+
+        private void ConfigureSosOnlineSyncAllBuildStatuses(object sender, SyncAllBuildStatusesArgs args)
+        {
+            _rulesEngine.SyncAllBuildStatuses();
         }
 
         private void ConfigureServersClick(object sender, EventArgs e)

@@ -60,7 +60,7 @@ namespace SirenOfShame
             }
         }
 
-        protected void ExitFullScreen()
+        protected virtual void ExitFullScreen()
         {
             Hide();
             Close();

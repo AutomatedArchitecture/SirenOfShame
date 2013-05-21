@@ -19,6 +19,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public RulesEngineWrapper()
         {
             TrayNotificationEvents = new List<TrayNotifyEventArgs>();
+            SetTrayIconEvents = new List<SetTrayIconEventArgs>();
             RefreshStatusEvents = new List<RefreshStatusEventArgs>();
             PlayWindowsAudioEvents = new List<PlayWindowsAudioEventArgs>();
             StatusBarUpdateEvents = new List<UpdateStatusBarEventArgs>();
@@ -41,6 +42,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             };
 
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
+            _rulesEngine.SetTrayIcon += (sender, arg) => SetTrayIconEvents.Add(arg);
             _rulesEngine.RefreshStatus += (sender, arg) => RefreshStatusEvents.Add(arg);
             _rulesEngine.PlayWindowsAudio += (sender, arg) => PlayWindowsAudioEvents.Add(arg);
             _rulesEngine.UpdateStatusBar += (sender, arg) => StatusBarUpdateEvents.Add(arg);
@@ -54,11 +56,13 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.Start(initialStart: true);
         }
 
+
         private readonly FakeRulesEngine _rulesEngine;
-        
+
         public SirenOfShameSettingsFake Settings { get; set; }
         public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
         public List<TrayNotifyEventArgs> TrayNotificationEvents { get; set; }
+        public List<SetTrayIconEventArgs> SetTrayIconEvents { get; set; }
         public List<RefreshStatusEventArgs> RefreshStatusEvents { get; set; }
         public List<PlayWindowsAudioEventArgs> PlayWindowsAudioEvents { get; set; }
         public List<UpdateStatusBarEventArgs> StatusBarUpdateEvents { get; set; }

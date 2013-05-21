@@ -35,7 +35,7 @@ namespace SirenOfShame.Configuration
             this._viewLeaderboards = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this._done = new SosButton();
+            this._done = new SirenOfShame.Lib.SosButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this._alwaysOffline = new System.Windows.Forms.CheckBox();
@@ -163,7 +163,7 @@ namespace SirenOfShame.Configuration
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureSosOnline";
-            this.Text = "ConfigureSosOnline";
+            this.Text = "Configure SoS Online";
             this.ResumeLayout(false);
             this.PerformLayout();
 

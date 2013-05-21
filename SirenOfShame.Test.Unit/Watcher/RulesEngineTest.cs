@@ -1,13 +1,12 @@
 ﻿// ReSharper disable InconsistentNaming
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
@@ -17,25 +16,43 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
-        public void ICheckInWithAlwaysSyncSetting_SosOnlineServiceSynchronize()
+        public void IdenticalBuildTwice_ShouldNotTriggerTrayIconTheSecondTime()
         {
             var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.Settings.SosOnlineAlwaysSync = true;
-            rulesEngine.Settings.SosOnlineUsername = "jshimpty";
-            rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
-
-            var sosOnlineService = new Mock<SosOnlineService>();
-            sosOnlineService.Setup(i => i.Synchronize(It.IsAny<SirenOfShameSettings>(), "633979044610000000,633979050100000000,1", null, It.IsAny<Action<DateTime>>(), It.IsAny<Action<String, ServerUnavailableException>>()))
-                .Verifiable();
-            rulesEngine.SosOnlineService = sosOnlineService.Object;
-            
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
-            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            
-            sosOnlineService.Verify();
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 1, TrayIcon.Question);
+            var buildStatus = new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = RulesEngineWrapper.BUILD1_ID,
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                    FinishedTime = new DateTime(2010, 1, 1, 1, 10, 10),
+                    Comment = "Fixing a typo"
+                };
+            rulesEngine.InvokeStatusChecked(buildStatus);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
+            rulesEngine.InvokeStatusChecked(buildStatus);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
         }
-        
+
+        [TestMethod]
+        public void BuildPassesThenFails_TrayIconShouldTurnRed()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            Assert.AreEqual(1, rulesEngine.SetTrayIconEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
+            AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 3, TrayIcon.Red);
+        }
+
+        private void AssertTrayIconCountAndLastColor(IList<SetTrayIconEventArgs> trayIcons, int count, TrayIcon trayIcon)
+        {
+            Assert.AreEqual(trayIcons.Count, count);
+            if (trayIcons.Any())
+                Assert.AreEqual(trayIcon, trayIcons.Last().TrayIcon);
+        }
 
         [TestMethod]
         public void UserMappingExistsForUser2ToUser1AndUser2ChecksIn_RefreshStatusLooksLikeUser1()

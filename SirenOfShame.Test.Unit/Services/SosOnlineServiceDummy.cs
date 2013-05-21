@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
@@ -28,7 +30,7 @@ namespace SirenOfShame.Test.Unit.Services
         {
         }
 
-        public override void BuildStatusChanged(SirenOfShameSettings settings, System.Collections.Generic.IList<BuildStatus> changedBuildStatuses)
+        public override void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<InstanceUserDto> requestedByPeople)
         {
         }
     }

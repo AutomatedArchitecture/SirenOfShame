@@ -10,16 +10,14 @@ namespace MockCiServerServices
     {
         private DateTime? _finishedTime;
         private DateTime? _startedTime;
-        private DateTime _localStartTime;
         private BuildStatusEnum _buildStatus;
 
         public MockProject()
         {
             InitializeComponent();
             _status.SelectedIndex = 1;
-            _localStartTime = DateTime.Now.AddMinutes(-8).AddSeconds(-4);
-            _startedTime = DateTime.Now.AddMinutes(-8).AddSeconds(-4);
-            _finishedTime = DateTime.Now;
+            _startedTime = DateTime.UtcNow.AddMinutes(-12).AddSeconds(-4);
+            _finishedTime = DateTime.UtcNow;
             UpdateDateTimeTextboxes();
         }
 
@@ -51,7 +49,6 @@ namespace MockCiServerServices
                         FinishedTime = _finishedTime,
                         StartedTime = _startedTime,
                         RequestedBy = _requestedBy.Text,
-                        LocalStartTime = _localStartTime,
                         BuildId = _startedTime.HasValue ? _startedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture) : null,
                         Url = "http://www.google.com"
                     };
@@ -66,12 +63,11 @@ namespace MockCiServerServices
             if ((_buildStatus == BuildStatusEnum.Unknown || _buildStatus == BuildStatusEnum.Working || _buildStatus == BuildStatusEnum.Broken)
                 && newBuildStatus == BuildStatusEnum.InProgress)
             {
-                _localStartTime = DateTime.Now;
-                _startedTime = DateTime.Now;
+                _startedTime = DateTime.UtcNow;
             }
             else if (_buildStatus == BuildStatusEnum.InProgress && (newBuildStatus == BuildStatusEnum.Working || newBuildStatus == BuildStatusEnum.Broken))
             {
-                _finishedTime = DateTime.Now;
+                _finishedTime = DateTime.UtcNow;
             }
 
             _buildStatus = newBuildStatus;

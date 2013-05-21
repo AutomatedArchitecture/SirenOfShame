@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using log4net;
@@ -143,7 +144,8 @@ namespace SirenOfShame.Lib.Watcher
             TryToGetAndSendNewSosOnlineAlerts();
             BuildStatus[] allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, args.BuildStatuses);
             IList<BuildStatus> changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
-            InvokeSetTrayIcon(allBuildStatuses);
+            if (!changedBuildStatuses.Any()) return;
+            InvokeSetTrayIcon(changedBuildStatuses);
             InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
             AddAnyNewPeopleToSettings(changedBuildStatuses);
             UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
@@ -215,7 +217,7 @@ namespace SirenOfShame.Lib.Watcher
 
         /// <summary>
         /// We cache the build statuses primarily so we can tell the rules engine whether a build
-        /// changed from Broken->InProgress->Working or Broken->InPgoress, etc
+        /// changed from Broken->InProgress->Working or Broken->InProgress, etc
         /// </summary>
         private void CacheBuildStatuses(IEnumerable<BuildStatus> changedBuildStatuses)
         {
@@ -345,7 +347,6 @@ namespace SirenOfShame.Lib.Watcher
 
         private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
-            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             if (!_settings.SosOnlineAlwaysSync) return;
             var noUsername = string.IsNullOrEmpty(_settings.SosOnlineUsername);
             if (noUsername) return;
@@ -357,11 +358,16 @@ namespace SirenOfShame.Lib.Watcher
         private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
         {
             if (_settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses) return;
-            SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses);
+            var requestedByPeople = _settings.VisiblePeople
+                .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
+                .Select(i => new InstanceUserDto(i))
+                .ToList();
+            SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses, requestedByPeople);
         }
 
-        private void TrySynchronizeMyPointsAndAchievements(IEnumerable<BuildStatus> changedBuildStatuses)
+        private void TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
         {
+            if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
             var exportedBuilds = SosDb.ExportNewBuilds(_settings);
@@ -424,15 +430,22 @@ namespace SirenOfShame.Lib.Watcher
 
         private static void SetValue(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
         {
-            if (!dictionary.ContainsKey(changedBuildStatus.BuildDefinitionId))
-                dictionary.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
-            else
-                dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
+            try
+            {
+                if (!dictionary.ContainsKey(changedBuildStatus.BuildDefinitionId))
+                    dictionary.Add(changedBuildStatus.BuildDefinitionId, changedBuildStatus);
+                else
+                    dictionary[changedBuildStatus.BuildDefinitionId] = changedBuildStatus;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                _log.Error("Tried to update the cache from the thread '" + Thread.CurrentThread.Name + "' but failed because the cache was previously accessed from a different thread. This could cause errors in determining whether a build changed.");
+            }
         }
 
-        private void InvokeSetTrayIcon(IEnumerable<BuildStatus> allBuildStatuses)
+        private void InvokeSetTrayIcon(IEnumerable<BuildStatus> buildStatuses)
         {
-            var buildStatusesAndSettings = from buildStatus in allBuildStatuses
+            var buildStatusesAndSettings = from buildStatus in buildStatuses
                                            join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
@@ -550,7 +563,14 @@ namespace SirenOfShame.Lib.Watcher
 
         public void SyncAllBuildStatuses()
         {
-            _sosOnlineService.BuildStatusChanged(_settings, PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList());
+            if (_settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses)
+            {
+                _sosOnlineService.BuildStatusChanged(
+                    _settings,
+                    PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList(),
+                    _settings.People.Select(i => new InstanceUserDto(i)).ToList()
+                    );
+            }
         }
     }
 }
