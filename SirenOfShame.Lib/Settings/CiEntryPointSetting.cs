@@ -22,6 +22,8 @@ namespace SirenOfShame.Lib.Settings
 
         public string EncryptedPassword { get; set; }
 
+        public bool ApplyBuildQuality { get; set; }
+
         public void SetPassword(string value)
         {
             EncryptedPassword = new TripleDesStringEncryptor().EncryptString(value);

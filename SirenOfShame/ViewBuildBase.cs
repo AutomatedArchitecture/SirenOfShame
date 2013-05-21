@@ -63,22 +63,10 @@ namespace SirenOfShame
             { BuildStatusEnum.Broken, FailColor },
         };
 
-        private readonly static Dictionary<BuildQualityEnum, Color> BuildQualityToColorMap =
-            new Dictionary<BuildQualityEnum, Color>
+        protected Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)
         {
-            { BuildQualityEnum.Passed, SuccessColor },
-            { BuildQualityEnum.Failed, FailColor },
-        };
-
-        protected Color GetBackgroundColor(
-            BuildStatusEnum buildStatusEnum, BuildQualityEnum buildQualityEnum)
-        {
-            if (buildQualityEnum != BuildQualityEnum.Unknown)
-                return GetColorForBuildQuality(
-                    BuildQualityToColorMap, buildQualityEnum, PrimaryColor);
-            else
-                return GetColorForBuildType(
-                    BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
+            return GetColorForBuildType(
+                BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
         }
 
         private static Color GetColorForBuildType(Dictionary<BuildStatusEnum, Color> dictionary, BuildStatusEnum newsItemEventType, Color defaultColor)
@@ -88,18 +76,6 @@ namespace SirenOfShame
                 return color;
             return defaultColor;
         }
-
-        private static Color GetColorForBuildQuality(
-            Dictionary<BuildQualityEnum, Color> dictionary, 
-            BuildQualityEnum newsItemEventType, 
-            Color defaultColor)
-        {
-            Color color;
-            if (dictionary.TryGetValue(newsItemEventType, out color))
-                return color;
-            return defaultColor;
-        }
-
 
         public void UpdateListItem(BuildStatusDto buildStatus)
         {

@@ -71,13 +71,16 @@ namespace TfsServices.Configuration
         private bool _firstRequest = true;
         Dictionary<String, String> _UriToName = new Dictionary<String, String>();
 
-        public MyBuildServer(IBuildServer buildServer, MyTfsProject myTfsProject)
+        public MyBuildServer(
+            IBuildServer buildServer, MyTfsProject myTfsProject)
         {
             _buildServer = buildServer;
             _tfsProject = myTfsProject;
         }
 
-        public IEnumerable<BuildStatus> GetBuildStatuses(IEnumerable<MyTfsBuildDefinition> buildDefinitions)
+        public IEnumerable<BuildStatus> GetBuildStatuses(
+            IEnumerable<MyTfsBuildDefinition> buildDefinitions,
+            bool applyBuildQuality)
         {
             var buildDefinitionUris = buildDefinitions.Select(bd => bd.Uri);
 
@@ -114,7 +117,7 @@ namespace TfsServices.Configuration
             foreach (var build in buildDetail)
             {
                 if (!buildStatuses.ContainsKey(build.Key))
-                    buildStatuses[build.Key] = CreateBuildStatus(build.Value);
+                    buildStatuses[build.Key] = CreateBuildStatus(build.Value, applyBuildQuality);
             }
 
             return buildStatuses.Values.ToArray();
@@ -147,7 +150,7 @@ namespace TfsServices.Configuration
             }
         }
 
-        private BuildQualityEnum GetBuildQualityEnum(String quality)
+        private BuildStatusEnum GetBuildStatusEnum(String quality)
         {
             switch (quality)
             {
@@ -156,26 +159,32 @@ namespace TfsServices.Configuration
 	            case "Ready for Deployment":
 	            case "Released":
 	            case "UAT Passed":
-                    return BuildQualityEnum.Passed;
+                    return BuildStatusEnum.Working;
                 case "Under Investigation":
-	                return BuildQualityEnum.InProgress;
+                    return BuildStatusEnum.InProgress;
                 case "Rejected":
-                    return BuildQualityEnum.Failed;
+                    return BuildStatusEnum.Broken;
                 case "Ready for Initial Test":
                 case "Unexamined":
-                default: 
-                    return BuildQualityEnum.Unknown;
+                default:
+                    return BuildStatusEnum.Unknown;
             }    
         }
 	
-        public BuildStatus CreateBuildStatus(IBuildDetail buildDetail)
+        public BuildStatus CreateBuildStatus(IBuildDetail buildDetail,
+            bool applyBuildQuality)
         {
+
+            BuildStatusEnum status = BuildStatusEnum.Unknown;
+            if (applyBuildQuality)
+                status = GetBuildStatusEnum(buildDetail.Quality);
+            if (status == BuildStatusEnum.Unknown)
+                status = GetBuildStatusEnum(buildDetail.Status);
 
             var result = new BuildStatus
             {
                 BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
-                BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
-                BuildQualityEnum = GetBuildQualityEnum(buildDetail.Quality),
+                BuildStatusEnum = status,
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
@@ -213,7 +222,8 @@ namespace TfsServices.Configuration
                 result.RequestedBy = result.RequestedBy;
             }
 
-            if (result.BuildQualityEnum == BuildQualityEnum.Failed)
+            if (applyBuildQuality && 
+                GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
             {
                 result.Comment =
                     "Build deployment or test failure. Please see test server or test results for details.\n" +

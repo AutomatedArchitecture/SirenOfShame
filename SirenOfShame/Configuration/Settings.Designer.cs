@@ -50,20 +50,17 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this._groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
-            this._checkBoxBuildQuality = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this._groupBoxGeneralSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ok.Location = new System.Drawing.Point(420, 464);
+            this._ok.Location = new System.Drawing.Point(420, 390);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 2;
@@ -75,7 +72,7 @@
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._cancel.Location = new System.Drawing.Point(501, 464);
+            this._cancel.Location = new System.Drawing.Point(501, 390);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 3;
@@ -107,7 +104,7 @@
             // _viewLog
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._viewLog.Location = new System.Drawing.Point(339, 464);
+            this._viewLog.Location = new System.Drawing.Point(339, 390);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
             this._viewLog.TabIndex = 8;
@@ -308,27 +305,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Reputation && Achievements";
             // 
-            // _groupBoxGeneralSettings
-            // 
-            this._groupBoxGeneralSettings.Controls.Add(this._checkBoxBuildQuality);
-            this._groupBoxGeneralSettings.Location = new System.Drawing.Point(12, 389);
-            this._groupBoxGeneralSettings.Name = "_groupBoxGeneralSettings";
-            this._groupBoxGeneralSettings.Size = new System.Drawing.Size(564, 69);
-            this._groupBoxGeneralSettings.TabIndex = 31;
-            this._groupBoxGeneralSettings.TabStop = false;
-            this._groupBoxGeneralSettings.Text = "General";
-            // 
-            // _checkBoxBuildQuality
-            // 
-            this._checkBoxBuildQuality.AutoSize = true;
-            this._checkBoxBuildQuality.Location = new System.Drawing.Point(11, 32);
-            this._checkBoxBuildQuality.Name = "_checkBoxBuildQuality";
-            this._checkBoxBuildQuality.Size = new System.Drawing.Size(163, 17);
-            this._checkBoxBuildQuality.TabIndex = 1;
-            this._checkBoxBuildQuality.Text = "Apply Build Quality to Results";
-            this._checkBoxBuildQuality.UseVisualStyleBackColor = true;
-            this._checkBoxBuildQuality.CheckedChanged += new System.EventHandler(this._checkBoxBuildQuality_CheckedChanged);
-            // 
             // Settings
             // 
             this.AcceptButton = this._ok;
@@ -336,8 +312,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(588, 499);
-            this.Controls.Add(this._groupBoxGeneralSettings);
+            this.ClientSize = new System.Drawing.Size(588, 425);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -355,8 +330,6 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this._groupBoxGeneralSettings.ResumeLayout(false);
-            this._groupBoxGeneralSettings.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -384,7 +357,5 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox _groupBoxGeneralSettings;
-        private System.Windows.Forms.CheckBox _checkBoxBuildQuality;
     }
 }

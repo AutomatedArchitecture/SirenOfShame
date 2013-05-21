@@ -231,7 +231,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Util\BuildStatusUtil.cs" />
-    <Compile Include="Watcher\BuildQualityEnum.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
     <Compile Include="Watcher\BuildStatusDto.cs" />

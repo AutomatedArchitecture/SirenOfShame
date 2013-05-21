@@ -10,7 +10,6 @@ namespace SirenOfShame.Lib.Watcher
         public string BuildDefinitionId { get; set; }
         public string BuildId { get; set; }
         public BuildStatusEnum BuildStatusEnum { get; set; }
-        public BuildQualityEnum BuildQualityEnum { get; set; }
         public string BuildStatusMessage { get; set; }
         public string Comment { get; set; }
         public string Duration { get; set; }
