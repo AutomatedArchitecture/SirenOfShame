@@ -191,7 +191,12 @@ namespace SirenOfShame
             var aUserIsSelected = rawName != null;
             if (!aUserIsSelected) ShowInMainWindow(MainWindowEnum.ViewBuilds);
             if (!aUserIsSelected) return;
-            var selectedPerson = _settings.People.First(i => i.RawName == rawName);
+            var selectedPerson = _settings.People.FirstOrDefault(i => i.RawName == rawName);
+            if (selectedPerson == null)
+            {
+                _log.Error("Unable to find user " + rawName);
+                return;
+            }
             ShowViewUserPage(selectedPerson);
         }
 
