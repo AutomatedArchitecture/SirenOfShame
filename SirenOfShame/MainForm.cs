@@ -40,6 +40,7 @@ namespace SirenOfShame
             _log.Info("MainForm Open");
             IocContainer.Instance.Compose(this);
             InitializeComponent();
+            InitializeWindow();
 
             InitializeToolbar();
             InitializeViewBuilds();
@@ -54,6 +55,11 @@ namespace SirenOfShame
 
             InitializeLogging();
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
+        }
+
+        private void InitializeWindow()
+        {
+            TopMost = _settings.AlwaysOnTop;
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -660,6 +666,7 @@ namespace SirenOfShame
             settings.ShowDialog(this);
             RefreshStats(null); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
+            InitializeWindow(); // just in case they changed "always on top"
         }
 
         private void TimeboxEnforcerClick(object sender, EventArgs e)

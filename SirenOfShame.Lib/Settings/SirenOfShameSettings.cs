@@ -172,6 +172,8 @@ namespace SirenOfShame.Lib.Settings
 
         public string MyRawName { get; set; }
 
+        public bool AlwaysOnTop { get; set; }
+
         [XmlIgnore]
         public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 

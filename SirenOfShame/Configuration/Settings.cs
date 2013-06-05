@@ -16,6 +16,7 @@ namespace SirenOfShame.Configuration
             InitializePollIntervalSection();
             InitializeUpdateLocationSection();
             InitializeReputationAndAchievementSection();
+            InitializeMiscSection();
 
             _viewLog.Enabled = Program.Form.CanViewLogs;
         }
@@ -30,6 +31,11 @@ namespace SirenOfShame.Configuration
         {
             _pollInterval.Value = _settings.PollInterval;
             RefreshDurationText();
+        }
+
+        private void InitializeMiscSection()
+        {
+            _alwaysOnTop.Checked = _settings.AlwaysOnTop;
         }
 
         private void InitializeUpdateLocationSection()
@@ -90,9 +96,15 @@ namespace SirenOfShame.Configuration
 
             SetShowAchievements();
             SetUserIAm();
+            SetMiscSection();
 
             _settings.Save();
             Close();
+        }
+
+        private void SetMiscSection()
+        {
+            _settings.AlwaysOnTop = _alwaysOnTop.Checked;
         }
 
         private void SetUserIAm()
