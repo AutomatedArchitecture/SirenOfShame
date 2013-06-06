@@ -23,6 +23,7 @@ namespace TfsServices.Configuration
             InitializeComponent();
             _ciEntryPointSetting = ciEntryPointSetting;
             _url.Text = _ciEntryPointSetting.Url;
+            _applyBuildQuality.Checked = _ciEntryPointSetting.ApplyBuildQuality;
             someoneElse.Checked = !string.IsNullOrEmpty(_ciEntryPointSetting.UserName);
             username.Text = _ciEntryPointSetting.UserName;
             password.Text = _ciEntryPointSetting.GetPassword();
@@ -124,6 +125,12 @@ namespace TfsServices.Configuration
         private void WindowsCredentialsCheckedChanged(object sender, EventArgs e)
         {
             RefreshCredentials();
+        }
+
+        private void _applyBuildQuality_CheckedChanged(object sender, EventArgs e)
+        {
+            _ciEntryPointSetting.ApplyBuildQuality = _applyBuildQuality.Checked;
+            Settings.Save();
         }
     }
 }

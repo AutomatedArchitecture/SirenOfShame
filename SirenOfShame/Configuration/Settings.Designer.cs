@@ -98,7 +98,7 @@
             this._pollInterval.Location = new System.Drawing.Point(11, 29);
             this._pollInterval.Maximum = 60;
             this._pollInterval.Name = "_pollInterval";
-            this._pollInterval.Size = new System.Drawing.Size(546, 45);
+            this._pollInterval.Size = new System.Drawing.Size(546, 42);
             this._pollInterval.TabIndex = 0;
             this._pollInterval.Value = 1;
             this._pollInterval.ValueChanged += new System.EventHandler(this.PollIntervalValueChanged);

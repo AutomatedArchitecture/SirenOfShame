@@ -89,11 +89,19 @@ namespace SirenOfShame.Configuration
             _lights.DataSource = SirenOfShameDevice.LedPatterns.ToList();
             _lights.DisplayMember = "Name";
 
-            _who.DataSource = _settings.CiEntryPointSettings
+            var mappedSet = new HashSet<String>(from x in settings.UserMappings select x.WhenISee);
+            var nameList = _settings.CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
-                .SelectMany(bds => bds.People)
-                .Distinct()
-                .ToList();
+                .SelectMany(bds => bds.People).ToList();
+            for (int i = 0; i < nameList.Count; ++i)
+            {            
+                var userMapping = 
+                    _settings.UserMappings.FirstOrDefault(j => j.WhenISee == nameList[i]);
+                if (userMapping != null)
+                    nameList[i] = userMapping.PretendItsActually;
+            }
+
+            _who.DataSource = nameList.Distinct().ToList();
         }
 
         private AlertType GetAlertType()

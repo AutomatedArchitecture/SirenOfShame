@@ -99,9 +99,12 @@ namespace SirenOfShame.Lib.Watcher
         {
             get
             {
-                if (BuildStatusEnum == BuildStatusEnum.Working) return BallsEnum.Green;
-                if (BuildStatusEnum == BuildStatusEnum.Broken) return BallsEnum.Red;
-                if (BuildStatusEnum == BuildStatusEnum.Unknown) return BallsEnum.Triangle;
+                if (BuildStatusEnum == BuildStatusEnum.Working) 
+                    return BallsEnum.Green;
+                if (BuildStatusEnum == BuildStatusEnum.Broken) 
+                    return BallsEnum.Red;
+                if (BuildStatusEnum == BuildStatusEnum.Unknown)
+                    return BallsEnum.Triangle;
                 return BallsEnum.Gray;
             }
         }

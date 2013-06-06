@@ -524,6 +524,7 @@
             this._who.Location = new System.Drawing.Point(137, 84);
             this._who.Name = "_who";
             this._who.Size = new System.Drawing.Size(243, 21);
+            this._who.Sorted = true;
             this._who.TabIndex = 30;
             // 
             // label10

@@ -52,7 +52,7 @@ namespace SirenOfShame.Configuration
         {
             _settings.InitializeUserIAm(_userIAm);
         }
-        
+
         private void InitializeAchievementAlertPreferences()
         {
             if (_settings.AchievementAlertPreference == AchievementAlertPreferenceEnum.Always)

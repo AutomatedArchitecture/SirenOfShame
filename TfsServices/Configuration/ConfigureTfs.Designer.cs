@@ -29,16 +29,17 @@ namespace TfsServices.Configuration {
             this._buildConfigurations = new System.Windows.Forms.TreeView();
             this._url = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._applyBuildQuality = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.username = new System.Windows.Forms.TextBox();
             this.someoneElse = new System.Windows.Forms.RadioButton();
             this.windowsCredentials = new System.Windows.Forms.RadioButton();
-            this._go = new SosButton();
+            this._go = new SirenOfShame.Lib.SosButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,16 +47,16 @@ namespace TfsServices.Configuration {
             // 
             this._buildConfigurations.CheckBoxes = true;
             this._buildConfigurations.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildConfigurations.Location = new System.Drawing.Point(0, 83);
+            this._buildConfigurations.Location = new System.Drawing.Point(0, 110);
             this._buildConfigurations.Name = "_buildConfigurations";
-            this._buildConfigurations.Size = new System.Drawing.Size(591, 144);
+            this._buildConfigurations.Size = new System.Drawing.Size(591, 117);
             this._buildConfigurations.TabIndex = 0;
             this._buildConfigurations.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.BuildConfigurationsAfterCheck);
             // 
             // _url
             // 
-            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._url.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._url.Location = new System.Drawing.Point(97, 5);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(434, 20);
@@ -64,6 +65,7 @@ namespace TfsServices.Configuration {
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this._applyBuildQuality);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
@@ -78,8 +80,38 @@ namespace TfsServices.Configuration {
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(591, 83);
+            this.panel1.Size = new System.Drawing.Size(591, 110);
             this.panel1.TabIndex = 4;
+            // 
+            // _applyBuildQuality
+            // 
+            this._applyBuildQuality.AutoSize = true;
+            this._applyBuildQuality.Location = new System.Drawing.Point(8, 87);
+            this._applyBuildQuality.Name = "_applyBuildQuality";
+            this._applyBuildQuality.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this._applyBuildQuality.Size = new System.Drawing.Size(113, 17);
+            this._applyBuildQuality.TabIndex = 14;
+            this._applyBuildQuality.Text = "Apply Build Quality";
+            this._applyBuildQuality.UseVisualStyleBackColor = true;
+            this._applyBuildQuality.CheckedChanged += new System.EventHandler(this._applyBuildQuality_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(399, 62);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "(stored encrypted)";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 36);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Authenciation:";
             // 
             // label3
             // 
@@ -144,6 +176,9 @@ namespace TfsServices.Configuration {
             // _go
             // 
             this._go.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._go.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._go.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._go.ForeColor = System.Drawing.Color.White;
             this._go.Location = new System.Drawing.Point(537, 3);
             this._go.Name = "_go";
             this._go.Size = new System.Drawing.Size(51, 48);
@@ -160,24 +195,6 @@ namespace TfsServices.Configuration {
             this.label1.Size = new System.Drawing.Size(20, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Url";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 36);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Authenciation:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(399, 62);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "(stored encrypted)";
             // 
             // ConfigureTfs
             // 
@@ -208,5 +225,6 @@ namespace TfsServices.Configuration {
         private System.Windows.Forms.RadioButton windowsCredentials;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox _applyBuildQuality;
 	}
 }

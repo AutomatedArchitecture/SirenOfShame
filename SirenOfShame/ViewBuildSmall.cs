@@ -64,7 +64,8 @@ namespace SirenOfShame
 
         private void SetBuildStatusIcon(BuildStatusDto buildStatusDto)
         {
-            bool inProgress = buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress;
+            bool inProgress =
+                buildStatusDto.BuildStatusEnum == BuildStatusEnum.InProgress;
             _buildStatusIcon.Visible = !inProgress;
             _loading.Visible = inProgress;
             _buildStatusIcon.ImageIndex = buildStatusDto.ImageIndex;
