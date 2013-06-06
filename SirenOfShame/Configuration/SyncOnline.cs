@@ -223,5 +223,10 @@ namespace SirenOfShame.Configuration
         {
             WhatToSyncRadioChanged();
         }
+
+        private void _details_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://sirenofshame.com/MyCi/Overview");
+        }
     }
 }

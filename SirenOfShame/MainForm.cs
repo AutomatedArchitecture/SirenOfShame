@@ -40,6 +40,7 @@ namespace SirenOfShame
             _log.Info("MainForm Open");
             IocContainer.Instance.Compose(this);
             InitializeComponent();
+            InitializeWindow();
 
             InitializeToolbar();
             InitializeViewBuilds();
@@ -54,6 +55,11 @@ namespace SirenOfShame
 
             InitializeLogging();
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
+        }
+
+        private void InitializeWindow()
+        {
+            TopMost = _settings.AlwaysOnTop;
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -191,7 +197,12 @@ namespace SirenOfShame
             var aUserIsSelected = rawName != null;
             if (!aUserIsSelected) ShowInMainWindow(MainWindowEnum.ViewBuilds);
             if (!aUserIsSelected) return;
-            var selectedPerson = _settings.People.First(i => i.RawName == rawName);
+            var selectedPerson = _settings.People.FirstOrDefault(i => i.RawName == rawName);
+            if (selectedPerson == null)
+            {
+                _log.Error("Unable to find user " + rawName);
+                return;
+            }
             ShowViewUserPage(selectedPerson);
         }
 
@@ -320,10 +331,10 @@ namespace SirenOfShame
 
             TryUpgrade();
 
-            if (_settings.TryToFindOldAchievementsAtNextOpportunity)
+            if (_settings.ShowUpgradeWindowAtNextOpportunity)
             {
                 FindOldAchievements.TryFindOldAchievements(_settings);
-                _settings.TryToFindOldAchievementsAtNextOpportunity = false;
+                _settings.ShowUpgradeWindowAtNextOpportunity = false;
             }
 
             StartWatchingBuild();
@@ -655,6 +666,7 @@ namespace SirenOfShame
             settings.ShowDialog(this);
             RefreshStats(null); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
+            InitializeWindow(); // just in case they changed "always on top"
         }
 
         private void TimeboxEnforcerClick(object sender, EventArgs e)

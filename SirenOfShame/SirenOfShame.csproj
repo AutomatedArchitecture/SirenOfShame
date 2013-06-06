@@ -485,6 +485,7 @@
     <None Include="Resources\delete2.png" />
     <None Include="Resources\nav_right.png" />
     <None Include="Resources\id_cards.png" />
+    <None Include="Resources\ok.bmp" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
     <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />

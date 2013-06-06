@@ -51,7 +51,7 @@ namespace SirenOfShame.Lib.Settings
             LedPatterns = new List<LedPatternSetting>();
             People = new List<PersonSetting>();
             UserMappings = new List<UserMapping>();
-            SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            SosOnlineWhatToSync = WhatToSyncEnum.MyPointAndAchievementsOnly;
         }
 
         public int? Version { get; set; }
@@ -172,8 +172,10 @@ namespace SirenOfShame.Lib.Settings
 
         public string MyRawName { get; set; }
 
+        public bool AlwaysOnTop { get; set; }
+
         [XmlIgnore]
-        public bool TryToFindOldAchievementsAtNextOpportunity { get; set; }
+        public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 
         public virtual void Save()
         {
@@ -273,6 +275,7 @@ namespace SirenOfShame.Lib.Settings
                                    new Upgrade4To5(), 
                                    new Upgrade5To6(AVATAR_COUNT),
                                    new Upgrade6To7(), 
+                                   new Upgrade7To8()
                                };
             var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
 

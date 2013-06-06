@@ -13,7 +13,7 @@ namespace SirenOfShame.Lib.Settings.Upgrades
         {
             if (sirenOfShameSettings.GetAllActiveBuildDefinitions().Any())
             {
-                sirenOfShameSettings.TryToFindOldAchievementsAtNextOpportunity = true;
+                sirenOfShameSettings.ShowUpgradeWindowAtNextOpportunity = true;
             }
         }
     }

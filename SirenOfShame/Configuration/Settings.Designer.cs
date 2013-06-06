@@ -41,7 +41,6 @@
             this._checkForUpdates = new System.Windows.Forms.Button();
             this._updateLocationAuto = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this._recalculate = new System.Windows.Forms.Button();
             this._neverShowAchievements = new System.Windows.Forms.RadioButton();
             this._alwaysShowNewAchievements = new System.Windows.Forms.RadioButton();
             this._onlyShowMyAchievements = new System.Windows.Forms.RadioButton();
@@ -50,17 +49,20 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this._alwaysOnTop = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._ok.Location = new System.Drawing.Point(420, 390);
+            this._ok.Location = new System.Drawing.Point(420, 430);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 2;
@@ -72,7 +74,7 @@
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._cancel.Location = new System.Drawing.Point(501, 390);
+            this._cancel.Location = new System.Drawing.Point(501, 430);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 3;
@@ -104,7 +106,7 @@
             // _viewLog
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this._viewLog.Location = new System.Drawing.Point(339, 390);
+            this._viewLog.Location = new System.Drawing.Point(339, 430);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
             this._viewLog.TabIndex = 8;
@@ -195,16 +197,6 @@
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Examples:\r\nfile:///c|/temp/\r\nhttp://myupdate.com/";
             // 
-            // _recalculate
-            // 
-            this._recalculate.Location = new System.Drawing.Point(303, 70);
-            this._recalculate.Name = "_recalculate";
-            this._recalculate.Size = new System.Drawing.Size(247, 23);
-            this._recalculate.TabIndex = 16;
-            this._recalculate.Text = "Recalculate All Reputation and Achievements";
-            this._recalculate.UseVisualStyleBackColor = true;
-            this._recalculate.Click += new System.EventHandler(this.RecalculateClick);
-            // 
             // _neverShowAchievements
             // 
             this._neverShowAchievements.AutoSize = true;
@@ -292,7 +284,6 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this._recalculate);
             this.groupBox3.Controls.Add(this._onlyShowMyAchievements);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this._alwaysShowNewAchievements);
@@ -300,10 +291,32 @@
             this.groupBox3.Controls.Add(this._userIAm);
             this.groupBox3.Location = new System.Drawing.Point(13, 278);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(563, 104);
+            this.groupBox3.Size = new System.Drawing.Size(563, 81);
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Reputation && Achievements";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this._alwaysOnTop);
+            this.groupBox4.Location = new System.Drawing.Point(13, 365);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(564, 54);
+            this.groupBox4.TabIndex = 31;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Misc";
+            // 
+            // _alwaysOnTop
+            // 
+            this._alwaysOnTop.AutoSize = true;
+            this._alwaysOnTop.Location = new System.Drawing.Point(15, 19);
+            this._alwaysOnTop.Name = "_alwaysOnTop";
+            this._alwaysOnTop.Size = new System.Drawing.Size(194, 17);
+            this._alwaysOnTop.TabIndex = 0;
+            this._alwaysOnTop.Text = "Keep Main Window Always On Top";
+            this._alwaysOnTop.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -312,7 +325,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(588, 425);
+            this.ClientSize = new System.Drawing.Size(588, 465);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -330,6 +344,8 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -348,7 +364,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button _checkForUpdates;
         private System.Windows.Forms.RadioButton _updateLocationNever;
-        private System.Windows.Forms.Button _recalculate;
         private System.Windows.Forms.RadioButton _neverShowAchievements;
         private System.Windows.Forms.RadioButton _alwaysShowNewAchievements;
         private System.Windows.Forms.RadioButton _onlyShowMyAchievements;
@@ -357,5 +372,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox _alwaysOnTop;
     }
 }

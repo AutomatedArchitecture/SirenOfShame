@@ -29,8 +29,8 @@ namespace SirenOfShame.Lib.Services
     public class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public const string SOS_URL = "http://sirenofshame.com";
-        //public const string SOS_URL = "http://localhost.:3115";
+        public const bool LOCAL = false;
+        public const string SOS_URL = LOCAL ? "http://localhost.:3115" : "http://sirenofshame.com";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 

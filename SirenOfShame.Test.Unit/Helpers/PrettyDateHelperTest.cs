@@ -160,9 +160,41 @@ namespace SirenOfShame.Test.Unit.Helpers
         }
 
         [TestMethod]
-        public void OverFourWeeksAgo()
+        public void OneMonthAgoMin()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
+            var now = new DateTime(2010, 2, 5, 0, 0, 0, 0);
+            Assert.AreEqual("1 month ago", d.PrettyDate(now));
+        }
+
+        [TestMethod]
+        public void OneMonthAgoMax()
+        {
+            var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
+            var now = new DateTime(2010, 3, 1, 23, 59, 59, 999);
+            Assert.AreEqual("1 month ago", d.PrettyDate(now));
+        }
+
+        [TestMethod]
+        public void TwoMonthsAgoMin()
+        {
+            var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
+            var now = new DateTime(2010, 3, 3, 0, 0, 0, 0);
+            Assert.AreEqual("2 months ago", d.PrettyDate(now));
+        }
+
+        [TestMethod]
+        public void TwoMonthsAgoMax()
+        {
+            var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
+            var now = new DateTime(2010, 3, 31, 23, 59, 59, 999);
+            Assert.AreEqual("2 months ago", d.PrettyDate(now));
+        }
+
+        [TestMethod]
+        public void OneYearAgo()
+        {
+            var d = new DateTime(2009, 1, 1, 0, 0, 0, 0);
             var now = new DateTime(2010, 2, 5, 0, 0, 0, 0);
             Assert.AreEqual(d.ToString("d"), d.PrettyDate(now));
         }

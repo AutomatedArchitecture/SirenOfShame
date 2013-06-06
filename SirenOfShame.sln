@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame", "SirenOfShame\SirenOfShame.csproj", "{E292FFA7-DB35-43AA-9615-5BA819550B1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbLib", "UsbLib\UsbLib.csproj", "{A54CEA5A-D773-4914-B00B-E984FD93CF59}"
@@ -277,7 +277,6 @@ Global
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Debug|x86.Build.0 = Debug|x86
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Any CPU.ActiveCfg = Release|x86
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|Win32.ActiveCfg = Release|x86
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|x86.ActiveCfg = Release|x86
 		{2AAC75B6-B72C-4CCC-8BE0-97903B1D2BAC}.Release|x86.Build.0 = Release|x86

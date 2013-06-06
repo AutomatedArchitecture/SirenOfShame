@@ -48,7 +48,7 @@ namespace TfsServices.Configuration
                 ServiceDefinition tpcServiceDefinition = teamProjectCollectionNode.Resource.ServiceReferences["Location"];
                 var configLocationService = tfsConfigurationServer.GetService<ILocationService>();
                 var tpcUri = new Uri(configLocationService.LocationForCurrentConnection(tpcServiceDefinition));
-                _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri, new MyCredentials(networkCredential));
+                _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri);
                 _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
                 _buildServer = _tfsTeamProjectCollection.GetService<IBuildServer>();
                 _tswaClientHyperlinkService = _tfsTeamProjectCollection.GetService<TswaClientHyperlinkService>();
