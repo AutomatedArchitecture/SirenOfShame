@@ -85,7 +85,7 @@ namespace TfsServices.Configuration
             var cachedCommentsRetriever = new CachedCommentsRetriever();
 
             var buildStatusWithComments = buildDetailsAndTheirBuildStatuses.Select(i => cachedCommentsRetriever
-                .GetCommentsIntoBuildStatus(i.buildDefinition, CreateBuildStatus(i.buildDetail, i.buildDefinition)))
+                .GetCommentsIntoBuildStatus(i.buildDefinition, CreateBuildStatus(i.buildDetail, i.buildDefinition, applyBuildQuality)))
                 .ToList();
             return buildStatusWithComments;
         }
@@ -140,18 +140,52 @@ namespace TfsServices.Configuration
             }
         }
 
-        private static BuildStatus CreateBuildStatus(IBuildDetail buildDetail, MyTfsBuildDefinition myTfsBuildDefinition)
+        private static BuildStatusEnum GetBuildStatusEnum(String quality)
+        {
+            switch (quality)
+            {
+                case "Initial Test Passed":
+                case "Lab Test Passed":
+                case "Ready for Deployment":
+                case "Released":
+                case "UAT Passed":
+                    return BuildStatusEnum.Working;
+                case "Under Investigation":
+                    return BuildStatusEnum.InProgress;
+                case "Rejected":
+                    return BuildStatusEnum.Broken;
+// ReSharper disable RedundantCaseLabel
+                case "Ready for Initial Test":
+                case "Unexamined":
+// ReSharper restore RedundantCaseLabel
+                default:
+                    return BuildStatusEnum.Unknown;
+            }
+        }
+
+        private static BuildStatus CreateBuildStatus(IBuildDetail buildDetail, MyTfsBuildDefinition myTfsBuildDefinition, bool applyBuildQuality)
         {
             return new BuildStatus
             {
                 BuildDefinitionId = buildDetail.BuildDefinition.Name,
                 Name = buildDetail.BuildDefinition.Name,
-                BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
+                BuildStatusEnum = GetBuildStatusEnum(buildDetail, applyBuildQuality),
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
                 Url = myTfsBuildDefinition.ConvertTfsUriToUrl(buildDetail.Uri)
             };
+        }
+
+        private static BuildStatusEnum GetBuildStatusEnum(IBuildDetail buildDetail, bool applyBuildQuality)
+        {
+            if (applyBuildQuality)
+            {
+                var qualityBasedBuildStatus = GetBuildStatusEnum(buildDetail.Quality);
+                if (qualityBasedBuildStatus != BuildStatusEnum.Unknown) 
+                    return qualityBasedBuildStatus;
+            }
+            return GetBuildStatusEnum(buildDetail.Status);
         }
 
         private static Uri GetUriFromBuildServer(IBuildServer buildServer)
