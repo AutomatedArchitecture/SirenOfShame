@@ -32,7 +32,7 @@ namespace TfsServices.Configuration
 
         public override string Id
         {
-            get { return _buildDefinition.Id; }
+            get { return _buildDefinition.Name; }
         }
 
         public MyBuildServer BuildServer

@@ -67,69 +67,59 @@ namespace TfsServices.Configuration
     {
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(MyBuildServer));
         private readonly IBuildServer _buildServer;
-        private MyTfsProject _tfsProject;
-        private bool _firstRequest = true;
-        Dictionary<String, String> _UriToName = new Dictionary<String, String>();
 
-        public MyBuildServer(
-            IBuildServer buildServer, MyTfsProject myTfsProject)
+        public MyBuildServer(IBuildServer buildServer, MyTfsProject myTfsProject)
         {
             _buildServer = buildServer;
-            _tfsProject = myTfsProject;
         }
 
-        public IEnumerable<BuildStatus> GetBuildStatuses(
-            IEnumerable<MyTfsBuildDefinition> buildDefinitions,
-            bool applyBuildQuality)
+        public IEnumerable<BuildStatus> GetBuildStatuses(IEnumerable<MyTfsBuildDefinition> buildDefinitionsQuery, bool applyBuildQuality)
+        {
+            List<MyTfsBuildDefinition> buildDefinitions = buildDefinitionsQuery.ToList();
+            IEnumerable<IBuildDetail> buildDetails = GetBuildDetailsFromServer(buildDefinitions);
+
+            var buildDetailsAndTheirBuildStatuses = from buildDefinition in buildDefinitions
+                                                    join buildDetail in buildDetails on buildDefinition.Id equals buildDetail.BuildDefinition.Name
+                                                    select new { buildDefinition, buildDetail };
+
+            var cachedCommentsRetriever = new CachedCommentsRetriever();
+
+            var buildStatusWithComments = buildDetailsAndTheirBuildStatuses.Select(i => cachedCommentsRetriever
+                .GetCommentsIntoBuildStatus(i.buildDefinition, CreateBuildStatus(i.buildDetail, i.buildDefinition)))
+                .ToList();
+            return buildStatusWithComments;
+        }
+
+        private IEnumerable<IBuildDetail> GetBuildDetailsFromServer(IEnumerable<MyTfsBuildDefinition> buildDefinitions)
         {
             var buildDefinitionUris = buildDefinitions.Select(bd => bd.Uri);
+            IBuildDetailSpec buildDetailSpec = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+            buildDetailSpec.MaxBuildsPerDefinition = 1;
+            buildDetailSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
 
-            IBuildDetailSpec[] buildDetailSpec = new IBuildDetailSpec[2];
-
-            buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
-            buildDetailSpec[0].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[0].InformationTypes = new string[] { "AssociatedChangeset" };
-            buildDetailSpec[0].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
-
-            buildDetailSpec[1] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec[1].MaxBuildsPerDefinition = 1;
-            buildDetailSpec[1].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
-            buildDetailSpec[1].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[1].InformationTypes = new string[] { "AssociatedChangeset" };
-            buildDetailSpec[1].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
-
-            _firstRequest = false;
-
-            IBuildQueryResult[] buildQueryResult = _buildServer.QueryBuilds(buildDetailSpec);
-
-            Dictionary<String, BuildStatus> buildStatuses = new Dictionary<String, BuildStatus>();
-            Dictionary<String, IBuildDetail> buildDetail = new Dictionary<String, IBuildDetail>();
-
-            // Get last completed for each def
-            foreach (var build in buildQueryResult[1].Builds)
-                buildDetail[GetBuildDefIdFromBuildDefUri(build.BuildDefinitionUri)] = build;
-
-            // Get current build (if any) and overwrite last completed
-            foreach (var build in buildQueryResult[0].Builds)
-                buildDetail[GetBuildDefIdFromBuildDefUri(build.BuildDefinitionUri)] = build;
-
-            foreach (var build in buildDetail)
+            IBuildQueryResult buildQueryResults;
+            try
             {
-                if (!buildStatuses.ContainsKey(build.Key))
-                    buildStatuses[build.Key] = CreateBuildStatus(build.Value, applyBuildQuality);
+                buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
             }
-
-            return buildStatuses.Values.ToArray();
-
+            catch (DatabaseOperationTimeoutException ex)
+            {
+                Log.Debug(ex);
+                throw new ServerUnavailableException();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error retrieving build details", ex);
+                throw new ServerUnavailableException("Error retrieving build details", ex);
+            }
+            var latestBuilds = from build in buildQueryResults.Builds
+                               group build by build.BuildDefinition.Id
+                                   into g
+                                   select g.OrderByDescending(b => b.StartTime).First();
+            return latestBuilds.ToList();
         }
 
-        private String GetBuildDefIdFromBuildDefUri(Uri uri)
-        {
-            return uri.Segments[uri.Segments.Length - 1].ToString();
-        }
-
-        private BuildStatusEnum GetBuildStatusEnum(Microsoft.TeamFoundation.Build.Client.BuildStatus status)
+        private static BuildStatusEnum GetBuildStatusEnum(Microsoft.TeamFoundation.Build.Client.BuildStatus status)
         {
             switch (status)
             {
@@ -150,112 +140,49 @@ namespace TfsServices.Configuration
             }
         }
 
-        private BuildStatusEnum GetBuildStatusEnum(String quality)
+        private static BuildStatus CreateBuildStatus(IBuildDetail buildDetail, MyTfsBuildDefinition myTfsBuildDefinition)
         {
-            switch (quality)
+            return new BuildStatus
             {
-                case "Initial Test Passed":
-                case "Lab Test Passed":
-	            case "Ready for Deployment":
-	            case "Released":
-	            case "UAT Passed":
-                    return BuildStatusEnum.Working;
-                case "Under Investigation":
-                    return BuildStatusEnum.InProgress;
-                case "Rejected":
-                    return BuildStatusEnum.Broken;
-                case "Ready for Initial Test":
-                case "Unexamined":
-                default:
-                    return BuildStatusEnum.Unknown;
-            }    
-        }
-	
-        public BuildStatus CreateBuildStatus(IBuildDetail buildDetail, bool applyBuildQuality)
-        {
-            BuildStatusEnum status = BuildStatusEnum.Unknown;
-            if (applyBuildQuality)
-                status = GetBuildStatusEnum(buildDetail.Quality);
-            if (status == BuildStatusEnum.Unknown)
-                status = GetBuildStatusEnum(buildDetail.Status);
-
-            var result = new BuildStatus
-            {
-                BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
-                BuildStatusEnum = status,
+                BuildDefinitionId = buildDetail.BuildDefinition.Name,
+                Name = buildDetail.BuildDefinition.Name,
+                BuildStatusEnum = GetBuildStatusEnum(buildDetail.Status),
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
+                Url = myTfsBuildDefinition.ConvertTfsUriToUrl(buildDetail.Uri)
             };
+        }
 
-            if (buildDetail.BuildDefinition != null)
-            {
-                this._UriToName[buildDetail.BuildDefinitionUri.ToString()] = buildDetail.BuildDefinition.Name;
-            }
-
-            result.Name = this._UriToName[buildDetail.BuildDefinitionUri.ToString()];
-            result.BuildId = buildDetail.Uri.Segments[buildDetail.Uri.Segments.Length - 1].ToString();
-
-            var changesets = buildDetail.Information.GetNodesByType("AssociatedChangeset");
-
-            if (changesets.Count() > 0)
-            {
-
-                HashSet<String> users = new HashSet<String>();
-                foreach (var changeset in changesets)
-                    users.Add(changeset.Fields["CheckedInBy"]);
-
-                if (users.Count() > 1)
-                    result.RequestedBy = "(Multiple Users)";
-                else
-                    result.RequestedBy = users.First();
-
-                if (changesets.Count() > 1)
-                    result.Comment = "(Multiple Changesets)";
-                else
-                    result.Comment = changesets.First().Fields["Comment"];
-            }
-            else
-            {
-                result.RequestedBy = result.RequestedBy;
-            }
-
-            if (applyBuildQuality && 
-                GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
-            {
-                result.Comment =
-                    "Build deployment or test failure. Please see test server or test results for details.\n" +
-                    result.Comment;
-            }
-
-            result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
-
-            return result;
+        private static Uri GetUriFromBuildServer(IBuildServer buildServer)
+        {
+            if (buildServer == null) return null;
+            if (buildServer.TeamProjectCollection == null) return null;
+            if (buildServer.TeamProjectCollection.Uri == null) return null;
+            return buildServer.TeamProjectCollection.Uri;
         }
 
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            if (BuildServerUri == null) return false;
-            if (!typeof(MyBuildServer).IsAssignableFrom(obj.GetType())) return false;
-            return BuildServerUri.Equals(((MyBuildServer)obj).BuildServerUri);
+            var myUri = BuildServerUri;
+            if (myUri == null) return false;
+
+            if (!(obj is MyBuildServer)) return false;
+            var theirUri = ((MyBuildServer)obj).BuildServerUri;
+            return myUri.Equals(theirUri);
         }
 
-        public Uri BuildServerUri
+        private Uri BuildServerUri
         {
-            get
-            {
-                if (this._buildServer == null) return null;
-                if (this._buildServer.TeamProjectCollection == null) return null;
-                if (this._buildServer.TeamProjectCollection.Uri == null) return null;
-                return this._buildServer.TeamProjectCollection.Uri;
-            }
+            get { return GetUriFromBuildServer(_buildServer); }
         }
 
         public override int GetHashCode()
         {
-            if (BuildServerUri == null) return 0;
-            return BuildServerUri.GetHashCode();
+            var uri = BuildServerUri;
+            if (uri == null) return 0;
+            return uri.GetHashCode();
         }
     }
 }
