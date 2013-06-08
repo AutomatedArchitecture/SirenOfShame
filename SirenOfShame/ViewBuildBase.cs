@@ -56,8 +56,7 @@ namespace SirenOfShame
         public static Color FailColor = Color.FromArgb(255, 189, 54, 47);
         public static Color PrimaryColor = Color.FromArgb(255, 40, 95, 152);
 
-        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = 
-            new Dictionary<BuildStatusEnum, Color>
+        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
         {
             { BuildStatusEnum.Working, SuccessColor },
             { BuildStatusEnum.Broken, FailColor },
@@ -65,8 +64,7 @@ namespace SirenOfShame
 
         protected Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)
         {
-            return GetColorForBuildType(
-                BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
+            return GetColorForBuildType(BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
         }
 
         private static Color GetColorForBuildType(Dictionary<BuildStatusEnum, Color> dictionary, BuildStatusEnum newsItemEventType, Color defaultColor)
@@ -112,17 +110,12 @@ namespace SirenOfShame
             {
                 buildMenu.Items.Add(toolStripSeparator1);
 
-                for (int i = 0; i < buildDefinitionSetting.People.Count; ++i)
-                {
-                    var userMapping =
-                        Settings.UserMappings.FirstOrDefault(
-                            j => j.WhenISee == buildDefinitionSetting.People[i]);
-                    if (userMapping != null)
-                        buildDefinitionSetting.People[i] = userMapping.PretendItsActually;
-                }
-                buildDefinitionSetting.People.Sort();
-                AddToolStripItems(buildMenu.Items, buildDefinitionSetting.People.Distinct().Select(
-                    p => PersonMenu(p, buildDefinitionSetting)).ToArray());
+                var itemsToAppend = buildDefinitionSetting
+                    .PeopleMinusUserMappings(Settings)
+                    .Distinct()
+                    .Select(p => PersonMenu(p, buildDefinitionSetting))
+                    .ToArray();
+                AddToolStripItems(buildMenu.Items, itemsToAppend);
             }
         }
 

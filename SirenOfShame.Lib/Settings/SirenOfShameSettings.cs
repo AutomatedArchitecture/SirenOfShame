@@ -522,5 +522,14 @@ namespace SirenOfShame.Lib.Settings
             bool alwaysOffline = SosOnlineAlwaysOffline;
             return !connected && !alwaysOffline;
         }
+
+        public IList<string> AllUsersMinusMappedOnes()
+        {
+            return CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .SelectMany(bds => bds.PeopleMinusUserMappings(this))
+                .Distinct()
+                .ToList();
+        }
     }
 }

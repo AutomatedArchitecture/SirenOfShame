@@ -59,5 +59,15 @@ namespace SirenOfShame.Lib.Settings {
             if (buildStatus == null) return false;
             return People.Any(p => p == buildStatus.RequestedBy);
         }
+
+        public IEnumerable<string> PeopleMinusUserMappings(SirenOfShameSettings settings)
+        {
+            return People.Where(person => UserMappingsDoNotContain(settings, person));
+        }
+
+	    private static bool UserMappingsDoNotContain(SirenOfShameSettings settings, string person)
+	    {
+	        return settings.UserMappings.All(um => um.WhenISee != person);
+	    }
 	}
 }
