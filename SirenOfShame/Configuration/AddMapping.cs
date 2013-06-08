@@ -13,21 +13,33 @@ namespace SirenOfShame.Configuration
             _settings = settings;
             InitializeComponent();
 
+            AddPeopleToDropdowns();
+            RemovePeopleThatHaveAlreadyBeenMappedFromDropdowns();
+            SetWhenISeeDropdownToDefault(whenISeeDefaultRawName);
+        }
+
+        private void SetWhenISeeDropdownToDefault(string whenISeeDefaultRawName)
+        {
+            if (string.IsNullOrEmpty(whenISeeDefaultRawName)) return;
+            _whenISee.SelectedItem = whenISeeDefaultRawName;
+        }
+
+        private void AddPeopleToDropdowns()
+        {
             var validPeople = _settings.People.Where(i => !string.IsNullOrEmpty(i.RawName));
             foreach (var personSetting in validPeople)
             {
                 _whenISee.Items.Add(personSetting.RawName);
                 _pretendItsActually.Items.Add(personSetting.RawName);
             }
+        }
+
+        private void RemovePeopleThatHaveAlreadyBeenMappedFromDropdowns()
+        {
             foreach (var mapping in _settings.UserMappings)
             {
                 _whenISee.Items.Remove(mapping.WhenISee);
                 _pretendItsActually.Items.Remove(mapping.WhenISee);
-            }
-
-            if (!string.IsNullOrEmpty(whenISeeDefaultRawName))
-            {
-                _whenISee.SelectedItem = whenISeeDefaultRawName;
             }
         }
 
