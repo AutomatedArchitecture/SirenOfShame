@@ -22,6 +22,9 @@ namespace SirenOfShame.Lib.Settings
 
         public string EncryptedPassword { get; set; }
 
+        /// <summary>
+        /// Note: At the moment this setting only applies to TFS.
+        /// </summary>
         public bool ApplyBuildQuality { get; set; }
 
         public void SetPassword(string value)

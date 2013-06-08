@@ -28,6 +28,7 @@ namespace TfsServices.Configuration
             username.Text = _ciEntryPointSetting.UserName;
             password.Text = _ciEntryPointSetting.GetPassword();
             DataBindAsync();
+            RefreshCredentials();
         }
 
         private void DataBindAsync()
@@ -113,8 +114,11 @@ namespace TfsServices.Configuration
 
         private void RefreshCredentials()
         {
-            username.Enabled = someoneElse.Checked;
-            password.Enabled = someoneElse.Checked;
+            username.Visible = someoneElse.Checked;
+            password.Visible = someoneElse.Checked;
+            usernameLabel.Visible = someoneElse.Checked;
+            passwordLabel.Visible = someoneElse.Checked;
+            passwordHintLabel.Visible = someoneElse.Checked;
         }
         
         private void SomeoneElseCheckedChanged(object sender, EventArgs e)

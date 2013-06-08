@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value>For internal something like: http://tfs:8080/tfs. For Team Foundation Services something like: https://[mysite].visualstudio.com/ (make sure you've created alternate authentication credentials, see our blog)</value>
+  </data>
+  <data name="label6.ToolTip" xml:space="preserve">
+    <value>If checked SoS will map TFS build quality to pass/fail. The following qualities are considered passing:  Initial Test Passed, Lab Test Passed, Ready for Deployment, Released, UAT Passed. Leave this unchecked if you are unsure.</value>
+  </data>
 </root>

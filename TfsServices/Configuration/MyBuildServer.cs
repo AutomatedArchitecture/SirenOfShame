@@ -171,10 +171,8 @@ namespace TfsServices.Configuration
             }    
         }
 	
-        public BuildStatus CreateBuildStatus(IBuildDetail buildDetail,
-            bool applyBuildQuality)
+        public BuildStatus CreateBuildStatus(IBuildDetail buildDetail, bool applyBuildQuality)
         {
-
             BuildStatusEnum status = BuildStatusEnum.Unknown;
             if (applyBuildQuality)
                 status = GetBuildStatusEnum(buildDetail.Quality);
