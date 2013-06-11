@@ -67,58 +67,65 @@ namespace TfsServices.Configuration
     {
         private static readonly ILog Log = MyLogManager.GetLogger(typeof(MyBuildServer));
         private readonly IBuildServer _buildServer;
+        private MyTfsProject _tfsProject;
+        private bool _firstRequest = true;
+        Dictionary<String, String> _UriToName = new Dictionary<String, String>();
 
         public MyBuildServer(IBuildServer buildServer, MyTfsProject myTfsProject)
         {
             _buildServer = buildServer;
+            _tfsProject = myTfsProject;
         }
 
         public IEnumerable<BuildStatus> GetBuildStatuses(IEnumerable<MyTfsBuildDefinition> buildDefinitionsQuery, bool applyBuildQuality)
         {
-            List<MyTfsBuildDefinition> buildDefinitions = buildDefinitionsQuery.ToList();
-            IEnumerable<IBuildDetail> buildDetails = GetBuildDetailsFromServer(buildDefinitions);
+            var buildDefinitionUris = buildDefinitionsQuery.Select(bd => bd.Uri);
 
-            var buildDetailsAndTheirBuildStatuses = from buildDefinition in buildDefinitions
-                                                    join buildDetail in buildDetails on buildDefinition.Id equals buildDetail.BuildDefinition.Name
-                                                    select new { buildDefinition, buildDetail };
+            IBuildDetailSpec[] buildDetailSpec = new IBuildDetailSpec[2];
 
-            var cachedCommentsRetriever = new CachedCommentsRetriever();
+            buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+            buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
+            buildDetailSpec[0].QueryOrder = BuildQueryOrder.FinishTimeDescending;
+            buildDetailSpec[0].InformationTypes = new string[] { "AssociatedChangeset" };
+            buildDetailSpec[0].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
-            var buildStatusWithComments = buildDetailsAndTheirBuildStatuses.Select(i => cachedCommentsRetriever
-                .GetCommentsIntoBuildStatus(i.buildDefinition, CreateBuildStatus(i.buildDetail, i.buildDefinition, applyBuildQuality)))
-                .ToList();
-            return buildStatusWithComments;
+            buildDetailSpec[1] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+            buildDetailSpec[1].MaxBuildsPerDefinition = 1;
+            buildDetailSpec[1].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
+            buildDetailSpec[1].QueryOrder = BuildQueryOrder.FinishTimeDescending;
+            buildDetailSpec[1].InformationTypes = new string[] { "AssociatedChangeset" };
+            buildDetailSpec[1].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
+
+            _firstRequest = false;
+
+            IBuildQueryResult[] buildQueryResult = _buildServer.QueryBuilds(buildDetailSpec);
+
+            Dictionary<String, BuildStatus> buildStatuses = new Dictionary<String, BuildStatus>();
+            Dictionary<String, IBuildDetail> buildDetail = new Dictionary<String, IBuildDetail>();
+
+            // Get last completed for each def
+            foreach (var build in buildQueryResult[1].Builds)
+                buildDetail[GetBuildDefIdFromBuildDefUri(build.BuildDefinitionUri)] = build;
+
+            // Get current build (if any) and overwrite last completed
+            foreach (var build in buildQueryResult[0].Builds)
+                buildDetail[GetBuildDefIdFromBuildDefUri(build.BuildDefinitionUri)] = build;
+
+            foreach (var build in buildDetail)
+            {
+                if (!buildStatuses.ContainsKey(build.Key))
+                    buildStatuses[build.Key] = CreateBuildStatus(build.Value, applyBuildQuality);
+            }
+
+            return buildStatuses.Values.ToArray();
+
         }
 
-        private IEnumerable<IBuildDetail> GetBuildDetailsFromServer(IEnumerable<MyTfsBuildDefinition> buildDefinitions)
+        private String GetBuildDefIdFromBuildDefUri(Uri uri)
         {
-            var buildDefinitionUris = buildDefinitions.Select(bd => bd.Uri);
-            IBuildDetailSpec buildDetailSpec = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec.MaxBuildsPerDefinition = 1;
-            buildDetailSpec.QueryOrder = BuildQueryOrder.FinishTimeDescending;
-
-            IBuildQueryResult buildQueryResults;
-            try
-            {
-                buildQueryResults = _buildServer.QueryBuilds(buildDetailSpec);
-            }
-            catch (DatabaseOperationTimeoutException ex)
-            {
-                Log.Debug(ex);
-                throw new ServerUnavailableException();
-            }
-            catch (Exception ex)
-            {
-                Log.Error("Error retrieving build details", ex);
-                throw new ServerUnavailableException("Error retrieving build details", ex);
-            }
-            var latestBuilds = from build in buildQueryResults.Builds
-                               group build by build.BuildDefinition.Id
-                                   into g
-                                   select g.OrderByDescending(b => b.StartTime).First();
-            return latestBuilds.ToList();
+            return uri.Segments[uri.Segments.Length - 1].ToString();
         }
-
+         
         private static BuildStatusEnum GetBuildStatusEnum(Microsoft.TeamFoundation.Build.Client.BuildStatus status)
         {
             switch (status)
@@ -154,27 +161,70 @@ namespace TfsServices.Configuration
                     return BuildStatusEnum.InProgress;
                 case "Rejected":
                     return BuildStatusEnum.Broken;
-// ReSharper disable RedundantCaseLabel
-                case "Ready for Initial Test":
-                case "Unexamined":
-// ReSharper restore RedundantCaseLabel
                 default:
                     return BuildStatusEnum.Unknown;
             }
         }
 
-        private static BuildStatus CreateBuildStatus(IBuildDetail buildDetail, MyTfsBuildDefinition myTfsBuildDefinition, bool applyBuildQuality)
+        private BuildStatus CreateBuildStatus(IBuildDetail buildDetail, bool applyBuildQuality)
         {
-            return new BuildStatus
+            BuildStatusEnum status = BuildStatusEnum.Unknown;
+            if (applyBuildQuality)
+                status = GetBuildStatusEnum(buildDetail.Quality);
+            if (status == BuildStatusEnum.Unknown)
+                status = GetBuildStatusEnum(buildDetail.Status);
+
+            var result = new BuildStatus
             {
-                BuildDefinitionId = buildDetail.BuildDefinition.Name,
-                Name = buildDetail.BuildDefinition.Name,
-                BuildStatusEnum = GetBuildStatusEnum(buildDetail, applyBuildQuality),
+                BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
+                BuildStatusEnum = status,
                 RequestedBy = buildDetail.RequestedFor,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
-                Url = myTfsBuildDefinition.ConvertTfsUriToUrl(buildDetail.Uri)
             };
+
+            if (buildDetail.BuildDefinition != null)
+            {
+                this._UriToName[buildDetail.BuildDefinitionUri.ToString()] = buildDetail.BuildDefinition.Name;
+            }
+
+            result.Name = this._UriToName[buildDetail.BuildDefinitionUri.ToString()];
+            result.BuildId = buildDetail.Uri.Segments[buildDetail.Uri.Segments.Length - 1].ToString();
+
+            var changesets = buildDetail.Information.GetNodesByType("AssociatedChangeset");
+
+            if (changesets.Count() > 0)
+            {
+                HashSet<String> users = new HashSet<String>();
+                foreach (var changeset in changesets)
+                    users.Add(changeset.Fields["CheckedInBy"]);
+
+                if (users.Count() > 1)
+                    result.RequestedBy = "(Multiple Users)";
+                else
+                    result.RequestedBy = users.First();
+
+                if (changesets.Count() > 1)
+                    result.Comment = "(Multiple Changesets)";
+                else
+                    result.Comment = changesets.First().Fields["Comment"];
+            }
+            else
+            {
+                result.RequestedBy = result.RequestedBy;
+            }
+
+            if (applyBuildQuality &&
+                GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
+            {
+                result.Comment =
+                    "Build deployment or test failure. Please see test server or test results for details.\n" +
+                    result.Comment;
+            }
+
+            result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
+
+            return result;
         }
 
         private static BuildStatusEnum GetBuildStatusEnum(IBuildDetail buildDetail, bool applyBuildQuality)
