@@ -178,7 +178,8 @@ namespace TfsServices.Configuration
             {
                 BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
                 BuildStatusEnum = status,
-                RequestedBy = buildDetail.RequestedFor,
+                RequestedBy = buildDetail.RequestedBy != null ? buildDetail.RequestedBy :
+                    buildDetail.RequestedFor != null ? buildDetail.RequestedFor : buildDetail.LastChangedBy,
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
             };
@@ -209,11 +210,11 @@ namespace TfsServices.Configuration
                 else
                     result.Comment = changesets.First().Fields["Comment"];
             }
-            else
+            else 
             {
-                result.RequestedBy = result.RequestedBy;
+                result.Comment = buildDetail.Reason.ToString();
             }
-
+            
             if (applyBuildQuality &&
                 GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
             {
