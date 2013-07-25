@@ -88,17 +88,7 @@ namespace SimpleSirenOfShameDeviceExample
             }
 
             var deviceInfo = _sirenOfShameDevice.ReadDeviceInfo();
-
-            StringBuilder deviceInfoText = new StringBuilder();
-            deviceInfoText.AppendLine("FirmwareVersion: " + deviceInfo.FirmwareVersion + "\n");
-            deviceInfoText.AppendLine("HardwareType: " + deviceInfo.HardwareType + "\n");
-            deviceInfoText.AppendLine("HardwareVersion: " + deviceInfo.HardwareVersion + "\n");
-            deviceInfoText.AppendLine("AudioMode: " + deviceInfo.AudioMode + "\n");
-            deviceInfoText.AppendLine("AudioPlayDuration: " + deviceInfo.AudioPlayDuration + "\n");
-            deviceInfoText.AppendLine("LedMode: " + deviceInfo.LedMode + "\n");
-            deviceInfoText.AppendLine("LedPlayDuration: " + deviceInfo.LedPlayDuration + "\n");
-            deviceInfoText.AppendLine("External Memory Size: " + SiUnitHelpers.ToBinaryString(deviceInfo.ExternalMemorySize) + "B\n");
-            _deviceInfo.Text = deviceInfoText.ToString();
+            _deviceInfo.Text = deviceInfo.ToString();
         }
 
         protected override void WndProc(ref Message m)
