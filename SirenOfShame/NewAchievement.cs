@@ -98,7 +98,7 @@ namespace SirenOfShame
         private void TrySetMyRawNameFromUserIAm(CancelEventArgs e)
         {
             _settings.AchievementAlertPreference = AchievementAlertPreferenceEnum.OnlyForMe;
-            if (_userIAm == null || _userIAm.SelectedItem == null || _userIAm.SelectedItem == "")
+            if (_userIAm == null || _userIAm.SelectedItem == null || String.Empty.Equals(_userIAm.SelectedItem))
             {
                 MessageBox.Show("Please either select who you are or select a different notification option.");
                 e.Cancel = true;

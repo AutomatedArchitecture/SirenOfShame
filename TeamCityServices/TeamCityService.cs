@@ -145,7 +145,6 @@ namespace TeamCityServices
         /// <returns></returns>
         public static string GetUriCookieContainer(Uri uri)
         {
-            CookieContainer cookies = null;
             // Determine the size of the cookie
             int datasize = 8192 * 16;
             StringBuilder cookieData = new StringBuilder(datasize);
