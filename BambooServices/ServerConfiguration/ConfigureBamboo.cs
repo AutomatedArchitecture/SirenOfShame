@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace BambooServices.ServerConfiguration
 {
@@ -12,6 +14,7 @@ namespace BambooServices.ServerConfiguration
         private readonly BambooCIEntryPoint _bambooCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly BambooService _service = new BambooService();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureBamboo));
 
         public ConfigureBamboo() { }
 
@@ -52,6 +55,7 @@ namespace BambooServices.ServerConfiguration
         private void GetProjectsError(Exception ex)
         {
             _projects.Nodes.Clear();
+            _log.Error(ex);
             MessageBox.Show("Error connecting to server: " + ex);
         }
 
