@@ -169,11 +169,10 @@ namespace TfsServices.Configuration
         private BuildStatus CreateBuildStatus(IBuildDetail buildDetail, bool applyBuildQuality)
         {
             BuildStatusEnum status = BuildStatusEnum.Unknown;
-            if (applyBuildQuality)
+            status = GetBuildStatusEnum(buildDetail.Status);
+            if (applyBuildQuality && status == BuildStatusEnum.Working)
                 status = GetBuildStatusEnum(buildDetail.Quality);
-            if (status == BuildStatusEnum.Unknown)
-                status = GetBuildStatusEnum(buildDetail.Status);
-
+            
             var result = new BuildStatus
             {
                 BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1].ToString(),
