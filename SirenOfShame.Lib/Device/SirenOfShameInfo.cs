@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using SirenOfShame.Lib.Helpers;
 
 namespace SirenOfShame.Lib.Device
 {
@@ -71,6 +73,21 @@ namespace SirenOfShame.Lib.Device
             LedMode = infoPacket.LedMode;
             LedPlayDuration = new TimeSpan(0, 0, 0, 0, infoPacket.LedPlayDuration * 100);
             ExternalMemorySize = infoPacket.ExternalMemorySize;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(this.GetType().Name + ":");
+            stringBuilder.AppendLine("\tFirmwareVersion: " + this.FirmwareVersion);
+            stringBuilder.AppendLine("\tHardwareType: " + this.HardwareType );
+            stringBuilder.AppendLine("\tHardwareVersion: " + this.HardwareVersion );
+            stringBuilder.AppendLine("\tAudioMode: " + this.AudioMode );
+            stringBuilder.AppendLine("\tAudioPlayDuration: " + this.AudioPlayDuration );
+            stringBuilder.AppendLine("\tLedMode: " + this.LedMode );
+            stringBuilder.AppendLine("\tLedPlayDuration: " + this.LedPlayDuration );
+            stringBuilder.AppendLine("\tExternal Memory Size: " + SiUnitHelpers.ToBinaryString(this.ExternalMemorySize) + "B");
+            return stringBuilder.ToString();
         }
     }
 }

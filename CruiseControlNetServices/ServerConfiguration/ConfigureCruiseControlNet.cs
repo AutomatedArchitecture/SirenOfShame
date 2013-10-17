@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace CruiseControlNetServices.ServerConfiguration
 {
@@ -12,6 +14,7 @@ namespace CruiseControlNetServices.ServerConfiguration
         private readonly CruiseControlNetCIEntryPoint _cruiseControlNetCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly CruiseControlNetService _service = new CruiseControlNetService();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureCruiseControlNet));
 
         public ConfigureCruiseControlNet() { }
 
@@ -52,6 +55,7 @@ namespace CruiseControlNetServices.ServerConfiguration
         private void GetProjectsError(Exception ex)
         {
             _projects.Nodes.Clear();
+            _log.Error(ex);
             MessageBox.Show("Error connecting to server: " + ex.Message);
         }
 

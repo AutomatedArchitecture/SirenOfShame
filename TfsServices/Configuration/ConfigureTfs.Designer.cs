@@ -163,7 +163,7 @@ namespace TfsServices.Configuration {
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(98, 17);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Authenciation:";
+            this.label4.Text = "Authentication:";
             // 
             // passwordLabel
             // 

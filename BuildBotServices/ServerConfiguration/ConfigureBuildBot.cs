@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace BuildBotServices.ServerConfiguration
 {
@@ -12,6 +14,7 @@ namespace BuildBotServices.ServerConfiguration
         private readonly BuildBotCIEntryPoint _BuildBotCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly BuildBotService _service = new BuildBotService();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureBuildBot));
 
         public ConfigureBuildBot() { }
 
@@ -52,6 +55,7 @@ namespace BuildBotServices.ServerConfiguration
         private void GetProjectsError(Exception ex)
         {
             _projects.Nodes.Clear();
+            _log.Error(ex);
             MessageBox.Show("Error connecting to server: " + ex.Message);
         }
 

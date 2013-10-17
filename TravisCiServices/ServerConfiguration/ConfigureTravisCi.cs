@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using log4net;
 
 namespace TravisCiServices.ServerConfiguration
 {
@@ -12,6 +14,7 @@ namespace TravisCiServices.ServerConfiguration
         private readonly TravisCiEntryPoint _travisCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly TravisCiService _service = new TravisCiService();
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTravisCi));
 
         public ConfigureTravisCi() { }
 
@@ -45,6 +48,7 @@ namespace TravisCiServices.ServerConfiguration
 
         private void GetProjectError(Exception ex)
         {
+            _log.Error(ex);
             MessageBox.Show("Error connecting to server: " + ex.Message);
         }
 
