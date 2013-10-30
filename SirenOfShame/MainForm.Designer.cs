@@ -177,7 +177,7 @@ namespace SirenOfShame {
             this.notifyIcon.ContextMenuStrip = this.minimizedMenu;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "Siren of Shame";
-            this.notifyIcon.Visible = true;
+            this.notifyIcon.Visible = false;
             this.notifyIcon.DoubleClick += new System.EventHandler(this.NotifyIconDoubleClick);
             // 
             // minimizedMenu

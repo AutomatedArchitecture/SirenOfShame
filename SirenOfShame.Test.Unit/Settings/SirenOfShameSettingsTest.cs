@@ -18,6 +18,11 @@ namespace SirenOfShame.Test.Unit.Settings
         protected override void ShowInMainWindow(MainWindowEnum mainWindow)
         {
         }
+
+        protected override void InitializeNotifyIcon()
+        {
+            NotityIconVisible = false;
+        }
     }
 
     [TestClass]

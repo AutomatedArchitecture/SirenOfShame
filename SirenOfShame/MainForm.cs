@@ -40,6 +40,7 @@ namespace SirenOfShame
             _log.Info("MainForm Open");
             IocContainer.Instance.Compose(this);
             InitializeComponent();
+            InitializeNotifyIcon();
             InitializeWindow();
 
             InitializeToolbar();
@@ -67,6 +68,11 @@ namespace SirenOfShame
             return SirenOfShameSettings.GetAppSettings();
         }
 
+        protected virtual void InitializeNotifyIcon()
+        {
+            NotityIconVisible = true;
+        }
+        
         private void InitializeToolbar()
         {
             ShowAllUsers = false;
@@ -865,6 +871,12 @@ namespace SirenOfShame
         {
             var exception = (Exception)_sosOnlineError.Tag;
             ExceptionMessageBox.Show(this, "Sos Online Error", exception.Message, exception);
+        }
+
+        protected bool NotityIconVisible
+        {
+            get { return notifyIcon.Visible; }
+            set { notifyIcon.Visible = value; }
         }
 
         private bool _showAllUsers;
