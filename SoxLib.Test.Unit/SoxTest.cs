@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SoxLib.Test.Unit.TestHelpers;
 
@@ -10,10 +12,7 @@ namespace SoxLib.Test.Unit
         [TestMethod]
         public void ConvertWavToRaw()
         {
-            Sox sox = new Sox
-            {
-                SoxDirectory = Path.Combine(TestHelper.GetSolutionDirectory(), @"libs\sox-14.3.2\")
-            };
+            Sox sox = CreateSoxInstance();
             ConvertOptions options = new ConvertOptions
             {
                 InputFileInfo = new FileInfo
@@ -43,10 +42,7 @@ namespace SoxLib.Test.Unit
         [TestMethod]
         public void ConvertWavToMp3()
         {
-            Sox sox = new Sox
-            {
-                SoxDirectory = Path.Combine(TestHelper.GetSolutionDirectory(), @"libs\sox-14.3.2\")
-            };
+            Sox sox = CreateSoxInstance();
             ConvertOptions options = new ConvertOptions
             {
                 InputFileInfo = new FileInfo
@@ -76,10 +72,7 @@ namespace SoxLib.Test.Unit
         [TestMethod]
         public void Trim()
         {
-            Sox sox = new Sox
-            {
-                SoxDirectory = Path.Combine(TestHelper.GetSolutionDirectory(), @"libs\sox-14.3.2\")
-            };
+            Sox sox = CreateSoxInstance();
             TrimOptions options = new TrimOptions
             {
                 InputFileInfo = new FileInfo
@@ -110,6 +103,18 @@ namespace SoxLib.Test.Unit
                 StreamTestHelper.AssertAreEqual(expected, output, 2);
             }
             Assert.AreEqual(preRunTempDirFileCount, Directory.GetFiles(sox.TempDir).Length);
+        }
+
+        private Sox CreateSoxInstance()
+        {
+            var libDir = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
+            libDir = Path.Combine(libDir, "libs", "sox");
+            if (!Directory.Exists(libDir)) throw new Exception("Could not find sox lib dir");
+
+            return new Sox
+            {
+                SoxDirectory = libDir
+            };
         }
     }
 }

@@ -56,7 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoxTest.cs" />
     <Compile Include="TestHelpers\StreamTestHelper.cs" />
-    <Compile Include="TestHelpers\TestHelper.cs" />
     <Compile Include="TestInit.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +79,75 @@
   <ItemGroup>
     <EmbeddedResource Include="doh-wav-trim.u8" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Libs\sox-14.3.2\batch-example.bat">
+      <Link>Libs\sox\batch-example.bat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Libs\sox-14.3.2\sox.pdf">
+      <Link>Libs\sox\sox.pdf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Libs\sox-14.3.2\soxformat.pdf">
+      <Link>Libs\sox\soxformat.pdf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Libs\sox-14.3.2\soxi.pdf">
+      <Link>Libs\sox\soxi.pdf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\Libs\sox-14.3.2\wget.ini">
+      <Link>Libs\sox\wget.ini</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Libs\sox-14.3.2\ChangeLog.txt">
+      <Link>Libs\sox\ChangeLog.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\libgomp-1.dll">
+      <Link>Libs\sox\libgomp-1.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\libmad.dll">
+      <Link>Libs\sox\libmad.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\libmp3lame.dll">
+      <Link>Libs\sox\libmp3lame.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\LICENSE.GPL.txt">
+      <Link>Libs\sox\LICENSE.GPL.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\pthreadgc2.dll">
+      <Link>Libs\sox\pthreadgc2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\README.txt">
+      <Link>Libs\sox\README.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\README.win32.txt">
+      <Link>Libs\sox\README.win32.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\sox.exe">
+      <Link>Libs\sox\sox.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\wget.exe">
+      <Link>Libs\sox\wget.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libs\sox-14.3.2\zlib1.dll">
+      <Link>Libs\sox\zlib1.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
