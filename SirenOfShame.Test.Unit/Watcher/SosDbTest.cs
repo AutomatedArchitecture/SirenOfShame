@@ -15,7 +15,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void ExportNewBuilds_InitialExportWithNoBuilds_Null()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            SirenOfShameSettings settings = new SirenOfShameSettingsFake
             {
                 SosOnlineHighWaterMark = null, 
                 MyRawName = "CurrentUser"
@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildByCurrentUser_Exports()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            SirenOfShameSettings settings = new SirenOfShameSettingsFake
             {
                 SosOnlineHighWaterMark = null,
                 MyRawName = "CurrentUser",
@@ -67,7 +67,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildBySomeoneElse_Null()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            SirenOfShameSettings settings = new SirenOfShameSettingsFake
             {
                 SosOnlineHighWaterMark = null, 
                 MyRawName = "CurrentUser"
@@ -91,7 +91,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void ExportNewBuilds_SecondExportIgnoresOlderExports()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            SirenOfShameSettings settings = new SirenOfShameSettingsFake
             {
                 SosOnlineHighWaterMark = 633979044610000000, 
                 MyRawName = "CurrentUser"
@@ -115,7 +115,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void ExportNewBuilds_SecondExportGetsNewerExports()
         {
             SosDbFake sosDb = new SosDbFake();
-            SirenOfShameSettings settings = new SirenOfShameSettings(useMef: false)
+            SirenOfShameSettings settings = new SirenOfShameSettingsFake
             {
                 SosOnlineHighWaterMark = 633979044610000000, 
                 MyRawName = "CurrentUser",
