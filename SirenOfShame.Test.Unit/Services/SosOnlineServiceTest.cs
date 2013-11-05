@@ -25,7 +25,7 @@ namespace SirenOfShame.Test.Unit.Services
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<InstanceUserDto>()), Times.Exactly(2));
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Exactly(2));
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Services
             var mock = new Mock<SosOnlineService>();
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<InstanceUserDto>()), Times.Never());
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Never());
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace SirenOfShame.Test.Unit.Services
             var mock = new Mock<SosOnlineService>();
             rulesEngine.SosOnlineService = mock.Object;
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), new List<InstanceUserDto>()), Times.Once());
+            mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Once());
         }
 
         [TestMethod]
