@@ -209,7 +209,7 @@ namespace SirenOfShame.Test.Unit.Settings
                                    Version = null
                                };
             settings.DoUpgrade();
-            Assert.AreEqual(7, settings.Version);
+            Assert.AreEqual(SirenOfShameSettings.CURRENT_VERSION, settings.Version);
         }
         
         [TestMethod]

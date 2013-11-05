@@ -18,6 +18,7 @@ namespace SirenOfShame.Lib.Settings
     public class SirenOfShameSettings
     {
         public const int AVATAR_COUNT = 21;
+        public const int CURRENT_VERSION = 8;
 
         [Import(typeof(ISirenOfShameDevice))]
         private ISirenOfShameDevice SirenOfShameDevice { get; set; }
