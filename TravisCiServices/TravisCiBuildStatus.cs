@@ -21,7 +21,7 @@ namespace TravisCiServices
                 StartedTime = TravisCiService.GetJsonDate(jsonDoc, "started_at");
                 Comment = TravisCiService.GetJsonValue(jsonDoc, "message");
                 FinishedTime = TravisCiService.GetJsonDate(jsonDoc, "finished_at");
-                Url = "http://travis-ci.org/" + travisCiBuildDefinition.OwnerName + "/" + travisCiBuildDefinition.ProjectName + "/builds/" + TravisCiService.GetJsonValue(jsonDoc, "id");
+                Url = "https://api.travis-ci.org/" + travisCiBuildDefinition.OwnerName + "/" + travisCiBuildDefinition.ProjectName + "/builds/" + TravisCiService.GetJsonValue(jsonDoc, "id");
                 BuildId = TravisCiService.GetJsonValue(jsonDoc, "id");
             } 
             catch (Exception)

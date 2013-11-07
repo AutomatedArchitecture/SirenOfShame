@@ -54,7 +54,7 @@ namespace TravisCiServices.ServerConfiguration
 
         private void GetProjectComplete(TravisCiBuildDefinition buildDefinition)
         {
-            _ciEntryPointSetting.Url = "http://travis-ci.org/";
+            _ciEntryPointSetting.Url = "https://api.travis-ci.org/";
             Settings.Save();
 
             bool exists = Settings.BuildExistsAndIsActive(_travisCiEntryPoint.Name, buildDefinition.Id);

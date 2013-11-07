@@ -35,7 +35,7 @@ namespace TravisCiServices
 
         private string GetUrl(string ownerName, string projectName)
         {
-            return "http://travis-ci.org/" + ownerName + "/" + projectName + ".json";
+            return "https://api.travis-ci.org/" + ownerName + "/" + projectName + ".json";
         }
 
         public IList<TravisCiBuildStatus> GetBuildsStatuses(BuildDefinitionSetting[] watchedBuildDefinitions)
