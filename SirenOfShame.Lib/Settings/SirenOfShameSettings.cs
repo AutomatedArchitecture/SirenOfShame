@@ -24,12 +24,25 @@ namespace SirenOfShame.Lib.Settings
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
         private string _updateLocationOther;
         private bool? _anyDuplicateSettingsCached;
+        private static int? _currentVersion;
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = "SirenOfShame.Resources.Audio-Plunk.wav" },
             new Rule { TriggerType = TriggerType.InitialFailedBuild, AlertType = AlertType.ModalDialog, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation  = "SirenOfShame.Resources.Audio-Sad-Trombone.wav" },
             new Rule { TriggerType = TriggerType.SubsequentFailedBuild, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = "SirenOfShame.Resources.Audio-Boo-Hiss.wav" },
             new Rule { TriggerType = TriggerType.SuccessfulBuild, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = null },
+        };
+
+        private static readonly UpgradeBase[] _upgrades =
+        {
+            new Upgrade0To1(),
+            new Upgrade1To2(),
+            new Upgrade2To3(),
+            new Upgrade3To4(),
+            new Upgrade4To5(),
+            new Upgrade5To6(AVATAR_COUNT),
+            new Upgrade6To7(),
+            new Upgrade7To8()
         };
 
         public void ResetRules()
@@ -55,6 +68,19 @@ namespace SirenOfShame.Lib.Settings
         }
 
         public int? Version { get; set; }
+
+        [XmlIgnore]
+        public static int CurrentVersion
+        {
+            get
+            {
+                if (!_currentVersion.HasValue)
+                {
+                    _currentVersion = _upgrades.Max(i => i.ToVersion);
+                }
+                return _currentVersion.Value;
+            }
+        }
         
         public DateTime? LastCheckedForAlert { get; set; }
         
@@ -266,18 +292,7 @@ namespace SirenOfShame.Lib.Settings
 
         public void TryUpgrade()
         {
-            var upgrades = new UpgradeBase[]
-                               {
-                                   new Upgrade0To1(),
-                                   new Upgrade1To2(),
-                                   new Upgrade2To3(),
-                                   new Upgrade3To4(),
-                                   new Upgrade4To5(), 
-                                   new Upgrade5To6(AVATAR_COUNT),
-                                   new Upgrade6To7(), 
-                                   new Upgrade7To8()
-                               };
-            var sortedUpgrades = upgrades.OrderBy(i => i.ToVersion);
+            var sortedUpgrades = _upgrades.OrderBy(i => i.ToVersion);
 
             foreach (var upgrade in sortedUpgrades)
             {

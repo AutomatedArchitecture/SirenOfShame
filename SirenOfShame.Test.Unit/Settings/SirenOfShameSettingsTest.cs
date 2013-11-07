@@ -18,6 +18,11 @@ namespace SirenOfShame.Test.Unit.Settings
         protected override void ShowInMainWindow(MainWindowEnum mainWindow)
         {
         }
+
+        protected override void InitializeNotifyIcon()
+        {
+            NotityIconVisible = false;
+        }
     }
 
     [TestClass]
@@ -204,7 +209,7 @@ namespace SirenOfShame.Test.Unit.Settings
                                    Version = null
                                };
             settings.DoUpgrade();
-            Assert.AreEqual(7, settings.Version);
+            Assert.AreEqual(SirenOfShameSettings.CurrentVersion, settings.Version);
         }
         
         [TestMethod]

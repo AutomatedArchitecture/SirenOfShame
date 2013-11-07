@@ -5,7 +5,7 @@ using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 
-namespace SirenOfShame.Test.Unit.CiEntryPointBuildStatus
+namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
     [TestClass]
     public class HudsonBuildStatusTest

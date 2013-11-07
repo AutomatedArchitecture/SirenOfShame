@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
-using SirenOfShame.Test.Unit.CiEntryPointBuildStatus;
 using SirenOfShame.Test.Unit.Resources;
 using TeamCityServices;
 
