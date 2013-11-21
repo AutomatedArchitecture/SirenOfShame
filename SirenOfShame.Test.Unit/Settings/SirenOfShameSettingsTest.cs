@@ -43,6 +43,20 @@ namespace SirenOfShame.Test.Unit.Settings
         }
 
         [TestMethod]
+        public void GetUsersContainedInBuildsAsDto_BuildListContainsHiddenPerson_PersonStillReturned()
+        {
+            var settings = new SirenOfShameSettingsFake();
+            settings.People.Add(new PersonSetting { RawName = "Bob", Hidden = true });
+            IList<BuildStatus> changedBuildStatuses = new List<BuildStatus>
+            {
+                new BuildStatus { RequestedBy = "Bob" }
+            };
+            var results = settings.GetUsersContainedInBuildsAsDto(changedBuildStatuses);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Bob", results[0].RawName);
+        }
+
+        [TestMethod]
         public void GetUsersContainedInBuildsAsDto_BuildListDoesNotContainPerson_PersonIsNotReturned()
         {
             var settings = new SirenOfShameSettingsFake();

@@ -550,7 +550,7 @@ namespace SirenOfShame.Lib.Settings
 
         public List<InstanceUserDto> GetUsersContainedInBuildsAsDto(IList<BuildStatus> changedBuildStatuses)
         {
-            return VisiblePeople
+            return People
                 .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
                 .Select(i => new InstanceUserDto(i))
                 .ToList();
