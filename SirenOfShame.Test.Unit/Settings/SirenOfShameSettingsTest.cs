@@ -1,5 +1,5 @@
-﻿// ReSharper disable InconsistentNaming
-
+﻿using SirenOfShame.Lib.Watcher;
+// ReSharper disable InconsistentNaming
 using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,6 +28,33 @@ namespace SirenOfShame.Test.Unit.Settings
     [TestClass]
     public class SirenOfShameSettingsTest
     {
+        [TestMethod]
+        public void GetUsersContainedInBuildsAsDto_BuildListContainsPerson_PersonIsReturned()
+        {
+            var settings = new SirenOfShameSettingsFake();
+            settings.People.Add(new PersonSetting { RawName = "Bob"});
+            IList<BuildStatus> changedBuildStatuses = new List<BuildStatus>
+            {
+                new BuildStatus { RequestedBy = "Bob" }
+            };
+            var results = settings.GetUsersContainedInBuildsAsDto(changedBuildStatuses);
+            Assert.AreEqual(1, results.Count);
+            Assert.AreEqual("Bob", results[0].RawName);
+        }
+
+        [TestMethod]
+        public void GetUsersContainedInBuildsAsDto_BuildListDoesNotContainPerson_PersonIsNotReturned()
+        {
+            var settings = new SirenOfShameSettingsFake();
+            settings.People.Add(new PersonSetting { RawName = "Bob"});
+            IList<BuildStatus> changedBuildStatuses = new List<BuildStatus>
+            {
+                new BuildStatus { RequestedBy = "Sam" }
+            };
+            var results = settings.GetUsersContainedInBuildsAsDto(changedBuildStatuses);
+            Assert.AreEqual(0, results.Count);
+        }
+
         [TestMethod]
         public void IsGettingStarted_OneServerAndAlwaysOffline()
         {

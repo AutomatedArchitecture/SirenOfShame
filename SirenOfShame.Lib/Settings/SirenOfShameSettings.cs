@@ -7,6 +7,7 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Watcher;
 using log4net;
 using SirenOfShame.Lib.Helpers;
@@ -544,6 +545,14 @@ namespace SirenOfShame.Lib.Settings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .SelectMany(bds => bds.PeopleMinusUserMappings(this))
                 .Distinct()
+                .ToList();
+        }
+
+        public List<InstanceUserDto> GetUsersContainedInBuildsAsDto(IList<BuildStatus> changedBuildStatuses)
+        {
+            return VisiblePeople
+                .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
+                .Select(i => new InstanceUserDto(i))
                 .ToList();
         }
     }

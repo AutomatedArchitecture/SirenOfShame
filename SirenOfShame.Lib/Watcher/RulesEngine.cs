@@ -358,10 +358,7 @@ namespace SirenOfShame.Lib.Watcher
         private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
         {
             if (_settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses) return;
-            var requestedByPeople = _settings.VisiblePeople
-                .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
-                .Select(i => new InstanceUserDto(i))
-                .ToList();
+            var requestedByPeople = _settings.GetUsersContainedInBuildsAsDto(changedBuildStatuses);
             SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses, requestedByPeople);
         }
 
