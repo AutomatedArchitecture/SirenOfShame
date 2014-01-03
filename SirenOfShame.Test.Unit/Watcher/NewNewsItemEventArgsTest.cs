@@ -1,4 +1,5 @@
-﻿// ReSharper disable InconsistentNaming
+﻿using SirenOfShame.Lib.Settings;
+// ReSharper disable InconsistentNaming
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Watcher;
@@ -8,6 +9,32 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestClass]
     public class NewNewsItemEventArgsTest
     {
+        [TestMethod]
+        public void GetPerson_PersonWithRawNameDoesNotExist_NothingFound()
+        {
+            var settingsFake = new SirenOfShameSettingsFake();
+            var actual = NewNewsItemEventArgs.GetPerson(settingsFake, "domain\richardsonl");
+            Assert.IsNull(actual);
+        }
+
+        [TestMethod]
+        public void GetPerson_PersonWithRawNameExists_PersonIsFound()
+        {
+            var settingsFake = new SirenOfShameSettingsFake();
+            settingsFake.People.Add(new PersonSetting { RawName = "domain\richardsonl"});
+            var actual = NewNewsItemEventArgs.GetPerson(settingsFake, "domain\richardsonl");
+            Assert.IsNotNull(actual);
+        }
+
+        [TestMethod]
+        public void GetPerson_NameContainsCommaButIsSearchedForWithoutComma_NameStillFound()
+        {
+            var settingsFake = new SirenOfShameSettingsFake();
+            settingsFake.People.Add(new PersonSetting { RawName = "O'Boyle, Robert"});
+            var actual = NewNewsItemEventArgs.GetPerson(settingsFake, "O'Boyle  Robert");
+            Assert.IsNotNull(actual);
+        }
+
         [TestMethod]
         public void SerializeThenDeserialize()
         {

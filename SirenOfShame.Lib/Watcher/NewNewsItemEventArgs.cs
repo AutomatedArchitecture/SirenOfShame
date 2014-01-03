@@ -51,7 +51,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        private static string MakeCsvSafe(string s)
+        public static string MakeCsvSafe(string s)
         {
             return string.IsNullOrEmpty(s) ? "" : RemoveNewlines(s.Replace(',', ' '));
         }
@@ -150,7 +150,7 @@ namespace SirenOfShame.Lib.Watcher
             return eventDate;
         }
 
-        private static PersonSetting GetPerson(SirenOfShameSettings settings, string element)
+        public static PersonSetting GetPerson(SirenOfShameSettings settings, string element)
         {
             var rawName = element;
             var person = settings.FindPersonByRawName(rawName);
