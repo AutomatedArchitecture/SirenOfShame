@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
@@ -25,7 +24,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Bob Smith", buildStatus.RequestedBy);
             Assert.AreEqual("Merge branch 'master' of https://github.com/travis-ci/travis-ci", buildStatus.Comment);
-            Assert.AreEqual("http://travis-ci.org/ownerName/projectName/builds/1591278", buildStatus.Url);
+            Assert.AreEqual("https://api.travis-ci.org/ownerName/projectName/builds/1591278", buildStatus.Url);
             Assert.AreEqual("1591278", buildStatus.BuildId);
         }
         
@@ -44,7 +43,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Garima Singh", buildStatus.RequestedBy);
             Assert.AreEqual("Adding rake db:migrate for sample app in code", buildStatus.Comment);
-            Assert.AreEqual("http://travis-ci.org/ownerName/projectName/builds/1791928", buildStatus.Url);
+            Assert.AreEqual("https://api.travis-ci.org/ownerName/projectName/builds/1791928", buildStatus.Url);
             Assert.AreEqual("1791928", buildStatus.BuildId);
         }
     }

@@ -7,6 +7,7 @@ using SoxLib.Test.Unit.TestHelpers;
 namespace SoxLib.Test.Unit
 {
     [TestClass]
+    [Ignore]
     public class SoxTest
     {
         [TestMethod]
