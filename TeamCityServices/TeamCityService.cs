@@ -171,6 +171,8 @@ namespace TeamCityServices
             int state = 0;
             DateTime initialRequest = DateTime.Now;
             bool serverUnavailable = false;
+            string loginPage = rootUrl + "/login.html";
+
             Exception documentCompleteException = null;
             // WebBrowser needs to run in a single threaded apartment thread, see http://www.beansoftware.com/ASP.NET-Tutorials/Get-Web-Site-Thumbnail-Image.aspx
             Thread staThread = new Thread(() =>
@@ -215,7 +217,7 @@ namespace TeamCityServices
                             }
                             if (state == 1)
                             {
-                                string cookie = GetUriCookieContainer(new Uri(rootUrl));
+                                string cookie = GetUriCookieContainer(new Uri(loginPage));
                                 _cookies[rootUrl] = cookie;
                             }
 
@@ -230,7 +232,6 @@ namespace TeamCityServices
                     };
 
                     webBrowser.ScriptErrorsSuppressed = true;
-                    string loginPage = rootUrl + "/login.html";
                     webBrowser.Navigate(new Uri(loginPage));
 
                     _log.Debug("Begin navigating to: " + loginPage);
