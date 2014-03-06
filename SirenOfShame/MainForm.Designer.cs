@@ -46,12 +46,9 @@ namespace SirenOfShame {
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._ribbonPanel = new System.Windows.Forms.Panel();
-            this._viewAllUsers = new System.Windows.Forms.Button();
+            this._userMappings = new System.Windows.Forms.Button();
             this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
-            this.separator4 = new SirenOfShame.Separator();
-            this.separator3 = new SirenOfShame.Separator();
-            this.separator2 = new SirenOfShame.Separator();
-            this.separator1 = new SirenOfShame.Separator();
+            this._viewAllUsers = new System.Windows.Forms.Button();
             this._sosOnline = new System.Windows.Forms.Button();
             this._toolbar32 = new System.Windows.Forms.ImageList(this.components);
             this._mute = new System.Windows.Forms.Button();
@@ -91,12 +88,15 @@ namespace SirenOfShame {
             this._highlightPanel2 = new System.Windows.Forms.Panel();
             this._highlightPanel = new System.Windows.Forms.Panel();
             this._highlightPanel3 = new System.Windows.Forms.Panel();
+            this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._viewBuilds = new SirenOfShame.ViewBuilds();
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.Leaders();
-            this.buildStatusBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._userMappings = new System.Windows.Forms.Button();
+            this.separator4 = new SirenOfShame.Separator();
+            this.separator3 = new SirenOfShame.Separator();
+            this.separator2 = new SirenOfShame.Separator();
+            this.separator1 = new SirenOfShame.Separator();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -177,7 +177,6 @@ namespace SirenOfShame {
             this.notifyIcon.ContextMenuStrip = this.minimizedMenu;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "Siren of Shame";
-            this.notifyIcon.Visible = false;
             this.notifyIcon.DoubleClick += new System.EventHandler(this.NotifyIconDoubleClick);
             // 
             // minimizedMenu
@@ -234,6 +233,39 @@ namespace SirenOfShame {
             this._ribbonPanel.Size = new System.Drawing.Size(1005, 88);
             this._ribbonPanel.TabIndex = 37;
             // 
+            // _userMappings
+            // 
+            this._userMappings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._userMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this._userMappings.FlatAppearance.BorderSize = 0;
+            this._userMappings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._userMappings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._userMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._userMappings.ForeColor = System.Drawing.Color.White;
+            this._userMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._userMappings.ImageKey = "id_cards.bmp";
+            this._userMappings.ImageList = this._toolbar16;
+            this._userMappings.Location = new System.Drawing.Point(544, 26);
+            this._userMappings.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this._userMappings.Name = "_userMappings";
+            this._userMappings.Size = new System.Drawing.Size(112, 21);
+            this._userMappings.TabIndex = 29;
+            this._userMappings.Text = "        User Mappings";
+            this._userMappings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._userMappings.UseVisualStyleBackColor = false;
+            this._userMappings.Click += new System.EventHandler(this.UserMappingsClick);
+            // 
+            // _toolbar16
+            // 
+            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
+            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
+            this._toolbar16.Images.SetKeyName(0, "alarm.bmp");
+            this._toolbar16.Images.SetKeyName(1, "recycle.bmp");
+            this._toolbar16.Images.SetKeyName(2, "window_gear.bmp");
+            this._toolbar16.Images.SetKeyName(3, "users4_checkbox_checked.bmp");
+            this._toolbar16.Images.SetKeyName(4, "users4_checkbox_unchecked.bmp");
+            this._toolbar16.Images.SetKeyName(5, "id_cards.bmp");
+            // 
             // _viewAllUsers
             // 
             this._viewAllUsers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
@@ -255,49 +287,6 @@ namespace SirenOfShame {
             this._viewAllUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._viewAllUsers.UseVisualStyleBackColor = false;
             this._viewAllUsers.Click += new System.EventHandler(this.ViewAllUsersClick);
-            // 
-            // _toolbar16
-            // 
-            this._toolbar16.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_toolbar16.ImageStream")));
-            this._toolbar16.TransparentColor = System.Drawing.Color.Magenta;
-            this._toolbar16.Images.SetKeyName(0, "alarm.bmp");
-            this._toolbar16.Images.SetKeyName(1, "recycle.bmp");
-            this._toolbar16.Images.SetKeyName(2, "window_gear.bmp");
-            this._toolbar16.Images.SetKeyName(3, "users4_checkbox_checked.bmp");
-            this._toolbar16.Images.SetKeyName(4, "users4_checkbox_unchecked.bmp");
-            this._toolbar16.Images.SetKeyName(5, "id_cards.bmp");
-            // 
-            // separator4
-            // 
-            this.separator4.Location = new System.Drawing.Point(326, 0);
-            this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(2, 88);
-            this.separator4.TabIndex = 27;
-            this.separator4.Text = "separator4";
-            // 
-            // separator3
-            // 
-            this.separator3.Location = new System.Drawing.Point(468, 0);
-            this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(2, 88);
-            this.separator3.TabIndex = 26;
-            this.separator3.Text = "separator3";
-            // 
-            // separator2
-            // 
-            this.separator2.Location = new System.Drawing.Point(659, 0);
-            this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(2, 88);
-            this.separator2.TabIndex = 25;
-            this.separator2.Text = "separator2";
-            // 
-            // separator1
-            // 
-            this.separator1.Location = new System.Drawing.Point(803, -2);
-            this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(2, 88);
-            this.separator1.TabIndex = 24;
-            this.separator1.Text = "separator1";
             // 
             // _sosOnline
             // 
@@ -863,6 +852,10 @@ namespace SirenOfShame {
             this._highlightPanel3.Size = new System.Drawing.Size(1005, 1);
             this._highlightPanel3.TabIndex = 26;
             // 
+            // buildStatusBindingSource
+            // 
+            this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
+            // 
             // _viewBuilds
             // 
             this._viewBuilds.BackColor = System.Drawing.Color.Transparent;
@@ -904,31 +897,37 @@ namespace SirenOfShame {
             this._userList.Size = new System.Drawing.Size(209, 333);
             this._userList.TabIndex = 11;
             // 
-            // buildStatusBindingSource
+            // separator4
             // 
-            this.buildStatusBindingSource.DataSource = typeof(SirenOfShame.Lib.Watcher.BuildStatus);
+            this.separator4.Location = new System.Drawing.Point(326, 0);
+            this.separator4.Name = "separator4";
+            this.separator4.Size = new System.Drawing.Size(2, 88);
+            this.separator4.TabIndex = 27;
+            this.separator4.Text = "separator4";
             // 
-            // _userMappings
+            // separator3
             // 
-            this._userMappings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._userMappings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this._userMappings.FlatAppearance.BorderSize = 0;
-            this._userMappings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
-            this._userMappings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
-            this._userMappings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._userMappings.ForeColor = System.Drawing.Color.White;
-            this._userMappings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._userMappings.ImageKey = "id_cards.bmp";
-            this._userMappings.ImageList = this._toolbar16;
-            this._userMappings.Location = new System.Drawing.Point(544, 26);
-            this._userMappings.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this._userMappings.Name = "_userMappings";
-            this._userMappings.Size = new System.Drawing.Size(112, 21);
-            this._userMappings.TabIndex = 29;
-            this._userMappings.Text = "        User Mappings";
-            this._userMappings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._userMappings.UseVisualStyleBackColor = false;
-            this._userMappings.Click += new System.EventHandler(this.UserMappingsClick);
+            this.separator3.Location = new System.Drawing.Point(468, 0);
+            this.separator3.Name = "separator3";
+            this.separator3.Size = new System.Drawing.Size(2, 88);
+            this.separator3.TabIndex = 26;
+            this.separator3.Text = "separator3";
+            // 
+            // separator2
+            // 
+            this.separator2.Location = new System.Drawing.Point(659, 0);
+            this.separator2.Name = "separator2";
+            this.separator2.Size = new System.Drawing.Size(2, 88);
+            this.separator2.TabIndex = 25;
+            this.separator2.Text = "separator2";
+            // 
+            // separator1
+            // 
+            this.separator1.Location = new System.Drawing.Point(803, -2);
+            this.separator1.Name = "separator1";
+            this.separator1.Size = new System.Drawing.Size(2, 88);
+            this.separator1.TabIndex = 24;
+            this.separator1.Text = "separator1";
             // 
             // MainForm
             // 
@@ -949,6 +948,7 @@ namespace SirenOfShame {
             this.Controls.Add(this.panel1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
@@ -957,6 +957,7 @@ namespace SirenOfShame {
             this.Load += new System.EventHandler(this.MainFormLoad);
             this.ResizeBegin += new System.EventHandler(this.MainFormResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.MainFormResizeEnd);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Move += new System.EventHandler(this.MainFormMove);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

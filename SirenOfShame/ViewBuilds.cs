@@ -351,6 +351,18 @@ namespace SirenOfShame
         {
             InitializeDisplayModes();
         }
+
+        public void InitializeForBuild(int buildNumber)
+        {
+            var buildStatusDto = _lastBuildStatusDtos.ElementAtOrDefault(buildNumber);
+            if (buildStatusDto == null) return;
+            InitializeForBuild(buildStatusDto.BuildDefinitionId);
+        }
+
+        public void InitializeForBuild()
+        {
+            InitializeForBuild(null);
+        }
     }
 
     public delegate void SelectedBuildChanged(object sender, SelectedBuildChangedArgs args);

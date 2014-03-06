@@ -49,6 +49,7 @@ namespace SirenOfShame
             InitializeNewsFeed();
             InitializeUserList();
             InitializeSirenOfShameDevice();
+            
             SetAutomaticUpdaterSettings();
 
             _showAlertAnimation.Interval = 1;
@@ -902,6 +903,45 @@ namespace SirenOfShame
             var userMappings = new UserMappings(_settings);
             userMappings.ShowDialog(this);
             _userList.RefreshUserPanelVisibility();
+        }
+
+        readonly Dictionary<Keys, int> _numericKeyMappins = new Dictionary<Keys, int>
+            {
+                { Keys.D1, 0 },
+                { Keys.D2, 1 },
+                { Keys.D3, 2 },
+                { Keys.D4, 3 },
+                { Keys.D5, 4 },
+                { Keys.D6, 5 },
+                { Keys.D7, 6 },
+                { Keys.D8, 7 },
+                { Keys.D9, 8 },
+                { Keys.D0, 9 },
+            };
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back)
+            {
+                ShowInMainWindow(MainWindowEnum.ViewBuilds);
+                _viewBuilds.InitializeForBuild();
+            }
+            int numberPressed;
+            var wasNumberPressed = _numericKeyMappins.TryGetValue(e.KeyCode, out numberPressed);
+            if (wasNumberPressed)
+            {
+                if (e.Alt)
+                {
+                    var personToShow = _settings.People.ElementAtOrDefault(numberPressed);
+                    if (personToShow == null) return;
+                    ShowViewUserPage(personToShow);
+                }
+                else
+                {
+                    ShowInMainWindow(MainWindowEnum.ViewBuilds);
+                    _viewBuilds.InitializeForBuild(numberPressed);
+                }
+            }
         }
     }
 }
