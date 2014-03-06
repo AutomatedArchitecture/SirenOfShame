@@ -38,6 +38,7 @@ Product Features
 * Awards achievements for activities like fixing other people's builds
 * Plays audio (e.g. sad trombone) for various build events
 * Pops up modal or tray alerts (configurable)
+* Lights up and plays audio on the optional USB siren for build events
 
 My CI (Optional Free Service)
 ======
