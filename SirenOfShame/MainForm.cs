@@ -763,6 +763,11 @@ namespace SirenOfShame
 
         private void FullscreenClick(object sender, EventArgs e)
         {
+            ShowFullscreen();
+        }
+
+        private void ShowFullscreen()
+        {
             if (_fullScreenBuildStatus == null)
             {
                 _fullScreenBuildStatus = new FullScreenBuildStatus();
@@ -925,6 +930,10 @@ namespace SirenOfShame
             {
                 ShowInMainWindow(MainWindowEnum.ViewBuilds);
                 _viewBuilds.InitializeForBuild();
+            }
+            if (e.KeyCode == Keys.F)
+            {
+                ShowFullscreen();
             }
             int numberPressed;
             var wasNumberPressed = _numericKeyMappins.TryGetValue(e.KeyCode, out numberPressed);
