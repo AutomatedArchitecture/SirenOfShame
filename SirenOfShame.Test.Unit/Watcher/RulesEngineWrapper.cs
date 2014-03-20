@@ -29,6 +29,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             NewAlertEvents = new List<NewAlertEventArgs>();
             NewAchievementEvents = new List<NewAchievementEventArgs>();
             NewNewsItemEvents = new List<NewNewsItemEventArgs>();
+            NewUserEvents = new List<NewUserEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
             CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
@@ -52,6 +53,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.NewAlert += (sender, arg) => NewAlertEvents.Add(arg);
             _rulesEngine.NewAchievement += (sender, arg) => NewAchievementEvents.Add(arg);
             _rulesEngine.NewNewsItem += (sender, arg) => NewNewsItemEvents.Add(arg);
+            _rulesEngine.NewUser += (sender, arg) => NewUserEvents.Add(arg);
 
             _rulesEngine.Start(initialStart: true);
         }
@@ -59,19 +61,20 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         private readonly FakeRulesEngine _rulesEngine;
 
-        public SirenOfShameSettingsFake Settings { get; set; }
-        public CiEntryPointSettingFake CiEntryPointSetting { get; set; }
-        public List<TrayNotifyEventArgs> TrayNotificationEvents { get; set; }
-        public List<SetTrayIconEventArgs> SetTrayIconEvents { get; set; }
-        public List<RefreshStatusEventArgs> RefreshStatusEvents { get; set; }
-        public List<PlayWindowsAudioEventArgs> PlayWindowsAudioEvents { get; set; }
-        public List<UpdateStatusBarEventArgs> StatusBarUpdateEvents { get; set; }
-        public List<ModalDialogEventArgs> ModalDialogEvents { get; set; }
-        public List<SetAudioEventArgs> SetAudioEvents { get; set; }
-        public List<SetLightsEventArgs> SetLightsEvents { get; set; }
-        public List<NewAlertEventArgs> NewAlertEvents { get; set; }
-        public List<NewAchievementEventArgs> NewAchievementEvents { get; set; }
-        public List<NewNewsItemEventArgs> NewNewsItemEvents { get; set; }
+        public SirenOfShameSettingsFake Settings { get; private set; }
+        public CiEntryPointSettingFake CiEntryPointSetting { get; private set; }
+        public List<TrayNotifyEventArgs> TrayNotificationEvents { get; private set; }
+        public List<SetTrayIconEventArgs> SetTrayIconEvents { get; private set; }
+        public List<RefreshStatusEventArgs> RefreshStatusEvents { get; private set; }
+        public List<PlayWindowsAudioEventArgs> PlayWindowsAudioEvents { get; private set; }
+        public List<UpdateStatusBarEventArgs> StatusBarUpdateEvents { get; private set; }
+        public List<ModalDialogEventArgs> ModalDialogEvents { get; private set; }
+        public List<SetAudioEventArgs> SetAudioEvents { get; private set; }
+        public List<SetLightsEventArgs> SetLightsEvents { get; private set; }
+        public List<NewAlertEventArgs> NewAlertEvents { get; private set; }
+        public List<NewAchievementEventArgs> NewAchievementEvents { get; private set; }
+        public List<NewNewsItemEventArgs> NewNewsItemEvents { get; private set; }
+        public List<NewUserEventArgs> NewUserEvents { get; set; }
 
         public SosDbFake SosDb
         {

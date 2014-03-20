@@ -49,6 +49,16 @@ namespace SirenOfShame.Lib.Watcher
         public event PlayWindowsAudioEvent PlayWindowsAudio;
         public event NewAchievementEvent NewAchievement;
         public event NewNewsItemEvent NewNewsItem;
+        public event NewUserEvent NewUser;
+
+        protected virtual void InvokeNewUser(string requestedBy)
+        {
+            var handler = NewUser;
+            if (handler != null) handler(this, new NewUserEventArgs
+            {
+                RawName = requestedBy
+            });
+        }
 
         private void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
         {
@@ -123,7 +133,7 @@ namespace SirenOfShame.Lib.Watcher
             _previousBuildStatuses = new BuildStatus[] { };
         }
 
-        private BuildStatus[] _previousBuildStatuses = new BuildStatus[] { };
+        private BuildStatus[] _previousBuildStatuses = { };
 
         private void InvokeUpdateStatusBar(string statusText, Exception exception = null)
         {
@@ -466,6 +476,8 @@ namespace SirenOfShame.Lib.Watcher
             buildStatusesWithNewPeopleList
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
             _settings.Save();
+
+            buildStatusesWithNewPeopleList.ForEach(bss => InvokeNewUser(bss.buildStatus.RequestedBy));
         }
 
         internal void InvokeModalDialog(string dialogText, string okText)

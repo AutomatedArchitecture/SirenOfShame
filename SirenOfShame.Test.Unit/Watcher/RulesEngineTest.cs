@@ -16,6 +16,25 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [TestMethod]
+        public void NewUser_NewUserEvent()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].RawName);
+        }
+
+        [TestMethod]
+        public void UsersSecondCheckin_NoNewUserEvent()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+        }
+
+        [TestMethod]
         public void IdenticalBuildTwice_ShouldNotTriggerTrayIconTheSecondTime()
         {
             var rulesEngine = new RulesEngineWrapper();
