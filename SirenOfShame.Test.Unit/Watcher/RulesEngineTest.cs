@@ -1,6 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -310,8 +308,13 @@ namespace SirenOfShame.Test.Unit.Watcher
         [TestMethod]
         public void GlobalMuteOnBuildFailsWithWindowsAudioRule_NoAudio()
         {
-            var rulesEngine = new RulesEngineWrapper();
-            rulesEngine.Settings.Mute = true;
+            var rulesEngine = new RulesEngineWrapper
+            {
+                Settings =
+                {
+                    Mute = true
+                }
+            };
             Rule rule = new Rule
             {
                 TriggerType = TriggerType.InitialFailedBuild,
@@ -466,9 +469,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(new BuildStatus[] { });
             rulesEngine.InvokeServerUnavailable(new ServerUnavailableException("The network is down."));
             Assert.AreEqual(3, rulesEngine.TrayNotificationEvents.Count);
-            Assert.AreEqual(2,
-                            rulesEngine.TrayNotificationEvents.Where(tn => tn.Title == "Build Server Unavailable").Count
-                                ());
+            Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count(tn => tn.Title == "Build Server Unavailable"));
         }
 
         [TestMethod]
@@ -501,7 +502,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                     BuildDefinitionId = "Build Def 1",
                     StartedTime = startedTime,
                     FinishedTime = finishedTime
-                },
+                }
             });
 
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);

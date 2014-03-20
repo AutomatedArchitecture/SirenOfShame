@@ -421,7 +421,13 @@ namespace SirenOfShame
             rulesEngine.NewAlert += RulesEngineNewAlert;
             rulesEngine.NewAchievement += RulesEngineNewAchievement;
             rulesEngine.NewNewsItem += RulesEngineNewNewsItem;
+            rulesEngine.NewUser += RulesEngineNewUser;
             return rulesEngine;
+        }
+
+        private void RulesEngineNewUser(object sender, NewUserEventArgs args)
+        {
+            Invoke(() => _userList.NewUser(_avatarImageList, args.RawName));
         }
 
         private void RulesEngineNewNewsItem(object sender, NewNewsItemEventArgs args)
@@ -664,7 +670,7 @@ namespace SirenOfShame
 
         private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
         {
-            _userList.RefreshUserStats(changedBuildStatuses);
+            _userList.RefreshUserStats();
         }
 
         private void OpenSettingsClick(object sender, EventArgs e)

@@ -51,7 +51,7 @@ namespace SirenOfShame.Lib.Watcher
         public event NewNewsItemEvent NewNewsItem;
         public event NewUserEvent NewUser;
 
-        protected virtual void InvokeNewUser(string requestedBy)
+        private void InvokeNewUser(string requestedBy)
         {
             var handler = NewUser;
             if (handler != null) handler(this, new NewUserEventArgs

@@ -62,7 +62,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         private readonly FakeRulesEngine _rulesEngine;
 
         public SirenOfShameSettingsFake Settings { get; private set; }
-        public CiEntryPointSettingFake CiEntryPointSetting { get; private set; }
+        private CiEntryPointSettingFake CiEntryPointSetting { get; set; }
         public List<TrayNotifyEventArgs> TrayNotificationEvents { get; private set; }
         public List<SetTrayIconEventArgs> SetTrayIconEvents { get; private set; }
         public List<RefreshStatusEventArgs> RefreshStatusEvents { get; private set; }
@@ -71,10 +71,10 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<ModalDialogEventArgs> ModalDialogEvents { get; private set; }
         public List<SetAudioEventArgs> SetAudioEvents { get; private set; }
         public List<SetLightsEventArgs> SetLightsEvents { get; private set; }
-        public List<NewAlertEventArgs> NewAlertEvents { get; private set; }
+        private List<NewAlertEventArgs> NewAlertEvents { get; set; }
         public List<NewAchievementEventArgs> NewAchievementEvents { get; private set; }
         public List<NewNewsItemEventArgs> NewNewsItemEvents { get; private set; }
-        public List<NewUserEventArgs> NewUserEvents { get; set; }
+        public List<NewUserEventArgs> NewUserEvents { get; private set; }
 
         public SosDbFake SosDb
         {
@@ -123,14 +123,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             });
         }
 
-        public void SetNow(DateTime dateTime)
-        {
-            _rulesEngine.SetNow(dateTime);
-        }
-
         public SosOnlineService SosOnlineService
         {
-            get { return _rulesEngine.MockSosOnlineService; }
             set { _rulesEngine.MockSosOnlineService = value; }
         }
     }

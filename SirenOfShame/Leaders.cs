@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Configuration;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Properties;
 
 namespace SirenOfShame
 {
@@ -16,7 +16,7 @@ namespace SirenOfShame
         }
 
         public event UserSelected OnUserSelected;
-        public SirenOfShameSettings Settings { private get; set; }
+        private SirenOfShameSettings _settings;
 
         private void InvokeOnUserSelected(string rawName)
         {
@@ -32,10 +32,10 @@ namespace SirenOfShame
             return _usersPanel.Controls.Cast<UserPanel>();
         }
         
-        public void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
+        public void RefreshUserStats()
         {
             var userPanelsAndTheirPerson = from panel in GetUserPanels()
-                                           join person in Settings.People on panel.RawName equals person.RawName
+                                           join person in _settings.People on panel.RawName equals person.RawName
                                            orderby person.GetReputation() descending
                                            select new {panel, person};
 
@@ -51,22 +51,27 @@ namespace SirenOfShame
 
         public void Initialize(SirenOfShameSettings settings, ImageList avatarImageList)
         {
-            Settings = settings;
+            _settings = settings;
 
             var peopleByReputation = settings.People.OrderByDescending(i => i.GetReputation());
             foreach (var person in peopleByReputation)
             {
-                UserPanel userPanel = new UserPanel(person, avatarImageList)
-                                          {
-                                              Cursor = Cursors.Hand,
-                                              Visible = !person.Hidden
-                                          };
-
-                userPanel.AddMouseUpToAllControls(UserPanelMouseUp);
-                userPanel.AddMouseEnterToAllControls(UserPanelMouseEnter);
-
-                _usersPanel.Controls.Add(userPanel);
+                AddUserPanel(avatarImageList, person);
             }
+        }
+
+        private void AddUserPanel(ImageList avatarImageList, PersonSetting person)
+        {
+            UserPanel userPanel = new UserPanel(person, avatarImageList)
+            {
+                Cursor = Cursors.Hand,
+                Visible = !person.Hidden
+            };
+
+            userPanel.AddMouseUpToAllControls(UserPanelMouseUp);
+            userPanel.AddMouseEnterToAllControls(UserPanelMouseEnter);
+
+            _usersPanel.Controls.Add(userPanel);
         }
 
         private string _selectedRawName;
@@ -80,7 +85,7 @@ namespace SirenOfShame
             {
                 _selectedRawName = userPanel.RawName;
                 _userMenu.Show((Control)sender, e.Location);
-                var person = Settings.FindPersonByRawName(_selectedRawName);
+                var person = _settings.FindPersonByRawName(_selectedRawName);
                 _hiddenButton.Checked = person.Hidden;
             }
             
@@ -146,7 +151,7 @@ namespace SirenOfShame
             foreach (var userPanel in GetUserPanels())
             {
                 var rawName = userPanel.RawName;
-                var person = Settings.FindPersonByRawName(rawName);
+                var person = _settings.FindPersonByRawName(rawName);
                 userPanel.Visible = _showAllUsers || !person.Hidden;
             }
         }
@@ -154,7 +159,7 @@ namespace SirenOfShame
         private void WithSelectedUser(Action<PersonSetting> action)
         {
             if (string.IsNullOrEmpty(_selectedRawName)) return;
-            PersonSetting selectedPerson = Settings.FindPersonByRawName(_selectedRawName);
+            PersonSetting selectedPerson = _settings.FindPersonByRawName(_selectedRawName);
             if (selectedPerson == null) return;
             action(selectedPerson);
         }
@@ -172,7 +177,7 @@ namespace SirenOfShame
         {
             WithSelectedUser(selectedPerson =>
             {
-                _isADuplicate.Text = selectedPerson.RawName + " Is A Duplicate";
+                _isADuplicate.Text = selectedPerson.RawName + Resources.Is_A_Duplicate;
             });
         }
 
@@ -180,12 +185,18 @@ namespace SirenOfShame
         {
             WithSelectedUser(selectedPerson =>
             {
-                AddMapping addMapping = new AddMapping(Settings, selectedPerson.RawName);
+                AddMapping addMapping = new AddMapping(_settings, selectedPerson.RawName);
                 addMapping.ShowDialog(this);
-                var userMappings = new UserMappings(Settings);
+                var userMappings = new UserMappings(_settings);
                 userMappings.ShowDialog(this);
                 RefreshUserPanelVisibility();
             });
+        }
+
+        public void NewUser(ImageList avatarImageList, string rawName)
+        {
+            var person = _settings.FindAddPerson(rawName);
+            AddUserPanel(avatarImageList, person);
         }
     }
 
