@@ -92,5 +92,11 @@ namespace HudsonServices.ServerConfiguration
             }
             ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
         }
+
+        private void _treatUnstableAsSuccess_CheckedChanged(object sender, EventArgs e)
+        {
+            _ciEntryPointSetting.TreatUnstableAsSuccess = _treatUnstableAsSuccess.Checked;
+            Settings.Save();
+        }
     }
 }

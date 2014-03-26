@@ -27,6 +27,11 @@ namespace SirenOfShame.Lib.Settings
         /// </summary>
         public bool ApplyBuildQuality { get; set; }
 
+        /// <summary>
+        /// Note: At the moment this only applies to Jenkins/Hudson
+        /// </summary>
+        public bool TreatUnstableAsSuccess { get; set; }
+        
         public void SetPassword(string value)
         {
             EncryptedPassword = new TripleDesStringEncryptor().EncryptString(value);
