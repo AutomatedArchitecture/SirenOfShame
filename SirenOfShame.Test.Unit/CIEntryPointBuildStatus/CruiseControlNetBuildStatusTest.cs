@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Xml.Linq;
 using CruiseControlNetServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
-    [TestClass]
+    [TestFixture]
     public class CruiseControlNetBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         public void ParseCruiseControlDateToId_RemovesUpToDotAndRemovesNonNumeric()
         {
             string actual = CruiseControlNetBuildStatus.ParseCruiseControlDateToId("2012-02-25T22:56:14.4092432-05:00");
             Assert.AreEqual("20120225225614", actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CruiseControlNetBuildStatus_BrokenWithAuthor()
         {
             var document = ResourceManager.CruiseControlNetBrokenWithAuthor;
@@ -45,7 +45,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.IsTrue(diff.TotalSeconds <= 1, HudsonBuildStatusTest.DateAsCode(actual));
         }
 
-        [TestMethod]
+        [Test]
         public void CruiseControlNetBuildStatus_InProgress()
         {
             var document = ResourceManager.CruiseControlNetJoesProject1;
@@ -69,7 +69,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             //Assert.AreEqual(30, buildStatus.BuildId);
         }
         
-        [TestMethod]
+        [Test]
         public void CruiseControlNetBuildStatus_ChangesToInProgress()
         {
             var inProgressStatus = ResourceManager.CruiseControlNetJoesProject1;
@@ -95,7 +95,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("3", buildStatus.BuildId);
         }
         
-        [TestMethod]
+        [Test]
         public void CruiseControlNetBuildStatus_TwoBackToBackNotStartedBuilds_StartedTimeShouldBeLastBuild()
         {
             var document = ResourceManager.CruiseControlNetJoesProject2;

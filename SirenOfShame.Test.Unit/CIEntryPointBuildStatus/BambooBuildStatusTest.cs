@@ -1,16 +1,16 @@
 ﻿using System;
 using BambooServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
-    [TestClass]
+    [TestFixture]
     public class BambooBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         public void BambooBuildStatus_FailedWithComment()
         {
             var bambooFailingBuild = ResourceManager.BambooFailingBuild;

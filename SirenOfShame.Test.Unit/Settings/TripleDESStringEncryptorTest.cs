@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Test.Unit.Settings
 {
-    [TestClass]
+    [TestFixture]
     public class TripleDESStringEncryptorTest
     {
-        [TestMethod]
+        [Test]
         public void Simple()
         {
             var encryptor = new TripleDesStringEncryptor();
@@ -15,7 +15,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("password", decrypted);
         }
         
-        [TestMethod]
+        [Test]
         public void UnusualChars()
         {
             var encryptor = new TripleDesStringEncryptor();

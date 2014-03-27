@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
-    [TestClass]
+    [TestFixture]
     public class NewAlertEventArgsTest
     {
-        [TestMethod]
+        [Test]
         public void Instantiate_ThreeArgsAllGood_ReturnsTrue()
         {
             var newAlertArgs = new NewAlertEventArgs();
@@ -22,7 +22,7 @@ Hello World
             Assert.AreEqual(new DateTime(2010, 1, 2), newAlertArgs.AlertDate);
         }
         
-        [TestMethod]
+        [Test]
         public void Instantiate_Error_ReturnsFalse()
         {
             var newAlertArgs = new NewAlertEventArgs();
@@ -30,7 +30,7 @@ Hello World
             Assert.IsFalse(result);
         }
         
-        [TestMethod]
+        [Test]
         public void Instantiate_ExtraArgs_Ignored()
         {
             var newAlertArgs = new NewAlertEventArgs();

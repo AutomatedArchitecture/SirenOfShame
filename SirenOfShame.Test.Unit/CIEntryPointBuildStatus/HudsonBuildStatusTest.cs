@@ -1,16 +1,16 @@
 ﻿using System;
 using HudsonServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
-    [TestClass]
+    [TestFixture]
     public class HudsonBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         public void HudsonBuildStatus_WhenTreatUnstableAsSuccessIsTrueAndBuildIsUnstable_ResultSuccessful()
         {
             var jenkinsUnstable = ResourceManager.JenkinsUnstable;
@@ -21,7 +21,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
         }
 
-        [TestMethod]
+        [Test]
         public void HudsonBuildStatus_WhenTreatUnstableAsSuccessIsFalseAndBuildIsUnstable_ResultUnsuccessful()
         {
             var jenkinsUnstable = ResourceManager.JenkinsUnstable;
@@ -32,7 +32,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
         }
 
-        [TestMethod]
+        [Test]
         public void HudsonBuildStatus_PassingBuildNoComment()
         {
             var jenkinsBuildStatusForIssue10 = ResourceManager.JenkinsPassingBuild;
@@ -52,7 +52,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("30", buildStatus.BuildId);
         }
 
-        [TestMethod]
+        [Test]
         public void HudsonBuildStatus_Issues10_AlwaysUseTimestampIfAvailable()
         {
             var jenkinsBuildStatusForIssue10 = ResourceManager.JenkinsBuildStatusForIssue10;
@@ -72,7 +72,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("49", buildStatus.BuildId);
         }
         
-        [TestMethod]
+        [Test]
         public void HudsonBuildStatus_Bug152HudsonDuration()
         {
             var jenkinsBuildStatusForIssue10 = ResourceManager.Bug152HudsonDuration;

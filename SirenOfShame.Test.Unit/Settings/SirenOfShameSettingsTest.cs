@@ -2,7 +2,7 @@
 // ReSharper disable InconsistentNaming
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Test.Unit.Watcher;
 
@@ -25,10 +25,10 @@ namespace SirenOfShame.Test.Unit.Settings
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class SirenOfShameSettingsTest
     {
-        [TestMethod]
+        [Test]
         public void GetUsersContainedInBuildsAsDto_BuildListContainsPerson_PersonIsReturned()
         {
             var settings = new SirenOfShameSettingsFake();
@@ -42,7 +42,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("Bob", results[0].RawName);
         }
 
-        [TestMethod]
+        [Test]
         public void GetUsersContainedInBuildsAsDto_BuildListContainsHiddenPerson_PersonStillReturned()
         {
             var settings = new SirenOfShameSettingsFake();
@@ -56,7 +56,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("Bob", results[0].RawName);
         }
 
-        [TestMethod]
+        [Test]
         public void GetUsersContainedInBuildsAsDto_BuildListDoesNotContainPerson_PersonIsNotReturned()
         {
             var settings = new SirenOfShameSettingsFake();
@@ -69,7 +69,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(0, results.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void IsGettingStarted_OneServerAndAlwaysOffline()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
@@ -78,7 +78,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.IsFalse(settings.IsGettingStarted());
         }
         
-        [TestMethod]
+        [Test]
         public void IsGettingStarted_OneServerAndIsSosOnline()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
@@ -87,7 +87,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.IsFalse(settings.IsGettingStarted());
         }
         
-        [TestMethod]
+        [Test]
         public void IsGettingStarted_NoServerNoSosOnline()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
@@ -95,7 +95,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.IsTrue(settings.IsGettingStarted());
         }
         
-        [TestMethod]
+        [Test]
         public void AvatarCountConstIsCorrect()
         {
             var mainForm = new MyMainForm();
@@ -103,7 +103,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(SirenOfShameSettings.AVATAR_COUNT + genericImageCount, mainForm.AvatarCount);
         }
 
-        [TestMethod]
+        [Test]
         public void FindAddUser_SecondUser_AvatarIdIsTwo()
         {
             var settings = new SirenOfShameSettingsFake
@@ -118,7 +118,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(1, settings.People[1].AvatarId);
         }
 
-        [TestMethod]
+        [Test]
         public void FindAddUser_ThirdUserWithTwoAvatars_NewUserAvatarIdLoopsToZero()
         {
             var settings = new SirenOfShameSettingsFake
@@ -134,7 +134,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(0, settings.People[2].AvatarId);
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewAchievements_InitialExportWithNoAchievements_Null()
         {
             var settings = new SirenOfShameSettingsFake
@@ -153,7 +153,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.IsNull(settings.ExportNewAchievements());
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewAchievements_InitialExportWithOneNewAchievementByCurrentUser_Exports()
         {
             var settings = new SirenOfShameSettingsFake
@@ -175,7 +175,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("1,633979044620000000", settings.ExportNewAchievements());
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildBySomeoneElse_Null()
         {
             var settings = new SirenOfShameSettingsFake
@@ -197,7 +197,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(null, settings.ExportNewAchievements());
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_SecondExportIgnoresOlderExports()
         {
             var settings = new SirenOfShameSettingsFake
@@ -219,7 +219,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(null, settings.ExportNewAchievements());
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_SecondExportGetsNewAchievements()
         {
             var settings = new SirenOfShameSettingsFake
@@ -242,7 +242,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("2,633979044620000000", settings.ExportNewAchievements());
         }
 
-        [TestMethod]
+        [Test]
         public void Upgrade_NullVersion_UpgradedToMostRecent()
         {
             var settings = new SirenOfShameSettingsFake
@@ -253,7 +253,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(SirenOfShameSettings.CurrentVersion, settings.Version);
         }
         
-        [TestMethod]
+        [Test]
         public void Upgrade_FutureVersion_NotDowngraded()
         {
             var settings = new SirenOfShameSettingsFake
@@ -264,7 +264,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual(int.MaxValue, settings.Version);
         }
 
-        [TestMethod]
+        [Test]
         public void SosOnlinePasswordIsStoredEncrypted()
         {
             var settings = new SirenOfShameSettings(useMef: false);
@@ -273,7 +273,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreNotEqual("blah!", settings.SosOnlinePassword);
         }
         
-        [TestMethod]
+        [Test]
         public void SosOnlinePasswordDecryptsAsEncrypted()
         {
             var settings = new SirenOfShameSettings(useMef: false);

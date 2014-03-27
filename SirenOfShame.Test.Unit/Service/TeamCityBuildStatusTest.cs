@@ -1,8 +1,7 @@
 ﻿using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 using TeamCityServices;
 
@@ -25,10 +24,10 @@ namespace SirenOfShame.Test.Unit.Service
         }
     }
     
-    [TestClass]
+    [TestFixture]
     public class TeamCityBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ServerUnavailableException))]
         public void ServerIsDoingACleanup()
         {
@@ -41,7 +40,6 @@ namespace SirenOfShame.Test.Unit.Service
                 "password",
                 buildDefinitionSetting,
                 xDoc);
-            //Assert.AreEqual(BuildStatusEnum.Unknown, result.BuildStatusEnum);
         }
     }
 }

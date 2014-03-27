@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace SirenOfShame.Test.Unit.UI
 {
-    [TestClass]
+    [TestFixture]
     public class ViewBuildsTest
     {
-        [TestMethod]
+        [Test]
         public void GetIdealSmallRows()
         {
             Assert.AreEqual(2, ViewBuilds.GetIdealSmallRows(1));

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class MacgyverTest
     {
-        [TestMethod]
+        [Test]
         public void DecreaseBuildTimeByTenPercent()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -24,7 +24,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void DecreaseBuildTimeByFiveteenPercent()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsTrue(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void IgnoreNullStartOrEndTimes()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -50,7 +50,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void IgnoresCurrentBrokenBuilds()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -64,7 +64,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void IgnoresOldBrokenBuilds()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -80,7 +80,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void IncreaseBuildTimeByTenPercent()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
@@ -94,7 +94,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void DecreaseBuildTimeByNinePercent()
         {
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};

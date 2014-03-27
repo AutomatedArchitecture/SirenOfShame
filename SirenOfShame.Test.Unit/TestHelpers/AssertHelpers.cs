@@ -1,6 +1,4 @@
-﻿
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace SirenOfShame.Test.Unit.TestHelpers
 {

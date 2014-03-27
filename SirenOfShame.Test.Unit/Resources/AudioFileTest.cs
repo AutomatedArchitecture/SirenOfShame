@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Resources2;
 
 namespace SirenOfShame.Test.Unit.Resources
 {
-    [TestClass]
+    [TestFixture]
     public class AudioFileTest
     {
-        [TestMethod]
+        [Test]
         public void LocationToDisplayName_Typical()
         {
             Assert.AreEqual("Sad Trombone", AudioFile.LocationToDisplayName("SirenOfShame.Resources.Audio-Sad-Trombone.wav"));

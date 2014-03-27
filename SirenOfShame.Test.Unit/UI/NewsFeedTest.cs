@@ -1,26 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.UI
 {
-    [TestClass]
+    [TestFixture]
     public class NewsFeedTest
     {
-        [TestMethod]
+        [Test]
         public void NullFiltersGetEverything()
         {
             Assert.IsTrue(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { Person = new PersonSetting { RawName = "sam" } }, null, null));
         }
         
-        [TestMethod]
+        [Test]
         public void PeopleFilters()
         {
             Assert.IsTrue(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { Person = new PersonSetting { RawName = "bob" } }, "bob", null));
             Assert.IsFalse(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { Person = new PersonSetting { RawName = "bob"}}, "sam", null));
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFilters()
         {
             Assert.IsTrue(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { NewsItemType = NewsItemTypeEnum.BuildStarted, BuildDefinitionId = "22" }, null, "22"));
@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.UI
             Assert.IsFalse(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { NewsItemType = NewsItemTypeEnum.BuildFailed, BuildDefinitionId = "23" }, null, "22"));
         }
         
-        [TestMethod]
+        [Test]
         public void BuildFiltersStillGetSosNews()
         {
             Assert.IsTrue(NewsFeed.IncludeInFilter(new NewNewsItemEventArgs { NewsItemType = NewsItemTypeEnum.SosOnlineComment, BuildDefinitionId = null }, null, "22"));

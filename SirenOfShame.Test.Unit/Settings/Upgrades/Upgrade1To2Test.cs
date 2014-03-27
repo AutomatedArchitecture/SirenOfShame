@@ -1,15 +1,15 @@
 ﻿// ReSharper disable InconsistentNaming
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Settings.Upgrades;
 using SirenOfShame.Test.Unit.Watcher;
 
 namespace SirenOfShame.Test.Unit.Settings.Upgrades
 {
-    [TestClass]
+    [TestFixture]
     public class Upgrade1To2Test
     {
-        [TestMethod]
+        [Test]
         public void Upgrade_AllPeopleNotHidden()
         {
             var settings = new SirenOfShameSettingsFake

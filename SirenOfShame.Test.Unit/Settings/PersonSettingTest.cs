@@ -1,13 +1,13 @@
 ﻿// ReSharper disable InconsistentNaming
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Test.Unit.Settings
 {
-    [TestClass]
+    [TestFixture]
     public class PersonSettingTest
     {
-        [TestMethod]
+        [Test]
         public void GetBothDisplayAndRawNames_RawNameNoDisplayName_OnlyShowsRawName()
         {
             var personSetting = new PersonSetting
@@ -18,7 +18,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("dev\\lrichard", personSetting.GetBothDisplayAndRawNames());
         }
         
-        [TestMethod]
+        [Test]
         public void GetBothDisplayAndRawNames_NullDisplayName_OnlyShowsRawName()
         {
             var personSetting = new PersonSetting
@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.AreEqual("dev\\lrichard", personSetting.GetBothDisplayAndRawNames());
         }
         
-        [TestMethod]
+        [Test]
         public void GetBothDisplayAndRawNames_DisplayNameAndRawName_DisplaysBoth()
         {
             var personSetting = new PersonSetting

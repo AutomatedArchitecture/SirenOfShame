@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Util;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Util
 {
-    [TestClass]
+    [TestFixture]
     public class BuildStatusUtilTest
     {
-        [TestMethod]
+        [Test]
         public void Merge_NewBuildStatus_Added()
         {
             var oldStatus = new BuildStatus[] {};
@@ -20,7 +20,7 @@ namespace SirenOfShame.Test.Unit.Util
             Assert.AreEqual(BuildStatusEnum.Working, result[0].BuildStatusEnum);
         }
         
-        [TestMethod]
+        [Test]
         public void Merge_RemovedBuildStatus_Retained()
         {
             var oldStatus = new[] {new BuildStatus {BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working}};
@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.Util
             Assert.AreEqual(1, result.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void Merge_ExistingUnchangedBuildStatus_NotOverwritten()
         {
             var oldStatus = new[] { new BuildStatus { BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working, LocalStartTime = new DateTime(2010, 1, 1) } };

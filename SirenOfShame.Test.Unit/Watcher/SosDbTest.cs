@@ -2,16 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
-    [TestClass]
+    [TestFixture]
     public class SosDbTest
     {
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_InitialExportWithNoBuilds_Null()
         {
             SosDbFake sosDb = new SosDbFake();
@@ -25,7 +25,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.IsNull(result);
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildByCurrentUser_Exports()
         {
             SosDbFake sosDb = new SosDbFake();
@@ -63,7 +63,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("633979044610000000,633979044620000000,1", result);
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_InitialExportWithOneSuccessfulBuildBySomeoneElse_Null()
         {
             SosDbFake sosDb = new SosDbFake();
@@ -87,7 +87,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(null, result);
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_SecondExportIgnoresOlderExports()
         {
             SosDbFake sosDb = new SosDbFake();
@@ -111,7 +111,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(null, result);
         }
 
-        [TestMethod]
+        [Test]
         public void ExportNewBuilds_SecondExportGetsNewerExports()
         {
             SosDbFake sosDb = new SosDbFake();
@@ -149,7 +149,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("633979044620000000,633979044630000000,0", result);
         }
 
-        [TestMethod]
+        [Test]
         public void Write_Writes()
         {
             string expectedFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture", "SirenOfShame", "BuildDefinitionId.txt");
@@ -175,7 +175,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             File.Delete(expectedFileLocation);
         }
         
-        [TestMethod]
+        [Test]
         public void Write_TwoStatuses_TwoWrites()
         {
             string expectedFileLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture", "SirenOfShame", "BuildDefinitionId.txt");
@@ -203,7 +203,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             File.Delete(expectedFileLocation);
         }
         
-        [TestMethod]
+        [Test]
         public void Write_InvalidCharacters_Removed()
         {
             const string uglyBuildDefinition = "\"M\"\\(a)/ry/ h**ad:>> a\\/:*?\"| li*tt|le|| la\"mb.?";

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Device.SdCardFileSystem;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Test.Unit.TestHelpers;
@@ -9,12 +9,12 @@ using SoxLib.Helpers;
 
 namespace SirenOfShame.Test.Unit.Device.SdCardFileSystem
 {
-    [TestClass]
+    [TestFixture]
     public class FileSystemBuilderTest
     {
         private readonly Random _random = new Random();
 
-        [TestMethod]
+        [Test]
         public void Build()
         {
             var audioPattern0Data = CreateRandomPattern(1056);

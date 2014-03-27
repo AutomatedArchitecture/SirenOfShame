@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.StatCalculators;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.StatCalculators
 {
-    [TestClass]
+    [TestFixture]
     public class SuccessInARowTest
     {
-        [TestMethod]
+        [Test]
         public void CalculateSuccessInARow_FailThenSuccess_OneSuccessInARow()
         {
             IEnumerable<BuildStatus> builds = new List<BuildStatus>
@@ -21,7 +21,7 @@ namespace SirenOfShame.Test.Unit.StatCalculators
             Assert.AreEqual(1, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateSuccessInARow_AllSomeoneElse_ZeroSuccessInARow()
         {
             IEnumerable<BuildStatus> builds = new List<BuildStatus>

@@ -1,24 +1,24 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Lib.Helpers;
 
 namespace SirenOfShame.Test.Unit.Helpers
 {
-    [TestClass]
+    [TestFixture]
     public class StringHelpersTest
     {
-        [TestMethod]
+        [Test]
         public void RemoveHttpPrefix_Null_Null()
         {
             Assert.IsNull(StringHelpers.RemoveUrlPrefix(null));
         }
         
-        [TestMethod]
+        [Test]
         public void RemoveUrlPrefix_UnderLength_ReturnsFullString()
         {
             Assert.AreEqual("server", StringHelpers.RemoveUrlPrefix("server"));
         }
         
-        [TestMethod]
+        [Test]
         public void RemoveUrlPrefix_TypicalUrl_RemovesHttp()
         {
             Assert.AreEqual("google.com", StringHelpers.RemoveUrlPrefix("http://google.com"));

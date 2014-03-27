@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Helpers;
 
 namespace SirenOfShame.Test.Unit.Helpers
 {
-    [TestClass]
+    [TestFixture]
     public class PrettyDateHelperTest
     {
-        [TestMethod]
+        [Test]
         public void WhenIsNow()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -15,7 +15,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("just now", d.PrettyDate(now));
         }
         
-        [TestMethod]
+        [Test]
         public void FiftyNineSecondsAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -23,7 +23,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("just now", d.PrettyDate(now));
         }
         
-        [TestMethod]
+        [Test]
         public void OneMinuteAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -31,7 +31,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 minute ago", d.PrettyDate(now));
         }
         
-        [TestMethod]
+        [Test]
         public void OneMinuteFiftyNineSecondsAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -39,7 +39,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 minute ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoMinutesAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -47,7 +47,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 minutes ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void FiftyNineMinutesAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -55,7 +55,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("59 minutes ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneHourAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -63,7 +63,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 hour ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneHourFiftyNineMinutesAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -71,7 +71,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 hour ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoHoursAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -79,7 +79,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 hours ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwentyThreeHoursAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -87,7 +87,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("23 hours ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneDayAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -95,7 +95,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("yesterday", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneDayTwentyThreeHoursAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -103,7 +103,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("yesterday", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoDaysAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -111,7 +111,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 days ago", d.PrettyDate(now));
         }
         
-        [TestMethod]
+        [Test]
         public void SixDaysAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -119,7 +119,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("6 days ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void SevenDaysAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -127,7 +127,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("last week", d.PrettyDate(now));
         }
         
-        [TestMethod]
+        [Test]
         public void ThirteenDaysAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -135,7 +135,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("last week", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void FourteenDaysAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -143,7 +143,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 weeks ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void ThreeWeeksAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -151,7 +151,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("3 weeks ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void FourWeeksAgo()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -159,7 +159,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("4 weeks ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneMonthAgoMin()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -167,7 +167,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 month ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneMonthAgoMax()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -175,7 +175,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("1 month ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoMonthsAgoMin()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -183,7 +183,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 months ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoMonthsAgoMax()
         {
             var d = new DateTime(2010, 1, 1, 0, 0, 0, 0);
@@ -191,7 +191,7 @@ namespace SirenOfShame.Test.Unit.Helpers
             Assert.AreEqual("2 months ago", d.PrettyDate(now));
         }
 
-        [TestMethod]
+        [Test]
         public void OneYearAgo()
         {
             var d = new DateTime(2009, 1, 1, 0, 0, 0, 0);

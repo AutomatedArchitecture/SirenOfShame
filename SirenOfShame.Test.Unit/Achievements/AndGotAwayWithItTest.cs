@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class AndGotAwayWithItTest
     {
-        [TestMethod]
+        [Test]
         public void TwoBuildsWithin59Seconds_BrokenThenFixed_BothByCurrentUser()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
@@ -22,7 +22,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsTrue(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void TwoBuildsWithin59Seconds_BrokenThenFixed_ButByDifferentUsers()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
@@ -34,7 +34,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void TwoBuildsWithin59Seconds_BothByCurrentUser_ButBrokenThenBroken_()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
@@ -46,7 +46,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void BrokenThenFixed_BothByCurrentUser_ButWithin60Seconds_()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
@@ -58,7 +58,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void NullStartAndEndTimes()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
@@ -70,7 +70,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void OnlyOneBuild()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};

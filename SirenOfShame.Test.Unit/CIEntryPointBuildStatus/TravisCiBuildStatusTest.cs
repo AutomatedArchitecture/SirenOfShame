@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
@@ -6,10 +6,10 @@ using TravisCiServices;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
-    [TestClass]
+    [TestFixture]
     public class TravisCiBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         public void TravisBuildStatus_PassingBuildNoComment()
         {
             var travisCiWorkingBuild = ResourceManager.TravisCiWorkingBuild;
@@ -28,7 +28,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("1591278", buildStatus.BuildId);
         }
         
-        [TestMethod]
+        [Test]
         public void TravisBuildStatus_FunkyDate()
         {
             var travisCiWorkingBuild = ResourceManager.TravisFunkyDate;

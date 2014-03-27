@@ -1,15 +1,15 @@
 ﻿using SirenOfShame.Lib.Settings;
 // ReSharper disable InconsistentNaming
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
-    [TestClass]
+    [TestFixture]
     public class NewNewsItemEventArgsTest
     {
-        [TestMethod]
+        [Test]
         public void GetPerson_PersonWithRawNameDoesNotExist_NothingFound()
         {
             var settingsFake = new SirenOfShameSettingsFake();
@@ -17,7 +17,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.IsNull(actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetPerson_PersonWithRawNameExists_PersonIsFound()
         {
             var settingsFake = new SirenOfShameSettingsFake();
@@ -26,7 +26,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.IsNotNull(actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetPerson_NameContainsCommaButIsSearchedForWithoutComma_NameStillFound()
         {
             var settingsFake = new SirenOfShameSettingsFake();
@@ -35,7 +35,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.IsNotNull(actual);
         }
 
-        [TestMethod]
+        [Test]
         public void SerializeThenDeserialize()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
@@ -62,7 +62,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("5", result.BuildId);
         }
         
-        [TestMethod]
+        [Test]
         public void SerializeThenDeserialize_CommaSeparatedTitle()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();
@@ -81,7 +81,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(",Hello, world,", result.Title);
         }
         
-        [TestMethod]
+        [Test]
         public void SerializeThenDeserialize_NewLineInTitle()
         {
             SirenOfShameSettingsFake settings = new SirenOfShameSettingsFake();

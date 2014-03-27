@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
@@ -7,10 +7,10 @@ using TeamCityServices;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
-    [TestClass]
+    [TestFixture]
     public class TeamCityBuildStatusTest
     {
-        [TestMethod]
+        [Test]
         public void TeamCityBuildStatus_PassingBuildNoComment()
         {
             var teamCityFailingBuild = ResourceManager.TeamCityFailingBuild;
@@ -37,7 +37,7 @@ Conflicts:
             Assert.AreEqual("35", buildStatus.BuildId);
         }
 
-        [TestMethod]
+        [Test]
         public void TeamCityFailureDueToCleanup()
         {
             var teamCityFailureDueToCleanup = ResourceManager.TeamCityFailureDueToCleanup;

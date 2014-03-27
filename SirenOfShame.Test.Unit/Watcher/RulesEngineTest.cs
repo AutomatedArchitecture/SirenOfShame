@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -10,10 +10,10 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Watcher
 {
-    [TestClass]
+    [TestFixture]
     public class RulesEngineTest
     {
-        [TestMethod]
+        [Test]
         public void NewUser_NewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -22,7 +22,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].RawName);
         }
 
-        [TestMethod]
+        [Test]
         public void UsersSecondCheckin_NoNewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -32,7 +32,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void IdenticalBuildTwice_ShouldNotTriggerTrayIconTheSecondTime()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -53,7 +53,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             AssertTrayIconCountAndLastColor(rulesEngine.SetTrayIconEvents, 2, TrayIcon.Green);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildPassesThenFails_TrayIconShouldTurnRed()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -71,7 +71,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Assert.AreEqual(trayIcon, trayIcons.Last().TrayIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void UserMappingExistsForUser2ToUser1AndUser2ChecksIn_RefreshStatusLooksLikeUser1()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -91,7 +91,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("User1", buildStatusDto.RequestedByRawName);
         }
         
-        [TestMethod]
+        [Test]
         public void DuplicateBuildDefinitionIds_BuildDefinitionDisplayNamesGetQualified()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -109,7 +109,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build Def 1 (fake)", buildStatusDto.BuildDefinitionDisplayName);
         }
 
-        [TestMethod]
+        [Test]
         public void SubsequentBuildStatusRequest_UsesLocalTimeSoXMinuesAgoIsAccurate()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -124,7 +124,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.IsTrue((DateTime.Now - buildStatusDto.LocalStartTime).TotalSeconds < 30, "LocalStartTime should have been less than 30 seconds ago aka as close to Now() as possible.");
         }
         
-        [TestMethod]
+        [Test]
         public void InitialBuildStatusRequest_UsesServerTimeSinceLocalTimeIsNotAvaiable()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -136,7 +136,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(new DateTime(2010, 1, 1, 1, 1, 1), buildStatusDto.LocalStartTime);
         }
         
-        [TestMethod]
+        [Test]
         public void BuildInitiated_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -148,7 +148,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("'Fixing a typo'", newNewsItem.Title);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildWorkingThenWorking_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -161,7 +161,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Successful build", latestNewsItem.Title);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailedThenPassed_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -173,7 +173,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Fixed the broken build", newNewsItem.Title);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailedThenFailedAgain_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -186,7 +186,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Failed to fix the build", latestNewsItem.Title);
         }
 
-        [TestMethod]
+        [Test]
         public void UserHas23And59MinutesOfBuildTime_ChecksIn_AchievesTimeWarrior()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -204,7 +204,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(AchievementEnum.TimeWarrior, achievementEventArg.Achievements[0].Id);
         }
 
-        [TestMethod]
+        [Test]
         public void UserHas99ReputationButMissedApprentice_SuccessfulChecksIn_AchievesApprenticeAndNeophyteAchievements()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -225,7 +225,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(AchievementEnum.Neophyte, achievementEventArg.Achievements[1].Id);
         }
 
-        [TestMethod]
+        [Test]
         public void UserHas23Reputation_SuccessfulChecksIn_NoNewAchievement()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -240,7 +240,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.Settings.People[0].Achievements.Count);
         }
         
-        [TestMethod]
+        [Test]
         public void UserHas24Reputation_SuccessfulChecksIn_AchievesApprenticeAchievement()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -260,7 +260,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(AchievementEnum.Apprentice, achievementEventArg.Achievements[0].Id);
         }
         
-        [TestMethod]
+        [Test]
         public void IsBuildingWithBuildTriggeredRuleToStopOnSuccess_BuildSucceeds_LedsStop()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -284,7 +284,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(null, rulesEngine.SetLightsEvents[1].LedPattern);
         }
 
-        [TestMethod]
+        [Test]
         public void Hudson_BuildUrlPassesThrough()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -305,7 +305,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("32", refreshStatusEventArgs.BuildStatusDtos.First().BuildId);
         }
 
-        [TestMethod]
+        [Test]
         public void GlobalMuteOnBuildFailsWithWindowsAudioRule_NoAudio()
         {
             var rulesEngine = new RulesEngineWrapper
@@ -326,7 +326,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void OnStartup_NeverShowWorkingTrayNotifications()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -340,7 +340,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyIsPassing_NoWindowsAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -354,7 +354,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailsWithWindowsAudioRule_PlayWindowsAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -370,7 +370,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("SirenOfShame.Resources.Sad-Trombone.wav", rulesEngine.PlayWindowsAudioEvents.First().Location);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailsWithNoRules_NoAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -380,7 +380,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.PlayWindowsAudioEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildNameChanges_BuildSettingsNameIsUpdated()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -398,7 +398,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("New Name!", buildDefinitionSetting.Name);
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void TwoBuildsBackToBack_SystemFindsFirstResultForReputation()
         {
@@ -427,7 +427,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.Settings.People[0].GetReputation(), "If two builds a queued and run back to back the system should find the result of the build it missed.");
         }
 
-        [TestMethod]
+        [Test]
         public void InitialServerUnavailable_DisconnectedTrayNotificationSent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -439,7 +439,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ToolTipIcon.Error, trayNotification.TipIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void ServerUnavailableTwice_OnlyOneTrayNotificationSent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -448,7 +448,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void ServerUnavailableThenBecomesAvailable_ReconnectedTrayNotificationSent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -461,7 +461,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ToolTipIcon.Info, trayNotification.TipIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void ServerUnavailableThenAvailableThenUnavailable_TwoUnavailableTrayNotificationSent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -472,7 +472,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count(tn => tn.Title == "Build Server Unavailable"));
         }
 
-        [TestMethod]
+        [Test]
         public void ServerUnavailableThenAvailableTwice_OnlyOneReconnectedTrayNotification()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -482,7 +482,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void InitialStatusChecked_RefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -516,7 +516,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("1:01", buildStatus.Duration);
         }
 
-        [TestMethod]
+        [Test]
         public void StatusCheckedTwiceWithIdenticalResults_OnlyOneRefreshStatusEvent()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -526,7 +526,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildBreaksWithNoRules_NoNotifications()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -545,7 +545,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyBrokenWithGlobalModalDialogRule_ModalDialog()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -561,7 +561,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build newly broken by User1 for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyWorkingWithGlobalInitialSuccessDialog_NoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -579,7 +579,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.SetLightsEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailsThenSucceedsWithGlobalInitialSuccessDialog_Alert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -596,7 +596,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build is passing again for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailsThenInProgressThenFailsWithGlobalInitialFailDialog_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -614,7 +614,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build newly broken by User1 for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildSucceedsTwiceAfterFailWithGlobalInitialSuccessDialog_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -634,7 +634,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build is passing again for Build Def 1", rulesEngine.ModalDialogEvents[0].DialogText);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyInProgressWithGlobalBuildTriggeredRule_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -661,7 +661,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ToolTipIcon.Info, rulesEngine.TrayNotificationEvents[0].TipIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInProgressTwiceWithGlobalBuildTriggeredRule_OnlyOneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -677,7 +677,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInProgressThenPassThenInProgressWithGlobalBuildTriggeredRule_TwoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -695,7 +695,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(rulesEngine.TrayNotificationEvents[0].Title, rulesEngine.TrayNotificationEvents[1].Title);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildFailsThenFailsAgainWithGlobalInitialAndSubsequentFailAlerts_TwoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -722,7 +722,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ToolTipIcon.Error, rulesEngine.TrayNotificationEvents[1].TipIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsThenSucceedsWithGlobalSubsequentSuccessAlerts_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -739,7 +739,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SuccessThenInProgressThenSuccessWithGlobalSuccessAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -760,7 +760,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ToolTipIcon.Info, rulesEngine.TrayNotificationEvents[0].TipIcon);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidInitiallyFailsThenSucceedsThenFailsThenSucceedsWithGlobalSubsequentSuccessAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -780,7 +780,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("Build passed for Build Def 1", rulesEngine.TrayNotificationEvents[0].TipText);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyFailsWithGlobalPlayLightsAlert_SetLights()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -800,7 +800,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(ledPattern, rulesEngine.SetLightsEvents[0].LedPattern);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyFailsWithGlobalPlayAudioAlert_SetAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -820,7 +820,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(audioPattern, rulesEngine.SetAudioEvents[0].AudioPattern);
         }
 
-        [TestMethod]
+        [Test]
         public void GlobalPlayAudioAlertButOnMute_NoAudio()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -838,7 +838,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.SetAudioEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildInitiallyFailsThenPassesWithGlobalPlayLightsUntilBuildFixedAlert_SetLightsOnThenOff()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -863,7 +863,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(null, rulesEngine.SetLightsEvents[1].LedPattern);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsTwiceWithGlobalBuildFailAlert_TwoAlerts()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -880,7 +880,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsWithSomeoneElseBuildFailAlert_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -896,7 +896,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.ModalDialogEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsWithMeBuildFailAlert_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -912,7 +912,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsForSomeOtherBuild_NoAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -928,7 +928,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.ModalDialogEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuidFailsForMyBuild_OneAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -944,7 +944,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.ModalDialogEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void GlobalBuildDefTrayAlertConflictsWithLocalBuildDefModalAlert_ModalAlertOnly()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -966,7 +966,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void InitialFailedBuildConflictsWithBuildFailedOrder1_InitialFailedBuildWins()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -987,7 +987,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void InitialFailedBuildConflictsWithBuildFailedOrder2_InitialFailedBuildWins()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1008,7 +1008,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void NewBuildWithNewRequestedBy_PersonAdded()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1026,7 +1026,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                             rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void NewBuildWithExistingRequestedBy_PersonNotAdded()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1046,7 +1046,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual("User1", rulesEngine.Settings.CiEntryPointSettings[0].BuildDefinitionSettings[0].People[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void NewBuildOnProject2_RequestByNotAddedToProject1()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1070,7 +1070,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, build1Setting.People.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void NewBuildWithEmptyRequestedBy_RequestByNotAdded()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1094,7 +1094,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(0, build1Setting.People.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildChangesNothingChanged_NoAdditionalInvokeRefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1120,7 +1120,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void BuildStartTimeChanged_RefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1149,7 +1149,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(BuildStatus.FormatAsDayMonthTime(secondStartTime), rulesEngine.RefreshStatusEvents.Last().BuildStatusDtos.First().StartTimeShort);
         }
 
-        [TestMethod]
+        [Test]
         public void InvokeStatusOnceForBuildAThenForBuildB_SecondRefreshStatusReturnsBuildAAndBuildB()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1176,7 +1176,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(2, lastRefreshStatusEvent.BuildStatusDtos.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void BreakThenFixesBuild_UserHasStatsUpdated()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1200,7 +1200,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(1, rulesEngine.Settings.People[0].FailedBuilds);
         }
 
-        [TestMethod]
+        [Test]
         public void InProgressDoesNotWrite()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -1220,7 +1220,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(BuildStatusEnum.Broken, buildDefinition.BuildStatusEnum);
         }
 
-        [TestMethod]
+        [Test]
         public void InitialStatesDoNotWrite()
         {
             var rulesEngine = new RulesEngineWrapper();

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.StatCalculators;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class InTheZoneTest
     {
-        [TestMethod]
+        [Test]
         public void OneBuildEachDay_MaxIsOne()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -23,7 +23,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(1, max);
         }
         
-        [TestMethod]
+        [Test]
         public void TwoBuildsInADayBySomeoneElse_MaxIsOne()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -37,7 +37,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(1, max);
         }
         
-        [TestMethod]
+        [Test]
         public void TwoBuildsInADayByCurrentUser_MaxIsTwo()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -51,7 +51,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(2, max);
         }
         
-        [TestMethod]
+        [Test]
         public void ExcludesNullDates()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };

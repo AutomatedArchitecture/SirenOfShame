@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class LikeLightningTest
     {
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_ElevenSecondsBetweenBuilds()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -23,7 +23,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_ThreeBackToBackBuilds()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -36,7 +36,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(true, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_ThreeBackToBackBuildsButOneBroken()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -49,7 +49,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_OneBuildIsMissingFinishedTime()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -62,7 +62,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_ZeroBuilds()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -72,7 +72,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
 
-        [TestMethod]
+        [Test]
         public void WasJustLikeLightning_ThreeBuildsOneSecondApartWithDifferentUser()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class NapoleonTest
     {
-        [TestMethod]
+        [Test]
         public void CurrentUserHas100MorePointsThanAnyoneElse()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser", TotalBuilds = 110, FailedBuilds = 0 };
@@ -20,7 +20,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsTrue(new Napoleon(personSetting, people).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void OnlyOnePersonOnProject()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser", TotalBuilds = 110, FailedBuilds = 0 };
@@ -30,7 +30,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.IsFalse(new Napoleon(personSetting, people).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void CurrentUserHas99MorePointsThanAnyoneElse()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser", TotalBuilds = 110, FailedBuilds = 0 };

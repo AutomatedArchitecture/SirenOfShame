@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.StatCalculators;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class ArribaArribaAndaleAndaleTest
     {
-        [TestMethod]
+        [Test]
         public void AcrossBuilds_BackToBackWithinBuildDoesCount()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -22,7 +22,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(1, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsAcrossBuilds(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void AcrossBuilds_BackToBackAcrossBuildsDoesntCount()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -34,7 +34,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsAcrossBuilds(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void BackToBackOnce()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -46,7 +46,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(1, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsForABuild(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void BackToBackThreeTimes()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -64,7 +64,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(3, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsForABuild(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void BackToBackExcludesOtherUsers()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -76,7 +76,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsForABuild(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void BackToBackExcludesBrokenBuilds()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
@@ -88,7 +88,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0, BackToBackBuilds.HowManyTimesHasPerformedBackToBackBuildsForABuild(fakePersonSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void BuildsArentBackToBack()
         {
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };

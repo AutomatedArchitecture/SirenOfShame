@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class ReputationReboundTest
     {
-        [TestMethod]
+        [Test]
         public void ThreeFailedThenTwelvePass()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -34,7 +34,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(true, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void TwoFailedThenTwelvePass()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -58,7 +58,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void ThreeFailedThenElevenPass()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -82,7 +82,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void IgnoresPassesByOtherPeople()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};

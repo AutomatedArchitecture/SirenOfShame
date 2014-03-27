@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Exceptions;
@@ -11,10 +11,10 @@ using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Test.Unit.Services
 {
-    [TestClass]
+    [TestFixture]
     public class SosOnlineServiceTest
     {
-        [TestMethod]
+        [Test]
         public void BuildStatusChanged_InProgressBuilds_DoSync()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -28,7 +28,7 @@ namespace SirenOfShame.Test.Unit.Services
             mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Exactly(2));
         }
 
-        [TestMethod]
+        [Test]
         public void BuildStatusChanged_MyPointAndAchievementsOnly_DoesNotSync()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -41,7 +41,7 @@ namespace SirenOfShame.Test.Unit.Services
             mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Never());
         }
 
-        [TestMethod]
+        [Test]
         public void BuildStatusChanged_SyncBuildStatuses_DoesSync()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -54,7 +54,7 @@ namespace SirenOfShame.Test.Unit.Services
             mock.Verify(i => i.BuildStatusChanged(It.IsAny<SirenOfShameSettings>(), It.IsAny<IList<BuildStatus>>(), It.IsAny<List<InstanceUserDto>>()), Times.Once());
         }
 
-        [TestMethod]
+        [Test]
         public void Synchronize_ICheckInWithAlwaysSyncSetting_SosOnlineServiceSynchronize()
         {
             var rulesEngine = new RulesEngineWrapper();
@@ -74,7 +74,7 @@ namespace SirenOfShame.Test.Unit.Services
             sosOnlineService.Verify();
         }
 
-        [TestMethod]
+        [Test]
         public void TryToGetAndSendNewSosOnlineAlerts_HaveNeverCheckedForAlerts_SendAlertToUi()
         {
             var sosOnlineService = new SosOnlineServiceFake();
@@ -97,7 +97,7 @@ Hello World
             Assert.AreEqual(new DateTime(2010, 1, 2), newAlertEventArgs.AlertDate);
         }
 
-        [TestMethod]
+        [Test]
         public void TryToGetAndSendNewSosOnlineAlerts_HaveNeverCheckedForAlertsButSettingsSayNeverDownload_DoNotSendAlertToUi()
         {
             var sosOnlineService = new SosOnlineServiceFake();
@@ -117,7 +117,7 @@ Hello World
             Assert.IsNull(newAlertEventArgs);
         }
 
-        [TestMethod]
+        [Test]
         public void TryToGetAndSendNewSosOnlineAlerts_LastCheckedForNewAlertsOver24HoursAgoButThisIsTheSameAlert_NoAlert()
         {
             var sosOnlineService = new SosOnlineServiceFake();
@@ -141,7 +141,7 @@ Hello World
             Assert.IsNull(newAlertEventArgs);
         }
 
-        [TestMethod]
+        [Test]
         public void TryToGetAndSendNewSosOnlineAlerts_LastCheckedForNewAlerts24HoursAndOneOneSecondAgoAndThisIsANewAlert_SendAlertToUi()
         {
             var sosOnlineService = new SosOnlineServiceFake();
@@ -164,7 +164,7 @@ Hello World
             Assert.IsNotNull(newAlertEventArgs);
         }
 
-        [TestMethod]
+        [Test]
         public void TryToGetAndSendNewSosOnlineAlerts_LastCheckedForNewAlertsOneSecondAgo_DoNotSendAlertToUi()
         {
             var sosOnlineService = new SosOnlineServiceFake();

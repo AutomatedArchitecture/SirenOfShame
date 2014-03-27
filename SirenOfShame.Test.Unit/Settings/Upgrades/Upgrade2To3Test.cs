@@ -1,17 +1,17 @@
 ﻿// ReSharper disable InconsistentNaming
 
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Settings.Upgrades;
 using SirenOfShame.Test.Unit.Watcher;
 
 namespace SirenOfShame.Test.Unit.Settings.Upgrades
 {
-    [TestClass]
+    [TestFixture]
     public class Upgrade2To3Test
     {
-        [TestMethod]
+        [Test]
         public void Upgrade_BuildTriggeredRule_WindowsAudioSetToPlunk()
         {
             var settings = new SirenOfShameSettingsFake
@@ -27,7 +27,7 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             Assert.AreEqual("SirenOfShame.Resources.Audio-Plunk.wav", settings.Rules[0].WindowsAudioLocation);
         }
         
-        [TestMethod]
+        [Test]
         public void Upgrade_BuildFailedRule_WindowsAudioSetToSadTrombone()
         {
             var settings = new SirenOfShameSettingsFake
@@ -47,7 +47,7 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             Assert.IsTrue(settings.Rules.All(i => i.WindowsAudioLocation == "SirenOfShame.Resources.Audio-Sad-Trombone.wav"));
         }
         
-        [TestMethod]
+        [Test]
         public void Upgrade_SubsequentBuildFailedRule_WindowsAudioSetToSadTrombone()
         {
             var settings = new SirenOfShameSettingsFake

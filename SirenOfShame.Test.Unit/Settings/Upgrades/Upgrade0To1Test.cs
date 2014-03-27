@@ -1,16 +1,16 @@
 ﻿// ReSharper disable InconsistentNaming
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Test.Unit.Watcher;
 
 namespace SirenOfShame.Test.Unit.Settings.Upgrades
 {
-    [TestClass]
+    [TestFixture]
     public class Upgrade0To1Test
     {
-        [TestMethod]
+        [Test]
         public void Upgrade_EmptyPeople_Removed()
         {
             var settings = new SirenOfShameSettingsFake();
@@ -35,7 +35,7 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             Assert.IsFalse(allPeople.Any(p => string.IsNullOrEmpty(p)));
         }
 
-        [TestMethod]
+        [Test]
         public void Upgrade_PeopleInSettings_AddedToPeopleInBase()
         {
             var settings = new SirenOfShameSettingsFake();
@@ -61,7 +61,7 @@ namespace SirenOfShame.Test.Unit.Settings.Upgrades
             Assert.AreEqual(0, personSetting.TotalBuilds);
         }
 
-        [TestMethod]
+        [Test]
         public void Upgrade_SamePersonInMultipleSettings_NoDuplicates()
         {
             var settings = new SirenOfShameSettingsFake();

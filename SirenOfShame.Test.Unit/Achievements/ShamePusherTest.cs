@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class ShamePusherTest
     {
-        [TestMethod]
+        [Test]
         public void SirenHasBeenConnectedAndCurrentUserJustCheckedIn()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -19,7 +19,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(true, new ShamePusher(personSetting, settings).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void SirenHasBeenConnectedButNoCurrentUser()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -31,7 +31,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new ShamePusher(personSetting, settings).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void SirenHasBeenConnectedButDifferentUserCheckedIn()
         {
             PersonSetting personSetting = new PersonSetting {RawName = "someoneElse"};
@@ -43,7 +43,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(false, new ShamePusher(personSetting, settings).HasJustAchieved());
         }
         
-        [TestMethod]
+        [Test]
         public void SirenNeverBeenConnected()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };

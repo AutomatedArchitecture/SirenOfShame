@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SirenOfShame.Lib.Achievements;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.StatCalculators;
@@ -7,10 +7,10 @@ using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Test.Unit.Achievements
 {
-    [TestClass]
+    [TestFixture]
     public class CriticalTest
     {
-        [TestMethod]
+        [Test]
         public void CurrentBuildRatio()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
@@ -23,7 +23,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0.25, BuildRatio.CalculateCurrentBuildRatio(personSetting, builds));
         }
 
-        [TestMethod]
+        [Test]
         public void Exactly50BuildsOneFailedLowestPercentageIsTwoPercent()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -37,7 +37,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0.02, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void Exactly100BuildsOneFailedLowestPercentageIsOnePercent()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -51,7 +51,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0.01, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void AchievesTwoPercentAt50ThenFails50More_PercentageStaysAtTwo()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
@@ -69,7 +69,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             Assert.AreEqual(0.02, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
         }
         
-        [TestMethod]
+        [Test]
         public void Exactly50BuildsOneFailed_ButFailedBuildIsSomeoneElse()
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
