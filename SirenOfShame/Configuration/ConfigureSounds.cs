@@ -1,18 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Media;
 using System.Windows.Forms;
-using log4net;
-using SirenOfShame.Lib;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
 {
     public partial class ConfigureSounds : FormBase
     {
-        private readonly ILog _log = MyLogManager.GetLogger(typeof (ConfigureSounds));
         private readonly SirenOfShameSettings _settings;
+        readonly SoundService _soundService = new SoundService();
 
         public ConfigureSounds(SirenOfShameSettings settings)
         {
@@ -30,33 +27,10 @@ namespace SirenOfShame.Configuration
             var dialogResult = openFileDialog1.ShowDialog(this);
             if (dialogResult == DialogResult.OK && openFileDialog1.SafeFileName != null)
             {
-                var soundsDir = GetSoundsDirEnsureExists();
-                var destinationFileName = Path.Combine(soundsDir, openFileDialog1.SafeFileName);
-                File.Copy(openFileDialog1.FileName, destinationFileName, overwrite: true);
-                
-                Sound sound = new Sound
-                {
-                    Location = destinationFileName,
-                    DisplayName = openFileDialog1.SafeFileName
-                };
-
-                _settings.Sounds.Add(sound);
-                _settings.Save();
-
+                var sound = _soundService.AddSound(_settings, openFileDialog1.FileName, openFileDialog1.SafeFileName);
                 var listViewItem = sound.AsListViewItem();
                 _soundsList.Items.Add(listViewItem);
             }
-        }
-
-        private static string GetSoundsDirEnsureExists()
-        {
-            var sosAppDataFolder = SirenOfShameSettings.GetSosAppDataFolder();
-            var soundsDir = Path.Combine(sosAppDataFolder, "Sounds");
-            if (!Directory.Exists(soundsDir))
-            {
-                Directory.CreateDirectory(soundsDir);
-            }
-            return soundsDir;
         }
 
         private void SoundsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -87,20 +61,7 @@ namespace SirenOfShame.Configuration
 
         private void DeleteSound(Sound sound)
         {
-            try
-            {
-                var sosAppDataFolder = SirenOfShameSettings.GetSosAppDataFolder();
-                var fileIsInOurFolder = sound.Location.StartsWith(sosAppDataFolder);
-                // should be, but we can't assume someone hasn't tampered with the settings file
-                if (fileIsInOurFolder)
-                {
-                    File.Delete(sound.Location);
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Warn("Unable to delete file", ex);
-            }
+            _soundService.DeleteSound(sound);
             _settings.Sounds.Remove(sound);
             RefreshSoundList();
             _settings.Save();
@@ -116,20 +77,7 @@ namespace SirenOfShame.Configuration
 
         private void Preview_Click(object sender, EventArgs e)
         {
-            WithFirstSelectedSound(PreviewSound);
-        }
-
-        private void PreviewSound(Sound sound)
-        {
-            SoundPlayer player = new SoundPlayer(sound.Location);
-            try
-            {
-                player.Play();
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex);
-            }
+            WithFirstSelectedSound(_soundService.Play);
         }
     }
 }

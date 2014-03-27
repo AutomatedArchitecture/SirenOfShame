@@ -75,7 +75,7 @@
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Resources\AudioFileTest.cs" />
+    <Compile Include="Service\SoundServiceTest.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
     <EmbeddedResource Include="Resources\TeamCityServerCleanup.xml">
       <SubType>Designer</SubType>
