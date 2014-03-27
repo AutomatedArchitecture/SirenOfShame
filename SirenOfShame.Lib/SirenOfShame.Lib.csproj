@@ -133,6 +133,7 @@
     <Compile Include="Dto\OfflineUserAchievementDto.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Dto\InstanceUserDto.cs" />
+    <Compile Include="Services\SoundService.cs" />
     <Compile Include="Settings\Sound.cs" />
     <Compile Include="Settings\Upgrades\Upgrade7To8.cs" />
     <Compile Include="Settings\Upgrades\Upgrade6To7.cs" />

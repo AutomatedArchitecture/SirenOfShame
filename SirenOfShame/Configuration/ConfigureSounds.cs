@@ -37,7 +37,7 @@ namespace SirenOfShame.Configuration
                 Sound sound = new Sound
                 {
                     Location = destinationFileName,
-                    Name = openFileDialog1.SafeFileName
+                    DisplayName = openFileDialog1.SafeFileName
                 };
 
                 _settings.Sounds.Add(sound);

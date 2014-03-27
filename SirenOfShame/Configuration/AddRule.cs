@@ -17,7 +17,7 @@ namespace SirenOfShame.Configuration
         readonly BuildDefinitionSetting _anyBuild = new BuildDefinitionSetting { Name = "Any" };
 
         [Import(typeof(ISirenOfShameDevice))]
-        public ISirenOfShameDevice SirenOfShameDevice { get; set; }
+        public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
 
         public AddRule(SirenOfShameSettings settings, Rule rule)
             : this(settings)
@@ -31,7 +31,7 @@ namespace SirenOfShame.Configuration
             _inheritLightSetting.Checked = rule.InheritLedSettings;
             _turnOnLights.Checked = !rule.InheritLedSettings;
             _lights.SelectedItem = rule.LedPattern;
-            _windowsAudio.SelectedItem = _windowsAudio.Items.Cast<AudioFile>().FirstOrDefault(i => i.Location == rule.WindowsAudioLocation);
+            _windowsAudio.SelectedItem = _windowsAudio.Items.Cast<Sound>().FirstOrDefault(i => i.Location == rule.WindowsAudioLocation);
             _audio.SelectedItem = rule.AudioPattern;
             _lightsDurationTextBox.Text = rule.LightsDuration == null ? "" : rule.LightsDuration.ToString();
             _playLightsUntilBuildPasses.Checked = rule.LightsDuration == null;
@@ -81,8 +81,9 @@ namespace SirenOfShame.Configuration
             _audio.DataSource = SirenOfShameDevice.AudioPatterns.ToList();
             _audio.DisplayMember = "Name";
 
-            _windowsAudio.DataSource = new[] { new AudioFile { DisplayName = "None"}}
+            _windowsAudio.DataSource = new[] { new Sound { DisplayName = "None"}}
                 .Concat(ResourceManager.InternalAudioFiles)
+                .Concat(_settings.Sounds)
                 .ToList();
             _windowsAudio.DisplayMember = "DisplayName";
 
@@ -121,7 +122,7 @@ namespace SirenOfShame.Configuration
             rule.LightsDuration = GetLightsDuration();
             rule.InheritAudioSettings = _inheritAudio.Checked;
             rule.InheritLedSettings = _inheritLightSetting.Checked;
-            rule.WindowsAudioLocation = _windowsAudio.SelectedItem == null ? null : ((AudioFile)_windowsAudio.SelectedItem).Location;
+            rule.WindowsAudioLocation = _windowsAudio.SelectedItem == null ? null : ((Sound)_windowsAudio.SelectedItem).Location;
 
             if (!rule.InheritLedSettings)
                 rule.LedPattern = GetLedPattern();

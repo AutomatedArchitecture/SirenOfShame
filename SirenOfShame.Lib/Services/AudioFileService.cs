@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Windows.Forms;
 using SirenOfShame.Lib.Device;
 using SoxLib;
 using SoxLib.Helpers;

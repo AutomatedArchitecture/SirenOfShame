@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Resources2;
@@ -21,7 +22,7 @@ namespace SirenOfShame
         protected string Url;
         public DateTime LocalStartTime { get; protected set; }
         public string BuildDefinitionId { get; private set; }
-        private static readonly ILog Log = MyLogManager.GetLogger(typeof(ViewBuildBase));
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ViewBuildBase));
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
@@ -56,7 +57,7 @@ namespace SirenOfShame
         public static Color FailColor = Color.FromArgb(255, 189, 54, 47);
         public static Color PrimaryColor = Color.FromArgb(255, 40, 95, 152);
 
-        private readonly static Dictionary<BuildStatusEnum, Color> BuildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
+        private readonly static Dictionary<BuildStatusEnum, Color> _buildStatusToColorMap = new Dictionary<BuildStatusEnum, Color>
         {
             { BuildStatusEnum.Working, SuccessColor },
             { BuildStatusEnum.Broken, FailColor },
@@ -64,7 +65,7 @@ namespace SirenOfShame
 
         protected Color GetBackgroundColor(BuildStatusEnum buildStatusEnum)
         {
-            return GetColorForBuildType(BuildStatusToColorMap, buildStatusEnum, PrimaryColor);
+            return GetColorForBuildType(_buildStatusToColorMap, buildStatusEnum, PrimaryColor);
         }
 
         private static Color GetColorForBuildType(Dictionary<BuildStatusEnum, Color> dictionary, BuildStatusEnum newsItemEventType, Color defaultColor)
@@ -166,7 +167,11 @@ namespace SirenOfShame
                 playLightsMenu.Checked = playLightsMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
             }
 
-            AddToolStripItems(playWindowsAudioMenu.DropDownItems, ResourceManager.InternalAudioFiles.Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person)).ToArray());
+            var audioMenuItems = ResourceManager.InternalAudioFiles
+                .Concat(Settings.Sounds)
+                .Select(af => WindowsAudioPatternMenu(af, rule, buildDefinitionId, triggerType, person))
+                .ToArray();
+            AddToolStripItems(playWindowsAudioMenu.DropDownItems, audioMenuItems);
             playWindowsAudioMenu.Checked = playWindowsAudioMenu.DropDownItems.Cast<ToolStripMenuItem>().Any(d => d.Checked);
 
             menuItem.DropDownItems.Add(playWindowsAudioMenu);
@@ -177,12 +182,12 @@ namespace SirenOfShame
 
             return menuItem;
         }
-        private ToolStripMenuItem WindowsAudioPatternMenu(AudioFile af, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
+        private ToolStripMenuItem WindowsAudioPatternMenu(Sound sound, Rule rule, string buildDefinitionId, TriggerType triggerType, string person)
         {
             bool patternIsMatch = false;
             if (rule != null && !string.IsNullOrEmpty(rule.WindowsAudioLocation))
-                patternIsMatch = af.Location == rule.WindowsAudioLocation;
-            var menu = new ToolStripMenuItem(af.DisplayName)
+                patternIsMatch = sound.Location == rule.WindowsAudioLocation;
+            var menu = new ToolStripMenuItem(sound.DisplayName)
             {
                 Checked = patternIsMatch,
                 Tag = new RuleDropDownItemTag
@@ -192,7 +197,7 @@ namespace SirenOfShame
                     TriggerPerson = person,
                     TriggerType = triggerType,
                     LedPattern = null,
-                    WindowsAudioLocation = af.Location,
+                    WindowsAudioLocation = sound.Location,
                     AudioPattern = null,
                     Duration = null
                 }
@@ -222,7 +227,7 @@ namespace SirenOfShame
 
             if (tag == null)
             {
-                Log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
+                _log.Error("User clicked '" + toolStripSender.Text + "' but it had no tag");
                 return;
             }
 

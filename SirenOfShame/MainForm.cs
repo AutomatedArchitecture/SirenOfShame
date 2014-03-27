@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Services;
 using log4net;
@@ -30,6 +29,7 @@ namespace SirenOfShame
         private bool _canViewLogs;
         readonly Timer _showAlertAnimation = new Timer();
         readonly SosOnlineService _sosOnlineService = new SosOnlineService();
+        private readonly SoundService _soundService = new SoundService();
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
@@ -453,10 +453,7 @@ namespace SirenOfShame
         private void RulesEnginePlayWindowsAudio(object sender, PlayWindowsAudioEventArgs args)
         {
             // note: not doing an invoke because so far this code doesn't require the UI thread
-            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            Stream s = a.GetManifestResourceStream(args.Location);
-            SoundPlayer player = new SoundPlayer(s);
-            player.Play();
+            _soundService.Play(args.Location);
         }
 
         private bool _showAlert;

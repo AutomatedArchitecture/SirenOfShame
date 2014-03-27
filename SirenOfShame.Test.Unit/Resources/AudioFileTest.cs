@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SirenOfShame.Lib.Dto;
 using SirenOfShame.Resources2;
 
 namespace SirenOfShame.Test.Unit.Resources
