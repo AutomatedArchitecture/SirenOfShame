@@ -36,11 +36,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._soundsList = new System.Windows.Forms.ListView();
+            this.fileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
             this._add = new SirenOfShame.Lib.SosButton();
             this._delete = new SirenOfShame.Lib.SosButton();
-            this.fileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // _done
@@ -114,6 +114,12 @@
             this._soundsList.TabIndex = 45;
             this._soundsList.UseCompatibleStateImageBehavior = false;
             this._soundsList.View = System.Windows.Forms.View.Details;
+            this._soundsList.SelectedIndexChanged += new System.EventHandler(this.SoundsList_SelectedIndexChanged);
+            // 
+            // fileName
+            // 
+            this.fileName.Text = "File Name";
+            this.fileName.Width = 460;
             // 
             // openFileDialog1
             // 
@@ -149,7 +155,7 @@
             this._add.TabIndex = 48;
             this._add.Text = "    Add";
             this._add.UseVisualStyleBackColor = false;
-            this._add.Click += new System.EventHandler(this.AddSoundClick);
+            this._add.Click += new System.EventHandler(this.AddSound);
             // 
             // _delete
             // 
@@ -170,11 +176,7 @@
             this._delete.TabIndex = 49;
             this._delete.Text = "     Delete";
             this._delete.UseVisualStyleBackColor = false;
-            // 
-            // fileName
-            // 
-            this.fileName.Text = "File Name";
-            this.fileName.Width = 460;
+            this._delete.Click += new System.EventHandler(this.Delete_Click);
             // 
             // ConfigureSounds
             // 
