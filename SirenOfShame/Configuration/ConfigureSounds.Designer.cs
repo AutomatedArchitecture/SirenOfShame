@@ -41,6 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this._add = new SirenOfShame.Lib.SosButton();
             this._delete = new SirenOfShame.Lib.SosButton();
+            this._preview = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();
             // 
             // _done
@@ -73,6 +74,7 @@
             this.imageList1.Images.SetKeyName(0, "check.bmp");
             this.imageList1.Images.SetKeyName(1, "add.bmp");
             this.imageList1.Images.SetKeyName(2, "delete.bmp");
+            this.imageList1.Images.SetKeyName(3, "media_play.bmp");
             // 
             // imageList2
             // 
@@ -178,6 +180,26 @@
             this._delete.UseVisualStyleBackColor = false;
             this._delete.Click += new System.EventHandler(this.Delete_Click);
             // 
+            // _preview
+            // 
+            this._preview.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._preview.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._preview.FlatAppearance.BorderSize = 0;
+            this._preview.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._preview.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._preview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._preview.ForeColor = System.Drawing.Color.White;
+            this._preview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._preview.ImageKey = "media_play.bmp";
+            this._preview.ImageList = this.imageList1;
+            this._preview.Location = new System.Drawing.Point(179, 272);
+            this._preview.Name = "_preview";
+            this._preview.Size = new System.Drawing.Size(75, 23);
+            this._preview.TabIndex = 50;
+            this._preview.Text = "      Preview";
+            this._preview.UseVisualStyleBackColor = false;
+            this._preview.Click += new System.EventHandler(this._preview_Click);
+            // 
             // ConfigureSounds
             // 
             this.AcceptButton = this._done;
@@ -186,6 +208,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.CancelButton = this._done;
             this.ClientSize = new System.Drawing.Size(506, 309);
+            this.Controls.Add(this._preview);
             this.Controls.Add(this._delete);
             this.Controls.Add(this._add);
             this.Controls.Add(this.label3);
@@ -214,5 +237,6 @@
         private Lib.SosButton _add;
         private Lib.SosButton _delete;
         private System.Windows.Forms.ColumnHeader fileName;
+        private Lib.SosButton _preview;
     }
 }
