@@ -32,7 +32,7 @@ namespace SirenOfShame
         readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
         [Import(typeof(ISirenOfShameDevice))]
-        public ISirenOfShameDevice SirenOfShameDevice { get; set; }
+        public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
 
         public MainForm()
         {
@@ -252,14 +252,14 @@ namespace SirenOfShame
 
         private void RulesEngineStatsChanged(object sender, StatsChangedEventArgs args)
         {
-            Invoke(() => RefreshStats(args.ChangedBuildStatuses));
+            Invoke(RefreshStats);
         }
 
-        private void RefreshStats(IList<BuildStatus> changedBuildStatuses)
+        private void RefreshStats()
         {
             try
             {
-                RefreshUserStats(changedBuildStatuses);
+                RefreshUserStats();
                 _viewBuilds.RefreshStats();
             }
             catch (Exception ex)
@@ -305,19 +305,11 @@ namespace SirenOfShame
             EnableSirenMenuItem(true);
         }
 
-        private void EnableSirenMenuItem(bool enable)
+        private void EnableSirenMenuItem(bool isSirenConnected)
         {
             Invoke(() =>
             {
-                _testSiren.Enabled = enable;
-                if (enable)
-                {
-                    _configureSiren.Enabled = SirenOfShameDevice.HardwareType == HardwareType.Pro;
-                }
-                else
-                {
-                    _configureSiren.Enabled = false;
-                }
+                _testSiren.Enabled = isSirenConnected;
             });
         }
 
@@ -349,7 +341,7 @@ namespace SirenOfShame
             _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
             _sosOnlineService.StartRealtimeConnection(_settings);
             
-            RefreshStats(null);
+            RefreshStats();
             SetMuteButton();
         }
 
@@ -658,8 +650,8 @@ namespace SirenOfShame
 
         private void ConfigureSirenClick(object sender, EventArgs e)
         {
-            var configureSiren = new ConfigureSirenDialog(_settings, SirenOfShameDevice);
-            configureSiren.ShowDialog(this);
+            var configureSounds = new ConfigureSounds(_settings);
+            configureSounds.ShowDialog(this);
         }
 
         protected enum MainWindowEnum
@@ -668,7 +660,7 @@ namespace SirenOfShame
             ViewUser = 1,
         }
 
-        private void RefreshUserStats(IList<BuildStatus> changedBuildStatuses)
+        private void RefreshUserStats()
         {
             _userList.RefreshUserStats();
         }
@@ -677,7 +669,7 @@ namespace SirenOfShame
         {
             Settings settings = new Settings(_settings);
             settings.ShowDialog(this);
-            RefreshStats(null); // just in case they clicked reset reputation
+            RefreshStats(); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
             InitializeWindow(); // just in case they changed "always on top"
         }
@@ -887,13 +879,12 @@ namespace SirenOfShame
 
         protected bool NotityIconVisible
         {
-            get { return notifyIcon.Visible; }
             set { notifyIcon.Visible = value; }
         }
 
         private bool _showAllUsers;
 
-        public bool ShowAllUsers
+        private bool ShowAllUsers
         {
             get { return _showAllUsers; }
             set

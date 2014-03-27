@@ -49,11 +49,15 @@ namespace SirenOfShame {
             this._userMappings = new System.Windows.Forms.Button();
             this._toolbar16 = new System.Windows.Forms.ImageList(this.components);
             this._viewAllUsers = new System.Windows.Forms.Button();
+            this.separator4 = new SirenOfShame.Separator();
+            this.separator3 = new SirenOfShame.Separator();
+            this.separator2 = new SirenOfShame.Separator();
+            this.separator1 = new SirenOfShame.Separator();
             this._sosOnline = new System.Windows.Forms.Button();
             this._toolbar32 = new System.Windows.Forms.ImageList(this.components);
             this._mute = new System.Windows.Forms.Button();
             this._fullscreen = new System.Windows.Forms.Button();
-            this._configureSiren = new System.Windows.Forms.Button();
+            this._configureSounds = new System.Windows.Forms.Button();
             this._sirenMore = new System.Windows.Forms.Button();
             this._configureCiServer = new System.Windows.Forms.Button();
             this._help = new System.Windows.Forms.Button();
@@ -93,10 +97,6 @@ namespace SirenOfShame {
             this.viewUser1 = new SirenOfShame.ViewUser();
             this._newsFeed1 = new SirenOfShame.NewsFeed();
             this._userList = new SirenOfShame.Leaders();
-            this.separator4 = new SirenOfShame.Separator();
-            this.separator3 = new SirenOfShame.Separator();
-            this.separator2 = new SirenOfShame.Separator();
-            this.separator1 = new SirenOfShame.Separator();
             this.statusStrip1.SuspendLayout();
             this.minimizedMenu.SuspendLayout();
             this._ribbonPanel.SuspendLayout();
@@ -212,7 +212,7 @@ namespace SirenOfShame {
             this._ribbonPanel.Controls.Add(this._sosOnline);
             this._ribbonPanel.Controls.Add(this._mute);
             this._ribbonPanel.Controls.Add(this._fullscreen);
-            this._ribbonPanel.Controls.Add(this._configureSiren);
+            this._ribbonPanel.Controls.Add(this._configureSounds);
             this._ribbonPanel.Controls.Add(this._sirenMore);
             this._ribbonPanel.Controls.Add(this._configureCiServer);
             this._ribbonPanel.Controls.Add(this._help);
@@ -265,6 +265,7 @@ namespace SirenOfShame {
             this._toolbar16.Images.SetKeyName(3, "users4_checkbox_checked.bmp");
             this._toolbar16.Images.SetKeyName(4, "users4_checkbox_unchecked.bmp");
             this._toolbar16.Images.SetKeyName(5, "id_cards.bmp");
+            this._toolbar16.Images.SetKeyName(6, "music.bmp");
             // 
             // _viewAllUsers
             // 
@@ -287,6 +288,38 @@ namespace SirenOfShame {
             this._viewAllUsers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this._viewAllUsers.UseVisualStyleBackColor = false;
             this._viewAllUsers.Click += new System.EventHandler(this.ViewAllUsersClick);
+            // 
+            // separator4
+            // 
+            this.separator4.Location = new System.Drawing.Point(326, 0);
+            this.separator4.Name = "separator4";
+            this.separator4.Size = new System.Drawing.Size(2, 88);
+            this.separator4.TabIndex = 27;
+            this.separator4.Text = "separator4";
+            // 
+            // separator3
+            // 
+            this.separator3.Location = new System.Drawing.Point(468, 0);
+            this.separator3.Name = "separator3";
+            this.separator3.Size = new System.Drawing.Size(2, 88);
+            this.separator3.TabIndex = 26;
+            this.separator3.Text = "separator3";
+            // 
+            // separator2
+            // 
+            this.separator2.Location = new System.Drawing.Point(659, 0);
+            this.separator2.Name = "separator2";
+            this.separator2.Size = new System.Drawing.Size(2, 88);
+            this.separator2.TabIndex = 25;
+            this.separator2.Text = "separator2";
+            // 
+            // separator1
+            // 
+            this.separator1.Location = new System.Drawing.Point(803, -2);
+            this.separator1.Name = "separator1";
+            this.separator1.Size = new System.Drawing.Size(2, 88);
+            this.separator1.TabIndex = 24;
+            this.separator1.Text = "separator1";
             // 
             // _sosOnline
             // 
@@ -368,27 +401,27 @@ namespace SirenOfShame {
             this._fullscreen.UseVisualStyleBackColor = false;
             this._fullscreen.Click += new System.EventHandler(this.FullscreenClick);
             // 
-            // _configureSiren
+            // _configureSounds
             // 
-            this._configureSiren.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._configureSiren.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this._configureSiren.FlatAppearance.BorderSize = 0;
-            this._configureSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
-            this._configureSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
-            this._configureSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._configureSiren.ForeColor = System.Drawing.Color.White;
-            this._configureSiren.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._configureSiren.ImageKey = "alarm.bmp";
-            this._configureSiren.ImageList = this._toolbar16;
-            this._configureSiren.Location = new System.Drawing.Point(211, 50);
-            this._configureSiren.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this._configureSiren.Name = "_configureSiren";
-            this._configureSiren.Size = new System.Drawing.Size(112, 21);
-            this._configureSiren.TabIndex = 17;
-            this._configureSiren.Text = "        Configure Siren";
-            this._configureSiren.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._configureSiren.UseVisualStyleBackColor = false;
-            this._configureSiren.Click += new System.EventHandler(this.ConfigureSirenClick);
+            this._configureSounds.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._configureSounds.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this._configureSounds.FlatAppearance.BorderSize = 0;
+            this._configureSounds.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._configureSounds.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._configureSounds.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._configureSounds.ForeColor = System.Drawing.Color.White;
+            this._configureSounds.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._configureSounds.ImageKey = "music.bmp";
+            this._configureSounds.ImageList = this._toolbar16;
+            this._configureSounds.Location = new System.Drawing.Point(211, 50);
+            this._configureSounds.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this._configureSounds.Name = "_configureSounds";
+            this._configureSounds.Size = new System.Drawing.Size(112, 21);
+            this._configureSounds.TabIndex = 17;
+            this._configureSounds.Text = "        Sounds";
+            this._configureSounds.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._configureSounds.UseVisualStyleBackColor = false;
+            this._configureSounds.Click += new System.EventHandler(this.ConfigureSirenClick);
             // 
             // _sirenMore
             // 
@@ -897,38 +930,6 @@ namespace SirenOfShame {
             this._userList.Size = new System.Drawing.Size(209, 333);
             this._userList.TabIndex = 11;
             // 
-            // separator4
-            // 
-            this.separator4.Location = new System.Drawing.Point(326, 0);
-            this.separator4.Name = "separator4";
-            this.separator4.Size = new System.Drawing.Size(2, 88);
-            this.separator4.TabIndex = 27;
-            this.separator4.Text = "separator4";
-            // 
-            // separator3
-            // 
-            this.separator3.Location = new System.Drawing.Point(468, 0);
-            this.separator3.Name = "separator3";
-            this.separator3.Size = new System.Drawing.Size(2, 88);
-            this.separator3.TabIndex = 26;
-            this.separator3.Text = "separator3";
-            // 
-            // separator2
-            // 
-            this.separator2.Location = new System.Drawing.Point(659, 0);
-            this.separator2.Name = "separator2";
-            this.separator2.Size = new System.Drawing.Size(2, 88);
-            this.separator2.TabIndex = 25;
-            this.separator2.Text = "separator2";
-            // 
-            // separator1
-            // 
-            this.separator1.Location = new System.Drawing.Point(803, -2);
-            this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(2, 88);
-            this.separator1.TabIndex = 24;
-            this.separator1.Text = "separator1";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1005,7 +1006,7 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _sirenMore;
       private System.Windows.Forms.ContextMenuStrip _sirenMenu;
       private System.Windows.Forms.ToolStripMenuItem _upgradeFirmwareMenuItem;
-      private System.Windows.Forms.Button _configureSiren;
+      private System.Windows.Forms.Button _configureSounds;
       //private System.Windows.Forms.Panel _panelBuildStats;
       //private System.Windows.Forms.Label _percentFailed;
       private System.Windows.Forms.Label label8;
