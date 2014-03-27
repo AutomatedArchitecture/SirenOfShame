@@ -246,7 +246,7 @@ namespace SirenOfShame.Lib
             if (lvi != null)
             {
                 var setting = (AudioPatternSetting)lvi.Tag;
-                string fileName = _audioFileService.ConvertToWav(setting.FileName);
+                string fileName = _audioFileService.ConvertToWav(setting.FileName, null);
                 var player = new SoundPlayer(fileName);
                 player.PlayLooping();
                 Thread.Sleep(5000);

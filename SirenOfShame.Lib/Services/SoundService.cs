@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Media;
 using log4net;
 using SirenOfShame.Lib.Settings;
@@ -9,6 +11,7 @@ namespace SirenOfShame.Lib.Services
     public class SoundService
     {
         private ILog _log = MyLogManager.GetLogger(typeof (SoundService));
+        AudioFileService _audioFileService = new AudioFileService();
 
         public static string InternalAudioLocationToDisplayName(string location)
         {
@@ -66,11 +69,16 @@ namespace SirenOfShame.Lib.Services
             return soundsDir;
         }
 
-        public Sound AddSound(SirenOfShameSettings settings, string fullFileName, string safeFileName)
+        public Sound AddSound(SirenOfShameSettings settings, string sourceFileName, string safeFileName)
         {
+            var existingSound = settings.Sounds.FirstOrDefault(i => i.DisplayName == safeFileName);
+            if (existingSound != null) DeleteSound(settings, existingSound);
+            
             var soundsDir = GetSoundsDirAndEnsureExists();
-            var destinationFileName = Path.Combine(soundsDir, safeFileName);
-            File.Copy(fullFileName, destinationFileName, overwrite: true);
+            var fileNameAsWav = Path.ChangeExtension(safeFileName, "wav");
+            var destinationFileName = Path.Combine(soundsDir, fileNameAsWav);
+
+            MoveOrConvertToWav(sourceFileName, safeFileName, destinationFileName);
 
             Sound sound = new Sound
             {
@@ -83,10 +91,25 @@ namespace SirenOfShame.Lib.Services
             return sound;
         }
 
-        public void DeleteSound(Sound sound)
+        private void MoveOrConvertToWav(string sourceFileName, string safeFileName, string destinationFileName)
+        {
+            if (safeFileName.EndsWith("wav", true, CultureInfo.InvariantCulture))
+            {
+                File.Move(sourceFileName, destinationFileName);
+            }
+            else
+            {
+                _audioFileService.ConvertToWav(sourceFileName, destinationFileName, highQuality: true);
+            }
+        }
+
+        public void DeleteSound(SirenOfShameSettings settings, Sound sound)
         {
             try
             {
+                settings.Sounds.Remove(sound);
+                settings.Save();
+
                 var sosAppDataFolder = SirenOfShameSettings.GetSosAppDataFolder();
                 var fileIsInOurFolder = sound.Location.StartsWith(sosAppDataFolder);
                 // should be, but we can't assume someone hasn't tampered with the settings file

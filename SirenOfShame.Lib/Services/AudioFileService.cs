@@ -22,18 +22,18 @@ namespace SirenOfShame.Lib.Services
             };
         }
 
-        public string ConvertToWav(string fileName)
+        public string ConvertToWav(string sourceFileName, string destinationFileName, bool highQuality = false)
         {
             FileInfo outputFormat = new FileInfo
             {
                 FileType = FileType.Wav,
                 Channels = 1,
                 SampleSizeInBits = 8,
-                SamplingRate = _samplingRate,
+                SamplingRate = highQuality ? _samplingRate * 2 : _samplingRate,
                 EncodingType = EncodingType.UnsignedInteger
             };
 
-            var fileNameExt = Path.GetExtension(fileName);
+            var fileNameExt = Path.GetExtension(sourceFileName);
             ConvertOptions convertOptions = new ConvertOptions
             {
                 InputFileInfo = new FileInfo
@@ -42,9 +42,9 @@ namespace SirenOfShame.Lib.Services
                 },
                 OutputFileInfo = outputFormat
             };
-            using (Stream input = File.OpenRead(fileName))
+            using (Stream input = File.OpenRead(sourceFileName))
             {
-                string resultFileName = Path.GetTempFileName();
+                string resultFileName = string.IsNullOrEmpty(destinationFileName) ? Path.GetTempFileName() : destinationFileName;
                 _sox.Convert(input, convertOptions).WriteToFile(resultFileName);
                 return resultFileName;
             }

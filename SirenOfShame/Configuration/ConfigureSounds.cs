@@ -22,14 +22,13 @@ namespace SirenOfShame.Configuration
         private void AddSound(object sender, EventArgs e)
         {
 // ReSharper disable once LocalizableElement
-            openFileDialog1.Filter = "WAV Files (*.wav)|*.wav";
+            openFileDialog1.Filter = "Audio Files (*.wav, *.mp3)|*.wav;*mp3";
             openFileDialog1.Multiselect = false;
             var dialogResult = openFileDialog1.ShowDialog(this);
             if (dialogResult == DialogResult.OK && openFileDialog1.SafeFileName != null)
             {
-                var sound = _soundService.AddSound(_settings, openFileDialog1.FileName, openFileDialog1.SafeFileName);
-                var listViewItem = sound.AsListViewItem();
-                _soundsList.Items.Add(listViewItem);
+                _soundService.AddSound(_settings, openFileDialog1.FileName, openFileDialog1.SafeFileName);
+                RefreshSoundList();
             }
         }
 
@@ -61,10 +60,8 @@ namespace SirenOfShame.Configuration
 
         private void DeleteSound(Sound sound)
         {
-            _soundService.DeleteSound(sound);
-            _settings.Sounds.Remove(sound);
+            _soundService.DeleteSound(_settings, sound);
             RefreshSoundList();
-            _settings.Save();
         }
 
         private void RefreshSoundList()
