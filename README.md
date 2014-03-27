@@ -52,6 +52,6 @@ If you create a free My CI Account you can also:
 Download Now
 ======
 
-You can [download](http://code.google.com/p/siren-of-shame/downloads/list) the latest officially released msi from our old [Google Code site](http://code.google.com/p/siren-of-shame/downloads/list).  
+[Download](http://sirenofshame.com/downloads) the latest officially released msi from our old website.
 
 You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=project267) generously provided by [CodeBetter](http://codebetter.com).
