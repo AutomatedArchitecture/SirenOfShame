@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.SirenConfiguration
+﻿using SirenOfShame.Lib;
+
+namespace SirenOfShame.SirenConfiguration
 {
     partial class TestSiren
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestSiren));
-            this._test = new System.Windows.Forms.Button();
+            this._test = new SirenOfShame.Lib.SosButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._audio = new System.Windows.Forms.ComboBox();
@@ -42,6 +44,13 @@
             // _test
             // 
             this._test.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._test.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._test.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._test.FlatAppearance.BorderSize = 0;
+            this._test.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._test.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._test.ForeColor = System.Drawing.Color.White;
             this._test.Location = new System.Drawing.Point(190, 92);
             this._test.Name = "_test";
             this._test.Size = new System.Drawing.Size(103, 23);
@@ -70,8 +79,8 @@
             // 
             // _audio
             // 
-            this._audio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._audio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._audio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._audio.FormattingEnabled = true;
             this._audio.Location = new System.Drawing.Point(87, 39);
@@ -81,8 +90,8 @@
             // 
             // _lights
             // 
-            this._lights.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this._lights.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._lights.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._lights.FormattingEnabled = true;
             this._lights.Location = new System.Drawing.Point(87, 12);
@@ -126,6 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.ClientSize = new System.Drawing.Size(306, 126);
             this.Controls.Add(this._audioOnly);
             this.Controls.Add(this._lightsOnly);
@@ -135,6 +145,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._audio);
             this.Controls.Add(this._lights);
+            this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TestSiren";
             this.Text = "Test Siren";
@@ -150,7 +161,7 @@
         private System.Windows.Forms.ComboBox _audio;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button _test;
+        private SosButton _test;
         private System.Windows.Forms.RadioButton _audioAndLights;
         private System.Windows.Forms.RadioButton _lightsOnly;
         private System.Windows.Forms.RadioButton _audioOnly;
