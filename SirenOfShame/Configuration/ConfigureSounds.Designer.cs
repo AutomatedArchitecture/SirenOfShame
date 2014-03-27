@@ -198,7 +198,7 @@
             this._preview.TabIndex = 50;
             this._preview.Text = "      Preview";
             this._preview.UseVisualStyleBackColor = false;
-            this._preview.Click += new System.EventHandler(this._preview_Click);
+            this._preview.Click += new System.EventHandler(this.Preview_Click);
             // 
             // ConfigureSounds
             // 

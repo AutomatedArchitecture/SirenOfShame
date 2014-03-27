@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ namespace SirenOfShame.Configuration
 {
     public partial class ConfigureSounds : FormBase
     {
-        private ILog _log = MyLogManager.GetLogger(typeof (ConfigureSounds));
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (ConfigureSounds));
         private readonly SirenOfShameSettings _settings;
 
         public ConfigureSounds(SirenOfShameSettings settings)
@@ -21,16 +22,21 @@ namespace SirenOfShame.Configuration
             RefreshSoundList();
         }
 
-        private void AddSound(object sender, System.EventArgs e)
+        private void AddSound(object sender, EventArgs e)
         {
+// ReSharper disable once LocalizableElement
             openFileDialog1.Filter = "WAV Files (*.wav)|*.wav";
             openFileDialog1.Multiselect = false;
             var dialogResult = openFileDialog1.ShowDialog(this);
-            if (dialogResult == DialogResult.OK)
+            if (dialogResult == DialogResult.OK && openFileDialog1.SafeFileName != null)
             {
+                var soundsDir = GetSoundsDirEnsureExists();
+                var destinationFileName = Path.Combine(soundsDir, openFileDialog1.SafeFileName);
+                File.Copy(openFileDialog1.FileName, destinationFileName, overwrite: true);
+                
                 Sound sound = new Sound
                 {
-                    Location = openFileDialog1.FileName,
+                    Location = destinationFileName,
                     Name = openFileDialog1.SafeFileName
                 };
 
@@ -42,7 +48,18 @@ namespace SirenOfShame.Configuration
             }
         }
 
-        private void SoundsList_SelectedIndexChanged(object sender, System.EventArgs e)
+        private static string GetSoundsDirEnsureExists()
+        {
+            var sosAppDataFolder = SirenOfShameSettings.GetSosAppDataFolder();
+            var soundsDir = Path.Combine(sosAppDataFolder, "Sounds");
+            if (!Directory.Exists(soundsDir))
+            {
+                Directory.CreateDirectory(soundsDir);
+            }
+            return soundsDir;
+        }
+
+        private void SoundsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             EnableDisableMenuButtons();
         }
@@ -63,14 +80,30 @@ namespace SirenOfShame.Configuration
             action(sound);
         }
         
-        private void Delete_Click(object sender, System.EventArgs e)
+        private void Delete_Click(object sender, EventArgs e)
         {
-            WithFirstSelectedSound(sound =>
+            WithFirstSelectedSound(DeleteSound);
+        }
+
+        private void DeleteSound(Sound sound)
+        {
+            try
             {
-                _settings.Sounds.Remove(sound);
-                RefreshSoundList();
-                _settings.Save();
-            });
+                var sosAppDataFolder = SirenOfShameSettings.GetSosAppDataFolder();
+                var fileIsInOurFolder = sound.Location.StartsWith(sosAppDataFolder);
+                // should be, but we can't assume someone hasn't tampered with the settings file
+                if (fileIsInOurFolder)
+                {
+                    File.Delete(sound.Location);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Warn("Unable to delete file", ex);
+            }
+            _settings.Sounds.Remove(sound);
+            RefreshSoundList();
+            _settings.Save();
         }
 
         private void RefreshSoundList()
@@ -81,20 +114,22 @@ namespace SirenOfShame.Configuration
             EnableDisableMenuButtons();
         }
 
-        private void _preview_Click(object sender, System.EventArgs e)
+        private void Preview_Click(object sender, EventArgs e)
         {
-            WithFirstSelectedSound(sound =>
+            WithFirstSelectedSound(PreviewSound);
+        }
+
+        private void PreviewSound(Sound sound)
+        {
+            SoundPlayer player = new SoundPlayer(sound.Location);
+            try
             {
-                SoundPlayer player = new SoundPlayer(sound.Location);
-                try
-                {
-                    player.Play();
-                }
-                catch (InvalidOperationException ex)
-                {
-                    _log.Error(ex);
-                }
-            });
+                player.Play();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+            }
         }
     }
 }
