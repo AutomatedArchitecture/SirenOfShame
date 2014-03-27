@@ -78,7 +78,7 @@ namespace SirenOfShame.Lib.Services
             var fileNameAsWav = Path.ChangeExtension(safeFileName, "wav");
             var destinationFileName = Path.Combine(soundsDir, fileNameAsWav);
 
-            MoveOrConvertToWav(sourceFileName, safeFileName, destinationFileName);
+            CopyOrConvertToWav(sourceFileName, safeFileName, destinationFileName);
 
             Sound sound = new Sound
             {
@@ -91,11 +91,11 @@ namespace SirenOfShame.Lib.Services
             return sound;
         }
 
-        private void MoveOrConvertToWav(string sourceFileName, string safeFileName, string destinationFileName)
+        private void CopyOrConvertToWav(string sourceFileName, string safeFileName, string destinationFileName)
         {
             if (safeFileName.EndsWith("wav", true, CultureInfo.InvariantCulture))
             {
-                File.Move(sourceFileName, destinationFileName);
+                File.Copy(sourceFileName, destinationFileName);
             }
             else
             {

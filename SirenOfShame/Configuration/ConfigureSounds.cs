@@ -22,7 +22,8 @@ namespace SirenOfShame.Configuration
         private void AddSound(object sender, EventArgs e)
         {
 // ReSharper disable once LocalizableElement
-            openFileDialog1.Filter = "Audio Files (*.wav, *.mp3)|*.wav;*mp3";
+            openFileDialog1.Filter = "Audio Files (*.wav, *.mp3)|*.wav;*.mp3";
+            openFileDialog1.FileName = null;
             openFileDialog1.Multiselect = false;
             var dialogResult = openFileDialog1.ShowDialog(this);
             if (dialogResult == DialogResult.OK && openFileDialog1.SafeFileName != null)
