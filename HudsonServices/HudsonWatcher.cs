@@ -20,18 +20,14 @@ namespace HudsonServices
 
         protected override IList<BuildStatus> GetBuildStatus()
         {
-            CiEntryPointSetting ciEntryPointSetting = CiEntryPointSetting;
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
 
-            if (string.IsNullOrEmpty(ciEntryPointSetting.Url))
+            if (string.IsNullOrEmpty(CiEntryPointSetting.Url))
                 throw new SosException("Team City URL is null or empty");
 
             try
             {
-                return _service.GetBuildsStatuses(ciEntryPointSetting.Url,
-                                                       ciEntryPointSetting.UserName,
-                                                       ciEntryPointSetting.GetPassword(),
-                                                       watchedBuildDefinitions)
+                return _service.GetBuildsStatuses(CiEntryPointSetting, watchedBuildDefinitions)
                     .Cast<BuildStatus>().ToList();
             }
             catch (WebException ex)

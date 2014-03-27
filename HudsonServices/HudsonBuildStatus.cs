@@ -16,7 +16,7 @@ namespace HudsonServices
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
 
-        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string defaultBuildStatusMessage = null)
+        public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string defaultBuildStatusMessage, bool treatUnstableAsSuccess)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace HudsonServices
 
                 DetermineBuildUrl(docRoot);
                 DetermineBuildId(docRoot);
-                DetermineBuildStatus(docRoot);
+                DetermineBuildStatus(docRoot, treatUnstableAsSuccess);
 
                 var changeSet = GetElementByName(docRoot, "changeSet");
                 if (changeSet == null)
@@ -58,12 +58,12 @@ namespace HudsonServices
             BuildId = docRoot.ElementValueOrDefault("number");
         }
 
-        private void DetermineBuildStatus(XElement docRoot)
+        private void DetermineBuildStatus(XElement docRoot, bool treatUnstableAsSuccess)
         {
             var resultStr = docRoot.ElementValueOrDefault("result");
             if (!string.IsNullOrWhiteSpace(resultStr))
             {
-                BuildStatusEnum = ToBuildStatusEnum(resultStr);
+                BuildStatusEnum = ToBuildStatusEnum(resultStr, treatUnstableAsSuccess);
             }
             else
             {
@@ -220,7 +220,7 @@ namespace HudsonServices
             return new DateTime(1970, 1, 1, 0, 0, 0) + secs;
         }
 
-        private BuildStatusEnum ToBuildStatusEnum(string result)
+        private BuildStatusEnum ToBuildStatusEnum(string result, bool treatUnstableAsSuccess)
         {
             if (result == null) return BuildStatusEnum.Unknown;
             result = result.Trim().ToUpperInvariant();
@@ -231,7 +231,7 @@ namespace HudsonServices
                 case "FAILURE":
                     return BuildStatusEnum.Broken;
                 case "UNSTABLE":
-                    return BuildStatusEnum.Broken;
+                    return treatUnstableAsSuccess ? BuildStatusEnum.Working : BuildStatusEnum.Broken;
                 default:
                     return BuildStatusEnum.Unknown;
             }

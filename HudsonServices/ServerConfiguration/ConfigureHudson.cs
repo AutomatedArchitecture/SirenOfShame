@@ -27,6 +27,7 @@ namespace HudsonServices.ServerConfiguration
             _url.Text = _ciEntryPointSetting.Url;
             _userName.Text = _ciEntryPointSetting.UserName;
             _password.Text = _ciEntryPointSetting.GetPassword();
+            _treatUnstableAsSuccess.Checked = _ciEntryPointSetting.TreatUnstableAsSuccess;
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();

@@ -11,13 +11,35 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
     public class HudsonBuildStatusTest
     {
         [TestMethod]
+        public void HudsonBuildStatus_WhenTreatUnstableAsSuccessIsTrueAndBuildIsUnstable_ResultSuccessful()
+        {
+            var jenkinsUnstable = ResourceManager.JenkinsUnstable;
+            BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
+            buildDefinitionSetting.Name = "Name";
+            buildDefinitionSetting.Id = "BuildDefinitionId";
+            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsUnstable, buildDefinitionSetting, null, treatUnstableAsSuccess: true);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+        }
+
+        [TestMethod]
+        public void HudsonBuildStatus_WhenTreatUnstableAsSuccessIsFalseAndBuildIsUnstable_ResultUnsuccessful()
+        {
+            var jenkinsUnstable = ResourceManager.JenkinsUnstable;
+            BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
+            buildDefinitionSetting.Name = "Name";
+            buildDefinitionSetting.Id = "BuildDefinitionId";
+            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsUnstable, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+        }
+
+        [TestMethod]
         public void HudsonBuildStatus_PassingBuildNoComment()
         {
             var jenkinsBuildStatusForIssue10 = ResourceManager.JenkinsPassingBuild;
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
             buildDefinitionSetting.Name = "Name";
             buildDefinitionSetting.Id = "BuildDefinitionId";
-            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting);
+            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
             
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
@@ -37,7 +59,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
             buildDefinitionSetting.Name = "Name";
             buildDefinitionSetting.Id = "BuildDefinitionId";
-            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting);
+            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
 
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
@@ -57,7 +79,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
             buildDefinitionSetting.Name = "Name";
             buildDefinitionSetting.Id = "BuildDefinitionId";
-            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting);
+            HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
 
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
             Assert.AreEqual(null, buildStatus.RequestedBy);

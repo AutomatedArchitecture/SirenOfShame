@@ -20,6 +20,7 @@ namespace SirenOfShame.Lib.Settings
 
         public string UserName { get; set; }
 
+// ReSharper disable once MemberCanBePrivate.Global
         public string EncryptedPassword { get; set; }
 
         /// <summary>

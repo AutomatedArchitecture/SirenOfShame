@@ -71,29 +71,32 @@ namespace HudsonServices
             return rootUrl;
         }
 
-        public IList<HudsonBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
+        public IEnumerable<HudsonBuildStatus> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, IEnumerable<BuildDefinitionSetting> watchedBuildDefinitions)
         {
-            rootUrl = GetRootUrl(rootUrl);
-
             var parallelResult = from buildDefinitionSetting in watchedBuildDefinitions
-                                 select GetBuildStatus(rootUrl, buildDefinitionSetting, userName, password);
+                                 select GetBuildStatus(buildDefinitionSetting, ciEntryPointSetting);
             return parallelResult.AsParallel().ToList();
         }
 
-        private HudsonBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)
+        private HudsonBuildStatus GetBuildStatus(BuildDefinitionSetting buildDefinitionSetting, CiEntryPointSetting ciEntryPointSetting)
         {
+            string userName = ciEntryPointSetting.UserName;
+            string password = ciEntryPointSetting.GetPassword();
+            var rootUrl = GetRootUrl(ciEntryPointSetting.Url);
+            var treatUnstableAsSuccess = ciEntryPointSetting.TreatUnstableAsSuccess;
+            
             string url = rootUrl + "/job/" + buildDefinitionSetting.Id + "/api/xml";
             try
             {
                 XDocument doc = DownloadXml(url, userName, password);
                 if (doc.Root == null)
                 {
-                    return new HudsonBuildStatus(null, buildDefinitionSetting, "Could not get project status");
+                    return new HudsonBuildStatus(null, buildDefinitionSetting, "Could not get project status", treatUnstableAsSuccess);
                 }
                 var lastBuildElem = doc.Root.Element("lastBuild");
                 if (lastBuildElem == null)
                 {
-                    return new HudsonBuildStatus(null, buildDefinitionSetting, "No project builds found");
+                    return new HudsonBuildStatus(null, buildDefinitionSetting, "No project builds found", treatUnstableAsSuccess);
                 }
                 var buildNumber = lastBuildElem.ElementValueOrDefault("number");
                 var buildUrl = rootUrl + "/job/" + buildDefinitionSetting.Id + "/" + buildNumber;
@@ -101,7 +104,7 @@ namespace HudsonServices
                 buildUrl += "/api/xml";
                 doc = DownloadXml(buildUrl, userName, password);
                 if (doc.Root == null) throw new Exception("Could not get project build status");
-                return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, doc);
+                return GetBuildStatusAndCommentsFromXDocument(buildDefinitionSetting, doc, treatUnstableAsSuccess);
             }
             catch (SosException ex)
             {
@@ -113,9 +116,9 @@ namespace HudsonServices
             }
         }
 
-        private HudsonBuildStatus GetBuildStatusAndCommentsFromXDocument(IComparable rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting, XDocument doc)
+        private HudsonBuildStatus GetBuildStatusAndCommentsFromXDocument(BuildDefinitionSetting buildDefinitionSetting, XDocument doc, bool treatUnstableAsSuccess)
         {
-            return new HudsonBuildStatus(doc, buildDefinitionSetting);
+            return new HudsonBuildStatus(doc, buildDefinitionSetting, null, treatUnstableAsSuccess);
         }
     }
 }
