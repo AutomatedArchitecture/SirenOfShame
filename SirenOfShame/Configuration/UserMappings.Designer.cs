@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserMappings));
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("sdf");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("sdf");
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this._done = new SirenOfShame.Lib.SosButton();
@@ -48,7 +48,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(86, 46);
+            this.label3.Location = new System.Drawing.Point(88, 46);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(176, 13);
             this.label3.TabIndex = 44;
@@ -116,7 +116,7 @@
             this.columnHeader1});
             this._mappingList.FullRowSelect = true;
             this._mappingList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this._mappingList.LabelWrap = false;
             this._mappingList.Location = new System.Drawing.Point(12, 76);
             this._mappingList.Name = "_mappingList";

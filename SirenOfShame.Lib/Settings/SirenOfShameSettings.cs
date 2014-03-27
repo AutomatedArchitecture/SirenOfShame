@@ -96,6 +96,8 @@ namespace SirenOfShame.Lib.Settings
         public List<PersonSetting> People { get; set; }
 
         public List<UserMapping> UserMappings { get; set; }
+        
+        public List<Sound> Sounds { get; set; }
 
         public bool SirenEverConnected { get; set; }
 
