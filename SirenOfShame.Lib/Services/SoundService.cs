@@ -10,8 +10,8 @@ namespace SirenOfShame.Lib.Services
 {
     public class SoundService
     {
-        private ILog _log = MyLogManager.GetLogger(typeof (SoundService));
-        AudioFileService _audioFileService = new AudioFileService();
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (SoundService));
+        readonly AudioFileService _audioFileService = new AudioFileService();
 
         public static string InternalAudioLocationToDisplayName(string location)
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Media;
-using System.Threading;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Device;
 using SirenOfShame.Lib.Helpers;
@@ -15,7 +14,7 @@ namespace SirenOfShame.Lib
         private readonly AudioPatternSetting _setting;
         private readonly AudioFileService _audioFileService = new AudioFileService();
         private readonly SoundPlayer _player;
-        private const int _sampleRate = SirenOfShameDevice.AudioSampleRate;
+        private const int SAMPLE_RATE = SirenOfShameDevice.AudioSampleRate;
 
         public WavEditor(AudioPatternSetting setting)
         {
@@ -92,7 +91,7 @@ namespace SirenOfShame.Lib
 
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
-                int samplesToAdd = (int)(dlg.TimeSpan.TotalSeconds * _sampleRate);
+                int samplesToAdd = (int)(dlg.TimeSpan.TotalSeconds * SAMPLE_RATE);
                 byte[] newData = new byte[_viewer.Data.Length + samplesToAdd];
                 Array.Copy(_viewer.Data, 0, newData, 0, _viewer.Data.Length);
                 for (int i = _viewer.Data.Length; i < newData.Length; i++)

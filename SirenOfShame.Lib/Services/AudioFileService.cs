@@ -12,7 +12,7 @@ namespace SirenOfShame.Lib.Services
     public class AudioFileService
     {
         private readonly Sox _sox;
-        private const int _samplingRate = SirenOfShameDevice.AudioSampleRate;
+        private const int SAMPLING_RATE = SirenOfShameDevice.AudioSampleRate;
 
         public AudioFileService()
         {
@@ -29,7 +29,7 @@ namespace SirenOfShame.Lib.Services
                 FileType = FileType.Wav,
                 Channels = 1,
                 SampleSizeInBits = 8,
-                SamplingRate = highQuality ? _samplingRate * 2 : _samplingRate,
+                SamplingRate = highQuality ? SAMPLING_RATE * 2 : SAMPLING_RATE,
                 EncodingType = EncodingType.UnsignedInteger
             };
 
@@ -63,8 +63,8 @@ namespace SirenOfShame.Lib.Services
                 bw.Write(16);
                 bw.Write((short)1);
                 bw.Write(channels);
-                bw.Write(_samplingRate);
-                bw.Write(_samplingRate * ((bitsPerSample * channels) / 8));
+                bw.Write(SAMPLING_RATE);
+                bw.Write(SAMPLING_RATE * ((bitsPerSample * channels) / 8));
                 bw.Write((short)((bitsPerSample * channels) / 8));
                 bw.Write(bitsPerSample);
                 bw.Write(new[] { 'd', 'a', 't', 'a' });
@@ -81,7 +81,7 @@ namespace SirenOfShame.Lib.Services
                 FileType = FileType.RawUnsignedInteger8,
                 Channels = 1,
                 SampleSizeInBits = 8,
-                SamplingRate = _samplingRate,
+                SamplingRate = SAMPLING_RATE,
                 EncodingType = EncodingType.UnsignedInteger
             };
 
@@ -103,7 +103,7 @@ namespace SirenOfShame.Lib.Services
         public TimeSpan GetLength(string fileName)
         {
             var fi = new System.IO.FileInfo(fileName);
-            return TimeSpan.FromSeconds((double)fi.Length / _samplingRate);
+            return TimeSpan.FromSeconds((double)fi.Length / SAMPLING_RATE);
         }
     }
 }
