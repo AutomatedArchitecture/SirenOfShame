@@ -14,11 +14,17 @@ namespace SirenOfShame.Lib.Services
         private readonly Sox _sox;
         private const int SAMPLING_RATE = SirenOfShameDevice.AudioSampleRate;
 
+#if DEBUG
+                private const string SOX_DIR = @"..\..\libs\sox-14.3.2\";
+#else
+                private const string SOX_DIR = @"Sox\";
+#endif
+
         public AudioFileService()
         {
             _sox = new Sox
             {
-                SoxDirectory = @"..\..\libs\sox-14.3.2\" // todo: figure this out
+                SoxDirectory = SOX_DIR
             };
         }
 
