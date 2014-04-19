@@ -14,7 +14,7 @@ namespace SirenOfShame.Lib.Dto
             Achievements = personSetting.Achievements.Select(i => new OfflineUserAchievementDto(i)).ToList();
             AvatarId = personSetting.AvatarId;
             Hidden = personSetting.Hidden;
-            FailPercent = (int)(personSetting.CurrentBuildRatio * 100);
+            FailPercent = (int)(personSetting.CurrentBuildRatio * 1000);
             Csb = personSetting.CurrentSuccessInARow;
             TotalBuilds = personSetting.TotalBuilds;
             Fseb = personSetting.NumberOfTimesFixedSomeoneElsesBuild;
