@@ -30,8 +30,9 @@ TEST -
 Post to RSS: http://sirenofshame.blogspot.com/
 Post to Twitter
 Post to Facebook: http://www.facebook.com/pages/Siren-of-Shame/155912117824047
+Post to Google Plus: https://plus.google.com/b/106111859844700446349/dashboard/overview
 
-Update google code home page to link to RSS post
+Update sirenofshame.com to link to RSS post
 
 Save wyUpdate
 Save Visual Studio
