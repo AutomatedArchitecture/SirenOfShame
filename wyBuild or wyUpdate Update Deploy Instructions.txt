@@ -21,11 +21,7 @@ Build msi
 	Update the Version in SirenOfShame.Setup
 Rename SirenOfShame-X-X-X.msi
 Test
-Add a new Download on http://code.google.com/p/siren-of-shame/downloads/entry (include bug fixes & features)
-	Summary: X.Y.Z
-	Labels: Featured, Type-Installer, OpSys-Windows
-Remove Featured label on old Download
-Update Home page to link to new download
+Add a new Download on sirenofshame.com
 
 TEST - 
 	ensure an old version gets updated
