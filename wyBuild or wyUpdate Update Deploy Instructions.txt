@@ -1,4 +1,4 @@
-Increment major or minor AssemblyInfo.cs AssemblyVersion is correct
+Ensure major or minor AssemblyInfo.cs AssemblyVersion is correct
 
 Build (Release configuration)
 
@@ -10,16 +10,15 @@ wyUpdate Deploy Instructions
 		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
 		run "copyeverything.bat x.x.x" from Releases (ensure all files are copied)
 		Drag files into "Files & Folders" -> "\Your program's folder"
-		Delete everything in \Releases\Updates\*
 		"Build wyUpdate & Updates" -> Click both buttons
 		Copy \Releases\Updates\* to a virtual machine and test it
 		Copy \Releases\Updates\* [update locations]
 			S:\Applications\Siren of Shame Updates
-			ftp://blueink.biz/SoS/Updates
+		click "Upload updates"
 
 Build msi
-	Update the Version in SirenOfShame.Setup
-Rename SirenOfShame-X-X-X.msi
+	Rename SirenOfShame-X-X-X.msi
+	Sign the msi with sign.bat
 Test
 Add a new Download on sirenofshame.com
 
