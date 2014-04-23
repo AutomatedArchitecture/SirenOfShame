@@ -37,6 +37,7 @@ Save wyUpdate
 Save Visual Studio
 Commit
 Merge to the 'Release' branch
+Tag
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 AssemblyInfo.cs: AssemblyVersion MinorVersion++
