@@ -45,6 +45,4 @@ AssemblyInfo.cs: AssemblyVersion MinorVersion++
 
 Commit again
 
-Update 'Deployed Version' field of completed tasks in SharePoint
-
 Update GetAlert.cshtml to alert existing users of new version

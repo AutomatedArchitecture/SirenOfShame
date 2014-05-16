@@ -171,8 +171,25 @@ namespace SirenOfShame.Lib.Watcher
 
         private void ApplyUserMappings(StatusCheckedEventArgsArgs args)
         {
+            if (args == null)
+            {
+                _log.Warn("StatusCheckedEventArgsArgs was null in ApplyUserMappings, this is a pretty bad sign");
+                return;
+            };
+            if (_settings.UserMappings == null)
+            {
+                _log.Warn("UserMappings was null.  This should never happen.");
+                return;
+            };
+
             foreach (var buildStatus in args.BuildStatuses)
             {
+                if (buildStatus == null)
+                {
+                    _log.Warn("There was a BuildStatus that was null, this should never happen.");
+                    continue;
+                }
+
                 string requestedBy = buildStatus.RequestedBy;
                 var userMapping = _settings.UserMappings.FirstOrDefault(i => i.WhenISee == requestedBy);
                 bool userMappingExistsForThisUser = userMapping != null;
