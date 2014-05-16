@@ -32,14 +32,14 @@ namespace SoxLib
             string outputExtension = GetFileExtension(options.OutputFileInfo.FileType);
             string inputExtensions = GetFileExtension(options.InputFileInfo.FileType);
 
-            var inputFileName = Path.Combine(TempDir, Guid.NewGuid() + inputExtensions);
-            input.WriteToFile(inputFileName);
-            var outputFileName = Path.Combine(TempDir, Guid.NewGuid() + outputExtension);
-            var cmdLineArgs = BuildConvertCommandLineArgs(inputFileName, outputFileName, options);
-            var fileName = Path.GetFullPath(Path.Combine(SoxDirectory, "sox.exe"));
-            RunSox(fileName, cmdLineArgs);
-            File.Delete(inputFileName);
-            return new DeleteFileStream(outputFileName);
+            var inputTempFileName = Path.Combine(TempDir, Guid.NewGuid() + inputExtensions);
+            input.WriteToFile(inputTempFileName);
+            var outputTempFileName = Path.Combine(TempDir, Guid.NewGuid() + outputExtension);
+            var cmdLineArgs = BuildConvertCommandLineArgs(inputTempFileName, outputTempFileName, options);
+            var soxExeLocation = Path.GetFullPath(Path.Combine(SoxDirectory, "sox.exe"));
+            RunSox(soxExeLocation, cmdLineArgs);
+            File.Delete(inputTempFileName);
+            return new DeleteFileStream(outputTempFileName);
         }
 
         public Stream Trim(Stream input, TrimOptions options)

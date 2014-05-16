@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Security.Cryptography;
+using log4net;
 using SirenOfShame.Lib.Device;
 using SoxLib;
 using SoxLib.Helpers;
@@ -12,6 +14,7 @@ namespace SirenOfShame.Lib.Services
     public class AudioFileService
     {
         private readonly Sox _sox;
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (AudioFileService));
         private const int SAMPLING_RATE = SirenOfShameDevice.AudioSampleRate;
 
 #if DEBUG
@@ -30,6 +33,7 @@ namespace SirenOfShame.Lib.Services
 
         public string ConvertToWav(string sourceFileName, string destinationFileName, bool highQuality = false)
         {
+            _log.Debug(string.Format("Atempting to convert '{0}' to '{1}'", sourceFileName, destinationFileName));
             FileInfo outputFormat = new FileInfo
             {
                 FileType = FileType.Wav,
@@ -51,7 +55,10 @@ namespace SirenOfShame.Lib.Services
             using (Stream input = File.OpenRead(sourceFileName))
             {
                 string resultFileName = string.IsNullOrEmpty(destinationFileName) ? Path.GetTempFileName() : destinationFileName;
-                _sox.Convert(input, convertOptions).WriteToFile(resultFileName);
+                using (var tempConvertedFileStream = _sox.Convert(input, convertOptions))
+                {
+                    tempConvertedFileStream.WriteToFile(resultFileName);
+                };
                 return resultFileName;
             }
         }

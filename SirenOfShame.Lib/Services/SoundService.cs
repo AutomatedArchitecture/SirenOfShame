@@ -69,21 +69,21 @@ namespace SirenOfShame.Lib.Services
             return soundsDir;
         }
 
-        public Sound AddSound(SirenOfShameSettings settings, string sourceFileName, string safeFileName)
+        public Sound AddSound(SirenOfShameSettings settings, string fileNameAndPath, string fileNameAndExtension)
         {
-            var existingSound = settings.Sounds.FirstOrDefault(i => i.DisplayName == safeFileName);
+            var existingSound = settings.Sounds.FirstOrDefault(i => i.DisplayName == fileNameAndExtension);
             if (existingSound != null) DeleteSound(settings, existingSound);
             
             var soundsDir = GetSoundsDirAndEnsureExists();
-            var fileNameAsWav = Path.ChangeExtension(safeFileName, "wav");
-            var destinationFileName = Path.Combine(soundsDir, fileNameAsWav);
+            var fileNameAsWav = Path.ChangeExtension(fileNameAndExtension, "wav");
+            var destinationFileNameAndPath = Path.Combine(soundsDir, fileNameAsWav);
 
-            CopyOrConvertToWav(sourceFileName, safeFileName, destinationFileName);
+            CopyOrConvertToWav(fileNameAndPath, destinationFileNameAndPath);
 
             Sound sound = new Sound
             {
-                Location = destinationFileName,
-                DisplayName = safeFileName
+                Location = destinationFileNameAndPath,
+                DisplayName = fileNameAndExtension
             };
 
             settings.Sounds.Add(sound);
@@ -91,15 +91,16 @@ namespace SirenOfShame.Lib.Services
             return sound;
         }
 
-        private void CopyOrConvertToWav(string sourceFileName, string safeFileName, string destinationFileName)
+        private void CopyOrConvertToWav(string sourceFileNameAndPath, string destinationFileNameAndPath)
         {
-            if (safeFileName.EndsWith("wav", true, CultureInfo.InvariantCulture))
+            var isWav = "wav".Equals(Path.GetExtension(sourceFileNameAndPath), StringComparison.CurrentCultureIgnoreCase);
+            if (isWav)
             {
-                File.Copy(sourceFileName, destinationFileName);
+                File.Copy(sourceFileNameAndPath, destinationFileNameAndPath);
             }
             else
             {
-                _audioFileService.ConvertToWav(sourceFileName, destinationFileName, highQuality: true);
+                _audioFileService.ConvertToWav(sourceFileNameAndPath, destinationFileNameAndPath, highQuality: true);
             }
         }
 
