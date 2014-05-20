@@ -123,11 +123,8 @@ namespace SirenOfShame.Configuration
             rule.InheritAudioSettings = _inheritAudio.Checked;
             rule.InheritLedSettings = _inheritLightSetting.Checked;
             rule.WindowsAudioLocation = _windowsAudio.SelectedItem == null ? null : ((Sound)_windowsAudio.SelectedItem).Location;
-
-            if (!rule.InheritLedSettings)
-                rule.LedPattern = GetLedPattern();
-            if (!rule.InheritAudioSettings)
-                rule.AudioPattern = GetAudioPattern();
+            rule.LedPattern = GetLedPattern();
+            rule.AudioPattern = GetAudioPattern();
 
             if (_rule == null)
                 _settings.Rules.Add(rule);
