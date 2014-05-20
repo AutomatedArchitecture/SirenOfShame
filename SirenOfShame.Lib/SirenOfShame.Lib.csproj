@@ -133,6 +133,7 @@
     <Compile Include="Dto\OfflineUserAchievementDto.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Dto\InstanceUserDto.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Services\SoundService.cs" />
     <Compile Include="Settings\Sound.cs" />
     <Compile Include="Settings\Upgrades\Upgrade7To8.cs" />
@@ -324,6 +325,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Audio-Applause.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Audio-Boo-Hiss.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Audio-Chime.wav" />
+    <Content Include="Resources\Audio-DaDing.wav" />
+    <Content Include="Resources\Audio-Ding.wav" />
+    <EmbeddedResource Include="Resources\Audio-Tada.wav" />
+    <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />
+    <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -12,25 +11,31 @@ namespace SirenOfShame.Lib.Services
     {
         private readonly ILog _log = MyLogManager.GetLogger(typeof (SoundService));
         readonly AudioFileService _audioFileService = new AudioFileService();
+        const string OLD_RESOURCE_PREFIX = "SirenOfShame.Resources.Audio-";
+        public const string NEW_RESOURCE_PREFIX = "SirenOfShame.Lib.Resources.Audio-";
 
         public static string InternalAudioLocationToDisplayName(string location)
         {
             string displayName = location;
-            if (displayName.StartsWith("SirenOfShame.Resources.Audio-"))
+            if (displayName.StartsWith(OLD_RESOURCE_PREFIX))
             {
-                displayName = displayName.Substring(29);
+                displayName = displayName.Substring(OLD_RESOURCE_PREFIX.Length);
+            }
+            if (displayName.StartsWith(NEW_RESOURCE_PREFIX))
+            {
+                displayName = displayName.Substring(NEW_RESOURCE_PREFIX.Length);
             }
             displayName = displayName.Replace("-", " ");
             if (displayName.EndsWith(".wav"))
             {
-                displayName = displayName.Substring(0, displayName.Length - 4);
+                displayName = Path.GetFileNameWithoutExtension(displayName);
             }
             return displayName;
         }
 
         private bool IsInternal(string location)
         {
-            return location.StartsWith("SirenOfShame.Resource");
+            return location.StartsWith(OLD_RESOURCE_PREFIX) || location.StartsWith(NEW_RESOURCE_PREFIX);
         }
 
         public void Play(string location)
@@ -50,6 +55,7 @@ namespace SirenOfShame.Lib.Services
         {
             if (IsInternal(location))
             {
+                location = location.Replace(OLD_RESOURCE_PREFIX, NEW_RESOURCE_PREFIX);
                 System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
                 Stream s = a.GetManifestResourceStream(location);
                 return new SoundPlayer(s);

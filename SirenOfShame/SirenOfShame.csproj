@@ -236,7 +236,6 @@
     <Compile Include="NewsItem.Designer.cs">
       <DependentUpon>NewsItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="RuleDropDownItemTag.cs" />
     <Compile Include="Configuration\ConfigureServer.cs">
       <SubType>Form</SubType>
@@ -474,26 +473,19 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Resources\TrashSmall.png" />
-    <EmbeddedResource Include="Resources\Audio-Tada.wav" />
     <None Include="Resources\separater.png" />
     <None Include="Resources\RibbonBackground.png" />
     <Content Include="FirmwareUpgrade.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\ball_gray_big.png" />
-    <EmbeddedResource Include="Resources\Audio-Applause.wav" />
     <None Include="Resources\AchievementBackground.png" />
     <None Include="Resources\AchievementBall.png" />
     <Content Include="Resources\ball_green_big.png" />
     <Content Include="Resources\ball_red_big.png" />
     <None Include="Resources\CloseButton.png" />
-    <EmbeddedResource Include="Resources\Audio-Boo-Hiss.wav" />
-    <Content Include="Resources\Audio-Chime.wav" />
-    <Content Include="Resources\Audio-DaDing.wav" />
-    <Content Include="Resources\Audio-Ding.wav" />
     <None Include="Resources\CloseButton2.png" />
     <None Include="Resources\cloud-title.png" />
-    <EmbeddedResource Include="Resources\Audio-Plunk.wav" />
     <None Include="Resources\loading.gif" />
     <None Include="Resources\gradient33.png" />
     <None Include="Resources\gradient15.png" />
@@ -515,7 +507,6 @@
     <Content Include="Resources\music.png" />
     <Content Include="Resources\question_big.png" />
     <Content Include="Resources\RibbonMore.png" />
-    <EmbeddedResource Include="Resources\Audio-Sad-Trombone.wav" />
     <Content Include="Resources\SirenOfShameTrayTriangle.ico" />
     <Content Include="Resources\SirenOfShameTrayRed.ico" />
     <None Include="Resources\splash.png" />
