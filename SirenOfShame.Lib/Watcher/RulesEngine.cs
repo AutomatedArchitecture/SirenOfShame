@@ -149,6 +149,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
+            args.BuildStatuses = args.BuildStatuses.Where(bs => bs != null).ToList();
             ApplyUserMappings(args);
             SendCiServerConnectedEvents();
             TryToGetAndSendNewSosOnlineAlerts();
@@ -171,17 +172,6 @@ namespace SirenOfShame.Lib.Watcher
 
         private void ApplyUserMappings(StatusCheckedEventArgsArgs args)
         {
-            if (args == null)
-            {
-                _log.Warn("StatusCheckedEventArgsArgs was null in ApplyUserMappings, this is a pretty bad sign");
-                return;
-            };
-            if (_settings.UserMappings == null)
-            {
-                _log.Warn("UserMappings was null.  This should never happen.");
-                return;
-            };
-
             foreach (var buildStatus in args.BuildStatuses)
             {
                 if (buildStatus == null)
