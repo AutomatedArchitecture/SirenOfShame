@@ -173,12 +173,6 @@ namespace SirenOfShame.Lib.Watcher
         {
             foreach (var buildStatus in args.BuildStatuses)
             {
-                if (buildStatus == null)
-                {
-                    _log.Warn("There was a BuildStatus that was null, this should never happen.");
-                    continue;
-                }
-
                 string requestedBy = buildStatus.RequestedBy;
                 var userMapping = _settings.UserMappings.FirstOrDefault(i => i.WhenISee == requestedBy);
                 bool userMappingExistsForThisUser = userMapping != null;

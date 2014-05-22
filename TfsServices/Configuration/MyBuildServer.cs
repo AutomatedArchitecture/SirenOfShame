@@ -14,6 +14,8 @@ namespace TfsServices.Configuration
 {
     public class CachedCommentsRetriever
     {
+        private readonly ILog _log = LogManager.GetLogger(typeof (CachedCommentsRetriever));
+
         private struct CommentAndHash
         {
             public CommentAndHash(string newBuildHash, MyChangeset getLatestChangeset)
@@ -57,6 +59,11 @@ namespace TfsServices.Configuration
             if (!haveEverGottenCommentsForThisBuildDef || areCacheCommentsStale)
             {
                 MyChangeset latestChangeset = buildDefinition.GetLatestChangeset();
+                if (latestChangeset == null)
+                {
+                    _log.Warn("Unable to retrieve latest changeset for build definition: " + buildDefinition.Name);
+                    return null;
+                }
                 CachedCommentsByBuildDefinition[buildDefinition.Name] = new CommentAndHash(newBuildHash, latestChangeset);
             }
             return CachedCommentsByBuildDefinition[buildDefinition.Name].Changeset;
