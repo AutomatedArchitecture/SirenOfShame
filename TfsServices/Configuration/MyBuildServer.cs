@@ -39,7 +39,7 @@ namespace TfsServices.Configuration
 
         private static BuildStatus AddCommentsToBuildStatus(BuildStatus buildStatus, MyChangeset changeset)
         {
-            if (changeset == null) return null;
+            if (changeset == null) return buildStatus;
             buildStatus.Comment = changeset.Comment;
             buildStatus.BuildId = changeset.ChangesetId.ToString(CultureInfo.InvariantCulture);
             return buildStatus;
