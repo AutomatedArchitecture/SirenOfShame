@@ -19,7 +19,7 @@ namespace TfsServices
 {
     public class TfsWatcher : WatcherBase
     {
-        private static readonly ILog Log = MyLogManager.GetLogger(typeof(TfsWatcher));
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(TfsWatcher));
         private readonly TfsCiEntryPoint _tfsCiEntryPoint;
 
         public TfsWatcher(SirenOfShameSettings settings, TfsCiEntryPoint tfsCiEntryPoint) : base(settings)
@@ -46,7 +46,7 @@ namespace TfsServices
             }
             catch (DatabaseOperationTimeoutException ex)
             {
-                Log.Warn(ex);
+                _log.Warn(ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
             catch (DatabaseConnectionException ex)
@@ -59,7 +59,7 @@ namespace TfsServices
             }
             catch (BuildServerException ex)
             {
-                Log.Error("Logging a BuildServerException as Server Unavailable Exception so SoS will continue to try to find the server", ex);
+                _log.Error("Logging a BuildServerException as Server Unavailable Exception so SoS will continue to try to find the server", ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
             catch (WebException ex)
@@ -80,7 +80,7 @@ namespace TfsServices
             }
             catch (Exception ex)
             {
-                Log.Error("Error getting build status", ex);
+                _log.Error("Error getting build status", ex);
                 throw new ServerUnavailableException(ex.Message, ex);
             }
         }
