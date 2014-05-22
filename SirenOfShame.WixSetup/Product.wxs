@@ -119,6 +119,7 @@
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
       </Component>
     </DirectoryRef>
 
