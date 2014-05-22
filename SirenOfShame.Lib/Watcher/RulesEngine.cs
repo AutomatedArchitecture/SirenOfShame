@@ -149,7 +149,6 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
-            args.BuildStatuses = args.BuildStatuses.Where(bs => bs != null).ToList();
             ApplyUserMappings(args);
             SendCiServerConnectedEvents();
             TryToGetAndSendNewSosOnlineAlerts();
