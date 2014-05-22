@@ -1,7 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame", "SirenOfShame\SirenOfShame.csproj", "{E292FFA7-DB35-43AA-9615-5BA819550B1C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8A68692B-CA71-4C55-8005-201B6FE2B10B} = {8A68692B-CA71-4C55-8005-201B6FE2B10B}
+		{11B36E78-B757-46AA-BAF4-E8CFFACE74ED} = {11B36E78-B757-46AA-BAF4-E8CFFACE74ED}
+		{72771080-D1C2-40B4-B000-D05CEE0E2B8F} = {72771080-D1C2-40B4-B000-D05CEE0E2B8F}
+		{96EB3CCA-5EE4-492E-A7DA-4E5E2A3A0051} = {96EB3CCA-5EE4-492E-A7DA-4E5E2A3A0051}
+		{E0983ED9-6145-4893-9782-B5A2691106E7} = {E0983ED9-6145-4893-9782-B5A2691106E7}
+		{7D1A25F9-E971-4B09-9574-114EBD88515F} = {7D1A25F9-E971-4B09-9574-114EBD88515F}
+		{EFE5A7FE-62D0-4AD7-9DAC-E9AC5B1CC6C7} = {EFE5A7FE-62D0-4AD7-9DAC-E9AC5B1CC6C7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsbLib", "UsbLib\UsbLib.csproj", "{A54CEA5A-D773-4914-B00B-E984FD93CF59}"
 EndProject
@@ -50,9 +61,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.CLI", "SirenOfShame.CLI\SirenOfShame.CLI.csproj", "{0F061016-2FCF-418F-83FB-18D94ECAB442}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = SirenOfShame.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -347,5 +355,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SirenOfShame.vsmdi
 	EndGlobalSection
 EndGlobal
