@@ -99,16 +99,26 @@ namespace SirenOfShame.Lib.Services
             if (settings.SoftwareInstanceId.HasValue)
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             const string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
-            webClientXml.UploadValuesAndReturnStringAsync(url,
-                                                       resultsStr =>
-                                                       {
-                                                           var result = JsonConvert.DeserializeObject<ApiResultBase>(resultsStr);
-                                                           if (!result.Success)
-                                                           {
-                                                               string errorMessage = result.Message;
-                                                               _log.Error("Error publishing to: " + url + " error: " + errorMessage);
-                                                           }
-                                                       }, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());
+            webClientXml.UploadValuesAndReturnStringAsync(url, ReadResult, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());
+        }
+
+        private static void ReadResult(string resultsStr)
+        {
+            ApiResultBase result;
+            try
+            {
+                result = JsonConvert.DeserializeObject<ApiResultBase>(resultsStr);
+            }
+            catch (JsonReaderException ex)
+            {
+                _log.Error("Unable to parse result from build status changed: " + resultsStr, ex);
+                return;
+            }
+            if (!result.Success)
+            {
+                string errorMessage = result.Message;
+                _log.Error("Error publishing build status changed : " + errorMessage);
+            }
         }
 
         public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
