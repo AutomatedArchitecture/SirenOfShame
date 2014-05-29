@@ -120,5 +120,14 @@ namespace HudsonServices.ServerConfiguration
         {
             ApplyFilter();
         }
+
+        private void _checkAll_Click(object sender, EventArgs e)
+        {
+            var allChecked = _projects.Nodes.Cast<ThreeStateTreeNode>().All(i => i.Checked);
+            foreach (var node in _projects.Nodes.Cast<ThreeStateTreeNode>())
+            {
+                node.Checked = !allChecked;
+            }
+        }
     }
 }

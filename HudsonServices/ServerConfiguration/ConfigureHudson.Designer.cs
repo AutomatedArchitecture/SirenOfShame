@@ -45,7 +45,9 @@ namespace HudsonServices.ServerConfiguration
             this._treatUnstableAsSuccess = new System.Windows.Forms.CheckBox();
             this._filter = new System.Windows.Forms.TextBox();
             this._search = new System.Windows.Forms.PictureBox();
+            this._checkAll = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -179,10 +181,10 @@ namespace HudsonServices.ServerConfiguration
             // 
             this._filter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._filter.Location = new System.Drawing.Point(4, 172);
+            this._filter.Location = new System.Drawing.Point(4, 170);
             this._filter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this._filter.Name = "_filter";
-            this._filter.Size = new System.Drawing.Size(537, 26);
+            this._filter.Size = new System.Drawing.Size(505, 26);
             this._filter.TabIndex = 53;
             this._filter.TextChanged += new System.EventHandler(this._filter_TextChanged);
             // 
@@ -190,7 +192,7 @@ namespace HudsonServices.ServerConfiguration
             // 
             this._search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._search.Image = ((System.Drawing.Image)(resources.GetObject("_search.Image")));
-            this._search.Location = new System.Drawing.Point(546, 172);
+            this._search.Location = new System.Drawing.Point(514, 170);
             this._search.Name = "_search";
             this._search.Size = new System.Drawing.Size(24, 24);
             this._search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -198,11 +200,24 @@ namespace HudsonServices.ServerConfiguration
             this._search.TabStop = false;
             this._search.Click += new System.EventHandler(this._search_Click);
             // 
+            // _checkAll
+            // 
+            this._checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkAll.Image = ((System.Drawing.Image)(resources.GetObject("_checkAll.Image")));
+            this._checkAll.Location = new System.Drawing.Point(549, 171);
+            this._checkAll.Name = "_checkAll";
+            this._checkAll.Size = new System.Drawing.Size(24, 24);
+            this._checkAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._checkAll.TabIndex = 55;
+            this._checkAll.TabStop = false;
+            this._checkAll.Click += new System.EventHandler(this._checkAll_Click);
+            // 
             // ConfigureHudson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this._checkAll);
             this.Controls.Add(this._search);
             this.Controls.Add(this._filter);
             this.Controls.Add(this.label7);
@@ -220,6 +235,7 @@ namespace HudsonServices.ServerConfiguration
             this.Name = "ConfigureHudson";
             this.Size = new System.Drawing.Size(580, 431);
             ((System.ComponentModel.ISupportInitialize)(this._search)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._checkAll)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,5 +256,6 @@ namespace HudsonServices.ServerConfiguration
         private System.Windows.Forms.CheckBox _treatUnstableAsSuccess;
         private System.Windows.Forms.TextBox _filter;
         private System.Windows.Forms.PictureBox _search;
+        private System.Windows.Forms.PictureBox _checkAll;
     }
 }
