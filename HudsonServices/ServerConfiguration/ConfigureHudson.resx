@@ -117,4 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="_search.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAD0SURBVDhPxZHBCgFhFIVHJCtlodlQs7dWlvZewM4r2M3GTjaUEoUdr0ChbL2AzWyoeZTxnbrJ
+        9Mewcupr5t5zz+2ff7wsJUniwwruEEMEIRRt5L0YCuAKExhBE6owhzN8XsLAEQbQhym0zZKnJaGVrjDr
+        sIcxVKz9FD2dJLLSFWYbFlCzliO82F5dYTZgZaUjvALcrHSFmYMLlK2VEv0uLK10hZmHDuwgtYS6Bfo7
+        vrXSwijBFnqgJTrJGoaghfo7gY2nhaHwCaQN6CT6HN2JLrZuo64wX8MHKJmVLQ3D/8N6fh+WCOhGpd/D
+        EqEZaMnvYc/zHu4eReQ2jAFSAAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>
