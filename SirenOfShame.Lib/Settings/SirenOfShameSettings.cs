@@ -484,8 +484,14 @@ namespace SirenOfShame.Lib.Settings
 
         public void InitializeUserIAm(ComboBox userIAm)
         {
-            userIAm.Items.Add("");
-            foreach (var personInProject in People)
+            // Filter out mapped names
+            var mapped_people = from m in UserMappings select m.WhenISee;          
+            var people = from p in People 
+                         where !mapped_people.Contains(p.ToString()) 
+                         select p;
+                     
+            userIAm.Items.Add(""); 
+            foreach (var personInProject in people)
             {
                 userIAm.Items.Add(personInProject);
             }
