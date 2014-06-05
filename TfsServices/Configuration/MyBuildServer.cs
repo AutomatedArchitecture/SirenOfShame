@@ -32,14 +32,14 @@ namespace TfsServices.Configuration
             buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
             buildDetailSpec[0].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[0].InformationTypes = new[] { "AssociatedChangeset" };
+            buildDetailSpec[0].InformationTypes = new[] { "*" };
             buildDetailSpec[0].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
             buildDetailSpec[1] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             buildDetailSpec[1].MaxBuildsPerDefinition = 1;
             buildDetailSpec[1].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
             buildDetailSpec[1].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[1].InformationTypes = new[] { "AssociatedChangeset" };
+            buildDetailSpec[1].InformationTypes = new[] { "*" };
             buildDetailSpec[1].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
             _firstRequest = false;
@@ -135,22 +135,8 @@ namespace TfsServices.Configuration
             result.Name = _uriToName[buildDetail.BuildDefinitionUri.ToString()];
             result.BuildId = buildDetail.Uri.Segments[buildDetail.Uri.Segments.Length - 1];
 
-            var changesets = buildDetail.Information.GetNodesByType("AssociatedChangeset");
+            SetInfoFromAssociatedCheckins(buildDetail, result);
 
-            if (changesets.Any())
-            {
-                result.RequestedBy = GetRequestedBy(changesets);
-
-                if (changesets.Count() > 1)
-                    result.Comment = "(Multiple Changesets)";
-                else
-                    result.Comment = changesets.First().Fields["Comment"];
-            }
-            else 
-            {
-                result.Comment = buildDetail.Reason.ToString();
-            }
-            
             if (applyBuildQuality &&
                 GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
             {
@@ -164,7 +150,52 @@ namespace TfsServices.Configuration
             return result;
         }
 
-        private static string GetRequestedBy(IEnumerable<IBuildInformationNode> changesets)
+        private static void SetInfoFromAssociatedCheckins(IBuildDetail buildDetail, BuildStatus result)
+        {
+            var changesets = buildDetail.Information.GetNodesByType("AssociatedChangeset");
+            var commits = buildDetail.Information.GetNodesByType("AssociatedCommit");
+
+            if (changesets.Any())
+            {
+                SetInfoFromAssociatedChangesets(result, changesets);
+            }
+            else if (commits.Any())
+            {
+                SetInfoFromAssociatedCommits(result, commits);
+            }
+
+            if (string.IsNullOrEmpty(result.Comment))
+            {
+                result.Comment = buildDetail.Reason.ToString();
+            }
+        }
+
+        /// <summary>
+        /// For TFS source control without Git
+        /// </summary>
+        private static void SetInfoFromAssociatedCommits(BuildStatus result, List<IBuildInformationNode> commits)
+        {
+            result.RequestedBy = GetRequestedByFromCommit(commits);
+            result.Comment = commits.Count > 1 ? "(Multiple Commits)" : commits.First().Fields["Message"];
+        }
+
+        /// <summary>
+        /// For TFS+Git
+        /// </summary>
+        private static void SetInfoFromAssociatedChangesets(BuildStatus result, List<IBuildInformationNode> changesets)
+        {
+            result.RequestedBy = GetRequestedByFromChangeset(changesets);
+            result.Comment = changesets.Count > 1 ? "(Multiple Changesets)" : changesets.First().Fields["Comment"];
+        }
+
+        private static string GetRequestedByFromCommit(List<IBuildInformationNode> commits)
+        {
+            var lastCommit = commits.LastOrDefault();
+            if (lastCommit == null) return null;
+            return lastCommit.Fields["Committer"];
+        }
+
+        private static string GetRequestedByFromChangeset(IEnumerable<IBuildInformationNode> changesets)
         {
             HashSet<String> users = new HashSet<String>();
             foreach (var changeset in changesets)
