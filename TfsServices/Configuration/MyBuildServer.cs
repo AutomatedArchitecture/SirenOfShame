@@ -27,7 +27,7 @@ namespace TfsServices.Configuration
         {
             var buildDefinitionUris = buildDefinitionsQuery.Select(bd => bd.Uri).ToArray();
 
-            IBuildDetailSpec[] buildDetailSpec = new IBuildDetailSpec[2];
+            var buildDetailSpec = new IBuildDetailSpec[2];
 
             buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
@@ -46,8 +46,8 @@ namespace TfsServices.Configuration
 
             IBuildQueryResult[] buildQueryResult = _buildServer.QueryBuilds(buildDetailSpec);
 
-            Dictionary<String, BuildStatus> buildStatuses = new Dictionary<String, BuildStatus>();
-            Dictionary<String, IBuildDetail> buildDetail = new Dictionary<String, IBuildDetail>();
+            var buildStatuses = new Dictionary<String, BuildStatus>();
+            var buildDetail = new Dictionary<String, IBuildDetail>();
 
             // Get last completed for each def
             foreach (var build in buildQueryResult[1].Builds)
@@ -188,7 +188,7 @@ namespace TfsServices.Configuration
             result.Comment = changesets.Count > 1 ? "(Multiple Changesets)" : changesets.First().Fields["Comment"];
         }
 
-        private static string GetRequestedByFromCommit(List<IBuildInformationNode> commits)
+        private static string GetRequestedByFromCommit(IEnumerable<IBuildInformationNode> commits)
         {
             var lastCommit = commits.LastOrDefault();
             if (lastCommit == null) return null;
@@ -197,7 +197,7 @@ namespace TfsServices.Configuration
 
         private static string GetRequestedByFromChangeset(IEnumerable<IBuildInformationNode> changesets)
         {
-            HashSet<String> users = new HashSet<String>();
+            var users = new HashSet<String>();
             foreach (var changeset in changesets)
                 users.Add(changeset.Fields["CheckedInBy"]);
 
