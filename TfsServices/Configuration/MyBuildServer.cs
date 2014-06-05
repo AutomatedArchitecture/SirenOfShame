@@ -11,6 +11,8 @@ namespace TfsServices.Configuration
 {
     public class MyBuildServer
     {
+        private const string ASSOCIATED_CHANGESET = "AssociatedChangeset";
+        private const string ASSOCIATED_COMMIT = "AssociatedCommit";
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyBuildServer));
         private readonly IBuildServer _buildServer;
         private readonly MyTfsProject _tfsProject;
@@ -32,14 +34,14 @@ namespace TfsServices.Configuration
             buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
             buildDetailSpec[0].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[0].InformationTypes = new[] { "*" };
+            buildDetailSpec[0].InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
             buildDetailSpec[0].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
             buildDetailSpec[1] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             buildDetailSpec[1].MaxBuildsPerDefinition = 1;
             buildDetailSpec[1].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
             buildDetailSpec[1].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[1].InformationTypes = new[] { "*" };
+            buildDetailSpec[1].InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
             buildDetailSpec[1].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
             _firstRequest = false;
@@ -152,8 +154,8 @@ namespace TfsServices.Configuration
 
         private static void SetInfoFromAssociatedCheckins(IBuildDetail buildDetail, BuildStatus result)
         {
-            var changesets = buildDetail.Information.GetNodesByType("AssociatedChangeset");
-            var commits = buildDetail.Information.GetNodesByType("AssociatedCommit");
+            var changesets = buildDetail.Information.GetNodesByType(ASSOCIATED_CHANGESET);
+            var commits = buildDetail.Information.GetNodesByType(ASSOCIATED_COMMIT);
 
             if (changesets.Any())
             {
