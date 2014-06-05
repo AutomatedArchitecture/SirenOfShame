@@ -29,24 +29,22 @@ namespace TfsServices.Configuration
         {
             var buildDefinitionUris = buildDefinitionsQuery.Select(bd => bd.Uri).ToArray();
 
-            var buildDetailSpec = new IBuildDetailSpec[2];
+            var inProgressQuery = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+            inProgressQuery.Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
+            inProgressQuery.QueryOrder = BuildQueryOrder.FinishTimeDescending;
+            inProgressQuery.InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
+            inProgressQuery.QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
-            buildDetailSpec[0] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec[0].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.InProgress;
-            buildDetailSpec[0].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[0].InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
-            buildDetailSpec[0].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
-
-            buildDetailSpec[1] = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
-            buildDetailSpec[1].MaxBuildsPerDefinition = 1;
-            buildDetailSpec[1].Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
-            buildDetailSpec[1].QueryOrder = BuildQueryOrder.FinishTimeDescending;
-            buildDetailSpec[1].InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
-            buildDetailSpec[1].QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
+            var mostRecentQuery = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
+            mostRecentQuery.MaxBuildsPerDefinition = 1;
+            mostRecentQuery.Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
+            mostRecentQuery.QueryOrder = BuildQueryOrder.FinishTimeDescending;
+            mostRecentQuery.InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
+            mostRecentQuery.QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
 
             _firstRequest = false;
 
-            IBuildQueryResult[] buildQueryResult = _buildServer.QueryBuilds(buildDetailSpec);
+            var buildQueryResult = _buildServer.QueryBuilds(new [] { inProgressQuery, mostRecentQuery });
 
             var buildStatuses = new Dictionary<String, BuildStatus>();
             var buildDetail = new Dictionary<String, IBuildDetail>();
