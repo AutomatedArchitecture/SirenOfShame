@@ -7,7 +7,6 @@ wyUpdate Deploy Instructions
 		"Update Information" Tab
 		+
 		Describe Changes
-		Explorer New Folder in dev directory: Releases\BuildArtifacts\[version]
 		run "copyeverything.bat x.x.x" from Releases (ensure all files are copied)
 		Drag files into "Files & Folders" -> "\Your program's folder"
 		"Build wyUpdate & Updates" -> Click both buttons
@@ -27,9 +26,7 @@ TEST -
 	uninstall and ensure a new install from the uploaded msi works and picks up new plugins
 
 Post to RSS: http://sirenofshame.blogspot.com/
-Post to Twitter
-Post to Facebook: http://www.facebook.com/pages/Siren-of-Shame/155912117824047
-Post to Google Plus: https://plus.google.com/b/106111859844700446349/dashboard/overview
+Post to Buffer: https://bufferapp.com/
 
 Update sirenofshame.com to link to RSS post
 
