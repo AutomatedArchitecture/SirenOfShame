@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib;
@@ -11,6 +12,7 @@ namespace HudsonServices.ServerConfiguration
 {
     public partial class ConfigureHudson : ConfigureServerBase
     {
+        private List<HudsonBuildDefinition> _buildDefinitions = new List<HudsonBuildDefinition>();
         private readonly HudsonCIEntryPoint _hudsonCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly HudsonService _service = new HudsonService();
@@ -68,23 +70,13 @@ namespace HudsonServices.ServerConfiguration
             Settings.Save();
 
             _projects.Nodes.Clear();
-            var hudsonBuildDefinitions = buildDefinitions.OrderBy(i => i.Name);
-            foreach (HudsonBuildDefinition project in hudsonBuildDefinitions)
-            {
-                bool exists = Settings.BuildExistsAndIsActive(_hudsonCiEntryPoint.Name, project.Name);
-                
-                ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
-                {
-                    Tag = project,
-                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
-                };
-                _projects.Nodes.Add(node);
-            }
+            _buildDefinitions = buildDefinitions.OrderBy(i => i.Name).ToList();
+            ApplyFilter();
         }
 
         private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            HudsonBuildDefinition buildDefinition = e.Node.Tag as HudsonBuildDefinition;
+            var buildDefinition = e.Node.Tag as HudsonBuildDefinition;
             if (buildDefinition != null)
             {
                 var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _hudsonCiEntryPoint.Name);
@@ -98,6 +90,44 @@ namespace HudsonServices.ServerConfiguration
         {
             _ciEntryPointSetting.TreatUnstableAsSuccess = _treatUnstableAsSuccess.Checked;
             Settings.Save();
+        }
+
+        private void _filter_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            _projects.Nodes.Clear();
+
+            foreach (HudsonBuildDefinition project in _buildDefinitions)
+            {
+                var shouldBeVisible = string.IsNullOrEmpty(_filter.Text) || project.Name.Contains(_filter.Text, StringComparison.CurrentCultureIgnoreCase);
+                if (!shouldBeVisible) continue;
+                bool exists = Settings.BuildExistsAndIsActive(_hudsonCiEntryPoint.Name, project.Name);
+
+                ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
+                {
+                    Tag = project,
+                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
+                };
+                _projects.Nodes.Add(node);
+            }
+        }
+
+        private void _search_Click(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void _checkAll_Click(object sender, EventArgs e)
+        {
+            var allChecked = _projects.Nodes.Cast<ThreeStateTreeNode>().All(i => i.Checked);
+            foreach (var node in _projects.Nodes.Cast<ThreeStateTreeNode>())
+            {
+                node.Checked = !allChecked;
+            }
         }
     }
 }
