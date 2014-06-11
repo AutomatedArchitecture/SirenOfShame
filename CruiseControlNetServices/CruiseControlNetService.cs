@@ -7,6 +7,7 @@ using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Lib.Helpers;
 using log4net;
 
 namespace CruiseControlNetServices
@@ -75,9 +76,38 @@ namespace CruiseControlNetServices
             var url = new Uri(rootUrl + "/XmlStatusReport.aspx");
             var doc = DownloadXml(url.ToString(), userName, password);
             if (doc.Root == null) throw new Exception("Could not get project list");
-            var projectElems = doc.Root.Elements("Project");
-            var buildStatuses = projectElems.Select(projectElem => new CruiseControlNetBuildStatus(projectElem));
-            return buildStatuses;
+            IEnumerable<XElement> projectElems = doc.Root.Elements("Project");
+
+            List<CruiseControlNetBuildStatus> results = new List<CruiseControlNetBuildStatus>();
+            if (projectElems != null)
+            {
+                foreach (XElement projectElem in projectElems)
+                {
+                    try
+                    {
+                        var name = projectElem.AttributeValue("name");
+                        var lastBuildTimeStr = projectElem.AttributeValueOrDefault("lastBuildTime");
+                        string parsedBuildTime = CruiseControlNetBuildStatus.ParseCruiseControlDateToId(lastBuildTimeStr);
+                        string lastBuildNumber = projectElem.AttributeValueOrDefault("lastBuildLabel");
+                        string lastBuildStatus = projectElem.AttributeValueOrDefault("lastBuildStatus");
+
+                        var XMLUrl = lastBuildStatus != null && lastBuildStatus.Equals("Success") ?
+                            string.Format("{0}/server/local/project/{1}/build/log{2}Lbuild.{3}.xml/XmlBuildLog.aspx", rootUrl, name, parsedBuildTime, lastBuildNumber) :
+                            string.Format("{0}/server/local/project/{1}/build/log{2}.xml/XmlBuildLog.aspx", rootUrl, name, parsedBuildTime);
+
+                        var buildLog = DownloadXml(XMLUrl.ToString(), userName, password);
+                        XElement buildLogModificationElems = buildLog.Root == null ? null : buildLog.Root.Element("modifications");
+
+                        results.Add(new CruiseControlNetBuildStatus(projectElem, buildLogModificationElems));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Swallow
+                    }
+                }
+            }
+
+            return results;
         }
     }
 }
