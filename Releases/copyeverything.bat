@@ -15,6 +15,7 @@ copy ..\SirenOfShame\bin\Plugins\TfsServices.dll .\BuildArtifacts\%1\Plugins\Tfs
 copy ..\SirenOfShame\bin\Plugins\UsbLib.dll .\BuildArtifacts\%1\Plugins\UsbLib.dll
 copy ..\Libs\ZedGraph.dll .\BuildArtifacts\%1\ZedGraph.dll
 copy ..\Libs\TeamFoundation\* .\BuildArtifacts\%1\
+copy ..\Libs\sox-14.3.2\zlib1.dll .\BuildArtifacts\1%\Sox\zlib1.dll
 
 rd /s /q .\Updates
 md Updates

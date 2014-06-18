@@ -77,6 +77,7 @@
         <File Source="..\Libs\sox-14.3.2\libmp3lame.dll" />
         <File Source="..\Libs\sox-14.3.2\libmad.dll" />
         <File Source="..\Libs\sox-14.3.2\libgomp-1.dll" />
+        <File Source="..\Libs\sox-14.3.2\zlib1.dll" />
       </Component>
     </DirectoryRef>
 
