@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using log4net;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Watcher;
 
@@ -36,6 +38,7 @@ namespace CruiseControlNetServices
     public class CruiseControlNetBuildStatus : BuildStatus
     {
         private static readonly Dictionary<string, BuildStatusInfo> _buildStatusInfo = new Dictionary<string, BuildStatusInfo>();
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (CruiseControlNetBuildStatus));
 
         public static string ParseCruiseControlDateToId(string date)
         {
@@ -67,7 +70,7 @@ namespace CruiseControlNetServices
             BuildStatusEnum = ToBuildStatusEnum(projectElem.AttributeValueOrDefault("activity"), projectElem.AttributeValueOrDefault("lastBuildStatus"));
             StartedTime = GetStartedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
             FinishedTime = GetFinishedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
-            Comment = GetComment(projectElem, modifications);
+            Comment = GetComment(modifications);
             RequestedBy = GetRequestedBy(projectElem, modifications);
 
             var webUrl = projectElem.AttributeValueOrDefault("webUrl");
@@ -97,7 +100,7 @@ namespace CruiseControlNetServices
             return lastBuildLabel;
         }
 
-        private string GetComment(XElement projectElem, XElement modifications)
+        private string GetComment(XElement modifications)
         {
             try
             {
@@ -123,9 +126,9 @@ namespace CruiseControlNetServices
                     return commentToReturn;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Swallow and return null
+                _log.Warn("Unable to retrieve comment", ex);
                 return null;
             }
 
@@ -147,9 +150,9 @@ namespace CruiseControlNetServices
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Swallow and return null
+                _log.Error("Unable to retrieve requested by", ex);
                 return null;
             }
 
