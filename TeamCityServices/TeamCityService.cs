@@ -93,7 +93,7 @@ namespace TeamCityServices
         }
 
         private static bool _supportsGetLatestBuildByBuildTypeId = true;
-        
+
         private static readonly Dictionary<string, string> _cookies = new Dictionary<string, string>();
 
         private string GetCookie(string rootUrl)
@@ -222,10 +222,10 @@ namespace TeamCityServices
                             }
 
                             state++;
-                        } 
+                        }
                         catch (Exception ex)
                         {
-                            if (webBrowser != null && htmlDocument != null) 
+                            if (webBrowser != null && htmlDocument != null)
                                 _log.Info("SetCookie result: " + htmlDocument.Body);
                             documentCompleteException = ex;
                         }
@@ -244,7 +244,7 @@ namespace TeamCityServices
                     {
                         _log.Error("Timeout. State: " + state + " Cookie: " + GetCookie(rootUrl));
                     }
-                        
+
                 }
             });
             staThread.SetApartmentState(ApartmentState.STA);
@@ -333,7 +333,7 @@ namespace TeamCityServices
                     if (title != null && title.Value.StartsWith("Cleanup in progress"))
                         throw new ServerUnavailableException("Cleanup in progress");
                     _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
-                    return new TeamCityBuildStatus(buildDefinitionSetting) {BuildStatusEnum = BuildStatusEnum.Unknown};
+                    return new TeamCityBuildStatus(buildDefinitionSetting) { BuildStatusEnum = BuildStatusEnum.Unknown };
                 }
                 var count = changesNode.AttributeValueOrDefault("count");
                 bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
@@ -346,7 +346,7 @@ namespace TeamCityServices
                     if (changeNode == null)
                     {
                         _log.Debug("No change node found");
-                    } 
+                    }
                     else
                     {
                         var changeHref = changeNode.AttributeValueOrDefault("href");
@@ -354,7 +354,7 @@ namespace TeamCityServices
                         changeResultXDoc = DownloadXml(changeUrl, userName, password);
                     }
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 _log.Error("Error parsing xml. BuildResultXDoc: " + buildResultXDoc + "\r\n\r\n ChangeResultXDoc: " + changeResultXDoc, ex);
@@ -363,7 +363,8 @@ namespace TeamCityServices
             return new TeamCityBuildStatus(buildDefinitionSetting, buildResultXDoc, changeResultXDoc);
         }
 
-        private TeamCityBuildStatus GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password, BuildDefinitionSetting buildDefinitionSetting)
+        private TeamCityBuildStatus GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password,
+            BuildDefinitionSetting buildDefinitionSetting)
         {
             string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
             try
@@ -371,6 +372,14 @@ namespace TeamCityServices
                 XDocument doc = DownloadXml(url, userName, password);
                 if (doc.Root == null) throw new Exception("Could not get project build status");
                 return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, doc);
+            }
+            catch (BuildDefinitionNotFoundException)
+            {
+                return new TeamCityBuildStatus(buildDefinitionSetting)
+                {
+                    BuildStatusEnum = BuildStatusEnum.Unknown,
+                    Comment = "[unable to connect to " + buildDefinitionSetting.Id + "]",
+                };
             }
             catch (SosException ex)
             {
