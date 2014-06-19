@@ -12,7 +12,7 @@ What Is It?
 
 Siren of shame is a [build monitor](http://sirenofshame.com/BuildMonitor) that connects to:
 
-* TFS (2008, 2010, 2012)
+* TFS (2008, 2010, 2012, 2013)
 * Jenkins (1.4)
 * Hudson (1.3, 2.0)
 * Team City (5.0, 6.0, 7.0)
