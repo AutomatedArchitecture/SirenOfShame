@@ -44,8 +44,8 @@ namespace CruiseControlNetServices
             if (priorToDot == null) return null;
             return Regex.Replace(priorToDot, "[^0-9]", "");
         }
-        
-        public CruiseControlNetBuildStatus(XElement projectElem)
+
+        public CruiseControlNetBuildStatus(XElement projectElem, XElement modifications)
         {
             Name = BuildDefinitionId = projectElem.AttributeValue("name");
 
@@ -67,14 +67,26 @@ namespace CruiseControlNetServices
             BuildStatusEnum = ToBuildStatusEnum(projectElem.AttributeValueOrDefault("activity"), projectElem.AttributeValueOrDefault("lastBuildStatus"));
             StartedTime = GetStartedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
             FinishedTime = GetFinishedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
-            Comment = null;
-            RequestedBy = GetRequestedBy(projectElem);
+            Comment = GetComment(projectElem, modifications);
+            RequestedBy = GetRequestedBy(projectElem, modifications);
 
             var webUrl = projectElem.AttributeValueOrDefault("webUrl");
             string lastBuildTimeAsId = ParseCruiseControlDateToId(lastBuildTimeStr);
-            Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
+            string lastBuildNumber = projectElem.AttributeValueOrDefault("lastBuildLabel");
+            Url = string.Format("{0}/server/local/project/{1}/build/log{2}Lbuild.{3}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId, lastBuildNumber);
             BuildId = GetBuildIdOrDefault(projectElem, lastBuildTimeAsId);
-            
+
+            if (BuildStatusEnum == SirenOfShame.Lib.Watcher.BuildStatusEnum.InProgress)
+            {
+                Comment = "Building...";
+                RequestedBy = null;
+            }
+            else if (BuildStatusEnum == SirenOfShame.Lib.Watcher.BuildStatusEnum.Broken)
+            {
+                Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
+                BuildId = lastBuildTimeAsId;
+            }
+
             buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
         }
 
@@ -85,8 +97,62 @@ namespace CruiseControlNetServices
             return lastBuildLabel;
         }
 
-        private string GetRequestedBy(XElement projectElem)
+        private string GetComment(XElement projectElem, XElement modifications)
         {
+            try
+            {
+                if (modifications != null)
+                {
+                    IEnumerable<XElement> modificationEnum = modifications.Elements("modification");
+                    HashSet<string> comments = new HashSet<string>();
+                    foreach (XElement modification in modificationEnum)
+                    {
+                        XElement commentElement = modification.Element("comment");
+                        if (commentElement != null)
+                        {
+                            comments.Add(commentElement.Value);
+                        }
+                    }
+
+                    string commentToReturn = string.Empty;
+                    foreach (string comment in comments)
+                    {
+                        commentToReturn += comment;
+                    }
+
+                    return commentToReturn;
+                }
+            }
+            catch (Exception)
+            {
+                // Swallow and return null
+                return null;
+            }
+
+            return null;
+        }
+
+        private string GetRequestedBy(XElement projectElem, XElement modifications)
+        {
+            try
+            {
+                if (modifications != null)
+                {
+                    IEnumerable<XElement> modificationEnum = modifications.Elements("modification");
+                    XElement firstModification = modificationEnum.First();
+                    XElement usernameElement = firstModification.Element("user");
+                    if (usernameElement != null)
+                    {
+                        return usernameElement.Value;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // Swallow and return null
+                return null;
+            }
+
             var messages = projectElem.Element("messages");
             if (messages == null) return null;
             var breakers = messages.Elements("message").FirstOrDefault(i => i.Attribute("kind") != null && i.Attribute("kind").Value == "Breakers");
