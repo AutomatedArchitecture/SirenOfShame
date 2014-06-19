@@ -75,6 +75,7 @@
     <Compile Include="Helpers\PrettyDateHelperTest.cs" />
     <Compile Include="Helpers\StringHelpersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Watcher\WebClientXmlTest.cs" />
     <EmbeddedResource Include="Resources\JenkinsPassingBuild.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

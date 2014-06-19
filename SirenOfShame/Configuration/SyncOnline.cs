@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -99,7 +98,7 @@ namespace SirenOfShame.Configuration
             _sosOnlineStatus.Text = "Logging in ...";
         }
 
-        private void OnSosOnlineFailure(string userFriendlyErrorMessage, ServerUnavailableException ex)
+        private void OnSosOnlineFailure(string userFriendlyErrorMessage, Exception ex)
         {
             _loading.Visible = false;
             SosMessageBox.Show("Error connecting", userFriendlyErrorMessage, "Hmmmm");

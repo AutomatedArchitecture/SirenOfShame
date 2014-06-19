@@ -7,6 +7,10 @@ namespace SirenOfShame.Lib.Exceptions
     {
         public BuildDefinitionSetting BuildDefinitionSetting { get; set; }
 
+        public BuildDefinitionNotFoundException()
+        {
+        }
+
         public BuildDefinitionNotFoundException(BuildDefinitionSetting buildDefinitionSetting)
         {
             BuildDefinitionSetting = buildDefinitionSetting;

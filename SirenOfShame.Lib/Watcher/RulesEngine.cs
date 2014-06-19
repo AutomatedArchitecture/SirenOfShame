@@ -389,7 +389,7 @@ namespace SirenOfShame.Lib.Watcher
             SosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
         }
 
-        private void OnAddBuildsFail(string userTargedErrorMessage, ServerUnavailableException ex)
+        private void OnAddBuildsFail(string userTargedErrorMessage, Exception ex)
         {
             _log.Error("Failed to connect to SoS online", ex);
             InvokeUpdateStatusBar(userTargedErrorMessage, ex);
@@ -542,6 +542,11 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)
         {
+            if (args.BuildDefinitionSetting == null)
+            {
+                _log.Warn("BuildDefinitionNotFound, yet no BuildDefinition provided.");
+                return;
+            }
             args.BuildDefinitionSetting.Active = false;
             _settings.Save();
             InvokeTrayNotify(ToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");

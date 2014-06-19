@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;

@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using SignalR.Client;
 using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Dto;
-using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -64,7 +63,7 @@ namespace SirenOfShame.Lib.Services
             if (handler != null) handler(this, args);
         }
 
-        public virtual void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, ServerUnavailableException> onFail)
+        public virtual void VerifyCredentialsAsync(SirenOfShameSettings settings, Action onSuccess, Action<string, Exception> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
@@ -121,7 +120,7 @@ namespace SirenOfShame.Lib.Services
             }
         }
 
-        public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, ServerUnavailableException> onFail)
+        public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, Exception> onFail)
         {
             WebClientXml webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
@@ -146,7 +145,7 @@ namespace SirenOfShame.Lib.Services
             }, OnConnectionFail(onFail), settings.GetSosOnlineProxy());
         }
 
-        private static Action<ServerUnavailableException> OnConnectionFail(Action<string, ServerUnavailableException> onFail)
+        private static Action<Exception> OnConnectionFail(Action<string, Exception> onFail)
         {
             return ex => onFail("Failed to connect to SoS online", ex);
         }
@@ -325,7 +324,7 @@ namespace SirenOfShame.Lib.Services
             }, OnConnectionFail, settings.GetSosOnlineProxy());
         }
 
-        private void OnConnectionFail(ServerUnavailableException obj)
+        private void OnConnectionFail(Exception obj)
         {
             _log.Error("Failed to connect to SoS Online.", obj);
         }

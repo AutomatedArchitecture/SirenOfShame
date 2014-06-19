@@ -24,15 +24,20 @@ namespace SirenOfShame.Lib.Watcher
         }
 
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(WebClientXml));
-        private NameValueCollection _data = new NameValueCollection();
+        private readonly NameValueCollection _data = new NameValueCollection();
         
-        private static readonly string[] _serverUnavailableTriggers = new[]
-            {
-                "HTTP Status 404",
-                "Connection timed out",
-                "Please wait while Jenkins is getting ready to work",
-                "The remote server returned an error: (503) Server Unavailable",
-            };
+        private static readonly string[] _serverUnavailableTriggers =
+        {
+            "HTTP Status 404",
+            "Connection timed out",
+            "Please wait while Jenkins is getting ready to work",
+            "The remote server returned an error: (503) Server Unavailable",
+        };
+
+        private static readonly string[] _buildDefinitionUnavailableTriggers =
+        {
+            "No build type or template is found by id, internal id or name",
+        };
 
         public AuthenticationTypeEnum AuthenticationType { get; set; }
         public string UserName { get; set; }
@@ -56,6 +61,11 @@ namespace SirenOfShame.Lib.Watcher
         protected static bool IsServerUnavailable(string errorResult)
         {
             return _serverUnavailableTriggers.Any(errorResult.Contains);
+        }
+
+        protected static bool IsBuildDefinitionUnavailable(string errorResult)
+        {
+            return _buildDefinitionUnavailableTriggers.Any(errorResult.Contains);
         }
 
         public void DownloadXmlAsync(string url, Action<XDocument> onSuccess = null, Action<Exception> onError = null)
@@ -140,7 +150,7 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public static ServerUnavailableException ToServerUnavailableException(string url, WebException webException)
+        public static Exception ToServerUnavailableException(string url, WebException webException)
         {
             if (webException.Response != null)
             {
@@ -152,15 +162,7 @@ namespace SirenOfShame.Lib.Watcher
                         using (StreamReader sr = new StreamReader(s1))
                         {
                             var errorResult = sr.ReadToEnd();
-
-                            if (IsServerUnavailable(errorResult))
-                            {
-                                return new ServerUnavailableException();
-                            }
-
-                            string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
-                            _log.Error(message, webException);
-                            return new ServerUnavailableException(message, webException);
+                            return ToServerUnavailableException(url, webException, errorResult);
                         }
                     }
                 }
@@ -181,6 +183,23 @@ namespace SirenOfShame.Lib.Watcher
             return new ServerUnavailableException("Server unavailable: " + webException.Status.ToString(), webException);
         }
 
+        public static Exception ToServerUnavailableException(string url, WebException webException, string errorResult)
+        {
+            if (IsServerUnavailable(errorResult))
+            {
+                return new ServerUnavailableException();
+            }
+
+            if (IsBuildDefinitionUnavailable(errorResult))
+            {
+                return new BuildDefinitionNotFoundException();
+            }
+
+            string message = "Error connecting to server with the following url: " + url + "\n\n" + errorResult;
+            _log.Error(message, webException);
+            return new ServerUnavailableException(message, webException);
+        }
+
         public void Add(string name, string value)
         {
             _data[name] = value;
@@ -189,7 +208,7 @@ namespace SirenOfShame.Lib.Watcher
         public void UploadValuesAndReturnXmlAsync(
             string url,
             Action<XDocument> action,
-            Action<ServerUnavailableException> onConnectionFail,
+            Action<Exception> onConnectionFail,
             IWebProxy proxy = null)
         {
             UploadValuesAndReturnStringAsync(url, resultAsStr =>
@@ -199,7 +218,7 @@ namespace SirenOfShame.Lib.Watcher
             }, onConnectionFail, proxy);
         }
 
-        public void UploadValuesAndReturnStringAsync(string url, Action<string> action, Action<ServerUnavailableException> onConnectionFail, IWebProxy proxy = null)
+        public void UploadValuesAndReturnStringAsync(string url, Action<string> action, Action<Exception> onConnectionFail, IWebProxy proxy = null)
         {
             WebClient webClient = new WebClient();
             if (proxy != null)

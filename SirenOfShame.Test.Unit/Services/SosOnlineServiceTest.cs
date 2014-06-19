@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Moq;
 using SirenOfShame.Lib.Dto;
-using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Watcher;
@@ -63,7 +62,7 @@ namespace SirenOfShame.Test.Unit.Services
             rulesEngine.Settings.MyRawName = RulesEngineWrapper.CURRENT_USER;
 
             var sosOnlineService = new Mock<SosOnlineService>();
-            sosOnlineService.Setup(i => i.Synchronize(It.IsAny<SirenOfShameSettings>(), "633979044610000000,633979050100000000,1", null, It.IsAny<Action<DateTime>>(), It.IsAny<Action<String, ServerUnavailableException>>()))
+            sosOnlineService.Setup(i => i.Synchronize(It.IsAny<SirenOfShameSettings>(), "633979044610000000,633979050100000000,1", null, It.IsAny<Action<DateTime>>(), It.IsAny<Action<String, Exception>>()))
                 .Verifiable();
             rulesEngine.SosOnlineService = sosOnlineService.Object;
 
