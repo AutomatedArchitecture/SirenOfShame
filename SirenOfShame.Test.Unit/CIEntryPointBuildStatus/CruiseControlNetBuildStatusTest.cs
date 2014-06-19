@@ -91,7 +91,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual(DateTime.Now.ToString(), buildStatus.StartedTime.Value.ToString());
             Assert.IsNull(buildStatus.Comment);
             Assert.IsNull(buildStatus.FinishedTime);
-            Assert.AreEqual("http://VMXP/ccnet/server/local/project/CruiseControlNetProj1/build/log20110828202005.xml/ViewBuildReport.aspx", buildStatus.Url);
+            Assert.AreEqual("http://VMXP/ccnet/server/local/project/CruiseControlNetProj1/build/log20110828202005Lbuild.3.xml/ViewBuildReport.aspx", buildStatus.Url);
             Assert.AreEqual("3", buildStatus.BuildId);
         }
         

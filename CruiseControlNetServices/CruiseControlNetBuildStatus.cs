@@ -76,12 +76,12 @@ namespace CruiseControlNetServices
             Url = string.Format("{0}/server/local/project/{1}/build/log{2}Lbuild.{3}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId, lastBuildNumber);
             BuildId = GetBuildIdOrDefault(projectElem, lastBuildTimeAsId);
 
-            if (BuildStatusEnum == SirenOfShame.Lib.Watcher.BuildStatusEnum.InProgress)
+            if (BuildStatusEnum == BuildStatusEnum.InProgress)
             {
-                Comment = "Building...";
+                Comment = null;
                 RequestedBy = null;
             }
-            else if (BuildStatusEnum == SirenOfShame.Lib.Watcher.BuildStatusEnum.Broken)
+            else if (BuildStatusEnum == BuildStatusEnum.Broken)
             {
                 Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
                 BuildId = lastBuildTimeAsId;
