@@ -107,6 +107,12 @@ namespace SirenOfShame.Lib.Watcher
                 return TryParseXmlResult(url, resultString);
             } catch (WebException webException)
             {
+                if (url.Contains("httpAuth/app/rest/builds/buildType:"))
+                {
+                    _log.Error(webException.Message, webException);
+                    return null;
+                }
+
                 throw ToServerUnavailableException(url, webException);
             }
         }
