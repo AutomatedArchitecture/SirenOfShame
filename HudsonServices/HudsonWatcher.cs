@@ -23,7 +23,7 @@ namespace HudsonServices
             var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
 
             if (string.IsNullOrEmpty(CiEntryPointSetting.Url))
-                throw new SosException("Team City URL is null or empty");
+                throw new SosException("Jenkins URL is null or empty");
 
             try
             {
