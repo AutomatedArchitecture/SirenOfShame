@@ -25,11 +25,10 @@ namespace SirenOfShame.Lib.Services
         public object Result { get; set; }
     }
 
-    public class SosOnlineService
+    public partial class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public const bool LOCAL = false;
-        public const string SOS_URL = LOCAL ? "http://localhost.:3115" : "http://sirenofshame.com";
+        public static string SOS_URL = "http://sirenofshame.com";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 
@@ -97,7 +96,7 @@ namespace SirenOfShame.Lib.Services
             webClientXml.Add("ChangedUsers", JsonConvert.SerializeObject(changedUsers));
             if (settings.SoftwareInstanceId.HasValue)
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
-            const string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
+            string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
             webClientXml.UploadValuesAndReturnStringAsync(url, ReadResult, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());
         }
 
