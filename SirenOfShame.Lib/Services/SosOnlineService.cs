@@ -7,9 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
-using SignalR.Client;
-using SignalR.Client.Hubs;
 using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
@@ -216,7 +215,7 @@ namespace SirenOfShame.Lib.Services
                 }
                 InvokeOnSosOnlineStatusChange("Connecting");
                 _connection = new HubConnection(SOS_URL);
-                _proxy = _connection.CreateProxy("SosHub");
+                _proxy = _connection.CreateHubProxy("SosHub");
                 _proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
