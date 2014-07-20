@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectExtruderModel.cs" />
-    <Compile Include="CredentialApiModel.cs" />
+    <Compile Include="Models\ConnectExtruderModel.cs" />
+    <Compile Include="Models\CredentialApiModel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

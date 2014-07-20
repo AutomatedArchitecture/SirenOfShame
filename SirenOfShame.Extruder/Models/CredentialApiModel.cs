@@ -1,4 +1,4 @@
-namespace SirenOfShame.Extruder
+namespace SirenOfShame.Extruder.Models
 {
     public class CredentialApiModel
     {

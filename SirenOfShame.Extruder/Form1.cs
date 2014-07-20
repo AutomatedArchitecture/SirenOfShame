@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Windows.Forms;
+using SirenOfShame.Extruder.Models;
 
 namespace SirenOfShame.Extruder
 {
@@ -21,7 +22,7 @@ namespace SirenOfShame.Extruder
                 Name = _myname.Text,
             };
             webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-            string data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
+            var data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
             const string url = "http://localhost:3115/ApiV1/ConnectExtruder";
             var result = await webClient.UploadStringTaskAsync(url, "POST", data);
         }
