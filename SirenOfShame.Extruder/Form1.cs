@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
 
 namespace SirenOfShame.Extruder
@@ -15,6 +9,21 @@ namespace SirenOfShame.Extruder
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private async void Connect_Click(object sender, EventArgs e)
+        {
+            var webClient = new WebClient();
+            var connectExtruderModel = new ConnectExtruderModel
+            {
+                UserName = _username.Text,
+                Password = _password.Text,
+                Name = _myname.Text,
+            };
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+            string data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
+            const string url = "http://localhost:3115/ApiV1/ConnectExtruder";
+            var result = await webClient.UploadStringTaskAsync(url, "POST", data);
         }
     }
 }
