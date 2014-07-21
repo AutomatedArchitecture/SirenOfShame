@@ -10,6 +10,10 @@ namespace SirenOfShame.Extruder.Models
     [Serializable]
     public class ExtruderSettings
     {
+        public string UserName { get; set; }
+        public string MyName { get; set; }
+        public string EncryptedPassword { get; set; }
+
         private string _fileName;
         private readonly object _lock = new object();
         private const string EXTRUDER_CONFIG = @"ShameExtruder.config";
@@ -72,7 +76,7 @@ namespace SirenOfShame.Extruder.Models
             return defaultSettings;
         }
 
-        private void Save()
+        public void Save()
         {
             string fileName = GetConfigFileName();
             Save(fileName);
