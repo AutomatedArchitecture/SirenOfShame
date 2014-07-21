@@ -1,6 +1,6 @@
 ﻿namespace SirenOfShame.Extruder
 {
-    partial class Form1
+    partial class ConfigureSettings
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSettings));
             this._connect = new System.Windows.Forms.Button();
             this._disconnect = new System.Windows.Forms.Button();
             this._username = new System.Windows.Forms.TextBox();
@@ -36,6 +38,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this._myname = new System.Windows.Forms.TextBox();
+            this._notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this._minimizedMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._minimizedMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // _connect
@@ -110,8 +117,40 @@
             this._myname.Size = new System.Drawing.Size(178, 20);
             this._myname.TabIndex = 6;
             // 
-            // Form1
+            // _notifyIcon
             // 
+            this._notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this._notifyIcon.ContextMenuStrip = this._minimizedMenuStrip;
+            this._notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("_notifyIcon.Icon")));
+            this._notifyIcon.Text = "notifyIcon1";
+            this._notifyIcon.Visible = true;
+            this._notifyIcon.DoubleClick += new System.EventHandler(this._notifyIcon_DoubleClick);
+            // 
+            // _minimizedMenuStrip
+            // 
+            this._minimizedMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configureToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this._minimizedMenuStrip.Name = "_minimizedMenuStrip";
+            this._minimizedMenuStrip.Size = new System.Drawing.Size(128, 48);
+            // 
+            // configureToolStripMenuItem
+            // 
+            this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.configureToolStripMenuItem.Text = "Configure";
+            this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // ConfigureSettings
+            // 
+            this.AcceptButton = this._connect;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 173);
@@ -123,8 +162,12 @@
             this.Controls.Add(this._username);
             this.Controls.Add(this._disconnect);
             this.Controls.Add(this._connect);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "ConfigureSettings";
+            this.ShowInTaskbar = false;
+            this.Text = "Shame Extruder";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureSettings_FormClosing);
+            this._minimizedMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,6 +183,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox _myname;
+        private System.Windows.Forms.NotifyIcon _notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip _minimizedMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem configureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

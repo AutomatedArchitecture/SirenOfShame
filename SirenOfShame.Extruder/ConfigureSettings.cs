@@ -6,13 +6,13 @@ using SirenOfShame.Extruder.Services;
 
 namespace SirenOfShame.Extruder
 {
-    public partial class Form1 : Form
+    public partial class ConfigureSettings : FormBase
     {
-        private readonly ILog _log = MyLogManager.GetLog(typeof (Form1));
+        private readonly ILog _log = MyLogManager.GetLog(typeof (ConfigureSettings));
         private readonly ExtruderSettings _settings;
         private readonly TripleDesStringEncryptor _encryptor;
 
-        public Form1()
+        public ConfigureSettings()
         {
             _settings = ExtruderSettings.GetAppSettings();
             _encryptor = new TripleDesStringEncryptor();
@@ -57,6 +57,44 @@ namespace SirenOfShame.Extruder
             _settings.EncryptedPassword = _encryptor.EncryptString(_password.Text);
             _settings.MyName = _myname.Text;
             _settings.Save();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Hide();
+            WindowState = FormWindowState.Minimized;
+            Invoke(Application.Exit);
+        }
+
+        private void ConfigureSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (WindowState != FormWindowState.Minimized)
+            {
+                e.Cancel = true;
+                WindowState = FormWindowState.Minimized;
+            }
+        }
+
+        private void configureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowConfigureScreen();
+        }
+
+        private void ShowConfigureScreen()
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Show();
+                WindowState = FormWindowState.Normal;
+            }
+            Activate();
+            Focus();
+            BringToFront();
+        }
+
+        private void _notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            ShowConfigureScreen();
         }
     }
 }
