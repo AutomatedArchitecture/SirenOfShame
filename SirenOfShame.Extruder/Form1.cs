@@ -14,14 +14,23 @@ namespace SirenOfShame.Extruder
 
         private async void Connect_Click(object sender, EventArgs e)
         {
+            var encryptor = new TripleDesStringEncryptor();
             var connectExtruderModel = new ConnectExtruderModel
             {
                 UserName = _username.Text,
-                Password = _password.Text,
+                Password = encryptor.EncryptString(_password.Text),
                 Name = _myname.Text,
             };
             var sosOnlineService = new SosOnlineService();
-            await sosOnlineService.ConnectExtruder(connectExtruderModel);
+            var result = await sosOnlineService.ConnectExtruder(connectExtruderModel);
+            if (result.Success)
+            {
+                MessageBox.Show("Success!");
+            }
+            else
+            {
+                MessageBox.Show(result.ErrorMessage);
+            }
         }
     }
 }
