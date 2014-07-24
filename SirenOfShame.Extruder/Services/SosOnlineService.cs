@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using log4net;
 using Microsoft.AspNet.SignalR.Client;
 using SirenOfShame.Extruder.Models;
@@ -15,6 +14,7 @@ namespace SirenOfShame.Extruder.Services
         private HubConnection _connection;
         private IHubProxy _proxy;
         public Action<StateChange> StatusChanged { get; set; }
+        public Action<int?, TimeSpan, int?, TimeSpan> PlaySiren { get; set; }
 
         public async Task<ApiResultBase> ConnectExtruder(ConnectExtruderModel connectExtruderModel)
         {
@@ -43,7 +43,7 @@ namespace SirenOfShame.Extruder.Services
             {
                 _connection = new HubConnection(SOS_URL);
                 _proxy = _connection.CreateHubProxy("SosHub");
-                _proxy.On("playSiren", OnPlaySirenEventReceived);
+                _proxy.On<int?, TimeSpan, int?, TimeSpan>("playSiren", OnPlaySirenEventReceived);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
@@ -77,9 +77,12 @@ namespace SirenOfShame.Extruder.Services
             _log.Error("SignalR Connection Error", ex);
         }
 
-        private void OnPlaySirenEventReceived()
+        private void OnPlaySirenEventReceived(int? ledPatternIndex, TimeSpan ledDuration, int? audioPatternIndex, TimeSpan audioDuration)
         {
-            MessageBox.Show("Received an alert!");
+            if (PlaySiren != null)
+            {
+                PlaySiren(ledPatternIndex, ledDuration, audioPatternIndex, audioDuration);
+            }
         }
     }
 }

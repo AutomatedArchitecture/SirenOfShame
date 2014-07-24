@@ -36,6 +36,7 @@ namespace SirenOfShame.Extruder
         private void SubscribeEvents()
         {
             _sosOnlineService.StatusChanged += OnStatusChanged;
+            _sosOnlineService.PlaySiren += OnPlaySiren;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
             _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
             _sirenOfShameDevice.TryConnect();
@@ -221,11 +222,38 @@ namespace SirenOfShame.Extruder
             }
         }
 
+        // no need to marshall this to the UI thread b/c we don't do any UI work
+        private void OnPlaySiren(int? ledPatternIndex, TimeSpan ledDuration, int? audioPatternIndex, TimeSpan audioDuration)
+        {
+            if (!_sirenOfShameDevice.IsConnected)
+            {
+                _log.Warn("Retrieved request to play siren, but siren wasn't connected");
+                return;
+            };
+
+            LedPattern ledPattern = ledPatternIndex == null ? null : _sirenOfShameDevice.LedPatterns.ElementAtOrDefault(ledPatternIndex.Value);
+            AudioPattern audioPattern = audioPatternIndex == null ? null : _sirenOfShameDevice.AudioPatterns.ElementAtOrDefault(audioPatternIndex.Value);
+            PlaySiren(ledPattern, ledDuration, audioPattern, audioDuration);
+        }
+
         private void TestSiren_Click(object sender, EventArgs e)
         {
-            if (_sirenOfShameDevice.IsConnected)
+            if (!_sirenOfShameDevice.IsConnected) return;
+            
+            PlaySiren(_sirenOfShameDevice.LedPatterns.First(), new TimeSpan(0, 0, 0, 10), null, new TimeSpan(0));
+        }
+
+        private void PlaySiren(LedPattern ledPattern, TimeSpan ledDuration, AudioPattern audioPattern, TimeSpan audioDuration)
+        {
+            if (!_sirenOfShameDevice.IsConnected) return;
+            
+            if (ledPattern != null && ledDuration.Ticks != 0)
             {
-                _sirenOfShameDevice.PlayLightPattern(_sirenOfShameDevice.LedPatterns.First(), new TimeSpan(0, 0, 0, 10));
+                _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
+            }
+            if (audioPattern != null && audioDuration.Ticks != 0)
+            {
+                _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
             }
         }
     }
