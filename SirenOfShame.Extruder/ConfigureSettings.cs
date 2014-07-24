@@ -21,6 +21,10 @@ namespace SirenOfShame.Extruder
             InitializeComponent();
 
             RetrieveSettings();
+            _sosOnlineService.StatusChanged += status => Invoke(() =>
+            {
+                _connectionStatus.Text = status.NewState.ToString();
+            });
         }
 
         private void RetrieveSettings()
@@ -39,15 +43,17 @@ namespace SirenOfShame.Extruder
                 Password = _encryptor.EncryptString(_password.Text),
                 Name = _myname.Text,
             };
+            _connectionStatus.Text = "Verifying credentials";
             var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
             if (result.Success)
             {
                 SaveSettings();
+                _connectionStatus.Text = "Connecting";
                 await _sosOnlineService.StartRealtimeConnection(connectExtruderModel);
-                MessageBox.Show("Success!");
             }
             else
             {
+                _connectionStatus.Text = "Failed To Connect";
                 MessageBox.Show(result.ErrorMessage);
             }
         }

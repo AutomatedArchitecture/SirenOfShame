@@ -14,6 +14,7 @@ namespace SirenOfShame.Extruder.Services
         private readonly ILog _log = MyLogManager.GetLog(typeof (SosOnlineService));
         private HubConnection _connection;
         private IHubProxy _proxy;
+        public Action<StateChange> StatusChanged { get; set; }
 
         public async Task<ApiResultBase> ConnectExtruder(ConnectExtruderModel connectExtruderModel)
         {
@@ -52,6 +53,7 @@ namespace SirenOfShame.Extruder.Services
         private void ConnectionOnStateChanged(StateChange obj)
         {
             _log.Debug("State changed to " + obj.NewState);
+            if (StatusChanged != null) StatusChanged(obj);
         }
 
         private void ConnectionOnError(Exception ex)
