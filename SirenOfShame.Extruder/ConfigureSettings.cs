@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
@@ -25,8 +26,8 @@ namespace SirenOfShame.Extruder
 
             InitializeComponent();
 
+            DeviceConnected();
             RetrieveSettings();
-            DeviceConnected(false);
             RefreshConnectText(ConnectionState.Disconnected);
  
             SubscribeEvents();
@@ -37,6 +38,7 @@ namespace SirenOfShame.Extruder
             _sosOnlineService.StatusChanged += OnStatusChanged;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
             _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
+            _sirenOfShameDevice.TryConnect();
         }
 
         private void OnStatusChanged(StateChange status)
@@ -66,17 +68,22 @@ namespace SirenOfShame.Extruder
 
         void SirenOfShameDeviceConnected(object sender, EventArgs e)
         {
-            DeviceConnected(true);
+            DeviceConnected();
         }
 
         void SirenOfShameDeviceDisconnected(object sender, EventArgs e)
         {
-            DeviceConnected(false);
+            DeviceConnected();
         }
 
-        private void DeviceConnected(bool connected)
+        private void DeviceConnected()
         {
-            _testSiren.Enabled = connected;
+            Invoke(() =>
+            {
+                bool connected = _sirenOfShameDevice.IsConnected;
+                _testSiren.Enabled = connected;
+                _sirenStatus.Text = connected ? "Connected" : "Disconnected";
+            });
         }
 
         private void RetrieveSettings()
@@ -147,7 +154,14 @@ namespace SirenOfShame.Extruder
         {
             if (_sirenOfShameDevice != null)
             {
-                _sirenOfShameDevice.WndProc(ref m);
+                try
+                {
+                    _sirenOfShameDevice.WndProc(ref m);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                }
             }
             base.WndProc(ref m);
         }
@@ -204,6 +218,14 @@ namespace SirenOfShame.Extruder
             if (userHasEverSuccessfullyConnected)
             {
                 await TryToConnect();
+            }
+        }
+
+        private void TestSiren_Click(object sender, EventArgs e)
+        {
+            if (_sirenOfShameDevice.IsConnected)
+            {
+                _sirenOfShameDevice.PlayLightPattern(_sirenOfShameDevice.LedPatterns.First(), new TimeSpan(0, 0, 0, 10));
             }
         }
     }

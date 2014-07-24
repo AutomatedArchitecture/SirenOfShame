@@ -193,6 +193,7 @@
             this._testSiren.TabIndex = 9;
             this._testSiren.Text = "Test Siren";
             this._testSiren.UseVisualStyleBackColor = true;
+            this._testSiren.Click += new System.EventHandler(this.TestSiren_Click);
             // 
             // ConfigureSettings
             // 
