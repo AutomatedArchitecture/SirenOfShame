@@ -11,6 +11,7 @@ namespace SirenOfShame.Extruder
         private readonly ILog _log = MyLogManager.GetLog(typeof (ConfigureSettings));
         private readonly ExtruderSettings _settings;
         private readonly TripleDesStringEncryptor _encryptor;
+        private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
         public ConfigureSettings()
         {
@@ -38,11 +39,11 @@ namespace SirenOfShame.Extruder
                 Password = _encryptor.EncryptString(_password.Text),
                 Name = _myname.Text,
             };
-            var sosOnlineService = new SosOnlineService();
-            var result = await sosOnlineService.ConnectExtruder(connectExtruderModel);
+            var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
             if (result.Success)
             {
                 SaveSettings();
+                await _sosOnlineService.StartRealtimeConnection(connectExtruderModel);
                 MessageBox.Show("Success!");
             }
             else
