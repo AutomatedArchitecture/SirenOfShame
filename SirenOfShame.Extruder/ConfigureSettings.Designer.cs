@@ -214,6 +214,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Extruder Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureSettings_FormClosing);
+            this.Load += new System.EventHandler(this.ConfigureSettings_Load);
             this._minimizedMenuStrip.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

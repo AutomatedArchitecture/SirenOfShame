@@ -63,7 +63,7 @@ namespace SirenOfShame.Extruder.Services
 
         private void ConnectionOnClosed()
         {
-            MessageBox.Show("On connection closed");
+            _log.Debug("Connection closed");
         }
 
         private void ConnectionOnStateChanged(StateChange obj)

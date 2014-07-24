@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
@@ -27,10 +26,17 @@ namespace SirenOfShame.Extruder
             InitializeComponent();
 
             RetrieveSettings();
+            DeviceConnected(false);
+            RefreshConnectText(ConnectionState.Disconnected);
+ 
+            SubscribeEvents();
+        }
+
+        private void SubscribeEvents()
+        {
             _sosOnlineService.StatusChanged += OnStatusChanged;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
             _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
-            RefreshConnectText(ConnectionState.Disconnected);
         }
 
         private void OnStatusChanged(StateChange status)
@@ -60,12 +66,17 @@ namespace SirenOfShame.Extruder
 
         void SirenOfShameDeviceConnected(object sender, EventArgs e)
         {
-            
+            DeviceConnected(true);
         }
 
         void SirenOfShameDeviceDisconnected(object sender, EventArgs e)
         {
-            // do something fun, disable some buttons.
+            DeviceConnected(false);
+        }
+
+        private void DeviceConnected(bool connected)
+        {
+            _testSiren.Enabled = connected;
         }
 
         private void RetrieveSettings()
@@ -185,6 +196,15 @@ namespace SirenOfShame.Extruder
         private void _notifyIcon_DoubleClick(object sender, EventArgs e)
         {
             ShowConfigureScreen();
+        }
+
+        private async void ConfigureSettings_Load(object sender, EventArgs e)
+        {
+            var userHasEverSuccessfullyConnected = !string.IsNullOrEmpty(_settings.UserName);
+            if (userHasEverSuccessfullyConnected)
+            {
+                await TryToConnect();
+            }
         }
     }
 }
