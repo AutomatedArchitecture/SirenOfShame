@@ -101,6 +101,12 @@
   <ItemGroup>
     <Content Include="ShameExtruder.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
+      <Project>{cbb57466-4341-49bc-a61d-43a7cc656a95}</Project>
+      <Name>SirenOfShame.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

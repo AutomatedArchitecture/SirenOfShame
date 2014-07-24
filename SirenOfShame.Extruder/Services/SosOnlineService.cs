@@ -18,10 +18,20 @@ namespace SirenOfShame.Extruder.Services
 
         public async Task<ApiResultBase> ConnectExtruder(ConnectExtruderModel connectExtruderModel)
         {
+            var result = await Post(connectExtruderModel, "ConnectExtruder");
+            if (result.Success)
+            {
+                await StartRealtimeConnection(connectExtruderModel);
+            }
+            return result;
+        }
+
+        private static async Task<ApiResultBase> Post(object connectExtruderModel, string remoteMethod)
+        {
+            var data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
             var webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-            var data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
-            const string url = SOS_URL + "/ApiV1/ConnectExtruder";
+            string url = SOS_URL + "/ApiV1/" + remoteMethod;
             var resultStr = await webClient.UploadStringTaskAsync(url, "POST", data);
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResultBase>(resultStr);
             return result;
@@ -43,6 +53,12 @@ namespace SirenOfShame.Extruder.Services
             {
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
             }
+        }
+
+        public async Task Disconnect(ConnectExtruderModel connectExtruderModel)
+        {
+            await Post(connectExtruderModel, "DisconnectExtruder");
+            if (_connection != null) _connection.Stop();
         }
 
         private void ConnectionOnClosed()

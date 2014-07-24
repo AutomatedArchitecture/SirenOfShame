@@ -30,8 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSettings));
-            this._connect = new System.Windows.Forms.Button();
-            this._disconnect = new System.Windows.Forms.Button();
+            this._connectButton = new System.Windows.Forms.Button();
             this._username = new System.Windows.Forms.TextBox();
             this._password = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,29 +42,25 @@
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this._connectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._sirenStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this._testSiren = new System.Windows.Forms.Button();
             this._minimizedMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // _connect
+            // _connectButton
             // 
-            this._connect.Location = new System.Drawing.Point(94, 90);
-            this._connect.Name = "_connect";
-            this._connect.Size = new System.Drawing.Size(80, 34);
-            this._connect.TabIndex = 0;
-            this._connect.Text = "Connect";
-            this._connect.UseVisualStyleBackColor = true;
-            this._connect.Click += new System.EventHandler(this.Connect_Click);
-            // 
-            // _disconnect
-            // 
-            this._disconnect.Location = new System.Drawing.Point(182, 92);
-            this._disconnect.Name = "_disconnect";
-            this._disconnect.Size = new System.Drawing.Size(90, 31);
-            this._disconnect.TabIndex = 1;
-            this._disconnect.Text = "Disconnect";
-            this._disconnect.UseVisualStyleBackColor = true;
+            this._connectButton.Location = new System.Drawing.Point(94, 90);
+            this._connectButton.Name = "_connectButton";
+            this._connectButton.Size = new System.Drawing.Size(80, 26);
+            this._connectButton.TabIndex = 0;
+            this._connectButton.Text = "Connect";
+            this._connectButton.UseVisualStyleBackColor = true;
+            this._connectButton.Click += new System.EventHandler(this.Connect_Click);
             // 
             // _username
             // 
@@ -149,12 +144,22 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._connectionStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 155);
+            this.toolStripStatusLabel1,
+            this._connectionStatus,
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3,
+            this._sirenStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 135);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(284, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel1.Text = "Server:";
             // 
             // _connectionStatus
             // 
@@ -162,12 +167,40 @@
             this._connectionStatus.Size = new System.Drawing.Size(79, 17);
             this._connectionStatus.Text = "Disconnected";
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel2.Text = "|";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(36, 17);
+            this.toolStripStatusLabel3.Text = "Siren:";
+            // 
+            // _sirenStatus
+            // 
+            this._sirenStatus.Name = "_sirenStatus";
+            this._sirenStatus.Size = new System.Drawing.Size(79, 17);
+            this._sirenStatus.Text = "Disconnected";
+            // 
+            // _testSiren
+            // 
+            this._testSiren.Location = new System.Drawing.Point(180, 90);
+            this._testSiren.Name = "_testSiren";
+            this._testSiren.Size = new System.Drawing.Size(92, 26);
+            this._testSiren.TabIndex = 9;
+            this._testSiren.Text = "Test Siren";
+            this._testSiren.UseVisualStyleBackColor = true;
+            // 
             // ConfigureSettings
             // 
-            this.AcceptButton = this._connect;
+            this.AcceptButton = this._connectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 177);
+            this.ClientSize = new System.Drawing.Size(284, 157);
+            this.Controls.Add(this._testSiren);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._myname);
@@ -175,8 +208,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._password);
             this.Controls.Add(this._username);
-            this.Controls.Add(this._disconnect);
-            this.Controls.Add(this._connect);
+            this.Controls.Add(this._connectButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ConfigureSettings";
             this.ShowInTaskbar = false;
@@ -192,8 +224,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button _connect;
-        private System.Windows.Forms.Button _disconnect;
+        private System.Windows.Forms.Button _connectButton;
         private System.Windows.Forms.TextBox _username;
         private System.Windows.Forms.TextBox _password;
         private System.Windows.Forms.Label label1;
@@ -206,6 +237,11 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel _connectionStatus;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel _sirenStatus;
+        private System.Windows.Forms.Button _testSiren;
     }
 }
 

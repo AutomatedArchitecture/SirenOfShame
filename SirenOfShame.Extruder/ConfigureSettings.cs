@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
+using Microsoft.AspNet.SignalR.Client;
 using SirenOfShame.Extruder.Models;
 using SirenOfShame.Extruder.Services;
+using SirenOfShame.Lib.Device;
 
 namespace SirenOfShame.Extruder
 {
@@ -12,19 +16,56 @@ namespace SirenOfShame.Extruder
         private readonly ExtruderSettings _settings;
         private readonly TripleDesStringEncryptor _encryptor;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
+        private readonly ISirenOfShameDevice _sirenOfShameDevice = new SirenOfShameDevice();
+        private bool _connectedToServer;
 
         public ConfigureSettings()
         {
             _settings = ExtruderSettings.GetAppSettings();
             _encryptor = new TripleDesStringEncryptor();
-            
+
             InitializeComponent();
 
             RetrieveSettings();
-            _sosOnlineService.StatusChanged += status => Invoke(() =>
+            _sosOnlineService.StatusChanged += OnStatusChanged;
+            _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
+            _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
+            RefreshConnectText(ConnectionState.Disconnected);
+        }
+
+        private void OnStatusChanged(StateChange status)
+        {
+            Invoke(() => RefreshConnectText(status.NewState));
+        }
+        
+        private void RefreshConnectText(ConnectionState newState)
+        {
+            switch (newState)
             {
-                _connectionStatus.Text = status.NewState.ToString();
-            });
+                case ConnectionState.Connected:
+                    UpdateNetworkStatus(false, newState.ToString());
+                    _connectedToServer = true;
+                    _connectButton.Text = "Disconnect";
+                    break;
+                case ConnectionState.Disconnected:
+                    UpdateNetworkStatus(false, newState.ToString());
+                    _connectedToServer = false;
+                    _connectButton.Text = "Connect";
+                    break;
+                default:
+                    UpdateNetworkStatus(null, newState.ToString());
+                    break;
+            }
+        }
+
+        void SirenOfShameDeviceConnected(object sender, EventArgs e)
+        {
+            
+        }
+
+        void SirenOfShameDeviceDisconnected(object sender, EventArgs e)
+        {
+            // do something fun, disable some buttons.
         }
 
         private void RetrieveSettings()
@@ -36,26 +77,68 @@ namespace SirenOfShame.Extruder
 
         private async void Connect_Click(object sender, EventArgs e)
         {
+            if (!_connectedToServer)
+            {
+                await TryToConnect();
+            }
+            else
+            {
+                await TryToDisconnect();
+            }
+        }
+
+        private void UpdateNetworkStatus(bool? isBusy, string statusText)
+        {
+            _connectionStatus.Text = statusText;
+            if (isBusy.HasValue)
+            {
+                _connectButton.Enabled = !isBusy.Value;
+            }
+        }
+
+        private async Task TryToDisconnect()
+        {
+            _log.Debug("Attempting to disconnect from server");
+            var connectExtruderModel = GetConnectExtruderModel();
+            UpdateNetworkStatus(true, "Disconnecting");
+            await _sosOnlineService.Disconnect(connectExtruderModel);
+        }
+
+        private async Task TryToConnect()
+        {
             _log.Debug("Attempting to connect as " + _username.Text);
+            var connectExtruderModel = GetConnectExtruderModel();
+            UpdateNetworkStatus(true, "Verifying credentials");
+            var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
+            if (result.Success)
+            {
+                SaveSettings();
+            }
+            else
+            {
+                UpdateNetworkStatus(false, "Failed To Connect");
+                MessageBox.Show(result.ErrorMessage);
+            }
+        }
+
+        private ConnectExtruderModel GetConnectExtruderModel()
+        {
             var connectExtruderModel = new ConnectExtruderModel
             {
                 UserName = _username.Text,
                 Password = _encryptor.EncryptString(_password.Text),
                 Name = _myname.Text,
             };
-            _connectionStatus.Text = "Verifying credentials";
-            var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
-            if (result.Success)
+            return connectExtruderModel;
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (_sirenOfShameDevice != null)
             {
-                SaveSettings();
-                _connectionStatus.Text = "Connecting";
-                await _sosOnlineService.StartRealtimeConnection(connectExtruderModel);
+                _sirenOfShameDevice.WndProc(ref m);
             }
-            else
-            {
-                _connectionStatus.Text = "Failed To Connect";
-                MessageBox.Show(result.ErrorMessage);
-            }
+            base.WndProc(ref m);
         }
 
         private void SaveSettings()
