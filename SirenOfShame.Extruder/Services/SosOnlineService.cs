@@ -43,11 +43,13 @@ namespace SirenOfShame.Extruder.Services
             {
                 _connection = new HubConnection(SOS_URL);
                 _proxy = _connection.CreateHubProxy("SosHub");
+
                 _proxy.On<int?, TimeSpan, int?, TimeSpan>("playSiren", OnPlaySirenEventReceived);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
                 await _connection.Start();
+                await _proxy.Invoke("joinGroup", connectExtruderModel.UserName, connectExtruderModel.Password);
             }
             catch (Exception ex)
             {
