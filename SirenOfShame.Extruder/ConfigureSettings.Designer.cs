@@ -210,6 +210,7 @@
             this.Controls.Add(this._username);
             this.Controls.Add(this._connectButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureSettings";
             this.ShowInTaskbar = false;
             this.Text = "Extruder Settings";
