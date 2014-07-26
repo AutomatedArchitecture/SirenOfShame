@@ -42,7 +42,7 @@ namespace SirenOfShame.Extruder.Services
             }
         }
 
-        public void Disconnect(ConnectExtruderModel connectExtruderModel)
+        public void Disconnect()
         {
             if (_connection != null) _connection.Stop();
         }

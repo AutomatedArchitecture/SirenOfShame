@@ -118,9 +118,8 @@ namespace SirenOfShame.Extruder
         private void TryToDisconnect()
         {
             _log.Debug("Attempting to disconnect from server");
-            var connectExtruderModel = GetConnectExtruderModel();
             UpdateNetworkStatus(true, "Disconnecting");
-            _sosOnlineService.Disconnect(connectExtruderModel);
+            _sosOnlineService.Disconnect();
         }
 
         private async Task TryToConnect()
@@ -188,6 +187,10 @@ namespace SirenOfShame.Extruder
             {
                 e.Cancel = true;
                 WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                TryToDisconnect();
             }
         }
 
