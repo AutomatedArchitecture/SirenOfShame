@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using log4net;
 using Microsoft.AspNet.SignalR.Client;
@@ -18,26 +17,10 @@ namespace SirenOfShame.Extruder.Services
 
         public async Task<ApiResultBase> ConnectExtruder(ConnectExtruderModel connectExtruderModel)
         {
-            var result = await Post(connectExtruderModel, "ConnectExtruder");
-            if (result.Success)
-            {
-                await StartRealtimeConnection(connectExtruderModel);
-            }
-            return result;
+            return await StartRealtimeConnection(connectExtruderModel);
         }
 
-        private static async Task<ApiResultBase> Post(object connectExtruderModel, string remoteMethod)
-        {
-            var data = Newtonsoft.Json.JsonConvert.SerializeObject(connectExtruderModel);
-            var webClient = new WebClient();
-            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-            string url = SOS_URL + "/ApiV1/" + remoteMethod;
-            var resultStr = await webClient.UploadStringTaskAsync(url, "POST", data);
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiResultBase>(resultStr);
-            return result;
-        }
-
-        public async Task StartRealtimeConnection(ConnectExtruderModel connectExtruderModel)
+        public async Task<ApiResultBase> StartRealtimeConnection(ConnectExtruderModel connectExtruderModel)
         {
             try
             {
@@ -49,17 +32,18 @@ namespace SirenOfShame.Extruder.Services
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
                 await _connection.Start();
-                await _proxy.Invoke("joinGroup", connectExtruderModel.UserName, connectExtruderModel.Password);
+                var result = await _proxy.Invoke<ApiResultBase>("connectExtruder", connectExtruderModel);
+                return result;
             }
             catch (Exception ex)
             {
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
+                return new ApiResultBase {Success = false, ErrorMessage = ex.Message};
             }
         }
 
-        public async Task Disconnect(ConnectExtruderModel connectExtruderModel)
+        public void Disconnect(ConnectExtruderModel connectExtruderModel)
         {
-            await Post(connectExtruderModel, "DisconnectExtruder");
             if (_connection != null) _connection.Stop();
         }
 

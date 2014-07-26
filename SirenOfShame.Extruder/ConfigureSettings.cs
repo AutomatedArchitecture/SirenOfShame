@@ -102,7 +102,7 @@ namespace SirenOfShame.Extruder
             }
             else
             {
-                await TryToDisconnect();
+                TryToDisconnect();
             }
         }
 
@@ -115,12 +115,12 @@ namespace SirenOfShame.Extruder
             }
         }
 
-        private async Task TryToDisconnect()
+        private void TryToDisconnect()
         {
             _log.Debug("Attempting to disconnect from server");
             var connectExtruderModel = GetConnectExtruderModel();
             UpdateNetworkStatus(true, "Disconnecting");
-            await _sosOnlineService.Disconnect(connectExtruderModel);
+            _sosOnlineService.Disconnect(connectExtruderModel);
         }
 
         private async Task TryToConnect()
@@ -228,8 +228,9 @@ namespace SirenOfShame.Extruder
             if (!_sirenOfShameDevice.IsConnected)
             {
                 _log.Warn("Retrieved request to play siren, but siren wasn't connected");
+                MessageBox.Show("Retrieved request to play siren, but siren wasn't connected");
                 return;
-            };
+            }
 
             LedPattern ledPattern = ledPatternIndex == null ? null : _sirenOfShameDevice.LedPatterns.ElementAtOrDefault(ledPatternIndex.Value);
             AudioPattern audioPattern = audioPatternIndex == null ? null : _sirenOfShameDevice.AudioPatterns.ElementAtOrDefault(audioPatternIndex.Value);
