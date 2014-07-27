@@ -186,12 +186,18 @@ namespace SirenOfShame.Extruder
             if (WindowState != FormWindowState.Minimized)
             {
                 e.Cancel = true;
-                WindowState = FormWindowState.Minimized;
+                SetWindowState(FormWindowState.Minimized);
             }
             else
             {
                 TryToDisconnect();
             }
+        }
+
+        private void SetWindowState(FormWindowState windowState)
+        {
+            WindowState = windowState;
+            ShowInTaskbar = windowState != FormWindowState.Minimized;
         }
 
         private void configureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -204,7 +210,7 @@ namespace SirenOfShame.Extruder
             if (WindowState == FormWindowState.Minimized)
             {
                 Show();
-                WindowState = FormWindowState.Normal;
+                SetWindowState(FormWindowState.Normal);
             }
             Activate();
             Focus();
@@ -219,6 +225,8 @@ namespace SirenOfShame.Extruder
         private async void ConfigureSettings_Load(object sender, EventArgs e)
         {
             var userHasEverSuccessfullyConnected = !string.IsNullOrEmpty(_settings.UserName);
+            var windowState = userHasEverSuccessfullyConnected ? FormWindowState.Minimized : FormWindowState.Normal;
+            SetWindowState(windowState);
             if (userHasEverSuccessfullyConnected)
             {
                 await TryToConnect();
