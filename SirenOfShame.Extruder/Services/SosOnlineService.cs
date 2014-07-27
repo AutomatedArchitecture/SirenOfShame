@@ -28,6 +28,7 @@ namespace SirenOfShame.Extruder.Services
                 _proxy = _connection.CreateHubProxy("SosHub");
 
                 _proxy.On<int?, TimeSpan, int?, TimeSpan>("playSiren", OnPlaySirenEventReceived);
+                _proxy.On("forceDisconnect", OnForceDisconnect);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
@@ -40,6 +41,12 @@ namespace SirenOfShame.Extruder.Services
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
                 return new ApiResultBase {Success = false, ErrorMessage = ex.Message};
             }
+        }
+
+        private void OnForceDisconnect()
+        {
+            _log.Info("Force disconnected from server");
+            Disconnect();
         }
 
         public void Disconnect()
