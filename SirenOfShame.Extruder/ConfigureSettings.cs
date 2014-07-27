@@ -178,6 +178,7 @@ namespace SirenOfShame.Extruder
         {
             Hide();
             WindowState = FormWindowState.Minimized;
+            OnAppExit();
             Invoke(Application.Exit);
         }
 
@@ -190,8 +191,13 @@ namespace SirenOfShame.Extruder
             }
             else
             {
-                TryToDisconnect();
+                OnAppExit();
             }
+        }
+
+        private void OnAppExit()
+        {
+            TryToDisconnect();
         }
 
         private void SetWindowState(FormWindowState windowState)
