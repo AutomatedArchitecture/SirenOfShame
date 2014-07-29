@@ -140,7 +140,7 @@ namespace SirenOfShame.Lib.Services
                     string errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage, null);
                 }
-            }, OnConnectionFail(onFail), settings.GetSosOnlineProxy());
+            }, ex => onFail("Failed to connect to SoS Online", ex), settings.GetSosOnlineProxy());
         }
 
         private static Action<Exception> OnConnectionFail(Action<string, Exception> onFail)
@@ -204,7 +204,7 @@ namespace SirenOfShame.Lib.Services
         private HubConnection _connection;
         private IHubProxy _proxy;
 
-        public virtual void StartRealtimeConnection(SirenOfShameSettings settings)
+        public virtual async Task StartRealtimeConnection(SirenOfShameSettings settings)
         {
             try
             {
@@ -220,8 +220,7 @@ namespace SirenOfShame.Lib.Services
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
-                Task result = _connection.Start();
-                result.ContinueWith(ConnectionOnError, TaskContinuationOptions.OnlyOnFaulted);
+                await _connection.Start();
             } 
             catch (Exception ex)
             {

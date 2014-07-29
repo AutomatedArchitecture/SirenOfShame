@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Services;
 using log4net;
@@ -318,7 +319,7 @@ namespace SirenOfShame
             EnableSirenMenuItem(false);
         }
 
-        private void MainFormLoad(object sender, EventArgs e)
+        private async void MainFormLoad(object sender, EventArgs e)
         {
             ShowRibbon(false);
             _panelAlertHeight = _panelAlert.Height;
@@ -339,7 +340,7 @@ namespace SirenOfShame
             StartWatchingBuild();
             _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnOnNewSosOnlineNotification;
             _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
-            _sosOnlineService.StartRealtimeConnection(_settings);
+            await _sosOnlineService.StartRealtimeConnection(_settings);
             
             RefreshStats();
             SetMuteButton();
