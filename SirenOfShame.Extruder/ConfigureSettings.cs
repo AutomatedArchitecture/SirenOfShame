@@ -37,6 +37,7 @@ namespace SirenOfShame.Extruder
         {
             _sosOnlineService.StatusChanged += OnStatusChanged;
             _sosOnlineService.PlaySiren += OnPlaySiren;
+            _sosOnlineService.SetTrayIcon += RulesEngineSetTrayIcon;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
             _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
             _sirenOfShameDevice.TryConnect();
@@ -226,6 +227,16 @@ namespace SirenOfShame.Extruder
         private void _notifyIcon_DoubleClick(object sender, EventArgs e)
         {
             ShowConfigureScreen();
+        }
+
+        private void RulesEngineSetTrayIcon(object sender, SetTrayIconEventArgs args)
+        {
+            if (args.TrayIcon == TrayIcon.Red)
+                _notifyIcon.Icon = Properties.Resources.SirenOfShameTrayRed;
+            else if (args.TrayIcon == TrayIcon.Green)
+                _notifyIcon.Icon = Properties.Resources.SirenOfShameTrayGreen;
+            else
+                _notifyIcon.Icon = Properties.Resources.SirenOfShameTrayTriangle;
         }
 
         private async void ConfigureSettings_Load(object sender, EventArgs e)

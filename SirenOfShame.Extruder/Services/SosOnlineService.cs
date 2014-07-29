@@ -14,6 +14,13 @@ namespace SirenOfShame.Extruder.Services
         private IHubProxy _proxy;
         public Action<StateChange> StatusChanged { get; set; }
         public Action<int?, TimeSpan, int?, TimeSpan> PlaySiren { get; set; }
+        public event SetTrayIconEvent SetTrayIcon;
+
+        protected virtual void OnSetTrayIcon(TrayIcon trayIcon)
+        {
+            var handler = SetTrayIcon;
+            if (handler != null) handler(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
+        }
 
         public async Task<ApiResultBase> ConnectExtruder(ConnectExtruderModel connectExtruderModel)
         {
@@ -29,6 +36,7 @@ namespace SirenOfShame.Extruder.Services
 
                 _proxy.On<int?, TimeSpan, int?, TimeSpan>("playSiren", OnPlaySirenEventReceived);
                 _proxy.On("forceDisconnect", OnForceDisconnect);
+                _proxy.On<TrayIcon>("setTrayIcon", OnSetTrayIcon);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
