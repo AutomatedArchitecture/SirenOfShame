@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
@@ -21,8 +22,9 @@ namespace SirenOfShame.Test.Unit.Services
         {
         }
 
-        public override void StartRealtimeConnection(SirenOfShameSettings settings)
+        public override async Task StartRealtimeConnection(SirenOfShameSettings settings)
         {
+            await Task.Yield();
         }
 
         public override void SendMessage(SirenOfShameSettings settings, string message)
