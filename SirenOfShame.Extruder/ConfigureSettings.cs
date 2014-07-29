@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,7 +13,8 @@ namespace SirenOfShame.Extruder
 {
     public partial class ConfigureSettings : FormBase
     {
-        private readonly ILog _log = MyLogManager.GetLog(typeof (ConfigureSettings));
+        private const int TIMEOUT = 3000;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureSettings));
         private readonly ExtruderSettings _settings;
         private readonly TripleDesStringEncryptor _encryptor;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
@@ -38,9 +40,24 @@ namespace SirenOfShame.Extruder
             _sosOnlineService.StatusChanged += OnStatusChanged;
             _sosOnlineService.PlaySiren += OnPlaySiren;
             _sosOnlineService.SetTrayIcon += RulesEngineSetTrayIcon;
+            _sosOnlineService.TrayNotify += RulesEngineTrayNotify;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
             _sirenOfShameDevice.Disconnected += SirenOfShameDeviceDisconnected;
             _sirenOfShameDevice.TryConnect();
+        }
+
+        private static readonly Dictionary<SosToolTipIcon, ToolTipIcon> _toolTipIconMapping = new Dictionary<SosToolTipIcon, ToolTipIcon> 
+        {
+            { SosToolTipIcon.None, ToolTipIcon.None },
+            { SosToolTipIcon.Info, ToolTipIcon.Info },
+            { SosToolTipIcon.Warning, ToolTipIcon.Warning },
+            { SosToolTipIcon.Error, ToolTipIcon.Error },
+        };
+        
+        private void RulesEngineTrayNotify(object sender, TrayNotifyEventArgs args)
+        {
+            ToolTipIcon tipIcon = _toolTipIconMapping[args.TipIcon];
+            Invoke(() => _notifyIcon.ShowBalloonTip(TIMEOUT, args.Title, args.TipText, tipIcon));
         }
 
         private void OnStatusChanged(StateChange status)

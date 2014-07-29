@@ -73,6 +73,9 @@
     <Compile Include="Services\MyLogManager.cs" />
     <Compile Include="Services\SetTrayIconEvent.cs" />
     <Compile Include="Services\SosOnlineService.cs" />
+    <Compile Include="Services\SosToolTipIcon.cs" />
+    <Compile Include="Services\TrayNotifyEvent.cs" />
+    <Compile Include="Services\TrayNotifyEventArgs.cs" />
     <Compile Include="Services\TrippleDesStringEncryptor.cs" />
     <EmbeddedResource Include="ConfigureSettings.resx">
       <DependentUpon>ConfigureSettings.cs</DependentUpon>
