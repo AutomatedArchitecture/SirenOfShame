@@ -264,15 +264,9 @@ namespace SirenOfShame.Extruder
         private void PlaySiren(LedPattern ledPattern, TimeSpan ledDuration, AudioPattern audioPattern, TimeSpan audioDuration)
         {
             if (!_sirenOfShameDevice.IsConnected) return;
-            
-            if (ledPattern != null && ledDuration.Ticks != 0)
-            {
-                _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
-            }
-            if (audioPattern != null && audioDuration.Ticks != 0)
-            {
-                _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
-            }
+
+            _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
+            _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
         }
     }
 }
