@@ -186,7 +186,7 @@ namespace SirenOfShame.Lib.Watcher
         private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
         {
             changedBuildStatuses
-                .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null)
+                .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null && !string.IsNullOrEmpty(i.ChangedBuildStatus.RequestedBy))
 // ReSharper disable PossibleInvalidOperationException
                 .Select(i => i.ChangedBuildStatus.AsNewsItemEventArgs(i.PreviousWorkingOrBrokenBuildStatus.Value, _settings))
 // ReSharper restore PossibleInvalidOperationException
