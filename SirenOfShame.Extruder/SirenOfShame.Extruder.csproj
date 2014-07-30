@@ -60,11 +60,11 @@
     <Compile Include="Models\ApiResultBase.cs" />
     <Compile Include="Models\ConnectExtruderModel.cs" />
     <Compile Include="Models\CredentialApiModel.cs" />
-    <Compile Include="ConfigureSettings.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigureSettings.Designer.cs">
-      <DependentUpon>ConfigureSettings.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ExtruderSettings.cs" />
     <Compile Include="Models\TrayIcon.cs" />
@@ -77,8 +77,17 @@
     <Compile Include="Services\TrayNotifyEvent.cs" />
     <Compile Include="Services\TrayNotifyEventArgs.cs" />
     <Compile Include="Services\TrippleDesStringEncryptor.cs" />
-    <EmbeddedResource Include="ConfigureSettings.resx">
-      <DependentUpon>ConfigureSettings.cs</DependentUpon>
+    <Compile Include="SettingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsPage.Designer.cs">
+      <DependentUpon>SettingsPage.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -90,6 +99,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SettingsPage.resx">
+      <DependentUpon>SettingsPage.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

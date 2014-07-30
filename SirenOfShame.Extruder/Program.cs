@@ -16,7 +16,7 @@ namespace SirenOfShame.Extruder
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ConfigureSettings());
+            Application.Run(new MainForm());
         }
     }
 }

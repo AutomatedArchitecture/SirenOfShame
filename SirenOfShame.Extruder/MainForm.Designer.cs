@@ -1,6 +1,6 @@
 ﻿namespace SirenOfShame.Extruder
 {
-    partial class ConfigureSettings
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,14 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureSettings));
-            this._connectButton = new System.Windows.Forms.Button();
-            this._username = new System.Windows.Forms.TextBox();
-            this._password = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this._myname = new System.Windows.Forms.TextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this._notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this._minimizedMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,68 +40,10 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this._sirenStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this._testSiren = new System.Windows.Forms.Button();
+            this._settingsPage = new SirenOfShame.Extruder.SettingsPage();
             this._minimizedMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // _connectButton
-            // 
-            this._connectButton.Location = new System.Drawing.Point(94, 90);
-            this._connectButton.Name = "_connectButton";
-            this._connectButton.Size = new System.Drawing.Size(80, 26);
-            this._connectButton.TabIndex = 0;
-            this._connectButton.Text = "Connect";
-            this._connectButton.UseVisualStyleBackColor = true;
-            this._connectButton.Click += new System.EventHandler(this.Connect_Click);
-            // 
-            // _username
-            // 
-            this._username.Location = new System.Drawing.Point(94, 12);
-            this._username.Name = "_username";
-            this._username.Size = new System.Drawing.Size(178, 20);
-            this._username.TabIndex = 2;
-            // 
-            // _password
-            // 
-            this._password.Location = new System.Drawing.Point(94, 38);
-            this._password.Name = "_password";
-            this._password.Size = new System.Drawing.Size(178, 20);
-            this._password.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Username";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Password";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "My Name";
-            // 
-            // _myname
-            // 
-            this._myname.Location = new System.Drawing.Point(94, 64);
-            this._myname.Name = "_myname";
-            this._myname.Size = new System.Drawing.Size(178, 20);
-            this._myname.TabIndex = 6;
             // 
             // _notifyIcon
             // 
@@ -151,7 +86,7 @@
             this._sirenStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 135);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(284, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(300, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -185,36 +120,28 @@
             this._sirenStatus.Size = new System.Drawing.Size(79, 17);
             this._sirenStatus.Text = "Disconnected";
             // 
-            // _testSiren
+            // _settingsPage
             // 
-            this._testSiren.Location = new System.Drawing.Point(180, 90);
-            this._testSiren.Name = "_testSiren";
-            this._testSiren.Size = new System.Drawing.Size(92, 26);
-            this._testSiren.TabIndex = 9;
-            this._testSiren.Text = "Test Siren";
-            this._testSiren.UseVisualStyleBackColor = true;
-            this._testSiren.Click += new System.EventHandler(this.TestSiren_Click);
+            this._settingsPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._settingsPage.Location = new System.Drawing.Point(12, 11);
+            this._settingsPage.Name = "_settingsPage";
+            this._settingsPage.Size = new System.Drawing.Size(283, 121);
+            this._settingsPage.TabIndex = 9;
             // 
-            // ConfigureSettings
+            // MainForm
             // 
-            this.AcceptButton = this._connectButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 157);
-            this.Controls.Add(this._testSiren);
+            this.ClientSize = new System.Drawing.Size(300, 157);
+            this.Controls.Add(this._settingsPage);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this._myname);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this._password);
-            this.Controls.Add(this._username);
-            this.Controls.Add(this._connectButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ConfigureSettings";
+            this.Name = "MainForm";
             this.ShowInTaskbar = false;
-            this.Text = "Extruder Settings";
+            this.Text = "Shame Extruder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureSettings_FormClosing);
             this.Load += new System.EventHandler(this.ConfigureSettings_Load);
             this._minimizedMenuStrip.ResumeLayout(false);
@@ -227,13 +154,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button _connectButton;
-        private System.Windows.Forms.TextBox _username;
-        private System.Windows.Forms.TextBox _password;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox _myname;
         private System.Windows.Forms.NotifyIcon _notifyIcon;
         private System.Windows.Forms.ContextMenuStrip _minimizedMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem configureToolStripMenuItem;
@@ -244,7 +164,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel _sirenStatus;
-        private System.Windows.Forms.Button _testSiren;
+        private SettingsPage _settingsPage;
     }
 }
 

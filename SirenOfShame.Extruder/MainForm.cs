@@ -11,17 +11,17 @@ using SirenOfShame.Lib.Device;
 
 namespace SirenOfShame.Extruder
 {
-    public partial class ConfigureSettings : FormBase
+    public partial class MainForm : FormBase
     {
         private const int TIMEOUT = 3000;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureSettings));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MainForm));
         private readonly ExtruderSettings _settings;
         private readonly TripleDesStringEncryptor _encryptor;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
         private readonly ISirenOfShameDevice _sirenOfShameDevice = new SirenOfShameDevice();
         private bool _connectedToServer;
 
-        public ConfigureSettings()
+        public MainForm()
         {
             _settings = ExtruderSettings.GetAppSettings();
             _encryptor = new TripleDesStringEncryptor();
@@ -29,10 +29,24 @@ namespace SirenOfShame.Extruder
             InitializeComponent();
 
             DeviceConnected();
-            RetrieveSettings();
             RefreshConnectText(ConnectionState.Disconnected);
+
+            _settingsPage.Settings = _settings;
+            _settingsPage.OnToggleConnection += SettingsPageOnOnToggleConnection;
  
             SubscribeEvents();
+        }
+
+        private async Task SettingsPageOnOnToggleConnection(object sender, ToggleConnectionEventArgs args)
+        {
+            if (!_connectedToServer)
+            {
+                await TryToConnect();
+            }
+            else
+            {
+                TryToDisconnect();
+            }
         }
 
         private void SubscribeEvents()
@@ -65,26 +79,6 @@ namespace SirenOfShame.Extruder
             Invoke(() => RefreshConnectText(status.NewState));
         }
         
-        private void RefreshConnectText(ConnectionState newState)
-        {
-            switch (newState)
-            {
-                case ConnectionState.Connected:
-                    UpdateNetworkStatus(false, newState.ToString());
-                    _connectedToServer = true;
-                    _connectButton.Text = "Disconnect";
-                    break;
-                case ConnectionState.Disconnected:
-                    UpdateNetworkStatus(false, newState.ToString());
-                    _connectedToServer = false;
-                    _connectButton.Text = "Connect";
-                    break;
-                default:
-                    UpdateNetworkStatus(null, newState.ToString());
-                    break;
-            }
-        }
-
         void SirenOfShameDeviceConnected(object sender, EventArgs e)
         {
             DeviceConnected();
@@ -100,37 +94,15 @@ namespace SirenOfShame.Extruder
             Invoke(() =>
             {
                 bool connected = _sirenOfShameDevice.IsConnected;
-                _testSiren.Enabled = connected;
+                _settingsPage.DeviceConnected(connected);
                 _sirenStatus.Text = connected ? "Connected" : "Disconnected";
             });
-        }
-
-        private void RetrieveSettings()
-        {
-            _username.Text = _settings.UserName;
-            _password.Text = _encryptor.DecryptString(_settings.EncryptedPassword);
-            _myname.Text = _settings.MyName;
-        }
-
-        private async void Connect_Click(object sender, EventArgs e)
-        {
-            if (!_connectedToServer)
-            {
-                await TryToConnect();
-            }
-            else
-            {
-                TryToDisconnect();
-            }
         }
 
         private void UpdateNetworkStatus(bool? isBusy, string statusText)
         {
             _connectionStatus.Text = statusText;
-            if (isBusy.HasValue)
-            {
-                _connectButton.Enabled = !isBusy.Value;
-            }
+            _settingsPage.UpdateNetworkStatus(isBusy, statusText);
         }
 
         private void TryToDisconnect()
@@ -142,13 +114,13 @@ namespace SirenOfShame.Extruder
 
         private async Task TryToConnect()
         {
-            _log.Debug("Attempting to connect as " + _username.Text);
             var connectExtruderModel = GetConnectExtruderModel();
+            _log.Debug("Attempting to connect as " + connectExtruderModel.UserName);
             UpdateNetworkStatus(true, "Verifying credentials");
             var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
             if (result.Success)
             {
-                SaveSettings();
+                SaveSettings(connectExtruderModel);
             }
             else
             {
@@ -157,15 +129,42 @@ namespace SirenOfShame.Extruder
             }
         }
 
+        private void RefreshConnectText(ConnectionState newState)
+        {
+            switch (newState)
+            {
+                case ConnectionState.Connected:
+                    UpdateNetworkStatus(false, newState.ToString());
+                    _connectedToServer = true;
+                    break;
+                case ConnectionState.Disconnected:
+                    UpdateNetworkStatus(false, newState.ToString());
+                    _connectedToServer = false;
+                    break;
+                default:
+                    UpdateNetworkStatus(null, newState.ToString());
+                    break;
+            }
+            _settingsPage.RefreshIsConnected(_connectedToServer);
+        }
+
+
+        private void SaveSettings(ConnectExtruderModel connectExtruderModel)
+        {
+            _settings.UserName = connectExtruderModel.UserName;
+            _settings.EncryptedPassword = connectExtruderModel.Password;
+            _settings.MyName = connectExtruderModel.Name;
+            _settings.Save();
+        }
+
         private ConnectExtruderModel GetConnectExtruderModel()
         {
-            var connectExtruderModel = new ConnectExtruderModel
+            return new ConnectExtruderModel
             {
-                UserName = _username.Text,
-                Password = _encryptor.EncryptString(_password.Text),
-                Name = _myname.Text,
+                UserName = _settings.UserName,
+                Password = _settings.EncryptedPassword,
+                Name = _settings.MyName,
             };
-            return connectExtruderModel;
         }
 
         protected override void WndProc(ref Message m)
@@ -182,14 +181,6 @@ namespace SirenOfShame.Extruder
                 }
             }
             base.WndProc(ref m);
-        }
-
-        private void SaveSettings()
-        {
-            _settings.UserName = _username.Text;
-            _settings.EncryptedPassword = _encryptor.EncryptString(_password.Text);
-            _settings.MyName = _myname.Text;
-            _settings.Save();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -280,13 +271,6 @@ namespace SirenOfShame.Extruder
             LedPattern ledPattern = ledPatternIndex == null ? null : _sirenOfShameDevice.LedPatterns.ElementAtOrDefault(ledPatternIndex.Value);
             AudioPattern audioPattern = audioPatternIndex == null ? null : _sirenOfShameDevice.AudioPatterns.ElementAtOrDefault(audioPatternIndex.Value);
             PlaySiren(ledPattern, ledDuration, audioPattern, audioDuration);
-        }
-
-        private void TestSiren_Click(object sender, EventArgs e)
-        {
-            if (!_sirenOfShameDevice.IsConnected) return;
-            
-            PlaySiren(_sirenOfShameDevice.LedPatterns.First(), new TimeSpan(0, 0, 0, 10), null, new TimeSpan(0));
         }
 
         private void PlaySiren(LedPattern ledPattern, TimeSpan ledDuration, AudioPattern audioPattern, TimeSpan audioDuration)
