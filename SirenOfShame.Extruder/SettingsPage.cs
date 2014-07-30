@@ -45,7 +45,12 @@ namespace SirenOfShame.Extruder
         {
             if (OnToggleConnection == null) return;
 
-            var toggleConnectionEventArgs = new ToggleConnectionEventArgs();
+            var toggleConnectionEventArgs = new ToggleConnectionEventArgs
+            {
+                UserName = _username.Text,
+                PlainTextPassword = _password.Text,
+                Name = _myname.Text,
+            };
             await OnToggleConnection(this, toggleConnectionEventArgs);
         }
 
@@ -84,5 +89,8 @@ namespace SirenOfShame.Extruder
 
     public class ToggleConnectionEventArgs
     {
+        public string UserName { get; set; }
+        public string PlainTextPassword { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -41,7 +41,17 @@ namespace SirenOfShame.Extruder
         {
             if (!_connectedToServer)
             {
-                await TryToConnect();
+                ConnectExtruderModel connectExtruderModel = new ConnectExtruderModel
+                {
+                    UserName = args.UserName,
+                    Password = _encryptor.EncryptString(args.PlainTextPassword),
+                    Name = args.Name,
+                };
+                bool success = await TryToConnect(connectExtruderModel);
+                if (success)
+                {
+                    SaveSettings(connectExtruderModel);
+                }
             }
             else
             {
@@ -112,21 +122,16 @@ namespace SirenOfShame.Extruder
             _sosOnlineService.Disconnect();
         }
 
-        private async Task TryToConnect()
+        private async Task<bool> TryToConnect(ConnectExtruderModel connectExtruderModel)
         {
-            var connectExtruderModel = GetConnectExtruderModel();
             _log.Debug("Attempting to connect as " + connectExtruderModel.UserName);
             UpdateNetworkStatus(true, "Verifying credentials");
             var result = await _sosOnlineService.ConnectExtruder(connectExtruderModel);
-            if (result.Success)
-            {
-                SaveSettings(connectExtruderModel);
-            }
-            else
-            {
+            if (!result.Success) {
                 UpdateNetworkStatus(false, "Failed To Connect");
                 MessageBox.Show(result.ErrorMessage);
             }
+            return result.Success;
         }
 
         private void RefreshConnectText(ConnectionState newState)
@@ -254,7 +259,8 @@ namespace SirenOfShame.Extruder
             SetWindowState(windowState);
             if (userHasEverSuccessfullyConnected)
             {
-                await TryToConnect();
+                var connectExtruderModel = GetConnectExtruderModel();
+                await TryToConnect(connectExtruderModel);
             }
         }
 

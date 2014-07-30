@@ -51,6 +51,10 @@ namespace SirenOfShame.Extruder.Services
                 _connection.Closed += ConnectionOnClosed;
                 await _connection.Start();
                 var result = await _proxy.Invoke<ApiResultBase>("connectExtruder", connectExtruderModel);
+                if (!result.Success)
+                {
+                    _connection.Stop();
+                }
                 return result;
             }
             catch (Exception ex)
