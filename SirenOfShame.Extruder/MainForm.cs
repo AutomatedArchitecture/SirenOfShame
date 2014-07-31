@@ -307,13 +307,23 @@ namespace SirenOfShame.Extruder
             SetPage(PageType.Settings);
         }
 
+        private PageType? _currentPage;
+
         private void SetPage(PageType? pageType)
         {
-            if (pageType == null)
+            var newPage = GetNewPage(pageType);
+            var oldPage = _currentPage;
+            _currentPage = newPage;
+
+            var oldPageIsUrlPage = IsUrlPage(oldPage);
+            var newPageIsUrlPage = IsUrlPage(newPage);
+
+            if (oldPageIsUrlPage && newPageIsUrlPage)
             {
-                // todo: remember last page
-                pageType = PageType.Builds;
+                _leadersPage.Navigate(_settings, newPage);
+                return;
             }
+            
             _mainPanel.Controls.Clear();
             if (pageType == PageType.Settings)
             {
@@ -321,9 +331,22 @@ namespace SirenOfShame.Extruder
             }
             else
             {
-                _leadersPage.Navigate(_settings, pageType.Value);
+                _leadersPage.Navigate(_settings, newPage);
                 _mainPanel.Controls.Add(_leadersPage);
             }
+        }
+
+        private static bool IsUrlPage(PageType? pageType)
+        {
+            if (pageType == null) return false;
+            return pageType.Value == PageType.Builds || pageType.Value == PageType.Leaders || pageType.Value == PageType.News;
+        }
+
+        private PageType GetNewPage(PageType? pageType)
+        {
+            if (pageType != null) return pageType.Value;
+            // todo: remember old page in settings
+            return PageType.Builds;
         }
 
         private void _buildsButton_Click(object sender, EventArgs e)
