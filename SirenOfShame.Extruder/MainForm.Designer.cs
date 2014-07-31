@@ -64,7 +64,7 @@ namespace SirenOfShame.Extruder
             this._notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("_notifyIcon.Icon")));
             this._notifyIcon.Text = "Shame Extruder";
             this._notifyIcon.Visible = true;
-            this._notifyIcon.DoubleClick += new System.EventHandler(this._notifyIcon_DoubleClick);
+            this._notifyIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this._notifyIcon_MouseDown);
             // 
             // _minimizedMenuStrip
             // 

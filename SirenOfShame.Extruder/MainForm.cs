@@ -252,11 +252,6 @@ namespace SirenOfShame.Extruder
             BringToFront();
         }
 
-        private void _notifyIcon_DoubleClick(object sender, EventArgs e)
-        {
-            ShowConfigureScreen();
-        }
-
         private void RulesEngineSetTrayIcon(object sender, SetTrayIconEventArgs args)
         {
             if (args.TrayIcon == TrayIcon.Red)
@@ -344,6 +339,14 @@ namespace SirenOfShame.Extruder
         private void _newsButton_Click(object sender, EventArgs e)
         {
             SetPage(PageType.News);
+        }
+
+        private void _notifyIcon_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ShowConfigureScreen();
+            }
         }
     }
 
