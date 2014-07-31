@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using log4net;
 using SirenOfShame.Extruder.Models;
 using SirenOfShame.Extruder.Services;
 
@@ -9,6 +10,8 @@ namespace SirenOfShame.Extruder
 {
     public partial class LeadersPage : UserControl
     {
+        private readonly ILog _log = MyLogManager.GetLog(typeof (LeadersPage));
+
         public LeadersPage()
         {
             InitializeComponent();
@@ -28,6 +31,25 @@ namespace SirenOfShame.Extruder
             const string url = SosOnlineService.SOS_URL + "/Extruder/Leaders";
             _webBrowser.Navigate(url, null, credentials, "Content-Type: application/x-www-form-urlencoded");
             _webBrowser.Url = new Uri(url);
+        }
+
+        public void Navigate(ExtruderSettings settings, PageType page)
+        {
+            if (!_isInitialized)
+            {
+                EnsureConnected(settings);
+                return;
+            }
+
+            var pageElement = page.ToString().ToLowerInvariant();
+
+            var navigateButton = _webBrowser.Document.GetElementById(pageElement);
+            if (navigateButton == null)
+            {
+                _log.Error("Unable to find element " + pageElement);
+                return;
+            }
+            navigateButton.InvokeMember("click");
         }
     }
 }

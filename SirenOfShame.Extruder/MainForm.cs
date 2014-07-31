@@ -321,7 +321,7 @@ namespace SirenOfShame.Extruder
             }
             else
             {
-                _leadersPage.EnsureConnected(_settings);
+                _leadersPage.Navigate(_settings, pageType.Value);
                 _mainPanel.Controls.Add(_leadersPage);
             }
         }
