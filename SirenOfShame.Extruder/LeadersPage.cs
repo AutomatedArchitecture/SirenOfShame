@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using SirenOfShame.Extruder.Services;
 
 namespace SirenOfShame.Extruder
 {
@@ -15,6 +9,15 @@ namespace SirenOfShame.Extruder
         public LeadersPage()
         {
             InitializeComponent();
+        }
+
+        public void EnsureConnected()
+        {
+            if (_webBrowser.Url != null)
+            {
+                const string url = SosOnlineService.SOS_URL + "/Extruder/Leaders";
+                _webBrowser.Url = new Uri(url);
+            }
         }
     }
 }

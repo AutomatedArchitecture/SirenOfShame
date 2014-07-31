@@ -8,7 +8,7 @@ namespace SirenOfShame.Extruder.Services
 {
     public class SosOnlineService
     {
-        private const string SOS_URL = "http://localhost:3115";
+        public const string SOS_URL = "http://localhost:3115";
         private readonly ILog _log = MyLogManager.GetLog(typeof (SosOnlineService));
         private HubConnection _connection;
         private IHubProxy _proxy;
@@ -35,7 +35,7 @@ namespace SirenOfShame.Extruder.Services
             return await StartRealtimeConnection(connectExtruderModel);
         }
 
-        public async Task<ApiResultBase> StartRealtimeConnection(ConnectExtruderModel connectExtruderModel)
+        private async Task<ApiResultBase> StartRealtimeConnection(ConnectExtruderModel connectExtruderModel)
         {
             try
             {

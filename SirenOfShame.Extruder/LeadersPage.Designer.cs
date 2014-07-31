@@ -28,26 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this._webBrowser = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // _webBrowser
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.ScrollBarsEnabled = false;
-            this.webBrowser1.Size = new System.Drawing.Size(445, 284);
-            this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.Url = new System.Uri("http://localhost:3115/Extruder/Leaders", System.UriKind.Absolute);
+            this._webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._webBrowser.Location = new System.Drawing.Point(0, 0);
+            this._webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this._webBrowser.Name = "_webBrowser";
+            this._webBrowser.ScrollBarsEnabled = false;
+            this._webBrowser.Size = new System.Drawing.Size(445, 284);
+            this._webBrowser.TabIndex = 0;
+            this._webBrowser.Url = new System.Uri("", System.UriKind.Relative);
             // 
             // LeadersPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this._webBrowser);
             this.Name = "LeadersPage";
             this.Size = new System.Drawing.Size(445, 284);
             this.ResumeLayout(false);
@@ -56,7 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.WebBrowser _webBrowser;
 
     }
 }

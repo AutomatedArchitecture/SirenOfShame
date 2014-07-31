@@ -65,6 +65,7 @@ namespace SirenOfShame.Extruder
                 if (success)
                 {
                     SaveSettings(connectExtruderModel);
+                    SetPage(PageType.Builds);
                 }
             }
             else
@@ -275,6 +276,11 @@ namespace SirenOfShame.Extruder
             {
                 var connectExtruderModel = GetConnectExtruderModel();
                 await TryToConnect(connectExtruderModel);
+                SetPage(null);
+            }
+            else
+            {
+                SetPage(PageType.Settings);
             }
         }
 
@@ -306,8 +312,13 @@ namespace SirenOfShame.Extruder
             SetPage(PageType.Settings);
         }
 
-        private void SetPage(PageType pageType)
+        private void SetPage(PageType? pageType)
         {
+            if (pageType == null)
+            {
+                // todo: remember last page
+                pageType = PageType.Builds;
+            }
             _mainPanel.Controls.Clear();
             if (pageType == PageType.Settings)
             {
@@ -315,6 +326,7 @@ namespace SirenOfShame.Extruder
             }
             else
             {
+                _leadersPage.EnsureConnected();
                 _mainPanel.Controls.Add(_leadersPage);
             }
         }
