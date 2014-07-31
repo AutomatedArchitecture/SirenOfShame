@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.Extruder
+﻿using SirenOfShame.Extruder.Controls;
+
+namespace SirenOfShame.Extruder
 {
     partial class MainForm
     {
@@ -42,10 +44,10 @@
             this._sirenStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this._settingsPage = new SirenOfShame.Extruder.SettingsPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this._settingsButton = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new SirenOfShame.Extruder.Controls.HoverButton();
+            this.pictureBox3 = new SirenOfShame.Extruder.Controls.HoverButton();
+            this._settingsButton = new SirenOfShame.Extruder.Controls.HoverButton();
+            this.pictureBox2 = new SirenOfShame.Extruder.Controls.HoverButton();
             this._minimizedMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -95,9 +97,9 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this._sirenStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 220);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 197);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(295, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(308, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -143,7 +145,7 @@
             this._settingsPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this._settingsPage.Location = new System.Drawing.Point(12, 50);
             this._settingsPage.Name = "_settingsPage";
-            this._settingsPage.Size = new System.Drawing.Size(271, 167);
+            this._settingsPage.Size = new System.Drawing.Size(284, 144);
             this._settingsPage.TabIndex = 9;
             // 
             // tableLayoutPanel1
@@ -162,7 +164,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(295, 44);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(308, 44);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // pictureBox1
@@ -170,9 +172,9 @@
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(149, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(157, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(67, 38);
+            this.pictureBox1.Size = new System.Drawing.Size(71, 38);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 19;
             this.pictureBox1.TabStop = false;
@@ -182,9 +184,9 @@
             this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(222, 3);
+            this.pictureBox3.Location = new System.Drawing.Point(234, 3);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(70, 38);
+            this.pictureBox3.Size = new System.Drawing.Size(71, 38);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox3.TabIndex = 18;
             this.pictureBox3.TabStop = false;
@@ -196,7 +198,7 @@
             this._settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("_settingsButton.Image")));
             this._settingsButton.Location = new System.Drawing.Point(3, 3);
             this._settingsButton.Name = "_settingsButton";
-            this._settingsButton.Size = new System.Drawing.Size(67, 38);
+            this._settingsButton.Size = new System.Drawing.Size(71, 38);
             this._settingsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._settingsButton.TabIndex = 17;
             this._settingsButton.TabStop = false;
@@ -206,9 +208,9 @@
             this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(76, 3);
+            this.pictureBox2.Location = new System.Drawing.Point(80, 3);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(67, 38);
+            this.pictureBox2.Size = new System.Drawing.Size(71, 38);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox2.TabIndex = 13;
             this.pictureBox2.TabStop = false;
@@ -218,7 +220,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.ClientSize = new System.Drawing.Size(295, 242);
+            this.ClientSize = new System.Drawing.Size(308, 219);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this._settingsPage);
             this.Controls.Add(this.statusStrip1);
@@ -256,10 +258,10 @@
         private System.Windows.Forms.ToolStripStatusLabel _sirenStatus;
         private SettingsPage _settingsPage;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.PictureBox _settingsButton;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private HoverButton pictureBox1;
+        private HoverButton pictureBox3;
+        private HoverButton _settingsButton;
+        private HoverButton pictureBox2;
     }
 }
 
