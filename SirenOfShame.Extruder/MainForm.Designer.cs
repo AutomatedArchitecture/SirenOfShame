@@ -78,6 +78,7 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.Transparent;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this._connectionStatus,
@@ -92,12 +93,14 @@
             // 
             // toolStripStatusLabel1
             // 
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.White;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(42, 17);
             this.toolStripStatusLabel1.Text = "Server:";
             // 
             // _connectionStatus
             // 
+            this._connectionStatus.ForeColor = System.Drawing.Color.White;
             this._connectionStatus.Name = "_connectionStatus";
             this._connectionStatus.Size = new System.Drawing.Size(79, 17);
             this._connectionStatus.Text = "Disconnected";
@@ -110,12 +113,14 @@
             // 
             // toolStripStatusLabel3
             // 
+            this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.White;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(36, 17);
             this.toolStripStatusLabel3.Text = "Siren:";
             // 
             // _sirenStatus
             // 
+            this._sirenStatus.ForeColor = System.Drawing.Color.White;
             this._sirenStatus.Name = "_sirenStatus";
             this._sirenStatus.Size = new System.Drawing.Size(79, 17);
             this._sirenStatus.Text = "Disconnected";
@@ -125,6 +130,7 @@
             this._settingsPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._settingsPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this._settingsPage.Location = new System.Drawing.Point(12, 11);
             this._settingsPage.Name = "_settingsPage";
             this._settingsPage.Size = new System.Drawing.Size(283, 121);
@@ -134,6 +140,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(300, 157);
             this.Controls.Add(this._settingsPage);
             this.Controls.Add(this.statusStrip1);
