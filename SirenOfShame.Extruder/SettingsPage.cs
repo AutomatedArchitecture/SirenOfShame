@@ -9,7 +9,7 @@ namespace SirenOfShame.Extruder
     public partial class SettingsPage : UserControl
     {
         public ExtruderSettings Settings;
-        private TripleDesStringEncryptor _encryptor;
+        private readonly TripleDesStringEncryptor _encryptor;
 
         public SettingsPage()
         {
@@ -36,7 +36,7 @@ namespace SirenOfShame.Extruder
             _myname.Text = Settings.MyName;
         }
 
-        private void Settings_Load(object sender, System.EventArgs e)
+        private void Settings_Load(object sender, EventArgs e)
         {
             RetrieveSettings();
         }

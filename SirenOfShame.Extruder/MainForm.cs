@@ -20,6 +20,8 @@ namespace SirenOfShame.Extruder
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
         private readonly ISirenOfShameDevice _sirenOfShameDevice = new SirenOfShameDevice();
         private bool _connectedToServer;
+        private readonly SettingsPage _settingsPage = new SettingsPage();
+        private readonly LeadersPage _leadersPage = new LeadersPage();
 
         public MainForm()
         {
@@ -31,10 +33,22 @@ namespace SirenOfShame.Extruder
             DeviceConnected();
             RefreshConnectText(ConnectionState.Disconnected);
 
+            InitializeSettingsPage();
+            InitializePages();
+
+            SubscribeEvents();
+        }
+
+        private void InitializePages()
+        {
+            _leadersPage.Dock = DockStyle.Fill;
+        }
+
+        private void InitializeSettingsPage()
+        {
+            _settingsPage.Dock = DockStyle.Fill;
             _settingsPage.Settings = _settings;
             _settingsPage.OnToggleConnection += SettingsPageOnOnToggleConnection;
- 
-            SubscribeEvents();
         }
 
         private async Task SettingsPageOnOnToggleConnection(object sender, ToggleConnectionEventArgs args)
@@ -289,7 +303,43 @@ namespace SirenOfShame.Extruder
 
         private void _settingsButton_Click(object sender, EventArgs e)
         {
-
+            SetPage(PageType.Settings);
         }
+
+        private void SetPage(PageType pageType)
+        {
+            _mainPanel.Controls.Clear();
+            if (pageType == PageType.Settings)
+            {
+                _mainPanel.Controls.Add(_settingsPage);
+            }
+            else
+            {
+                _mainPanel.Controls.Add(_leadersPage);
+            }
+        }
+
+        private void _buildsButton_Click(object sender, EventArgs e)
+        {
+            SetPage(PageType.Builds);
+        }
+
+        private void _leadersButton_Click(object sender, EventArgs e)
+        {
+            SetPage(PageType.Leaders);
+        }
+
+        private void _newsButton_Click(object sender, EventArgs e)
+        {
+            SetPage(PageType.News);
+        }
+    }
+
+    public enum PageType
+    {
+        Settings = 0,
+        Builds = 1,
+        Leaders = 2,
+        News = 3,
     }
 }

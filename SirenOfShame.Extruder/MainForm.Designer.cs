@@ -42,19 +42,19 @@ namespace SirenOfShame.Extruder
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this._sirenStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this._settingsPage = new SirenOfShame.Extruder.SettingsPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new SirenOfShame.Extruder.Controls.HoverButton();
-            this.pictureBox3 = new SirenOfShame.Extruder.Controls.HoverButton();
+            this._newsButton = new SirenOfShame.Extruder.Controls.HoverButton();
             this._settingsButton = new SirenOfShame.Extruder.Controls.HoverButton();
-            this.pictureBox2 = new SirenOfShame.Extruder.Controls.HoverButton();
+            this._buildsButton = new SirenOfShame.Extruder.Controls.HoverButton();
+            this._leadersButton = new SirenOfShame.Extruder.Controls.HoverButton();
+            this._mainPanel = new System.Windows.Forms.Panel();
             this._minimizedMenuStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._newsButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._settingsButton)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._buildsButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._leadersButton)).BeginInit();
             this.SuspendLayout();
             // 
             // _notifyIcon
@@ -119,6 +119,7 @@ namespace SirenOfShame.Extruder
             // 
             // toolStripStatusLabel2
             // 
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.White;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
             this.toolStripStatusLabel2.Text = "|";
@@ -137,17 +138,6 @@ namespace SirenOfShame.Extruder
             this._sirenStatus.Size = new System.Drawing.Size(79, 17);
             this._sirenStatus.Text = "Disconnected";
             // 
-            // _settingsPage
-            // 
-            this._settingsPage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._settingsPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this._settingsPage.Location = new System.Drawing.Point(12, 50);
-            this._settingsPage.Name = "_settingsPage";
-            this._settingsPage.Size = new System.Drawing.Size(284, 144);
-            this._settingsPage.TabIndex = 9;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 4;
@@ -155,10 +145,10 @@ namespace SirenOfShame.Extruder
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this._newsButton, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this._settingsButton, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this._buildsButton, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this._leadersButton, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -167,53 +157,65 @@ namespace SirenOfShame.Extruder
             this.tableLayoutPanel1.Size = new System.Drawing.Size(308, 44);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
-            // pictureBox1
+            // _newsButton
             // 
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(157, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(71, 38);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 19;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(234, 3);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(71, 38);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox3.TabIndex = 18;
-            this.pictureBox3.TabStop = false;
+            this._newsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._newsButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._newsButton.Image = ((System.Drawing.Image)(resources.GetObject("_newsButton.Image")));
+            this._newsButton.Location = new System.Drawing.Point(157, 3);
+            this._newsButton.Name = "_newsButton";
+            this._newsButton.Size = new System.Drawing.Size(71, 38);
+            this._newsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._newsButton.TabIndex = 19;
+            this._newsButton.TabStop = false;
+            this._newsButton.Click += new System.EventHandler(this._newsButton_Click);
             // 
             // _settingsButton
             // 
             this._settingsButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this._settingsButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this._settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("_settingsButton.Image")));
-            this._settingsButton.Location = new System.Drawing.Point(3, 3);
+            this._settingsButton.Location = new System.Drawing.Point(234, 3);
             this._settingsButton.Name = "_settingsButton";
             this._settingsButton.Size = new System.Drawing.Size(71, 38);
             this._settingsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this._settingsButton.TabIndex = 17;
+            this._settingsButton.TabIndex = 18;
             this._settingsButton.TabStop = false;
+            this._settingsButton.Click += new System.EventHandler(this._settingsButton_Click);
             // 
-            // pictureBox2
+            // _buildsButton
             // 
-            this.pictureBox2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(80, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(71, 38);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 13;
-            this.pictureBox2.TabStop = false;
+            this._buildsButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._buildsButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._buildsButton.Image = ((System.Drawing.Image)(resources.GetObject("_buildsButton.Image")));
+            this._buildsButton.Location = new System.Drawing.Point(3, 3);
+            this._buildsButton.Name = "_buildsButton";
+            this._buildsButton.Size = new System.Drawing.Size(71, 38);
+            this._buildsButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._buildsButton.TabIndex = 17;
+            this._buildsButton.TabStop = false;
+            this._buildsButton.Click += new System.EventHandler(this._buildsButton_Click);
+            // 
+            // _leadersButton
+            // 
+            this._leadersButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._leadersButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._leadersButton.Image = ((System.Drawing.Image)(resources.GetObject("_leadersButton.Image")));
+            this._leadersButton.Location = new System.Drawing.Point(80, 3);
+            this._leadersButton.Name = "_leadersButton";
+            this._leadersButton.Size = new System.Drawing.Size(71, 38);
+            this._leadersButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._leadersButton.TabIndex = 13;
+            this._leadersButton.TabStop = false;
+            this._leadersButton.Click += new System.EventHandler(this._leadersButton_Click);
+            // 
+            // _mainPanel
+            // 
+            this._mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._mainPanel.Location = new System.Drawing.Point(0, 44);
+            this._mainPanel.Name = "_mainPanel";
+            this._mainPanel.Size = new System.Drawing.Size(308, 153);
+            this._mainPanel.TabIndex = 16;
             // 
             // MainForm
             // 
@@ -221,10 +223,9 @@ namespace SirenOfShame.Extruder
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(308, 219);
+            this.Controls.Add(this._mainPanel);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this._settingsPage);
             this.Controls.Add(this.statusStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.ShowInTaskbar = false;
@@ -235,10 +236,10 @@ namespace SirenOfShame.Extruder
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._newsButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._settingsButton)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._buildsButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._leadersButton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,12 +257,12 @@ namespace SirenOfShame.Extruder
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel _sirenStatus;
-        private SettingsPage _settingsPage;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private HoverButton pictureBox1;
-        private HoverButton pictureBox3;
+        private HoverButton _newsButton;
         private HoverButton _settingsButton;
-        private HoverButton pictureBox2;
+        private HoverButton _buildsButton;
+        private HoverButton _leadersButton;
+        private System.Windows.Forms.Panel _mainPanel;
     }
 }
 

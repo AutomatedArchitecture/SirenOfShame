@@ -347,7 +347,7 @@
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>298, 17</value>
   </metadata>
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_newsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAw9JREFUWEft
         1mmITWEcx/EZa6EhRY3UREIyhbwQL8ybicgyIvsMIVvKDGoskzAkxpJlZBBFk5Ako+xLKULI+gKRQpZE
@@ -366,7 +366,7 @@
         H94lXgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_settingsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAA3NJREFUWEfV
         l1nITVEYhn/zlIzJEEUyiwxFQoYMd0ohN5ShEMqcECEXlEgRmZU7c64QLiREmTKVKcOFecq8PO9a3972
@@ -386,7 +386,7 @@
         yUrlg0Vv+OUDBY/hZHpGOIMFx3ZZYOERqMPnHvax+H+louIXfCuIPydDpEsAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="_settingsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_buildsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAl9JREFUWEfN
         l02ITWEch+/4mKJEGB8l8hkbYyMWVkopG2UlJTNNaYrykbJQppRiWCBSFhJJFtgoiZpSFhY2SiH52Bk2
@@ -402,7 +402,7 @@
         Elx2oczTz0UAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="_leadersButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAuNJREFUWEfN
         lluIDXEcx89eCOVtbVZZ20ra1pa0pVUoHrDhRZSsQlGy2nLJ5YHWE1pJ+6A8UO6Jckm2FNkUySUPcldE

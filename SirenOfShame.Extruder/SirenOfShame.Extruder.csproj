@@ -63,6 +63,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Helpers\ControlHelpers.cs" />
+    <Compile Include="LeadersPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LeadersPage.Designer.cs">
+      <DependentUpon>LeadersPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ApiResultBase.cs" />
     <Compile Include="Models\ConnectExtruderModel.cs" />
     <Compile Include="Models\CredentialApiModel.cs" />
@@ -89,6 +95,9 @@
     <Compile Include="SettingsPage.Designer.cs">
       <DependentUpon>SettingsPage.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="LeadersPage.resx">
+      <DependentUpon>LeadersPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
