@@ -286,5 +286,10 @@ namespace SirenOfShame.Extruder
             _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
             _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
         }
+
+        private void _settingsButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
