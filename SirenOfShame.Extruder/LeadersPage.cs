@@ -18,17 +18,19 @@ namespace SirenOfShame.Extruder
         }
 
         private bool _isInitialized = false;
+        private ExtruderSettings _settings;
 
         public void EnsureConnected(ExtruderSettings settings)
         {
             if (_isInitialized) return;
             _isInitialized = true;
 
+            _settings = settings;
             string credentialsAsString = string.Format("username={0}&encryptedpassword={1}", WebUtility.UrlEncode(settings.UserName), WebUtility.UrlEncode(settings.EncryptedPassword));
             var asciiEncoding = new ASCIIEncoding();
             byte[] credentials = asciiEncoding.GetBytes(credentialsAsString);
 
-            const string url = SosOnlineService.SOS_URL + "/Extruder/Leaders";
+            const string url = SosOnlineService.SOS_URL + "/MyCi/Mobile";
             _webBrowser.Navigate(url, null, credentials, "Content-Type: application/x-www-form-urlencoded");
             _webBrowser.Url = new Uri(url);
         }
@@ -50,6 +52,15 @@ namespace SirenOfShame.Extruder
                 return;
             }
             navigateButton.InvokeMember("click");
+        }
+
+        private void _refresh_Click(object sender, EventArgs e)
+        {
+            if (_settings != null)
+            {
+                _isInitialized = false;
+                EnsureConnected(_settings);
+            }
         }
     }
 }
