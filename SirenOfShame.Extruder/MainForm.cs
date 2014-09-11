@@ -285,7 +285,6 @@ namespace SirenOfShame.Extruder
             if (!_sirenOfShameDevice.IsConnected)
             {
                 _log.Warn("Retrieved request to play siren, but siren wasn't connected");
-                MessageBox.Show("Retrieved request to play siren, but siren wasn't connected");
                 return;
             }
 
