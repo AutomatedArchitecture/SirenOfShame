@@ -13,7 +13,8 @@ namespace TravisCiServices
         public void GetProject(string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
         {
             WebClient webClient = new WebClient();
-            var projectUrl = new Uri(GetUrl(ownerName, projectName));
+            var travisUrl = GetUrl(ownerName, projectName);
+            var projectUrl = new Uri(travisUrl);
             webClient.DownloadStringCompleted += (s, e) =>
             {
                 if (e.Error!=null)
@@ -30,12 +31,13 @@ namespace TravisCiServices
                     getProjectError(ex);
                 }
             };
+            AddTravisHeaders(webClient);
             webClient.DownloadStringAsync(projectUrl);
         }
 
         private string GetUrl(string ownerName, string projectName)
         {
-            return "https://api.travis-ci.org/" + ownerName + "/" + projectName + ".json";
+            return "https://api.travis-ci.org/repos/" + ownerName + "/" + projectName;
         }
 
         public IList<TravisCiBuildStatus> GetBuildsStatuses(BuildDefinitionSetting[] watchedBuildDefinitions)
@@ -45,17 +47,25 @@ namespace TravisCiServices
             return parallelResult.AsParallel().ToList();
         }
 
+        private void AddTravisHeaders(WebClient webClient)
+        {
+            webClient.Headers.Add("User-Agent", "SirenOfShame/1.0.0");
+            webClient.Headers.Add("Accept", "application/vnd.travis-ci.2+json");
+            //webClient.Headers.Add("Authorization", "token \"zzz\"");
+        }
+
         private TravisCiBuildStatus GetBuildStatus(BuildDefinitionSetting buildDefinitionSetting)
         {
             var webClient = new WebClient();
+            AddTravisHeaders(webClient);
             var travisBuildDef = TravisCiBuildDefinition.FromIdString(buildDefinitionSetting.Id);
-            var buildDefinitionUrl = "https://api.travis-ci.org/repositories/" + travisBuildDef.OwnerName + "/" + travisBuildDef.ProjectName + ".json";
+            var buildDefinitionUrl = GetUrl(travisBuildDef.OwnerName, travisBuildDef.ProjectName);
 
             try
             {
                 var json = webClient.DownloadString(buildDefinitionUrl);
                 var lastBuildId = GetJsonValue(json, "last_build_id");
-                var buildUrl = "https://api.travis-ci.org/builds/" + lastBuildId + ".json";
+                var buildUrl = "https://api.travis-ci.org/builds/" + lastBuildId;
                 json = webClient.DownloadString(buildUrl);
                 return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
             }
