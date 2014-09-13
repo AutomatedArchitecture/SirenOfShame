@@ -52,9 +52,9 @@
         <File Source="..\SirenOfShame.Lib\bin\Release\UsbLib.dll" Id="UsbLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\Release\SoxLib.dll" Id="SoxLibDll2" />
-        <File Source="..\Libs\log4net.dll" Id="Log4NetDll2" />
+        <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll2" />
         <File Source="..\packages\SignalR.Client.0.5.3\lib\net40\SignalR.Client.dll" />
-        <File Source="..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll" />
+        <File Source="..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll" />
         <File Source="..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
 
@@ -100,7 +100,6 @@
         <File Source="..\UsbLib\bin\Release\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
         <File Source="..\TeensyHidBootloaderLib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll1" />
         <File Source="..\SoxLib\bin\Release\SoxLib.dll" Id="SoxLibDll1" />
-        <File Source="..\Libs\log4net.dll" Id="Log4NetDll1" />
         <File Source="..\Releases\wyUpdate\client.wyc" />
         <File Source="..\Libs\wyUpdate\AutomaticUpdater.dll" />
 

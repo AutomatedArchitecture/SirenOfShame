@@ -44,7 +44,7 @@ namespace TravisCiServices.ServerConfiguration
             this._travisUrl = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.authTokenLabel = new System.Windows.Forms.Label();
-            this._authToken = new System.Windows.Forms.TextBox();
+            this._travisApiAccessToken = new System.Windows.Forms.TextBox();
             this._generateAuthToken = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();
             // 
@@ -178,12 +178,12 @@ namespace TravisCiServices.ServerConfiguration
             this.authTokenLabel.TabIndex = 56;
             this.authTokenLabel.Text = "Token:";
             // 
-            // _authToken
+            // _travisApiAccessToken
             // 
-            this._authToken.Location = new System.Drawing.Point(152, 58);
-            this._authToken.Name = "_authToken";
-            this._authToken.Size = new System.Drawing.Size(83, 20);
-            this._authToken.TabIndex = 57;
+            this._travisApiAccessToken.Location = new System.Drawing.Point(152, 58);
+            this._travisApiAccessToken.Name = "_travisApiAccessToken";
+            this._travisApiAccessToken.Size = new System.Drawing.Size(83, 20);
+            this._travisApiAccessToken.TabIndex = 57;
             // 
             // _generateAuthToken
             // 
@@ -198,13 +198,14 @@ namespace TravisCiServices.ServerConfiguration
             this._generateAuthToken.TabIndex = 58;
             this._generateAuthToken.Text = "Generate New Auth Token";
             this._generateAuthToken.UseVisualStyleBackColor = true;
+            this._generateAuthToken.Click += new System.EventHandler(this.GenerateAuthToken_Click);
             // 
             // ConfigureTravisCi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._generateAuthToken);
-            this.Controls.Add(this._authToken);
+            this.Controls.Add(this._travisApiAccessToken);
             this.Controls.Add(this.authTokenLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -240,7 +241,7 @@ namespace TravisCiServices.ServerConfiguration
         private System.Windows.Forms.TextBox _travisUrl;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label authTokenLabel;
-        private System.Windows.Forms.TextBox _authToken;
+        private System.Windows.Forms.TextBox _travisApiAccessToken;
         private SosButton _generateAuthToken;
     }
 }

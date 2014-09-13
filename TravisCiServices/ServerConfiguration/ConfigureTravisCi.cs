@@ -13,7 +13,7 @@ namespace TravisCiServices.ServerConfiguration
         private readonly TravisCiEntryPoint _travisCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly TravisCiService _service = new TravisCiService();
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTravisCi));
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (ConfigureTravisCi));
 
         public ConfigureTravisCi() { }
 
@@ -43,7 +43,7 @@ namespace TravisCiServices.ServerConfiguration
 
         private void Add_Click(object sender, EventArgs e)
         {
-            _service.GetProject(_travisUrl.Text, _authToken.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
+            _service.GetProject(_travisUrl.Text, _travisApiAccessToken.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
         }
 
         private void GetProjectError(Exception ex)
@@ -55,9 +55,9 @@ namespace TravisCiServices.ServerConfiguration
         private void GetProjectComplete(TravisCiBuildDefinition buildDefinition)
         {
             _ciEntryPointSetting.Url = _travisUrl.Text;
-            if (!string.IsNullOrEmpty(_authToken.Text))
+            if (!string.IsNullOrEmpty(_travisApiAccessToken.Text))
             {
-                _ciEntryPointSetting.SetPassword(_authToken.Text);
+                _ciEntryPointSetting.SetPassword(_travisApiAccessToken.Text);
             }
             Settings.Save();
 
@@ -103,12 +103,12 @@ namespace TravisCiServices.ServerConfiguration
             var repoType = GetRepoType();
             _travisUrl.Text = GetUrlFromType(repoType);
             _travisUrl.Enabled = repoType == TravisRepoType.Enterprise;
-            _authToken.Enabled = repoType != TravisRepoType.Public;
+            _travisApiAccessToken.Enabled = repoType != TravisRepoType.Public;
             authTokenLabel.Enabled = repoType != TravisRepoType.Public;
             _generateAuthToken.Enabled = repoType != TravisRepoType.Public;
             if (repoType == TravisRepoType.Public)
             {
-                _authToken.Text = "";
+                _travisApiAccessToken.Text = "";
             }
         }
 
@@ -124,6 +124,12 @@ namespace TravisCiServices.ServerConfiguration
             if (repoType == TravisRepoType.Public) return "https://api.travis-ci.org/";
             if (repoType == TravisRepoType.Private) return "https://api.travis-ci.com/";
             return "";
+        }
+
+        private void GenerateAuthToken_Click(object sender, EventArgs e)
+        {
+            var travisApiAccessToken = GenerateTravisToken.ShowDialog(_travisUrl.Text);
+            _travisApiAccessToken.Text = travisApiAccessToken;
         }
     }
 
