@@ -10,7 +10,7 @@ namespace TravisCiServices
 {
     public class TravisCiService : ServiceBase
     {
-        public void GetProject(string baseUrl, string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
+        public void GetProject(string baseUrl, string authToken, string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
         {
             WebClient webClient = new WebClient();
             var travisUrl = GetUrl(baseUrl, ownerName, projectName);
@@ -31,7 +31,7 @@ namespace TravisCiServices
                     getProjectError(ex);
                 }
             };
-            AddTravisHeaders(webClient);
+            AddTravisHeaders(webClient, authToken);
             webClient.DownloadStringAsync(projectUrl);
         }
 
@@ -46,18 +46,21 @@ namespace TravisCiServices
             return parallelResult.AsParallel().ToList();
         }
 
-        private void AddTravisHeaders(WebClient webClient)
+        private void AddTravisHeaders(WebClient webClient, string authToken)
         {
             webClient.Headers.Add("User-Agent", "SirenOfShame/1.0.0");
             webClient.Headers.Add("Accept", "application/vnd.travis-ci.2+json");
-            // todo: help generate a token for users
-            webClient.Headers.Add("Authorization", "token \"mytoken\"");
+            if (!string.IsNullOrEmpty(authToken))
+            {
+                webClient.Headers.Add("Authorization", string.Format("token \"{0}\"", authToken));
+            }
         }
 
         private TravisCiBuildStatus GetBuildStatus(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting buildDefinitionSetting)
         {
             var webClient = new WebClient();
-            AddTravisHeaders(webClient);
+            var authToken = ciEntryPointSetting.GetPassword();
+            AddTravisHeaders(webClient, authToken);
             var travisBuildDef = TravisCiBuildDefinition.FromIdString(buildDefinitionSetting.Id);
             var buildDefinitionUrl = GetUrl(ciEntryPointSetting.Url, travisBuildDef.OwnerName, travisBuildDef.ProjectName);
 

@@ -43,7 +43,7 @@ namespace TravisCiServices.ServerConfiguration
             this._typeEnterprise = new System.Windows.Forms.RadioButton();
             this._travisUrl = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.authTokenLabel = new System.Windows.Forms.Label();
             this._authToken = new System.Windows.Forms.TextBox();
             this._generateAuthToken = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();
@@ -169,14 +169,14 @@ namespace TravisCiServices.ServerConfiguration
             this.label2.TabIndex = 54;
             this.label2.Text = "Url:";
             // 
-            // label5
+            // authTokenLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(105, 61);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 56;
-            this.label5.Text = "Token:";
+            this.authTokenLabel.AutoSize = true;
+            this.authTokenLabel.Location = new System.Drawing.Point(105, 61);
+            this.authTokenLabel.Name = "authTokenLabel";
+            this.authTokenLabel.Size = new System.Drawing.Size(41, 13);
+            this.authTokenLabel.TabIndex = 56;
+            this.authTokenLabel.Text = "Token:";
             // 
             // _authToken
             // 
@@ -205,7 +205,7 @@ namespace TravisCiServices.ServerConfiguration
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._generateAuthToken);
             this.Controls.Add(this._authToken);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.authTokenLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this._travisUrl);
@@ -239,7 +239,7 @@ namespace TravisCiServices.ServerConfiguration
         private System.Windows.Forms.RadioButton _typeEnterprise;
         private System.Windows.Forms.TextBox _travisUrl;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label authTokenLabel;
         private System.Windows.Forms.TextBox _authToken;
         private SosButton _generateAuthToken;
     }

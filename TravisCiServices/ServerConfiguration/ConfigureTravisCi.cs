@@ -24,6 +24,7 @@ namespace TravisCiServices.ServerConfiguration
             _ciEntryPointSetting = ciEntryPointSetting;
             InitializeComponent();
             LoadProjectList();
+            TypeChanged();
         }
 
         private void LoadProjectList()
@@ -42,7 +43,7 @@ namespace TravisCiServices.ServerConfiguration
 
         private void Add_Click(object sender, EventArgs e)
         {
-            _service.GetProject(_travisUrl.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
+            _service.GetProject(_travisUrl.Text, _authToken.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
         }
 
         private void GetProjectError(Exception ex)
@@ -54,6 +55,10 @@ namespace TravisCiServices.ServerConfiguration
         private void GetProjectComplete(TravisCiBuildDefinition buildDefinition)
         {
             _ciEntryPointSetting.Url = _travisUrl.Text;
+            if (!string.IsNullOrEmpty(_authToken.Text))
+            {
+                _ciEntryPointSetting.SetPassword(_authToken.Text);
+            }
             Settings.Save();
 
             bool exists = Settings.BuildExistsAndIsActive(_travisCiEntryPoint.Name, buildDefinition.Id);
@@ -98,8 +103,13 @@ namespace TravisCiServices.ServerConfiguration
             var repoType = GetRepoType();
             _travisUrl.Text = GetUrlFromType(repoType);
             _travisUrl.Enabled = repoType == TravisRepoType.Enterprise;
-            _authToken.Enabled = repoType == TravisRepoType.Enterprise;
-            _generateAuthToken.Enabled = repoType == TravisRepoType.Enterprise;
+            _authToken.Enabled = repoType != TravisRepoType.Public;
+            authTokenLabel.Enabled = repoType != TravisRepoType.Public;
+            _generateAuthToken.Enabled = repoType != TravisRepoType.Public;
+            if (repoType == TravisRepoType.Public)
+            {
+                _authToken.Text = "";
+            }
         }
 
         private TravisRepoType GetRepoType()
