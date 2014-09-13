@@ -10,10 +10,10 @@ namespace TravisCiServices
 {
     public class TravisCiService : ServiceBase
     {
-        public void GetProject(string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
+        public void GetProject(string baseUrl, string ownerName, string projectName, Action<TravisCiBuildDefinition> getProjectComplete, Action<Exception> getProjectError)
         {
             WebClient webClient = new WebClient();
-            var travisUrl = GetUrl(ownerName, projectName);
+            var travisUrl = GetUrl(baseUrl, ownerName, projectName);
             var projectUrl = new Uri(travisUrl);
             webClient.DownloadStringCompleted += (s, e) =>
             {
@@ -35,15 +35,14 @@ namespace TravisCiServices
             webClient.DownloadStringAsync(projectUrl);
         }
 
-        private string GetUrl(string ownerName, string projectName)
+        private string GetUrl(string baseUrl, string ownerName, string projectName)
         {
-            return "https://api.travis-ci.org/repos/" + ownerName + "/" + projectName;
+            return string.Format("{0}repos/{1}/{2}", baseUrl, ownerName, projectName);
         }
 
-        public IList<TravisCiBuildStatus> GetBuildsStatuses(BuildDefinitionSetting[] watchedBuildDefinitions)
+        public IEnumerable<TravisCiBuildStatus> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, IEnumerable<BuildDefinitionSetting> watchedBuildDefinitions)
         {
-            var parallelResult = from buildDefinitionSetting in watchedBuildDefinitions
-                                 select GetBuildStatus(buildDefinitionSetting);
+            var parallelResult = watchedBuildDefinitions.Select(buildDefinitionSetting => GetBuildStatus(ciEntryPointSetting, buildDefinitionSetting));
             return parallelResult.AsParallel().ToList();
         }
 
@@ -51,21 +50,22 @@ namespace TravisCiServices
         {
             webClient.Headers.Add("User-Agent", "SirenOfShame/1.0.0");
             webClient.Headers.Add("Accept", "application/vnd.travis-ci.2+json");
-            //webClient.Headers.Add("Authorization", "token \"zzz\"");
+            // todo: help generate a token for users
+            webClient.Headers.Add("Authorization", "token \"mytoken\"");
         }
 
-        private TravisCiBuildStatus GetBuildStatus(BuildDefinitionSetting buildDefinitionSetting)
+        private TravisCiBuildStatus GetBuildStatus(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting buildDefinitionSetting)
         {
             var webClient = new WebClient();
             AddTravisHeaders(webClient);
             var travisBuildDef = TravisCiBuildDefinition.FromIdString(buildDefinitionSetting.Id);
-            var buildDefinitionUrl = GetUrl(travisBuildDef.OwnerName, travisBuildDef.ProjectName);
+            var buildDefinitionUrl = GetUrl(ciEntryPointSetting.Url, travisBuildDef.OwnerName, travisBuildDef.ProjectName);
 
             try
             {
                 var json = webClient.DownloadString(buildDefinitionUrl);
                 var lastBuildId = GetJsonValue(json, "last_build_id");
-                var buildUrl = "https://api.travis-ci.org/builds/" + lastBuildId;
+                var buildUrl = string.Format("{0}builds/{1}", ciEntryPointSetting.Url, lastBuildId);
                 json = webClient.DownloadString(buildUrl);
                 return new TravisCiBuildStatus(travisBuildDef, json, buildDefinitionSetting);
             }

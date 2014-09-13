@@ -40,9 +40,9 @@ namespace TravisCiServices.ServerConfiguration
             });
         }
 
-        private void _add_Click(object sender, EventArgs e)
+        private void Add_Click(object sender, EventArgs e)
         {
-            _service.GetProject(_ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
+            _service.GetProject(_travisUrl.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
         }
 
         private void GetProjectError(Exception ex)
@@ -53,7 +53,7 @@ namespace TravisCiServices.ServerConfiguration
 
         private void GetProjectComplete(TravisCiBuildDefinition buildDefinition)
         {
-            _ciEntryPointSetting.Url = "https://api.travis-ci.org/";
+            _ciEntryPointSetting.Url = _travisUrl.Text;
             Settings.Save();
 
             bool exists = Settings.BuildExistsAndIsActive(_travisCiEntryPoint.Name, buildDefinition.Id);
@@ -77,5 +77,50 @@ namespace TravisCiServices.ServerConfiguration
             }
             ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
         }
+
+        private void _typePublic_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void _typePrivate_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void _typeEnterprise_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void TypeChanged()
+        {
+            var repoType = GetRepoType();
+            _travisUrl.Text = GetUrlFromType(repoType);
+            _travisUrl.Enabled = repoType == TravisRepoType.Enterprise;
+            _authToken.Enabled = repoType == TravisRepoType.Enterprise;
+            _generateAuthToken.Enabled = repoType == TravisRepoType.Enterprise;
+        }
+
+        private TravisRepoType GetRepoType()
+        {
+            if (_typePublic.Checked) return TravisRepoType.Public;
+            if (_typePrivate.Checked) return TravisRepoType.Private;
+            return TravisRepoType.Enterprise;
+        }
+
+        private string GetUrlFromType(TravisRepoType repoType)
+        {
+            if (repoType == TravisRepoType.Public) return "https://api.travis-ci.org/";
+            if (repoType == TravisRepoType.Private) return "https://api.travis-ci.com/";
+            return "";
+        }
+    }
+
+    public enum TravisRepoType
+    {
+        Public = 1,
+        Private = 2,
+        Enterprise = 3
     }
 }
