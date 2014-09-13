@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenerateTravisToken));
             this._body = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,7 +40,11 @@
             this._githubToken = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this._generateToken = new SirenOfShame.Lib.SosButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
+            this._loading = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
             this.SuspendLayout();
             // 
             // _body
@@ -151,13 +156,35 @@
             this._generateToken.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._generateToken.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._generateToken.ForeColor = System.Drawing.Color.White;
-            this._generateToken.Location = new System.Drawing.Point(524, 337);
+            this._generateToken.Location = new System.Drawing.Point(545, 337);
             this._generateToken.Name = "_generateToken";
-            this._generateToken.Size = new System.Drawing.Size(173, 23);
+            this._generateToken.Size = new System.Drawing.Size(152, 23);
             this._generateToken.TabIndex = 12;
             this._generateToken.Text = "Generate Token";
             this._generateToken.UseVisualStyleBackColor = false;
             this._generateToken.Click += new System.EventHandler(this.GenerateToken_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // imageList2
+            // 
+            this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList2.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // _loading
+            // 
+            this._loading.Image = ((System.Drawing.Image)(resources.GetObject("_loading.Image")));
+            this._loading.Location = new System.Drawing.Point(523, 339);
+            this._loading.Name = "_loading";
+            this._loading.Size = new System.Drawing.Size(16, 16);
+            this._loading.TabIndex = 13;
+            this._loading.TabStop = false;
+            this._loading.Visible = false;
             // 
             // GenerateTravisToken
             // 
@@ -165,6 +192,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.ClientSize = new System.Drawing.Size(709, 383);
+            this.Controls.Add(this._loading);
             this.Controls.Add(this._generateToken);
             this.Controls.Add(this._githubToken);
             this.Controls.Add(this.pictureBox1);
@@ -178,6 +206,7 @@
             this.Name = "GenerateTravisToken";
             this.Text = "GenerateTravisToken";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._loading)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,6 +224,9 @@
         private System.Windows.Forms.TextBox _githubToken;
         private System.Windows.Forms.Label label5;
         private SirenOfShame.Lib.SosButton _generateToken;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ImageList imageList2;
+        private System.Windows.Forms.PictureBox _loading;
 
     }
 }

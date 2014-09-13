@@ -41,27 +41,44 @@ namespace TravisCiServices.ServerConfiguration
 
         private async void GenerateToken_Click(object sender, System.EventArgs e)
         {
-            var webClient = new WebClient();
-            Uri uri = new Uri(_url + "auth/github");
-            webClient.Headers.Add("Accept", "application/vnd.travis-ci.2+json");
-            webClient.Headers.Add("Content-Type", "application/json");
+            using (var webClient = new WebClient())
+            {
+                Uri uri;
+                try
+                {
+                    uri = new Uri(_url + "auth/github");
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                    MessageBox.Show("Invalid url: " + _url);
+                    return;
+                }
+                webClient.Headers.Add("Accept", "application/vnd.travis-ci.2+json");
+                webClient.Headers.Add("Content-Type", "application/json");
 
-            try
-            {
-                var result =
-                    await
-                        webClient.UploadStringTaskAsync(uri, "POST", "{\"github_token\":\"" + _githubToken.Text + "\"}");
-                var deserializeObject = JsonConvert.DeserializeAnonymousType(result, new {access_token = ""});
-                TravisApiAccessToken = deserializeObject.access_token;
-                Close();
-            }
-            catch (WebException ex)
-            {
-                MessageBox.Show("Unable to connect: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex);
+                try
+                {
+                    _loading.Visible = true;
+                    var data = "{\"github_token\":\"" + _githubToken.Text + "\"}";
+                    var result = await webClient.UploadStringTaskAsync(uri, "POST", data);
+                    _loading.Visible = false;
+                    var deserializeObject = JsonConvert.DeserializeAnonymousType(result, new {access_token = ""});
+                    TravisApiAccessToken = deserializeObject.access_token;
+                    Close();
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show("Unable to connect: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex);
+                }
+                finally
+                {
+                    _loading.Visible = false;
+                }
             }
         }
     }
