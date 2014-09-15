@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is application version number, update for each release -->
-<?define Version = "2.3.3" ?>
+<?define Version = "2.3.4" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
@@ -94,7 +94,9 @@
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll1" />
         <File Source="..\SirenOfShame\bin\FirmwareUpgrade.xml" />
         <File Id="SirenOfShameTrayBlankIco" Name="SirenOfShameTrayBlank.ico" Source="..\SirenOfShame\SirenOfShameTrayBlank.ico" />
-        
+
+        <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll1" />
+
         <File Source="..\SirenOfShame\bin\wyUpdate.exe" />
         <File Source="..\Libs\ZedGraph.dll" />
         <File Source="..\UsbLib\bin\Release\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
