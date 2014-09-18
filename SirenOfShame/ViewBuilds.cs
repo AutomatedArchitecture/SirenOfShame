@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -38,6 +40,7 @@ namespace SirenOfShame
         private SirenOfShameSettings _settings;
         private readonly Timer _prettyDateTimer = new Timer();
         private List<BuildStatusDto> _lastBuildStatusDtos = new List<BuildStatusDto>();
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (ViewBuilds));
 
         private class BuildStatusDtoAndControl
         {
@@ -170,6 +173,7 @@ namespace SirenOfShame
             int visibleViewBuildControls = VisibleViewBuildControls;
             bool numberOfBuildsChanged = visibleViewBuildControls != 0 && visibleViewBuildControls != buildStatusDtos.Count();
             var anyBuildNameChanged = buildStatusDtosAndControl.Count != buildStatusDtos.Count;
+            _log.Debug("Removing child controls because: anyBuildNameChanged = " + anyBuildNameChanged + "; numberOfBuildsChanged: " + numberOfBuildsChanged);
             if (numberOfBuildsChanged || anyBuildNameChanged)
             {
                 RemoveAllSmallBuildControls();
