@@ -100,7 +100,10 @@ namespace SirenOfShame
 
         public void RefreshBuildStatuses(RefreshStatusEventArgs args)
         {
-            _lastBuildStatusDtos = args.BuildStatusDtos.ToList();
+            _lastBuildStatusDtos = args.BuildStatusDtos
+                .OrderByDescending(i => i.LocalStartTime)
+                .Take(50)
+                .ToList();
             if (!Visible) return;
             RefreshBuildStatuses();
         }
@@ -186,11 +189,14 @@ namespace SirenOfShame
         private void RemoveAllSmallBuildControls()
         {
             var smallBuilds = GetSmallViewBuilds().ToList();
-            foreach (var viewBuildSmall in smallBuilds)
+            this.SuspendDrawing(() =>
             {
-                _mainFlowLayoutPanel.Controls.Remove(viewBuildSmall);
-                viewBuildSmall.Dispose();
-            }
+                foreach (var viewBuildSmall in smallBuilds)
+                {
+                    _mainFlowLayoutPanel.Controls.Remove(viewBuildSmall);
+                    viewBuildSmall.Dispose();
+                }
+            });
             _viewBuildBig.Visible = false;
         }
 
