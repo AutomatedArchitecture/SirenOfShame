@@ -37,7 +37,7 @@ namespace SirenOfShame.Lib.Watcher
             });
         }
 
-        protected void GetBuildStatusAndFireEvents()
+        private void GetBuildStatusAndFireEvents()
         {
             try
             {
@@ -84,8 +84,8 @@ namespace SirenOfShame.Lib.Watcher
         public event StatusCheckedEvent StatusChecked;
         public event ServerUnavailableEvent ServerUnavailable;
         public event BuildDefinitionNotFoundEvent BuildDefinitionNotFound;
-        public SirenOfShameSettings Settings { get; set; }
-        public CiEntryPointSetting CiEntryPointSetting { get; set; }
+        public SirenOfShameSettings Settings { private get; set; }
+        public CiEntryPointSetting CiEntryPointSetting { protected get; set; }
 
         public abstract void StopWatching();
 
