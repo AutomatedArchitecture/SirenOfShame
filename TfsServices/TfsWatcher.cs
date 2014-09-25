@@ -41,8 +41,7 @@ namespace TfsServices
 
                 var buildDefinitionsByServer = _watchedBuildDefinitions.GroupBy(bd => bd.BuildServer);
                 return buildDefinitionsByServer.SelectMany(
-                    g => g.Key.GetBuildStatuses(
-                        g, CiEntryPointSetting.ApplyBuildQuality)).ToList();
+                    g => g.Key.GetBuildStatuses(g, CiEntryPointSetting.ApplyBuildQuality)).ToList();
             }
             catch (DatabaseOperationTimeoutException ex)
             {
