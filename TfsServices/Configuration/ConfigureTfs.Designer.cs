@@ -31,6 +31,9 @@ namespace TfsServices.Configuration {
             this._buildConfigurations = new System.Windows.Forms.TreeView();
             this._url = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this._checkAll = new System.Windows.Forms.PictureBox();
+            this._search = new System.Windows.Forms.PictureBox();
+            this._filter = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -47,15 +50,17 @@ namespace TfsServices.Configuration {
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
             this.SuspendLayout();
             // 
             // _buildConfigurations
             // 
             this._buildConfigurations.CheckBoxes = true;
             this._buildConfigurations.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._buildConfigurations.Location = new System.Drawing.Point(0, 110);
+            this._buildConfigurations.Location = new System.Drawing.Point(0, 138);
             this._buildConfigurations.Name = "_buildConfigurations";
-            this._buildConfigurations.Size = new System.Drawing.Size(591, 117);
+            this._buildConfigurations.Size = new System.Drawing.Size(591, 89);
             this._buildConfigurations.TabIndex = 0;
             this._buildConfigurations.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.BuildConfigurationsAfterCheck);
             // 
@@ -72,6 +77,9 @@ namespace TfsServices.Configuration {
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.panel1.Controls.Add(this._checkAll);
+            this.panel1.Controls.Add(this._search);
+            this.panel1.Controls.Add(this._filter);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
@@ -90,8 +98,43 @@ namespace TfsServices.Configuration {
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(591, 110);
+            this.panel1.Size = new System.Drawing.Size(591, 138);
             this.panel1.TabIndex = 4;
+            // 
+            // _checkAll
+            // 
+            this._checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkAll.Image = ((System.Drawing.Image)(resources.GetObject("_checkAll.Image")));
+            this._checkAll.Location = new System.Drawing.Point(572, 120);
+            this._checkAll.Margin = new System.Windows.Forms.Padding(2);
+            this._checkAll.Name = "_checkAll";
+            this._checkAll.Size = new System.Drawing.Size(16, 16);
+            this._checkAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._checkAll.TabIndex = 58;
+            this._checkAll.TabStop = false;
+            // 
+            // _search
+            // 
+            this._search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._search.Image = ((System.Drawing.Image)(resources.GetObject("_search.Image")));
+            this._search.Location = new System.Drawing.Point(549, 119);
+            this._search.Margin = new System.Windows.Forms.Padding(2);
+            this._search.Name = "_search";
+            this._search.Size = new System.Drawing.Size(16, 16);
+            this._search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this._search.TabIndex = 57;
+            this._search.TabStop = false;
+            this._search.Click += new System.EventHandler(this.Search_Click);
+            // 
+            // _filter
+            // 
+            this._filter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._filter.Location = new System.Drawing.Point(0, 118);
+            this._filter.Name = "_filter";
+            this._filter.Size = new System.Drawing.Size(544, 20);
+            this._filter.TabIndex = 56;
+            this._filter.TextChanged += new System.EventHandler(this.Filter_TextChanged);
             // 
             // label2
             // 
@@ -161,7 +204,7 @@ namespace TfsServices.Configuration {
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(5, 34);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 17);
+            this.label4.Size = new System.Drawing.Size(102, 17);
             this.label4.TabIndex = 11;
             this.label4.Text = "Authentication:";
             // 
@@ -268,6 +311,8 @@ namespace TfsServices.Configuration {
             this.Size = new System.Drawing.Size(591, 227);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._checkAll)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._search)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -292,5 +337,8 @@ namespace TfsServices.Configuration {
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.PictureBox _checkAll;
+        private System.Windows.Forms.PictureBox _search;
+        private System.Windows.Forms.TextBox _filter;
 	}
 }
