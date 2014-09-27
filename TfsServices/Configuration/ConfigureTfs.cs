@@ -132,7 +132,6 @@ namespace TfsServices.Configuration
         {
             _buildConfigurations.Nodes.Clear();
 
-            IList<TreeNode> projectCollectionNodes = new List<TreeNode>();
             foreach (var teamProjectCollection in _projectCollections)
             {
                 TreeNode projectCollectionNode = new TreeNode(teamProjectCollection.Name);
@@ -148,13 +147,18 @@ namespace TfsServices.Configuration
                         var buildDefinitionSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
                         projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
                     }
-                    projectCollectionNode.Nodes.Add(projectNode);
+                    AddIfContainsChildren(projectCollectionNode.Nodes, projectNode);
                 }
-                projectCollectionNodes.Add(projectCollectionNode);
+                AddIfContainsChildren(_buildConfigurations.Nodes, projectCollectionNode);
             }
 
-            _buildConfigurations.Nodes.Clear();
-            _buildConfigurations.Nodes.AddRange(projectCollectionNodes.ToArray());
+        }
+
+        private static void AddIfContainsChildren(TreeNodeCollection nodes, TreeNode child)
+        {
+            if (child.Nodes.Count == 0) return;
+            nodes.Add(child);
+            child.Expand();
         }
     }
 }
