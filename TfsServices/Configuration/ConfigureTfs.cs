@@ -81,9 +81,29 @@ namespace TfsServices.Configuration
 
         private void BuildConfigurationsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag == null) return;
-            var buildDefinitionId = (string)e.Node.Tag;
-            _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId).Active = e.Node.Checked;
+            var isBuildDefinition = e.Node.Tag != null;
+            if (isBuildDefinition)
+            {
+                SetBuildDefinitionActive(e.Node);
+            }
+            else
+            {
+                SelectAllChildren(e.Node);
+            }
+        }
+
+        private void SelectAllChildren(TreeNode node)
+        {
+            foreach (TreeNode child in node.Nodes)
+            {
+                child.Checked = node.Checked;
+            }
+        }
+
+        private void SetBuildDefinitionActive(TreeNode node)
+        {
+            var buildDefinitionId = (string) node.Tag;
+            _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId).Active = node.Checked;
             Settings.Save();
         }
 
