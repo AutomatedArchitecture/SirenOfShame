@@ -60,7 +60,7 @@ namespace TfsServices.Configuration {
             this._buildConfigurations.Dock = System.Windows.Forms.DockStyle.Fill;
             this._buildConfigurations.Location = new System.Drawing.Point(0, 138);
             this._buildConfigurations.Name = "_buildConfigurations";
-            this._buildConfigurations.Size = new System.Drawing.Size(591, 89);
+            this._buildConfigurations.Size = new System.Drawing.Size(591, 187);
             this._buildConfigurations.TabIndex = 0;
             this._buildConfigurations.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.BuildConfigurationsAfterCheck);
             // 
@@ -308,7 +308,7 @@ namespace TfsServices.Configuration {
             this.Controls.Add(this._buildConfigurations);
             this.Controls.Add(this.panel1);
             this.Name = "ConfigureTfs";
-            this.Size = new System.Drawing.Size(591, 227);
+            this.Size = new System.Drawing.Size(591, 325);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).EndInit();

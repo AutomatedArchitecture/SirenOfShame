@@ -17,7 +17,8 @@ namespace TfsServices.Configuration
         private readonly TfsCiEntryPoint _tfsCiEntryPoint;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTfs));
         private readonly CiEntryPointSetting _ciEntryPointSetting;
-        
+        private bool _disableCheckEvents = false;
+
         public ConfigureTfs(SirenOfShameSettings settings, TfsCiEntryPoint tfsCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
             : base(settings)
         {
@@ -81,10 +82,12 @@ namespace TfsServices.Configuration
 
         private void BuildConfigurationsAfterCheck(object sender, TreeViewEventArgs e)
         {
+            if (_disableCheckEvents) return;
             var isBuildDefinition = e.Node.Tag != null;
             if (isBuildDefinition)
             {
                 SetBuildDefinitionActive(e.Node);
+                RefreshCheckednessOfParentNodes();
             }
             else
             {
@@ -148,6 +151,35 @@ namespace TfsServices.Configuration
             ApplyFilter();
         }
 
+        private void RefreshCheckednessOfParentNodes()
+        {
+            _disableCheckEvents = true;
+            try
+            {
+                foreach (TreeNode node in _buildConfigurations.Nodes)
+                {
+                    RefreshCheckednessOfParentNodes(node);
+                }
+            }
+            finally
+            {
+                _disableCheckEvents = false;
+            }
+        }
+        
+        private void RefreshCheckednessOfParentNodes(TreeNode node)
+        {
+            var childNodes = node.Nodes.Cast<TreeNode>().ToList();
+            foreach (TreeNode child in childNodes)
+            {
+                RefreshCheckednessOfParentNodes(child);
+            }
+            if (childNodes.Any())
+            {
+                node.Checked = childNodes.All(i => i.Checked);
+            }
+        }
+        
         private void ApplyFilter()
         {
             _buildConfigurations.Nodes.Clear();
@@ -172,6 +204,7 @@ namespace TfsServices.Configuration
                 AddIfContainsChildren(_buildConfigurations.Nodes, projectCollectionNode);
             }
 
+            RefreshCheckednessOfParentNodes();
         }
 
         private static void AddIfContainsChildren(TreeNodeCollection nodes, TreeNode child)

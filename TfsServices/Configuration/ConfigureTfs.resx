@@ -147,4 +147,7 @@
   <data name="label6.ToolTip" xml:space="preserve">
     <value>If checked SoS will map TFS build quality to pass/fail. The following qualities are considered passing:  Initial Test Passed, Lab Test Passed, Ready for Deployment, Released, UAT Passed. Leave this unchecked if you are unsure.</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
