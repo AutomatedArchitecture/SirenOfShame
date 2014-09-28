@@ -11,10 +11,10 @@ namespace TravisCiServices.ServerConfiguration
 {
     public partial class GenerateTravisToken : FormBase
     {
-        private string _url;
+        private readonly string _url;
         private readonly ILog _log = MyLogManager.GetLogger(typeof (GenerateTravisToken));
 
-        public string TravisApiAccessToken { get; set; }
+        private string TravisApiAccessToken { get; set; }
 
         public static string ShowDialog(string url)
         {
@@ -23,12 +23,12 @@ namespace TravisCiServices.ServerConfiguration
             return generateTravisToken.TravisApiAccessToken;
         }
 
-        public GenerateTravisToken(string url) : this()
+        private GenerateTravisToken(string url) : this()
         {
             _url = url;
         }
-        
-        public GenerateTravisToken()
+
+        private GenerateTravisToken()
         {
             InitializeComponent();
         }
@@ -39,7 +39,7 @@ namespace TravisCiServices.ServerConfiguration
             Process.Start(sInfo);
         }
 
-        private async void GenerateToken_Click(object sender, System.EventArgs e)
+        private async void GenerateToken_Click(object sender, EventArgs e)
         {
             using (var webClient = new WebClient())
             {
