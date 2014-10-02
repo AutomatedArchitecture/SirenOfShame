@@ -101,7 +101,6 @@
     <Compile Include="ServerConfiguration\ConfigureHudson.Designer.cs">
       <DependentUpon>ConfigureHudson.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServerConfiguration\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
@@ -123,6 +122,7 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

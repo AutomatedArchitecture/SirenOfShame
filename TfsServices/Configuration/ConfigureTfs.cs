@@ -7,15 +7,18 @@ using log4net;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.ServerConfiguration;
 using SirenOfShame.Lib.Settings;
+using SirenOfShame.Lib.Helpers;
 
 namespace TfsServices.Configuration
 {
     public partial class ConfigureTfs : ConfigureServerBase
     {
+        private List<MyTfsProjectCollection> _projectCollections = new List<MyTfsProjectCollection>();
         private readonly TfsCiEntryPoint _tfsCiEntryPoint;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTfs));
         private readonly CiEntryPointSetting _ciEntryPointSetting;
-        
+        private bool _disableCheckEvents = false;
+
         public ConfigureTfs(SirenOfShameSettings settings, TfsCiEntryPoint tfsCiEntryPoint, CiEntryPointSetting ciEntryPointSetting)
             : base(settings)
         {
@@ -52,29 +55,8 @@ namespace TfsServices.Configuration
             {
                 using (var tfs = new MyTfsServer(_ciEntryPointSetting))
                 {
-                    IList<TreeNode> projectCollectionNodes = new List<TreeNode>();
-
-                    var myTfsProjectCollections = tfs.ProjectCollections.OrderBy(i => i.Name);
-                    foreach (var teamProjectCollection in myTfsProjectCollections)
-                    {
-                        TreeNode projectCollectionNode = new TreeNode(teamProjectCollection.Name);
-                        var myTfsProjects = teamProjectCollection.Projects.OrderBy(i => i.Name);
-                        foreach (var project in myTfsProjects)
-                        {
-                            var projectNode = projectCollectionNode.Nodes.Add(project.Name);
-                            var myTfsBuildDefinitions = project.BuildDefinitions.OrderBy(i => i.Name);
-                            foreach (var buildDefinition in myTfsBuildDefinitions)
-                            {
-                                var buildDefinitionSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
-                                projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
-                            }
-                        }
-                        projectCollectionNodes.Add(projectCollectionNode);
-                    }
-
-                    Invoke(() => _buildConfigurations.Nodes.Clear());
-                    Invoke(() => _buildConfigurations.Nodes.AddRange(projectCollectionNodes.ToArray()));
-
+                    _projectCollections = tfs.ProjectCollections.OrderBy(i => i.Name).ToList();
+                    Invoke(ApplyFilter);
                 }
                 Settings.Save();
             }
@@ -100,9 +82,31 @@ namespace TfsServices.Configuration
 
         private void BuildConfigurationsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Tag == null) return;
-            var buildDefinitionId = (string)e.Node.Tag;
-            _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId).Active = e.Node.Checked;
+            if (_disableCheckEvents) return;
+            var isBuildDefinition = e.Node.Tag != null;
+            if (isBuildDefinition)
+            {
+                SetBuildDefinitionActive(e.Node);
+                RefreshCheckednessOfParentNodes();
+            }
+            else
+            {
+                SelectAllChildren(e.Node);
+            }
+        }
+
+        private void SelectAllChildren(TreeNode node)
+        {
+            foreach (TreeNode child in node.Nodes)
+            {
+                child.Checked = node.Checked;
+            }
+        }
+
+        private void SetBuildDefinitionActive(TreeNode node)
+        {
+            var buildDefinitionId = (string) node.Tag;
+            _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId).Active = node.Checked;
             Settings.Save();
         }
 
@@ -135,6 +139,79 @@ namespace TfsServices.Configuration
         {
             _ciEntryPointSetting.ApplyBuildQuality = _applyBuildQuality.Checked;
             Settings.Save();
+        }
+
+        private void Filter_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void Search_Click(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void RefreshCheckednessOfParentNodes()
+        {
+            _disableCheckEvents = true;
+            try
+            {
+                foreach (TreeNode node in _buildConfigurations.Nodes)
+                {
+                    RefreshCheckednessOfParentNodes(node);
+                }
+            }
+            finally
+            {
+                _disableCheckEvents = false;
+            }
+        }
+        
+        private void RefreshCheckednessOfParentNodes(TreeNode node)
+        {
+            var childNodes = node.Nodes.Cast<TreeNode>().ToList();
+            foreach (TreeNode child in childNodes)
+            {
+                RefreshCheckednessOfParentNodes(child);
+            }
+            if (childNodes.Any())
+            {
+                node.Checked = childNodes.All(i => i.Checked);
+            }
+        }
+        
+        private void ApplyFilter()
+        {
+            _buildConfigurations.Nodes.Clear();
+
+            foreach (var teamProjectCollection in _projectCollections)
+            {
+                TreeNode projectCollectionNode = new TreeNode(teamProjectCollection.Name);
+                var myTfsProjects = teamProjectCollection.Projects.OrderBy(i => i.Name);
+                foreach (var project in myTfsProjects)
+                {
+                    var projectNode = new TreeNode(project.Name);
+                    var myTfsBuildDefinitions = project.BuildDefinitions.OrderBy(i => i.Name);
+                    foreach (var buildDefinition in myTfsBuildDefinitions)
+                    {
+                        var shouldBeVisible = string.IsNullOrEmpty(_filter.Text) || buildDefinition.Name.Contains(_filter.Text, StringComparison.CurrentCultureIgnoreCase);
+                        if (!shouldBeVisible) continue;
+                        var buildDefinitionSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _tfsCiEntryPoint.Name);
+                        projectNode.Nodes.Add(buildDefinition.GetAsNode(buildDefinitionSetting.Active));
+                    }
+                    AddIfContainsChildren(projectCollectionNode.Nodes, projectNode);
+                }
+                AddIfContainsChildren(_buildConfigurations.Nodes, projectCollectionNode);
+            }
+
+            RefreshCheckednessOfParentNodes();
+        }
+
+        private static void AddIfContainsChildren(TreeNodeCollection nodes, TreeNode child)
+        {
+            if (child.Nodes.Count == 0) return;
+            nodes.Add(child);
+            child.Expand();
         }
     }
 }

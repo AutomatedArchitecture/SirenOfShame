@@ -102,7 +102,7 @@ namespace CruiseControlNetServices
                     }
                     catch (Exception ex)
                     {
-                        // Swallow
+                        _log.Debug(ex);
                     }
                 }
             }

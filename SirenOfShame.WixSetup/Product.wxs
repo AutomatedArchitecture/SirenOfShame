@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is application version number, update for each release -->
-<?define Version = "2.3.3" ?>
+<?define Version = "2.3.6" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
@@ -52,12 +52,10 @@
         <File Source="..\SirenOfShame.Lib\bin\Release\UsbLib.dll" Id="UsbLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll2" />
         <File Source="..\SirenOfShame.Lib\bin\Release\SoxLib.dll" Id="SoxLibDll2" />
-        
         <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll2" />
         <File Source="..\packages\Microsoft.AspNet.SignalR.Client.2.1.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll" />
-        <File Source="..\packages\Newtonsoft.Json.5.0.1\lib\net45\Newtonsoft.Json.dll" />
+        <File Source="..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll" />
         <File Source="..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll" />
-        
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll2" />
         <File Source="..\SirenOfShame\bin\Plugins\BuildBotServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TravisCiServices.dll" />
@@ -95,7 +93,9 @@
         <File Source="..\SirenOfShame\bin\Plugins\SirenOfShame.Lib.dll" Id="SirenOfShameLibDll1" />
         <File Source="..\SirenOfShame\bin\FirmwareUpgrade.xml" />
         <File Id="SirenOfShameTrayBlankIco" Name="SirenOfShameTrayBlank.ico" Source="..\SirenOfShame\SirenOfShameTrayBlank.ico" />
-        
+
+        <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll1" />
+
         <File Source="..\SirenOfShame\bin\wyUpdate.exe" />
         <File Source="..\Libs\ZedGraph.dll" />
         <File Source="..\UsbLib\bin\Release\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>

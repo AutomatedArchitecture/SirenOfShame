@@ -13,7 +13,7 @@ namespace TravisCiServices.ServerConfiguration
         private readonly TravisCiEntryPoint _travisCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly TravisCiService _service = new TravisCiService();
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ConfigureTravisCi));
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (ConfigureTravisCi));
 
         public ConfigureTravisCi() { }
 
@@ -24,6 +24,7 @@ namespace TravisCiServices.ServerConfiguration
             _ciEntryPointSetting = ciEntryPointSetting;
             InitializeComponent();
             LoadProjectList();
+            TypeChanged();
         }
 
         private void LoadProjectList()
@@ -40,9 +41,9 @@ namespace TravisCiServices.ServerConfiguration
             });
         }
 
-        private void _add_Click(object sender, EventArgs e)
+        private void Add_Click(object sender, EventArgs e)
         {
-            _service.GetProject(_ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
+            _service.GetProject(_travisUrl.Text, _travisApiAccessToken.Text, _ownerName.Text, _projectName.Text, GetProjectComplete, GetProjectError);
         }
 
         private void GetProjectError(Exception ex)
@@ -53,7 +54,11 @@ namespace TravisCiServices.ServerConfiguration
 
         private void GetProjectComplete(TravisCiBuildDefinition buildDefinition)
         {
-            _ciEntryPointSetting.Url = "https://api.travis-ci.org/";
+            _ciEntryPointSetting.Url = _travisUrl.Text;
+            if (!string.IsNullOrEmpty(_travisApiAccessToken.Text))
+            {
+                _ciEntryPointSetting.SetPassword(_travisApiAccessToken.Text);
+            }
             Settings.Save();
 
             bool exists = Settings.BuildExistsAndIsActive(_travisCiEntryPoint.Name, buildDefinition.Id);
@@ -77,5 +82,61 @@ namespace TravisCiServices.ServerConfiguration
             }
             ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
         }
+
+        private void _typePublic_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void _typePrivate_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void _typeEnterprise_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeChanged();
+        }
+
+        private void TypeChanged()
+        {
+            var repoType = GetRepoType();
+            _travisUrl.Text = GetUrlFromType(repoType);
+            _travisUrl.Enabled = repoType == TravisRepoType.Enterprise;
+            _travisApiAccessToken.Enabled = repoType != TravisRepoType.Public;
+            authTokenLabel.Enabled = repoType != TravisRepoType.Public;
+            _generateAuthToken.Enabled = repoType != TravisRepoType.Public;
+            if (repoType == TravisRepoType.Public)
+            {
+                _travisApiAccessToken.Text = "";
+            }
+        }
+
+        private TravisRepoType GetRepoType()
+        {
+            if (_typePublic.Checked) return TravisRepoType.Public;
+            if (_typePrivate.Checked) return TravisRepoType.Private;
+            return TravisRepoType.Enterprise;
+        }
+
+        private string GetUrlFromType(TravisRepoType repoType)
+        {
+            if (repoType == TravisRepoType.Public) return "https://api.travis-ci.org/";
+            if (repoType == TravisRepoType.Private) return "https://api.travis-ci.com/";
+            return "";
+        }
+
+        private void GenerateAuthToken_Click(object sender, EventArgs e)
+        {
+            var travisApiAccessToken = GenerateTravisToken.ShowDialog(_travisUrl.Text);
+            _travisApiAccessToken.Text = travisApiAccessToken;
+        }
+    }
+
+    public enum TravisRepoType
+    {
+        Public = 1,
+        Private = 2,
+        Enterprise = 3
     }
 }

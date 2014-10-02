@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -50,6 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ServerConfiguration\GenerateTravisToken.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerConfiguration\GenerateTravisToken.Designer.cs">
+      <DependentUpon>GenerateTravisToken.cs</DependentUpon>
+    </Compile>
     <Compile Include="TravisCiBuildDefinition.cs" />
     <Compile Include="TravisCiBuildStatus.cs" />
     <Compile Include="TravisCiEntryPoint.cs" />
@@ -64,8 +79,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServerConfiguration\ConfigureTravisCi.resx">
       <DependentUpon>ConfigureTravisCi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerConfiguration\GenerateTravisToken.resx">
+      <DependentUpon>GenerateTravisToken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +97,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

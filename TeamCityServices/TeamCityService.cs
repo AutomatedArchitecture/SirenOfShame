@@ -370,8 +370,24 @@ namespace TeamCityServices
             try
             {
                 XDocument doc = DownloadXml(url, userName, password);
-                if (doc.Root == null) throw new Exception("Could not get project build status");
-                return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, doc);
+                if (doc == null)
+                {
+                    _log.ErrorFormat("Could not get project build status for {0}", url);
+                    return new TeamCityBuildStatus(buildDefinitionSetting);
+                }
+                else if (doc.Root == null)
+                {
+                   throw new Exception("Could not get project build status");
+                }
+                else
+                {
+                    return GetBuildStatusAndCommentsFromXDocument(
+                        rootUrl,
+                        userName,
+                        password,
+                        buildDefinitionSetting,
+                        doc);
+                }
             }
             catch (BuildDefinitionNotFoundException)
             {

@@ -54,4 +54,4 @@ Download Now
 
 [Download](http://sirenofshame.com/downloads) the latest officially released msi from our old website.
 
-You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=project267) generously provided by [CodeBetter](http://codebetter.com).
+You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=SirenOfShame) generously provided by [CodeBetter](http://codebetter.com).

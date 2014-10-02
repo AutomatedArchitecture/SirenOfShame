@@ -18,9 +18,12 @@ namespace TravisCiServices
 
         protected override IList<BuildStatus> GetBuildStatus()
         {
-            var watchedBuildDefinitions = GetAllWatchedBuildDefinitions().ToArray();
+            var watchedBuildDefinitions = GetAllWatchedBuildDefinitions()
+                .ToArray();
 
-            return _service.GetBuildsStatuses(watchedBuildDefinitions).Cast<BuildStatus>().ToList();
+            return _service.GetBuildsStatuses(CiEntryPointSetting, watchedBuildDefinitions)
+                .Cast<BuildStatus>()
+                .ToList();
         }
 
         private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()

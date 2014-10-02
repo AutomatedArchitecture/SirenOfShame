@@ -17,7 +17,6 @@ namespace TfsServices.Configuration
         private readonly IBuildServer _buildServer;
         private readonly MyTfsProject _tfsProject;
         private bool _firstRequest = true;
-        readonly Dictionary<String, String> _uriToName = new Dictionary<String, String>();
 
         public MyBuildServer(IBuildServer buildServer, MyTfsProject myTfsProject)
         {
@@ -60,7 +59,7 @@ namespace TfsServices.Configuration
             foreach (var build in buildDetail)
             {
                 if (!buildStatuses.ContainsKey(build.Key))
-                    buildStatuses[build.Key] = CreateBuildStatus(build.Value, applyBuildQuality);
+                    buildStatuses[build.Key] = CreateBuildStatus(build.Value, buildDefinitionsQuery, applyBuildQuality);
             }
 
             return buildStatuses.Values.ToArray();
@@ -112,37 +111,39 @@ namespace TfsServices.Configuration
             }
         }
 
-        private BuildStatus CreateBuildStatus(IBuildDetail buildDetail, bool applyBuildQuality)
+        private BuildStatus CreateBuildStatus(IBuildDetail buildDetail, IEnumerable<MyTfsBuildDefinition> allBuildDefinitions, bool applyBuildQuality)
         {
-            BuildStatusEnum status = GetBuildStatusEnum(buildDetail.Status);
-            if (applyBuildQuality && status == BuildStatusEnum.Working)
-                status = GetBuildStatusEnum(buildDetail.Quality);
-            
+            BuildStatusEnum buildStatus = GetBuildStatusEnum(buildDetail.Status);
+            var buildQuality = GetBuildStatusEnum(buildDetail.Quality);
+            if (applyBuildQuality && buildStatus == BuildStatusEnum.Working)
+                buildStatus = buildQuality;
+
             var result = new BuildStatus
             {
-                BuildDefinitionId = buildDetail.BuildDefinitionUri.Segments[buildDetail.BuildDefinitionUri.Segments.Length - 1],
-                BuildStatusEnum = status,
+                BuildStatusEnum = buildStatus,
                 RequestedBy = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedBy),
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
             };
 
-            if (buildDetail.BuildDefinition != null)
+            var matchedBuildDefinition = allBuildDefinitions.FirstOrDefault(i => i.Uri == buildDetail.BuildDefinitionUri);
+            if (matchedBuildDefinition != null)
             {
-                _uriToName[buildDetail.BuildDefinitionUri.ToString()] = buildDetail.BuildDefinition.Name;
+                result.Name = matchedBuildDefinition.Name;
+                result.BuildDefinitionId = matchedBuildDefinition.Id;
             }
-
-            result.Name = _uriToName[buildDetail.BuildDefinitionUri.ToString()];
-            result.BuildId = buildDetail.Uri.Segments[buildDetail.Uri.Segments.Length - 1];
+            else
+            {
+                _log.Error("The server appeared to return a build definition that we are not watching: " + buildDetail.BuildDefinitionUri);
+            }
+            
+            result.BuildId = buildDetail.Uri.Segments.LastOrDefault();
 
             SetInfoFromAssociatedCheckins(buildDetail, result);
 
-            if (applyBuildQuality &&
-                GetBuildStatusEnum(buildDetail.Quality) == BuildStatusEnum.Broken)
+            if (applyBuildQuality && buildQuality == BuildStatusEnum.Broken)
             {
-                result.Comment =
-                    "Build deployment or test failure. Please see test server or test results for details.\n" +
-                    result.Comment;
+                result.Comment = "Build deployment or test failure. Please see test server or test results for details.\n" + result.Comment;
             }
 
             result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
