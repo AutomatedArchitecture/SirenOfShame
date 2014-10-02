@@ -8,11 +8,11 @@ using SirenOfShame.Extruder.Services;
 
 namespace SirenOfShame.Extruder
 {
-    public partial class LeadersPage : UserControl
+    public partial class BrowserPage : UserControl
     {
-        private readonly ILog _log = MyLogManager.GetLog(typeof (LeadersPage));
+        private readonly ILog _log = MyLogManager.GetLog(typeof (BrowserPage));
 
-        public LeadersPage()
+        public BrowserPage()
         {
             InitializeComponent();
         }
@@ -33,25 +33,6 @@ namespace SirenOfShame.Extruder
             const string url = SosOnlineService.SOS_URL + "/MyCi/Mobile";
             _webBrowser.Navigate(url, null, credentials, "Content-Type: application/x-www-form-urlencoded");
             _webBrowser.Url = new Uri(url);
-        }
-
-        public void Navigate(ExtruderSettings settings, PageType page)
-        {
-            if (!_isInitialized)
-            {
-                EnsureConnected(settings);
-                return;
-            }
-
-            var pageElement = page.ToString().ToLowerInvariant();
-
-            var navigateButton = _webBrowser.Document.GetElementById(pageElement);
-            if (navigateButton == null)
-            {
-                _log.Error("Unable to find element " + pageElement);
-                return;
-            }
-            navigateButton.InvokeMember("click");
         }
 
         private void _refresh_Click(object sender, EventArgs e)

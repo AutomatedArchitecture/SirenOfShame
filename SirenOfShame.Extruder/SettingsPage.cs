@@ -18,6 +18,14 @@ namespace SirenOfShame.Extruder
             _encryptor = new TripleDesStringEncryptor();
         }
 
+        public event CloseSettingsEvent OnCloseSettings;
+
+        protected virtual void InvokeOnCloseSettings()
+        {
+            var handler = OnCloseSettings;
+            if (handler != null) handler(this, new CloseSettingsEventArgs());
+        }
+
         public event ToggleConnectionEvent OnToggleConnection;
         public event TestSirenEvent OnTestSiren;
 
@@ -77,6 +85,17 @@ namespace SirenOfShame.Extruder
         {
             InvokeOnTestSiren();
         }
+
+        private void _close_Click(object sender, EventArgs e)
+        {
+            InvokeOnCloseSettings();
+        }
+    }
+
+    public delegate void CloseSettingsEvent(object sender, CloseSettingsEventArgs args);
+
+    public class CloseSettingsEventArgs
+    {
     }
 
     public delegate void TestSirenEvent(object sender, TestSirenEventArgs args);

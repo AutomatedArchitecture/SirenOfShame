@@ -1,6 +1,6 @@
 ﻿namespace SirenOfShame.Extruder
 {
-    partial class LeadersPage
+    partial class BrowserPage
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeadersPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrowserPage));
             this._webBrowser = new System.Windows.Forms.WebBrowser();
             this._refresh = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();

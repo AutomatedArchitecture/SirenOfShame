@@ -21,7 +21,8 @@ namespace SirenOfShame.Extruder
         private readonly ISirenOfShameDevice _sirenOfShameDevice = new SirenOfShameDevice();
         private bool _connectedToServer;
         private readonly SettingsPage _settingsPage = new SettingsPage();
-        private readonly LeadersPage _leadersPage = new LeadersPage();
+        private readonly BrowserPage _browserPage = new BrowserPage();
+        private PageType? _currentPage;
 
         public MainForm()
         {
@@ -41,7 +42,7 @@ namespace SirenOfShame.Extruder
 
         private void InitializePages()
         {
-            _leadersPage.Dock = DockStyle.Fill;
+            _browserPage.Dock = DockStyle.Fill;
         }
 
         private void InitializeSettingsPage()
@@ -49,6 +50,15 @@ namespace SirenOfShame.Extruder
             _settingsPage.Dock = DockStyle.Fill;
             _settingsPage.Settings = _settings;
             _settingsPage.OnToggleConnection += SettingsPageOnOnToggleConnection;
+            _settingsPage.OnCloseSettings += SettingsPageOnOnCloseSettings;
+        }
+
+        private void SettingsPageOnOnCloseSettings(object sender, CloseSettingsEventArgs args)
+        {
+            if (_connectedToServer)
+            {
+                SetPage(PageType.BrowserPage);
+            }
         }
 
         private async Task SettingsPageOnOnToggleConnection(object sender, ToggleConnectionEventArgs args)
@@ -65,7 +75,7 @@ namespace SirenOfShame.Extruder
                 if (success)
                 {
                     SaveSettings(connectExtruderModel);
-                    SetPage(PageType.Builds);
+                    SetPage(PageType.BrowserPage);
                 }
             }
             else
@@ -271,7 +281,7 @@ namespace SirenOfShame.Extruder
             {
                 var connectExtruderModel = GetConnectExtruderModel();
                 await TryToConnect(connectExtruderModel);
-                SetPage(null);
+                SetPage(PageType.BrowserPage);
             }
             else
             {
@@ -301,66 +311,23 @@ namespace SirenOfShame.Extruder
             _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
         }
 
-        private void _settingsButton_Click(object sender, EventArgs e)
+        private void SetPage(PageType newPage)
         {
-            SetPage(PageType.Settings);
-        }
-
-        private PageType? _currentPage;
-
-        private void SetPage(PageType? pageType)
-        {
-            var newPage = GetNewPage(pageType);
             var oldPage = _currentPage;
             _currentPage = newPage;
 
-            var oldPageIsUrlPage = IsUrlPage(oldPage);
-            var newPageIsUrlPage = IsUrlPage(newPage);
+            if (oldPage == newPage) return;
 
-            if (oldPageIsUrlPage && newPageIsUrlPage)
-            {
-                _leadersPage.Navigate(_settings, newPage);
-                return;
-            }
-            
             _mainPanel.Controls.Clear();
-            if (pageType == PageType.Settings)
+            if (newPage == PageType.Settings)
             {
                 _mainPanel.Controls.Add(_settingsPage);
             }
             else
             {
-                _leadersPage.Navigate(_settings, newPage);
-                _mainPanel.Controls.Add(_leadersPage);
+                _browserPage.EnsureConnected(_settings);
+                _mainPanel.Controls.Add(_browserPage);
             }
-        }
-
-        private static bool IsUrlPage(PageType? pageType)
-        {
-            if (pageType == null) return false;
-            return pageType.Value == PageType.Builds || pageType.Value == PageType.Leaders || pageType.Value == PageType.News;
-        }
-
-        private PageType GetNewPage(PageType? pageType)
-        {
-            if (pageType != null) return pageType.Value;
-            // todo: remember old page in settings
-            return PageType.Builds;
-        }
-
-        private void _buildsButton_Click(object sender, EventArgs e)
-        {
-            SetPage(PageType.Builds);
-        }
-
-        private void _leadersButton_Click(object sender, EventArgs e)
-        {
-            SetPage(PageType.Leaders);
-        }
-
-        private void _newsButton_Click(object sender, EventArgs e)
-        {
-            SetPage(PageType.News);
         }
 
         private void _notifyIcon_MouseDown(object sender, MouseEventArgs e)
@@ -370,13 +337,16 @@ namespace SirenOfShame.Extruder
                 ShowConfigureScreen();
             }
         }
+
+        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        {
+            SetPage(PageType.Settings);
+        }
     }
 
     public enum PageType
     {
         Settings = 0,
-        Builds = 1,
-        Leaders = 2,
-        News = 3,
+        BrowserPage = 1,
     }
 }
