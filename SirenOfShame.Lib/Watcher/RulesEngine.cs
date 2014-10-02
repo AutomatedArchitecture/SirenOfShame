@@ -519,6 +519,7 @@ namespace SirenOfShame.Lib.Watcher
                 watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
                 watcher.Settings = _settings;
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
+                // todo: It looks like we are overwriting preceding watcher threads with subsequent ones which will cause problems when we try to Stop() them
                 _watcherThread = new Thread(watcher.StartWatching) { IsBackground = true, Name = "CiWatcher" };
                 _watcherThread.Start();
             }
