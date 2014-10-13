@@ -43,7 +43,9 @@ namespace SirenOfShame.Extruder
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this._sirenStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this._refresh = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
+            this._settingsButton = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this._mainPanel = new System.Windows.Forms.Panel();
             this._minimizedMenuStrip.SuspendLayout();
@@ -57,7 +59,7 @@ namespace SirenOfShame.Extruder
             this._notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("_notifyIcon.Icon")));
             this._notifyIcon.Text = "Shame Extruder";
             this._notifyIcon.Visible = true;
-            this._notifyIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this._notifyIcon_MouseDown);
+            this._notifyIcon.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NotifyIcon_MouseDown);
             // 
             // _minimizedMenuStrip
             // 
@@ -91,7 +93,8 @@ namespace SirenOfShame.Extruder
             this.toolStripStatusLabel3,
             this._sirenStatus,
             this.toolStripStatusLabel4,
-            this.toolStripSplitButton1});
+            this._refresh,
+            this._settingsButton});
             this.statusStrip1.Location = new System.Drawing.Point(0, 215);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(394, 22);
@@ -136,22 +139,41 @@ namespace SirenOfShame.Extruder
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(112, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(60, 17);
             this.toolStripStatusLabel4.Spring = true;
             // 
-            // toolStripSplitButton1
+            // _refresh
             // 
-            this.toolStripSplitButton1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSplitButton1.DropDownButtonWidth = 0;
-            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._refresh.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._refresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._refresh.DropDownButtonWidth = 0;
+            this._refresh.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox2});
+            this._refresh.Image = ((System.Drawing.Image)(resources.GetObject("_refresh.Image")));
+            this._refresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._refresh.Name = "_refresh";
+            this._refresh.Size = new System.Drawing.Size(21, 20);
+            this._refresh.Text = "toolStripSplitButton1";
+            this._refresh.ButtonClick += new System.EventHandler(this.Refresh_ButtonClick);
+            // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.Size = new System.Drawing.Size(100, 23);
+            // 
+            // _settingsButton
+            // 
+            this._settingsButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this._settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._settingsButton.DropDownButtonWidth = 0;
+            this._settingsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox1});
-            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(21, 20);
-            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
-            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.toolStripSplitButton1_ButtonClick);
+            this._settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("_settingsButton.Image")));
+            this._settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._settingsButton.Name = "_settingsButton";
+            this._settingsButton.Size = new System.Drawing.Size(21, 20);
+            this._settingsButton.Text = "toolStripSplitButton1";
+            this._settingsButton.ButtonClick += new System.EventHandler(this.SettingsButton_ButtonClick);
             // 
             // toolStripTextBox1
             // 
@@ -201,9 +223,11 @@ namespace SirenOfShame.Extruder
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel _sirenStatus;
         private System.Windows.Forms.Panel _mainPanel;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripSplitButton _settingsButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSplitButton _refresh;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
     }
 }
 

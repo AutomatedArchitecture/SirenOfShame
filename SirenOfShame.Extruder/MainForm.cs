@@ -316,6 +316,8 @@ namespace SirenOfShame.Extruder
             var oldPage = _currentPage;
             _currentPage = newPage;
 
+            _refresh.Visible = newPage == PageType.BrowserPage;
+
             if (oldPage == newPage) return;
 
             _mainPanel.Controls.Clear();
@@ -330,7 +332,7 @@ namespace SirenOfShame.Extruder
             }
         }
 
-        private void _notifyIcon_MouseDown(object sender, MouseEventArgs e)
+        private void NotifyIcon_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -338,9 +340,15 @@ namespace SirenOfShame.Extruder
             }
         }
 
-        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        private void SettingsButton_ButtonClick(object sender, EventArgs e)
         {
             SetPage(PageType.Settings);
+        }
+
+        private void Refresh_ButtonClick(object sender, EventArgs e)
+        {
+            if (_browserPage == null) return;
+            _browserPage.Refresh();
         }
     }
 

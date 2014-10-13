@@ -905,7 +905,7 @@ namespace SirenOfShame
             _userList.RefreshUserPanelVisibility();
         }
 
-        readonly Dictionary<Keys, int> _numericKeyMappins = new Dictionary<Keys, int>
+        readonly Dictionary<Keys, int> _numericKeyMappings = new Dictionary<Keys, int>
             {
                 { Keys.D1, 0 },
                 { Keys.D2, 1 },
@@ -926,12 +926,12 @@ namespace SirenOfShame
                 ShowInMainWindow(MainWindowEnum.ViewBuilds);
                 _viewBuilds.InitializeForBuild();
             }
-            if (e.KeyCode == Keys.F)
+            if (e.Alt && e.KeyCode == Keys.F)
             {
                 ShowFullscreen();
             }
             int numberPressed;
-            var wasNumberPressed = _numericKeyMappins.TryGetValue(e.KeyCode, out numberPressed);
+            var wasNumberPressed = _numericKeyMappings.TryGetValue(e.KeyCode, out numberPressed);
             if (wasNumberPressed)
             {
                 if (e.Alt)

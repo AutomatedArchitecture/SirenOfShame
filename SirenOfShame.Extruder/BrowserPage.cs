@@ -35,7 +35,7 @@ namespace SirenOfShame.Extruder
             _webBrowser.Url = new Uri(url);
         }
 
-        private void _refresh_Click(object sender, EventArgs e)
+        public void Refresh()
         {
             if (_settings != null)
             {
