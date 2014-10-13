@@ -42,19 +42,17 @@ namespace SirenOfShame.Lib.Services
             InvokeOnOnNewSosOnlineNotification(data.Message.Value,
                                                data.DisplayName.Value,
                                                data.ImageUrl.Value,
-                                               data.EventTypeId.Value,
                                                data.Username.Value
                                                );
         }
 
-        private void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, long eventTypeId, string userName)
+        private void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, string userName)
         {
             var args = new NewSosOnlineNotificationArgs
             {
                 Message = message, 
                 DisplayName = displayName,
                 ImageUrl = imageUrl,
-                EventTypeId = (int)eventTypeId,
                 UserName = userName,
             };
             NewSosOnlineNotification handler = OnNewSosOnlineNotification;
@@ -216,11 +214,21 @@ namespace SirenOfShame.Lib.Services
                 InvokeOnSosOnlineStatusChange("Connecting");
                 _connection = new HubConnection(SOS_URL);
                 _proxy = _connection.CreateHubProxy("SosHub");
-                _proxy.On("addAppNotificationV1", InvokeOnOnNewSosOnlineNotification);
+                _proxy.On("addChatMessageToDesktopClients", InvokeOnOnNewSosOnlineNotification);
                 _connection.Error += ConnectionOnError;
                 _connection.StateChanged += ConnectionOnStateChanged;
                 _connection.Closed += ConnectionOnClosed;
                 await _connection.Start();
+                var credentialApiModel = new CredentialApiModel
+                {
+                    UserName = settings.SosOnlineUsername,
+                    Password = settings.SosOnlinePassword,
+                };
+                var result = await _proxy.Invoke<ApiResultBase>("connectDesktopApp", credentialApiModel);
+                if (!result.Success)
+                {
+                    _connection.Stop();
+                }
             } 
             catch (Exception ex)
             {
@@ -333,5 +341,11 @@ namespace SirenOfShame.Lib.Services
     {
         public string TextStatus { get; set; }
         public Exception Exception { get; set; }
+    }
+
+    public class CredentialApiModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 }

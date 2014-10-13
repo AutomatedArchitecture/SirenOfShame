@@ -8,8 +8,6 @@ namespace SirenOfShame.Lib.Services
 
         public string ImageUrl { get; set; }
 
-        public int EventTypeId { get; set; }
-
         public string UserName { get; set; }
     }
 }

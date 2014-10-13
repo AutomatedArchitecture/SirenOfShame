@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Services;
 using log4net;
@@ -123,11 +122,11 @@ namespace SirenOfShame
         private void InitializeNewsFeed()
         {
             _newsFeed1.OnUserClicked += NewsFeedOnUserClicked;
-            _newsFeed1.OnSendMessageToSosOnline += NewsFeed1OnOnSendMessageToSosOnline;
+            _newsFeed1.OnSendMessageToSosOnline += NewsFeedOnSendMessageToSosOnline;
             _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
         }
 
-        private void NewsFeed1OnOnSendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args)
+        private void NewsFeedOnSendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args)
         {
             _sosOnlineService.SendMessage(_settings, args.Message);
         }
@@ -338,7 +337,7 @@ namespace SirenOfShame
             }
 
             StartWatchingBuild();
-            _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnOnNewSosOnlineNotification;
+            _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnNewSosOnlineNotification;
             _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
             await _sosOnlineService.StartRealtimeConnection(_settings);
             
@@ -356,13 +355,8 @@ namespace SirenOfShame
             });
         }
 
-        private void SosOnlineServiceOnOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
+        private void SosOnlineServiceOnNewSosOnlineNotification(object sender, NewSosOnlineNotificationArgs args)
         {
-            NewsItemTypeEnum newItemType = (NewsItemTypeEnum)args.EventTypeId;
-            bool currentUserAuthoredEvent = args.UserName == _settings.SosOnlineUsername;
-            bool reputationChangeOrAchievement = newItemType == NewsItemTypeEnum.SosOnlineReputationChange ||
-                                                 newItemType == NewsItemTypeEnum.SosOnlineNewAchievement;
-            if (currentUserAuthoredEvent && reputationChangeOrAchievement) return;
             // this may result in a web request to retrieve the person's image, so keep it on some other thread
             SosOnlinePerson sosOnlinePerson = _sosOnlineService.CreateSosOnlinePersonFromSosOnlineNotification(args, _avatarImageList);
             Invoke(() =>
@@ -373,7 +367,7 @@ namespace SirenOfShame
                     Person = sosOnlinePerson,
                     Title = args.Message,
                     AvatarImageList = _avatarImageList,
-                    NewsItemType = newItemType
+                    NewsItemType = NewsItemTypeEnum.SosOnlineComment
                 };
                 _newsFeed1.AddNewsItem(newNewsItemEventArgs);
             });
