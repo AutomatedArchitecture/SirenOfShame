@@ -145,12 +145,6 @@ namespace SirenOfShame
             InvokeOnOnUserClicked(args);
         }
 
-        private void ClearNewsClick(object sender, EventArgs e)
-        {
-            _newsItemsPanel.ClearAndDispose();
-            _noNews.Visible = true;
-        }
-
         private void NewsFeedMouseEnter(object sender, EventArgs e)
         {
             EnableMouseScrollWheel();
@@ -323,6 +317,11 @@ namespace SirenOfShame
         private void AddMessageClick(object sender, EventArgs e)
         {
             SubmitMessage();
+        }
+
+        public void EnableChat()
+        {
+            _bottomPanel.Visible = true;
         }
     }
 

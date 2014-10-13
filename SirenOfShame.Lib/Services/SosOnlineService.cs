@@ -17,11 +17,9 @@ using log4net;
 
 namespace SirenOfShame.Lib.Services
 {
-    public class ApiResultBase
+    public class DesktopAppConnectionResult : ApiResultBase
     {
-        public bool Success { get; set; }
-        public string Message { get; set; }
-        public object Result { get; set; }
+        public bool ChatEnabled { get; set; }
     }
 
     public partial class SosOnlineService
@@ -202,14 +200,14 @@ namespace SirenOfShame.Lib.Services
         private HubConnection _connection;
         private IHubProxy _proxy;
 
-        public virtual async Task StartRealtimeConnection(SirenOfShameSettings settings)
+        public virtual async Task<DesktopAppConnectionResult> StartRealtimeConnection(SirenOfShameSettings settings)
         {
             try
             {
                 if (!settings.GetSosOnlineContent())
                 {
                     InvokeOnSosOnlineStatusChange("Disabled");
-                    return;
+                    return new DesktopAppConnectionResult { Success = false };
                 }
                 InvokeOnSosOnlineStatusChange("Connecting");
                 _connection = new HubConnection(SOS_URL);
@@ -224,16 +222,18 @@ namespace SirenOfShame.Lib.Services
                     UserName = settings.SosOnlineUsername,
                     Password = settings.SosOnlinePassword,
                 };
-                var result = await _proxy.Invoke<ApiResultBase>("connectDesktopApp", credentialApiModel);
+                var result = await _proxy.Invoke<DesktopAppConnectionResult>("connectDesktopApp", credentialApiModel);
                 if (!result.Success)
                 {
                     _connection.Stop();
                 }
+                return result;
             } 
             catch (Exception ex)
             {
                 _log.Error("Unable to start realtime connection to SoS Online", ex);
             }
+            return new DesktopAppConnectionResult { Success = false };
         }
 
         private void ConnectionOnClosed()
@@ -336,16 +336,4 @@ namespace SirenOfShame.Lib.Services
     }
 
     public delegate void SosOnlineStatusChange(object sender, SosOnlineStatusChangeArgs args);
-
-    public class SosOnlineStatusChangeArgs
-    {
-        public string TextStatus { get; set; }
-        public Exception Exception { get; set; }
-    }
-
-    public class CredentialApiModel
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
 }

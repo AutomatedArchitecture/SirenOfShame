@@ -144,7 +144,10 @@
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Dto\InstanceUserDto.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Services\ApiResultBase.cs" />
+    <Compile Include="Services\CredentialApiModel.cs" />
     <Compile Include="Services\MySosOnlineService.cs" />
+    <Compile Include="Services\SosOnlineStatusChangeArgs.cs" />
     <Compile Include="Services\SoundService.cs" />
     <Compile Include="Settings\Sound.cs" />
     <Compile Include="Settings\Upgrades\Upgrade7To8.cs" />

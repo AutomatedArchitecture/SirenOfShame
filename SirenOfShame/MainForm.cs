@@ -339,7 +339,12 @@ namespace SirenOfShame
             StartWatchingBuild();
             _sosOnlineService.OnNewSosOnlineNotification += SosOnlineServiceOnNewSosOnlineNotification;
             _sosOnlineService.OnSosOnlineStatusChange += SosOnlineOnStatusChange;
-            await _sosOnlineService.StartRealtimeConnection(_settings);
+            var realtimeConnectionResult = await _sosOnlineService.StartRealtimeConnection(_settings);
+
+            if (realtimeConnectionResult.Success && realtimeConnectionResult.ChatEnabled)
+            {
+                _newsFeed1.EnableChat();
+            }
             
             RefreshStats();
             SetMuteButton();
