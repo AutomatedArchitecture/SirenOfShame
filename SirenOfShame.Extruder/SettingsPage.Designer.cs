@@ -174,6 +174,7 @@ namespace SirenOfShame.Extruder
             | System.Windows.Forms.AnchorStyles.Right)));
             this._password.Location = new System.Drawing.Point(75, 30);
             this._password.Name = "_password";
+            this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(193, 20);
             this._password.TabIndex = 20;
             // 
