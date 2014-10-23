@@ -41,7 +41,7 @@ namespace SirenOfShame.Extruder
 
             _username.Text = Settings.UserName;
             _password.Text = _encryptor.DecryptString(Settings.EncryptedPassword);
-            _myname.Text = Settings.MyName;
+            _myname.Text = Settings.MyName ?? Environment.MachineName;
         }
 
         private void Settings_Load(object sender, EventArgs e)

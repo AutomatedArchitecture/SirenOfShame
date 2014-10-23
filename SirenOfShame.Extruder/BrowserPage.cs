@@ -26,11 +26,14 @@ namespace SirenOfShame.Extruder
             _isInitialized = true;
 
             _settings = settings;
-            string credentialsAsString = string.Format("username={0}&encryptedpassword={1}", WebUtility.UrlEncode(settings.UserName), WebUtility.UrlEncode(settings.EncryptedPassword));
+            string credentialsAsString = string.Format("username={0}&encryptedpassword={1}&extruderName={2}", 
+                WebUtility.UrlEncode(settings.UserName), 
+                WebUtility.UrlEncode(settings.EncryptedPassword),
+                WebUtility.UrlEncode(settings.MyName));
             var asciiEncoding = new ASCIIEncoding();
             byte[] credentials = asciiEncoding.GetBytes(credentialsAsString);
 
-            const string url = SosOnlineService.SOS_URL + "/MyCi/Mobile";
+            const string url = SosOnlineService.SOS_URL + "/Mobile/App";
             _webBrowser.Navigate(url, null, credentials, "Content-Type: application/x-www-form-urlencoded");
             _webBrowser.Url = new Uri(url);
         }

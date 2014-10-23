@@ -143,6 +143,7 @@ namespace SirenOfShame.Extruder
             // 
             this._myname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this._myname.Enabled = false;
             this._myname.Location = new System.Drawing.Point(75, 56);
             this._myname.Name = "_myname";
             this._myname.Size = new System.Drawing.Size(193, 20);
