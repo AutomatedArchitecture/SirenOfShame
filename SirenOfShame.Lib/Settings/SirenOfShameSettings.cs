@@ -364,7 +364,7 @@ namespace SirenOfShame.Lib.Settings
             }
         }
 
-        public void ResetSirenSettings()
+        public void InitializeRulesForConnectedSiren()
         {
             if (!SirenOfShameDevice.IsConnected) return;
             TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);

@@ -22,9 +22,11 @@ namespace SirenOfShame.Test.Unit.Services
         {
         }
 
-        public override async Task StartRealtimeConnection(SirenOfShameSettings settings)
+        public override Task<DesktopAppConnectionResult> StartRealtimeConnection(SirenOfShameSettings settings)
         {
-            await Task.Yield();
+            var taskCompletionSource = new TaskCompletionSource<DesktopAppConnectionResult>();
+            taskCompletionSource.SetResult(new DesktopAppConnectionResult { Success = true });
+            return taskCompletionSource.Task;
         }
 
         public override void SendMessage(SirenOfShameSettings settings, string message)

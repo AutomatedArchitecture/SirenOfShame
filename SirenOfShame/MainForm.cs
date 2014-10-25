@@ -298,7 +298,7 @@ namespace SirenOfShame
             if (firstTimeSirenHasEverBeenConnected)
             {
                 _settings.SirenEverConnected = true;
-                _settings.ResetSirenSettings();
+                _settings.InitializeRulesForConnectedSiren();
                 _settings.Save();
             }
 

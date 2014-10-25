@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.AspNet.SignalR.Client;
+using Newtonsoft.Json;
 using SirenOfShame.Extruder.Models;
 using SirenOfShame.Extruder.Services;
 using SirenOfShame.Lib.Device;
@@ -31,7 +32,7 @@ namespace SirenOfShame.Extruder
 
             InitializeComponent();
 
-            DeviceConnected();
+            DeviceConnectedOrDisconnected();
             RefreshConnectText(ConnectionState.Disconnected);
 
             InitializeSettingsPage();
@@ -71,6 +72,7 @@ namespace SirenOfShame.Extruder
                     Password = _encryptor.EncryptString(args.PlainTextPassword),
                     Name = args.Name,
                 };
+                _settings.InitializeConnectExtruderModel(connectExtruderModel);
                 bool success = await TryToConnect(connectExtruderModel);
                 if (success)
                 {
@@ -116,22 +118,45 @@ namespace SirenOfShame.Extruder
         
         void SirenOfShameDeviceConnected(object sender, EventArgs e)
         {
-            DeviceConnected();
+            DeviceConnectedOrDisconnected();
         }
 
         void SirenOfShameDeviceDisconnected(object sender, EventArgs e)
         {
-            DeviceConnected();
+            DeviceConnectedOrDisconnected();
         }
 
-        private void DeviceConnected()
+        private void DeviceConnectedOrDisconnected()
         {
             Invoke(() =>
             {
                 bool connected = _sirenOfShameDevice.IsConnected;
+                if (connected)
+                {
+                    var firstTimeConnectingDevice = _settings.LedPatterns == null;
+                    _settings.LedPatterns = JsonConvert.SerializeObject(_sirenOfShameDevice.LedPatterns);
+                    _settings.AudioPatterns = JsonConvert.SerializeObject(_sirenOfShameDevice.AudioPatterns);
+                    _settings.Save();
+                    if (firstTimeConnectingDevice)
+                    {
+                        SilentlyReconnectToServer();
+                    }
+                }
                 _settingsPage.DeviceConnected(connected);
                 _sirenStatus.Text = connected ? "Connected" : "Disconnected";
             });
+        }
+
+        /// <summary>
+        /// async void is kinda evil, but this will happen on a background thread and that's ok b/c the method name starts with Silently :)
+        /// </summary>
+        private async void SilentlyReconnectToServer()
+        {
+            if (!_connectedToServer) return;
+            
+            TryToDisconnect();
+            var extruderModel = GetConnectExtruderModel();
+            await TryToConnect(extruderModel);
         }
 
         private void UpdateNetworkStatus(bool? isBusy, string statusText)
@@ -189,12 +214,15 @@ namespace SirenOfShame.Extruder
 
         private ConnectExtruderModel GetConnectExtruderModel()
         {
-            return new ConnectExtruderModel
+            var result = new ConnectExtruderModel
             {
                 UserName = _settings.UserName,
                 Password = _settings.EncryptedPassword,
                 Name = _settings.MyName,
             };
+
+            _settings.InitializeConnectExtruderModel(result);
+            return result;
         }
 
         protected override void WndProc(ref Message m)

@@ -65,7 +65,7 @@ namespace SirenOfShame.Configuration
             var result = SosMessageBox.Show("Are you sure you want to delete all your rules?", "The obligatory 'are you sure?' dialog", "Yes, Delete Them All!", DialogResult.Yes, "Dude, terrible idea", DialogResult.No);
             if (result != DialogResult.Yes) return;
             _settings.ResetRules();
-            _settings.ResetSirenSettings();
+            _settings.InitializeRulesForConnectedSiren();
             DataBind();
         }
 

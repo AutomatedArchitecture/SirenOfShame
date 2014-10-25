@@ -13,8 +13,9 @@ namespace SirenOfShame.Extruder.Models
         public string UserName { get; set; }
         public string MyName { get; set; }
         public string EncryptedPassword { get; set; }
+        public string LedPatterns { get; set; }
+        public string AudioPatterns { get; set; }
 
-        private string _fileName;
         private readonly object _lock = new object();
         private const string EXTRUDER_CONFIG = @"ShameExtruder.config";
         private static readonly ILog _log = MyLogManager.GetLog(typeof (ExtruderSettings));
@@ -48,7 +49,6 @@ namespace SirenOfShame.Extruder.Models
                 {
                     myFileStream = fi.OpenRead();
                     var settings = (ExtruderSettings)mySerializer.Deserialize(myFileStream);
-                    settings._fileName = fileName;
                     settings.ErrorIfAnythingLooksBad();
                     return settings;
                 }
@@ -71,7 +71,6 @@ namespace SirenOfShame.Extruder.Models
                 }
             }
             var defaultSettings = GetDefaultSettings();
-            defaultSettings._fileName = fileName;
             defaultSettings.Save();
             return defaultSettings;
         }
@@ -111,6 +110,12 @@ namespace SirenOfShame.Extruder.Models
         private void ErrorIfAnythingLooksBad()
         {
             
+        }
+
+        public void InitializeConnectExtruderModel(ConnectExtruderModel connectExtruderModel)
+        {
+            connectExtruderModel.LedPatterns = LedPatterns;
+            connectExtruderModel.AudioPatterns = AudioPatterns;
         }
     }
 }
