@@ -3,20 +3,25 @@ using System.Threading.Tasks;
 using log4net;
 using Microsoft.AspNet.SignalR.Client;
 using SirenOfShame.Extruder.Models;
+using SirenOfShame.Lib.Watcher;
+using SetTrayIconEventArgs = SirenOfShame.Extruder.Models.SetTrayIconEventArgs;
+using TrayIcon = SirenOfShame.Extruder.Models.TrayIcon;
 
 namespace SirenOfShame.Extruder.Services
 {
-    public class SosOnlineService
+    public sealed class SosOnlineService
     {
         public const string SOS_URL = "http://localhost:3115";
         private readonly ILog _log = MyLogManager.GetLog(typeof (SosOnlineService));
         private HubConnection _connection;
         private IHubProxy _proxy;
         public Action<StateChange> StatusChanged { get; set; }
-        public Action<int?, TimeSpan, int?, TimeSpan> PlaySiren { get; set; }
+        public Action<int?, TimeSpan?> SetLights { get; set; }
+        public Action<int?, TimeSpan?> SetAudio { get; set; }
+        public Action<ModalDialogEventArgs> ModalDialog { get; set; }
         public event TrayNotifyEvent TrayNotify;
 
-        protected virtual void OnTrayNotify(TrayNotifyEventArgs args)
+        private void OnTrayNotify(TrayNotifyEventArgs args)
         {
             var handler = TrayNotify;
             if (handler != null) handler(this, args);
@@ -24,7 +29,7 @@ namespace SirenOfShame.Extruder.Services
 
         public event SetTrayIconEvent SetTrayIcon;
 
-        protected virtual void OnSetTrayIcon(TrayIcon trayIcon)
+        private void OnSetTrayIcon(TrayIcon trayIcon)
         {
             var handler = SetTrayIcon;
             if (handler != null) handler(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
@@ -42,7 +47,9 @@ namespace SirenOfShame.Extruder.Services
                 _connection = new HubConnection(SOS_URL);
                 _proxy = _connection.CreateHubProxy("SosHub");
 
-                _proxy.On<int?, TimeSpan, int?, TimeSpan>("playSiren", OnPlaySirenEventReceived);
+                _proxy.On<int?, TimeSpan?>("setLights", OnSetLightsEventReceived);
+                _proxy.On<int?, TimeSpan?>("setAudio", OnSetAudioEventReceived);
+                _proxy.On<ModalDialogEventArgs>("modalDialog", OnModalDialogEventReceived);
                 _proxy.On("forceDisconnect", OnForceDisconnect);
                 _proxy.On<TrayIcon>("setTrayIcon", OnSetTrayIcon);
                 _proxy.On<TrayNotifyEventArgs>("trayNotify", OnTrayNotify);
@@ -91,11 +98,27 @@ namespace SirenOfShame.Extruder.Services
             _log.Error("SignalR Connection Error", ex);
         }
 
-        private void OnPlaySirenEventReceived(int? ledPatternIndex, TimeSpan ledDuration, int? audioPatternIndex, TimeSpan audioDuration)
+        private void OnSetAudioEventReceived(int? audioPatternIndex, TimeSpan? audioDuration)
         {
-            if (PlaySiren != null)
+            if (SetAudio != null)
             {
-                PlaySiren(ledPatternIndex, ledDuration, audioPatternIndex, audioDuration);
+                SetAudio(audioPatternIndex, audioDuration);
+            }
+        }
+
+        private void OnSetLightsEventReceived(int? ledPatternIndex, TimeSpan? ledDuration)
+        {
+            if (SetLights != null)
+            {
+                SetLights(ledPatternIndex, ledDuration);
+            }
+        }
+
+        private void OnModalDialogEventReceived(ModalDialogEventArgs args)
+        {
+            if (ModalDialog != null)
+            {
+                ModalDialog(args);
             }
         }
     }

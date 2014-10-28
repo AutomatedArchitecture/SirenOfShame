@@ -9,6 +9,10 @@ using Newtonsoft.Json;
 using SirenOfShame.Extruder.Models;
 using SirenOfShame.Extruder.Services;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Watcher;
+using SetTrayIconEventArgs = SirenOfShame.Extruder.Models.SetTrayIconEventArgs;
+using TrayIcon = SirenOfShame.Extruder.Models.TrayIcon;
+using TrayNotifyEventArgs = SirenOfShame.Extruder.Services.TrayNotifyEventArgs;
 
 namespace SirenOfShame.Extruder
 {
@@ -89,7 +93,9 @@ namespace SirenOfShame.Extruder
         private void SubscribeEvents()
         {
             _sosOnlineService.StatusChanged += OnStatusChanged;
-            _sosOnlineService.PlaySiren += OnPlaySiren;
+            _sosOnlineService.SetAudio += OnSetAudio;
+            _sosOnlineService.SetLights += OnSetLights;
+            _sosOnlineService.ModalDialog += OnModalDialog;
             _sosOnlineService.SetTrayIcon += RulesEngineSetTrayIcon;
             _sosOnlineService.TrayNotify += RulesEngineTrayNotify;
             _sirenOfShameDevice.Connected += SirenOfShameDeviceConnected;
@@ -317,8 +323,13 @@ namespace SirenOfShame.Extruder
             }
         }
 
+        private void OnModalDialog(ModalDialogEventArgs obj)
+        {
+            Invoke(() => MessageBox.Show(this, obj.DialogText, obj.OkText));
+        }
+
         // no need to marshall this to the UI thread b/c we don't do any UI work
-        private void OnPlaySiren(int? ledPatternIndex, TimeSpan ledDuration, int? audioPatternIndex, TimeSpan audioDuration)
+        private void OnSetLights(int? ledPatternIndex, TimeSpan? ledDuration)
         {
             if (!_sirenOfShameDevice.IsConnected)
             {
@@ -326,16 +337,20 @@ namespace SirenOfShame.Extruder
                 return;
             }
 
-            LedPattern ledPattern = ledPatternIndex == null ? null : _sirenOfShameDevice.LedPatterns.ElementAtOrDefault(ledPatternIndex.Value);
-            AudioPattern audioPattern = audioPatternIndex == null ? null : _sirenOfShameDevice.AudioPatterns.ElementAtOrDefault(audioPatternIndex.Value);
-            PlaySiren(ledPattern, ledDuration, audioPattern, audioDuration);
+            LedPattern ledPattern = ledPatternIndex == null ? null : _sirenOfShameDevice.LedPatterns.FirstOrDefault(i => i.Id == ledPatternIndex);
+            _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
         }
 
-        private void PlaySiren(LedPattern ledPattern, TimeSpan ledDuration, AudioPattern audioPattern, TimeSpan audioDuration)
+        // no need to marshall this to the UI thread b/c we don't do any UI work
+        private void OnSetAudio(int? audioPatternIndex, TimeSpan? audioDuration)
         {
-            if (!_sirenOfShameDevice.IsConnected) return;
+            if (!_sirenOfShameDevice.IsConnected)
+            {
+                _log.Warn("Retrieved request to play siren, but siren wasn't connected");
+                return;
+            }
 
-            _sirenOfShameDevice.PlayLightPattern(ledPattern, ledDuration);
+            AudioPattern audioPattern = audioPatternIndex == null ? null : _sirenOfShameDevice.AudioPatterns.FirstOrDefault(i => i.Id == audioPatternIndex);
             _sirenOfShameDevice.PlayAudioPattern(audioPattern, audioDuration);
         }
 
