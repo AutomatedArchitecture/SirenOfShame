@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- This is application version number, update for each release -->
-<?define Version = "2.3.6" ?>
+<?define Version = "1.0.0" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Shame Extruder $(var.Version)" Language="1033" Manufacturer="Automated Architecture"
+  <Product Id="*" Name="Shame Extruder $(var.Version)" Language="1033" Manufacturer="Automated Architecture"
            Version="$(var.Version)" UpgradeCode="FFF503D6-DA4C-4D06-9620-B6B83FD6EAFD">
-		<Package InstallerVersion="200" Compressed="yes" />
+    <Package InstallerVersion="200" Compressed="yes" />
 
     <Condition Message="A later version of the Shame Extruder is already installed.">NOT NEWERVERSIONDETECTED</Condition>
 
@@ -15,28 +16,64 @@
       <![CDATA[Installed OR NETFRAMEWORK45]]>
     </Condition>
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+    <Upgrade Id="FFF503D6-DA4C-4D06-9620-B6B83FD6EAFD">
+      <!-- IncludeMinimum=no so we can re-install the current version from the msi -->
+      <UpgradeVersion Minimum="$(var.Version)" IncludeMinimum="no"
+                      OnlyDetect="yes" Property="NEWERVERSIONDETECTED" />
+      <UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="$(var.Version)" IncludeMaximum="yes"
+                      OnlyDetect="no" Property="PREVIOUSVERSIONSINSTALLED" />
+    </Upgrade>
 
-		<Feature Id="ProductFeature" Title="SirenOfShame.Extruder.WixSetup" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-		</Feature>
-	</Product>
+    <CustomAction Id="LaunchFile" Directory="INSTALLLOCATION" ExeCommand="[INSTALLLOCATION]ShameExtruder.exe" Return="asyncNoWait" />
 
-	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="SirenOfShame.Extruder.WixSetup" />
-			</Directory>
-		</Directory>
-	</Fragment>
+    <InstallExecuteSequence>
+      <RemoveExistingProducts Before="InstallInitialize" />
+      <Custom Action='LaunchFile' After='InstallFinalize'>NOT Installed</Custom>
+    </InstallExecuteSequence>
 
-	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
-	</Fragment>
+    <Media Id="1" Cabinet="ShameExtruder.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLLOCATION" Name="Shame Extruder">
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="Programs" />
+      <Directory Id="StartupFolder" Name="StartupFolder" />
+    </Directory>
+
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="MainExecutable" Guid="E09D7E63-E334-4728-8E82-E6E135492F19">
+        <RemoveFile Id="PurgeAppFolder" Name="*.*" On="install" />
+
+        <Shortcut Id="StartMenuShameExtruderExe" Directory="ProgramMenuFolder" Name="Shame Extruder" Icon="ShameExtruder.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+        <Shortcut Id="StartupMenuShameExtruderExe" Directory="StartupFolder" Name="Shame Extruder" Icon="ShameExtruder.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+
+        <File Id="ShameExtruderExe" Name="ShameExtruder.exe" Source="..\SirenOfShame.Extruder\bin\Release\ShameExtruder.exe" KeyPath="yes" />
+
+        <!-- todo: Add dependencies here -->
+      </Component>
+    </DirectoryRef>
+
+    <Icon Id="ShameExtruderIco" SourceFile="..\SirenOfShame.Extruder\ShameExtruder.ico"/>
+    <Icon Id="ShameExtruder.exe" SourceFile="..\SirenOfShame.Extruder\bin\Release\ShameExtruder.exe"/>
+
+    <Property Id='ARPCOMMENTS'>A lightweight, cloud-connected, siren of shame controller.</Property>
+    <Property Id='ARPCONTACT'>support@sirenofshame.com</Property>
+    <Property Id='ARPHELPLINK'>http://sirenofshame.com</Property>
+    <Property Id='ARPURLINFOABOUT'>http://sirenofshame.com</Property>
+    <Property Id='ARPURLUPDATEINFO'>http://sirenofshame.com/downloads</Property>
+    <Property Id='ARPSIZE'>15852</Property>
+    <Property Id='ARPPRODUCTICON'>ShameExtruderIco</Property>
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+    <Property Id="ALLUSERS">2</Property>
+    <!-- ALLUSERS=2; i.e. install per-machine not per-user -->
+
+    <Feature Id="ProductFeature" Title="SirenOfShame.WixSetup" Level="1">
+      <ComponentRef Id="MainExecutable"/>
+
+      <!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
+      <!--<ComponentGroupRef Id="Product.Generated" />-->
+    </Feature>
+  </Product>
 </Wix>

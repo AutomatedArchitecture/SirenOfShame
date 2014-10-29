@@ -129,16 +129,16 @@
     <Icon Id="SirenOfShameTrayBlankIco" SourceFile="..\SirenOfShame\SirenOfShameTrayBlank.ico"/>
     <Icon Id="SirenOfShame.exe" SourceFile="..\SirenOfShame\bin\SirenOfShame.exe"/>
     
-    <Property Id='ARPCOMMENTS'>any comments</Property>
+    <Property Id='ARPCOMMENTS'>A build monitor, CI gamifier, and siren controller.</Property>
     <Property Id='ARPCONTACT'>support@sirenofshame.com</Property>
     <Property Id='ARPHELPLINK'>http://sirenofshame.com</Property>
     <Property Id='ARPURLINFOABOUT'>http://sirenofshame.com</Property>
-    <Property Id='ARPURLUPDATEINFO'>http://code.google.com/p/siren-of-shame/downloads/list</Property>
+    <Property Id='ARPURLUPDATEINFO'>http://sirenofshame.com/downloads</Property>
     <Property Id='ARPSIZE'>15852</Property>
     <Property Id='ARPPRODUCTICON'>SirenOfShameTrayBlankIco</Property>
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
     <Property Id="ALLUSERS">2</Property> <!-- ALLUSERS=2; i.e. install per-machine not per-user -->
-    
+
 		<Feature Id="ProductFeature" Title="SirenOfShame.WixSetup" Level="1">
       <ComponentRef Id="MainExecutable"/>
       <ComponentRef Id="SoxComponent"/>
