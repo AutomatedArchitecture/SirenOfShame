@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="SirenOfShame.Extruder.WixSetup" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="121f327a-2b55-40f4-96ed-55be9bc8d36b">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+<!-- This is application version number, update for each release -->
+<?define Version = "2.3.6" ?>
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Shame Extruder $(var.Version)" Language="1033" Manufacturer="Automated Architecture"
+           Version="$(var.Version)" UpgradeCode="FFF503D6-DA4C-4D06-9620-B6B83FD6EAFD">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+    <Condition Message="A later version of the Shame Extruder is already installed.">NOT NEWERVERSIONDETECTED</Condition>
+
+    <PropertyRef Id="NETFRAMEWORK45"/>
+
+    <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK45]]>
+    </Condition>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 
 		<Feature Id="ProductFeature" Title="SirenOfShame.Extruder.WixSetup" Level="1">
