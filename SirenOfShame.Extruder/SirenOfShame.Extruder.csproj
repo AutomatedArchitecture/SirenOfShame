@@ -83,6 +83,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MyLogManager.cs" />
+    <Compile Include="Services\MySosOnlineService.cs" />
     <Compile Include="Services\SetTrayIconEvent.cs" />
     <Compile Include="Services\SosOnlineService.cs" />
     <Compile Include="Services\SosToolTipIcon.cs" />

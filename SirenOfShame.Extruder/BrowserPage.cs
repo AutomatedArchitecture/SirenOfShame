@@ -33,7 +33,7 @@ namespace SirenOfShame.Extruder
             var asciiEncoding = new ASCIIEncoding();
             byte[] credentials = asciiEncoding.GetBytes(credentialsAsString);
 
-            const string url = SosOnlineService.SOS_URL + "/Mobile/App";
+            string url = SosOnlineService.SOS_URL + "/Mobile/App";
             _webBrowser.Navigate(url, null, credentials, "Content-Type: application/x-www-form-urlencoded");
             _webBrowser.Url = new Uri(url);
         }

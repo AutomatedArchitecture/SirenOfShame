@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SirenOfShame.Extruder.Models;
@@ -89,6 +90,11 @@ namespace SirenOfShame.Extruder
         private void _close_Click(object sender, EventArgs e)
         {
             InvokeOnCloseSettings();
+        }
+
+        private void CreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://sirenofshame.com/Account/Register");
         }
     }
 

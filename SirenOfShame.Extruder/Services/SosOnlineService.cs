@@ -9,9 +9,9 @@ using TrayIcon = SirenOfShame.Extruder.Models.TrayIcon;
 
 namespace SirenOfShame.Extruder.Services
 {
-    public sealed class SosOnlineService
+    public sealed partial class SosOnlineService
     {
-        public const string SOS_URL = "http://localhost:3115";
+        public static string SOS_URL = "http://sirenofshame.com";
         private readonly ILog _log = MyLogManager.GetLog(typeof (SosOnlineService));
         private HubConnection _connection;
         private IHubProxy _proxy;

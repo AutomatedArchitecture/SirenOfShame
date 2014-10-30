@@ -56,6 +56,13 @@ namespace SirenOfShame.Extruder
             _settingsPage.Settings = _settings;
             _settingsPage.OnToggleConnection += SettingsPageOnOnToggleConnection;
             _settingsPage.OnCloseSettings += SettingsPageOnOnCloseSettings;
+            _settingsPage.OnTestSiren += SettingsPageOnTestSiren;
+        }
+
+        private void SettingsPageOnTestSiren(object sender, TestSirenEventArgs args)
+        {
+            OnSetLights(1, new TimeSpan(0, 0, 10));
+            OnSetAudio(1, new TimeSpan(0, 0, 10));
         }
 
         private void SettingsPageOnOnCloseSettings(object sender, CloseSettingsEventArgs args)

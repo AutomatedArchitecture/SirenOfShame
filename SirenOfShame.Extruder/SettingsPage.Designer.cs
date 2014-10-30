@@ -32,15 +32,15 @@ namespace SirenOfShame.Extruder
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this._close = new SirenOfShame.Extruder.Controls.ExtruderButton();
-            this.label4 = new System.Windows.Forms.Label();
-            this._testSiren = new SirenOfShame.Extruder.Controls.ExtruderButton();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this._myname = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this._password = new System.Windows.Forms.TextBox();
             this._username = new System.Windows.Forms.TextBox();
+            this._close = new SirenOfShame.Extruder.Controls.ExtruderButton();
+            this._testSiren = new SirenOfShame.Extruder.Controls.ExtruderButton();
             this._connectButton = new SirenOfShame.Extruder.Controls.ExtruderButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -59,15 +59,15 @@ namespace SirenOfShame.Extruder
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 194F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 194F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(392, 194);
             this.tableLayoutPanel1.TabIndex = 18;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this._close);
-            this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this._testSiren);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this._myname);
@@ -82,52 +82,19 @@ namespace SirenOfShame.Extruder
             this.panel1.Size = new System.Drawing.Size(271, 188);
             this.panel1.TabIndex = 0;
             // 
-            // _close
+            // linkLabel1
             // 
-            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._close.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this._close.FlatAppearance.BorderSize = 0;
-            this._close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
-            this._close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
-            this._close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._close.ForeColor = System.Drawing.Color.White;
-            this._close.Location = new System.Drawing.Point(173, 82);
-            this._close.Name = "_close";
-            this._close.Size = new System.Drawing.Size(95, 26);
-            this._close.TabIndex = 27;
-            this._close.Text = "Close";
-            this._close.UseVisualStyleBackColor = false;
-            this._close.Click += new System.EventHandler(this._close_Click);
-            // 
-            // label4
-            // 
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(7, 150);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 20);
-            this.label4.TabIndex = 26;
-            this.label4.Text = "Siren";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // _testSiren
-            // 
-            this._testSiren.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._testSiren.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._testSiren.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this._testSiren.FlatAppearance.BorderSize = 0;
-            this._testSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
-            this._testSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
-            this._testSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._testSiren.ForeColor = System.Drawing.Color.White;
-            this._testSiren.Location = new System.Drawing.Point(75, 150);
-            this._testSiren.Name = "_testSiren";
-            this._testSiren.Size = new System.Drawing.Size(193, 23);
-            this._testSiren.TabIndex = 25;
-            this._testSiren.Text = "Test Audio + Lights";
-            this._testSiren.UseVisualStyleBackColor = false;
-            this._testSiren.Click += new System.EventHandler(this.TestSiren_Click);
+            this.linkLabel1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this.linkLabel1.Location = new System.Drawing.Point(72, 120);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(106, 13);
+            this.linkLabel1.TabIndex = 28;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Create New Account";
+            this.linkLabel1.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccount_LinkClicked);
             // 
             // label3
             // 
@@ -136,7 +103,7 @@ namespace SirenOfShame.Extruder
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 20);
             this.label3.TabIndex = 24;
-            this.label3.Text = "My Name";
+            this.label3.Text = "Machine";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // _myname
@@ -188,6 +155,43 @@ namespace SirenOfShame.Extruder
             this._username.Size = new System.Drawing.Size(193, 20);
             this._username.TabIndex = 19;
             // 
+            // _close
+            // 
+            this._close.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._close.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._close.FlatAppearance.BorderSize = 0;
+            this._close.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._close.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._close.ForeColor = System.Drawing.Color.White;
+            this._close.Location = new System.Drawing.Point(173, 82);
+            this._close.Name = "_close";
+            this._close.Size = new System.Drawing.Size(95, 26);
+            this._close.TabIndex = 27;
+            this._close.Text = "Close";
+            this._close.UseVisualStyleBackColor = false;
+            this._close.Click += new System.EventHandler(this._close_Click);
+            // 
+            // _testSiren
+            // 
+            this._testSiren.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._testSiren.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._testSiren.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._testSiren.FlatAppearance.BorderSize = 0;
+            this._testSiren.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._testSiren.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._testSiren.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._testSiren.ForeColor = System.Drawing.Color.White;
+            this._testSiren.Location = new System.Drawing.Point(75, 150);
+            this._testSiren.Name = "_testSiren";
+            this._testSiren.Size = new System.Drawing.Size(193, 23);
+            this._testSiren.TabIndex = 25;
+            this._testSiren.Text = "Test Siren";
+            this._testSiren.UseVisualStyleBackColor = false;
+            this._testSiren.Click += new System.EventHandler(this.TestSiren_Click);
+            // 
             // _connectButton
             // 
             this._connectButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -236,7 +240,7 @@ namespace SirenOfShame.Extruder
         private System.Windows.Forms.TextBox _username;
         private ExtruderButton _connectButton;
         private ExtruderButton _close;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel linkLabel1;
 
 
     }
