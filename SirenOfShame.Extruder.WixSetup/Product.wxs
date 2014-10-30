@@ -51,7 +51,14 @@
 
         <File Id="ShameExtruderExe" Name="ShameExtruder.exe" Source="..\SirenOfShame.Extruder\bin\Release\ShameExtruder.exe" KeyPath="yes" />
 
-        <!-- todo: Add dependencies here -->
+        <File Source="..\SirenOfShame.Extruder\bin\Release\log4net.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\Microsoft.AspNet.SignalR.Client.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\Newtonsoft.Json.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\ShameExtruder.exe.config" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\SirenOfShame.Lib.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\SoxLib.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\TeensyHidBootloaderLib.dll" />
+        <File Source="..\SirenOfShame.Extruder\bin\Release\UsbLib.dll" />
       </Component>
     </DirectoryRef>
 
