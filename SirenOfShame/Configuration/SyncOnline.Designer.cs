@@ -49,7 +49,6 @@ namespace SirenOfShame.Configuration
             this.label4 = new System.Windows.Forms.Label();
             this._sosOnlineStatus = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this._verifyCredentials = new SirenOfShame.Lib.SosButton();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this._sosOnlinePassword = new System.Windows.Forms.TextBox();
             this._createAccount = new System.Windows.Forms.LinkLabel();
@@ -61,6 +60,9 @@ namespace SirenOfShame.Configuration
             this.label2 = new System.Windows.Forms.Label();
             this._syncBuildStatuses = new System.Windows.Forms.RadioButton();
             this._syncMyStuffOnly = new System.Windows.Forms.RadioButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this._verifyCredentials = new SirenOfShame.Lib.SosButton();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._loading)).BeginInit();
@@ -75,7 +77,7 @@ namespace SirenOfShame.Configuration
             this.groupBox1.Controls.Add(this._syncAlways);
             this.groupBox1.Controls.Add(this._syncNever);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(268, 219);
+            this.groupBox1.Location = new System.Drawing.Point(4, 219);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(192, 61);
             this.groupBox1.TabIndex = 37;
@@ -110,6 +112,7 @@ namespace SirenOfShame.Configuration
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this._proxyPassword);
             this.groupBox4.Controls.Add(this._proxyPasswordLabel);
             this.groupBox4.Controls.Add(this._proxyUsername);
@@ -130,9 +133,9 @@ namespace SirenOfShame.Configuration
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this._sosOnlineLogin);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Location = new System.Drawing.Point(199, 0);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(262, 283);
+            this.groupBox4.Size = new System.Drawing.Size(262, 280);
             this.groupBox4.TabIndex = 36;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Credentials";
@@ -209,7 +212,7 @@ namespace SirenOfShame.Configuration
             // _loading
             // 
             this._loading.Image = global::SirenOfShame.Properties.Resources.loading;
-            this._loading.Location = new System.Drawing.Point(82, 42);
+            this._loading.Location = new System.Drawing.Point(82, 40);
             this._loading.Name = "_loading";
             this._loading.Size = new System.Drawing.Size(16, 16);
             this._loading.TabIndex = 33;
@@ -221,12 +224,11 @@ namespace SirenOfShame.Configuration
             this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._userIAm.DisplayMember = "DisplayName";
-            this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
             this._userIAm.FormattingEnabled = true;
             this._userIAm.Location = new System.Drawing.Point(103, 116);
             this._userIAm.Name = "_userIAm";
-            this._userIAm.Size = new System.Drawing.Size(148, 21);
+            this._userIAm.Size = new System.Drawing.Size(128, 21);
             this._userIAm.TabIndex = 4;
             // 
             // label4
@@ -241,7 +243,7 @@ namespace SirenOfShame.Configuration
             // _sosOnlineStatus
             // 
             this._sosOnlineStatus.AutoSize = true;
-            this._sosOnlineStatus.Location = new System.Drawing.Point(100, 43);
+            this._sosOnlineStatus.Location = new System.Drawing.Point(100, 41);
             this._sosOnlineStatus.Name = "_sosOnlineStatus";
             this._sosOnlineStatus.Size = new System.Drawing.Size(100, 13);
             this._sosOnlineStatus.TabIndex = 1;
@@ -250,31 +252,11 @@ namespace SirenOfShame.Configuration
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 43);
+            this.label1.Location = new System.Drawing.Point(12, 41);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 29;
             this.label1.Text = "Status:";
-            // 
-            // _verifyCredentials
-            // 
-            this._verifyCredentials.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._verifyCredentials.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
-            this._verifyCredentials.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._verifyCredentials.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
-            this._verifyCredentials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._verifyCredentials.ForeColor = System.Drawing.Color.White;
-            this._verifyCredentials.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this._verifyCredentials.ImageKey = "refresh.bmp";
-            this._verifyCredentials.ImageList = this.imageList1;
-            this._verifyCredentials.Location = new System.Drawing.Point(103, 146);
-            this._verifyCredentials.Name = "_verifyCredentials";
-            this._verifyCredentials.Size = new System.Drawing.Size(111, 23);
-            this._verifyCredentials.TabIndex = 5;
-            this._verifyCredentials.Text = "Verify and Sync";
-            this._verifyCredentials.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._verifyCredentials.UseVisualStyleBackColor = false;
-            this._verifyCredentials.Click += new System.EventHandler(this.VerifyCredentialsClick);
             // 
             // imageList1
             // 
@@ -293,18 +275,19 @@ namespace SirenOfShame.Configuration
             // 
             // _createAccount
             // 
+            this._createAccount.ActiveLinkColor = System.Drawing.Color.Red;
             this._createAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._createAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._createAccount.LinkColor = System.Drawing.Color.White;
-            this._createAccount.Location = new System.Drawing.Point(95, 16);
+            this._createAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._createAccount.LinkColor = System.Drawing.Color.Red;
+            this._createAccount.Location = new System.Drawing.Point(103, 16);
             this._createAccount.Name = "_createAccount";
-            this._createAccount.Size = new System.Drawing.Size(156, 21);
+            this._createAccount.Size = new System.Drawing.Size(148, 15);
             this._createAccount.TabIndex = 0;
             this._createAccount.TabStop = true;
             this._createAccount.Text = "Create New Account";
-            this._createAccount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this._createAccount.VisitedLinkColor = System.Drawing.Color.White;
+            this._createAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._createAccount.VisitedLinkColor = System.Drawing.Color.Red;
             this._createAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreateAccountLinkClicked);
             // 
             // label5
@@ -343,9 +326,9 @@ namespace SirenOfShame.Configuration
             this.groupBox2.Controls.Add(this._syncBuildStatuses);
             this.groupBox2.Controls.Add(this._syncMyStuffOnly);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(268, 6);
+            this.groupBox2.Location = new System.Drawing.Point(4, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(192, 207);
+            this.groupBox2.Size = new System.Drawing.Size(192, 213);
             this.groupBox2.TabIndex = 38;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "What To Sync";
@@ -396,6 +379,44 @@ namespace SirenOfShame.Configuration
             this._syncMyStuffOnly.Text = "My points and achievements only";
             this._syncMyStuffOnly.UseVisualStyleBackColor = true;
             this._syncMyStuffOnly.CheckedChanged += new System.EventHandler(this.SyncMyStuffOnlyCheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.Firebrick;
+            this.label3.Location = new System.Drawing.Point(237, 119);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(13, 13);
+            this.label3.TabIndex = 41;
+            this.label3.Text = "?";
+            this.toolTip1.SetToolTip(this.label3, "If you haven\'t performed a build yet you will need to type your username");
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 15000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
+            // 
+            // _verifyCredentials
+            // 
+            this._verifyCredentials.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._verifyCredentials.FlatAppearance.BorderColor = System.Drawing.SystemColors.Window;
+            this._verifyCredentials.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._verifyCredentials.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(227)))), ((int)(((byte)(136)))));
+            this._verifyCredentials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._verifyCredentials.ForeColor = System.Drawing.Color.White;
+            this._verifyCredentials.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this._verifyCredentials.ImageKey = "refresh.bmp";
+            this._verifyCredentials.ImageList = this.imageList1;
+            this._verifyCredentials.Location = new System.Drawing.Point(103, 146);
+            this._verifyCredentials.Name = "_verifyCredentials";
+            this._verifyCredentials.Size = new System.Drawing.Size(111, 23);
+            this._verifyCredentials.TabIndex = 5;
+            this._verifyCredentials.Text = "Verify and Sync";
+            this._verifyCredentials.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this._verifyCredentials.UseVisualStyleBackColor = false;
+            this._verifyCredentials.Click += new System.EventHandler(this.VerifyCredentialsClick);
             // 
             // SyncOnline
             // 
@@ -451,5 +472,7 @@ namespace SirenOfShame.Configuration
         private System.Windows.Forms.RadioButton _syncMyStuffOnly;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel _details;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

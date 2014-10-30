@@ -67,7 +67,7 @@ namespace SirenOfShame.Lib.Settings
             People = new List<PersonSetting>();
             UserMappings = new List<UserMapping>();
             Sounds = new List<Sound>();
-            SosOnlineWhatToSync = WhatToSyncEnum.MyPointAndAchievementsOnly;
+            SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
         }
 
         public int? Version { get; set; }
@@ -490,18 +490,18 @@ namespace SirenOfShame.Lib.Settings
             var people = from p in People
                          where !mappedPeople.Contains(p.ToString())
                          select p;
-                     
+
             userIAm.Items.Add(""); 
             foreach (var personInProject in people)
             {
-                userIAm.Items.Add(personInProject);
+                userIAm.Items.Add(personInProject.RawName);
             }
             if (!string.IsNullOrEmpty(MyRawName))
             {
                 foreach (var item in userIAm.Items)
                 {
-                    var personSetting = item as PersonSetting;
-                    if (personSetting != null && personSetting.RawName == MyRawName)
+                    var personSetting = item as string;
+                    if (personSetting != null && personSetting == MyRawName)
                     {
                         userIAm.SelectedItem = item;
                     }

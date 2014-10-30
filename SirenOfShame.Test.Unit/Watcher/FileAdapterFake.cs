@@ -22,7 +22,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Files[location] += newRow;
         }
 
-        public override string[] ReadAllLines(string location)
+        public override IEnumerable<string> ReadAllLines(string location)
         {
             var result = Files[location]
                 .TrimEnd('\n')

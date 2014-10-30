@@ -61,7 +61,7 @@ namespace SirenOfShame.Configuration
 
         private void SaveUserIAm()
         {
-            string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : ((PersonSetting)_userIAm.SelectedItem).RawName;
+            string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : _userIAm.Text;
             _settings.MyRawName = myRawName;
         }
 

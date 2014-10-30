@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SirenOfShame.Lib.Watcher
 {
@@ -14,11 +15,11 @@ namespace SirenOfShame.Lib.Watcher
             File.AppendAllText(location, contents);
         }
 
-        public virtual string[] ReadAllLines(string location)
+        public virtual IEnumerable<string> ReadAllLines(string location)
         {
             try
             {
-                return File.ReadAllLines(location);
+                return !File.Exists(location) ? new string[] {} : File.ReadAllLines(location);
             }
             catch (FileNotFoundException)
             {
