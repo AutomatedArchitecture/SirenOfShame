@@ -64,6 +64,9 @@
         <File Source="..\SirenOfShame\bin\Plugins\HudsonServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TeamCityServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TfsServices.dll" />
+
+        <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Client.dll" />
       </Component>
     </DirectoryRef>
     
@@ -94,8 +97,6 @@
         <File Source="..\SirenOfShame\bin\FirmwareUpgrade.xml" />
         <File Id="SirenOfShameTrayBlankIco" Name="SirenOfShameTrayBlank.ico" Source="..\SirenOfShame\SirenOfShameTrayBlank.ico" />
 
-        <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll1" />
-
         <File Source="..\SirenOfShame\bin\wyUpdate.exe" />
         <File Source="..\Libs\ZedGraph.dll" />
         <File Source="..\UsbLib\bin\Release\UsbLib.dll" Name="UsbLib.dll" Id="UsbLib1"/>
@@ -121,7 +122,6 @@
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.QueryLanguage.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Client.RuleEngine.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Proxy.dll" />
-        <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.WorkItemTracking.Common.dll" />
       </Component>
     </DirectoryRef>
