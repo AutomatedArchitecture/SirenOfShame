@@ -67,6 +67,9 @@
 
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Client.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.ServiceBus.dll" />
+        <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.WebApi.dll" />
+        <File Source="..\Libs\TeamFoundation\System.Net.Http.Formatting.dll" />
       </Component>
     </DirectoryRef>
     
