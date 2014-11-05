@@ -47,7 +47,7 @@ namespace SirenOfShame.Configuration
             this.label7 = new System.Windows.Forms.Label();
             this._userIAm = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this._saveResults = new SosButton();
+            this._saveResults = new SirenOfShame.Lib.SosButton();
             this.SuspendLayout();
             // 
             // _result
@@ -191,7 +191,6 @@ namespace SirenOfShame.Configuration
             this._userIAm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._userIAm.DisplayMember = "DisplayName";
-            this._userIAm.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._userIAm.ForeColor = System.Drawing.SystemColors.ControlText;
             this._userIAm.FormattingEnabled = true;
             this._userIAm.Location = new System.Drawing.Point(150, 6);

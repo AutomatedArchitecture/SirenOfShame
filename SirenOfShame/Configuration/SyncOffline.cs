@@ -31,12 +31,6 @@ namespace SirenOfShame.Configuration
             _exportedAchievements.Text = exportedAchievements;
         }
 
-        private void SaveUserIAm()
-        {
-            string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : ((PersonSetting)_userIAm.SelectedItem).RawName;
-            _settings.MyRawName = myRawName;
-        }
-
         private void SaveResultsClick(object sender, EventArgs e)
         {
             var newHighWaterMarkStr = _result.Text;
@@ -85,7 +79,7 @@ namespace SirenOfShame.Configuration
 
         private void UserIAmSelectedIndexChanged(object sender, EventArgs e)
         {
-            SaveUserIAm();
+            _settings.SaveUserIAm(_userIAm);
             RefreshOfflinePanel();
         }
     }

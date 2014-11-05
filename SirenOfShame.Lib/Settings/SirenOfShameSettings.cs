@@ -483,6 +483,12 @@ namespace SirenOfShame.Lib.Settings
             return SosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(SosOnlineHighWaterMark.Value);
         }
 
+        public void SaveUserIAm(ComboBox userIAm)
+        {
+            string myRawName = string.IsNullOrEmpty(userIAm.Text) ? null : userIAm.Text;
+            MyRawName = myRawName;
+        }
+
         public void InitializeUserIAm(ComboBox userIAm)
         {
             // Filter out mapped names
@@ -496,6 +502,7 @@ namespace SirenOfShame.Lib.Settings
             {
                 userIAm.Items.Add(personInProject.RawName);
             }
+            userIAm.Text = MyRawName;
             if (!string.IsNullOrEmpty(MyRawName))
             {
                 foreach (var item in userIAm.Items)

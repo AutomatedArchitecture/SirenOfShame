@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
@@ -24,7 +23,7 @@ namespace SirenOfShame.Configuration
         private void InitializeReputationAndAchievementSection()
         {
             InitializeAchievementAlertPreferences();
-            InitializeUserIAm();
+            _settings.InitializeUserIAm(_userIAm);
         }
 
         private void InitializePollIntervalSection()
@@ -46,11 +45,6 @@ namespace SirenOfShame.Configuration
             _updateLocationOtherLocation.Text = _settings.UpdateLocation == UpdateLocation.Other
                                                     ? _settings.UpdateLocationOther
                                                     : "";
-        }
-
-        private void InitializeUserIAm()
-        {
-            _settings.InitializeUserIAm(_userIAm);
         }
 
         private void InitializeAchievementAlertPreferences()
@@ -95,7 +89,7 @@ namespace SirenOfShame.Configuration
             _settings.UpdateLocation = updateLocation;
 
             SetShowAchievements();
-            SetUserIAm();
+            _settings.SaveUserIAm(_userIAm);
             SetMiscSection();
 
             _settings.Save();
@@ -105,18 +99,6 @@ namespace SirenOfShame.Configuration
         private void SetMiscSection()
         {
             _settings.AlwaysOnTop = _alwaysOnTop.Checked;
-        }
-
-        private void SetUserIAm()
-        {
-            string myRawName = UserIamIsUnselected(_userIAm) ? null : ((PersonSetting) _userIAm.SelectedItem).RawName;
-            _settings.MyRawName = myRawName;
-        }
-
-        public static bool UserIamIsUnselected(ComboBox userIAm)
-        {
-            if (string.IsNullOrEmpty(userIAm.Text)) return true;
-            return userIAm.Text == "";
         }
 
         private void SetShowAchievements()

@@ -59,12 +59,6 @@ namespace SirenOfShame.Configuration
             _sosOnlineStatus.Text = hasEverConnected ? "Ready to sync" : "Have never synced";
         }
 
-        private void SaveUserIAm()
-        {
-            string myRawName = Settings.UserIamIsUnselected(_userIAm) ? null : _userIAm.Text;
-            _settings.MyRawName = myRawName;
-        }
-
         private void SaveSosOnlineSettings()
         {
             _settings.SosOnlineUsername = _sosOnlineLogin.Text;
@@ -83,7 +77,7 @@ namespace SirenOfShame.Configuration
 
         private void VerifyCredentialsClick(object sender, EventArgs e)
         {
-            SaveUserIAm();
+            _settings.SaveUserIAm(_userIAm);
             SaveSosOnlineSettings();
             if (string.IsNullOrEmpty(_settings.MyRawName))
             {
