@@ -1,26 +1,25 @@
-﻿using Microsoft.TeamFoundation.VersionControl.Client;
+﻿using Microsoft.TeamFoundation.Build.Client;
+using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace TfsServices.Configuration
 {
-    /// <summary>
-    /// Represents a check-in to TFS (like with check-in comments and stuff)
-    /// </summary>
-    public class MyChangeset
+    public class CheckinInfo
     {
-        public MyChangeset(Changeset changeset)
+        public CheckinInfo(IBuildDetail buildDetail)
         {
-            ChangesetId = changeset.ChangesetId;
-            Comment = changeset.Comment;
-            Committer = changeset.Committer;
-            CommitterDisplayName = changeset.CommitterDisplayName;
+            Comment = buildDetail.Reason.ToString();
+            Committer = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedByDisplayName);
         }
 
-        public string CommitterDisplayName { get; set; }
+        public CheckinInfo() { }
+
+        public CheckinInfo(Changeset changeset)
+        {
+            Comment = changeset.Comment;
+            Committer = changeset.CommitterDisplayName;
+        }
 
         public string Committer { get; set; }
-
-        public int ChangesetId { get; private set; }
-
-        public string Comment { get; private set; }
+        public string Comment { get; set; }
     }
 }

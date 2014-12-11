@@ -6,20 +6,6 @@ using BuildStatus = SirenOfShame.Lib.Watcher.BuildStatus;
 
 namespace TfsServices.Configuration
 {
-    public class CheckinInfo
-    {
-        public CheckinInfo(IBuildDetail buildDetail)
-        {
-            Comment = buildDetail.Reason.ToString();
-            RequestedBy = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedBy);
-        }
-
-        public CheckinInfo() { }
-
-        public string RequestedBy { get; set; }
-        public string Comment { get; set; }
-    }
-
     /// <summary>
     /// Gets author and check in comments
     /// </summary>
@@ -27,14 +13,14 @@ namespace TfsServices.Configuration
     {
         private struct CommentAndHash
         {
-            public CommentAndHash(string newBuildHash, MyChangeset getLatestChangeset)
+            public CommentAndHash(string newBuildHash, CheckinInfo getLatestChangeset)
                 : this()
             {
                 BuildStatusHash = newBuildHash;
                 Changeset = getLatestChangeset;
             }
 
-            public MyChangeset Changeset { get; private set; }
+            public CheckinInfo Changeset { get; private set; }
             public string BuildStatusHash { get; private set; }
         }
 
@@ -65,7 +51,7 @@ namespace TfsServices.Configuration
                 var latestChangeset = QueryServerForLatestChangesetButCache(buildDefinition, buildStatus);
                 if (latestChangeset != null)
                 {
-                    result.RequestedBy = latestChangeset.CommitterDisplayName;
+                    result.Committer = latestChangeset.Committer;
                     result.Comment = latestChangeset.Comment;
                 }
             }
@@ -75,7 +61,7 @@ namespace TfsServices.Configuration
 
         private static readonly Dictionary<string, CommentAndHash> _cachedCommentsByBuildDefinition = new Dictionary<string, CommentAndHash>();
 
-        private static MyChangeset QueryServerForLatestChangesetButCache(MyTfsBuildDefinition buildDefinition, BuildStatus buildStatus)
+        private static CheckinInfo QueryServerForLatestChangesetButCache(MyTfsBuildDefinition buildDefinition, BuildStatus buildStatus)
         {
             var newBuildHash = buildStatus.GetBuildDataAsHash();
             CommentAndHash cachedChangeset;
@@ -88,7 +74,7 @@ namespace TfsServices.Configuration
             }
             if (!haveEverGottenCommentsForThisBuildDef || areCacheCommentsStale)
             {
-                MyChangeset latestChangeset = buildDefinition.GetLatestChangeset();
+                CheckinInfo latestChangeset = buildDefinition.GetLatestChangeset();
                 _cachedCommentsByBuildDefinition[buildDefinition.Name] = new CommentAndHash(newBuildHash, latestChangeset);
             }
             return _cachedCommentsByBuildDefinition[buildDefinition.Name].Changeset;
@@ -101,7 +87,7 @@ namespace TfsServices.Configuration
         {
             return new CheckinInfo
             {
-                RequestedBy = GetRequestedByFromCommit(commits),
+                Committer = GetRequestedByFromCommit(commits),
                 Comment = commits.Count > 1 ? "(Multiple Commits)" : commits.First().Fields["Message"]
             };
         }
@@ -113,7 +99,7 @@ namespace TfsServices.Configuration
         {
             return new CheckinInfo
             {
-                RequestedBy = GetRequestedByFromChangeset(changesets),
+                Committer = GetRequestedByFromChangeset(changesets),
                 Comment = changesets.Count > 1 ? "(Multiple Changesets)" : changesets.First().Fields["Comment"]
             };
         }

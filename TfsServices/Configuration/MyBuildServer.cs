@@ -151,7 +151,7 @@ namespace TfsServices.Configuration
             var checkinInfo = checkinInfoGetterService.GetCheckinInfo(buildDetail, result, buildDefinition);
 
             result.Comment = checkinInfo.Comment;
-            result.RequestedBy = checkinInfo.RequestedBy;
+            result.RequestedBy = checkinInfo.Committer;
 
             if (applyBuildQuality && buildQuality == BuildStatusEnum.Broken)
             {
@@ -188,14 +188,6 @@ namespace TfsServices.Configuration
             var uri = BuildServerUri;
             if (uri == null) return 0;
             return uri.GetHashCode();
-        }
-    }
-
-    internal class BuildInformationComparer : IComparer<IBuildInformationNode>
-    {
-        public int Compare(IBuildInformationNode x, IBuildInformationNode y)
-        {
-            return 1;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace TfsServices.Configuration
     {
         private readonly IBuildDefinition _buildDefinition;
         private readonly MyTfsProject _myTfsProject;
-        private static readonly ILog Log = MyLogManager.GetLogger(typeof(MyTfsBuildDefinition));
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyTfsBuildDefinition));
         private readonly MyBuildServer _myBuildServer;
 
         public MyTfsBuildDefinition(IBuildDefinition buildDefinition, MyTfsProject myTfsProject)
@@ -52,7 +52,7 @@ namespace TfsServices.Configuration
 
         private const int DELETION_ID = 0;
 
-        public MyChangeset GetLatestChangeset()
+        public CheckinInfo GetLatestChangeset()
         {
             try
             {
@@ -61,7 +61,7 @@ namespace TfsServices.Configuration
                 var noWorkspaceMappings = !workspaceMappingServerUrls.Any();
                 if (noWorkspaceMappings)
                 {
-                    Log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
+                    _log.Warn(string.Format("Build definition {0} does not have any workspace mappings so can't retrieve comments", Id));
                     return null;
                 }
 
@@ -79,11 +79,11 @@ namespace TfsServices.Configuration
                     }
                 }
 
-                return maxChangeset == null ? null : new MyChangeset(maxChangeset);
+                return maxChangeset == null ? null : new CheckinInfo(maxChangeset);
             }
             catch (Exception ex)
             {
-                Log.Error("Unable to retrieve comments for build definition " + Id, ex);
+                _log.Error("Unable to retrieve comments for build definition " + Id, ex);
                 return null; // errors in getting comments 
             }
         }
