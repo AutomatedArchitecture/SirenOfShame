@@ -60,7 +60,7 @@ namespace TfsServices.Configuration
                         false,
                         CatalogQueryOptions.None
                         );
-                    
+
                     return tcpNodes
                         .Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer, _networkCredential))
                         .Where(i => i.CurrentUserHasAccess);

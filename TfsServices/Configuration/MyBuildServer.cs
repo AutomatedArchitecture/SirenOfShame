@@ -121,7 +121,6 @@ namespace TfsServices.Configuration
             var result = new BuildStatus
             {
                 BuildStatusEnum = buildStatus,
-                RequestedBy = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedBy),
                 StartedTime = buildDetail.StartTime == DateTime.MinValue ? (DateTime?)null : buildDetail.StartTime,
                 FinishedTime = buildDetail.FinishTime == DateTime.MinValue ? (DateTime?)null : buildDetail.FinishTime,
             };

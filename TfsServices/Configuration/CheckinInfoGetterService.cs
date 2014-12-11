@@ -8,10 +8,10 @@ namespace TfsServices.Configuration
 {
     public class CheckinInfo
     {
-        public CheckinInfo(BuildStatus buildStatus)
+        public CheckinInfo(IBuildDetail buildDetail)
         {
-            Comment = buildStatus.Comment;
-            RequestedBy = buildStatus.RequestedBy;
+            Comment = buildDetail.Reason.ToString();
+            RequestedBy = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedBy);
         }
 
         public CheckinInfo() { }
@@ -40,7 +40,8 @@ namespace TfsServices.Configuration
 
         public CheckinInfo GetCheckinInfo(IBuildDetail buildDetail, BuildStatus buildStatus, MyTfsBuildDefinition buildDefinition)
         {
-            var result = new CheckinInfo(buildStatus);
+            // Start with some semi-reasonable defaults for comment and author, but we'll try a variety of things to make them better
+            var result = new CheckinInfo(buildDetail);
 
             var changesets = buildDetail.Information.GetNodesByType(MyBuildServer.ASSOCIATED_CHANGESET);
             var commits = buildDetail.Information.GetNodesByType(MyBuildServer.ASSOCIATED_COMMIT);
@@ -67,11 +68,6 @@ namespace TfsServices.Configuration
                     result.RequestedBy = latestChangeset.CommitterDisplayName;
                     result.Comment = latestChangeset.Comment;
                 }
-            }
-
-            if (string.IsNullOrEmpty(result.Comment))
-            {
-                result.Comment = buildDetail.Reason.ToString();
             }
 
             return result;
