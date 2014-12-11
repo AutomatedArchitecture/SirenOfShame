@@ -8,6 +8,14 @@ namespace TfsServices.Configuration
 {
     public class CheckinInfo
     {
+        public CheckinInfo(BuildStatus buildStatus)
+        {
+            Comment = buildStatus.Comment;
+            RequestedBy = buildStatus.RequestedBy;
+        }
+
+        public CheckinInfo() { }
+
         public string RequestedBy { get; set; }
         public string Comment { get; set; }
     }
@@ -17,29 +25,48 @@ namespace TfsServices.Configuration
     /// </summary>
     public class CheckinInfoGetterService
     {
-        public CheckinInfo GetCheckinInfo(IBuildDetail buildDetail, BuildStatus buildStatus)
+        private struct CommentAndHash
         {
-            var result = new CheckinInfo
+            public CommentAndHash(string newBuildHash, MyChangeset getLatestChangeset)
+                : this()
             {
-                Comment = buildStatus.Comment,
-                RequestedBy = buildStatus.RequestedBy
-            };
+                BuildStatusHash = newBuildHash;
+                Changeset = getLatestChangeset;
+            }
+
+            public MyChangeset Changeset { get; private set; }
+            public string BuildStatusHash { get; private set; }
+        }
+
+        public CheckinInfo GetCheckinInfo(IBuildDetail buildDetail, BuildStatus buildStatus, MyTfsBuildDefinition buildDefinition)
+        {
+            var result = new CheckinInfo(buildStatus);
 
             var changesets = buildDetail.Information.GetNodesByType(MyBuildServer.ASSOCIATED_CHANGESET);
             var commits = buildDetail.Information.GetNodesByType(MyBuildServer.ASSOCIATED_COMMIT);
 
-            if (changesets.Any())
+            var anyGitChangesets = changesets.Any();
+            var anyTfsCommits = commits.Any();
+
+            if (anyGitChangesets)
             {
+                // This path does not not require a network call. It is used when the build is not in progress and the project uses git source control
                 result = SetInfoFromAssociatedChangesets(changesets);
             }
-            else if (commits.Any())
+            else if (anyTfsCommits)
             {
+                // This path does not not require a network call. It is used when the build is not in progress and the project uses tfs (non-git) source control
                 result = SetInfoFromAssociatedCommits(commits);
             }
             else
             {
-                // todo: Retrieve associated build and get build info from there
-                //GetBuildAndSetInfo();
+                // this path may require a network call, however we cache requests.  It is used the first time an in-progress build is found
+                var latestChangeset = QueryServerForLatestChangesetButCache(buildDefinition, buildStatus);
+                if (latestChangeset != null)
+                {
+                    result.RequestedBy = latestChangeset.CommitterDisplayName;
+                    result.Comment = latestChangeset.Comment;
+                }
             }
 
             if (string.IsNullOrEmpty(result.Comment))
@@ -48,6 +75,27 @@ namespace TfsServices.Configuration
             }
 
             return result;
+        }
+
+        private static readonly Dictionary<string, CommentAndHash> _cachedCommentsByBuildDefinition = new Dictionary<string, CommentAndHash>();
+
+        private static MyChangeset QueryServerForLatestChangesetButCache(MyTfsBuildDefinition buildDefinition, BuildStatus buildStatus)
+        {
+            var newBuildHash = buildStatus.GetBuildDataAsHash();
+            CommentAndHash cachedChangeset;
+            bool haveEverGottenCommentsForThisBuildDef = _cachedCommentsByBuildDefinition.TryGetValue(buildDefinition.Name, out cachedChangeset);
+            bool areCacheCommentsStale = false;
+            if (haveEverGottenCommentsForThisBuildDef)
+            {
+                string oldBuildHash = cachedChangeset.BuildStatusHash;
+                areCacheCommentsStale = oldBuildHash != newBuildHash;
+            }
+            if (!haveEverGottenCommentsForThisBuildDef || areCacheCommentsStale)
+            {
+                MyChangeset latestChangeset = buildDefinition.GetLatestChangeset();
+                _cachedCommentsByBuildDefinition[buildDefinition.Name] = new CommentAndHash(newBuildHash, latestChangeset);
+            }
+            return _cachedCommentsByBuildDefinition[buildDefinition.Name].Changeset;
         }
 
         /// <summary>

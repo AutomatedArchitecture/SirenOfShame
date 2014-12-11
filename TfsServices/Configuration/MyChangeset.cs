@@ -11,7 +11,13 @@ namespace TfsServices.Configuration
         {
             ChangesetId = changeset.ChangesetId;
             Comment = changeset.Comment;
+            Committer = changeset.Committer;
+            CommitterDisplayName = changeset.CommitterDisplayName;
         }
+
+        public string CommitterDisplayName { get; set; }
+
+        public string Committer { get; set; }
 
         public int ChangesetId { get; private set; }
 

@@ -139,8 +139,17 @@ namespace TfsServices.Configuration
             
             result.BuildId = buildDetail.Uri.Segments.LastOrDefault();
 
+            SetCheckinInfo(buildDetail, applyBuildQuality, result, buildQuality, matchedBuildDefinition);
+
+            result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
+
+            return result;
+        }
+
+        private static void SetCheckinInfo(IBuildDetail buildDetail, bool applyBuildQuality, BuildStatus result, BuildStatusEnum buildQuality, MyTfsBuildDefinition buildDefinition)
+        {
             var checkinInfoGetterService = new CheckinInfoGetterService();
-            var checkinInfo = checkinInfoGetterService.GetCheckinInfo(buildDetail, result);
+            var checkinInfo = checkinInfoGetterService.GetCheckinInfo(buildDetail, result, buildDefinition);
 
             result.Comment = checkinInfo.Comment;
             result.RequestedBy = checkinInfo.RequestedBy;
@@ -149,10 +158,6 @@ namespace TfsServices.Configuration
             {
                 result.Comment = "Build deployment or test failure. Please see test server or test results for details.\n" + result.Comment;
             }
-
-            result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
-
-            return result;
         }
 
         private static Uri GetUriFromBuildServer(IBuildServer buildServer)

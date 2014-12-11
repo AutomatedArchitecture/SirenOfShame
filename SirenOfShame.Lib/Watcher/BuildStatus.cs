@@ -270,7 +270,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public string GetBuildDataAsHash()
         {
-            return string.Format("{0}-{1}-{2}-{3}", BuildDefinitionId, BuildId, StartedTime, RequestedBy);
+            return string.Format("{0}-{1}-{2}", BuildDefinitionId, BuildId, RequestedBy);
         }
 
         public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
