@@ -164,6 +164,11 @@ namespace TfsServices.Configuration
             {
                 SetInfoFromAssociatedCommits(result, commits);
             }
+            else
+            {
+                // todo: Retrieve associated build and get build info from there
+                //GetBuildAndSetInfo();
+            }
 
             if (string.IsNullOrEmpty(result.Comment))
             {
@@ -237,6 +242,14 @@ namespace TfsServices.Configuration
             var uri = BuildServerUri;
             if (uri == null) return 0;
             return uri.GetHashCode();
+        }
+    }
+
+    internal class BuildInformationComparer : IComparer<IBuildInformationNode>
+    {
+        public int Compare(IBuildInformationNode x, IBuildInformationNode y)
+        {
+            return 1;
         }
     }
 }
