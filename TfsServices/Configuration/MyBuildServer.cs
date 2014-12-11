@@ -11,8 +11,8 @@ namespace TfsServices.Configuration
 {
     public class MyBuildServer
     {
-        private const string ASSOCIATED_CHANGESET = "AssociatedChangeset";
-        private const string ASSOCIATED_COMMIT = "AssociatedCommit";
+        public const string ASSOCIATED_CHANGESET = "AssociatedChangeset";
+        public const string ASSOCIATED_COMMIT = "AssociatedCommit";
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyBuildServer));
         private readonly IBuildServer _buildServer;
         private readonly MyTfsProject _tfsProject;
@@ -139,7 +139,11 @@ namespace TfsServices.Configuration
             
             result.BuildId = buildDetail.Uri.Segments.LastOrDefault();
 
-            SetInfoFromAssociatedCheckins(buildDetail, result);
+            var checkinInfoGetterService = new CheckinInfoGetterService();
+            var checkinInfo = checkinInfoGetterService.GetCheckinInfo(buildDetail, result);
+
+            result.Comment = checkinInfo.Comment;
+            result.RequestedBy = checkinInfo.RequestedBy;
 
             if (applyBuildQuality && buildQuality == BuildStatusEnum.Broken)
             {
@@ -149,68 +153,6 @@ namespace TfsServices.Configuration
             result.Url = _tfsProject.ConvertTfsUriToUrl(buildDetail.Uri);
 
             return result;
-        }
-
-        private static void SetInfoFromAssociatedCheckins(IBuildDetail buildDetail, BuildStatus result)
-        {
-            var changesets = buildDetail.Information.GetNodesByType(ASSOCIATED_CHANGESET);
-            var commits = buildDetail.Information.GetNodesByType(ASSOCIATED_COMMIT);
-
-            if (changesets.Any())
-            {
-                SetInfoFromAssociatedChangesets(result, changesets);
-            }
-            else if (commits.Any())
-            {
-                SetInfoFromAssociatedCommits(result, commits);
-            }
-            else
-            {
-                // todo: Retrieve associated build and get build info from there
-                //GetBuildAndSetInfo();
-            }
-
-            if (string.IsNullOrEmpty(result.Comment))
-            {
-                result.Comment = buildDetail.Reason.ToString();
-            }
-        }
-
-        /// <summary>
-        /// For TFS source control without Git
-        /// </summary>
-        private static void SetInfoFromAssociatedCommits(BuildStatus result, List<IBuildInformationNode> commits)
-        {
-            result.RequestedBy = GetRequestedByFromCommit(commits);
-            result.Comment = commits.Count > 1 ? "(Multiple Commits)" : commits.First().Fields["Message"];
-        }
-
-        /// <summary>
-        /// For TFS+Git
-        /// </summary>
-        private static void SetInfoFromAssociatedChangesets(BuildStatus result, List<IBuildInformationNode> changesets)
-        {
-            result.RequestedBy = GetRequestedByFromChangeset(changesets);
-            result.Comment = changesets.Count > 1 ? "(Multiple Changesets)" : changesets.First().Fields["Comment"];
-        }
-
-        private static string GetRequestedByFromCommit(IEnumerable<IBuildInformationNode> commits)
-        {
-            var lastCommit = commits.LastOrDefault();
-            if (lastCommit == null) return null;
-            return lastCommit.Fields["Committer"];
-        }
-
-        private static string GetRequestedByFromChangeset(IEnumerable<IBuildInformationNode> changesets)
-        {
-            var users = new HashSet<String>();
-            foreach (var changeset in changesets)
-                users.Add(changeset.Fields["CheckedInBy"]);
-
-            var count = users.Count();
-            if (count > 1)
-                return "(Multiple Users)";
-            return users.First();
         }
 
         private static Uri GetUriFromBuildServer(IBuildServer buildServer)

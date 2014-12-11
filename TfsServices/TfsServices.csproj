@@ -116,6 +116,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\CheckinInfoGetterService.cs" />
     <Compile Include="Configuration\ConfigureTfs.cs">
       <SubType>UserControl</SubType>
     </Compile>
