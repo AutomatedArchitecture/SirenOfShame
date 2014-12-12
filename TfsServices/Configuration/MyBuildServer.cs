@@ -36,7 +36,7 @@ namespace TfsServices.Configuration
 
             var mostRecentQuery = _buildServer.CreateBuildDetailSpec(buildDefinitionUris);
             mostRecentQuery.MaxBuildsPerDefinition = 1;
-            mostRecentQuery.Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.All;
+            mostRecentQuery.Status = Microsoft.TeamFoundation.Build.Client.BuildStatus.Failed | Microsoft.TeamFoundation.Build.Client.BuildStatus.PartiallySucceeded | Microsoft.TeamFoundation.Build.Client.BuildStatus.Succeeded;
             mostRecentQuery.QueryOrder = BuildQueryOrder.FinishTimeDescending;
             mostRecentQuery.InformationTypes = new[] { ASSOCIATED_CHANGESET, ASSOCIATED_COMMIT };
             mostRecentQuery.QueryOptions = _firstRequest ? QueryOptions.Process : QueryOptions.None;
