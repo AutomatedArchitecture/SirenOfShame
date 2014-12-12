@@ -8,7 +8,7 @@ namespace TfsServices.Configuration
         public CheckinInfo(IBuildDetail buildDetail)
         {
             Comment = buildDetail.Reason.ToString();
-            Committer = buildDetail.RequestedBy ?? (buildDetail.RequestedFor ?? buildDetail.LastChangedByDisplayName);
+            Committer = buildDetail.RequestedBy ?? (buildDetail.LastChangedByDisplayName ?? buildDetail.RequestedFor);
         }
 
         public CheckinInfo() { }

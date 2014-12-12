@@ -7,7 +7,7 @@ using BuildStatus = SirenOfShame.Lib.Watcher.BuildStatus;
 namespace TfsServices.Configuration
 {
     /// <summary>
-    /// Gets author and check in comments
+    /// Gets author and check in comments for a build.  Who could possibly have imagined how complex this could get?  Thank you TFS.
     /// </summary>
     public class CheckinInfoGetterService
     {
