@@ -150,8 +150,11 @@ namespace TfsServices.Configuration
             var checkinInfoGetterService = new CheckinInfoGetterService();
             var checkinInfo = checkinInfoGetterService.GetCheckinInfo(buildDetail, result, buildDefinition);
 
-            result.Comment = checkinInfo.Comment;
-            result.RequestedBy = checkinInfo.Committer;
+            if (checkinInfo != null)
+            {
+                result.Comment = checkinInfo.Comment;
+                result.RequestedBy = checkinInfo.Committer;
+            }
 
             if (applyBuildQuality && buildQuality == BuildStatusEnum.Broken)
             {

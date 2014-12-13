@@ -35,6 +35,11 @@ namespace TfsServices.Configuration
             get { return _projectCollection; }
         }
 
+        public MyTfsServer MyTfsServer
+        {
+            get { return _projectCollection.MyTfsServer; }
+        }
+
         public string ConvertTfsUriToUrl(Uri uri)
         {
             return _projectCollection.ConvertTfsUriToUrl(uri);

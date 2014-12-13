@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Server;
+using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using SirenOfShame.Lib;
 using log4net;
@@ -15,38 +15,27 @@ namespace TfsServices.Configuration
 {
     public class MyTfsProjectCollection
     {
-        class MyCredentials : ICredentialsProvider
-        {
-            private readonly NetworkCredential _networkCredential;
-            public MyCredentials(NetworkCredential networkCredential)
-            {
-                _networkCredential = networkCredential;
-            }
-
-            public ICredentials GetCredentials(Uri uri, ICredentials failedCredentials)
-            {
-                return _networkCredential;
-            }
-
-            public void NotifyCredentialsAuthenticated(Uri uri)
-            {
-            }
-        }
-
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(MyTfsProjectCollection));
         private readonly ICommonStructureService _commonStructureService;
         private readonly TfsTeamProjectCollection _tfsTeamProjectCollection;
         private readonly IBuildServer _buildServer;
-        private TswaClientHyperlinkService _tswaClientHyperlinkService;
+        private readonly TswaClientHyperlinkService _tswaClientHyperlinkService;
+        private MyTfsServer _myTfsServer;
         public bool CurrentUserHasAccess { get; set; }
 
-        public MyTfsProjectCollection(CatalogNode teamProjectCollectionNode, TfsConfigurationServer tfsConfigurationServer, NetworkCredential networkCredential)
+        public MyTfsServer MyTfsServer
+        {
+            get { return _myTfsServer; }
+        }
+
+        public MyTfsProjectCollection(MyTfsServer myTfsServer, CatalogNode teamProjectCollectionNode)
         {
             try
             {
+                _myTfsServer = myTfsServer;
                 Name = teamProjectCollectionNode.Resource.DisplayName;
                 ServiceDefinition tpcServiceDefinition = teamProjectCollectionNode.Resource.ServiceReferences["Location"];
-                var configLocationService = tfsConfigurationServer.GetService<ILocationService>();
+                var configLocationService = myTfsServer.GetConfigLocationService();
                 var tpcUri = new Uri(configLocationService.LocationForCurrentConnection(tpcServiceDefinition));
                 _tfsTeamProjectCollection = TfsTeamProjectCollectionFactory.GetTeamProjectCollection(tpcUri);
                 _commonStructureService = _tfsTeamProjectCollection.GetService<ICommonStructureService>();
@@ -96,6 +85,19 @@ namespace TfsServices.Configuration
         public VersionControlServer VersionControlServer
         {
             get { return _tfsTeamProjectCollection.GetService<VersionControlServer>(); }
+        }
+
+        public Uri Uri
+        {
+            get { return _tfsTeamProjectCollection.Uri; }
+        }
+
+        public GitHttpClient GetGitHttpClient()
+        {
+            var vssCredentials = MyTfsServer.GetVssCredentials();
+            var projectCollectionUri = Uri;
+            GitHttpClient client = new GitHttpClient(projectCollectionUri, vssCredentials);
+            return client;
         }
     }
 }

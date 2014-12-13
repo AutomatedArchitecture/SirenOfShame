@@ -9,9 +9,11 @@ using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Framework.Common;
+using Microsoft.VisualStudio.Services.Common;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
+using WindowsCredential = Microsoft.VisualStudio.Services.Common.WindowsCredential;
 
 namespace TfsServices.Configuration
 {
@@ -62,7 +64,7 @@ namespace TfsServices.Configuration
                         );
 
                     return tcpNodes
-                        .Select(tcpNode => new MyTfsProjectCollection(tcpNode, _tfsConfigurationServer, _networkCredential))
+                        .Select(tcpNode => new MyTfsProjectCollection(this, tcpNode))
                         .Where(i => i.CurrentUserHasAccess);
                 } 
                 catch (Exception ex)
@@ -74,10 +76,25 @@ namespace TfsServices.Configuration
             }
         }
 
-        public void Dispose()
+        public VssCredentials GetVssCredentials()
         {
-            _tfsConfigurationServer.Dispose();
+            // todo: Using default credentials doesn't seem to work for Git
+            if (_networkCredential == null) return new VssCredentials(useDefaultCredentials: true);
+
+            return new VssCredentials(new WindowsCredential(_networkCredential));
         }
 
+        public void Dispose()
+        {
+            if (_tfsConfigurationServer != null)
+            {
+                _tfsConfigurationServer.Dispose();
+            }
+        }
+
+        public ILocationService GetConfigLocationService()
+        {
+            return _tfsConfigurationServer.GetService<ILocationService>();
+        }
     }
 }
