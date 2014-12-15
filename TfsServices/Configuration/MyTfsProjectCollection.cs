@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Microsoft.TeamFoundation;
 using Microsoft.TeamFoundation.Build.Client;
 using Microsoft.TeamFoundation.Client;
 using Microsoft.TeamFoundation.Framework.Client;
 using Microsoft.TeamFoundation.Server;
-using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.TeamFoundation.VersionControl.Client;
+using Newtonsoft.Json;
 using SirenOfShame.Lib;
 using log4net;
 
@@ -20,8 +23,8 @@ namespace TfsServices.Configuration
         private readonly TfsTeamProjectCollection _tfsTeamProjectCollection;
         private readonly IBuildServer _buildServer;
         private readonly TswaClientHyperlinkService _tswaClientHyperlinkService;
-        private MyTfsServer _myTfsServer;
-        public bool CurrentUserHasAccess { get; set; }
+        private readonly MyTfsServer _myTfsServer;
+        public bool CurrentUserHasAccess { get; private set; }
 
         public MyTfsServer MyTfsServer
         {
@@ -80,24 +83,41 @@ namespace TfsServices.Configuration
             }
         }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         public VersionControlServer VersionControlServer
         {
             get { return _tfsTeamProjectCollection.GetService<VersionControlServer>(); }
         }
 
-        public Uri Uri
+        private Uri Uri
         {
             get { return _tfsTeamProjectCollection.Uri; }
         }
 
-        public GitHttpClient GetGitHttpClient()
+        public async Task<T> ExecuteGetHttpClientRequest<T>(string relativeUrl, Func<dynamic, T> action)
         {
-            var vssCredentials = MyTfsServer.GetVssCredentials();
-            var projectCollectionUri = Uri;
-            GitHttpClient client = new GitHttpClient(projectCollectionUri, vssCredentials);
-            return client;
+            using (var httpClient = GetRestHttpClient())
+            {
+                string fullUrl = Uri + relativeUrl;
+                var result = await httpClient.GetAsync(fullUrl);
+                result.EnsureSuccessStatusCode();
+                var resultString = await result.Content.ReadAsStringAsync();
+                dynamic deserializedResult = JsonConvert.DeserializeObject(resultString);
+                return action(deserializedResult.value);
+            }
+        }
+
+        public HttpClient GetRestHttpClient()
+        {
+            HttpClient httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+           AuthenticationHeaderValue authenticationHeader = MyTfsServer.GetAuthenticationHeader();
+            if (authenticationHeader != null)
+            {
+                httpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
+            }
+            return httpClient;
         }
     }
 }

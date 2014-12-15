@@ -64,7 +64,6 @@
         <File Source="..\SirenOfShame\bin\Plugins\HudsonServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TeamCityServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TfsServices.dll" />
-        <File Source="..\Libs\TeamFoundation\Microsoft.TeamFoundation.SourceControl.WebApi.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Client.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.ServiceBus.dll" />

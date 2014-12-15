@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.TeamFoundation.Build.Client;
-using Microsoft.TeamFoundation.SourceControl.WebApi;
 using Microsoft.TeamFoundation.VersionControl.Client;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Settings;
@@ -56,19 +55,19 @@ namespace TfsServices.Configuration
 
         public CheckinInfo GetLatestChangeset()
         {
-            // todo: Figure out if this is git or not
-            bool isGit = true;
-            if (isGit)
+            if (IsGit)
             {
                 return GetLatestGitChangeset();
             }
-            else
-            {
-                return GetLatestNonGitChangeset();
-            }
+            return GetLatestNonGitChangeset();
         }
-        
-        public CheckinInfo GetLatestNonGitChangeset()
+
+        private bool IsGit
+        {
+            get { return _buildDefinition.SourceProviders.Any(i => i.Name == "TFGIT"); }
+        }
+
+        private CheckinInfo GetLatestNonGitChangeset()
         {
             try
             {
@@ -131,12 +130,7 @@ namespace TfsServices.Configuration
                 .Select(m => m.ServerItem);
         }
 
-        public string ConvertTfsUriToUrl(Uri uri)
-        {
-            return _myTfsProject.ConvertTfsUriToUrl(uri);
-        }
-
-        public CheckinInfo GetLatestGitChangeset()
+        private CheckinInfo GetLatestGitChangeset()
         {
             return GetLatestGitChangesetAsync().Result;
         }
@@ -152,48 +146,40 @@ namespace TfsServices.Configuration
             }
             try
             {
-                foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
+                var repositoryId = await _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest<Guid?>("/_apis/git/repositories", repositories =>
                 {
-                    var client = _myTfsProject.ProjectCollection.GetGitHttpClient();
-                    var repositories = await client.GetRepositoriesAsync();
-                    var repository = GetRepositoryId(repositories, workspaceMappingServerUrl);
-                    if (repository == null)
+                    foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
                     {
-                        _log.Warn("Unable to find a repository for workspace mapping: " + workspaceMappingServerUrl);
-                        continue;
+                        foreach (var repository in repositories)
+                        {
+                            string repositoryName = repository.name;
+                            if (workspaceMappingServerUrl.EndsWith(repositoryName))
+                            {
+                                return repository.id;
+                            }
+                        }
                     }
-                    var repositoryId = repository.Id;
-                    var branches = await client.GetBranchRefsAsync(repositoryId);
+                    return null;
+                });
 
-                    // Doing a web query for each branch could get expensive fast, but I can't find a better way to get the most recent check-in across all branches with a single query
-                    List<GitCommitRef> latestCommitForEachBranch = branches.Select(branchRef => GetMostRecentCheckinFromBranchRef(client, repositoryId, branchRef).Result).ToList();
-                    var lastCheckinAcrossAllBranches = latestCommitForEachBranch.Aggregate((i, j) => i.Author.Date > j.Author.Date ? i : j);
-                    return new CheckinInfo(lastCheckinAcrossAllBranches);
-                }
-                return null;
+                var getCommitsUrl = "/_apis/git/repositories/" + repositoryId + "/commits?top=1";
+                var commit = await _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest(getCommitsUrl, commits =>
+                {
+                    var comment = commits[0].comment;
+                    var author = commits[0].author.name;
+                    return new CheckinInfo
+                    {
+                        Comment = comment,
+                        Committer = author
+                    };
+                });
+                return commit;
             }
             catch (Exception ex)
             {
-                _log.Error("Unable to retrieve comments or author for git repository");
+                _log.Error("Unable to retrieve comments or author for git repository", ex);
                 return null;
             }
-        }
-
-        private static async Task<GitCommitRef> GetMostRecentCheckinFromBranchRef(GitHttpClient client, Guid repositoryId, GitRef branchRef)
-        {
-
-            var gitBranchStats = await client.GetBranchStatisticsAsync(repositoryId.ToString(), "master");
-            return gitBranchStats.Commit;
-        }
-
-        private GitRepository GetRepositoryId(IEnumerable<GitRepository> repositories, string workspaceMappingServerUrl)
-        {
-            return repositories.FirstOrDefault(i => workspaceMappingServerUrl.EndsWith(i.Name));
-        }
-
-        private MyTfsServer MyTfsServer
-        {
-            get { return _myTfsProject.MyTfsServer; }
         }
     }
 }

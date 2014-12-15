@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.TeamFoundation;
@@ -95,6 +96,14 @@ namespace TfsServices.Configuration
         public ILocationService GetConfigLocationService()
         {
             return _tfsConfigurationServer.GetService<ILocationService>();
+        }
+
+        public AuthenticationHeaderValue GetAuthenticationHeader()
+        {
+            if (_networkCredential == null) return null;
+            var userName = _networkCredential.UserName;
+            var password = _networkCredential.Password;
+            return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", userName, password))));
         }
     }
 }
