@@ -122,6 +122,11 @@ namespace TfsServices.Configuration
             return webClient;
         }
 
+        /// <summary>
+        /// Using basic auth via network headers should be unnecessary, but with hosted TFS the NetworkCredential method
+        /// just doesn't work.  Watch it in Fiddler and it just isn't adding the Authentication header at all.
+        /// </summary>
+        /// <param name="webClient"></param>
         private void SetBasicAuthCredentials(WebClient webClient)
         {
             var authenticationHeader = MyTfsServer.GetBasicAuthHeader();
