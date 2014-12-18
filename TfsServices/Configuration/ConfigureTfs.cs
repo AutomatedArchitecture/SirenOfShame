@@ -90,16 +90,19 @@ namespace TfsServices.Configuration
         private void BuildConfigurationsAfterCheck(object sender, TreeViewEventArgs e)
         {
             if (_disableCheckEvents) return;
-            var isBuildDefinition = e.Node.Tag != null;
-            if (isBuildDefinition)
+            DisableCheckEvents(() =>
             {
-                SetBuildDefinitionActive(e.Node);
-                RefreshCheckednessOfParentNodes();
-            }
-            else
-            {
-                SelectAllChildren(e.Node);
-            }
+                var isBuildDefinition = e.Node.Tag != null;
+                if (isBuildDefinition)
+                {
+                    SetBuildDefinitionActive(e.Node);
+                    RefreshCheckednessOfParentNodes();
+                }
+                else
+                {
+                    SelectAllChildren(e.Node);
+                }
+            });
         }
 
         private void SelectAllChildren(TreeNode node)
@@ -107,6 +110,7 @@ namespace TfsServices.Configuration
             foreach (TreeNode child in node.Nodes)
             {
                 child.Checked = node.Checked;
+                SelectAllChildren(child);
             }
         }
 
@@ -158,20 +162,29 @@ namespace TfsServices.Configuration
             ApplyFilter();
         }
 
-        private void RefreshCheckednessOfParentNodes()
+        private void DisableCheckEvents(Action action)
         {
+            var oldDisableCheckEventsValue = _disableCheckEvents;
             _disableCheckEvents = true;
             try
+            {
+                action();
+            }
+            finally
+            {
+                _disableCheckEvents = oldDisableCheckEventsValue;
+            }
+        }
+
+        private void RefreshCheckednessOfParentNodes()
+        {
+            DisableCheckEvents(() =>
             {
                 foreach (TreeNode node in _buildConfigurations.Nodes)
                 {
                     RefreshCheckednessOfParentNodes(node);
                 }
-            }
-            finally
-            {
-                _disableCheckEvents = false;
-            }
+            });
         }
         
         private void RefreshCheckednessOfParentNodes(TreeNode node)
