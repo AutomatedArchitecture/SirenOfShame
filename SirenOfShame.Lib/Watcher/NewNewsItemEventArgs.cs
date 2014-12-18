@@ -93,7 +93,11 @@ namespace SirenOfShame.Lib.Watcher
                 }
                 var eventDate = GetEventDate(elements[0]);
                 var person = GetPerson(settings, elements[1]);
-                if (person == null) throw new Exception("Unable to find user " + elements[1]);
+                if (person == null)
+                {
+                    _log.Warn("Unable to find user " + elements[1]);
+                    return null;
+                }
                 var newsItemType = GetNewsItemType(elements[2]);
                 var reputationChange = GetReputationChange(elements[3]);
                 var buildDefinitionId = GetString(elements[4]);
