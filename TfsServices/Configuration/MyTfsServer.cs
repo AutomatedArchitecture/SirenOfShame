@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Windows.Forms;
 using log4net;
 using Microsoft.TeamFoundation;
@@ -78,17 +77,14 @@ namespace TfsServices.Configuration
             }
         }
 
-        public bool IsHostedTfs
+        public static bool CheckIfIsHostedTfs(string url)
         {
-            get { return _tfsConfigurationServer.Uri.ToString().Contains(".visualstudio.com/"); }
+            return url.Contains(".visualstudio.com/");
         }
 
-        public VssCredentials GetVssCredentials()
+        public bool IsHostedTfs
         {
-            // todo: Using default credentials doesn't seem to work for Git
-            if (_networkCredential == null) return new VssCredentials(useDefaultCredentials: true);
-
-            return new VssCredentials(new WindowsCredential(_networkCredential));
+            get { return CheckIfIsHostedTfs(_tfsConfigurationServer.Uri.ToString()); }
         }
 
         public void Dispose()

@@ -70,6 +70,13 @@ namespace TfsServices.Configuration
 
         private void GoClick(object sender, EventArgs e)
         {
+            if (MyTfsServer.CheckIfIsHostedTfs(_url.Text) && windowsCredentials.Checked)
+            {
+                MessageBox.Show("You will need to 'Be Someone Else' when connecting to hosted TFS");
+                someoneElse.Checked = true;
+                return;
+            }
+
             _ciEntryPointSetting.Url = _url.Text;
             _ciEntryPointSetting.UserName = windowsCredentials.Checked ? null : username.Text;
             if (someoneElse.Checked)
