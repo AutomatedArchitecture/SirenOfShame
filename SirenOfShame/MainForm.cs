@@ -224,15 +224,25 @@ namespace SirenOfShame
         private void SetAutomaticUpdaterSettings()
         {
             if (_settings == null) return;
-            string updatePath = "http://blueink.biz/SoS/updates/";
-            if (_settings.UpdateLocation == UpdateLocation.Other)
-            {
-                updatePath = _settings.UpdateLocationOther;
-            }
+            bool performUpdates = _settings.UpdateLocation != UpdateLocation.Never;
+            var updatePath = GetUpdatePath();
             string server = updatePath + "wyserver.zip";
             _automaticUpdater.wyUpdateCommandline = " \"-server=" + server + "\" \"-updatepath=" + updatePath + "\"";
-            _automaticUpdater.Enabled = _settings.UpdateLocation != UpdateLocation.Never;
-            _automaticUpdater.Visible = _settings.UpdateLocation != UpdateLocation.Never;
+            _automaticUpdater.Enabled = performUpdates;
+            _automaticUpdater.Visible = performUpdates;
+        }
+
+        private string GetUpdatePath()
+        {
+            if (_settings.UpdateLocation == UpdateLocation.Other)
+            {
+                return _settings.UpdateLocationOther;
+            }
+            if (_settings.UpdateLocation == UpdateLocation.Auto)
+            {
+                return "http://blueink.biz/SoS/updates/";
+            }
+            return "";
         }
 
         protected override void WndProc(ref Message m)
