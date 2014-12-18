@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -66,7 +67,7 @@ namespace TfsServices.Configuration
             if (uri == null) return null;
             return uri.ToString();
         }
-        
+
         public IEnumerable<MyTfsProject> Projects
         {
             get
@@ -74,7 +75,7 @@ namespace TfsServices.Configuration
                 try
                 {
                     return _commonStructureService.ListAllProjects().Select(p => new MyTfsProject(p, _buildServer, this));
-                } 
+                }
                 catch (TeamFoundationServiceUnavailableException)
                 {
                     _log.Debug("Retrieving projects from " + Name + " resulted in TeamFoundationServiceUnavailableException. This could be because the project collection is currently offline.");
@@ -97,27 +98,44 @@ namespace TfsServices.Configuration
 
         public async Task<T> ExecuteGetHttpClientRequest<T>(string relativeUrl, Func<dynamic, T> action)
         {
-            using (var httpClient = GetRestHttpClient())
+            using (var webClient = GetRestWebClient())
             {
                 string fullUrl = Uri + relativeUrl;
-                var result = await httpClient.GetAsync(fullUrl);
-                result.EnsureSuccessStatusCode();
-                var resultString = await result.Content.ReadAsStringAsync();
+                var resultString = await webClient.DownloadStringTaskAsync(fullUrl);
                 dynamic deserializedResult = JsonConvert.DeserializeObject(resultString);
                 return action(deserializedResult.value);
             }
         }
 
-        public HttpClient GetRestHttpClient()
+        public WebClient GetRestWebClient()
         {
-            HttpClient httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-           AuthenticationHeaderValue authenticationHeader = MyTfsServer.GetAuthenticationHeader();
-            if (authenticationHeader != null)
+            var webClient = new WebClient();
+            if (MyTfsServer.IsHostedTfs)
             {
-                httpClient.DefaultRequestHeaders.Authorization = authenticationHeader;
+                SetBasicAuthCredentials(webClient);
             }
-            return httpClient;
+            else
+            {
+                SetNetworkCredentials(webClient);
+            }
+            webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json; charset=utf-8");
+            return webClient;
+        }
+
+        private void SetBasicAuthCredentials(WebClient webClient)
+        {
+            var authenticationHeader = MyTfsServer.GetBasicAuthHeader();
+            webClient.Headers.Add(authenticationHeader);
+        }
+
+        private void SetNetworkCredentials(WebClient webClient)
+        {
+            var networkCredentials = MyTfsServer.GetCredentialsForTfsServer();
+            webClient.UseDefaultCredentials = networkCredentials == null;
+            if (networkCredentials != null)
+            {
+                webClient.Credentials = networkCredentials;
+            }
         }
     }
 }

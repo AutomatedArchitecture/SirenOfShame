@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
@@ -77,6 +78,11 @@ namespace TfsServices.Configuration
             }
         }
 
+        public bool IsHostedTfs
+        {
+            get { return _tfsConfigurationServer.Uri.ToString().Contains(".visualstudio.com/"); }
+        }
+
         public VssCredentials GetVssCredentials()
         {
             // todo: Using default credentials doesn't seem to work for Git
@@ -98,12 +104,27 @@ namespace TfsServices.Configuration
             return _tfsConfigurationServer.GetService<ILocationService>();
         }
 
-        public AuthenticationHeaderValue GetAuthenticationHeader()
+        public NetworkCredential GetCredentialsForTfsServer()
         {
-            if (_networkCredential == null) return null;
-            var userName = _networkCredential.UserName;
-            var password = _networkCredential.Password;
-            return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", userName, password))));
+            // the version of NetworkCredential inside of _tfsConfigurationServer may be non-null when _networkCredential is null b/c we may be using
+            //      default credentials (aka string.IsNullOrEmpty(rawUserName)).  This then becomes the best way to get credentials.
+            var tfsNetworkCredential = _tfsConfigurationServer.ClientCredentials.Windows.Credentials as NetworkCredential;
+            bool credentialServerAuthenticationExists = tfsNetworkCredential != null && !string.IsNullOrEmpty(tfsNetworkCredential.UserName);
+            if (credentialServerAuthenticationExists) return tfsNetworkCredential;
+            return _networkCredential;
+        }
+
+        public NameValueCollection GetBasicAuthHeader()
+        {
+            var networkCredential = GetCredentialsForTfsServer();
+            if (networkCredential == null) return null;
+            var userName = networkCredential.UserName;
+            var password = networkCredential.Password;
+            string usernamePassword = Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes(string.Format("{0}:{1}", userName, password)));
+            return new NameValueCollection
+            {
+                {"Authorization", "basic" + usernamePassword}
+            };
         }
     }
 }
