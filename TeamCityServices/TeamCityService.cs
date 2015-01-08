@@ -103,7 +103,7 @@ namespace TeamCityServices
             return cookie;
         }
 
-        public IList<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, BuildDefinitionSetting[] watchedBuildDefinitions)
+        public IEnumerable<TeamCityBuildStatus> GetBuildsStatuses(string rootUrl, string userName, string password, IEnumerable<BuildDefinitionSetting> watchedBuildDefinitions)
         {
             rootUrl = GetRootUrl(rootUrl);
 
@@ -129,7 +129,7 @@ namespace TeamCityServices
         }
 
         [DllImport("wininet.dll", SetLastError = true)]
-        public static extern bool InternetGetCookieEx(
+        private static extern bool InternetGetCookieEx(
             string url,
             string cookieName,
             StringBuilder cookieData,
@@ -137,18 +137,18 @@ namespace TeamCityServices
             Int32 dwFlags,
             IntPtr lpReserved);
 
-        private const Int32 InternetCookieHttponly = 0x2000;
+        private const Int32 INTERNET_COOKIE_HTTPONLY = 0x2000;
         /// <summary>
         /// Gets the URI cookie container.
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns></returns>
-        public static string GetUriCookieContainer(Uri uri)
+        private static string GetUriCookieContainer(Uri uri)
         {
             // Determine the size of the cookie
             int datasize = 8192 * 16;
             StringBuilder cookieData = new StringBuilder(datasize);
-            if (!InternetGetCookieEx(uri.ToString(), null, cookieData, ref datasize, InternetCookieHttponly, IntPtr.Zero))
+            if (!InternetGetCookieEx(uri.ToString(), null, cookieData, ref datasize, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero))
             {
                 if (datasize < 0)
                     return null;
@@ -158,7 +158,7 @@ namespace TeamCityServices
                     uri.ToString(),
                     null, cookieData,
                     ref datasize,
-                    InternetCookieHttponly,
+                    INTERNET_COOKIE_HTTPONLY,
                     IntPtr.Zero))
                     return null;
             }
@@ -268,7 +268,7 @@ namespace TeamCityServices
             return (DateTime.Now - initialRequest).TotalSeconds >= timeoutSeconds;
         }
 
-        public TeamCityBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)
+        private TeamCityBuildStatus GetBuildStatus(string rootUrl, BuildDefinitionSetting buildDefinitionSetting, string userName, string password)
         {
             rootUrl = GetRootUrl(rootUrl);
 
@@ -375,19 +375,17 @@ namespace TeamCityServices
                     _log.ErrorFormat("Could not get project build status for {0}", url);
                     return new TeamCityBuildStatus(buildDefinitionSetting);
                 }
-                else if (doc.Root == null)
+                if (doc.Root == null)
                 {
-                   throw new Exception("Could not get project build status");
+                    throw new Exception("Could not get project build status");
                 }
-                else
-                {
-                    return GetBuildStatusAndCommentsFromXDocument(
-                        rootUrl,
-                        userName,
-                        password,
-                        buildDefinitionSetting,
-                        doc);
-                }
+                
+                return GetBuildStatusAndCommentsFromXDocument(
+                    rootUrl,
+                    userName,
+                    password,
+                    buildDefinitionSetting,
+                    doc);
             }
             catch (BuildDefinitionNotFoundException)
             {
