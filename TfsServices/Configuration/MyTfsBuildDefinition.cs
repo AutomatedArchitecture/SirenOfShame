@@ -146,40 +146,53 @@ namespace TfsServices.Configuration
             }
             try
             {
-                var repositoryId = await _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest<Guid?>("/_apis/git/repositories", repositories =>
-                {
-                    foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
-                    {
-                        foreach (var repository in repositories)
-                        {
-                            string repositoryName = repository.name;
-                            if (workspaceMappingServerUrl.EndsWith(repositoryName))
-                            {
-                                return repository.id;
-                            }
-                        }
-                    }
-                    return null;
-                });
-
-                var getCommitsUrl = "/_apis/git/repositories/" + repositoryId + "/commits?top=1";
-                var commit = await _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest(getCommitsUrl, commits =>
-                {
-                    var comment = commits[0].comment;
-                    var author = commits[0].author.name;
-                    return new CheckinInfo
-                    {
-                        Comment = comment,
-                        Committer = author
-                    };
-                });
-                return commit;
+                var repositoryId = await GetRepositoryIdFromWorkspaceServerMappings(workspaceMappingServerUrls);
+                return await GetLatestCommitInRepository(repositoryId);
             }
             catch (Exception ex)
             {
                 _log.Error("Unable to retrieve comments or author for git repository", ex);
                 return null;
             }
+        }
+
+        private async Task<CheckinInfo> GetLatestCommitInRepository(Guid? repositoryId)
+        {
+            var getCommitsUrl = "/_apis/git/repositories/" + repositoryId + "/commits?top=1";
+            var commit = await _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest(getCommitsUrl, commits =>
+            {
+                var comment = commits[0].comment;
+                var author = commits[0].author.name;
+                return new CheckinInfo
+                {
+                    Comment = comment,
+                    Committer = author
+                };
+            });
+            return commit;
+        }
+
+        private async Task<Guid?> GetRepositoryIdFromWorkspaceServerMappings(IList<string> workspaceMappingServerUrls)
+        {
+            var repositoryId =
+                await
+                    _myTfsProject.ProjectCollection.ExecuteGetHttpClientRequest<Guid?>("/_apis/git/repositories",
+                        repositories =>
+                        {
+                            foreach (var workspaceMappingServerUrl in workspaceMappingServerUrls)
+                            {
+                                foreach (var repository in repositories)
+                                {
+                                    string repositoryName = repository.name;
+                                    if (workspaceMappingServerUrl.EndsWith(repositoryName))
+                                    {
+                                        return repository.id;
+                                    }
+                                }
+                            }
+                            return null;
+                        });
+            return repositoryId;
         }
     }
 }
