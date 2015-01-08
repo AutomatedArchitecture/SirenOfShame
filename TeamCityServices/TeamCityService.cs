@@ -310,7 +310,7 @@ namespace TeamCityServices
             string buildId)
         {
 
-            string getBuildByBuildIdIdUrl = rootUrl + "/httpAuth/app/rest/builds/id:" + buildId;
+            var getBuildByBuildIdIdUrl = rootUrl + "/httpAuth/app/rest/builds/id:" + buildId + "?fields=$long,changes(count,href)";
             XDocument buildResultXDoc = DownloadXml(getBuildByBuildIdIdUrl, userName, password);
             return GetBuildStatusAndCommentsFromXDocument(rootUrl, userName, password, buildDefinitionSetting, buildResultXDoc);
         }
@@ -366,7 +366,7 @@ namespace TeamCityServices
         private TeamCityBuildStatus GetLatestBuildByBuildTypeId(string rootUrl, string userName, string password,
             BuildDefinitionSetting buildDefinitionSetting)
         {
-            string url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id;
+            var url = rootUrl + "/httpAuth/app/rest/builds/buildType:" + buildDefinitionSetting.Id + "?fields=$long,changes(count,href)";
             try
             {
                 XDocument doc = DownloadXml(url, userName, password);
