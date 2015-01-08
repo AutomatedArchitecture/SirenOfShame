@@ -5,6 +5,10 @@ REM this next line is stupid, but it's required to upgrade from 1.6 because back
 mkdir BuildArtifacts\%1\Plugins
 copy ..\SirenOfShame\bin\SirenOfShame.Lib.dll .\BuildArtifacts\%1\Plugins\SirenOfShame.Lib.dll
 copy ..\SirenOfShame\bin\SoxLib.dll .\BuildArtifacts\%1\SoxLib.dll
+copy ..\SirenOfShame\bin\log4net.dll .\BuildArtifacts\%1\log4net.dll
+copy ..\SirenOfShame\bin\Microsoft.AspNet.SignalR.Client.dll .\BuildArtifacts\%1\Microsoft.AspNet.SignalR.Client.dll
+copy ..\SirenOfShame\bin\Newtonsoft.Json.dll .\BuildArtifacts\%1\Newtonsoft.Json.dll
+copy ..\SirenOfShame\bin\SignalR.Client.dll .\BuildArtifacts\%1\SignalR.Client.dll
 
 copy ..\SirenOfShame\bin\Plugins\BuildBotServices.dll .\BuildArtifacts\%1\Plugins\BuildBotServices.dll
 copy ..\SirenOfShame\bin\Plugins\TravisCiServices.dll .\BuildArtifacts\%1\Plugins\TravisCiServices.dll
