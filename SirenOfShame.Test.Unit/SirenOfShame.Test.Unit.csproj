@@ -72,6 +72,7 @@
     <Compile Include="CIEntryPointBuildStatus\TeamCityBuildStatusTest.cs" />
     <Compile Include="CIEntryPointBuildStatus\TravisCiBuildStatusTest.cs" />
     <Compile Include="Device\SdCardFileSystem\FileSystemBuilderTest.cs" />
+    <Compile Include="Extruder\Services\TripleDESStringEncryptorTest.cs" />
     <Compile Include="Helpers\PrettyDateHelperTest.cs" />
     <Compile Include="Helpers\StringHelpersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -132,6 +133,10 @@
     <ProjectReference Include="..\HudsonServices\HudsonServices.csproj">
       <Project>{E0983ED9-6145-4893-9782-B5A2691106E7}</Project>
       <Name>HudsonServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Extruder\SirenOfShame.Extruder.csproj">
+      <Project>{58b75dc1-0700-46a6-a759-717044004d11}</Project>
+      <Name>SirenOfShame.Extruder</Name>
     </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Lib\SirenOfShame.Lib.csproj">
       <Project>{CBB57466-4341-49BC-A61D-43A7CC656A95}</Project>
