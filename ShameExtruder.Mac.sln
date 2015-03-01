@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.Mac", "SirenOfShame.Extruder.Mac\SirenOfShame.Extruder.Mac.csproj", "{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.Mac.Test.Unit", "SirenOfShame.Extruder.Mac.Test.Unit\SirenOfShame.Extruder.Mac.Test.Unit.csproj", "{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.PclLib", "SirenOfShame.Extruder.PclLib\SirenOfShame.Extruder.PclLib.csproj", "{B35ADF29-CEFB-4335-813D-CCF6899AE84D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,5 +20,17 @@ Global
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A0BD01-8CB3-414A-9BC0-2739593A2BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
