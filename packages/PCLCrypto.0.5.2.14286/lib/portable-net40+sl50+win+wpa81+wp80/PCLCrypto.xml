@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PCLCrypto</name>
+    </assembly>
+    <members>
+        <member name="T:PCLCrypto.CryptoStream">
+            <summary>
+            Defines a stream that links data streams to cryptographic transformations.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.chainedStream">
+            <summary>
+            The stream that is read from or written to with each I/O operation.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.transform">
+            <summary>
+            The crypto transform to use for each block.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.mode">
+            <summary>
+            The read/write mode of this stream.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.inputBuffer">
+            <summary>
+            Data that has not yet been transformed.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBuffer">
+            <summary>
+            Data that has been transformed but not flushed.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.inputBufferSize">
+            <summary>
+            The number of valid bytes in <see cref="F:PCLCrypto.CryptoStream.inputBuffer"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBufferSize">
+            <summary>
+            The number of valid bytes in <see cref="F:PCLCrypto.CryptoStream.outputBuffer"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBufferIndex">
+            <summary>
+            The index of the first valid byte in <see cref="F:PCLCrypto.CryptoStream.outputBuffer"/>.
+            This advances when Read is called with a smaller buffer than we have bytes available.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.#ctor(System.IO.Stream,PCLCrypto.ICryptoTransform,PCLCrypto.CryptoStreamMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.CryptoStream"/> class.
+            </summary>
+            <param name="stream">The stream to write to or read from.</param>
+            <param name="transform">The cryptographic operation to use for transforming data.</param>
+            <param name="mode">The mode of operation.</param>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.WriteTo(System.IO.Stream,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream that can be used to write to the specified stream
+            after passing through a series of transforms.
+            </summary>
+            <param name="stream">The ultimate stream to be written to.</param>
+            <param name="transforms">The transformations to apply to the data before writing to <paramref name="stream"/>.</param>
+            <returns>A CryptoStream instance.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.ReadFrom(System.IO.Stream,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream that can be used to read from the specified stream,
+            passing the retrieved data through a series of transforms before being read
+            from this stream.
+            </summary>
+            <param name="stream">The ultimate stream to be read from.</param>
+            <param name="transforms">The transformations to apply to the data after reading from <paramref name="stream"/>.</param>
+            <returns>A CryptoStream instance.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.FlushFinalBlock">
+            <summary>
+            Updates the underlying data source or repository with the current state of the buffer, then clears the buffer.
+            </summary>
+            <remarks>
+            Calling the Close method will call FlushFinalBlock. If you do not call Close, call FlushFinalBlock to complete flushing the buffer. Call FlushFinalBlock only when all stream activity is complete.
+            </remarks>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Flush">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.SetLength(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Chain(System.IO.Stream,PCLCrypto.CryptoStreamMode,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream chain of transforms.
+            </summary>
+            <param name="stream">The ultimate stream to be read from or written to.</param>
+            <param name="cryptoStreamMode">Whether to prepare for read or write operations to trigger the operations.</param>
+            <param name="transforms">The transforms to apply.</param>
+            <returns>The start of the chain of CryptoStreams.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.ChainWrite(System.IO.Stream,System.Collections.Generic.IEnumerator{PCLCrypto.ICryptoTransform})">
+            <summary>
+            Creates a CryptoStream chain of transforms for writing streams.
+            </summary>
+            <param name="stream">The ultimate stream to be read from or written to.</param>
+            <param name="transforms">An enumerator positioned just before the transform to create for the outer-most stream.</param>
+            <returns>
+            The start of the chain of CryptoStreams.
+            </returns>
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.HasFlushedFinalBlock">
+            <summary>
+            Gets a value indicating whether the final buffer block has been written to the underlying stream. 
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanRead">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanSeek">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanWrite">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.Length">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.Position">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.NetFxCrypto">
+            <summary>
+            Exposes cryptography using API familiar to .NET Framework developers.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.NetFxCrypto.RandomNumberGenerator">
+            <summary>
+            Gets a cryptographically strong random number generator.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.NetFxCrypto.DeriveBytes">
+            <summary>
+            Gets tools to derive a key from a password for buffer.
+            </summary>
+        </member>
+        <member name="T:PCLCrypto.SymmetricAlgorithmExtensions">
+            <summary>
+            Extension methods for the <see cref="T:PCLCrypto.SymmetricAlgorithm"/> enum and related types.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.IsBlockCipher(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets a value indicating whether the specified algorithm is implemented by a block cipher.
+            </summary>
+            <param name="algorithm">The algorithm to check.</param>
+            <returns><c>true</c> if the cipher is a block cipher; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetName(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Returns a platform-specific algorithm that conforms to the prescribed platform-neutral algorithm.
+            </summary>
+            <param name="algorithm">The PCL algorithm.</param>
+            <returns>
+            The platform-specific algorithm.
+            </returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetMode(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets the block mode for an algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>The block mode.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetPadding(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets the padding.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>The padding.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.UsesIV(PCLCrypto.SymmetricAlgorithmMode)">
+            <summary>
+            Gets a value indicating whether the specified block mode requires an initialization vector.
+            </summary>
+            <param name="mode">The block mode to check.</param>
+            <returns><c>true</c> if the block mode uses an initialization vector; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.UsesIV(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets a value indicating whether the specified algorithm requires an initialization vector.
+            </summary>
+            <param name="algorithm">The algorithm to check.</param>
+            <returns><c>true</c> if the block mode uses an initialization vector; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetString(PCLCrypto.SymmetricAlgorithmName)">
+            <summary>
+            Gets the string representation of an algorithm name.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>A non-empty string, such as "AES".</returns>
+        </member>
+        <member name="T:PCLCrypto.WinRTCrypto">
+            <summary>
+            Exposes cryptography using API familiar to WinRT developers.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.AsymmetricKeyAlgorithmProvider">
+            <summary>
+            Gets the asymmetric key algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.SymmetricKeyAlgorithmProvider">
+            <summary>
+            Gets the symmetric key algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.HashAlgorithmProvider">
+            <summary>
+            Gets the hash algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.MacAlgorithmProvider">
+            <summary>
+            Gets the MAC algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.KeyDerivationAlgorithmProvider">
+            <summary>
+            Gets the key derivation algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.KeyDerivationParameters">
+            <summary>
+            Gets the key derivation parameters factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.CryptographicEngine">
+            <summary>
+            Gets the service for signatures and encryption.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.CryptographicBuffer">
+            <summary>
+            Gets the service for buffers.
+            </summary>
+        </member>
+        <member name="T:PCLCrypto.WinRTExtensions">
+            <summary>
+            Extension methods that add functionality to the WinRT crypto API.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.WinRTExtensions.ImportParameters(PCLCrypto.IAsymmetricKeyAlgorithmProvider,PCLCrypto.RSAParameters)">
+            <summary>
+            Creates a cryptographic key based on the specified RSA parameters.
+            </summary>
+            <param name="provider">The asymmetric algorithm provider.</param>
+            <param name="parameters">The RSA parameters from which to initialize the key.</param>
+            <returns>The cryptographic key.</returns>
+        </member>
+        <member name="M:PCLCrypto.WinRTExtensions.ExportParameters(PCLCrypto.ICryptographicKey,System.Boolean)">
+            <summary>
+            Exports the RSA parameters of a cryptographic key.
+            </summary>
+            <param name="key">The cryptographic key.</param>
+            <param name="includePrivateParameters"><c>true</c> to include the private key in the exported parameters; <c>false</c> to only include the public key.</param>
+            <returns>The RSA parameters for the key.</returns>
+        </member>
+    </members>
+</doc>

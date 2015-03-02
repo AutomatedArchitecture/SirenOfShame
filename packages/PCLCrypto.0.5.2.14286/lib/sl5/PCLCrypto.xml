@@ -1,0 +1,966 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PCLCrypto</name>
+    </assembly>
+    <members>
+        <member name="T:PCLCrypto.CryptoStream">
+            <summary>
+            Defines a stream that links data streams to cryptographic transformations.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.chainedStream">
+            <summary>
+            The stream that is read from or written to with each I/O operation.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.transform">
+            <summary>
+            The crypto transform to use for each block.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.mode">
+            <summary>
+            The read/write mode of this stream.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.inputBuffer">
+            <summary>
+            Data that has not yet been transformed.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBuffer">
+            <summary>
+            Data that has been transformed but not flushed.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.inputBufferSize">
+            <summary>
+            The number of valid bytes in <see cref="F:PCLCrypto.CryptoStream.inputBuffer"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBufferSize">
+            <summary>
+            The number of valid bytes in <see cref="F:PCLCrypto.CryptoStream.outputBuffer"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.CryptoStream.outputBufferIndex">
+            <summary>
+            The index of the first valid byte in <see cref="F:PCLCrypto.CryptoStream.outputBuffer"/>.
+            This advances when Read is called with a smaller buffer than we have bytes available.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.#ctor(System.IO.Stream,PCLCrypto.ICryptoTransform,PCLCrypto.CryptoStreamMode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.CryptoStream"/> class.
+            </summary>
+            <param name="stream">The stream to write to or read from.</param>
+            <param name="transform">The cryptographic operation to use for transforming data.</param>
+            <param name="mode">The mode of operation.</param>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.WriteTo(System.IO.Stream,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream that can be used to write to the specified stream
+            after passing through a series of transforms.
+            </summary>
+            <param name="stream">The ultimate stream to be written to.</param>
+            <param name="transforms">The transformations to apply to the data before writing to <paramref name="stream"/>.</param>
+            <returns>A CryptoStream instance.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.ReadFrom(System.IO.Stream,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream that can be used to read from the specified stream,
+            passing the retrieved data through a series of transforms before being read
+            from this stream.
+            </summary>
+            <param name="stream">The ultimate stream to be read from.</param>
+            <param name="transforms">The transformations to apply to the data after reading from <paramref name="stream"/>.</param>
+            <returns>A CryptoStream instance.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.FlushFinalBlock">
+            <summary>
+            Updates the underlying data source or repository with the current state of the buffer, then clears the buffer.
+            </summary>
+            <remarks>
+            Calling the Close method will call FlushFinalBlock. If you do not call Close, call FlushFinalBlock to complete flushing the buffer. Call FlushFinalBlock only when all stream activity is complete.
+            </remarks>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Flush">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Seek(System.Int64,System.IO.SeekOrigin)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.SetLength(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Dispose(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.Chain(System.IO.Stream,PCLCrypto.CryptoStreamMode,PCLCrypto.ICryptoTransform[])">
+            <summary>
+            Creates a CryptoStream chain of transforms.
+            </summary>
+            <param name="stream">The ultimate stream to be read from or written to.</param>
+            <param name="cryptoStreamMode">Whether to prepare for read or write operations to trigger the operations.</param>
+            <param name="transforms">The transforms to apply.</param>
+            <returns>The start of the chain of CryptoStreams.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoStream.ChainWrite(System.IO.Stream,System.Collections.Generic.IEnumerator{PCLCrypto.ICryptoTransform})">
+            <summary>
+            Creates a CryptoStream chain of transforms for writing streams.
+            </summary>
+            <param name="stream">The ultimate stream to be read from or written to.</param>
+            <param name="transforms">An enumerator positioned just before the transform to create for the outer-most stream.</param>
+            <returns>
+            The start of the chain of CryptoStreams.
+            </returns>
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.HasFlushedFinalBlock">
+            <summary>
+            Gets a value indicating whether the final buffer block has been written to the underlying stream. 
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanRead">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanSeek">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.CanWrite">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.Length">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.CryptoStream.Position">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.NetFxCrypto">
+            <summary>
+            Exposes cryptography using API familiar to .NET Framework developers.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.NetFxCrypto.randomNumberGenerator">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IRandomNumberGenerator"/>.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.NetFxCrypto.RandomNumberGenerator">
+            <summary>
+            Gets a cryptographically strong random number generator.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.NetFxCrypto.DeriveBytes">
+            <summary>
+            Gets tools to derive a key from a password for buffer.
+            </summary>
+        </member>
+        <member name="T:PCLCrypto.SymmetricAlgorithmExtensions">
+            <summary>
+            Extension methods for the <see cref="T:PCLCrypto.SymmetricAlgorithm"/> enum and related types.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.IsBlockCipher(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets a value indicating whether the specified algorithm is implemented by a block cipher.
+            </summary>
+            <param name="algorithm">The algorithm to check.</param>
+            <returns><c>true</c> if the cipher is a block cipher; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetName(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Returns a platform-specific algorithm that conforms to the prescribed platform-neutral algorithm.
+            </summary>
+            <param name="algorithm">The PCL algorithm.</param>
+            <returns>
+            The platform-specific algorithm.
+            </returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetMode(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets the block mode for an algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>The block mode.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetPadding(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets the padding.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>The padding.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.UsesIV(PCLCrypto.SymmetricAlgorithmMode)">
+            <summary>
+            Gets a value indicating whether the specified block mode requires an initialization vector.
+            </summary>
+            <param name="mode">The block mode to check.</param>
+            <returns><c>true</c> if the block mode uses an initialization vector; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.UsesIV(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Gets a value indicating whether the specified algorithm requires an initialization vector.
+            </summary>
+            <param name="algorithm">The algorithm to check.</param>
+            <returns><c>true</c> if the block mode uses an initialization vector; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricAlgorithmExtensions.GetString(PCLCrypto.SymmetricAlgorithmName)">
+            <summary>
+            Gets the string representation of an algorithm name.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>A non-empty string, such as "AES".</returns>
+        </member>
+        <member name="T:PCLCrypto.WinRTCrypto">
+            <summary>
+            Exposes cryptography using API familiar to WinRT developers.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.asymmetricKeyAlgorithmProvider">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IAsymmetricKeyAlgorithmProvider"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.symmetricKeyAlgorithmProvider">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.ISymmetricKeyAlgorithmProvider"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.hashAlgorithmProvider">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IHashAlgorithmProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.macAlgorithmProvider">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IMacAlgorithmProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.keyDerivationAlgorithmProvider">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IKeyDerivationAlgorithmProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.keyDerivationParametersFactory">
+            <summary>
+            Backing field storing a shareable, thread-safe implementation
+            of <see cref="T:PCLCrypto.IKeyDerivationParametersFactory"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.cryptographicEngine">
+            <summary>
+            Backing field for the CryptographicEngine property.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.WinRTCrypto.cryptographicBuffer">
+            <summary>
+            Backing field for the CryptographicBuffer property.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.AsymmetricKeyAlgorithmProvider">
+            <summary>
+            Gets the asymmetric key algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.SymmetricKeyAlgorithmProvider">
+            <summary>
+            Gets the symmetric key algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.HashAlgorithmProvider">
+            <summary>
+            Gets the hash algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.MacAlgorithmProvider">
+            <summary>
+            Gets the MAC algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.KeyDerivationAlgorithmProvider">
+            <summary>
+            Gets the key derivation algorithm provider factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.KeyDerivationParameters">
+            <summary>
+            Gets the key derivation parameters factory.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.CryptographicEngine">
+            <summary>
+            Gets the service for signatures and encryption.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.WinRTCrypto.CryptographicBuffer">
+            <summary>
+            Gets the service for buffers.
+            </summary>
+        </member>
+        <member name="T:PCLCrypto.AsymmetricKeyAlgorithmProviderFactory">
+            <summary>
+            .NET Framework implementation of the <see cref="T:PCLCrypto.IAsymmetricKeyAlgorithmProviderFactory"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.AsymmetricKeyAlgorithmProviderFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.AsymmetricKeyAlgorithmProviderFactory"/> class.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.AsymmetricKeyAlgorithmProviderFactory.OpenAlgorithm(PCLCrypto.AsymmetricAlgorithm)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.AsymmetricKeyAlgorithmProviderFactory.GetHashAlgorithmEnum(PCLCrypto.AsymmetricAlgorithm)">
+            <summary>
+            Gets the hash algorithm for a given asymmetric algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>A hash algorithm.</returns>
+        </member>
+        <member name="T:PCLCrypto.CryptographicBuffer">
+            <summary>
+            The .NET Framework implementation of the <see cref="T:PCLCrypto.ICryptographicBuffer"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.Compare(System.Byte[],System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.ConvertBinaryToString(System.Text.Encoding,System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.ConvertStringToBinary(System.String,System.Text.Encoding)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.CopyToByteArray(System.Byte[],System.Byte[]@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.CreateFromByteArray(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.DecodeFromBase64String(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.DecodeFromHexString(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.EncodeToBase64String(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.EncodeToHexString(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.GenerateRandom(System.UInt32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.CryptographicBuffer.GenerateRandomNumber">
+            <inheritdoc/>
+        </member>
+        <member name="T:PCLCrypto.CryptographicEngine">
+            <summary>
+            A .NET Framework implementation of <see cref="T:PCLCrypto.ICryptographicEngine"/>.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.Encrypt(PCLCrypto.ICryptographicKey,System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.CreateEncryptor(PCLCrypto.ICryptographicKey,System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.Decrypt(PCLCrypto.ICryptographicKey,System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.CreateDecryptor(PCLCrypto.ICryptographicKey,System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.Sign(PCLCrypto.ICryptographicKey,System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.SignHashedData(PCLCrypto.ICryptographicKey,System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.VerifySignature(PCLCrypto.ICryptographicKey,System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.VerifySignatureWithHashInput(PCLCrypto.ICryptographicKey,System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.DeriveKeyMaterial(PCLCrypto.ICryptographicKey,PCLCrypto.IKeyDerivationParameters,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.GetHashAlgorithmOID(PCLCrypto.AsymmetricAlgorithm)">
+            <summary>
+            Gets the OID (or name) for a given hash algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>A non-empty string.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicEngine.GetHashAlgorithm(PCLCrypto.AsymmetricAlgorithm)">
+            <summary>
+            Creates a hash algorithm instance that is appropriate for the given algorithm.T
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>The hash algorithm.</returns>
+        </member>
+        <member name="T:PCLCrypto.CryptographicKey">
+            <summary>
+            Base class for implementations of the <see cref="T:PCLCrypto.ICryptographicKey"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.Sign(System.Byte[])">
+            <summary>
+            Signs data with this key.
+            </summary>
+            <param name="data">The data.</param>
+            <returns>The signature.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.VerifySignature(System.Byte[],System.Byte[])">
+            <summary>
+            Verifies the signature of data with this key.
+            </summary>
+            <param name="data">The data.</param>
+            <param name="signature">The signature.</param>
+            <returns>
+            <c>true</c> if the signature is valid.
+            </returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.SignHash(System.Byte[])">
+            <summary>
+            Signs data with this key.
+            </summary>
+            <param name="data">The hash of the data.</param>
+            <returns>The signature.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.VerifyHash(System.Byte[],System.Byte[])">
+            <summary>
+            Verifies the signature of a hash of data with this key.
+            </summary>
+            <param name="data">The hash of the data.</param>
+            <param name="signature">The signature.</param>
+            <returns>
+            <c>true</c> if the signature is valid.
+            </returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.Encrypt(System.Byte[],System.Byte[])">
+            <summary>
+            Encrypts the specified data.
+            </summary>
+            <param name="data">The plaintext.</param>
+            <param name="iv">The initialization vector. Should be <c>null</c> for asymmetric algorithms.</param>
+            <returns>The ciphertext.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.Decrypt(System.Byte[],System.Byte[])">
+            <summary>
+            Decrypts the specified data.
+            </summary>
+            <param name="data">The ciphertext.</param>
+            <param name="iv">The initialization vector. Should be <c>null</c> for asymmetric algorithms.</param>
+            <returns>The plaintext.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.CreateEncryptor(System.Byte[])">
+            <summary>
+            Creates a crypto transform to encrypt a stream.
+            </summary>
+            <param name="iv">The initialization vector. Should be <c>null</c> for asymmetric algorithms.</param>
+            <returns>The ciphertext.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptographicKey.CreateDecryptor(System.Byte[])">
+            <summary>
+            Creates a crypto transform to decrypt a stream.
+            </summary>
+            <param name="iv">The initialization vector. Should be <c>null</c> for asymmetric algorithms.</param>
+            <returns>The plaintext.</returns>
+        </member>
+        <member name="T:PCLCrypto.DeriveBytes">
+            <summary>
+            Exposes the .NET Framework implementation of <see cref="T:PCLCrypto.IDeriveBytes"/>.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.DeriveBytes.GetBytes(System.String,System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.DeriveBytes.GetBytes(System.Byte[],System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PCLCrypto.HashAlgorithmProvider">
+            <summary>
+            The .NET Framework implementation of <see cref="T:PCLCrypto.IHashAlgorithmProvider"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.HashAlgorithmProvider.algorithm">
+            <summary>
+            The algorithm used by this instance.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProvider.#ctor(PCLCrypto.HashAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.HashAlgorithmProvider"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProvider.CreateHash">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProvider.HashData(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProvider.CreateHashAlgorithm(PCLCrypto.HashAlgorithm)">
+            <summary>
+            Creates the hash algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>
+            A platform-specific hash algorithm.
+            </returns>
+        </member>
+        <member name="P:PCLCrypto.HashAlgorithmProvider.Algorithm">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.HashAlgorithmProvider.HashLength">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.KeyDerivationAlgorithmProvider">
+            <summary>
+            The .NET Framework implementation of the <see cref="T:PCLCrypto.IKeyDerivationAlgorithmProvider"/> interface.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.KeyDerivationAlgorithmProvider.algorithm">
+            <summary>
+            The algorithm used by this instance.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationAlgorithmProvider.#ctor(PCLCrypto.KeyDerivationAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.KeyDerivationAlgorithmProvider"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationAlgorithmProvider.CreateKey(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.KeyDerivationAlgorithmProvider.Algorithm">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.KeyDerivationAlgorithmProviderFactory">
+            <summary>
+            The .NET Framework implementation of the <see cref="T:PCLCrypto.IKeyDerivationAlgorithmProviderFactory"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationAlgorithmProviderFactory.OpenAlgorithm(PCLCrypto.KeyDerivationAlgorithm)">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.KeyDerivationCryptographicKey">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.ICryptographicKey"/> interface
+            for use with <see cref="T:PCLCrypto.KeyDerivationAlgorithmProvider"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.KeyDerivationCryptographicKey.key">
+            <summary>
+            The key material.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationCryptographicKey.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.KeyDerivationCryptographicKey"/> class.
+            </summary>
+            <param name="key">The key.</param>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationCryptographicKey.Export(PCLCrypto.CryptographicPrivateKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationCryptographicKey.ExportPublicKey(PCLCrypto.CryptographicPublicKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.KeyDerivationCryptographicKey.KeySize">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.KeyDerivationCryptographicKey.Key">
+            <summary>
+            Gets the key material.
+            </summary>
+            <value>
+            The key.
+            </value>
+        </member>
+        <member name="T:PCLCrypto.KeyDerivationParametersFactory">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.IKeyDerivationParametersFactory"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationParametersFactory.BuildForPbkdf2(System.Byte[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationParametersFactory.BuildForSP800108(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationParametersFactory.BuildForSP80056a(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.KeyDerivationParametersFactory.KeyDerivationParameters">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.IKeyDerivationParameters"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.KeyDerivationParametersFactory.KeyDerivationParameters.#ctor(System.Int32,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.KeyDerivationParametersFactory.KeyDerivationParameters"/> class.
+            </summary>
+            <param name="iterationCount">The iteration count.</param>
+            <param name="kdfGenericBinary">The KDF generic binary.</param>
+        </member>
+        <member name="P:PCLCrypto.KeyDerivationParametersFactory.KeyDerivationParameters.IterationCount">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.KeyDerivationParametersFactory.KeyDerivationParameters.KdfGenericBinary">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.MacAlgorithmProviderFactory">
+            <summary>
+            The shared implementation of the <see cref="T:PCLCrypto.IMacAlgorithmProviderFactory"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProviderFactory.OpenAlgorithm(PCLCrypto.MacAlgorithm)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProviderFactory.GetAlgorithmName(PCLCrypto.MacAlgorithm)">
+            <summary>
+            Returns the string to pass to the platform APIs for a given algorithm.
+            </summary>
+            <param name="algorithm">The algorithm desired.</param>
+            <returns>The platform-specific string to pass to OpenAlgorithm.</returns>
+        </member>
+        <member name="T:PCLCrypto.MacCryptographicKey">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.ICryptographicKey"/> interface
+            for use with MACs.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.MacCryptographicKey.algorithm">
+            <summary>
+            The algorithm to use when hashing.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.MacCryptographicKey.key">
+            <summary>
+            The key material.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.MacCryptographicKey.#ctor(PCLCrypto.MacAlgorithm,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.MacCryptographicKey"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <param name="key">The key.</param>
+        </member>
+        <member name="M:PCLCrypto.MacCryptographicKey.Export(PCLCrypto.CryptographicPrivateKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacCryptographicKey.ExportPublicKey(PCLCrypto.CryptographicPublicKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacCryptographicKey.Sign(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacCryptographicKey.VerifySignature(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.MacCryptographicKey.KeySize">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.RandomNumberGenerator">
+            <summary>
+            Exposes the .NET Framework implementation of <see cref="T:PCLCrypto.IRandomNumberGenerator"/>.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.RandomNumberGenerator.RandomSource">
+            <summary>
+            The thread-safe source for random numbers.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.RandomNumberGenerator.GetBytes(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:PCLCrypto.SymmetricKeyAlgorithmProviderFactory">
+            <summary>
+            WinRT implementation of the <see cref="T:PCLCrypto.ISymmetricKeyAlgorithmProviderFactory"/> interface.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricKeyAlgorithmProviderFactory.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.SymmetricKeyAlgorithmProviderFactory"/> class.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricKeyAlgorithmProviderFactory.OpenAlgorithm(PCLCrypto.SymmetricAlgorithm)">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.CryptoUtilities">
+            <summary>
+            An assortment of crypto utilities.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.CryptoUtilities.BufferEquals(System.Byte[],System.Byte[])">
+            <summary>
+            Performs a constant time comparison between two buffers.
+            </summary>
+            <param name="buffer1">The first buffer.</param>
+            <param name="buffer2">The second buffer.</param>
+            <returns><c>true</c> if the buffers have exactly the same contents; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:PCLCrypto.CryptoUtilities.DisposeIfNotNull(System.IDisposable)">
+            <summary>
+            Disposes a value if it is not null.
+            </summary>
+            <param name="value">The value to be disposed of.</param>
+        </member>
+        <member name="T:PCLCrypto.HashAlgorithmProviderFactory">
+            <summary>
+            A WinRT implementation of <see cref="T:PCLCrypto.IHashAlgorithmProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProviderFactory.OpenAlgorithm(PCLCrypto.HashAlgorithm)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.HashAlgorithmProviderFactory.GetHashAlgorithmName(PCLCrypto.HashAlgorithm)">
+            <summary>
+            Gets the name for a given hash algorithm.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+            <returns>A non-empty string.</returns>
+        </member>
+        <member name="T:PCLCrypto.MacAlgorithmProvider">
+            <summary>
+            The WinRT implementation of the <see cref="T:PCLCrypto.IMacAlgorithmProvider"/> interface.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.MacAlgorithmProvider.algorithm">
+            <summary>
+            The algorithm of this instance.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProvider.#ctor(PCLCrypto.MacAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.MacAlgorithmProvider"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProvider.CreateHash(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProvider.CreateKey(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.MacAlgorithmProvider.GetAlgorithm(PCLCrypto.MacAlgorithm)">
+            <summary>
+            Returns the keyed hash algorithm from the platform.
+            </summary>
+            <param name="algorithm">The algorithm desired.</param>
+            <returns>The platform-specific algorithm.</returns>
+        </member>
+        <member name="P:PCLCrypto.MacAlgorithmProvider.Algorithm">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.MacAlgorithmProvider.MacLength">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.NetFxCryptographicHash">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.CryptographicHash"/> interface.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.NetFxCryptographicHash.EmptyBlock">
+            <summary>
+            A zero-length byte array.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.NetFxCryptographicHash.transformedFinalBlock">
+            <summary>
+            A value indicating whether <see cref="M:PCLCrypto.NetFxCryptographicHash.TransformFinalBlock(System.Byte[],System.Int32,System.Int32)"/> has been called.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.#ctor(System.Security.Cryptography.HashAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.NetFxCryptographicHash"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.Append(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.GetValueAndReset">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.TransformBlock(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.NetFxCryptographicHash.TransformFinalBlock(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.NetFxCryptographicHash.Algorithm">
+            <summary>
+            Gets the platform-specific hash algorithm.
+            </summary>
+        </member>
+        <member name="P:PCLCrypto.NetFxCryptographicHash.CanReuseTransform">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.NetFxCryptographicHash.CanTransformMultipleBlocks">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.NetFxCryptographicHash.InputBlockSize">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.NetFxCryptographicHash.OutputBlockSize">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.SymmetricCryptographicKey">
+            <summary>
+            A .NET Framework implementation of <see cref="T:PCLCrypto.ICryptographicKey"/> for use with symmetric algorithms.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.SymmetricCryptographicKey.algorithm">
+            <summary>
+            The platform's symmetric algorithm.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.SymmetricCryptographicKey.pclAlgorithm">
+            <summary>
+            The PCL algorithm enum.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.#ctor(System.Security.Cryptography.SymmetricAlgorithm,PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.SymmetricCryptographicKey"/> class.
+            </summary>
+            <param name="algorithm">The algorithm, initialized with the key.</param>
+            <param name="pclAlgorithm">The PCL enum of the algorithm in use.</param>
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.Export(PCLCrypto.CryptographicPrivateKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.ExportPublicKey(PCLCrypto.CryptographicPublicKeyBlobType)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.Encrypt(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.Decrypt(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CreateEncryptor(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CreateDecryptor(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.ThisOrDefaultIV(System.Byte[])">
+            <summary>
+            Creates a zero IV buffer.
+            </summary>
+            <param name="iv">The IV supplied by the caller.</param>
+            <returns><paramref name="iv"/> if not null; otherwise a zero-filled buffer.</returns>
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.IsValidInputSize(System.Int32)">
+            <summary>
+            Checks whether the given length is a valid one for an input buffer to the symmetric algorithm.
+            </summary>
+            <param name="lengthInBytes">The length of the input buffer in bytes.</param>
+            <returns><c>true</c> if the size is allowed; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="P:PCLCrypto.SymmetricCryptographicKey.KeySize">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor">
+            <summary>
+            Adapts a platform ICryptoTransform to the PCL interface.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.transform">
+            <summary>
+            The platform transform.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.#ctor(System.Security.Cryptography.ICryptoTransform)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor"/> class.
+            </summary>
+            <param name="transform">The transform.</param>
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.TransformBlock(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.TransformFinalBlock(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.CanReuseTransform">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.CanTransformMultipleBlocks">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.InputBlockSize">
+            <inheritdoc />
+        </member>
+        <member name="P:PCLCrypto.SymmetricCryptographicKey.CryptoTransformAdaptor.OutputBlockSize">
+            <inheritdoc />
+        </member>
+        <member name="T:PCLCrypto.SymmetricKeyAlgorithmProvider">
+            <summary>
+            A .NET Framework implementation of the <see cref="T:PCLCrypto.ISymmetricKeyAlgorithmProvider"/> interface.
+            </summary>
+        </member>
+        <member name="F:PCLCrypto.SymmetricKeyAlgorithmProvider.algorithm">
+            <summary>
+            The algorithm used by this instance.
+            </summary>
+        </member>
+        <member name="M:PCLCrypto.SymmetricKeyAlgorithmProvider.#ctor(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Initializes a new instance of the <see cref="T:PCLCrypto.SymmetricKeyAlgorithmProvider"/> class.
+            </summary>
+            <param name="algorithm">The algorithm.</param>
+        </member>
+        <member name="M:PCLCrypto.SymmetricKeyAlgorithmProvider.CreateSymmetricKey(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:PCLCrypto.SymmetricKeyAlgorithmProvider.GetAlgorithm(PCLCrypto.SymmetricAlgorithm)">
+            <summary>
+            Returns a platform-specific algorithm that conforms to the prescribed platform-neutral algorithm.
+            </summary>
+            <param name="algorithm">The PCL algorithm.</param>
+            <returns>
+            The platform-specific algorithm.
+            </returns>
+        </member>
+        <member name="P:PCLCrypto.SymmetricKeyAlgorithmProvider.Algorithm">
+            <inheritdoc/>
+        </member>
+        <member name="P:PCLCrypto.SymmetricKeyAlgorithmProvider.BlockLength">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

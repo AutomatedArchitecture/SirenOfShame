@@ -1,20 +1,23 @@
 ﻿<Properties StartupItem="SirenOfShame.Extruder.Mac/SirenOfShame.Extruder.Mac.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SirenOfShameExtruderMac/MainWindowController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SirenOfShame.Extruder.Mac.Test.Unit/Services/TripleDesStringEncryptorTest.cs">
     <Files>
-      <File FileName="SirenOfShameExtruderMac/MainWindowController.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShameExtruderMac/MainWindowController.designer.cs" Line="33" Column="33" />
-      <File FileName="SirenOfShameExtruderMac/MainWindow.cs" Line="31" Column="31" />
-      <File FileName="SirenOfShameExtruderMac/MainWindow.designer.cs" Line="31" Column="31" />
-      <File FileName="SirenOfShameExtruderMac/Main.cs" Line="31" Column="31" />
-      <File FileName="SirenOfShameExtruderMac/AppDelegate.cs" Line="31" Column="31" />
+      <File FileName="SirenOfShame.Extruder.Mac/AppDelegate.designer.cs" Line="36" Column="36" />
+      <File FileName="SirenOfShame.Extruder.Mac/AppDelegate.cs" Line="3" Column="3" />
+      <File FileName="SirenOfShame.Extruder.Mac.Test.Unit/Services/TripleDesStringEncryptorTest.cs" Line="1" Column="1" />
+      <File FileName="SirenOfShame.Extruder.PclLib/Services/TripleDesStringEncryptor.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="SirenOfShame.Extruder.Mac" expanded="True" selected="True">
-            <Node name="MainWindow.cs" expanded="True" />
-            <Node name="MainWindowController.cs" expanded="True" />
+          <Node name="SirenOfShame.Extruder.Mac.Test.Unit" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Services" expanded="True">
+              <Node name="TripleDesStringEncryptorTest.cs" selected="True" />
+            </Node>
+          </Node>
+          <Node name="SirenOfShame.Extruder.PclLib" expanded="True">
+            <Node name="Services" expanded="True" />
           </Node>
         </State>
       </Pad>

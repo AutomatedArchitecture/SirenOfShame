@@ -1,13 +1,41 @@
 ﻿using System.Text;
+using PCLCrypto;
 
 namespace SirenOfShame.Extruder.PclLib {
 	public class TripleDesStringEncryptor {
+        private readonly byte[] _key;
+//        private readonly byte[] _iv;
+
+		public TripleDesStringEncryptor(int iterations = 1000)
+        {
+            var key = "GSYAHAGCBDUUADIADKOPAAAW";
+            var iv = Encoding.Unicode.GetBytes("USAZBGAW");
+			//int iterations = iterations;
+			int countBytes = 16;
+			_key = NetFxCrypto.DeriveBytes.GetBytes(key, iv, iterations, countBytes);
+        }
+
+		private ICryptographicKey CreateSymmetricKey ()
+		{
+			var algorithm = WinRTCrypto.SymmetricKeyAlgorithmProvider.OpenAlgorithm (SymmetricAlgorithm.TripleDesCbcPkcs7);
+			return algorithm.CreateSymmetricKey (_key);
+		}
+
 		public string EncryptString(string text) {
-			return text;
+			if (string.IsNullOrEmpty (text))
+				return null;
+			ICryptographicKey symetricKey = CreateSymmetricKey ();
+			var bytes = WinRTCrypto.CryptographicEngine.Encrypt (symetricKey, Encoding.UTF8.GetBytes (text));
+			return System.Convert.ToBase64String (bytes);
 		}
 
 		public string DecryptString(string text) {
-			return text;
+			if (string.IsNullOrEmpty (text))
+				return null;
+			byte[] input = System.Convert.FromBase64String(text);
+			ICryptographicKey symetricKey = CreateSymmetricKey ();
+			var bytes = WinRTCrypto.CryptographicEngine.Decrypt (symetricKey, input);
+			return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 		}
 	}
 }
@@ -21,18 +49,6 @@ namespace SirenOfShame.Extruder.PclLib {
 //{
 //    public class TripleDesStringEncryptor
 //    {
-//        private readonly byte[] _key;
-//        private readonly byte[] _iv;
-//
-//        private readonly TripleDESCryptoServiceProvider _provider;
-//
-//        public TripleDesStringEncryptor()
-//        {
-//            _key = Encoding.ASCII.GetBytes("GSYAHAGCBDUUADIADKOPAAAW");
-//            _iv = Encoding.ASCII.GetBytes("USAZBGAW");
-//            _provider = new TripleDESCryptoServiceProvider();
-//        }
-//
 //        public string EncryptString(string text)
 //        {
 //            ICryptoTransform transform = _provider.CreateEncryptor(_key, _iv);
