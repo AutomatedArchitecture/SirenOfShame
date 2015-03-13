@@ -23,6 +23,10 @@ namespace SirenOfShame.Extruder.Mac
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
+
+			var tdse = new TripleDesStringEncryptor ();
+			var encryptedString = tdse.DecryptString ("wwwfBrRRCDxe3qSYCrri3w==");
+			MainLabel.StringValue = encryptedString;
 		}
 
 		public new MainWindow Window {

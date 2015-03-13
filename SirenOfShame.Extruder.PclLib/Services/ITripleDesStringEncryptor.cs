@@ -1,14 +1,9 @@
 ﻿using System.Text;
 
 namespace SirenOfShame.Extruder.PclLib {
-	public class TripleDesStringEncryptor {
-		public string EncryptString(string text) {
-			return text;
-		}
-
-		public string DecryptString(string text) {
-			return text;
-		}
+	public interface ITripleDesStringEncryptor {
+		string EncryptString (string text);
+		string DecryptString (string text);
 	}
 }
 

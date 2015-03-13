@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Services\TripleDesStringEncryptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -93,4 +95,10 @@
     <None Include="Info.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Extruder.PclLib\SirenOfShame.Extruder.PclLib.csproj">
+      <Project>{B35ADF29-CEFB-4335-813D-CCF6899AE84D}</Project>
+      <Name>SirenOfShame.Extruder.PclLib</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
