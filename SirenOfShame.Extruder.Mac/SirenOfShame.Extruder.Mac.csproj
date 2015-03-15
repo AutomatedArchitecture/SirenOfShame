@@ -70,6 +70,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Services\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -86,6 +87,10 @@
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\TripleDesStringEncryptor.cs" />
+    <Compile Include="Services\SosOnlineService.cs" />
+    <Compile Include="Models\ApiResultBase.cs" />
+    <Compile Include="Models\ConnectExtruderModel.cs" />
+    <Compile Include="Models\CredentialApiModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
