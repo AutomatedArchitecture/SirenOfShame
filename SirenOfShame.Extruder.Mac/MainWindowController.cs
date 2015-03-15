@@ -23,10 +23,28 @@ namespace SirenOfShame.Extruder.Mac
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
+			GoButton.Activated += GoButtonClicked;
+		}
 
+		private string GetEncryptedPassword() {
 			var tdse = new TripleDesStringEncryptor ();
-			var encryptedString = tdse.DecryptString ("wwwfBrRRCDxe3qSYCrri3w==");
-			MainLabel.StringValue = encryptedString;
+			string unencryptedPassword = Password.StringValue;
+			return tdse.EncryptString(unencryptedPassword);
+		}
+
+		void GoButtonClicked (object sender, EventArgs e)
+		{
+			var url = new NSUrl ("http://www.sirenofshame.com/Mobile/App");
+			var extruderName = "LEE-XPS";
+			var encryptedPassword = GetEncryptedPassword();
+			var credentialsAsString = "username=" + Username.StringValue + "&encryptedpassword=" + encryptedPassword + "&extruderName=" + extruderName;
+			NSMutableUrlRequest request = new NSMutableUrlRequest (url);
+			NSData bodyNsData = new NSData (Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(credentialsAsString)), NSDataBase64DecodingOptions.None);
+			request.Body = bodyNsData;
+			request.HttpMethod = "POST";
+			request["content-type"] = "application/x-www-form-urlencoded";
+
+			Browser.MainFrame.LoadRequest(request);
 		}
 
 		public new MainWindow Window {

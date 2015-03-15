@@ -13,13 +13,45 @@ namespace SirenOfShame.Extruder.Mac
 	partial class MainWindowController
 	{
 		[Outlet]
+		WebKit.WebView Browser { get; set; }
+
+		[Outlet]
+		AppKit.NSButton GoButton { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField MainLabel { get; set; }
+
+		[Outlet]
+		AppKit.NSSecureTextField Password { get; set; }
+
+		[Outlet]
+		AppKit.NSTextField Username { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Browser != null) {
+				Browser.Dispose ();
+				Browser = null;
+			}
+
 			if (MainLabel != null) {
 				MainLabel.Dispose ();
 				MainLabel = null;
+			}
+
+			if (Password != null) {
+				Password.Dispose ();
+				Password = null;
+			}
+
+			if (Username != null) {
+				Username.Dispose ();
+				Username = null;
+			}
+
+			if (GoButton != null) {
+				GoButton.Dispose ();
+				GoButton = null;
 			}
 		}
 	}
