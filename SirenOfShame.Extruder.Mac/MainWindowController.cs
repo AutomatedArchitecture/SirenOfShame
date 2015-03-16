@@ -7,6 +7,8 @@ namespace SirenOfShame.Extruder.Mac
 {
 	public partial class MainWindowController : NSWindowController
 	{
+		SosOnlineService _sosOnlineService;
+
 		public MainWindowController (IntPtr handle) : base (handle)
 		{
 		}
@@ -23,6 +25,7 @@ namespace SirenOfShame.Extruder.Mac
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
+			_sosOnlineService = new SosOnlineService ();
 			GoButton.Activated += GoButtonClicked;
 		}
 
@@ -32,10 +35,10 @@ namespace SirenOfShame.Extruder.Mac
 			return tdse.EncryptString(unencryptedPassword);
 		}
 
-		void GoButtonClicked (object sender, EventArgs e)
+		async void GoButtonClicked (object sender, EventArgs e)
 		{
 			var url = new NSUrl ("http://www.sirenofshame.com/Mobile/App");
-			var extruderName = "LEE-XPS";
+			var extruderName = NSHost.Current.Name;
 			var encryptedPassword = GetEncryptedPassword();
 			var credentialsAsString = "username=" + Username.StringValue + "&encryptedpassword=" + encryptedPassword + "&extruderName=" + extruderName;
 			NSMutableUrlRequest request = new NSMutableUrlRequest (url);
@@ -45,6 +48,14 @@ namespace SirenOfShame.Extruder.Mac
 			request["content-type"] = "application/x-www-form-urlencoded";
 
 			Browser.MainFrame.LoadRequest(request);
+
+			await _sosOnlineService.ConnectExtruder (new ConnectExtruderModel () {
+				UserName = Username.StringValue,
+				Password = encryptedPassword,
+				Name = extruderName,
+				LedPatterns = "",
+				AudioPatterns = "",
+			});
 		}
 
 		public new MainWindow Window {

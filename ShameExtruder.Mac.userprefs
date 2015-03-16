@@ -2,40 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="SirenOfShame.Extruder.Mac/Services/SosOnlineService.cs">
     <Files>
-      <File FileName="SirenOfShame.Extruder.Mac/AppDelegate.designer.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShame.Extruder.Mac/AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShame.Extruder.Mac.Test.Unit/Services/TripleDesStringEncryptorTest.cs" Line="47" Column="47" />
-      <File FileName="SirenOfShame.Extruder.PclLib/Services/ITripleDesStringEncryptor.cs" Line="3" Column="3" />
-      <File FileName="SirenOfShame.Extruder.Mac/MainWindowController.cs" Line="3" Column="3" />
-      <File FileName="SirenOfShame.Extruder.Mac/Services/TripleDesStringEncryptor.cs" Line="3" Column="3" />
-      <File FileName="SirenOfShame.Extruder.Mac/MainWindowController.designer.cs" Line="1" Column="1" />
-      <File FileName="../XamarinProjects/ShameExtruderMac/ShameExtruderMac/MainWindowController.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShame.Extruder.Mac/Models/ApiResultBase.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShame.Extruder.Mac/Models/ConnectExtruderModel.cs" Line="1" Column="1" />
-      <File FileName="SirenOfShame.Extruder.Mac/Services/SosOnlineService.cs" Line="6" Column="6" />
-      <File FileName="SirenOfShame.Extruder.Mac/Models/TrayNotifyEventArgs.cs" Line="13" Column="13" />
-      <File FileName="SirenOfShame.Extruder.Mac/Models/SetTrayIconEventArgs.cs" Line="1" Column="1" />
+      <File FileName="SirenOfShame.Extruder.Mac/MainWindowController.cs" Line="52" Column="35" />
+      <File FileName="SirenOfShame.Extruder.Mac/Services/SosOnlineService.cs" Line="21" Column="3" NotebookId="1" />
+      <File FileName="SirenOfShame.Extruder.Mac/Services/TripleDesStringEncryptor.cs" Line="1" Column="1" NotebookId="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="SirenOfShame.Extruder.Mac" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Models" expanded="True" />
-            <Node name="Services" expanded="True">
-              <Node name="SosOnlineService.cs" selected="True" />
-            </Node>
-          </Node>
-          <Node name="SirenOfShame.Extruder.PclLib" expanded="True" />
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/richardsonl/SirenOfShame/SirenOfShame.Extruder.Mac/MainWindowController.cs" line="41" column="1" />
+      <Breakpoint file="/Users/richardsonl/SirenOfShame/SirenOfShame.Extruder.Mac/MainWindowController.cs" line="50" column="4" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
