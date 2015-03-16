@@ -103,6 +103,9 @@
     <Compile Include="Models\ApiResultBase.cs" />
     <Compile Include="Models\ConnectExtruderModel.cs" />
     <Compile Include="Models\CredentialApiModel.cs" />
+    <Compile Include="Models\ModalDialogEventArgs.cs" />
+    <Compile Include="Models\TrayNotifyEventArgs.cs" />
+    <Compile Include="Models\SetTrayIconEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
