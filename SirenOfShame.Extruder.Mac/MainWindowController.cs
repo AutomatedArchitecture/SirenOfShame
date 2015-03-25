@@ -2,6 +2,8 @@
 
 using Foundation;
 using AppKit;
+using LibUsbDotNet.Main;
+using LibUsbDotNet;
 
 namespace SirenOfShame.Extruder.Mac
 {
@@ -27,6 +29,18 @@ namespace SirenOfShame.Extruder.Mac
 			base.AwakeFromNib ();
 			_sosOnlineService = new SosOnlineService ();
 			GoButton.Activated += GoButtonClicked;
+
+			UsbDeviceFinder MyUsbFinder = new UsbDeviceFinder(0x16D0, 0x0646);
+			var MyUsbDevice = UsbDevice.OpenUsbDevice (MyUsbFinder);
+			if (MyUsbDevice == null) {
+				MainLabel.StringValue = "No Device Found :(";
+			} else {
+				MainLabel.StringValue = "Found it !!!!";
+			}
+
+			// Free usb resources.
+			// This is necessary for libusb-1.0 and Linux compatibility.
+			UsbDevice.Exit();
 		}
 
 		private string GetEncryptedPassword() {
