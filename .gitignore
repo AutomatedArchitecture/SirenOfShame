@@ -96,6 +96,12 @@ Thumbs.db
 Desktop.ini
 
 ############
+# Xamarin Studio
+############
+
+*.Mac.userprefs
+
+############
 ## NCrunch
 ############
 
