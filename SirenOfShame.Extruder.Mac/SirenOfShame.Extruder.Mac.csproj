@@ -111,6 +111,7 @@
     <Compile Include="Models\TrayNotifyEventArgs.cs" />
     <Compile Include="Models\SetTrayIconEventArgs.cs" />
     <Compile Include="Services\Device\SirenOfShameDevice.cs" />
+    <Compile Include="Services\MyLogManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
