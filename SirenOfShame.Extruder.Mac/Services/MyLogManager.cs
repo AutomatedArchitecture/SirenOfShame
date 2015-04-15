@@ -3,11 +3,13 @@
 namespace SirenOfShame.Extruder.Mac
 {
 	public interface ILog {
-		void Debug (string deviceNotFound);
+		void Debug (string message);
 
-		void Info (string startingFirmwareUpgrade);
+		void Info (string message);
 
-		void Error (string readFailed, Exception ex);
+		void Error (string message, Exception ex);
+
+		void Error (string message);
 	}
 
 	public class ConsoleLog : ILog {
@@ -22,6 +24,10 @@ namespace SirenOfShame.Extruder.Mac
 		public void Error (string log, Exception ex)
 		{
 			Console.WriteLine (log + "\n" + ex);
+		}
+		public void Error (string message)
+		{
+			Console.WriteLine (message);
 		}
 	}
 

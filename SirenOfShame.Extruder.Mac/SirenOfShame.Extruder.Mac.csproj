@@ -110,8 +110,14 @@
     <Compile Include="Models\ModalDialogEventArgs.cs" />
     <Compile Include="Models\TrayNotifyEventArgs.cs" />
     <Compile Include="Models\SetTrayIconEventArgs.cs" />
-    <Compile Include="Services\Device\SirenOfShameDevice.cs" />
+    <Compile Include="Services\Device\SirenOfShameDevice.cs">
+      <DependentUpon>HardwareType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\MyLogManager.cs" />
+    <Compile Include="Services\Device\SirenOfShameInfo.cs" />
+    <Compile Include="Services\Device\HardwareType.cs" />
+    <Compile Include="Services\Device\UsbInfoPacket.cs" />
+    <Compile Include="Services\Device\UsbControlPacket.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainWindow.xib" />
@@ -127,5 +133,8 @@
       <Project>{B35ADF29-CEFB-4335-813D-CCF6899AE84D}</Project>
       <Name>SirenOfShame.Extruder.PclLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="libMyCppLib.dylib" />
   </ItemGroup>
 </Project>

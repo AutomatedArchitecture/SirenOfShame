@@ -2,6 +2,7 @@
 
 using Foundation;
 using AppKit;
+using System.Runtime.InteropServices;
 
 namespace SirenOfShame.Extruder.Mac
 {
@@ -22,19 +23,26 @@ namespace SirenOfShame.Extruder.Mac
 		{
 		}
 
+		[DllImport("libMyCppLib.dylib")]
+		public static extern int GetHelloCount(int xyz);
+
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
 			_sosOnlineService = new SosOnlineService ();
 			GoButton.Activated += GoButtonClicked;
 
-			using (var sirenOfShameDevice = new SirenOfShameDevice ()) {
-				if (sirenOfShameDevice.TryConnect ()) {
-					MainLabel.StringValue = "No Device Found :(";
-				} else {
-					MainLabel.StringValue = "Found it !!!!";
-				}
-			}
+			MainLabel.StringValue = GetHelloCount (50).ToString ();
+
+//			using (var sirenOfShameDevice = new SirenOfShameDevice ()) {
+//				if (sirenOfShameDevice.TryConnect ()) {
+//					MainLabel.StringValue = "Found it !!!!";
+//					System.Threading.Thread.Sleep (500);
+//					MainLabel.StringValue = sirenOfShameDevice.ReadDeviceInfo ();
+//				} else {
+//					MainLabel.StringValue = "No Device Found :(";
+//				}
+//			}
 		}
 
 		private string GetEncryptedPassword() {
