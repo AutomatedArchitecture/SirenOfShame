@@ -10,12 +10,16 @@
 		6A8E1FB21ADF3178009495FA /* SosDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */; };
 		6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB01ADF3178009495FA /* SosDevice.h */; };
 		6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB11ADF3178009495FA /* usbPackets.h */; };
+		6A8E1FBF1ADF3E3A009495FA /* usb.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FBE1ADF3E3A009495FA /* usb.h */; };
+		6A8E1FC11ADF3E97009495FA /* libusb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E1FC01ADF3E97009495FA /* libusb.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SosDevice.cpp; sourceTree = "<group>"; };
 		6A8E1FB01ADF3178009495FA /* SosDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SosDevice.h; sourceTree = "<group>"; };
 		6A8E1FB11ADF3178009495FA /* usbPackets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbPackets.h; sourceTree = "<group>"; };
+		6A8E1FBE1ADF3E3A009495FA /* usb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = usb.h; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/include/usb.h"; sourceTree = "<group>"; };
+		6A8E1FC01ADF3E97009495FA /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<group>"; };
 		6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCppLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -24,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A8E1FC11ADF3E97009495FA /* libusb.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +38,8 @@
 		6AB6E1BA1AD9C48900494C17 = {
 			isa = PBXGroup;
 			children = (
+				6A8E1FC01ADF3E97009495FA /* libusb.a */,
+				6A8E1FBE1ADF3E3A009495FA /* usb.h */,
 				6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */,
 				6A8E1FB01ADF3178009495FA /* SosDevice.h */,
 				6A8E1FB11ADF3178009495FA /* usbPackets.h */,
@@ -55,8 +62,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */,
 				6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */,
+				6A8E1FBF1ADF3E3A009495FA /* usb.h in Headers */,
+				6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +198,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -198,6 +210,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
