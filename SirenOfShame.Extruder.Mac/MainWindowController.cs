@@ -3,6 +3,7 @@
 using Foundation;
 using AppKit;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace SirenOfShame.Extruder.Mac
 {
@@ -24,15 +25,16 @@ namespace SirenOfShame.Extruder.Mac
 		}
 
 		[DllImport("libMyCppLib.dylib")]
-		public static extern int GetHelloCount(int xyz);
+		public static extern string GetHelloCount();
 
 		public override void AwakeFromNib ()
 		{
 			base.AwakeFromNib ();
 			_sosOnlineService = new SosOnlineService ();
 			GoButton.Activated += GoButtonClicked;
-
-			MainLabel.StringValue = GetHelloCount (50).ToString ();
+			var result = GetHelloCount ();
+			Console.WriteLine (result);
+			MainLabel.StringValue = result;
 
 //			using (var sirenOfShameDevice = new SirenOfShameDevice ()) {
 //				if (sirenOfShameDevice.TryConnect ()) {

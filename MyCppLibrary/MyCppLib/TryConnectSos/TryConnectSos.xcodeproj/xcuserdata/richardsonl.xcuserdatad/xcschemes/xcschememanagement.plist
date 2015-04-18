@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>MyCppLib.xcscheme_^#shared#^_</key>
+		<key>TryConnectSos.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6AB6E1C21AD9C48900494C17</key>
+		<key>6A315DE51AE2A66A00649590</key>
 		<dict>
 			<key>primary</key>
 			<true/>

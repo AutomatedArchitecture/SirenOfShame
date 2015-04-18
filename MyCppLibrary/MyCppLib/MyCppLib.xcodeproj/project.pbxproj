@@ -14,7 +14,18 @@
 		6A8E1FC11ADF3E97009495FA /* libusb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E1FC01ADF3E97009495FA /* libusb.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6A315DF61AE2A66B00649590 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6A315DE61AE2A66A00649590;
+			remoteInfo = TryConnectSos;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TryConnectSos.xcodeproj; path = TryConnectSos/TryConnectSos.xcodeproj; sourceTree = "<group>"; };
 		6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SosDevice.cpp; sourceTree = "<group>"; };
 		6A8E1FB01ADF3178009495FA /* SosDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SosDevice.h; sourceTree = "<group>"; };
 		6A8E1FB11ADF3178009495FA /* usbPackets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbPackets.h; sourceTree = "<group>"; };
@@ -35,9 +46,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A315DF31AE2A66A00649590 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A315DF71AE2A66B00649590 /* TryConnectSos */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6AB6E1BA1AD9C48900494C17 = {
 			isa = PBXGroup;
 			children = (
+				6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */,
 				6A8E1FC01ADF3E97009495FA /* libusb.a */,
 				6A8E1FBE1ADF3E3A009495FA /* usb.h */,
 				6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */,
@@ -107,12 +127,28 @@
 			mainGroup = 6AB6E1BA1AD9C48900494C17;
 			productRefGroup = 6AB6E1C41AD9C48900494C17 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6A315DF31AE2A66A00649590 /* Products */;
+					ProjectRef = 6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6AB6E1C21AD9C48900494C17 /* MyCppLib */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6A315DF71AE2A66B00649590 /* TryConnectSos */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = TryConnectSos;
+			remoteRef = 6A315DF61AE2A66B00649590 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6AB6E1BF1AD9C48900494C17 /* Sources */ = {
