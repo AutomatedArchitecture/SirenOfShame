@@ -9,13 +9,13 @@
 #include <string.h>
 #include <iostream>
 #include <sstream>
-#include <usb.h>
+#include <libusb.h>
 #include <stdio.h>
 #include "SosDevice.h"
 #include "usbPackets.h"
 
-int sosVendorId = 5840;
-int sosProductId = 1606;
+uint16_t sosVendorId = 5840;
+uint16_t sosProductId = 1606;
 int sosPacketSize = 1 + 37; // report id + packet length
 
 // From the HID spec:
@@ -27,28 +27,27 @@ static const int HID_REPORT_TYPE_FEATURE = 0x03;
 
 static const int INTERFACE_NUMBER = 0;
 
-static const int CONTROL_REQUEST_TYPE_IN = USB_ENDPOINT_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE;
-static const int CONTROL_REQUEST_TYPE_OUT = USB_ENDPOINT_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE;
+static const int CONTROL_REQUEST_TYPE_IN = LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
+static const int CONTROL_REQUEST_TYPE_OUT = LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE;
 
-static struct usb_device *findSos() {
-    struct usb_bus *bus;
-    struct usb_device *dev;
-    struct usb_bus *busses;
+static int perr(char const *format, ...)
+{
+	va_list args;
+	int r;
+    
+	va_start (args, format);
+	r = vfprintf(stderr, format, args);
+	va_end(args);
+    
+	return r;
+}
 
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-    
-    busses = usb_get_busses();
-    
-    for (bus = busses; bus; bus = bus->next){
-        for (dev = bus->devices; dev; dev = dev->next) {
-            if ((dev->descriptor.idVendor == sosVendorId) && (dev->descriptor.idProduct == sosProductId)) {
-                return dev;
-            }
-        }
-    }
-    return NULL;
+static struct libusb_device *findSos() {
+	libusb_device_handle *handle;
+	libusb_device *dev;
+	handle = libusb_open_device_with_vid_pid(NULL, sosVendorId, sosProductId);
+	dev = libusb_get_device(handle);
+    return dev;
 }
 
 void initControlPacket(UsbControlPacket *packet) {
@@ -67,16 +66,21 @@ void initControlPacket(UsbControlPacket *packet) {
     packet->manualLeds4 = 0xff;
 }
 
-std::string setOutputReport(int reportId, char* buf, int bufSize, usb_dev_handle *devHandle) {
+std::string setOutputReport(int reportId, unsigned char *buf, int bufSize, libusb_device_handle *devHandle) {
     std::ostringstream strstrm;
     
-    int claimResult = usb_claim_interface(devHandle, INTERFACE_NUMBER);
+    int claimResult = libusb_claim_interface(devHandle, INTERFACE_NUMBER);
     if(claimResult != 0) {
-        strstrm << "usb_claim_interface: " << " " << claimResult << " " << usb_strerror() << std::endl;
+        strstrm << "usb_claim_interface: " << " " << claimResult << " " << libusb_strerror((enum libusb_error)claimResult) << std::endl;
         return strstrm.str();
     }
     
-    int bytesSent = usb_control_msg(
+//    int LIBUSB_CALL libusb_control_transfer(libusb_device_handle *dev_handle,
+//                                            uint8_t request_type, uint8_t bRequest, uint16_t wValue, uint16_t wIndex,
+//                                            unsigned char *data, uint16_t wLength, unsigned int timeout);
+
+    
+    int bytesSent = libusb_control_transfer(
                                     devHandle,
                                     CONTROL_REQUEST_TYPE_OUT,
                                     HID_REPORT_SET,
@@ -86,19 +90,19 @@ std::string setOutputReport(int reportId, char* buf, int bufSize, usb_dev_handle
                                     bufSize,
                                     10000);
     if(bytesSent < 0) {
-        strstrm << "usb_control_msg: " << " " << bytesSent << " " << usb_strerror();
+        strstrm << "usb_control_msg: " << " " << bytesSent; // << " " << libusb_strerror();
         return strstrm.str();
     }
     
-    int releaseResult = usb_release_interface(devHandle, INTERFACE_NUMBER);
+    int releaseResult = libusb_release_interface(devHandle, INTERFACE_NUMBER);
     if(releaseResult != 0) {
-        strstrm << "usb_release_interface: " << " " << releaseResult << " " << usb_strerror();
+        strstrm << "usb_release_interface: " << " " << releaseResult << " " << libusb_strerror((enum libusb_error)releaseResult);
         return strstrm.str();
     }
     return std::string("Success!");
 }
 
-std::string sendControlPacket(usb_dev_handle *devHandle) {
+std::string sendControlPacket(libusb_device_handle *devHandle) {
     UsbControlPacket usbControlPacket;
     initControlPacket(&usbControlPacket);
     
@@ -106,31 +110,36 @@ std::string sendControlPacket(usb_dev_handle *devHandle) {
     usbControlPacket.manualLeds2 = 200;
     usbControlPacket.manualLeds4 = 200;
     try {
-        return setOutputReport(USB_REPORTID_OUT_CONTROL, (char*)&usbControlPacket, sizeof(usbControlPacket), devHandle);
+        return setOutputReport(USB_REPORTID_OUT_CONTROL, (unsigned char*)&usbControlPacket, sizeof(usbControlPacket), devHandle);
     } catch(std::exception &ex) {
         return ex.what();
     }
 }
 
 const std::string lightLights() {
+    int r;
     std::ostringstream strstrm;
-    struct usb_device *dev = findSos();
-    if (dev == NULL) {
-        return std::string("No device found");
-    }
-    usb_dev_handle *devHandle = usb_open(dev);
+//    libusb_device *dev = findSos();
+//    if (dev == NULL) {
+//        return std::string("No device found");
+//    }
+	r = libusb_init(NULL);
+    libusb_device_handle *devHandle = libusb_open_device_with_vid_pid(NULL, sosVendorId, sosProductId);
     if(devHandle == NULL) {
-        strstrm << "dev handle was null: " << " " << usb_strerror();
+		perr("  Failed.\n");
+        strstrm << "dev handle was null: "; // << " " << libusb_strerror();
         return strstrm.str();
     }
     
-    int detachResult = usb_detach_kernel_driver_np(devHandle, INTERFACE_NUMBER);
+    int detachResult = libusb_detach_kernel_driver(devHandle, INTERFACE_NUMBER);
     if(detachResult != 0 && detachResult != -61) {
-        strstrm << "usb_detach_kernel_driver_np: " << " " << detachResult << " " << usb_strerror();
+        strstrm << "usb_detach_kernel_driver_np: " << " " << detachResult << " " << libusb_strerror((enum libusb_error)detachResult);
         return strstrm.str();
     }
     
     return sendControlPacket(devHandle);
+
+ 	libusb_exit(NULL);
 }
 
 extern "C" std::string *GetHelloCount(void) {

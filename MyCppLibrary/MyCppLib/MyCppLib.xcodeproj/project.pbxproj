@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A315DFE1AE2C9A000649590 /* libusb.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A315DFC1AE2C98900649590 /* libusb.h */; };
+		6A315E021AE2E46A00649590 /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A315E011AE2E46A00649590 /* libusb-1.0.a */; };
 		6A8E1FB21ADF3178009495FA /* SosDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */; };
 		6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB01ADF3178009495FA /* SosDevice.h */; };
 		6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB11ADF3178009495FA /* usbPackets.h */; };
-		6A8E1FBF1ADF3E3A009495FA /* usb.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FBE1ADF3E3A009495FA /* usb.h */; };
-		6A8E1FC11ADF3E97009495FA /* libusb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8E1FC01ADF3E97009495FA /* libusb.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,11 +26,11 @@
 
 /* Begin PBXFileReference section */
 		6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TryConnectSos.xcodeproj; path = TryConnectSos/TryConnectSos.xcodeproj; sourceTree = "<group>"; };
+		6A315DFC1AE2C98900649590 /* libusb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libusb.h; path = "../../../../../usr/local/Cellar/libusb/1.0.19/include/libusb-1.0/libusb.h"; sourceTree = "<group>"; };
+		6A315E011AE2E46A00649590 /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libusb-1.0.a"; path = "../../../../../usr/local/Cellar/libusb/1.0.19/lib/libusb-1.0.a"; sourceTree = "<group>"; };
 		6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SosDevice.cpp; sourceTree = "<group>"; };
 		6A8E1FB01ADF3178009495FA /* SosDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SosDevice.h; sourceTree = "<group>"; };
 		6A8E1FB11ADF3178009495FA /* usbPackets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbPackets.h; sourceTree = "<group>"; };
-		6A8E1FBE1ADF3E3A009495FA /* usb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = usb.h; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/include/usb.h"; sourceTree = "<group>"; };
-		6A8E1FC01ADF3E97009495FA /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<group>"; };
 		6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCppLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A8E1FC11ADF3E97009495FA /* libusb.a in Frameworks */,
+				6A315E021AE2E46A00649590 /* libusb-1.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,9 +57,9 @@
 		6AB6E1BA1AD9C48900494C17 = {
 			isa = PBXGroup;
 			children = (
+				6A315E011AE2E46A00649590 /* libusb-1.0.a */,
+				6A315DFC1AE2C98900649590 /* libusb.h */,
 				6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */,
-				6A8E1FC01ADF3E97009495FA /* libusb.a */,
-				6A8E1FBE1ADF3E3A009495FA /* usb.h */,
 				6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */,
 				6A8E1FB01ADF3178009495FA /* SosDevice.h */,
 				6A8E1FB11ADF3178009495FA /* usbPackets.h */,
@@ -82,8 +82,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A315DFE1AE2C9A000649590 /* libusb.h in Headers */,
 				6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */,
-				6A8E1FBF1ADF3E3A009495FA /* usb.h in Headers */,
 				6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +237,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+					/usr/local/Cellar/libusb/1.0.19/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -249,6 +250,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
+					/usr/local/Cellar/libusb/1.0.19/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
