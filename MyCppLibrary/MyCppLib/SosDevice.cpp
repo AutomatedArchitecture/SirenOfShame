@@ -60,10 +60,10 @@ std::string sendControlPacket(hid_device *devHandle) {
     UsbControlPacket usbControlPacket;
     initControlPacket(&usbControlPacket);
     
-    usbControlPacket.ledMode = LED_MODE_INTERNAL_START;
-    usbControlPacket.ledPlayDuration = 500;
-    usbControlPacket.audioMode = 0;
-    usbControlPacket.audioPlayDuration = 500;
+    usbControlPacket.ledMode = 4;
+    usbControlPacket.ledPlayDuration = 100;
+    usbControlPacket.audioMode = 1;
+    usbControlPacket.audioPlayDuration = 100;
     try {
         return setOutputReport(USB_REPORTID_OUT_CONTROL, (unsigned char*)&usbControlPacket, sizeof(usbControlPacket), devHandle);
     } catch(std::exception &ex) {
