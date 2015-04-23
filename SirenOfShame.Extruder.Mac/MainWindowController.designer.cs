@@ -25,6 +25,9 @@ namespace SirenOfShame.Extruder.Mac
 		AppKit.NSSecureTextField Password { get; set; }
 
 		[Outlet]
+		AppKit.NSButton TestSirenButton { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField Username { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -32,6 +35,11 @@ namespace SirenOfShame.Extruder.Mac
 			if (Browser != null) {
 				Browser.Dispose ();
 				Browser = null;
+			}
+
+			if (GoButton != null) {
+				GoButton.Dispose ();
+				GoButton = null;
 			}
 
 			if (MainLabel != null) {
@@ -49,9 +57,9 @@ namespace SirenOfShame.Extruder.Mac
 				Username = null;
 			}
 
-			if (GoButton != null) {
-				GoButton.Dispose ();
-				GoButton = null;
+			if (TestSirenButton != null) {
+				TestSirenButton.Dispose ();
+				TestSirenButton = null;
 			}
 		}
 	}

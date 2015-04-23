@@ -127,6 +127,10 @@ const std::string lightLights() {
 	// and optionally the Serial number.
 	handle = hid_open(sosVendorId, sosProductId, NULL);
 
+    if (handle == nullptr) {
+        return "No siren found";
+    }
+    
     res = hid_get_manufacturer_string(handle, wstr, MAX_STR);
     std::wcout << L"Manufacturer String: " << wstr << std::endl;
     
@@ -153,7 +157,7 @@ const std::string lightLights() {
 	return std::string("Success");
 }
 
-extern "C" std::string *GetHelloCount(void) {
+extern "C" void *GetHelloCount(void) {
     const std::string result = lightLights();
     std::cout << result << std::endl;
     return new std::string(result);

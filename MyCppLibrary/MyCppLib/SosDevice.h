@@ -9,6 +9,6 @@
 #ifndef MyCppLibrary_SosDevice_h
 #define MyCppLibrary_SosDevice_h
 
-extern "C" std::string *GetHelloCount(void);
+extern "C" void *GetHelloCount(void);
 
 #endif

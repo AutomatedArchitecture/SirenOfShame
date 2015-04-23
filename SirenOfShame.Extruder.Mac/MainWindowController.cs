@@ -32,9 +32,7 @@ namespace SirenOfShame.Extruder.Mac
 			base.AwakeFromNib ();
 			_sosOnlineService = new SosOnlineService ();
 			GoButton.Activated += GoButtonClicked;
-			var result = GetHelloCount ();
-			Console.WriteLine (result);
-			MainLabel.StringValue = result;
+			TestSirenButton.Activated += TestSirenButtonClicked;
 
 //			using (var sirenOfShameDevice = new SirenOfShameDevice ()) {
 //				if (sirenOfShameDevice.TryConnect ()) {
@@ -51,6 +49,11 @@ namespace SirenOfShame.Extruder.Mac
 			var tdse = new TripleDesStringEncryptor ();
 			string unencryptedPassword = Password.StringValue;
 			return tdse.EncryptString(unencryptedPassword);
+		}
+
+		async void TestSirenButtonClicked (object sender, EventArgs e) 
+		{
+			GetHelloCount ();
 		}
 
 		async void GoButtonClicked (object sender, EventArgs e)

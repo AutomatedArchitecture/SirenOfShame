@@ -11,6 +11,7 @@
                 <outlet property="GoButton" destination="l8Y-kO-ilP" id="412-sV-OZJ"/>
                 <outlet property="MainLabel" destination="8Vs-QB-Ufj" id="uRz-ew-kG3"/>
                 <outlet property="Password" destination="Coo-or-E7e" id="eQ5-v2-pPk"/>
+                <outlet property="TestSirenButton" destination="9ge-JI-RAz" id="KA1-op-6Gf"/>
                 <outlet property="Username" destination="V1Y-Pm-ue4" id="fDy-JS-MGL"/>
                 <outlet property="window" destination="2" id="6"/>
             </connections>
@@ -27,7 +28,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="8Vs-QB-Ufj">
-                        <rect key="frame" x="311" y="314" width="277" height="17"/>
+                        <rect key="frame" x="18" y="287" width="570" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Dky-FM-K7R">
                             <font key="font" metaFont="system"/>
@@ -45,11 +46,19 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="l8Y-kO-ilP">
-                        <rect key="frame" x="228" y="313" width="77" height="19"/>
+                        <rect key="frame" x="228" y="313" width="39" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="Go" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XH5-s3-OOV">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="cellTitle"/>
+                        </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" id="9ge-JI-RAz">
+                        <rect key="frame" x="275" y="313" width="77" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="roundRect" title="Test Siren" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bzo-a4-Ci4">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="titleBar" size="12"/>
                         </buttonCell>
                     </button>
                     <secureTextField verticalHuggingPriority="750" id="Coo-or-E7e">
@@ -65,7 +74,7 @@
                         </secureTextFieldCell>
                     </secureTextField>
                     <webView id="m8t-7g-7pG">
-                        <rect key="frame" x="20" y="20" width="566" height="286"/>
+                        <rect key="frame" x="20" y="20" width="566" height="256"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12">
                             <nil key="identifier"/>
