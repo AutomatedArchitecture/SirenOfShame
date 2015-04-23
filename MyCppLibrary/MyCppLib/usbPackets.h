@@ -71,6 +71,7 @@ typedef struct _UsbReadAudioPacket {
 } UsbReadAudioPacket;
 
 typedef struct _UsbReadLedPacket {
+    uint8_t reportId;
 	uint8_t id;
 	char name[USB_NAME_SIZE];
 } UsbReadLedPacket;
