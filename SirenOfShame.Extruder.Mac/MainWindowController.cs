@@ -24,7 +24,7 @@ namespace SirenOfShame.Extruder.Mac
 		{
 		}
 
-		[DllImport("libMyCppLib.dylib")]
+		[DllImport("libMyCppLib")]
 		public static extern string GetHelloCount();
 
 		public override void AwakeFromNib ()
@@ -51,9 +51,13 @@ namespace SirenOfShame.Extruder.Mac
 			return tdse.EncryptString(unencryptedPassword);
 		}
 
-		async void TestSirenButtonClicked (object sender, EventArgs e) 
+		void TestSirenButtonClicked (object sender, EventArgs e) 
 		{
-			GetHelloCount ();
+			try {
+				GetHelloCount ();
+			} catch (Exception ex) {
+				MainLabel.StringValue = "Error: " + ex;
+			}
 		}
 
 		async void GoButtonClicked (object sender, EventArgs e)
