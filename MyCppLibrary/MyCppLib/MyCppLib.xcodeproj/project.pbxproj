@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A315E041AE2E59600649590 /* hidapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A315E031AE2E59600649590 /* hidapi.h */; };
-		6A315E061AE2E5B000649590 /* libhidapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A315E051AE2E5B000649590 /* libhidapi.a */; };
 		6A8E1FB21ADF3178009495FA /* SosDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */; };
 		6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB01ADF3178009495FA /* SosDevice.h */; };
 		6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A8E1FB11ADF3178009495FA /* usbPackets.h */; };
+		B87DB1511AEDB7AF00212CD9 /* hidapi.h in Headers */ = {isa = PBXBuildFile; fileRef = B87DB1501AEDB7AF00212CD9 /* hidapi.h */; };
+		B87DB1531AEDB7D600212CD9 /* libhidapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B87DB1521AEDB7D600212CD9 /* libhidapi.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,12 +26,12 @@
 
 /* Begin PBXFileReference section */
 		6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TryConnectSos.xcodeproj; path = TryConnectSos/TryConnectSos.xcodeproj; sourceTree = "<group>"; };
-		6A315E031AE2E59600649590 /* hidapi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hidapi.h; path = "../../../../../usr/local/Cellar/hidapi/0.8.0-rc1/include/hidapi/hidapi.h"; sourceTree = "<group>"; };
-		6A315E051AE2E5B000649590 /* libhidapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhidapi.a; path = "../../../../../usr/local/Cellar/hidapi/0.8.0-rc1/lib/libhidapi.a"; sourceTree = "<group>"; };
 		6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SosDevice.cpp; sourceTree = "<group>"; };
 		6A8E1FB01ADF3178009495FA /* SosDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SosDevice.h; sourceTree = "<group>"; };
 		6A8E1FB11ADF3178009495FA /* usbPackets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbPackets.h; sourceTree = "<group>"; };
 		6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCppLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B87DB1501AEDB7AF00212CD9 /* hidapi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = hidapi.h; path = ../../Libs/hidapi/include/hidapi/hidapi.h; sourceTree = "<group>"; };
+		B87DB1521AEDB7D600212CD9 /* libhidapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhidapi.a; path = ../../Libs/hidapi/lib/libhidapi.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A315E061AE2E5B000649590 /* libhidapi.a in Frameworks */,
+				B87DB1531AEDB7D600212CD9 /* libhidapi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,8 +57,8 @@
 		6AB6E1BA1AD9C48900494C17 = {
 			isa = PBXGroup;
 			children = (
-				6A315E051AE2E5B000649590 /* libhidapi.a */,
-				6A315E031AE2E59600649590 /* hidapi.h */,
+				B87DB1521AEDB7D600212CD9 /* libhidapi.a */,
+				B87DB1501AEDB7AF00212CD9 /* hidapi.h */,
 				6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */,
 				6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */,
 				6A8E1FB01ADF3178009495FA /* SosDevice.h */,
@@ -82,7 +82,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A315E041AE2E59600649590 /* hidapi.h in Headers */,
+				B87DB1511AEDB7AF00212CD9 /* hidapi.h in Headers */,
 				6A8E1FB41ADF3178009495FA /* usbPackets.h in Headers */,
 				6A8E1FB31ADF3178009495FA /* SosDevice.h in Headers */,
 			);
@@ -236,9 +236,8 @@
 				EXECUTABLE_PREFIX = lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
-					/usr/local/Cellar/libusb/1.0.19/lib,
 					"/usr/local/Cellar/hidapi/0.8.0-rc1/lib",
+					/Users/leerichardson/dev/SirenOfShame/Libs/hidapi/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -250,9 +249,8 @@
 				EXECUTABLE_PREFIX = lib;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/usr/local/Cellar/libusb-compat/0.1.5/lib",
-					/usr/local/Cellar/libusb/1.0.19/lib,
 					"/usr/local/Cellar/hidapi/0.8.0-rc1/lib",
+					/Users/leerichardson/dev/SirenOfShame/Libs/hidapi/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
