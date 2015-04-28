@@ -147,7 +147,7 @@ const std::string lightLights() {
     std::wcout << L"Indexed String 1: " << wstr << std::endl;
     
     sendControlPacket(handle);
-    //readInfo(handle);
+    readInfo(handle);
     //readLedPatterns(handle);
     
     // Finalize the hidapi library
@@ -157,8 +157,16 @@ const std::string lightLights() {
 	return std::string("Success");
 }
 
-extern "C" void *GetHelloCount(void) {
+extern "C" void ReadLedPatterns(char* ledPatterns, int& ledId) {
+    auto str = std::string("Hello World");
+
+    strcpy(ledPatterns, str.c_str());
+    
+    ledId = 53;
+}
+
+extern "C" void GetHelloCount(void) {
     const std::string result = lightLights();
     std::cout << result << std::endl;
-    return new std::string(result);
+    //return new std::string(result);
 }

@@ -51,10 +51,16 @@ namespace SirenOfShame.Extruder.Mac
 			return tdse.EncryptString(unencryptedPassword);
 		}
 
+		[DllImport("libMyCppLib", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+		public static extern void ReadLedPatterns(StringBuilder str, ref Int32 ledId);
+
 		void TestSirenButtonClicked (object sender, EventArgs e) 
 		{
 			try {
-				GetHelloCount ();
+				StringBuilder sb = new StringBuilder(20);
+				int ledId = 2;
+				ReadLedPatterns(sb, ref ledId);
+				MainLabel.StringValue = sb + " " + ledId + "!";
 			} catch (Exception ex) {
 				MainLabel.StringValue = "Error: " + ex;
 			}

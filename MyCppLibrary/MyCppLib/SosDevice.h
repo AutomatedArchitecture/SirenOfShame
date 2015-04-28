@@ -9,6 +9,8 @@
 #ifndef MyCppLibrary_SosDevice_h
 #define MyCppLibrary_SosDevice_h
 
-extern "C" void *GetHelloCount(void);
+extern "C" void GetHelloCount(void);
+
+extern "C" void ReadLedPatterns(char* ledPatterns, int& ledId);
 
 #endif
