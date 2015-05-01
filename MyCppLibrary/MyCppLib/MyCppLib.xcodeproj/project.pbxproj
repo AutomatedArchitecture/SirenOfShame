@@ -29,8 +29,8 @@
 		6A8E1FAF1ADF3178009495FA /* SosDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SosDevice.cpp; sourceTree = "<group>"; };
 		6A8E1FB01ADF3178009495FA /* SosDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SosDevice.h; sourceTree = "<group>"; };
 		6A8E1FB11ADF3178009495FA /* usbPackets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usbPackets.h; sourceTree = "<group>"; };
-		6A8E1FBE1ADF3E3A009495FA /* usb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = usb.h; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/include/usb.h"; sourceTree = "<group>"; };
-		6A8E1FC01ADF3E97009495FA /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "../../../../../usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<group>"; };
+		6A8E1FBE1ADF3E3A009495FA /* usb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = usb.h; path = "/usr/local/Cellar/libusb-compat/0.1.5/include/usb.h"; sourceTree = "<absolute>"; };
+		6A8E1FC01ADF3E97009495FA /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "/usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<absolute>"; };
 		6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCppLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 

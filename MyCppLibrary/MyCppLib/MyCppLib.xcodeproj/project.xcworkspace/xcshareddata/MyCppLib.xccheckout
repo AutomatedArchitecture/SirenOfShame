@@ -7,32 +7,32 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>BFD634C8-365A-4B48-BDF8-C7BECADF28AE</string>
 	<key>IDESourceControlProjectName</key>
-	<string>MyCppLib</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>8C24F47C-75BF-434A-BFA5-604576B9CBBA</key>
+		<key>3B151EEA6ABD5A1EC8865BFF4F6F47F2DCAF1452</key>
 		<string>https://github.com/AutomatedArchitecture/SirenOfShame.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MyCppLibrary/MyCppLib/MyCppLib.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>8C24F47C-75BF-434A-BFA5-604576B9CBBA</key>
+		<key>3B151EEA6ABD5A1EC8865BFF4F6F47F2DCAF1452</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/AutomatedArchitecture/SirenOfShame.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>8C24F47C-75BF-434A-BFA5-604576B9CBBA</string>
+	<string>3B151EEA6ABD5A1EC8865BFF4F6F47F2DCAF1452</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>8C24F47C-75BF-434A-BFA5-604576B9CBBA</string>
+			<string>3B151EEA6ABD5A1EC8865BFF4F6F47F2DCAF1452</string>
 			<key>IDESourceControlWCCName</key>
 			<string>SirenOfShame</string>
 		</dict>
