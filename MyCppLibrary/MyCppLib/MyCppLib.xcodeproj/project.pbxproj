@@ -22,6 +22,13 @@
 			remoteGlobalIDString = 6A315DE61AE2A66A00649590;
 			remoteInfo = TryConnectSos;
 		};
+		B8E8D89C1AF44B31008A4754 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8E8D8981AF44B30008A4754 /* sos-kext.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B8E8D88C1AF44B30008A4754;
+			remoteInfo = "sos-kext";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +39,7 @@
 		6A8E1FBE1ADF3E3A009495FA /* usb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = usb.h; path = "/usr/local/Cellar/libusb-compat/0.1.5/include/usb.h"; sourceTree = "<absolute>"; };
 		6A8E1FC01ADF3E97009495FA /* libusb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libusb.a; path = "/usr/local/Cellar/libusb-compat/0.1.5/lib/libusb.a"; sourceTree = "<absolute>"; };
 		6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMyCppLib.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8E8D8981AF44B30008A4754 /* sos-kext.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "sos-kext.xcodeproj"; path = "sos-kext/sos-kext.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +65,7 @@
 		6AB6E1BA1AD9C48900494C17 = {
 			isa = PBXGroup;
 			children = (
+				B8E8D8981AF44B30008A4754 /* sos-kext.xcodeproj */,
 				6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */,
 				6A8E1FC01ADF3E97009495FA /* libusb.a */,
 				6A8E1FBE1ADF3E3A009495FA /* usb.h */,
@@ -71,6 +80,14 @@
 			isa = PBXGroup;
 			children = (
 				6AB6E1C31AD9C48900494C17 /* libMyCppLib.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B8E8D8991AF44B30008A4754 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B8E8D89D1AF44B31008A4754 /* sos-kext.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -129,6 +146,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = B8E8D8991AF44B30008A4754 /* Products */;
+					ProjectRef = B8E8D8981AF44B30008A4754 /* sos-kext.xcodeproj */;
+				},
+				{
 					ProductGroup = 6A315DF31AE2A66A00649590 /* Products */;
 					ProjectRef = 6A315DF21AE2A66A00649590 /* TryConnectSos.xcodeproj */;
 				},
@@ -146,6 +167,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = TryConnectSos;
 			remoteRef = 6A315DF61AE2A66B00649590 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B8E8D89D1AF44B31008A4754 /* sos-kext.kext */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "sos-kext.kext";
+			remoteRef = B8E8D89C1AF44B31008A4754 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
