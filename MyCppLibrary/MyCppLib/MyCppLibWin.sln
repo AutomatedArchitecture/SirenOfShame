@@ -1,26 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyCppLibWin", "MyCppLibWin.vcxproj", "{CEFF1515-E221-4742-AC69-625E992332FB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyCppLibWin", "MyCppLibWin.vcxproj", "{4A4E8A88-FCF4-4161-865C-24430D1360E2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SosCmd", "..\SosCmd\SosCmd.vcxproj", "{2ABBF499-D9EC-4C4A-ADAC-5115160EA66B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SosCmd", "..\SosCmd\SosCmd.vcxproj", "{934A9443-37DE-438A-B86A-22FF42750321}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CEFF1515-E221-4742-AC69-625E992332FB}.Debug|x86.ActiveCfg = Debug|Win32
-		{CEFF1515-E221-4742-AC69-625E992332FB}.Debug|x86.Build.0 = Debug|Win32
-		{CEFF1515-E221-4742-AC69-625E992332FB}.Release|x86.ActiveCfg = Release|Win32
-		{CEFF1515-E221-4742-AC69-625E992332FB}.Release|x86.Build.0 = Release|Win32
-		{2ABBF499-D9EC-4C4A-ADAC-5115160EA66B}.Debug|x86.ActiveCfg = Debug|Win32
-		{2ABBF499-D9EC-4C4A-ADAC-5115160EA66B}.Debug|x86.Build.0 = Debug|Win32
-		{2ABBF499-D9EC-4C4A-ADAC-5115160EA66B}.Release|x86.ActiveCfg = Release|Win32
-		{2ABBF499-D9EC-4C4A-ADAC-5115160EA66B}.Release|x86.Build.0 = Release|Win32
+		{4A4E8A88-FCF4-4161-865C-24430D1360E2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A4E8A88-FCF4-4161-865C-24430D1360E2}.Debug|Win32.Build.0 = Debug|Win32
+		{4A4E8A88-FCF4-4161-865C-24430D1360E2}.Release|Win32.ActiveCfg = Release|Win32
+		{4A4E8A88-FCF4-4161-865C-24430D1360E2}.Release|Win32.Build.0 = Release|Win32
+		{934A9443-37DE-438A-B86A-22FF42750321}.Debug|Win32.ActiveCfg = Debug|Win32
+		{934A9443-37DE-438A-B86A-22FF42750321}.Debug|Win32.Build.0 = Debug|Win32
+		{934A9443-37DE-438A-B86A-22FF42750321}.Release|Win32.ActiveCfg = Release|Win32
+		{934A9443-37DE-438A-B86A-22FF42750321}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

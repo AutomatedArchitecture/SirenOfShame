@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Lee Richardson. All rights reserved.
 //
 
+#include <stdint.h>
 #include <string.h>
 #include <iostream>
 #include <sstream>
