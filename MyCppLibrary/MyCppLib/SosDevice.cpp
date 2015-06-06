@@ -49,18 +49,19 @@ void initControlPacket(UsbControlPacket *packet) {
 
 std::string setOutputReport(uint8_t reportId, unsigned char *buf, int bufSize, hid_device *devHandle) {
     std::ostringstream strstrm;
-    
+
     buf[0] = reportId;
     int result = hid_write(devHandle, buf, sosPacketSize);
     std::cout << "hid_write: " << result << std::endl;
-    
+
     return std::string("Success!");
 }
 
 std::string sendControlPacket(hid_device *devHandle) {
     UsbControlPacket usbControlPacket;
     initControlPacket(&usbControlPacket);
-    
+
+    usbControlPacket.controlByte1 = CONTROL_BYTE1_IGNORE;
     usbControlPacket.ledMode = 4;
     usbControlPacket.ledPlayDuration = 15;
     //usbControlPacket.audioMode = 1;
@@ -74,7 +75,7 @@ std::string sendControlPacket(hid_device *devHandle) {
 
 void printBuf(unsigned char* buf) {
     for (int i = 0; i < sizeof(buf); i++)
-		printf("buf[%d]: %d\n", i, buf[i]);
+        printf("buf[%d]: %d\n", i, buf[i]);
 }
 
 void getInputReport(uint8_t reportId, unsigned char* buf, hid_device *handle) {
@@ -119,50 +120,50 @@ void readInfo(hid_device *handle) {
 const std::string lightLights() {
     std::ostringstream strstrm;
     int res;
-	hid_device *handle;
+    hid_device *handle;
     wchar_t wstr[MAX_STR];
-    
+
     res = hid_init();
-    
+
     // Open the device using the VID, PID,
-	// and optionally the Serial number.
-	handle = hid_open(sosVendorId, sosProductId, NULL);
+    // and optionally the Serial number.
+    handle = hid_open(sosVendorId, sosProductId, NULL);
 
     if (handle == nullptr) {
         return "No siren found";
     }
-    
+
     res = hid_get_manufacturer_string(handle, wstr, MAX_STR);
     std::wcout << L"Manufacturer String: " << wstr << std::endl;
-    
+
     // Read the Product String
-	res = hid_get_product_string(handle, wstr, MAX_STR);
+    res = hid_get_product_string(handle, wstr, MAX_STR);
     std::wcout << L"Product String: " << wstr << std::endl;
-    
+
     // Read the Serial Number String
-	res = hid_get_serial_number_string(handle, wstr, MAX_STR);
+    res = hid_get_serial_number_string(handle, wstr, MAX_STR);
     std::wcout << L"Serial Number String: " << wstr << std::endl;
-    
+
     // Read Indexed String 1
-	res = hid_get_indexed_string(handle, 1, wstr, MAX_STR);
+    res = hid_get_indexed_string(handle, 1, wstr, MAX_STR);
     std::wcout << L"Indexed String 1: " << wstr << std::endl;
-    
+
     sendControlPacket(handle);
     readInfo(handle);
     //readLedPatterns(handle);
-    
+
     // Finalize the hidapi library
     hid_close(handle);
-	res = hid_exit();
-    
-	return std::string("Success");
+    res = hid_exit();
+
+    return std::string("Success");
 }
 
 extern "C" void ReadLedPatterns(char* ledPatterns, int& ledId) {
     auto str = std::string("Hello World");
 
     strcpy(ledPatterns, str.c_str());
-    
+
     ledId = 53;
 }
 

@@ -14,6 +14,13 @@
 
 #define USB_NAME_SIZE 20
 
+// control byte 1 flags
+#define CONTROL_BYTE1_IGNORE			0xff
+#define CONTROL_BYTE1_FIRMWARE_UPGRADE	0x01
+#define CONTROL_BYTE1_ECHO_ON			0x02
+#define CONTROL_BYTE1_DEBUG				0x04
+
+
 // audio modes
 #define AUDIO_MODE_OFF            0
 #define AUDIO_MODE_INTERNAL_START 1
