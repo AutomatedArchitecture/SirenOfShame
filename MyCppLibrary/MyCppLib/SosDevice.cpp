@@ -6,6 +6,13 @@
 //  Copyright (c) 2015 Lee Richardson. All rights reserved.
 //
 
+#include <chrono>
+#include <thread>
+
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 #include <stdint.h>
 #include <string.h>
 #include <iostream>
@@ -49,18 +56,18 @@ void initControlPacket(UsbControlPacket *packet) {
 
 std::string setOutputReport(uint8_t reportId, unsigned char *buf, int bufSize, hid_device *devHandle) {
     std::ostringstream strstrm;
-
+    
     buf[0] = reportId;
     int result = hid_write(devHandle, buf, sosPacketSize);
     std::cout << "hid_write: " << result << std::endl;
-
+    
     return std::string("Success!");
 }
 
 std::string sendControlPacket(hid_device *devHandle) {
     UsbControlPacket usbControlPacket;
     initControlPacket(&usbControlPacket);
-
+    
     usbControlPacket.controlByte1 = CONTROL_BYTE1_IGNORE;
     usbControlPacket.ledMode = 4;
     usbControlPacket.ledPlayDuration = 15;
@@ -74,17 +81,37 @@ std::string sendControlPacket(hid_device *devHandle) {
 }
 
 void printBuf(unsigned char* buf) {
-    for (int i = 0; i < sizeof(buf); i++)
-        printf("buf[%d]: %d\n", i, buf[i]);
+    for (int i = 0; i < sosPacketSize; i++)
+        printf("%d", buf[i]);
+    printf("\n");
 }
 
-void getInputReport(uint8_t reportId, unsigned char* buf, hid_device *handle) {
+void getInputReport(uint8_t reportId, unsigned char* bufParent, hid_device *handle) {
+    unsigned char buf[38];
+    //for (int i = 0; i < 38; i++)
+    //{
+    //    buf[i] = 0;
+    //}
+	memset(buf, 0, 38);
+	buf[0] = reportId;
+
     int res = 0;
     std::cout << "begin hid_read" << std::endl;
-    hid_set_nonblocking(handle, false);
-    buf[0] = reportId;
-    res = hid_read_timeout(handle, buf, sizeof(buf), 1000);
-    std::cout << "end hid_read ReportId " << (int)reportId << " = " << res << " bytes read, byte 1 = " << (int)buf[1] << std::endl;
+    hid_set_nonblocking(handle, 0);
+    //buf[0] = reportId;
+
+    printBuf(buf);
+
+    //hid_send_feature_report(handle, buf, sosPacketSize);
+    //hid_write(handle, buf, sosPacketSize);
+    
+    //printBuf(buf);
+
+	//res = hid_get_feature_report(handle, buf, sizeof(buf));
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    res = hid_read(handle, buf, sizeof(buf));
+    std::cout << "res = " << res << " bytes read" << std::endl;
+    
     printBuf(buf);
 }
 
@@ -95,6 +122,7 @@ void initReadLedPacket(UsbReadLedPacket *packet) {
 void readLedPatterns(hid_device *handle) {
     UsbControlPacket usbControlPacket;
     initControlPacket(&usbControlPacket);
+	usbControlPacket.controlByte1 = CONTROL_BYTE1_IGNORE;
     usbControlPacket.readLedIndex = 0;
     setOutputReport(USB_REPORTID_OUT_CONTROL, (unsigned char*)&usbControlPacket, sizeof(usbControlPacket), handle);
 
@@ -111,10 +139,17 @@ void initInfoPacket(UsbInfoPacket *packet) {
 void readInfo(hid_device *handle) {
     UsbInfoPacket usbInfoPacket;
     initInfoPacket(&usbInfoPacket);
-    getInputReport(USB_REPORTID_IN_INFO, (unsigned char*)&usbInfoPacket, handle);
-    std::cout << "version: " << usbInfoPacket.version << std::endl;
-    std::cout << "hardwareVersion: " << usbInfoPacket.hardwareVersion << std::endl;
-    std::cout << "externalMemorySize: " << usbInfoPacket.externalMemorySize << std::endl;
+
+    try {
+        getInputReport(USB_REPORTID_IN_INFO, (unsigned char*)&usbInfoPacket, handle);
+    }
+    catch (std::exception &ex) {
+        std::cout << ex.what();
+    }
+    
+    //std::cout << "version: " << usbInfoPacket.version << std::endl;
+    //std::cout << "hardwareVersion: " << usbInfoPacket.hardwareVersion << std::endl;
+    //std::cout << "externalMemorySize: " << usbInfoPacket.externalMemorySize << std::endl;
 }
 
 const std::string lightLights() {
@@ -124,9 +159,16 @@ const std::string lightLights() {
     wchar_t wstr[MAX_STR];
 
     res = hid_init();
-
+    
     // Open the device using the VID, PID,
     // and optionally the Serial number.
+
+	hid_device_info *devices = hid_enumerate(sosVendorId, sosProductId);
+	std::wcout << devices[0].manufacturer_string << std::endl;
+	std::wcout << devices[0].vendor_id << std::endl;
+	std::wcout << devices[0].product_id;
+	hid_free_enumeration(devices);
+
     handle = hid_open(sosVendorId, sosProductId, NULL);
 
     if (handle == nullptr) {
@@ -135,27 +177,27 @@ const std::string lightLights() {
 
     res = hid_get_manufacturer_string(handle, wstr, MAX_STR);
     std::wcout << L"Manufacturer String: " << wstr << std::endl;
-
+    
     // Read the Product String
     res = hid_get_product_string(handle, wstr, MAX_STR);
     std::wcout << L"Product String: " << wstr << std::endl;
-
+    
     // Read the Serial Number String
     res = hid_get_serial_number_string(handle, wstr, MAX_STR);
     std::wcout << L"Serial Number String: " << wstr << std::endl;
-
+    
     // Read Indexed String 1
     res = hid_get_indexed_string(handle, 1, wstr, MAX_STR);
     std::wcout << L"Indexed String 1: " << wstr << std::endl;
-
-    sendControlPacket(handle);
-    readInfo(handle);
-    //readLedPatterns(handle);
-
+    
+    //sendControlPacket(handle);
+    //readInfo(handle);
+    readLedPatterns(handle);
+    
     // Finalize the hidapi library
     hid_close(handle);
     res = hid_exit();
-
+    
     return std::string("Success");
 }
 
@@ -163,7 +205,7 @@ extern "C" void ReadLedPatterns(char* ledPatterns, int& ledId) {
     auto str = std::string("Hello World");
 
     strcpy(ledPatterns, str.c_str());
-
+    
     ledId = 53;
 }
 
