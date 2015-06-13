@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.Mac.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.PclLib", "SirenOfShame.Extruder.PclLib\SirenOfShame.Extruder.PclLib.csproj", "{B35ADF29-CEFB-4335-813D-CCF6899AE84D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Extruder.Mac.Cmd", "SirenOfShame.Extruder.Mac.Cmd\SirenOfShame.Extruder.Mac.Cmd.csproj", "{AF75D6FD-D64B-4158-B753-36872C5EA3FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,12 @@ Global
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2993E86D-95BD-4CA4-8C07-4EF68C288C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF75D6FD-D64B-4158-B753-36872C5EA3FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
 		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.AppStore|Any CPU.Build.0 = Release|Any CPU
 		{B35ADF29-CEFB-4335-813D-CCF6899AE84D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
