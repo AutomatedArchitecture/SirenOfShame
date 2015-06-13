@@ -1,6 +1,7 @@
 ﻿using System;
 using HidSharp;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace SirenOfShame.Extruder.Mac.Cmd
 {
@@ -44,19 +45,22 @@ The operating system name for this device is:
 
 			using (stream) {
 				var bytes = new byte[device.MaxInputReportLength];
-				for (var i = 0; i < device.MaxInputReportLength; i++) {
-					bytes [i] = 0xff;
-				}
-				bytes [0] = USB_REPORTID_OUT_CONTROL; // ReportId
-				bytes [1] = 0; // controlByte1
-				bytes [2] = 0; // audio mode
-				bytes [3] = 0; // led mode
-				bytes [4] = 0xff;	// audio play duration 1
-				bytes [5] = 0xff;	// audio play duration 2
-					// led play duration 1
-					// led play duration 2
-					// readAudioIndex
-					// readLedIndex
+				UsbControlPacket usbControlPacket = new UsbControlPacket ();
+				usbControlPacket.ReportId = USB_REPORTID_OUT_CONTROL;
+				usbControlPacket.ControlByte1 = 0;
+				usbControlPacket.AudioMode = 0;
+				usbControlPacket.AudioDuration = 0;
+				usbControlPacket.LedMode = LED_MODE_INTERNAL_START;
+				usbControlPacket.LedDuration = 0xffff;
+				usbControlPacket.ReadAudioIndex = 0xff;
+				usbControlPacket.ReadLedIndex = 0xff;
+				usbControlPacket.ManualLeds0 = 0xff;
+				usbControlPacket.ManualLeds1 = 0xff;
+				usbControlPacket.ManualLeds2 = 0xff;
+				usbControlPacket.ManualLeds3 = 0xff;
+				usbControlPacket.ManualLeds4 = 0xff;
+
+				bytes = getBytes (usbControlPacket);
 
 				try {
 					stream.Write (bytes);
@@ -67,6 +71,18 @@ The operating system name for this device is:
 				}
 
 			}
+		}
+
+		private static byte[] getBytes(UsbControlPacket str) {
+			int size = Marshal.SizeOf(str);
+			byte[] arr = new byte[size];
+			IntPtr ptr = Marshal.AllocHGlobal(size);
+
+			Marshal.StructureToPtr(str, ptr, true);
+			Marshal.Copy(ptr, arr, 0, size);
+			Marshal.FreeHGlobal(ptr);
+
+			return arr;
 		}
 	}
 }
