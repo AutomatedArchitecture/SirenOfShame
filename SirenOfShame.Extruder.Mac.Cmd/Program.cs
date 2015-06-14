@@ -2,6 +2,7 @@
 using HidSharp;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace SirenOfShame.Extruder.Mac.Cmd
 {
@@ -15,8 +16,15 @@ namespace SirenOfShame.Extruder.Mac.Cmd
 		private const int LED_MODE_OFF = 0;
 		private const int LED_MODE_MANUAL = 1;
 		private const int LED_MODE_INTERNAL_START = 2;
+
 		public const int ReportId_Out_ControlPacket = 1;
+		public const byte ReportId_Out_Upload = 2;
+		public const byte ReportId_In_Info = 1;
+		public const byte ReportId_In_ReadAudioPacket = 3;
+		public const byte ReportId_In_ReadLedPacket = 4;
+
 		private const UInt16 Duration_Forever = 0xfffe;
+		private const int PacketSize = 1 + 37; // report id + packet length
 
 		private const int USB_REPORTID_OUT_CONTROL = 1;
 
@@ -40,7 +48,39 @@ namespace SirenOfShame.Extruder.Mac.Cmd
 			}
 
 			using (stream) {
-				PlayLightPattern (stream, new LedPattern { Id = 2 }, new TimeSpan (0, 0, 10));
+				//PlayLightPattern (stream, new LedPattern { Id = 2 }, new TimeSpan (0, 0, 2));
+
+				//SendControlPacket(stream, readAudioIndex: 0);
+
+				var usbControlPacket = new UsbControlPacket {
+					ReportId = ReportId_In_Info,
+					ControlByte1 = 0,
+					AudioMode = 0,
+					AudioDuration = 0,
+					LedMode = 0,
+					LedDuration = 0,
+					ReadAudioIndex = 0,
+					ReadLedIndex = 0,
+					ManualLeds0 = 0,
+					ManualLeds1 = 0,
+					ManualLeds2 = 0,
+					ManualLeds3 = 0,
+					ManualLeds4 = 0
+				};
+
+				try {
+					var bytes = getBytes (usbControlPacket);
+
+					stream.Write (bytes);
+					Thread.Sleep(500);
+					stream.Read(bytes);
+
+					for (int i = 0; i < 15; i++) {
+						Console.WriteLine (bytes[i]);
+					}
+				} catch (TimeoutException) {
+					Console.WriteLine ("Read timed out.");
+				}
 			}
 		}
 
