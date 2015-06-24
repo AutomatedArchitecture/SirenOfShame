@@ -17,8 +17,10 @@ namespace SirenOfShame.Cmd
         private const int LED_MODE_MANUAL = 1;
         private const int LED_MODE_INTERNAL_START = 2;
 
-        public const int ReportId_Out_ControlPacket = 1;
+        public const byte ReportId_Out_ControlPacket = 1;
         public const byte ReportId_Out_Upload = 2;
+        public const byte USB_REPORTID_OUT_LED_CONTROL = 3;
+        public const byte USB_REPORTID_INOUT = 5;
         public const byte ReportId_In_Info = 1;
         public const byte ReportId_In_ReadAudioPacket = 3;
         public const byte ReportId_In_ReadLedPacket = 4;
@@ -40,6 +42,7 @@ namespace SirenOfShame.Cmd
             if (device == null)
             {
                 Console.WriteLine("Failed to open device.");
+                Console.ReadKey();
                 Environment.Exit(1);
             }
 
@@ -55,6 +58,10 @@ namespace SirenOfShame.Cmd
             using (stream)
             {
                 PlayLightPattern (stream, new LedPattern { Id = 2 }, new TimeSpan (0, 0, 10));
+
+                //var bytes = new byte[PacketSize];
+                //bytes[0] = ReportId_In_Info;
+                //stream.Read(bytes, 0, PacketSize);
             }
 
             Console.ReadKey();
@@ -74,7 +81,7 @@ namespace SirenOfShame.Cmd
         }
 
         private static void SendControlPacket(HidStream stream,
-                                              //byte reportId = ReportId_Out_ControlPacket,
+                                              byte reportId = ReportId_Out_ControlPacket,
                                               ControlByte1Flags controlByte = ControlByte1Flags.Ignore,
                                               byte audioMode = (byte)0xff, UInt16 audioDuration = (UInt16)0xffff,
                                               byte ledMode = (byte)0xff, UInt16 ledDuration = (UInt16)0xffff,
@@ -88,7 +95,7 @@ namespace SirenOfShame.Cmd
         {
             var usbControlPacket = new UsbControlPacket
             {
-                ReportId = ReportId_Out_ControlPacket,
+                ReportId = reportId,
                 ControlByte1 = controlByte,
                 AudioMode = audioMode,
                 AudioDuration = audioDuration,
@@ -106,8 +113,9 @@ namespace SirenOfShame.Cmd
             try
             {
                 var bytes = getBytes(usbControlPacket);
-                //WriteBytes("Sending: ", bytes);
+                WriteBytes("Sending: ", bytes);
                 stream.Write(bytes);
+                WriteBytes("Received: ", bytes);
             }
             catch (TimeoutException)
             {
@@ -120,7 +128,7 @@ namespace SirenOfShame.Cmd
             Console.Write(msg);
             for (int i = 0; i < 14; i++)
             {
-                Console.Write(bytes[i]);
+                Console.Write("{0:X}", bytes[i]);
             }
             Console.WriteLine("");
         }
