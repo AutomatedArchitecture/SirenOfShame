@@ -48,39 +48,39 @@ namespace SirenOfShame.Extruder.Mac.Cmd
 			}
 
 			using (stream) {
-				//PlayLightPattern (stream, new LedPattern { Id = 2 }, new TimeSpan (0, 0, 2));
+				PlayLightPattern (stream, new LedPattern { Id = 2 }, new TimeSpan (0, 0, 10));
 
 				//SendControlPacket(stream, readAudioIndex: 0);
 
-				var usbControlPacket = new UsbControlPacket {
-					ReportId = ReportId_In_Info,
-					ControlByte1 = 0,
-					AudioMode = 0,
-					AudioDuration = 0,
-					LedMode = 0,
-					LedDuration = 0,
-					ReadAudioIndex = 0,
-					ReadLedIndex = 0,
-					ManualLeds0 = 0,
-					ManualLeds1 = 0,
-					ManualLeds2 = 0,
-					ManualLeds3 = 0,
-					ManualLeds4 = 0
-				};
-
-				try {
-					var bytes = getBytes (usbControlPacket);
-
-					stream.Write (bytes);
-					Thread.Sleep(500);
-					stream.Read(bytes);
-
-					for (int i = 0; i < 15; i++) {
-						Console.WriteLine (bytes[i]);
-					}
-				} catch (TimeoutException) {
-					Console.WriteLine ("Read timed out.");
-				}
+//				var usbControlPacket = new UsbControlPacket {
+//					ReportId = ReportId_In_Info,
+//					ControlByte1 = 0,
+//					AudioMode = 0,
+//					AudioDuration = 0,
+//					LedMode = 0,
+//					LedDuration = 0,
+//					ReadAudioIndex = 0,
+//					ReadLedIndex = 0,
+//					ManualLeds0 = 0,
+//					ManualLeds1 = 0,
+//					ManualLeds2 = 0,
+//					ManualLeds3 = 0,
+//					ManualLeds4 = 0
+//				};
+//
+//				try {
+//					var bytes = getBytes (usbControlPacket);
+//
+//					stream.Write (bytes);
+//					Thread.Sleep(500);
+//					stream.Read(bytes);
+//
+//					for (int i = 0; i < 15; i++) {
+//						Console.WriteLine (bytes[i]);
+//					}
+//				} catch (TimeoutException) {
+//					Console.WriteLine ("Read timed out.");
+//				}
 			}
 		}
 
