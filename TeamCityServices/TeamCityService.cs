@@ -61,9 +61,8 @@ namespace TeamCityServices
                     }
 
                     XElement buildTypes = projectDoc.Root.Element("buildTypes");
-                    if (buildTypes == null)
-                        throw new ArgumentException("buildTypes was null for " + project.Name +
-                                                    ", this shouldn't happen");
+                    if (buildTypes == null) 
+                        throw new ArgumentException(string.Format("buildTypes was null for {0}, this shouldn't happen", project.Name));
                     project.BuildDefinitions = buildTypes
                         .Elements("buildType")
                         .Select(buildTypeXml => new TeamCityBuildDefinition(project.RootUrl, buildTypeXml))

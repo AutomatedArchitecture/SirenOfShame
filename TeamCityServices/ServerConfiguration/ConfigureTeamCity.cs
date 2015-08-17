@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,22 +51,12 @@ namespace TeamCityServices.ServerConfiguration
             _projects.Nodes.Clear();
         }
 
-        //private void ClearProjectNodes(TreeNodeCollection nodes)
-        //{
-        //    var treeNodes = nodes.Cast<TreeNode>().ToArray();
-        //    foreach (var treeNode in treeNodes)
-        //    {
-        //        treeNode.Tag = null;
-        //        _projects.Nodes.Remove(treeNode);
-        //    }
-        //}
-
         private async Task ReloadProjects()
         {
             try
             {
                 ClearProjectNodes();
-                _projects.Nodes.Add("Loading...");
+                _projects.Nodes.Add(PLACEHODER_TEXT);
                 try
                 {
                     var projects = await _service.GetProjects(_url.Text, _userName.Text, _password.Text);
@@ -75,7 +66,8 @@ namespace TeamCityServices.ServerConfiguration
                 {
                     GetProjectsError(ex);
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -96,13 +88,15 @@ namespace TeamCityServices.ServerConfiguration
 
         private void GetProjectsComplete(TeamCityProject[] projects)
         {
-            _ciEntryPointSetting.Url = _url.Text;
-            _ciEntryPointSetting.UserName = _userName.Text;
-            _ciEntryPointSetting.SetPassword(_password.Text);
-            Settings.Save();
-
+            SaveCredentials();
             ClearProjectNodes();
+            AddProjectsAndBuildDefinitions(projects);
+        }
+
+        private void AddProjectsAndBuildDefinitions(TeamCityProject[] projects)
+        {
             var teamCityProjects = projects.OrderBy(i => i.Name);
+            var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active).ToList();
             foreach (TeamCityProject project in teamCityProjects)
             {
                 bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
@@ -112,11 +106,37 @@ namespace TeamCityServices.ServerConfiguration
                     Tag = project,
                     State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
                 };
-                node.State = CheckBoxState.Indeterminate;
-                node.Nodes.Add(PLACEHODER_TEXT);
+
+                foreach (var buildDefinition in project.BuildDefinitions)
+                {
+                    AddBuildDefinition(buildDefinition, node, activeBuildDefinitionSettings);
+                }
+
                 _projects.Nodes.Add(node);
-                //LoadBuildDefinitions(node);
             }
+        }
+
+        private void SaveCredentials()
+        {
+            _ciEntryPointSetting.Url = _url.Text;
+            _ciEntryPointSetting.UserName = _userName.Text;
+            _ciEntryPointSetting.SetPassword(_password.Text);
+            Settings.Save();
+        }
+
+        public void AddBuildDefinition(TeamCityBuildDefinition buildDefinition, ThreeStateTreeNode parentProjectNode, IEnumerable<BuildDefinitionSetting> activeBuildDefinitionSettings)
+        {
+            ThreeStateTreeNode buildDefinitionNode = new ThreeStateTreeNode(buildDefinition.Name)
+            {
+                Tag = buildDefinition
+            };
+            var buildDefSettings = activeBuildDefinitionSettings.FirstOrDefault(bd => bd.Id == buildDefinition.Id);
+            if (buildDefSettings != null)
+            {
+                buildDefinitionNode.State = buildDefSettings.Active ? CheckBoxState.Checked : CheckBoxState.Unchecked;
+            }
+            parentProjectNode.Nodes.Add(buildDefinitionNode);
+            buildDefinitionNode.UpdateStateOfRelatedNodes();
         }
 
         //private void ProjectsBeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -128,25 +148,13 @@ namespace TeamCityServices.ServerConfiguration
         //{
         //    var tag = node.Tag as TeamCityProject;
         //    if (tag == null || node.Nodes.Count != 1 || node.Nodes[0].Text != PLACEHODER_TEXT) return;
-            
+
         //    _service.GetBuildDefinitions(tag, _userName.Text, _password.Text, buildDefinitions =>
         //    {
         //        ClearProjectNodes(node.Nodes);
         //        var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active);
         //        foreach (TeamCityBuildDefinition buildDefinition in buildDefinitions)
         //        {
-        //            TeamCityBuildDefinition definition = buildDefinition;
-        //            ThreeStateTreeNode buildDefinitionNode = new ThreeStateTreeNode(buildDefinition.Name)
-        //            {
-        //                Tag = buildDefinition
-        //            };
-        //            var buildDefSettings = activeBuildDefinitionSettings.FirstOrDefault(bd => bd.Id == definition.Id);
-        //            if (buildDefSettings != null)
-        //            {
-        //                buildDefinitionNode.State = buildDefSettings.Active ? CheckBoxState.Checked : CheckBoxState.Unchecked;
-        //            }
-        //            node.Nodes.Add(buildDefinitionNode);
-        //            buildDefinitionNode.UpdateStateOfRelatedNodes();
         //        }
         //    });
         //}
