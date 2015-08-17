@@ -13,7 +13,7 @@ namespace TeamCityServices.ServerConfiguration
 {
     public partial class ConfigureTeamCity : ConfigureServerBase
     {
-        private const string PLACEHODER_TEXT = "Loading...";
+        private const string PLACEHOLDER_TEXT = "Loading...";
         private readonly TeamCityCiEntryPoint _teamCityCiEntryPoint;
         private readonly TeamCityService _service = new TeamCityService();
         private readonly CiEntryPointSetting _ciEntryPointSetting;
@@ -56,11 +56,15 @@ namespace TeamCityServices.ServerConfiguration
             try
             {
                 ClearProjectNodes();
-                _projects.Nodes.Add(PLACEHODER_TEXT);
+                _projects.Nodes.Add(PLACEHOLDER_TEXT);
                 try
                 {
-                    var projects = await _service.GetProjects(_url.Text, _userName.Text, _password.Text);
-                    GetProjectsComplete(projects);
+                    var projectsResult = await Task.Run(async () =>
+                    {
+                        var projects = await _service.GetProjects(_url.Text, _userName.Text, _password.Text);
+                        return projects;
+                    });
+                    GetProjectsComplete(projectsResult);
                 }
                 catch (Exception ex)
                 {
