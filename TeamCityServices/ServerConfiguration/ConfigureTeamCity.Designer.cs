@@ -29,7 +29,7 @@ namespace TeamCityServices.ServerConfiguration {
             this._url = new System.Windows.Forms.TextBox();
             this._userName = new System.Windows.Forms.TextBox();
             this._password = new System.Windows.Forms.TextBox();
-            this._connect = new SosButton();
+            this._connect = new SirenOfShame.Lib.SosButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -64,6 +64,9 @@ namespace TeamCityServices.ServerConfiguration {
             // _connect
             // 
             this._connect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._connect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._connect.ForeColor = System.Drawing.Color.White;
             this._connect.Location = new System.Drawing.Point(317, 82);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
@@ -109,8 +112,6 @@ namespace TeamCityServices.ServerConfiguration {
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(389, 120);
             this._projects.TabIndex = 4;
-            this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
-            this._projects.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.ProjectsBeforeExpand);
             // 
             // label4
             // 

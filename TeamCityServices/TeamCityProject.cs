@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Helpers;
 
@@ -11,6 +12,8 @@ namespace TeamCityServices
         public string Name { get; set; }
         public string Id { get; set; }
         public string Href { get; set; }
+        public List<TeamCityBuildDefinition> BuildDefinitions { get; set; }
+        public string ParentProjectId { get; set; }
 
         public TeamCityProject(string rootUrl, XElement projectXml)
         {
