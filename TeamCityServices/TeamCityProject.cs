@@ -14,6 +14,7 @@ namespace TeamCityServices
         public string Href { get; set; }
         public List<TeamCityBuildDefinition> BuildDefinitions { get; set; }
         public string ParentProjectId { get; set; }
+        public List<TeamCityProject> SubProjects { get; set; }
 
         public TeamCityProject(string rootUrl, XElement projectXml)
         {

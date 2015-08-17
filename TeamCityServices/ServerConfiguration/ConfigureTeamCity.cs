@@ -95,9 +95,8 @@ namespace TeamCityServices.ServerConfiguration
 
         private void AddProjectsAndBuildDefinitions(TeamCityProject[] projects)
         {
-            var teamCityProjects = projects.OrderBy(i => i.Name);
             var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active).ToList();
-            foreach (TeamCityProject project in teamCityProjects)
+            foreach (TeamCityProject project in projects)
             {
                 bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
 

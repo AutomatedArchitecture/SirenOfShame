@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -43,39 +44,65 @@ namespace TeamCityServices
 
             foreach (var project in projects)
             {
-                try
-                {
-                    var projectDetailsUrl = new Uri(project.RootUrl + project.Href);
-                    _log.Debug("Retrieving project info for " + project.Name + " at " + projectDetailsUrl);
-                    var projectDetailsStr = await webClient.DownloadStringTaskAsync(projectDetailsUrl);
-                    XDocument projectDoc = XDocument.Parse(projectDetailsStr);
-                    if (projectDoc.Root == null)
-                    {
-                        throw new Exception("Could not get project build definitions");
-                    }
-
-                    var parentProjectElement = projectDoc.Root.Element("parentProject");
-                    if (parentProjectElement != null)
-                    {
-                        project.ParentProjectId = parentProjectElement.Attribute("id").Value;
-                    }
-
-                    XElement buildTypes = projectDoc.Root.Element("buildTypes");
-                    if (buildTypes == null) 
-                        throw new ArgumentException(string.Format("buildTypes was null for {0}, this shouldn't happen", project.Name));
-                    project.BuildDefinitions = buildTypes
-                        .Elements("buildType")
-                        .Select(buildTypeXml => new TeamCityBuildDefinition(project.RootUrl, buildTypeXml))
-                        .ToList();
-                }
-                catch (Exception ex)
-                {
-                    _log.Error(string.Format("Error parsing project info for project {0} ({1})", project.Name, project.Id), ex);
-                    throw;
-                }
+                await LoadProjectInfoFromApi(project, webClient);
             }
-            
-            return projects;
+
+            var parentOnlyNodes = RecreateTreeOfProjects(projects);
+
+            return parentOnlyNodes;
+        }
+
+        private TeamCityProject[] RecreateTreeOfProjects(TeamCityProject[] allProjects)
+        {
+            var roots = allProjects.Where(i => i.ParentProjectId == null).ToArray();
+            foreach (var project in roots)
+            {
+                RecreateTreeOfProjects(project, allProjects);
+            }
+            return roots;
+        }
+
+        private void RecreateTreeOfProjects(TeamCityProject project, TeamCityProject[] allProjects)
+        {
+            project.SubProjects = allProjects.Where(i => i.ParentProjectId == project.Id).ToList();
+            foreach (var subProject in project.SubProjects)
+            {
+                RecreateTreeOfProjects(subProject, allProjects);
+            }
+        }
+
+        private static async Task LoadProjectInfoFromApi(TeamCityProject project, WebClient webClient)
+        {
+            try
+            {
+                var projectDetailsUrl = new Uri(project.RootUrl + project.Href);
+                _log.Debug("Retrieving project info for " + project.Name + " at " + projectDetailsUrl);
+                var projectDetailsStr = await webClient.DownloadStringTaskAsync(projectDetailsUrl);
+                XDocument projectDoc = XDocument.Parse(projectDetailsStr);
+                if (projectDoc.Root == null)
+                {
+                    throw new Exception("Could not get project build definitions");
+                }
+
+                var parentProjectElement = projectDoc.Root.Element("parentProject");
+                if (parentProjectElement != null)
+                {
+                    project.ParentProjectId = parentProjectElement.Attribute("id").Value;
+                }
+
+                XElement buildTypes = projectDoc.Root.Element("buildTypes");
+                if (buildTypes == null)
+                    throw new ArgumentException(string.Format("buildTypes was null for {0}, this shouldn't happen", project.Name));
+                project.BuildDefinitions = buildTypes
+                    .Elements("buildType")
+                    .Select(buildTypeXml => new TeamCityBuildDefinition(project.RootUrl, buildTypeXml))
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("Error parsing project info for project {0} ({1})", project.Name, project.Id), ex);
+                throw;
+            }
         }
 
         private string GetRootUrl(string rootUrl)
