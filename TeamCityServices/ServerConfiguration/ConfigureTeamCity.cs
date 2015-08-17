@@ -102,27 +102,28 @@ namespace TeamCityServices.ServerConfiguration
             }
         }
 
-        private void AddSubProjectsAndBuildDefinitions(TeamCityProject project, List<BuildDefinitionSetting> activeBuildDefinitionSettings, TreeNodeCollection treeNodeCollection)
+        private bool AddSubProjectsAndBuildDefinitions(TeamCityProject project, List<BuildDefinitionSetting> activeBuildDefinitionSettings, TreeNodeCollection treeNodeCollection)
         {
-            bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
-
-            ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
-            {
-                Tag = project,
-                State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
-            };
-
-            foreach (var subProject in project.SubProjects)
-            {
-                AddSubProjectsAndBuildDefinitions(subProject, activeBuildDefinitionSettings, node.Nodes);
-            }
+            ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name);
+            bool allChildrenChecked = true;
 
             foreach (var buildDefinition in project.BuildDefinitions)
             {
-                AddBuildDefinition(buildDefinition, node, activeBuildDefinitionSettings);
+                var isChecked = AddBuildDefinition(buildDefinition, node, activeBuildDefinitionSettings);
+                allChildrenChecked = allChildrenChecked && isChecked;
             }
 
+            foreach (var subProject in project.SubProjects)
+            {
+                var isChecked = AddSubProjectsAndBuildDefinitions(subProject, activeBuildDefinitionSettings, node.Nodes);
+                allChildrenChecked = allChildrenChecked && isChecked;
+            }
+
+            node.Checked = allChildrenChecked;
+
             treeNodeCollection.Add(node);
+
+            return node.Checked;
         }
 
         private void SaveCredentials()
@@ -133,7 +134,7 @@ namespace TeamCityServices.ServerConfiguration
             Settings.Save();
         }
 
-        public void AddBuildDefinition(TeamCityBuildDefinition buildDefinition, ThreeStateTreeNode parentProjectNode, IEnumerable<BuildDefinitionSetting> activeBuildDefinitionSettings)
+        private bool AddBuildDefinition(TeamCityBuildDefinition buildDefinition, ThreeStateTreeNode parentProjectNode, IEnumerable<BuildDefinitionSetting> activeBuildDefinitionSettings)
         {
             ThreeStateTreeNode buildDefinitionNode = new ThreeStateTreeNode(buildDefinition.Name)
             {
@@ -146,42 +147,23 @@ namespace TeamCityServices.ServerConfiguration
             }
             parentProjectNode.Nodes.Add(buildDefinitionNode);
             buildDefinitionNode.UpdateStateOfRelatedNodes();
+            return buildDefinitionNode.Checked;
         }
 
-        //private void ProjectsBeforeExpand(object sender, TreeViewCancelEventArgs e)
-        //{
-        //    LoadBuildDefinitions(e.Node);
-        //}
-
-        //private void LoadBuildDefinitions(TreeNode node)
-        //{
-        //    var tag = node.Tag as TeamCityProject;
-        //    if (tag == null || node.Nodes.Count != 1 || node.Nodes[0].Text != PLACEHODER_TEXT) return;
-
-        //    _service.GetBuildDefinitions(tag, _userName.Text, _password.Text, buildDefinitions =>
-        //    {
-        //        ClearProjectNodes(node.Nodes);
-        //        var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active);
-        //        foreach (TeamCityBuildDefinition buildDefinition in buildDefinitions)
-        //        {
-        //        }
-        //    });
-        //}
-
-        //private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
-        //{
-        //    TeamCityBuildDefinition buildDefinition = e.Node.Tag as TeamCityBuildDefinition;
-        //    if (buildDefinition != null)
-        //    {
-        //        var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
-        //        buildDefSetting.Active = e.Node.Checked;
-        //        Settings.Save();
-        //    }
-        //    var threeStateTreeNode = e.Node as ThreeStateTreeNode;
-        //    if (threeStateTreeNode != null)
-        //    {
-        //        threeStateTreeNode.UpdateStateOfRelatedNodes();
-        //    }
-        //}
+        private void Projects_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            TeamCityBuildDefinition buildDefinition = e.Node.Tag as TeamCityBuildDefinition;
+            if (buildDefinition != null)
+            {
+                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _teamCityCiEntryPoint.Name);
+                buildDefSetting.Active = e.Node.Checked;
+                Settings.Save();
+            }
+            var threeStateTreeNode = e.Node as ThreeStateTreeNode;
+            if (threeStateTreeNode != null)
+            {
+                threeStateTreeNode.UpdateStateOfRelatedNodes();
+            }
+        }
     }
 }

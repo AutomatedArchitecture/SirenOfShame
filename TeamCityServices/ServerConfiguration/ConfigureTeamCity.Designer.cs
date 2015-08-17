@@ -112,6 +112,7 @@ namespace TeamCityServices.ServerConfiguration {
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(389, 120);
             this._projects.TabIndex = 4;
+            this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.Projects_AfterCheck);
             // 
             // label4
             // 
