@@ -90,29 +90,39 @@ namespace TeamCityServices.ServerConfiguration
         {
             SaveCredentials();
             ClearProjectNodes();
-            AddProjectsAndBuildDefinitions(projects);
+            AddRootProjects(projects);
         }
 
-        private void AddProjectsAndBuildDefinitions(TeamCityProject[] projects)
+        private void AddRootProjects(TeamCityProject[] rootProjects)
         {
             var activeBuildDefinitionSettings = _ciEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active).ToList();
-            foreach (TeamCityProject project in projects)
+            foreach (TeamCityProject project in rootProjects)
             {
-                bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
-
-                ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
-                {
-                    Tag = project,
-                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
-                };
-
-                foreach (var buildDefinition in project.BuildDefinitions)
-                {
-                    AddBuildDefinition(buildDefinition, node, activeBuildDefinitionSettings);
-                }
-
-                _projects.Nodes.Add(node);
+                AddSubProjectsAndBuildDefinitions(project, activeBuildDefinitionSettings, _projects.Nodes);
             }
+        }
+
+        private void AddSubProjectsAndBuildDefinitions(TeamCityProject project, List<BuildDefinitionSetting> activeBuildDefinitionSettings, TreeNodeCollection treeNodeCollection)
+        {
+            bool exists = Settings.BuildExistsAndIsActive(_teamCityCiEntryPoint.Name, project.Name);
+
+            ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
+            {
+                Tag = project,
+                State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
+            };
+
+            foreach (var subProject in project.SubProjects)
+            {
+                AddSubProjectsAndBuildDefinitions(subProject, activeBuildDefinitionSettings, node.Nodes);
+            }
+
+            foreach (var buildDefinition in project.BuildDefinitions)
+            {
+                AddBuildDefinition(buildDefinition, node, activeBuildDefinitionSettings);
+            }
+
+            treeNodeCollection.Add(node);
         }
 
         private void SaveCredentials()
