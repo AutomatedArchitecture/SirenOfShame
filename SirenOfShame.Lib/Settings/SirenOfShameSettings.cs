@@ -572,5 +572,14 @@ namespace SirenOfShame.Lib.Settings
                 .Select(i => new InstanceUserDto(i))
                 .ToList();
         }
+
+        public void Backup()
+        {
+            string fileName = GetConfigFileName();
+            string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.config.bak", DateTime.Now);
+            string path = GetSosAppDataFolder();
+            var backupFileNameAndPath = Path.Combine(path, backupFileName);
+            File.Copy(fileName, backupFileNameAndPath, true);
+        }
     }
 }

@@ -154,7 +154,7 @@ namespace SirenOfShame.Configuration
 
         private void ResetReputationClick(object sender, EventArgs e)
         {
-            var resetReputation = new ResetReputation();
+            var resetReputation = new ResetReputation(_settings);
             resetReputation.ShowDialog();
         }
     }

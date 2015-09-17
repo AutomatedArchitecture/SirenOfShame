@@ -103,6 +103,7 @@
             this.ResetButton.TabIndex = 24;
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = false;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // CancelButton
             // 
