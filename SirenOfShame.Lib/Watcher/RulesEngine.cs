@@ -4,11 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using SirenOfShame.Lib.Dto;
-using SirenOfShame.Lib.Exceptions;
-using SirenOfShame.Lib.Services;
 using log4net;
 using SirenOfShame.Lib.Device;
+using SirenOfShame.Lib.Dto;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Util;
 using Timer = System.Windows.Forms.Timer;
@@ -36,6 +35,8 @@ namespace SirenOfShame.Lib.Watcher
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
         public SosDb SosDb = new SosDb();
+        public bool DisableSosOnline { get; set; }
+        public bool DisableWritingToSosDb { get; set; }
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
@@ -103,6 +104,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public RulesEngine(SirenOfShameSettings settings)
         {
+            DisableSosOnline = false;
+            DisableWritingToSosDb = false;
             ResetPreviousWorkingOrBrokenStatuses();
             _settings = settings;
             _timer.Interval = 1000;
@@ -149,17 +152,22 @@ namespace SirenOfShame.Lib.Watcher
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
-            ApplyUserMappings(args);
+            ExecuteNewBuilds(args.BuildStatuses);
+        }
+
+        public void ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
+        {
+            ApplyUserMappings(newBuildStatuses);
             SendCiServerConnectedEvents();
             TryToGetAndSendNewSosOnlineAlerts();
-            BuildStatus[] allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, args.BuildStatuses);
-            IList<BuildStatus> changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
+            var allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, newBuildStatuses);
+            var changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
             if (!changedBuildStatuses.Any()) return;
             InvokeSetTrayIcon(changedBuildStatuses);
             InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
             AddAnyNewPeopleToSettings(changedBuildStatuses);
             UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
-            IList<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
+            var changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
             FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
             WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
             NotifyIfNewAchievements(changedBuildStatuses);
@@ -169,9 +177,9 @@ namespace SirenOfShame.Lib.Watcher
             CacheBuildStatuses(changedBuildStatuses);
         }
 
-        private void ApplyUserMappings(StatusCheckedEventArgsArgs args)
+        private void ApplyUserMappings(IList<BuildStatus> buildStatuses)
         {
-            foreach (var buildStatus in args.BuildStatuses)
+            foreach (var buildStatus in buildStatuses)
             {
                 string requestedBy = buildStatus.RequestedBy;
                 var userMapping = _settings.UserMappings.FirstOrDefault(i => i.WhenISee == requestedBy);
@@ -199,7 +207,7 @@ namespace SirenOfShame.Lib.Watcher
             var previouslyWorkingOrBrokenBuilds = changedBuildStatusesAndTheirPreviousState
                 .Where(i => i.ChangedBuildStatus.IsWorkingOrBroken() && i.PreviousWorkingOrBrokenBuildStatus != null)
                 .ToList();
-            previouslyWorkingOrBrokenBuilds.ForEach(i => SosDb.Write(i.ChangedBuildStatus, _settings));
+            previouslyWorkingOrBrokenBuilds.ForEach(i => SosDb.Write(i.ChangedBuildStatus, _settings, DisableWritingToSosDb));
         }
 
         private void FireApplicableRulesEngineEvents(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
@@ -306,6 +314,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TryToGetAndSendNewSosOnlineAlerts()
         {
+            if (DisableSosOnline) return;
             SosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert);
         }
 
@@ -367,6 +376,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
         {
+            if (DisableSosOnline) return;
             if (_settings.SosOnlineWhatToSync != WhatToSyncEnum.BuildStatuses) return;
             var requestedByPeople = _settings.GetUsersContainedInBuildsAsDto(changedBuildStatuses);
             SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses, requestedByPeople);
@@ -374,6 +384,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
         {
+            if (DisableSosOnline) return;
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
@@ -578,6 +589,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public void SyncAllBuildStatuses()
         {
+            if (DisableSosOnline) return;
             if (_settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses)
             {
                 _sosOnlineService.BuildStatusChanged(

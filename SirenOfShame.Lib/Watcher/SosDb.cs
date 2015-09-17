@@ -28,9 +28,12 @@ namespace SirenOfShame.Lib.Watcher
             }
         }
 
-        public void Write(BuildStatus buildStatus, SirenOfShameSettings settings)
+        public void Write(BuildStatus buildStatus, SirenOfShameSettings settings, bool disableWritingToSosDb)
         {
-            AppendToFile(buildStatus);
+            if (!disableWritingToSosDb)
+            {
+                AppendToFile(buildStatus);
+            }
             UpdateStatsInSettings(buildStatus, settings);
         }
 
@@ -87,6 +90,16 @@ namespace SirenOfShame.Lib.Watcher
             return _folder + "\\" + RemoveIllegalCharacters(buildDefinitionId) + ".txt";
         }
 
+        public IList<BuildStatus> ReadAll()
+        {
+            var allTxtFiles = Directory.GetFiles(_folder, "*.txt");
+            var allBuildFiles = allTxtFiles.Where(i => Path.GetFileName(i) != ".txt" && Path.GetFileName(i) != "SirenOfShameEvents.txt");
+            return allBuildFiles
+                .SelectMany(ReadAllFromLocation)
+                .AsParallel()
+                .ToList();
+        }
+
         public IList<BuildStatus> ReadAll(IEnumerable<BuildDefinitionSetting> buildDefinitionSettings)
         {
             return buildDefinitionSettings
@@ -117,9 +130,10 @@ namespace SirenOfShame.Lib.Watcher
         {
             if (!FileAdapter.Exists(location)) return new List<BuildStatus>();
             var lines = FileAdapter.ReadAllLines(location);
+            var buildDefinitionId = Path.GetFileNameWithoutExtension(location);
             var statuses = lines.Select(l => l.Split(','))
                 .Where(l => l.Length == 4) // just in case there are partially written records
-                .Select(BuildStatus.Parse)
+                .Select(lineFromSosDb => BuildStatus.Parse(lineFromSosDb, buildDefinitionId))
                 .Where(i => i != null) // ignore parse errors
                 .ToList();
             return statuses;

@@ -23,7 +23,7 @@ namespace SirenOfShame.Lib.Watcher
             LocalStartTime = DateTime.Now;
         }
 
-        public static BuildStatus Parse(string[] lineFromSosDb)
+        public static BuildStatus Parse(string[] lineFromSosDb, string buildDefinitionId)
         {
             if (lineFromSosDb.Length != 4)
             {
@@ -43,7 +43,8 @@ namespace SirenOfShame.Lib.Watcher
                     StartedTime = string.IsNullOrEmpty(startedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(startedTimeStr)),
                     FinishedTime = string.IsNullOrEmpty(finishedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(finishedTimeStr)),
                     BuildStatusEnum = (BuildStatusEnum)int.Parse(buildStatusStr),
-                    RequestedBy = requestedByStr
+                    RequestedBy = requestedByStr,
+                    BuildDefinitionId = buildDefinitionId
                 };
             }
             catch (Exception ex)

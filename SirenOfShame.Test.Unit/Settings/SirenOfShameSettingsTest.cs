@@ -95,6 +95,7 @@ namespace SirenOfShame.Test.Unit.Settings
             Assert.IsTrue(settings.IsGettingStarted());
         }
         
+        [Ignore("This test appears to be updating actual settings, not mock ones, need to investigate")]
         [Test]
         public void AvatarCountConstIsCorrect()
         {

@@ -20,7 +20,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 SosOnlineHighWaterMark = null, 
                 MyRawName = "CurrentUser"
             };
-            sosDb.Write(new BuildStatus { BuildDefinitionId = "BD"}, settings);
+            sosDb.Write(new BuildStatus { BuildDefinitionId = "BD"}, settings, true);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.IsNull(result);
         }
@@ -49,16 +49,16 @@ namespace SirenOfShame.Test.Unit.Watcher
                 }
             };
             sosDb.Write(new BuildStatus
-                {
-                    StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                    FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                    BuildStatusEnum = BuildStatusEnum.Working,
-                    BuildDefinitionId = "BuildDefinitionId",
-                    BuildId = "BuildId",
-                    Name = "Name",
-                    RequestedBy = "CurrentUser",
-                    Comment = "Comment",
-                }, settings);
+            {
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
+                BuildStatusEnum = BuildStatusEnum.Working,
+                BuildDefinitionId = "BuildDefinitionId",
+                BuildId = "BuildId",
+                Name = "Name",
+                RequestedBy = "CurrentUser",
+                Comment = "Comment",
+            }, settings, false);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual("633979044610000000,633979044620000000,1", result);
         }
@@ -82,7 +82,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "Name",
                 RequestedBy = "SomeoneElse",
                 Comment = "Comment",
-            }, settings);
+            }, settings, true);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual(null, result);
         }
@@ -106,7 +106,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "Name",
                 RequestedBy = "CurrentUser",
                 Comment = "Comment",
-            }, settings);
+            }, settings, true);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual(null, result);
         }
@@ -144,7 +144,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "Name",
                 RequestedBy = "CurrentUser",
                 Comment = "Comment",
-            }, settings);
+            }, settings, false);
             var result = sosDb.ExportNewBuilds(settings);
             Assert.AreEqual("633979044620000000,633979044630000000,0", result);
         }
@@ -167,7 +167,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "BuildName",
             };
             SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
-            sosDb.Write(buildStatus, fakeSettings);
+            sosDb.Write(buildStatus, fakeSettings, false);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             string[] linesOutput = File.ReadAllLines(expectedFileLocation);
             Assert.AreEqual(1, linesOutput.Length);
@@ -193,8 +193,8 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "BuildName",
             };
             SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
-            sosDb.Write(buildStatus, fakeSettings);
-            sosDb.Write(buildStatus, fakeSettings);
+            sosDb.Write(buildStatus, fakeSettings, false);
+            sosDb.Write(buildStatus, fakeSettings, false);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             string[] linesOutput = File.ReadAllLines(expectedFileLocation);
             Assert.AreEqual(2, linesOutput.Length);
@@ -217,7 +217,7 @@ namespace SirenOfShame.Test.Unit.Watcher
                 Name = "BuildName",
             };
             SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();
-            sosDb.Write(buildStatus, fakeSettings);
+            sosDb.Write(buildStatus, fakeSettings, false);
             Assert.IsTrue(File.Exists(expectedFileLocation));
             File.Delete(expectedFileLocation);
         }

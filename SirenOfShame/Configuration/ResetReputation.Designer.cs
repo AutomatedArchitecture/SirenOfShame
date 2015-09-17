@@ -39,6 +39,7 @@
             this.ResetAndRebuildSinceDate = new System.Windows.Forms.RadioButton();
             this.ResetAndRebuildFromStart = new System.Windows.Forms.RadioButton();
             this.ResetOnly = new System.Windows.Forms.RadioButton();
+            this.resetStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -117,7 +118,7 @@
             this.CancelButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CancelButton.ForeColor = System.Drawing.Color.White;
-            this.CancelButton.Location = new System.Drawing.Point(17, 404);
+            this.CancelButton.Location = new System.Drawing.Point(17, 419);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(378, 33);
             this.CancelButton.TabIndex = 26;
@@ -131,7 +132,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(17, 370);
+            this.label4.Location = new System.Drawing.Point(17, 385);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(378, 31);
             this.label4.TabIndex = 27;
@@ -174,13 +175,23 @@
             this.ResetOnly.UseVisualStyleBackColor = true;
             this.ResetOnly.CheckedChanged += new System.EventHandler(this.ResetOnly_CheckedChanged);
             // 
+            // resetStatus
+            // 
+            this.resetStatus.Location = new System.Drawing.Point(19, 360);
+            this.resetStatus.Name = "resetStatus";
+            this.resetStatus.Size = new System.Drawing.Size(376, 23);
+            this.resetStatus.TabIndex = 31;
+            this.resetStatus.Text = "{";
+            this.resetStatus.Visible = false;
+            // 
             // ResetReputation
             // 
             this.AcceptButton = this.CancelButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.ClientSize = new System.Drawing.Size(409, 459);
+            this.ClientSize = new System.Drawing.Size(409, 476);
+            this.Controls.Add(this.resetStatus);
             this.Controls.Add(this.ResetOnly);
             this.Controls.Add(this.ResetAndRebuildFromStart);
             this.Controls.Add(this.ResetAndRebuildSinceDate);
@@ -211,5 +222,6 @@
         private System.Windows.Forms.RadioButton ResetAndRebuildSinceDate;
         private System.Windows.Forms.RadioButton ResetAndRebuildFromStart;
         private System.Windows.Forms.RadioButton ResetOnly;
+        private System.Windows.Forms.Label resetStatus;
     }
 }

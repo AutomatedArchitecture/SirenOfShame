@@ -147,6 +147,7 @@
     <Compile Include="Services\ApiResultBase.cs" />
     <Compile Include="Services\CredentialApiModel.cs" />
     <Compile Include="Services\MySosOnlineService.cs" />
+    <Compile Include="Services\ReputationResetService.cs" />
     <Compile Include="Services\SosOnlineStatusChangeArgs.cs" />
     <Compile Include="Services\SoundService.cs" />
     <Compile Include="Settings\Sound.cs" />

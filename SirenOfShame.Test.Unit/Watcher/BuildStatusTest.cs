@@ -12,25 +12,26 @@ namespace SirenOfShame.Test.Unit.Watcher
         [Test]
         public void Parse_InvalidDate()
         {
-            var actual = BuildStatus.Parse(new [] { "63460976461000000Z", "", "1", "jshimpty" });
+            var actual = BuildStatus.Parse(new [] { "63460976461000000Z", "", "1", "jshimpty" }, "buildid");
             Assert.AreEqual(null, actual);
         }
 
         [Test]
         public void Parse_NullEndDate()
         {
-            var actual = BuildStatus.Parse(new [] { "634609764610000000", "", "1", "jshimpty" });
+            var actual = BuildStatus.Parse(new [] { "634609764610000000", "", "1", "jshimpty" }, "buildid");
             Assert.AreEqual(null, actual.FinishedTime);
         }
 
         [Test]
         public void Parse_ValidDatesAndStatus()
         {
-            var actual = BuildStatus.Parse(new [] { "634609764610000000", "634637449220000000", "1", "jshimpty" });
+            var actual = BuildStatus.Parse(new[] { "634609764610000000", "634637449220000000", "1", "jshimpty" }, "buildid");
             Assert.AreEqual(new DateTime(2012, 1, 1, 1, 1, 1), actual.StartedTime);
             Assert.AreEqual(new DateTime(2012, 2, 2, 2, 2, 2), actual.FinishedTime);
             Assert.AreEqual("jshimpty", actual.RequestedBy);
             Assert.AreEqual(BuildStatusEnum.Working, actual.BuildStatusEnum);
+            Assert.AreEqual("buildid", actual.BuildDefinitionId);
         }
 
         [Test]

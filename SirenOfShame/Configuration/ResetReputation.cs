@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using log4net;
+using SirenOfShame.Lib;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame.Configuration
 {
     public partial class ResetReputation : Form
     {
         private readonly SirenOfShameSettings _settings;
-        public SosDb SosDb = new SosDb();
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (ResetReputation));
 
         public ResetReputation(SirenOfShameSettings settings)
         {
@@ -54,33 +55,23 @@ namespace SirenOfShame.Configuration
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            _settings.Backup();
-            foreach (var person in _settings.People)
+            try
             {
-                person.TotalBuilds = 0;
-                person.FailedBuilds = 0;
-                person.Achievements = new List<AchievementSetting>();
-                person.CumulativeBuildTime = 0;
-                person.CurrentBuildRatio = 0;
-                person.CurrentSuccessInARow = 0;
-                person.LowestBuildRatioAfter50Builds = 0;
-                person.MaxBuildsInOneDay = 0;
-                person.NumberOfTimesFixedSomeoneElsesBuild = 0;
-                person.NumberOfTimesPerformedBackToBackBuilds = 0;
+                resetStatus.Visible = true;
+                resetStatus.Text = "Resetting status";
+                var reputationResetService = new ReputationResetService(_settings);
+                reputationResetService.ResetOnly();
+                if (ResetAndRebuildFromStart.Checked || ResetAndRebuildSinceDate.Checked)
+                {
+                    DateTime? since = ResetAndRebuildFromStart.Checked ? (DateTime?) null : ResetDate.Value;
+                    reputationResetService.RebuildSince(since);
+                }
+                resetStatus.Text = "Reset completed successfully";
             }
-            _settings.Save();
-
-            if (ResetAndRebuildFromStart.Checked || ResetAndRebuildSinceDate.Checked)
+            catch (Exception ex)
             {
-                SosDb.GetMostRecentNewsItems(_settings, OnGetNewsItems);
-            }
-        }
-
-        private void OnGetNewsItems(IList<NewNewsItemEventArgs> newNewsItemEventArgses)
-        {
-            foreach (var newNewsItemEventArgse in newNewsItemEventArgses)
-            {
-                
+                _log.Error("Error during reset", ex);
+                resetStatus.Text = "Error occurred, check the logs. " + ex.Message;
             }
         }
     }
