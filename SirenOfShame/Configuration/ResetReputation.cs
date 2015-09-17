@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using SirenOfShame.Lib;
@@ -63,16 +65,20 @@ namespace SirenOfShame.Configuration
                 reputationResetService.ResetOnly();
                 if (ResetAndRebuildFromStart.Checked || ResetAndRebuildSinceDate.Checked)
                 {
-                    DateTime? since = ResetAndRebuildFromStart.Checked ? (DateTime?) null : ResetDate.Value;
-                    reputationResetService.RebuildSince(since);
+                    DateTime? since = ResetAndRebuildFromStart.Checked ? (DateTime?)null : ResetDate.Value;
+                    Task.Run(() => reputationResetService.RebuildSince(since, ReportProgress));
                 }
-                resetStatus.Text = "Reset completed successfully";
             }
             catch (Exception ex)
             {
                 _log.Error("Error during reset", ex);
                 resetStatus.Text = "Error occurred, check the logs. " + ex.Message;
             }
+        }
+
+        private void ReportProgress(string status)
+        {
+            resetStatus.Invoke(new MethodInvoker(delegate { resetStatus.Text = status; }));
         }
     }
 }
