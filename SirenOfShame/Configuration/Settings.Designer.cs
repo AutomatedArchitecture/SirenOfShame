@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.Configuration
+﻿using SirenOfShame.Lib;
+
+namespace SirenOfShame.Configuration
 {
     partial class Settings
     {
@@ -29,16 +31,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
-            this._ok = new System.Windows.Forms.Button();
-            this._cancel = new System.Windows.Forms.Button();
+            this._ok = new SirenOfShame.Lib.SosButton();
+            this._cancel = new SirenOfShame.Lib.SosButton();
             this._duration = new System.Windows.Forms.Label();
             this._pollInterval = new System.Windows.Forms.TrackBar();
-            this._viewLog = new System.Windows.Forms.Button();
+            this._viewLog = new SirenOfShame.Lib.SosButton();
             this._updateLocations = new System.Windows.Forms.Panel();
             this._updateLocationNever = new System.Windows.Forms.RadioButton();
             this._updateLocationOtherLocation = new System.Windows.Forms.TextBox();
             this._updateLocationOther = new System.Windows.Forms.RadioButton();
-            this._checkForUpdates = new System.Windows.Forms.Button();
+            this._checkForUpdates = new SirenOfShame.Lib.SosButton();
             this._updateLocationAuto = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this._neverShowAchievements = new System.Windows.Forms.RadioButton();
@@ -62,6 +64,9 @@
             // _ok
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._ok.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._ok.ForeColor = System.Drawing.Color.White;
             this._ok.Location = new System.Drawing.Point(420, 430);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
@@ -73,7 +78,10 @@
             // _cancel
             // 
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._cancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._cancel.ForeColor = System.Drawing.Color.White;
             this._cancel.Location = new System.Drawing.Point(501, 430);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
@@ -106,6 +114,9 @@
             // _viewLog
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._viewLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._viewLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._viewLog.ForeColor = System.Drawing.Color.White;
             this._viewLog.Location = new System.Drawing.Point(339, 430);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
@@ -163,6 +174,9 @@
             // _checkForUpdates
             // 
             this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._checkForUpdates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._checkForUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._checkForUpdates.ForeColor = System.Drawing.Color.White;
             this._checkForUpdates.Location = new System.Drawing.Point(404, 94);
             this._checkForUpdates.Name = "_checkForUpdates";
             this._checkForUpdates.Size = new System.Drawing.Size(139, 23);
@@ -187,7 +201,7 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.Gray;
             this.textBox1.Location = new System.Drawing.Point(56, 48);
@@ -201,7 +215,7 @@
             // 
             this._neverShowAchievements.AutoSize = true;
             this._neverShowAchievements.BackColor = System.Drawing.Color.Transparent;
-            this._neverShowAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._neverShowAchievements.ForeColor = System.Drawing.Color.White;
             this._neverShowAchievements.Location = new System.Drawing.Point(203, 47);
             this._neverShowAchievements.Name = "_neverShowAchievements";
             this._neverShowAchievements.Size = new System.Drawing.Size(151, 17);
@@ -214,7 +228,7 @@
             this._alwaysShowNewAchievements.AutoSize = true;
             this._alwaysShowNewAchievements.BackColor = System.Drawing.Color.Transparent;
             this._alwaysShowNewAchievements.Checked = true;
-            this._alwaysShowNewAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._alwaysShowNewAchievements.ForeColor = System.Drawing.Color.White;
             this._alwaysShowNewAchievements.Location = new System.Drawing.Point(203, 17);
             this._alwaysShowNewAchievements.Name = "_alwaysShowNewAchievements";
             this._alwaysShowNewAchievements.Size = new System.Drawing.Size(198, 17);
@@ -227,7 +241,7 @@
             // 
             this._onlyShowMyAchievements.AutoSize = true;
             this._onlyShowMyAchievements.BackColor = System.Drawing.Color.Transparent;
-            this._onlyShowMyAchievements.ForeColor = System.Drawing.SystemColors.ControlText;
+            this._onlyShowMyAchievements.ForeColor = System.Drawing.Color.White;
             this._onlyShowMyAchievements.Location = new System.Drawing.Point(203, 32);
             this._onlyShowMyAchievements.Name = "_onlyShowMyAchievements";
             this._onlyShowMyAchievements.Size = new System.Drawing.Size(182, 17);
@@ -260,6 +274,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this._pollInterval);
             this.groupBox1.Controls.Add(this._duration);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 10);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(564, 102);
@@ -272,6 +287,7 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this._updateLocations);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(13, 119);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(563, 152);
@@ -288,6 +304,7 @@
             this.groupBox3.Controls.Add(this._alwaysShowNewAchievements);
             this.groupBox3.Controls.Add(this._neverShowAchievements);
             this.groupBox3.Controls.Add(this._userIAm);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(13, 278);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(563, 81);
@@ -300,6 +317,7 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this._alwaysOnTop);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(13, 365);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(564, 54);
@@ -322,7 +340,7 @@
             this.AcceptButton = this._ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.CancelButton = this._cancel;
             this.ClientSize = new System.Drawing.Size(588, 465);
             this.Controls.Add(this.groupBox4);
@@ -352,16 +370,16 @@
         #endregion
 
         private System.Windows.Forms.TrackBar _pollInterval;
-        private System.Windows.Forms.Button _ok;
-        private System.Windows.Forms.Button _cancel;
+        private SosButton _ok;
+        private SosButton _cancel;
         private System.Windows.Forms.Label _duration;
-        private System.Windows.Forms.Button _viewLog;
+        private SosButton _viewLog;
         private System.Windows.Forms.Panel _updateLocations;
         private System.Windows.Forms.RadioButton _updateLocationAuto;
         private System.Windows.Forms.TextBox _updateLocationOtherLocation;
         private System.Windows.Forms.RadioButton _updateLocationOther;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button _checkForUpdates;
+        private SosButton _checkForUpdates;
         private System.Windows.Forms.RadioButton _updateLocationNever;
         private System.Windows.Forms.RadioButton _neverShowAchievements;
         private System.Windows.Forms.RadioButton _alwaysShowNewAchievements;
