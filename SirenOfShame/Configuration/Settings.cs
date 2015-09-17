@@ -151,5 +151,11 @@ namespace SirenOfShame.Configuration
         {
             Program.Form.CheckForUpdates();
         }
+
+        private void ResetReputationClick(object sender, EventArgs e)
+        {
+            var resetReputation = new ResetReputation();
+            resetReputation.ShowDialog();
+        }
     }
 }

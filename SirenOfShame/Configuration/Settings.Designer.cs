@@ -51,6 +51,7 @@ namespace SirenOfShame.Configuration
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ResetReputation = new SirenOfShame.Lib.SosButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this._alwaysOnTop = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
@@ -65,6 +66,7 @@ namespace SirenOfShame.Configuration
             // 
             this._ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._ok.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._ok.FlatAppearance.BorderSize = 0;
             this._ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._ok.ForeColor = System.Drawing.Color.White;
             this._ok.Location = new System.Drawing.Point(420, 430);
@@ -80,6 +82,7 @@ namespace SirenOfShame.Configuration
             this._cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._cancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._cancel.FlatAppearance.BorderSize = 0;
             this._cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._cancel.ForeColor = System.Drawing.Color.White;
             this._cancel.Location = new System.Drawing.Point(501, 430);
@@ -115,6 +118,7 @@ namespace SirenOfShame.Configuration
             // 
             this._viewLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._viewLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._viewLog.FlatAppearance.BorderSize = 0;
             this._viewLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._viewLog.ForeColor = System.Drawing.Color.White;
             this._viewLog.Location = new System.Drawing.Point(339, 430);
@@ -175,6 +179,7 @@ namespace SirenOfShame.Configuration
             // 
             this._checkForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._checkForUpdates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._checkForUpdates.FlatAppearance.BorderSize = 0;
             this._checkForUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._checkForUpdates.ForeColor = System.Drawing.Color.White;
             this._checkForUpdates.Location = new System.Drawing.Point(404, 94);
@@ -299,6 +304,7 @@ namespace SirenOfShame.Configuration
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.ResetReputation);
             this.groupBox3.Controls.Add(this._onlyShowMyAchievements);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this._alwaysShowNewAchievements);
@@ -311,6 +317,23 @@ namespace SirenOfShame.Configuration
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Reputation && Achievements";
+            // 
+            // ResetReputation
+            // 
+            this.ResetReputation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this.ResetReputation.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.ResetReputation.FlatAppearance.BorderSize = 0;
+            this.ResetReputation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this.ResetReputation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this.ResetReputation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ResetReputation.ForeColor = System.Drawing.Color.White;
+            this.ResetReputation.Location = new System.Drawing.Point(414, 41);
+            this.ResetReputation.Name = "ResetReputation";
+            this.ResetReputation.Size = new System.Drawing.Size(139, 23);
+            this.ResetReputation.TabIndex = 28;
+            this.ResetReputation.Text = "Reset Reputation ...";
+            this.ResetReputation.UseVisualStyleBackColor = false;
+            this.ResetReputation.Click += new System.EventHandler(this.ResetReputationClick);
             // 
             // groupBox4
             // 
@@ -391,5 +414,6 @@ namespace SirenOfShame.Configuration
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox _alwaysOnTop;
+        private SosButton ResetReputation;
     }
 }

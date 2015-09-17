@@ -150,6 +150,12 @@
     <Compile Include="Configuration\ConfigureSounds.Designer.cs">
       <DependentUpon>ConfigureSounds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ResetReputation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configuration\ResetReputation.Designer.cs">
+      <DependentUpon>ResetReputation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configuration\SyncOnline.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -359,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\ConfigureSounds.resx">
       <DependentUpon>ConfigureSounds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\ResetReputation.resx">
+      <DependentUpon>ResetReputation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\SyncOnline.resx">
       <DependentUpon>SyncOnline.cs</DependentUpon>
