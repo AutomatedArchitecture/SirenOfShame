@@ -124,7 +124,7 @@
 
 · Reset reputation and remove all achievements for all users
 
-· Rebuild reputation and achievements from a given start date by iterating the internal build history 
+· Optionally rebuild reputation and achievements from a given start date by iterating the internal build history 
 
 · Re-add any users that might have been deleted</value>
   </data>

@@ -31,12 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResetReputation));
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this._resetDate = new System.Windows.Forms.DateTimePicker();
+            this.ResetDate = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.ResetButton = new SirenOfShame.Lib.SosButton();
-            this.label3 = new System.Windows.Forms.Label();
             this.CancelButton = new SirenOfShame.Lib.SosButton();
             this.label4 = new System.Windows.Forms.Label();
+            this.ResetAndRebuildSinceDate = new System.Windows.Forms.RadioButton();
+            this.ResetAndRebuildFromStart = new System.Windows.Forms.RadioButton();
+            this.ResetOnly = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
@@ -60,16 +62,16 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(14, 51);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(381, 138);
+            this.label5.Size = new System.Drawing.Size(381, 170);
             this.label5.TabIndex = 21;
             this.label5.Text = resources.GetString("label5.Text");
             // 
-            // _resetDate
+            // ResetDate
             // 
-            this._resetDate.Location = new System.Drawing.Point(17, 265);
-            this._resetDate.Name = "_resetDate";
-            this._resetDate.Size = new System.Drawing.Size(200, 20);
-            this._resetDate.TabIndex = 22;
+            this.ResetDate.Location = new System.Drawing.Point(17, 328);
+            this.ResetDate.Name = "ResetDate";
+            this.ResetDate.Size = new System.Drawing.Size(200, 20);
+            this.ResetDate.TabIndex = 22;
             // 
             // label2
             // 
@@ -77,7 +79,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(12, 199);
+            this.label2.Location = new System.Drawing.Point(12, 231);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(385, 31);
             this.label2.TabIndex = 23;
@@ -95,21 +97,12 @@
             this.ResetButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this.ResetButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ResetButton.ForeColor = System.Drawing.Color.White;
-            this.ResetButton.Location = new System.Drawing.Point(237, 244);
+            this.ResetButton.Location = new System.Drawing.Point(236, 310);
             this.ResetButton.Name = "ResetButton";
-            this.ResetButton.Size = new System.Drawing.Size(158, 41);
+            this.ResetButton.Size = new System.Drawing.Size(159, 38);
             this.ResetButton.TabIndex = 24;
             this.ResetButton.Text = "Reset";
             this.ResetButton.UseVisualStyleBackColor = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 244);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(201, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Reset reputation and achievements from:";
             // 
             // CancelButton
             // 
@@ -123,7 +116,7 @@
             this.CancelButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CancelButton.ForeColor = System.Drawing.Color.White;
-            this.CancelButton.Location = new System.Drawing.Point(17, 334);
+            this.CancelButton.Location = new System.Drawing.Point(17, 404);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(378, 33);
             this.CancelButton.TabIndex = 26;
@@ -137,12 +130,48 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(10, 300);
+            this.label4.Location = new System.Drawing.Point(17, 370);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(385, 31);
+            this.label4.Size = new System.Drawing.Size(378, 31);
             this.label4.TabIndex = 27;
             this.label4.Text = "Get Me Outta Here";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // ResetAndRebuildSinceDate
+            // 
+            this.ResetAndRebuildSinceDate.AutoSize = true;
+            this.ResetAndRebuildSinceDate.Location = new System.Drawing.Point(17, 305);
+            this.ResetAndRebuildSinceDate.Name = "ResetAndRebuildSinceDate";
+            this.ResetAndRebuildSinceDate.Size = new System.Drawing.Size(139, 17);
+            this.ResetAndRebuildSinceDate.TabIndex = 28;
+            this.ResetAndRebuildSinceDate.TabStop = true;
+            this.ResetAndRebuildSinceDate.Text = "Reset and rebuild since:";
+            this.ResetAndRebuildSinceDate.UseVisualStyleBackColor = true;
+            this.ResetAndRebuildSinceDate.CheckedChanged += new System.EventHandler(this.ResetAndRebuildSinceDate_CheckedChanged);
+            // 
+            // ResetAndRebuildFromStart
+            // 
+            this.ResetAndRebuildFromStart.AutoSize = true;
+            this.ResetAndRebuildFromStart.Location = new System.Drawing.Point(17, 287);
+            this.ResetAndRebuildFromStart.Name = "ResetAndRebuildFromStart";
+            this.ResetAndRebuildFromStart.Size = new System.Drawing.Size(237, 17);
+            this.ResetAndRebuildFromStart.TabIndex = 29;
+            this.ResetAndRebuildFromStart.TabStop = true;
+            this.ResetAndRebuildFromStart.Text = "Reset and rebuild since the beginning of time";
+            this.ResetAndRebuildFromStart.UseVisualStyleBackColor = true;
+            this.ResetAndRebuildFromStart.CheckedChanged += new System.EventHandler(this.ResetAndRebuildFromStart_CheckedChanged);
+            // 
+            // ResetOnly
+            // 
+            this.ResetOnly.AutoSize = true;
+            this.ResetOnly.Location = new System.Drawing.Point(17, 271);
+            this.ResetOnly.Name = "ResetOnly";
+            this.ResetOnly.Size = new System.Drawing.Size(75, 17);
+            this.ResetOnly.TabIndex = 30;
+            this.ResetOnly.TabStop = true;
+            this.ResetOnly.Text = "Reset only";
+            this.ResetOnly.UseVisualStyleBackColor = true;
+            this.ResetOnly.CheckedChanged += new System.EventHandler(this.ResetOnly_CheckedChanged);
             // 
             // ResetReputation
             // 
@@ -150,19 +179,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.CancelButton = this.CancelButton;
-            this.ClientSize = new System.Drawing.Size(409, 379);
+            this.ClientSize = new System.Drawing.Size(409, 459);
+            this.Controls.Add(this.ResetOnly);
+            this.Controls.Add(this.ResetAndRebuildFromStart);
+            this.Controls.Add(this.ResetAndRebuildSinceDate);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this._resetDate);
+            this.Controls.Add(this.ResetDate);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "ResetReputation";
-            this.Text = "ResetReputation";
+            this.Text = "Reset Reputation";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,11 +202,13 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker _resetDate;
+        private System.Windows.Forms.DateTimePicker ResetDate;
         private System.Windows.Forms.Label label2;
         private Lib.SosButton ResetButton;
-        private System.Windows.Forms.Label label3;
         private Lib.SosButton CancelButton;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RadioButton ResetAndRebuildSinceDate;
+        private System.Windows.Forms.RadioButton ResetAndRebuildFromStart;
+        private System.Windows.Forms.RadioButton ResetOnly;
     }
 }
