@@ -674,11 +674,13 @@ namespace SirenOfShame
 
         private void OpenSettingsClick(object sender, EventArgs e)
         {
+            StopWatchingBuild();
             Settings settings = new Settings(_settings);
             settings.ShowDialog(this);
             RefreshStats(); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
             InitializeWindow(); // just in case they changed "always on top"
+            StartWatchingBuild();
         }
 
         private void TimeboxEnforcerClick(object sender, EventArgs e)
