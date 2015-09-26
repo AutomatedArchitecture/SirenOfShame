@@ -205,6 +205,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool AlwaysOnTop { get; set; }
 
+        public bool StartInFullScreen { get; set; }
+
         [XmlIgnore]
         public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 

@@ -42,7 +42,6 @@ namespace SirenOfShame
             IocContainer.Instance.Compose(this);
             InitializeComponent();
             InitializeNotifyIcon();
-            InitializeWindow();
 
             InitializeToolbar();
             InitializeViewBuilds();
@@ -60,9 +59,13 @@ namespace SirenOfShame
             ShowInMainWindow(MainWindowEnum.ViewBuilds);
         }
 
-        private void InitializeWindow()
+        private void InitializeWindow(bool startup)
         {
             TopMost = _settings.AlwaysOnTop;
+            if (startup && _settings.StartInFullScreen)
+            {
+                SetFullScreenMode(true);
+            }
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -355,6 +358,7 @@ namespace SirenOfShame
             
             RefreshStats();
             SetMuteButton();
+            InitializeWindow(startup: true);
         }
 
         private void SosOnlineOnStatusChange(object sender, SosOnlineStatusChangeArgs args)
@@ -676,7 +680,7 @@ namespace SirenOfShame
             settings.ShowDialog(this);
             RefreshStats(); // just in case they clicked reset reputation
             SetAutomaticUpdaterSettings(); // just in case they changed the updater settings
-            InitializeWindow(); // just in case they changed "always on top"
+            InitializeWindow(startup: false); // just in case they changed "always on top"
             StartWatchingBuild();
         }
 

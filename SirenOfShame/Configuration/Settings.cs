@@ -35,6 +35,7 @@ namespace SirenOfShame.Configuration
         private void InitializeMiscSection()
         {
             _alwaysOnTop.Checked = _settings.AlwaysOnTop;
+            _startInFullscreen.Checked = _settings.StartInFullScreen;
         }
 
         private void InitializeUpdateLocationSection()
@@ -99,6 +100,7 @@ namespace SirenOfShame.Configuration
         private void SetMiscSection()
         {
             _settings.AlwaysOnTop = _alwaysOnTop.Checked;
+            _settings.StartInFullScreen = _startInFullscreen.Checked;
         }
 
         private void SetShowAchievements()

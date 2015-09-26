@@ -54,6 +54,7 @@ namespace SirenOfShame.Configuration
             this.ResetReputation = new SirenOfShame.Lib.SosButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this._alwaysOnTop = new System.Windows.Forms.CheckBox();
+            this._startInFullscreen = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -339,6 +340,7 @@ namespace SirenOfShame.Configuration
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this._startInFullscreen);
             this.groupBox4.Controls.Add(this._alwaysOnTop);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(13, 365);
@@ -357,6 +359,16 @@ namespace SirenOfShame.Configuration
             this._alwaysOnTop.TabIndex = 0;
             this._alwaysOnTop.Text = "Keep Main Window Always On Top";
             this._alwaysOnTop.UseVisualStyleBackColor = true;
+            // 
+            // _startInFullscreen
+            // 
+            this._startInFullscreen.AutoSize = true;
+            this._startInFullscreen.Location = new System.Drawing.Point(216, 19);
+            this._startInFullscreen.Name = "_startInFullscreen";
+            this._startInFullscreen.Size = new System.Drawing.Size(111, 17);
+            this._startInFullscreen.TabIndex = 1;
+            this._startInFullscreen.Text = "Start In Fullscreen";
+            this._startInFullscreen.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -415,5 +427,6 @@ namespace SirenOfShame.Configuration
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox _alwaysOnTop;
         private SosButton ResetReputation;
+        private System.Windows.Forms.CheckBox _startInFullscreen;
     }
 }
