@@ -217,12 +217,6 @@
     <Compile Include="ViewBuildBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FullScreenBuildStatus.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FullScreenBuildStatus.Designer.cs">
-      <DependentUpon>FullScreenBuildStatus.cs</DependentUpon>
-    </Compile>
     <Compile Include="FullScreenEnforcer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -392,9 +386,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Configuration\UserMappings.resx">
       <DependentUpon>UserMappings.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FullScreenBuildStatus.resx">
-      <DependentUpon>FullScreenBuildStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FullScreenEnforcer.resx">
       <DependentUpon>FullScreenEnforcer.cs</DependentUpon>

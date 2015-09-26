@@ -30,6 +30,7 @@ namespace SirenOfShame
         readonly Timer _showAlertAnimation = new Timer();
         readonly SosOnlineService _sosOnlineService = new SosOnlineService();
         private readonly SoundService _soundService = new SoundService();
+        private bool _isFullscreen = false;
 
         [Import(typeof(ISirenOfShameDevice))]
         public ISirenOfShameDevice SirenOfShameDevice { private get; set; }
@@ -290,16 +291,12 @@ namespace SirenOfShame
             {
                 _lastRefreshStatusEventArgs = args;
                 _viewBuilds.RefreshBuildStatuses(args);
-                if (InFullscreenMode)
-                {
-                    _fullScreenBuildStatus.RefreshListViewWithBuildStatus(args, _settings);
-                }
             });
         }
 
         private bool InFullscreenMode
         {
-            get { return _fullScreenBuildStatus != null; }
+            get { return _isFullscreen; }
         }
 
         private void SirenofShameDeviceConnected(object sender, EventArgs e)
@@ -766,28 +763,23 @@ namespace SirenOfShame
             upgrade.ShowDialog(this);
         }
 
-        FullScreenBuildStatus _fullScreenBuildStatus = null;
-
         private void FullscreenClick(object sender, EventArgs e)
         {
             ShowFullscreen();
         }
 
-        private void ShowFullscreen()
+        private void SetFullScreenMode(bool makeFullScreen)
         {
-            if (_fullScreenBuildStatus == null)
-            {
-                _fullScreenBuildStatus = new FullScreenBuildStatus();
-                _fullScreenBuildStatus.FormClosed += FullScreenBuildStatusFormClosed;
-            }
-            _fullScreenBuildStatus.Show(this);
-            if (_lastRefreshStatusEventArgs != null)
-                _fullScreenBuildStatus.RefreshListViewWithBuildStatus(_lastRefreshStatusEventArgs, _settings);
+            _isFullscreen = makeFullScreen;
+            ShowRibbon(false);
+            TopMost = _isFullscreen;
+            WindowState = _isFullscreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            FormBorderStyle = _isFullscreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
         }
 
-        private void FullScreenBuildStatusFormClosed(object sender, FormClosedEventArgs e)
+        private void ShowFullscreen()
         {
-            _fullScreenBuildStatus = null;
+            SetFullScreenMode(!_isFullscreen);
         }
 
         private void MuteClick(object sender, EventArgs e)
@@ -932,6 +924,10 @@ namespace SirenOfShame
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.Escape && InFullscreenMode)
+            {
+                SetFullScreenMode(false);
+            }
             if (e.KeyCode == Keys.Back)
             {
                 ShowInMainWindow(MainWindowEnum.ViewBuilds);
