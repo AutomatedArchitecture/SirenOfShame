@@ -21,6 +21,7 @@ namespace SirenOfShame
         public const int MARGIN = 4;
         private ViewBuildDisplayMode _displayMode;
         private static float _baseFontSizeProjectName;
+        private static float _baseFontSizeRequestedBy;
         private static float _baseFontSize;
 
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
@@ -36,14 +37,22 @@ namespace SirenOfShame
         {
             _baseFontSize = Font.Size;
             _baseFontSizeProjectName = _projectName.Font.Size;
+            _baseFontSizeRequestedBy = _requestedBy.Font.Size;
         }
 
         private void OnFontChanged(object sender, EventArgs e)
         {
             var newBaseFontSize = Font.Size;
             var fontSizeMultiplier = newBaseFontSize / _baseFontSize;
-            var newProjectNameSize = _baseFontSizeProjectName * fontSizeMultiplier;
-            _projectName.Font = new Font(_projectName.Font.FontFamily, newProjectNameSize, _projectName.Font.Style);
+
+            ResetFontSize(fontSizeMultiplier, _projectName, _baseFontSizeProjectName);
+            ResetFontSize(fontSizeMultiplier, _requestedBy, _baseFontSizeRequestedBy);
+        }
+
+        private void ResetFontSize(float fontSizeMultiplier, Label label, float baseSize)
+        {
+            var newProjectNameSize = baseSize*fontSizeMultiplier;
+            label.Font = new Font(label.Font.FontFamily, newProjectNameSize, label.Font.Style);
         }
 
         public void SetDisplayMode(ViewBuildDisplayMode displayMode)
