@@ -66,6 +66,10 @@ namespace SirenOfShame
             {
                 SetFullScreenMode(true);
             }
+            if (startup)
+            {
+                ResetZoom();
+            }
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -923,11 +927,58 @@ namespace SirenOfShame
                 { Keys.D7, 6 },
                 { Keys.D8, 7 },
                 { Keys.D9, 8 },
-                { Keys.D0, 9 },
+                { Keys.D0, 0 }
             };
+
+        private void ZoomOut()
+        {
+            SetFontSize(Font.Size * .9f);
+        }
+
+        private void ZoomIn()
+        {
+            SetFontSize(Font.Size * 1.1f);
+        }
+
+        private void ResetZoom()
+        {
+            SetFontSize(8.25f);
+        }
+
+        private void SetFontSize(float fontSize)
+        {
+            this.SuspendDrawing(() =>
+            {
+                var oldHeight = Height;
+                var oldWidth = Width;
+                Font = new Font(Font.FontFamily, fontSize);
+                Height = oldHeight;
+                Width = oldWidth;
+            });
+
+        }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
+            int numberPressed;
+            var wasNumberPressed = _numericKeyMappings.TryGetValue(e.KeyCode, out numberPressed);
+            
+            if (e.Control && e.KeyCode == Keys.Oemplus)
+            {
+                ZoomIn();
+                return;
+            }
+            if (e.Control && e.KeyCode == Keys.OemMinus)
+            {
+                ZoomOut();
+                return;
+            }
+            if (e.Control && wasNumberPressed && numberPressed == 0)
+            {
+                ResetZoom();
+                return;
+            }
+
             if (e.KeyCode == Keys.Escape && InFullscreenMode)
             {
                 SetFullScreenMode(false);
@@ -941,8 +992,6 @@ namespace SirenOfShame
             {
                 ShowFullscreen();
             }
-            int numberPressed;
-            var wasNumberPressed = _numericKeyMappings.TryGetValue(e.KeyCode, out numberPressed);
             if (wasNumberPressed)
             {
                 if (e.Alt)
