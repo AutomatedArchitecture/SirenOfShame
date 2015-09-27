@@ -20,12 +20,30 @@ namespace SirenOfShame
         public const int WIDTH = 230;
         public const int MARGIN = 4;
         private ViewBuildDisplayMode _displayMode;
+        private static float _baseFontSizeProjectName;
+        private static float _baseFontSize;
 
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
             : base(settings)
         {
             InitializeComponent();
             InitializeLabels(buildStatusDto);
+            FontChanged += OnFontChanged;
+            StoreInitialFontSizes();
+        }
+
+        private void StoreInitialFontSizes()
+        {
+            _baseFontSize = Font.Size;
+            _baseFontSizeProjectName = _projectName.Font.Size;
+        }
+
+        private void OnFontChanged(object sender, EventArgs e)
+        {
+            var newBaseFontSize = Font.Size;
+            var fontSizeMultiplier = newBaseFontSize / _baseFontSize;
+            var newProjectNameSize = _baseFontSizeProjectName * fontSizeMultiplier;
+            _projectName.Font = new Font(_projectName.Font.FontFamily, newProjectNameSize, _projectName.Font.Style);
         }
 
         public void SetDisplayMode(ViewBuildDisplayMode displayMode)
