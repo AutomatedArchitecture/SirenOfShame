@@ -42,8 +42,8 @@
             this._successfulBuildsInARow = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.avatar1 = new SirenOfShame.Avatar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.avatar1 = new SirenOfShame.Avatar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -96,8 +96,8 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this._failPercent);
             this.panel1.Controls.Add(this._totalBuilds);
@@ -119,7 +119,6 @@
             // _failPercent
             // 
             this._failPercent.AutoSize = true;
-            this._failPercent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._failPercent.ForeColor = System.Drawing.Color.DimGray;
             this._failPercent.Location = new System.Drawing.Point(152, 6);
             this._failPercent.Name = "_failPercent";
@@ -156,7 +155,6 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(141, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(16, 13);
