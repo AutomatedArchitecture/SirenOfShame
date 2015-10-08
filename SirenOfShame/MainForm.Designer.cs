@@ -957,9 +957,9 @@ namespace SirenOfShame {
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.ShowInTaskbar = true;
             this.Text = "Siren of Shame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
             this.Load += new System.EventHandler(this.MainFormLoad);
@@ -1037,10 +1037,6 @@ namespace SirenOfShame {
       private System.Windows.Forms.ImageList _toolbar16;
       private System.Windows.Forms.Panel panel1;
       private System.Windows.Forms.Button _showRibbon;
-      private NewsFeed _newsFeed1;
-      private Leaders _userList;
-      private ViewBuilds _viewBuilds;
-      private ViewUser viewUser1;
       private System.Windows.Forms.Panel _highlightPanel;
       private System.Windows.Forms.Panel _highlightPanel3;
       private System.Windows.Forms.Panel _highlightPanel2;
@@ -1054,6 +1050,10 @@ namespace SirenOfShame {
       private System.Windows.Forms.Button _viewAllUsers;
       private System.Windows.Forms.Button _userMappings;
       private System.Windows.Forms.OpenFileDialog openFileDialog1;
+      private ViewBuilds _viewBuilds;
+      private ViewUser viewUser1;
+      private NewsFeed _newsFeed1;
+      private Leaders _userList;
 	}
 }
 

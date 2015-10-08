@@ -785,6 +785,7 @@ namespace SirenOfShame
             _isFullscreen = makeFullScreen;
             ShowRibbon(false);
             TopMost = _isFullscreen;
+            MaximizeBox = !_isFullscreen; // this is necessary to make full screen mode cover the taskbar for some reason ?
             WindowState = _isFullscreen ? FormWindowState.Maximized : FormWindowState.Normal;
             FormBorderStyle = _isFullscreen ? FormBorderStyle.None : FormBorderStyle.Sizable;
         }
