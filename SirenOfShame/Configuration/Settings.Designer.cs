@@ -53,8 +53,9 @@ namespace SirenOfShame.Configuration
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ResetReputation = new SirenOfShame.Lib.SosButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this._alwaysOnTop = new System.Windows.Forms.CheckBox();
             this._startInFullscreen = new System.Windows.Forms.CheckBox();
+            this._alwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -340,6 +341,7 @@ namespace SirenOfShame.Configuration
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this._startInFullscreen);
             this.groupBox4.Controls.Add(this._alwaysOnTop);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
@@ -349,6 +351,16 @@ namespace SirenOfShame.Configuration
             this.groupBox4.TabIndex = 31;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Misc";
+            // 
+            // _startInFullscreen
+            // 
+            this._startInFullscreen.AutoSize = true;
+            this._startInFullscreen.Location = new System.Drawing.Point(216, 19);
+            this._startInFullscreen.Name = "_startInFullscreen";
+            this._startInFullscreen.Size = new System.Drawing.Size(111, 17);
+            this._startInFullscreen.TabIndex = 1;
+            this._startInFullscreen.Text = "Start In Fullscreen";
+            this._startInFullscreen.UseVisualStyleBackColor = true;
             // 
             // _alwaysOnTop
             // 
@@ -360,15 +372,14 @@ namespace SirenOfShame.Configuration
             this._alwaysOnTop.Text = "Keep Main Window Always On Top";
             this._alwaysOnTop.UseVisualStyleBackColor = true;
             // 
-            // _startInFullscreen
+            // label1
             // 
-            this._startInFullscreen.AutoSize = true;
-            this._startInFullscreen.Location = new System.Drawing.Point(216, 19);
-            this._startInFullscreen.Name = "_startInFullscreen";
-            this._startInFullscreen.Size = new System.Drawing.Size(111, 17);
-            this._startInFullscreen.TabIndex = 1;
-            this._startInFullscreen.Text = "Start In Fullscreen";
-            this._startInFullscreen.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(356, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(193, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "(Zoom with Ctrl+ Ctrl- and Ctrl-0 to reset)";
             // 
             // Settings
             // 
@@ -428,5 +439,6 @@ namespace SirenOfShame.Configuration
         private System.Windows.Forms.CheckBox _alwaysOnTop;
         private SosButton ResetReputation;
         private System.Windows.Forms.CheckBox _startInFullscreen;
+        private System.Windows.Forms.Label label1;
     }
 }
