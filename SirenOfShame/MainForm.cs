@@ -16,6 +16,7 @@ using SirenOfShame.Lib.Helpers;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.SirenConfiguration;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SirenOfShame
 {
@@ -68,7 +69,10 @@ namespace SirenOfShame
             }
             if (startup)
             {
-                ResetZoom();
+                var lastFontSize = _settings.FontSize;
+                // it seems to be necessary to set a baseline font size
+                SetFontSize(SirenOfShameSettings.DEFAULT_FONT_SIZE);
+                SetFontSize(lastFontSize);
             }
         }
 
@@ -942,7 +946,7 @@ namespace SirenOfShame
 
         private void ResetZoom()
         {
-            SetFontSize(8.25f);
+            SetFontSize(SirenOfShameSettings.DEFAULT_FONT_SIZE);
         }
 
         private void SetFontSize(float fontSize)
@@ -955,7 +959,8 @@ namespace SirenOfShame
                 Height = oldHeight;
                 Width = oldWidth;
             });
-
+            _settings.FontSize = fontSize;
+            _settings.Save();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)

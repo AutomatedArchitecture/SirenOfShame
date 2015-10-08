@@ -27,6 +27,7 @@ namespace SirenOfShame.Lib.Settings
         private string _updateLocationOther;
         private bool? _anyDuplicateSettingsCached;
         private static int? _currentVersion;
+        public const float DEFAULT_FONT_SIZE = 8.25f;
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = SoundService.NEW_RESOURCE_PREFIX + "Plunk.wav" },
@@ -68,6 +69,7 @@ namespace SirenOfShame.Lib.Settings
             UserMappings = new List<UserMapping>();
             Sounds = new List<Sound>();
             SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            FontSize = DEFAULT_FONT_SIZE;
         }
 
         public int? Version { get; set; }
@@ -207,6 +209,8 @@ namespace SirenOfShame.Lib.Settings
 
         public bool StartInFullScreen { get; set; }
 
+        public float FontSize { get; set; }
+
         [XmlIgnore]
         public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 
@@ -244,7 +248,7 @@ namespace SirenOfShame.Lib.Settings
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
         }
-        
+
         private static string GetConfigFileName()
         {
             string path = GetSosAppDataFolder();
