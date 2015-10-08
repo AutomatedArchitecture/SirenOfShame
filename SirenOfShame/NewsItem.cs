@@ -14,6 +14,11 @@ namespace SirenOfShame
         private DateTime EventDate { get; set; }
         private string _rawUserName;
         public event UserClicked OnUserClicked;
+        private float _baseFontSize;
+        private float _baseFontSizeUserName;
+        private float _baseFontSizeReputationChange;
+        private float _baseFontSizeWhen;
+        private float _baseFontSizeProject;
 
         public string RawName {
             get { return _rawUserName; }
@@ -60,6 +65,33 @@ namespace SirenOfShame
         public NewsItem()
         {
             InitializeComponent();
+            FontChanged += OnFontChanged;
+            StoreInitialFontSizes();
+        }
+
+        private void OnFontChanged(object sender, EventArgs e)
+        {
+            var newBaseFontSize = Font.Size;
+            var fontSizeMultiplier = newBaseFontSize / _baseFontSize;
+            ResetFontSize(fontSizeMultiplier, _userName, _baseFontSizeUserName);
+            ResetFontSize(fontSizeMultiplier, _reputationChange, _baseFontSizeReputationChange);
+            ResetFontSize(fontSizeMultiplier, _when, _baseFontSizeWhen);
+            ResetFontSize(fontSizeMultiplier, _project, _baseFontSizeProject);
+        }
+
+        private void ResetFontSize(float fontSizeMultiplier, Label label, float baseSize)
+        {
+            var newProjectNameSize = baseSize * fontSizeMultiplier;
+            label.Font = new Font(label.Font.FontFamily, newProjectNameSize, label.Font.Style);
+        }
+
+        private void StoreInitialFontSizes()
+        {
+            _baseFontSize = Font.Size;
+            _baseFontSizeUserName = _userName.Font.Size;
+            _baseFontSizeProject = _project.Font.Size;
+            _baseFontSizeWhen = _when.Font.Size;
+            _baseFontSizeReputationChange = _reputationChange.Font.Size;
         }
 
         public void Initialize(NewNewsItemEventArgs args)
