@@ -22,6 +22,7 @@ namespace SirenOfShame
         private ViewBuildDisplayMode _displayMode;
         private static float _baseFontSizeProjectName;
         private static float _baseFontSizeRequestedBy;
+        private static float _baseFontSizeDuration;
         private static float _baseFontSize;
 
         public ViewBuildSmall(BuildStatusDto buildStatusDto, SirenOfShameSettings settings)
@@ -38,15 +39,20 @@ namespace SirenOfShame
             _baseFontSize = Font.Size;
             _baseFontSizeProjectName = _projectName.Font.Size;
             _baseFontSizeRequestedBy = _requestedBy.Font.Size;
+            _baseFontSizeDuration = _duration.Font.Size;
         }
 
         private void OnFontChanged(object sender, EventArgs e)
         {
-            var newBaseFontSize = Font.Size;
-            var fontSizeMultiplier = newBaseFontSize / _baseFontSize;
+            ResetFontSize(ZoomLevel, _projectName, _baseFontSizeProjectName);
+            ResetFontSize(ZoomLevel, _requestedBy, _baseFontSizeRequestedBy);
+            ResetFontSize(ZoomLevel, _duration, _baseFontSizeDuration);
+            RefreshHeightWidth();
+        }
 
-            ResetFontSize(fontSizeMultiplier, _projectName, _baseFontSizeProjectName);
-            ResetFontSize(fontSizeMultiplier, _requestedBy, _baseFontSizeRequestedBy);
+        private float ZoomLevel
+        {
+            get { return Font.Size / _baseFontSize; }
         }
 
         private void ResetFontSize(float fontSizeMultiplier, Label label, float baseSize)
@@ -63,8 +69,14 @@ namespace SirenOfShame
             _comment.Visible = displayMode == ViewBuildDisplayMode.Normal;
             _duration.Visible = displayMode == ViewBuildDisplayMode.Normal;
             SetDetailsVisibility();
-            Height = displayMode == ViewBuildDisplayMode.Normal ? NORMAL_HEIGHT : TINY_HEIGHT;
-            Width = WIDTH;
+            RefreshHeightWidth();
+        }
+
+        private void RefreshHeightWidth()
+        {
+            var unzoomedHeight = _displayMode == ViewBuildDisplayMode.Normal ? NORMAL_HEIGHT : TINY_HEIGHT;
+            Height = (int)(unzoomedHeight * ZoomLevel);
+            Width = (int)(WIDTH * ZoomLevel);
         }
 
         private void SetDetailsVisibility()

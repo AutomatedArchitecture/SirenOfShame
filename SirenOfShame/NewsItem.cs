@@ -14,11 +14,11 @@ namespace SirenOfShame
         private DateTime EventDate { get; set; }
         private string _rawUserName;
         public event UserClicked OnUserClicked;
-        private float _baseFontSize;
-        private float _baseFontSizeUserName;
-        private float _baseFontSizeReputationChange;
-        private float _baseFontSizeWhen;
-        private float _baseFontSizeProject;
+        private static float _baseFontSize;
+        private static float _baseFontSizeUserName;
+        private static float _baseFontSizeReputationChange;
+        private static float _baseFontSizeWhen;
+        private static float _baseFontSizeProject;
 
         public string RawName {
             get { return _rawUserName; }
