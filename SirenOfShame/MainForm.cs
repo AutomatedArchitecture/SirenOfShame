@@ -989,7 +989,7 @@ namespace SirenOfShame
             {
                 SetFullScreenMode(false);
             }
-            if (e.KeyCode == Keys.Back)
+            if ((e.Control || e.Alt) && e.KeyCode == Keys.Back)
             {
                 ShowInMainWindow(MainWindowEnum.ViewBuilds);
                 _viewBuilds.InitializeForBuild();

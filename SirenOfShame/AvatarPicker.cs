@@ -8,9 +8,9 @@ namespace SirenOfShame
     {
         public event AvatarClicked OnAvatarClicked;
 
-        public void InvokeOnOnAvatarClicked(int index)
+        private void InvokeOnOnAvatarClicked(int index)
         {
-            AvatarClicked handler = OnAvatarClicked;
+            var handler = OnAvatarClicked;
             if (handler != null) handler(this, new AvatarClickedArgs { Index = index });
         }
 
