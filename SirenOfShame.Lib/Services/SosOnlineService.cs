@@ -266,8 +266,6 @@ namespace SirenOfShame.Lib.Services
             _log.Error("Error connecting to SoS Online via SignalR", ex);
         }
 
-        private readonly Dictionary<string, int> _cachedAvatarIds = new Dictionary<string, int>();
-
         public virtual SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
             var avatarId = GetAvatarId(args, avatarImageList);
@@ -284,11 +282,7 @@ namespace SirenOfShame.Lib.Services
             int avatarId;
             try
             {
-                if (!_cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
-                {
-                    avatarId = gravatarService.DownloadImageFromWebAndAddToImageList(args.ImageUrl, avatarImageList);
-                    _cachedAvatarIds[args.ImageUrl] = avatarId;
-                }
+                avatarId = gravatarService.DownloadImageFromWebAndAddToImageList(args.ImageUrl, avatarImageList);
             } catch (Exception ex)
             {
                 _log.Error("Error retrieving gravatar for " + args.DisplayName, ex);

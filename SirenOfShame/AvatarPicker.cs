@@ -8,6 +8,7 @@ namespace SirenOfShame
     public partial class AvatarPicker : Form
     {
         private readonly ImageList _avatarImageList;
+        private readonly PersonSetting _personSetting;
         public event AvatarClicked OnAvatarClicked;
 
         private void InvokeOnOnAvatarClicked(int index)
@@ -16,10 +17,12 @@ namespace SirenOfShame
             if (handler != null) handler(this, new AvatarClickedArgs { Index = index });
         }
 
-        public AvatarPicker(ImageList avatarImageList)
+        public AvatarPicker(ImageList avatarImageList, PersonSetting personSetting)
         {
             _avatarImageList = avatarImageList;
+            _personSetting = personSetting;
             InitializeComponent();
+            emailTextbox.Text = personSetting.Email;
             int avatarCount = SirenOfShameSettings.AVATAR_COUNT;
             for (int i = 0; i < avatarCount; i++)
             {
@@ -52,6 +55,7 @@ namespace SirenOfShame
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            _personSetting.Email = emailTextbox.Text;
             SelectAvatarAndClose(_gravatar);
         }
     }

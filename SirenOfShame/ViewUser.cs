@@ -66,7 +66,7 @@ namespace SirenOfShame
         {
             var onClose = OnClose;
             if (onClose != null)
-                OnClose(this, new CloseScreenArgs());
+                onClose(this, new CloseScreenArgs());
         }
 
         private ImageList _avatarImageList;
@@ -109,7 +109,7 @@ namespace SirenOfShame
 
         private void OpenAvatarPicker(Control changeAvatar)
         {
-            _avatarPicker = new AvatarPicker(_avatarImageList);
+            _avatarPicker = new AvatarPicker(_avatarImageList, _personSetting);
             _avatarPicker.Deactivate += (sender, args) =>
             {
                 _avatarPicker.Close();
