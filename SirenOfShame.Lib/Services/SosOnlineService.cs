@@ -280,31 +280,19 @@ namespace SirenOfShame.Lib.Services
 
         private int GetAvatarId(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
+            var gravatarService = new GravatarService();
             int avatarId;
             try
             {
                 if (!_cachedAvatarIds.TryGetValue(args.ImageUrl, out avatarId))
                 {
-                    avatarId = GetGravatarFromWebAndAddToImageList(args, avatarImageList);
+                    avatarId = gravatarService.DownloadImageFromWebAndAddToImageList(args.ImageUrl, avatarImageList);
                     _cachedAvatarIds[args.ImageUrl] = avatarId;
                 }
             } catch (Exception ex)
             {
                 _log.Error("Error retrieving gravatar for " + args.DisplayName, ex);
                 avatarId = SirenOfShameSettings.GenericSosOnlineAvatarId;
-            }
-            return avatarId;
-        }
-
-        private static int GetGravatarFromWebAndAddToImageList(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
-        {
-            int avatarId;
-            var webClient = new WebClient();
-            byte[] imageRaw = webClient.DownloadData(args.ImageUrl);
-            using (MemoryStream gravatarMs = new MemoryStream(imageRaw))
-            {
-                Image gravatarImage = Image.FromStream(gravatarMs);
-                avatarId = avatarImageList.Images.Add(gravatarImage, Color.Transparent);
             }
             return avatarId;
         }

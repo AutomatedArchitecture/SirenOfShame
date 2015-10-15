@@ -146,6 +146,7 @@
     <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Services\ApiResultBase.cs" />
     <Compile Include="Services\CredentialApiModel.cs" />
+    <Compile Include="Services\GravatarService.cs" />
     <Compile Include="Services\MySosOnlineService.cs" />
     <Compile Include="Services\ReputationResetService.cs" />
     <Compile Include="Services\SosOnlineStatusChangeArgs.cs" />
