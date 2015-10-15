@@ -23,6 +23,11 @@ namespace SirenOfShame
             _personSetting = personSetting;
             InitializeComponent();
             emailTextbox.Text = personSetting.Email;
+            if (personSetting.Email != null)
+            {
+                _gravatar.SetImage(personSetting, avatarImageList);
+                tabControl1.SelectedIndex = 1;
+            }
             int avatarCount = SirenOfShameSettings.AVATAR_COUNT;
             for (int i = 0; i < avatarCount; i++)
             {
