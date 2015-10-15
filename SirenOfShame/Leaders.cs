@@ -114,11 +114,11 @@ namespace SirenOfShame
                 _usersPanel.Focus();
         }
 
-        public void ChangeUserAvatarId(string rawName, int newImageIndex)
+        public void RefreshAvatar(PersonSetting personSetting, ImageList imageList)
         {
-            var userPanel = GetUserPanel(rawName);
+            var userPanel = GetUserPanel(personSetting.RawName);
             if (userPanel == null) return;
-            userPanel.AvatarId = newImageIndex;
+            userPanel.RefreshAvatar(personSetting, imageList);
         }
 
         private UserPanel GetUserPanel(string rawName)

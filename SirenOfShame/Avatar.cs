@@ -25,7 +25,7 @@ namespace SirenOfShame
         public void SetImage(PersonBase user, ImageList avatarImageList)
         {
             var avatarId = user.GetAvatarId(avatarImageList);
-            SetImage(user.AvatarId, avatarImageList);
+            SetImage(avatarId, avatarImageList);
         }
 
         private void Label1Click(object sender, System.EventArgs e)

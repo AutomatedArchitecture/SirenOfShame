@@ -11,10 +11,10 @@ namespace SirenOfShame
         private readonly PersonSetting _personSetting;
         public event AvatarClicked OnAvatarClicked;
 
-        private void InvokeOnOnAvatarClicked(int index)
+        private void InvokeOnOnAvatarClicked()
         {
             var handler = OnAvatarClicked;
-            if (handler != null) handler(this, new AvatarClickedArgs { Index = index });
+            if (handler != null) handler(this, new AvatarClickedArgs());
         }
 
         public AvatarPicker(ImageList avatarImageList, PersonSetting personSetting)
@@ -36,12 +36,13 @@ namespace SirenOfShame
         private void AvatarOnClick(object sender, EventArgs eventArgs)
         {
             Avatar avatar = (Avatar) sender;
-            SelectAvatarAndClose(avatar);
+            SelectAvatarAndClose(avatar.ImageIndex);
         }
 
-        private void SelectAvatarAndClose(Avatar avatar)
+        private void SelectAvatarAndClose(int? avatarId)
         {
-            InvokeOnOnAvatarClicked(avatar.ImageIndex);
+            _personSetting.AvatarId = avatarId;
+            InvokeOnOnAvatarClicked();
             Close();
             Dispose();
         }
@@ -56,7 +57,7 @@ namespace SirenOfShame
         private void saveButton_Click(object sender, EventArgs e)
         {
             _personSetting.Email = emailTextbox.Text;
-            SelectAvatarAndClose(_gravatar);
+            SelectAvatarAndClose(null);
         }
     }
 
@@ -64,6 +65,5 @@ namespace SirenOfShame
 
     public class AvatarClickedArgs
     {
-        public int Index { get; set; }
     }
 }

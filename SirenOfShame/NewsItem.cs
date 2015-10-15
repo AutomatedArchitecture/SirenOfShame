@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using SirenOfShame.Lib;
 using SirenOfShame.Lib.Helpers;
+using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 
 namespace SirenOfShame
@@ -51,9 +52,9 @@ namespace SirenOfShame
 
         public string BuildId { get; private set; }
 
-        public void ChangeImageIndex(int index)
+        public void RefreshAvatar(PersonSetting personSetting, ImageList imageList)
         {
-            avatar1.ImageIndex = index;
+            avatar1.SetImage(personSetting, imageList);
         }
 
         private void InvokeOnOnUserClicked()

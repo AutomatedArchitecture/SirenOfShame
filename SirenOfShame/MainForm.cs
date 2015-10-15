@@ -175,8 +175,8 @@ namespace SirenOfShame
 
         private void ViewUser1OnOnUserChangedAvatarId(object sender, UserChangedAvatarIdArgs args)
         {
-            _newsFeed1.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
-            _userList.ChangeUserAvatarId(args.RawName, args.NewImageIndex);
+            _newsFeed1.RefreshAvatar(args.PersonSetting, _avatarImageList);
+            _userList.RefreshAvatar(args.PersonSetting, _avatarImageList);
         }
 
         private void NewsFeedOnUserClicked(object sender, UserClickedArgs args)

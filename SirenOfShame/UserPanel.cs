@@ -61,11 +61,11 @@ namespace SirenOfShame
 
         public string RawName { get; private set; }
 
-        public int AvatarId
+        public void RefreshAvatar(PersonSetting personSetting, ImageList imageList)
         {
-            set { if (avatar1 != null) avatar1.ImageIndex = value; }
+            avatar1.SetImage(personSetting, imageList);
         }
-
+        
         public string DisplayName
         {
             get { return _displayName.Text; }

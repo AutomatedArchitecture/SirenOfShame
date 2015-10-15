@@ -6,7 +6,6 @@ namespace SirenOfShame.Lib.Watcher
     {
         public abstract string RawName { get; set; }
         public abstract string DisplayName { get; set; }
-        public abstract int AvatarId { get; set; }
 
         public bool Clickable
         {

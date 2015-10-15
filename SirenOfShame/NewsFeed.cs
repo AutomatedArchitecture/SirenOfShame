@@ -27,10 +27,10 @@ namespace SirenOfShame
             if (handler != null) handler(this, new SendMessageToSosOnlineArgs { Message = message});
         }
 
-        public void ChangeUserAvatarId(string rawUserName, int newImageIndex)
+        public void RefreshAvatar(PersonSetting personSetting, ImageList imageList)
         {
-            IEnumerable<NewsItem> newsItemControls = NewsItemControlsForUser(rawUserName);
-            newsItemControls.ToList().ForEach(i => i.ChangeImageIndex(newImageIndex));
+            IEnumerable<NewsItem> newsItemControls = NewsItemControlsForUser(personSetting.RawName);
+            newsItemControls.ToList().ForEach(i => i.RefreshAvatar(personSetting, imageList));
         }
 
         private IEnumerable<NewsItem> NewsItemControlsForUser(string rawUserName)

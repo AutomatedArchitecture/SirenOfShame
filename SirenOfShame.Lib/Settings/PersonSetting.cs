@@ -20,7 +20,7 @@ namespace SirenOfShame.Lib.Settings
         public List<AchievementSetting> Achievements { get; set; }
         public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
-        public override int AvatarId { get; set; }
+        public int? AvatarId { get; set; }
         public int NumberOfTimesFixedSomeoneElsesBuild { get; set; }
         public int NumberOfTimesPerformedBackToBackBuilds { get; set; }
         public int MaxBuildsInOneDay { get; set; }
@@ -58,7 +58,7 @@ namespace SirenOfShame.Lib.Settings
 
         public override int GetAvatarId(ImageList avatarImageList)
         {
-            if (AvatarId <= SirenOfShameSettings.AVATAR_COUNT) return AvatarId;
+            if (AvatarId.HasValue) return AvatarId.Value;
             return new GravatarService().DownloadGravatarFromEmailAndAddToImageList(Email, avatarImageList);
         }
 

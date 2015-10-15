@@ -18,10 +18,10 @@ namespace SirenOfShame
         private PersonSetting _personSetting;
         private AvatarPicker _avatarPicker;
 
-        private void InvokeOnOnUserChangedAvatarId(int newImageIndex)
+        private void InvokeOnOnUserChangedAvatarId()
         {
             UserChangedAvatarId handler = OnUserChangedAvatarId;
-            if (handler != null) handler(this, new UserChangedAvatarIdArgs { NewImageIndex = newImageIndex, RawName = _personSetting.RawName });
+            if (handler != null) handler(this, new UserChangedAvatarIdArgs { PersonSetting = _personSetting });
         }
 
         private void InvokeOnUserDisplayNameChanged(UserDisplayNameChangedArgs args)
@@ -126,11 +126,9 @@ namespace SirenOfShame
         private void AvatarPickerOnOnAvatarClicked(object sender, AvatarClickedArgs args)
         {
             if (_personSetting == null) return;
-            int newImageIndex = args.Index;
-            _personSetting.AvatarId = newImageIndex;
             _settings.Save();
-            avatar1.ImageIndex = newImageIndex;
-            InvokeOnOnUserChangedAvatarId(newImageIndex);
+            avatar1.SetImage(_personSetting, _avatarImageList);
+            InvokeOnOnUserChangedAvatarId();
         }
 
         private void Avatar1Click(object sender, EventArgs e)
@@ -195,8 +193,7 @@ namespace SirenOfShame
 
     public class UserChangedAvatarIdArgs
     {
-        public string RawName { get; set; }
-        public int NewImageIndex { get; set; }
+        public PersonSetting PersonSetting { get; set; }
     }
 
     public delegate void CloseScreen(object sender, CloseScreenArgs args);
