@@ -1000,6 +1000,7 @@ namespace SirenOfShame
             }
             if (wasNumberPressed)
             {
+                if (e.Shift) return;
                 if (e.Alt)
                 {
                     var personToShow = _settings.People.ElementAtOrDefault(numberPressed);
