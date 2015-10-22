@@ -39,9 +39,16 @@
             this.emailTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._adDomain = new System.Windows.Forms.TextBox();
+            this._adUser = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this._importFromAd = new SirenOfShame.Lib.SosButton();
             this._saveCustomImage = new SirenOfShame.Lib.SosButton();
             this._croppedCustom = new System.Windows.Forms.PictureBox();
             this._selectImage = new SirenOfShame.Lib.SosButton();
+            this._errorMessage = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -123,7 +130,7 @@
             this.previewButton.TabIndex = 7;
             this.previewButton.Text = "Preview";
             this.previewButton.UseVisualStyleBackColor = false;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            this.previewButton.Click += new System.EventHandler(this.PreviewButton_Click);
             // 
             // saveButton
             // 
@@ -140,7 +147,7 @@
             this.saveButton.TabIndex = 6;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // label2
             // 
@@ -172,6 +179,13 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.tabPage3.Controls.Add(this._errorMessage);
+            this.tabPage3.Controls.Add(this._adDomain);
+            this.tabPage3.Controls.Add(this._adUser);
+            this.tabPage3.Controls.Add(this.label5);
+            this.tabPage3.Controls.Add(this.label4);
+            this.tabPage3.Controls.Add(this.label3);
+            this.tabPage3.Controls.Add(this._importFromAd);
             this.tabPage3.Controls.Add(this._saveCustomImage);
             this.tabPage3.Controls.Add(this._croppedCustom);
             this.tabPage3.Controls.Add(this._selectImage);
@@ -181,6 +195,67 @@
             this.tabPage3.Size = new System.Drawing.Size(384, 174);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Custom";
+            // 
+            // _adDomain
+            // 
+            this._adDomain.Location = new System.Drawing.Point(200, 28);
+            this._adDomain.Name = "_adDomain";
+            this._adDomain.Size = new System.Drawing.Size(173, 20);
+            this._adDomain.TabIndex = 9;
+            // 
+            // _adUser
+            // 
+            this._adUser.Location = new System.Drawing.Point(200, 52);
+            this._adUser.Name = "_adUser";
+            this._adUser.Size = new System.Drawing.Size(173, 20);
+            this._adUser.TabIndex = 8;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(148, 6);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(225, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Or, Import From Active Directory (experimental)";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(148, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Domain:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(148, 55);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "User:";
+            // 
+            // _importFromAd
+            // 
+            this._importFromAd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._importFromAd.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._importFromAd.FlatAppearance.BorderSize = 0;
+            this._importFromAd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._importFromAd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._importFromAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._importFromAd.ForeColor = System.Drawing.Color.White;
+            this._importFromAd.Location = new System.Drawing.Point(151, 78);
+            this._importFromAd.Name = "_importFromAd";
+            this._importFromAd.Size = new System.Drawing.Size(222, 21);
+            this._importFromAd.TabIndex = 4;
+            this._importFromAd.Text = "Import From AD";
+            this._importFromAd.UseVisualStyleBackColor = false;
+            this._importFromAd.Click += new System.EventHandler(this.ImportFromAd_Click);
             // 
             // _saveCustomImage
             // 
@@ -202,11 +277,13 @@
             // _croppedCustom
             // 
             this._croppedCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._croppedCustom.Location = new System.Drawing.Point(9, 6);
+            this._croppedCustom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._croppedCustom.Location = new System.Drawing.Point(8, 6);
             this._croppedCustom.Name = "_croppedCustom";
             this._croppedCustom.Size = new System.Drawing.Size(48, 48);
             this._croppedCustom.TabIndex = 2;
             this._croppedCustom.TabStop = false;
+            this._croppedCustom.Click += new System.EventHandler(this.CroppedCustom_Click);
             // 
             // _selectImage
             // 
@@ -217,13 +294,23 @@
             this._selectImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._selectImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._selectImage.ForeColor = System.Drawing.Color.White;
-            this._selectImage.Location = new System.Drawing.Point(9, 60);
+            this._selectImage.Location = new System.Drawing.Point(62, 6);
             this._selectImage.Name = "_selectImage";
-            this._selectImage.Size = new System.Drawing.Size(48, 23);
+            this._selectImage.Size = new System.Drawing.Size(64, 48);
             this._selectImage.TabIndex = 0;
-            this._selectImage.Text = "Select";
+            this._selectImage.Text = "Select File On Disk";
             this._selectImage.UseVisualStyleBackColor = false;
             this._selectImage.Click += new System.EventHandler(this.SelectImage_Click);
+            // 
+            // _errorMessage
+            // 
+            this._errorMessage.ForeColor = System.Drawing.Color.Red;
+            this._errorMessage.Location = new System.Drawing.Point(8, 62);
+            this._errorMessage.Name = "_errorMessage";
+            this._errorMessage.Size = new System.Drawing.Size(134, 102);
+            this._errorMessage.TabIndex = 10;
+            this._errorMessage.Text = "[error message]";
+            this._errorMessage.Visible = false;
             // 
             // AvatarPicker
             // 
@@ -241,6 +328,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._croppedCustom)).EndInit();
             this.ResumeLayout(false);
 
@@ -262,6 +350,13 @@
         private Lib.SosButton _selectImage;
         private System.Windows.Forms.PictureBox _croppedCustom;
         private Lib.SosButton _saveCustomImage;
+        private System.Windows.Forms.TextBox _adDomain;
+        private System.Windows.Forms.TextBox _adUser;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private Lib.SosButton _importFromAd;
+        private System.Windows.Forms.Label _errorMessage;
 
     }
 }

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.DirectoryServices;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using log4net;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 
@@ -15,6 +18,7 @@ namespace SirenOfShame
         private readonly PersonSetting _personSetting;
         private bool _okToClose;
         public event AvatarClicked OnAvatarClicked;
+        private static readonly ILog _log = MyLogManager.GetLogger(typeof(AvatarPicker));
 
         private void InvokeOnOnAvatarClicked()
         {
@@ -53,8 +57,7 @@ namespace SirenOfShame
         {
             if (!DesignMode && _okToClose)
             {
-                Close();
-                Dispose();
+                CloseAndDispose();
             }
         }
 
@@ -68,19 +71,32 @@ namespace SirenOfShame
         {
             _personSetting.AvatarId = avatarId;
             InvokeOnOnAvatarClicked();
+            CloseAndDispose();
+        }
+
+        private void CloseAndDispose()
+        {
             Close();
             Dispose();
         }
 
-        private void previewButton_Click(object sender, EventArgs e)
+        private void PreviewButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(emailTextbox.Text)) return;
+
             var gravatarService = new GravatarService();
             var avatarId = gravatarService.DownloadGravatarFromEmailAndAddToImageList(emailTextbox.Text, _avatarImageList);
             _gravatar.SetImage(avatarId, _avatarImageList);
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(emailTextbox.Text))
+            {
+                CloseAndDispose();
+                return;
+            }
+
             _personSetting.Email = emailTextbox.Text;
             SelectAvatarAndClose(null);
         }
@@ -90,13 +106,13 @@ namespace SirenOfShame
             SelectCustomImage();
         }
 
-        private void CustomPictureBox_Click(object sender, EventArgs e)
-        {
-            SelectCustomImage();
-        }
-
         private void SaveCustomImage_Click(object sender, EventArgs e)
         {
+            if (_croppedCustom.Image == null)
+            {
+                CloseAndDispose();
+                return;
+            }
             var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
             var newFileName = Guid.NewGuid() + ".png";
             var combine = Path.Combine(avatarsFolder, newFileName);
@@ -156,6 +172,44 @@ namespace SirenOfShame
             }
 
             return destImage;
+        }
+
+        private void ImportFromAd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var picture = GetUserPicture(_adUser.Text, _adDomain.Text);
+                _croppedCustom.Image = Resize(picture);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error importing from active directory", ex);
+                _errorMessage.Text = ex.ToString();
+                _errorMessage.Visible = true;
+            }
+        }
+
+        private Image GetUserPicture(string userName, string domain)
+        {
+            var directoryEntry = new DirectoryEntry("LDAP://" + domain);
+            var directorySearcher = new DirectorySearcher(directoryEntry)
+            {
+                Filter = string.Format("(&(SAMAccountName={0}))", userName)
+            };
+            var user = directorySearcher.FindOne();
+
+            var bytes = user.Properties["thumbnailPhoto"][0] as byte[];
+
+            using (var ms = new MemoryStream(bytes))
+            {
+                var image = Image.FromStream(ms);
+                return image;
+            }
+        }
+
+        private void CroppedCustom_Click(object sender, EventArgs e)
+        {
+            SelectCustomImage();
         }
     }
 
