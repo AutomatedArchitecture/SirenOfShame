@@ -110,11 +110,6 @@ namespace SirenOfShame
         private void OpenAvatarPicker(Control changeAvatar)
         {
             _avatarPicker = new AvatarPicker(_avatarImageList, _personSetting);
-            _avatarPicker.Deactivate += (sender, args) =>
-            {
-                _avatarPicker.Close();
-                _avatarPicker.Dispose();
-            };
             _avatarPicker.Show(this);
             _avatarPicker.Activate();
 

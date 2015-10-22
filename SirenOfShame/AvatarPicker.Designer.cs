@@ -38,15 +38,22 @@
             this.label2 = new System.Windows.Forms.Label();
             this.emailTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._saveCustomImage = new SirenOfShame.Lib.SosButton();
+            this._croppedCustom = new System.Windows.Forms.PictureBox();
+            this._selectImage = new SirenOfShame.Lib.SosButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._croppedCustom)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -162,6 +169,62 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "E-mail*";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.tabPage3.Controls.Add(this._saveCustomImage);
+            this.tabPage3.Controls.Add(this._croppedCustom);
+            this.tabPage3.Controls.Add(this._selectImage);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(384, 174);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Custom";
+            // 
+            // _saveCustomImage
+            // 
+            this._saveCustomImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._saveCustomImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._saveCustomImage.FlatAppearance.BorderSize = 0;
+            this._saveCustomImage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._saveCustomImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._saveCustomImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._saveCustomImage.ForeColor = System.Drawing.Color.White;
+            this._saveCustomImage.Location = new System.Drawing.Point(293, 141);
+            this._saveCustomImage.Name = "_saveCustomImage";
+            this._saveCustomImage.Size = new System.Drawing.Size(83, 23);
+            this._saveCustomImage.TabIndex = 3;
+            this._saveCustomImage.Text = "Save";
+            this._saveCustomImage.UseVisualStyleBackColor = false;
+            this._saveCustomImage.Click += new System.EventHandler(this.SaveCustomImage_Click);
+            // 
+            // _croppedCustom
+            // 
+            this._croppedCustom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._croppedCustom.Location = new System.Drawing.Point(9, 6);
+            this._croppedCustom.Name = "_croppedCustom";
+            this._croppedCustom.Size = new System.Drawing.Size(48, 48);
+            this._croppedCustom.TabIndex = 2;
+            this._croppedCustom.TabStop = false;
+            // 
+            // _selectImage
+            // 
+            this._selectImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._selectImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._selectImage.FlatAppearance.BorderSize = 0;
+            this._selectImage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._selectImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._selectImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._selectImage.ForeColor = System.Drawing.Color.White;
+            this._selectImage.Location = new System.Drawing.Point(9, 60);
+            this._selectImage.Name = "_selectImage";
+            this._selectImage.Size = new System.Drawing.Size(48, 23);
+            this._selectImage.TabIndex = 0;
+            this._selectImage.Text = "Select";
+            this._selectImage.UseVisualStyleBackColor = false;
+            this._selectImage.Click += new System.EventHandler(this.SelectImage_Click);
+            // 
             // AvatarPicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,6 +240,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._croppedCustom)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -193,6 +258,10 @@
         private Lib.SosButton previewButton;
         private Lib.SosButton saveButton;
         private Avatar _gravatar;
+        private System.Windows.Forms.TabPage tabPage3;
+        private Lib.SosButton _selectImage;
+        private System.Windows.Forms.PictureBox _croppedCustom;
+        private Lib.SosButton _saveCustomImage;
 
     }
 }

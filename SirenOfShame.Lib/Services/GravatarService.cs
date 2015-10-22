@@ -5,12 +5,35 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using log4net;
+using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Lib.Services
 {
     public class GravatarService
     {
         private const int DEFAULT_IMAGE_SIZE = 48;
+        private readonly ILog _log = MyLogManager.GetLogger(typeof(GravatarService));
+
+        public int LoadAvatarFromFile(string avatarImageName, ImageList avatarImageList)
+        {
+            if (avatarImageList.Images.ContainsKey(avatarImageName))
+                return avatarImageList.Images.IndexOfKey(avatarImageName);
+
+            try
+            {
+                var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
+                var imagePath = Path.Combine(avatarsFolder, avatarImageName);
+                var image = Image.FromFile(imagePath);
+                avatarImageList.Images.Add(avatarImageName, image);
+                return avatarImageList.Images.Count - 1;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Unable to retrieve avatar, defaulting to a random avatar", ex);
+                return new Random(avatarImageName.GetHashCode()).Next(0, 19);
+            }
+        }
 
         public int DownloadImageFromWebAndAddToImageList(string imageUrl, ImageList avatarImageList)
         {

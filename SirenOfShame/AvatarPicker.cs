@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
@@ -9,6 +13,7 @@ namespace SirenOfShame
     {
         private readonly ImageList _avatarImageList;
         private readonly PersonSetting _personSetting;
+        private bool _okToClose;
         public event AvatarClicked OnAvatarClicked;
 
         private void InvokeOnOnAvatarClicked()
@@ -19,6 +24,7 @@ namespace SirenOfShame
 
         public AvatarPicker(ImageList avatarImageList, PersonSetting personSetting)
         {
+            _okToClose = true;
             _avatarImageList = avatarImageList;
             _personSetting = personSetting;
             InitializeComponent();
@@ -28,6 +34,11 @@ namespace SirenOfShame
                 _gravatar.SetImage(personSetting, avatarImageList);
                 tabControl1.SelectedIndex = 1;
             }
+            if (personSetting.AvatarImageName != null)
+            {
+                _croppedCustom.ImageLocation = Path.Combine(SirenOfShameSettings.GetAvatarsFolder(),
+                    personSetting.AvatarImageName);
+            }
             int avatarCount = SirenOfShameSettings.AVATAR_COUNT;
             for (int i = 0; i < avatarCount; i++)
             {
@@ -35,6 +46,15 @@ namespace SirenOfShame
                 avatar.SetImage(i, avatarImageList);
                 avatar.Click += AvatarOnClick;
                 flowLayoutPanel1.Controls.Add(avatar);
+            }
+        }
+
+        protected override void OnDeactivate(EventArgs e)
+        {
+            if (!DesignMode && _okToClose)
+            {
+                Close();
+                Dispose();
             }
         }
 
@@ -63,6 +83,79 @@ namespace SirenOfShame
         {
             _personSetting.Email = emailTextbox.Text;
             SelectAvatarAndClose(null);
+        }
+
+        private void SelectImage_Click(object sender, EventArgs e)
+        {
+            SelectCustomImage();
+        }
+
+        private void CustomPictureBox_Click(object sender, EventArgs e)
+        {
+            SelectCustomImage();
+        }
+
+        private void SaveCustomImage_Click(object sender, EventArgs e)
+        {
+            var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
+            var newFileName = Guid.NewGuid() + ".png";
+            var combine = Path.Combine(avatarsFolder, newFileName);
+            _croppedCustom.Image.Save(combine);
+            _personSetting.AvatarImageName = newFileName;
+            SelectAvatarAndClose(null);
+        }
+
+        private void SelectCustomImage()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                Filter = "Images (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG",
+                RestoreDirectory = true
+            };
+
+            _okToClose = false;
+            try
+            {
+                var dialogResult = openFileDialog1.ShowDialog();
+                if (dialogResult != DialogResult.OK) return;
+            }
+            finally
+            {
+                _okToClose = true;
+            }
+            
+            var image = Image.FromFile(openFileDialog1.FileName);
+            _croppedCustom.Image = Resize(image);
+        }
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/1922040/resize-an-image-c-sharp
+        /// </summary>
+        private new Bitmap Resize(Image image)
+        {
+            int width = 48;
+            int height = 48;
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
     }
 

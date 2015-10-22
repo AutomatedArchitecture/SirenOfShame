@@ -587,5 +587,13 @@ namespace SirenOfShame.Lib.Settings
             var backupFileNameAndPath = Path.Combine(path, backupFileName);
             File.Copy(fileName, backupFileNameAndPath, true);
         }
+
+        public static string GetAvatarsFolder()
+        {
+            var sosAppDataFolder = GetSosAppDataFolder();
+            var avatarsDir = Path.Combine(sosAppDataFolder, "Avatars");
+            Directory.CreateDirectory(avatarsDir);
+            return avatarsDir;
+        }
     }
 }

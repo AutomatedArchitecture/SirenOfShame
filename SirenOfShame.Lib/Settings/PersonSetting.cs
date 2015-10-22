@@ -28,6 +28,7 @@ namespace SirenOfShame.Lib.Settings
         public double? LowestBuildRatioAfter50Builds { get; set; }
         public int CurrentSuccessInARow { get; set; }
         public string Email { get; set; }
+        public string AvatarImageName { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime
@@ -59,7 +60,10 @@ namespace SirenOfShame.Lib.Settings
         public override int GetAvatarId(ImageList avatarImageList)
         {
             if (AvatarId.HasValue) return AvatarId.Value;
-            return new GravatarService().DownloadGravatarFromEmailAndAddToImageList(Email, avatarImageList);
+            var gravatarService = new GravatarService();
+            if (!string.IsNullOrEmpty(AvatarImageName)) 
+                return gravatarService.LoadAvatarFromFile(AvatarImageName, avatarImageList);
+            return gravatarService.DownloadGravatarFromEmailAndAddToImageList(Email, avatarImageList);
         }
 
         public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
