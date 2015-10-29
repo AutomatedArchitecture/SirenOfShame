@@ -4,6 +4,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using SirenOfShame.Lib;
@@ -42,6 +45,7 @@ namespace SirenOfShame
             {
                 _croppedCustom.ImageLocation = Path.Combine(SirenOfShameSettings.GetAvatarsFolder(),
                     personSetting.AvatarImageName);
+                tabControl1.SelectedIndex = 2;
             }
             int avatarCount = SirenOfShameSettings.AVATAR_COUNT;
             for (int i = 0; i < avatarCount; i++)
@@ -184,9 +188,14 @@ namespace SirenOfShame
             catch (Exception ex)
             {
                 _log.Error("Error importing from active directory", ex);
-                _errorMessage.Text = ex.ToString();
-                _errorMessage.Visible = true;
+                SetErrorMessage(ex);
             }
+        }
+
+        private void SetErrorMessage(Exception ex)
+        {
+            _errorMessage.Text = ex.ToString();
+            _errorMessage.Visible = true;
         }
 
         private Image GetUserPicture(string userName, string domain)
@@ -203,7 +212,7 @@ namespace SirenOfShame
                 throw new Exception(message);
             }
             var bytes = user.Properties["thumbnailPhoto"][0] as byte[];
-
+            if (bytes == null) return null;
             using (var ms = new MemoryStream(bytes))
             {
                 var image = Image.FromStream(ms);
@@ -214,6 +223,22 @@ namespace SirenOfShame
         private void CroppedCustom_Click(object sender, EventArgs e)
         {
             SelectCustomImage();
+        }
+
+        private async void GetFromUrl_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var requestUri = new Uri(_url.Text);
+                HttpClient client = new HttpClient();
+                var imageStream = await client.GetStreamAsync(requestUri);
+                Image picture = Image.FromStream(imageStream);
+                _croppedCustom.Image = Resize(picture);
+            }
+            catch (Exception ex)
+            {
+                SetErrorMessage(ex);
+            }
         }
     }
 

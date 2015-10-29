@@ -39,6 +39,10 @@
             this.emailTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._getFromUrl = new SirenOfShame.Lib.SosButton();
+            this._url = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this._errorMessage = new System.Windows.Forms.Label();
             this._adDomain = new System.Windows.Forms.TextBox();
             this._adUser = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,7 +52,6 @@
             this._saveCustomImage = new SirenOfShame.Lib.SosButton();
             this._croppedCustom = new System.Windows.Forms.PictureBox();
             this._selectImage = new SirenOfShame.Lib.SosButton();
-            this._errorMessage = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -179,6 +182,9 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.tabPage3.Controls.Add(this._getFromUrl);
+            this.tabPage3.Controls.Add(this._url);
+            this.tabPage3.Controls.Add(this.label6);
             this.tabPage3.Controls.Add(this._errorMessage);
             this.tabPage3.Controls.Add(this._adDomain);
             this.tabPage3.Controls.Add(this._adUser);
@@ -196,16 +202,61 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Custom";
             // 
+            // _getFromUrl
+            // 
+            this._getFromUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._getFromUrl.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._getFromUrl.FlatAppearance.BorderSize = 0;
+            this._getFromUrl.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._getFromUrl.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._getFromUrl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._getFromUrl.ForeColor = System.Drawing.Color.White;
+            this._getFromUrl.Location = new System.Drawing.Point(343, 5);
+            this._getFromUrl.Name = "_getFromUrl";
+            this._getFromUrl.Size = new System.Drawing.Size(33, 23);
+            this._getFromUrl.TabIndex = 13;
+            this._getFromUrl.Text = "Get";
+            this._getFromUrl.UseVisualStyleBackColor = false;
+            this._getFromUrl.Click += new System.EventHandler(this.GetFromUrl_Click);
+            // 
+            // _url
+            // 
+            this._url.Location = new System.Drawing.Point(223, 7);
+            this._url.Name = "_url";
+            this._url.Size = new System.Drawing.Size(114, 20);
+            this._url.TabIndex = 12;
+            this._url.Text = "http://";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(148, 10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(69, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Or from URL:";
+            // 
+            // _errorMessage
+            // 
+            this._errorMessage.ForeColor = System.Drawing.Color.Red;
+            this._errorMessage.Location = new System.Drawing.Point(8, 62);
+            this._errorMessage.Name = "_errorMessage";
+            this._errorMessage.Size = new System.Drawing.Size(134, 102);
+            this._errorMessage.TabIndex = 10;
+            this._errorMessage.Text = "[error message]";
+            this._errorMessage.Visible = false;
+            // 
             // _adDomain
             // 
-            this._adDomain.Location = new System.Drawing.Point(200, 28);
+            this._adDomain.Location = new System.Drawing.Point(200, 57);
             this._adDomain.Name = "_adDomain";
             this._adDomain.Size = new System.Drawing.Size(173, 20);
             this._adDomain.TabIndex = 9;
             // 
             // _adUser
             // 
-            this._adUser.Location = new System.Drawing.Point(200, 52);
+            this._adUser.Location = new System.Drawing.Point(200, 81);
             this._adUser.Name = "_adUser";
             this._adUser.Size = new System.Drawing.Size(173, 20);
             this._adUser.TabIndex = 8;
@@ -214,7 +265,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(148, 6);
+            this.label5.Location = new System.Drawing.Point(148, 35);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(225, 13);
             this.label5.TabIndex = 7;
@@ -224,7 +275,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(148, 31);
+            this.label4.Location = new System.Drawing.Point(148, 60);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 13);
             this.label4.TabIndex = 6;
@@ -234,7 +285,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(148, 55);
+            this.label3.Location = new System.Drawing.Point(148, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 5;
@@ -249,7 +300,7 @@
             this._importFromAd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._importFromAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._importFromAd.ForeColor = System.Drawing.Color.White;
-            this._importFromAd.Location = new System.Drawing.Point(151, 78);
+            this._importFromAd.Location = new System.Drawing.Point(151, 107);
             this._importFromAd.Name = "_importFromAd";
             this._importFromAd.Size = new System.Drawing.Size(222, 21);
             this._importFromAd.TabIndex = 4;
@@ -302,16 +353,6 @@
             this._selectImage.UseVisualStyleBackColor = false;
             this._selectImage.Click += new System.EventHandler(this.SelectImage_Click);
             // 
-            // _errorMessage
-            // 
-            this._errorMessage.ForeColor = System.Drawing.Color.Red;
-            this._errorMessage.Location = new System.Drawing.Point(8, 62);
-            this._errorMessage.Name = "_errorMessage";
-            this._errorMessage.Size = new System.Drawing.Size(134, 102);
-            this._errorMessage.TabIndex = 10;
-            this._errorMessage.Text = "[error message]";
-            this._errorMessage.Visible = false;
-            // 
             // AvatarPicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -357,6 +398,9 @@
         private System.Windows.Forms.Label label3;
         private Lib.SosButton _importFromAd;
         private System.Windows.Forms.Label _errorMessage;
+        private Lib.SosButton _getFromUrl;
+        private System.Windows.Forms.TextBox _url;
+        private System.Windows.Forms.Label label6;
 
     }
 }
