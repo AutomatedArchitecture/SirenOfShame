@@ -192,12 +192,16 @@ namespace SirenOfShame
         private Image GetUserPicture(string userName, string domain)
         {
             var directoryEntry = new DirectoryEntry("LDAP://" + domain);
-            var directorySearcher = new DirectorySearcher(directoryEntry)
-            {
-                Filter = string.Format("(&(SAMAccountName={0}))", userName)
-            };
+            var propertiesToLoad = new[] { "thumbnailPhoto", "samaccountname" };
+            var filter = string.Format("(&(SAMAccountName={0}))", userName);
+            var directorySearcher = new DirectorySearcher(directoryEntry, filter, propertiesToLoad);
             var user = directorySearcher.FindOne();
 
+            if (!user.Properties.Contains("thumbnailPhoto"))
+            {
+                var message = "LDAP did not contain a thumbnailPhoto property for " + userName;
+                throw new Exception(message);
+            }
             var bytes = user.Properties["thumbnailPhoto"][0] as byte[];
 
             using (var ms = new MemoryStream(bytes))
