@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using log4net;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using SirenOfShame.Lib.Dto;
 using SirenOfShame.Lib.Network;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
-using log4net;
 
 namespace SirenOfShame.Lib.Services
 {
@@ -25,7 +22,7 @@ namespace SirenOfShame.Lib.Services
     public partial class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public static string SOS_URL = "http://sirenofshame.com";
+        public static readonly string SOS_URL = "http://sirenofshame.com";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 
@@ -255,18 +252,13 @@ namespace SirenOfShame.Lib.Services
                 InvokeOnSosOnlineStatusChange("Connecting");
         }
 
-        private void ConnectionOnError(Task obj)
-        {
-            ConnectionOnError(obj.Exception);
-        }
-
         private void ConnectionOnError(Exception ex)
         {
             InvokeOnSosOnlineStatusChange("Error", ex);
             _log.Error("Error connecting to SoS Online via SignalR", ex);
         }
 
-        public virtual SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
+        public SosOnlinePerson CreateSosOnlinePersonFromSosOnlineNotification(NewSosOnlineNotificationArgs args, ImageList avatarImageList)
         {
             var avatarId = GetAvatarId(args, avatarImageList);
             return new SosOnlinePerson
