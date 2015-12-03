@@ -13,6 +13,7 @@ namespace SirenOfShame.Lib.Dto
             DisplayName = personSetting.DisplayName;
             Achievements = personSetting.Achievements.Select(i => new OfflineUserAchievementDto(i)).ToList();
             AvatarId = personSetting.AvatarId;
+            AvatarImageName = personSetting.AvatarImageName;
             Email = personSetting.Email;
             Hidden = personSetting.Hidden;
             FailPercent = (int)(personSetting.CurrentBuildRatio * 1000);
@@ -20,6 +21,8 @@ namespace SirenOfShame.Lib.Dto
             TotalBuilds = personSetting.TotalBuilds;
             Fseb = personSetting.NumberOfTimesFixedSomeoneElsesBuild;
         }
+
+        public string AvatarImageName { get; set; }
 
         public string Email { get; set; }
 

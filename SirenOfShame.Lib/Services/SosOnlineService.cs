@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -82,14 +83,54 @@ namespace SirenOfShame.Lib.Services
 
         public virtual void BuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<InstanceUserDto> changedUsers)
         {
-            WebClientXml webClientXml = new WebClientXml();
+            try
+            {
+                SendNewCustomImages(settings, changedUsers);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Unable to sync custom images. Carrying on with life.  Pretending this is normal.", ex);
+            }
+            SendBuildStatusChanged(settings, changedBuildStatuses, changedUsers);
+        }
+
+        private void SendNewCustomImages(SirenOfShameSettings settings, List<InstanceUserDto> changedUsers)
+        {
+            var changedPeople = changedUsers
+                .Select(changedUser => settings.FindPersonByRawName(changedUser.RawName))
+                .Where(person => person != null);
+
+            var changedPeopleWithUnUploadedCustomImages = changedPeople
+                .Where(i => !string.IsNullOrEmpty(i.AvatarImageName) && !i.AvatarImageUploaded);
+
+            foreach (var person in changedPeopleWithUnUploadedCustomImages)
+            {
+                var webClientXml = new WebClientXml();
+                AddSosOnlineCredentials(settings, webClientXml);
+                webClientXml.Add("AvatarImageName", person.AvatarImageName);
+                var avatarImagePath = SirenOfShameSettings.GetAvatarImagePath(person.AvatarImageName);
+                var imageAsBytes = File.ReadAllBytes(avatarImagePath);
+                var imageAsString = Convert.ToBase64String(imageAsBytes);
+                webClientXml.Add("AvatarImage", imageAsString);
+                string url = SOS_URL + "/ApiV1/AddImage";
+                var person1 = person;
+                webClientXml.UploadValuesAndReturnStringAsync(url, s => _log.Debug("Uploaded " + person1.AvatarImageName), ex => _log.Error("Error uploading image for " + person1.AvatarImageName), settings.GetSosOnlineProxy());
+                person.AvatarImageUploaded = true;
+                settings.Save();
+            }
+        }
+
+        private static void SendBuildStatusChanged(SirenOfShameSettings settings, IList<BuildStatus> changedBuildStatuses, List<InstanceUserDto> changedUsers)
+        {
+            var webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.Add("ChangedBuildStatuses", JsonConvert.SerializeObject(changedBuildStatuses));
             webClientXml.Add("ChangedUsers", JsonConvert.SerializeObject(changedUsers));
             if (settings.SoftwareInstanceId.HasValue)
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             string url = SOS_URL + "/ApiV1/BuildStatusChangedV1";
-            webClientXml.UploadValuesAndReturnStringAsync(url, ReadResult, ex => _log.Error("Error publishing to: " + url, ex), settings.GetSosOnlineProxy());
+            webClientXml.UploadValuesAndReturnStringAsync(url, ReadResult, ex => _log.Error("Error publishing to: " + url, ex),
+                settings.GetSosOnlineProxy());
         }
 
         private static void ReadResult(string resultsStr)
@@ -113,7 +154,7 @@ namespace SirenOfShame.Lib.Services
 
         public virtual void Synchronize(SirenOfShameSettings settings, string exportedBuilds, string exportedAchievements, Action<DateTime> onSuccess, Action<string, Exception> onFail)
         {
-            WebClientXml webClientXml = new WebClientXml();
+            var webClientXml = new WebClientXml();
             AddSosOnlineCredentials(settings, webClientXml);
             webClientXml.Add("Builds", exportedBuilds);
             webClientXml.Add("Achievements", exportedAchievements);
@@ -121,16 +162,16 @@ namespace SirenOfShame.Lib.Services
                 webClientXml.Add("SoftwareInstanceId", settings.SoftwareInstanceId.Value.ToString(CultureInfo.InvariantCulture));
             webClientXml.UploadValuesAndReturnXmlAsync(SOS_URL + "/ApiV1/Synchronize", doc =>
             {
-                string success = doc.Descendants("Success").First().Value;
+                var success = doc.Descendants("Success").First().Value;
                 if (success == "true")
                 {
-                    string newHighWaterMarkStr = doc.Descendants("NewHighWaterMark").First().Value;
-                    DateTime newHighWaterMark = new DateTime(long.Parse(newHighWaterMarkStr));
+                    var newHighWaterMarkStr = doc.Descendants("NewHighWaterMark").First().Value;
+                    var newHighWaterMark = new DateTime(long.Parse(newHighWaterMarkStr));
                     onSuccess(newHighWaterMark);
                 }
                 else
                 {
-                    string errorMessage = doc.Descendants("ErrorMessage").First().Value;
+                    var errorMessage = doc.Descendants("ErrorMessage").First().Value;
                     onFail(errorMessage, null);
                 }
             }, ex => onFail("Failed to connect to SoS Online", ex), settings.GetSosOnlineProxy());

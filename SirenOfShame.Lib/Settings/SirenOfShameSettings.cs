@@ -595,5 +595,11 @@ namespace SirenOfShame.Lib.Settings
             Directory.CreateDirectory(avatarsDir);
             return avatarsDir;
         }
+
+        public static string GetAvatarImagePath(string avatarImageName)
+        {
+            var avatarsFolder = GetAvatarsFolder();
+            return Path.Combine(avatarsFolder, avatarImageName);
+        }
     }
 }

@@ -4,9 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using SirenOfShame.Lib;
@@ -122,6 +120,7 @@ namespace SirenOfShame
             var combine = Path.Combine(avatarsFolder, newFileName);
             _croppedCustom.Image.Save(combine);
             _personSetting.AvatarImageName = newFileName;
+            _personSetting.AvatarImageUploaded = false;
             SelectAvatarAndClose(null);
         }
 

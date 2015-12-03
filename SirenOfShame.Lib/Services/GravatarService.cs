@@ -22,8 +22,7 @@ namespace SirenOfShame.Lib.Services
 
             try
             {
-                var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
-                var imagePath = Path.Combine(avatarsFolder, avatarImageName);
+                var imagePath = SirenOfShameSettings.GetAvatarImagePath(avatarImageName);
                 var image = Image.FromFile(imagePath);
                 avatarImageList.Images.Add(avatarImageName, image);
                 return avatarImageList.Images.Count - 1;

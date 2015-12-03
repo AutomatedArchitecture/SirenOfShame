@@ -52,6 +52,7 @@
             this._saveCustomImage = new SirenOfShame.Lib.SosButton();
             this._croppedCustom = new System.Windows.Forms.PictureBox();
             this._selectImage = new SirenOfShame.Lib.SosButton();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -182,6 +183,8 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.tabPage3.Controls.Add(this._saveCustomImage);
+            this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this._getFromUrl);
             this.tabPage3.Controls.Add(this._url);
             this.tabPage3.Controls.Add(this.label6);
@@ -192,7 +195,6 @@
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this._importFromAd);
-            this.tabPage3.Controls.Add(this._saveCustomImage);
             this.tabPage3.Controls.Add(this._croppedCustom);
             this.tabPage3.Controls.Add(this._selectImage);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -242,7 +244,7 @@
             this._errorMessage.ForeColor = System.Drawing.Color.Red;
             this._errorMessage.Location = new System.Drawing.Point(8, 62);
             this._errorMessage.Name = "_errorMessage";
-            this._errorMessage.Size = new System.Drawing.Size(134, 102);
+            this._errorMessage.Size = new System.Drawing.Size(134, 84);
             this._errorMessage.TabIndex = 10;
             this._errorMessage.Text = "[error message]";
             this._errorMessage.Visible = false;
@@ -317,9 +319,9 @@
             this._saveCustomImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._saveCustomImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._saveCustomImage.ForeColor = System.Drawing.Color.White;
-            this._saveCustomImage.Location = new System.Drawing.Point(293, 141);
+            this._saveCustomImage.Location = new System.Drawing.Point(307, 134);
             this._saveCustomImage.Name = "_saveCustomImage";
-            this._saveCustomImage.Size = new System.Drawing.Size(83, 23);
+            this._saveCustomImage.Size = new System.Drawing.Size(69, 30);
             this._saveCustomImage.TabIndex = 3;
             this._saveCustomImage.Text = "Save";
             this._saveCustomImage.UseVisualStyleBackColor = false;
@@ -352,6 +354,16 @@
             this._selectImage.Text = "Select File On Disk";
             this._selectImage.UseVisualStyleBackColor = false;
             this._selectImage.Click += new System.EventHandler(this.SelectImage_Click);
+            // 
+            // label7
+            // 
+            this.label7.ForeColor = System.Drawing.Color.Silver;
+            this.label7.Location = new System.Drawing.Point(4, 132);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(300, 32);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "* If you sync to SoS Online we\'ll sync this image for you. We\'ll limit access to " +
+    "you only, but please keep it G rated.";
             // 
             // AvatarPicker
             // 
@@ -401,6 +413,7 @@
         private Lib.SosButton _getFromUrl;
         private System.Windows.Forms.TextBox _url;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
 
     }
 }

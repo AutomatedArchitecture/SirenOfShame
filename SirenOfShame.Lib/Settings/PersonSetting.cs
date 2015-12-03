@@ -29,6 +29,7 @@ namespace SirenOfShame.Lib.Settings
         public int CurrentSuccessInARow { get; set; }
         public string Email { get; set; }
         public string AvatarImageName { get; set; }
+        public bool AvatarImageUploaded { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime
