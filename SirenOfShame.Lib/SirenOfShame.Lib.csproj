@@ -96,6 +96,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -144,9 +145,11 @@
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Dto\InstanceUserDto.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Services\ActiveDirectoryService.cs" />
     <Compile Include="Services\ApiResultBase.cs" />
     <Compile Include="Services\CredentialApiModel.cs" />
     <Compile Include="Services\GravatarService.cs" />
+    <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\MySosOnlineService.cs" />
     <Compile Include="Services\ReputationResetService.cs" />
     <Compile Include="Services\SosOnlineStatusChangeArgs.cs" />

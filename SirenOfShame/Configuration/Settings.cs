@@ -1,4 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using log4net;
+using SirenOfShame.Lib;
+using SirenOfShame.Lib.Services;
 using SirenOfShame.Lib.Settings;
 
 namespace SirenOfShame.Configuration
@@ -6,6 +11,7 @@ namespace SirenOfShame.Configuration
     public partial class Settings : FormBase
     {
         private readonly SirenOfShameSettings _settings;
+        private readonly ILog _log = MyLogManager.GetLogger(typeof(Settings));
 
         public Settings(SirenOfShameSettings settings)
         {
@@ -158,6 +164,39 @@ namespace SirenOfShame.Configuration
         {
             var resetReputation = new ResetReputation(_settings);
             resetReputation.ShowDialog();
+        }
+
+        private async void ImportFromAd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _errorMessage.Text = "Importing ...";
+                _errorMessage.Visible = true;
+
+                await Task.Factory.StartNew(ImportFromAd);
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error importing from active directory", ex);
+                _errorMessage.Text = ex.Message;
+            }
+        }
+
+        private void ImportFromAd()
+        {
+            var activeDirectoryService = new ActiveDirectoryService();
+            var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
+            foreach (var personSetting in _settings.People)
+            {
+                var picture = activeDirectoryService.GetUserPicture(personSetting.RawName, _activeDirectoryDomain.Text);
+                var newFileName = Guid.NewGuid() + ".png";
+                var combine = Path.Combine(avatarsFolder, newFileName);
+                picture.Save(combine);
+                personSetting.AvatarImageName = newFileName;
+                personSetting.AvatarImageUploaded = false;
+            }
+            _settings.Save();
+            _errorMessage.Visible = false;
         }
     }
 }

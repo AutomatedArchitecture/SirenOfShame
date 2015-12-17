@@ -39,6 +39,8 @@
             this.emailTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._saveCustomImage = new SirenOfShame.Lib.SosButton();
+            this.label7 = new System.Windows.Forms.Label();
             this._getFromUrl = new SirenOfShame.Lib.SosButton();
             this._url = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,10 +51,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this._importFromAd = new SirenOfShame.Lib.SosButton();
-            this._saveCustomImage = new SirenOfShame.Lib.SosButton();
             this._croppedCustom = new System.Windows.Forms.PictureBox();
             this._selectImage = new SirenOfShame.Lib.SosButton();
-            this.label7 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -204,6 +204,33 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Custom";
             // 
+            // _saveCustomImage
+            // 
+            this._saveCustomImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
+            this._saveCustomImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this._saveCustomImage.FlatAppearance.BorderSize = 0;
+            this._saveCustomImage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
+            this._saveCustomImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
+            this._saveCustomImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this._saveCustomImage.ForeColor = System.Drawing.Color.White;
+            this._saveCustomImage.Location = new System.Drawing.Point(307, 134);
+            this._saveCustomImage.Name = "_saveCustomImage";
+            this._saveCustomImage.Size = new System.Drawing.Size(69, 30);
+            this._saveCustomImage.TabIndex = 3;
+            this._saveCustomImage.Text = "Save";
+            this._saveCustomImage.UseVisualStyleBackColor = false;
+            this._saveCustomImage.Click += new System.EventHandler(this.SaveCustomImage_Click);
+            // 
+            // label7
+            // 
+            this.label7.ForeColor = System.Drawing.Color.Silver;
+            this.label7.Location = new System.Drawing.Point(4, 132);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(300, 32);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "* If you sync to SoS Online we\'ll sync this image for you. We\'ll limit access to " +
+    "you only, but please keep it G rated.";
+            // 
             // _getFromUrl
             // 
             this._getFromUrl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
@@ -244,7 +271,7 @@
             this._errorMessage.ForeColor = System.Drawing.Color.Red;
             this._errorMessage.Location = new System.Drawing.Point(8, 62);
             this._errorMessage.Name = "_errorMessage";
-            this._errorMessage.Size = new System.Drawing.Size(134, 84);
+            this._errorMessage.Size = new System.Drawing.Size(134, 70);
             this._errorMessage.TabIndex = 10;
             this._errorMessage.Text = "[error message]";
             this._errorMessage.Visible = false;
@@ -269,9 +296,9 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(148, 35);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(225, 13);
+            this.label5.Size = new System.Drawing.Size(157, 13);
             this.label5.TabIndex = 7;
-            this.label5.Text = "Or, Import From Active Directory (experimental)";
+            this.label5.Text = "Or, Import From Active Directory";
             // 
             // label4
             // 
@@ -302,30 +329,13 @@
             this._importFromAd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
             this._importFromAd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._importFromAd.ForeColor = System.Drawing.Color.White;
-            this._importFromAd.Location = new System.Drawing.Point(151, 107);
+            this._importFromAd.Location = new System.Drawing.Point(200, 107);
             this._importFromAd.Name = "_importFromAd";
-            this._importFromAd.Size = new System.Drawing.Size(222, 21);
+            this._importFromAd.Size = new System.Drawing.Size(173, 21);
             this._importFromAd.TabIndex = 4;
             this._importFromAd.Text = "Import From AD";
             this._importFromAd.UseVisualStyleBackColor = false;
             this._importFromAd.Click += new System.EventHandler(this.ImportFromAd_Click);
-            // 
-            // _saveCustomImage
-            // 
-            this._saveCustomImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
-            this._saveCustomImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this._saveCustomImage.FlatAppearance.BorderSize = 0;
-            this._saveCustomImage.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(55)))), ((int)(((byte)(0)))));
-            this._saveCustomImage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(65)))), ((int)(((byte)(0)))));
-            this._saveCustomImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._saveCustomImage.ForeColor = System.Drawing.Color.White;
-            this._saveCustomImage.Location = new System.Drawing.Point(307, 134);
-            this._saveCustomImage.Name = "_saveCustomImage";
-            this._saveCustomImage.Size = new System.Drawing.Size(69, 30);
-            this._saveCustomImage.TabIndex = 3;
-            this._saveCustomImage.Text = "Save";
-            this._saveCustomImage.UseVisualStyleBackColor = false;
-            this._saveCustomImage.Click += new System.EventHandler(this.SaveCustomImage_Click);
             // 
             // _croppedCustom
             // 
@@ -354,16 +364,6 @@
             this._selectImage.Text = "Select File On Disk";
             this._selectImage.UseVisualStyleBackColor = false;
             this._selectImage.Click += new System.EventHandler(this.SelectImage_Click);
-            // 
-            // label7
-            // 
-            this.label7.ForeColor = System.Drawing.Color.Silver;
-            this.label7.Location = new System.Drawing.Point(4, 132);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(300, 32);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "* If you sync to SoS Online we\'ll sync this image for you. We\'ll limit access to " +
-    "you only, but please keep it G rated.";
             // 
             // AvatarPicker
             // 

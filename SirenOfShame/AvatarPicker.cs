@@ -1,8 +1,5 @@
 ﻿using System;
-using System.DirectoryServices;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
 using System.Windows.Forms;
@@ -20,6 +17,7 @@ namespace SirenOfShame
         private bool _okToClose;
         public event AvatarClicked OnAvatarClicked;
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(AvatarPicker));
+        private readonly ImageService _imageService;
 
         private void InvokeOnOnAvatarClicked()
         {
@@ -29,6 +27,7 @@ namespace SirenOfShame
 
         public AvatarPicker(ImageList avatarImageList, PersonSetting personSetting)
         {
+            _imageService = new ImageService();
             _okToClose = true;
             _avatarImageList = avatarImageList;
             _personSetting = personSetting;
@@ -144,45 +143,16 @@ namespace SirenOfShame
             }
             
             var image = Image.FromFile(openFileDialog1.FileName);
-            _croppedCustom.Image = Resize(image);
-        }
-
-        /// <summary>
-        /// http://stackoverflow.com/questions/1922040/resize-an-image-c-sharp
-        /// </summary>
-        private new Bitmap Resize(Image image)
-        {
-            int width = 48;
-            int height = 48;
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
-
-            return destImage;
+            _croppedCustom.Image = _imageService.Resize(image);
         }
 
         private void ImportFromAd_Click(object sender, EventArgs e)
         {
             try
             {
-                var picture = GetUserPicture(_adUser.Text, _adDomain.Text);
-                _croppedCustom.Image = Resize(picture);
+                var activeDirectoryService = new ActiveDirectoryService();
+                var picture = activeDirectoryService.GetUserPicture(_adUser.Text, _adDomain.Text);
+                _croppedCustom.Image = _imageService.Resize(picture);
             }
             catch (Exception ex)
             {
@@ -195,28 +165,6 @@ namespace SirenOfShame
         {
             _errorMessage.Text = ex.ToString();
             _errorMessage.Visible = true;
-        }
-
-        private Image GetUserPicture(string userName, string domain)
-        {
-            var directoryEntry = new DirectoryEntry("LDAP://" + domain);
-            var propertiesToLoad = new[] { "thumbnailPhoto", "samaccountname" };
-            var filter = string.Format("(&(SAMAccountName={0}))", userName);
-            var directorySearcher = new DirectorySearcher(directoryEntry, filter, propertiesToLoad);
-            var user = directorySearcher.FindOne();
-
-            if (!user.Properties.Contains("thumbnailPhoto"))
-            {
-                var message = "LDAP did not contain a thumbnailPhoto property for " + userName;
-                throw new Exception(message);
-            }
-            var bytes = user.Properties["thumbnailPhoto"][0] as byte[];
-            if (bytes == null) return null;
-            using (var ms = new MemoryStream(bytes))
-            {
-                var image = Image.FromStream(ms);
-                return image;
-            }
         }
 
         private void CroppedCustom_Click(object sender, EventArgs e)
@@ -232,7 +180,7 @@ namespace SirenOfShame
                 HttpClient client = new HttpClient();
                 var imageStream = await client.GetStreamAsync(requestUri);
                 Image picture = Image.FromStream(imageStream);
-                _croppedCustom.Image = Resize(picture);
+                _croppedCustom.Image = _imageService.Resize(picture);
             }
             catch (Exception ex)
             {
