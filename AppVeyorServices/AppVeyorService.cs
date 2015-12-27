@@ -63,7 +63,12 @@ namespace AppVeyorServices
                     throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
                 }
 
-                return new AppVeyorBuildStatus(response.Build, buildDefinitionSetting, treatUnstableAsSuccess);
+                var buildUrl = AppVeyorCiEntryPoint.AppVeyorUiBaseUrl
+                    .AppendPath("project")
+                    .AppendPath(projectInfo.AccountName)
+                    .AppendPath(projectInfo.Slug);
+
+                return new AppVeyorBuildStatus(buildUrl, response.Project, response.Build, buildDefinitionSetting, treatUnstableAsSuccess);
             }
             catch (WebServiceException ex)
             {

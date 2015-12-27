@@ -12,6 +12,7 @@ namespace AppVeyorServices
     {
         internal const string CiName = "AppVeyor";
         private const string AppVeyorApiBaseUrl = "https://ci.appveyor.com/api";
+        internal const string AppVeyorUiBaseUrl = "https://ci.appveyor.com";
 
         public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings,
             CiEntryPointSetting ciEntryPointSetting)
