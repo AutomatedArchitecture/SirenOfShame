@@ -7,8 +7,8 @@ namespace AppVeyorServices
 {
     public class AppVeyorBuildStatus : BuildStatus
     {
-        public AppVeyorBuildStatus(string buildUrl, Project project, ProjectBuild build, BuildDefinitionSetting buildDefinitionSetting,
-            bool treatUnstableAsSuccess)
+        public AppVeyorBuildStatus(string buildUrl, Project project, ProjectBuild build,
+            BuildDefinitionSetting buildDefinitionSetting)
         {
             BuildDefinitionId = buildDefinitionSetting.Id;
             Name = "{0} ({1})".Fmt(project.Name, build.Version);
@@ -18,12 +18,12 @@ namespace AppVeyorServices
             BuildStatusMessage = build.Status;
             Url = buildUrl;
             BuildId = build.BuildId;
-            BuildStatusEnum = ToBuildStatusEnum(build.Status, treatUnstableAsSuccess);
-            RequestedBy = (string.IsNullOrEmpty(build.AuthorName)) ? build.AuthorName : build.ComitterName;
+            BuildStatusEnum = ToBuildStatusEnum(build.Status);
+            RequestedBy = (string.IsNullOrEmpty(build.AuthorName)) ? build.AuthorName : build.CommitterName;
             Comment = build.Message;
         }
 
-        private static BuildStatusEnum ToBuildStatusEnum(string status, bool treatUnstableAsSuccess)
+        private static BuildStatusEnum ToBuildStatusEnum(string status)
         {
             if (status == null) return BuildStatusEnum.Unknown;
             status = status.Trim().ToUpperInvariant();
@@ -39,8 +39,6 @@ namespace AppVeyorServices
                     return BuildStatusEnum.InProgress;
                 case "CANCELLED":
                     return BuildStatusEnum.Unknown;
-                case "UNSTABLE":
-                    return treatUnstableAsSuccess ? BuildStatusEnum.Working : BuildStatusEnum.Broken;
                 default:
                     return BuildStatusEnum.Unknown;
             }

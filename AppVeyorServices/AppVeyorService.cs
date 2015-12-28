@@ -43,7 +43,6 @@ namespace AppVeyorServices
             CiEntryPointSetting ciEntryPointSetting)
         {
             var token = ciEntryPointSetting.GetPassword();
-            var treatUnstableAsSuccess = ciEntryPointSetting.TreatUnstableAsSuccess;
             var projectInfo = AppVeyorBuildDefinition.FromId(buildDefinitionSetting.Id);
 
 
@@ -63,23 +62,27 @@ namespace AppVeyorServices
                     throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
                 }
 
-                var buildUrl = AppVeyorCiEntryPoint.AppVeyorUiBaseUrl
-                    .AppendPath("project")
-                    .AppendPath(projectInfo.AccountName)
-                    .AppendPath(projectInfo.Slug);
-
-                return new AppVeyorBuildStatus(buildUrl, response.Project, response.Build, buildDefinitionSetting, treatUnstableAsSuccess);
+                return new AppVeyorBuildStatus(CreateProjectUrl(projectInfo), response.Project, response.Build,
+                    buildDefinitionSetting);
             }
-            catch (WebServiceException ex)
+            catch (WebServiceException)
             {
                 throw new BuildDefinitionNotFoundException(buildDefinitionSetting);
             }
         }
 
+        private string CreateProjectUrl(ProjectInfo info)
+        {
+            return AppVeyorCiEntryPoint.APP_VEYOR_UI_BASE_URL
+                .AppendPath(@"project")
+                .AppendPath(info.AccountName)
+                .AppendPath(info.Slug);
+        }
+
         private static JsonServiceClient CreateClient(string baseUrl, string token)
         {
             var client = new JsonServiceClient(baseUrl.TrimEnd('/'));
-            client.AddHeader(HttpHeaders.Authorization, "Bearer {0}".Fmt(token));
+            client.AddHeader(HttpHeaders.Authorization, @"Bearer {0}".Fmt(token));
 
             return client;
         }

@@ -10,25 +10,25 @@ namespace AppVeyorServices
     [Export(typeof (ICiEntryPoint))]
     public class AppVeyorCiEntryPoint : ICiEntryPoint
     {
-        internal const string CiName = "AppVeyor";
-        private const string AppVeyorApiBaseUrl = "https://ci.appveyor.com/api";
-        internal const string AppVeyorUiBaseUrl = "https://ci.appveyor.com";
+        private const string CI_NAME = @"AppVeyor";
+        private const string APP_VEYOR_API_BASE_URL = @"https://ci.appveyor.com/api";
+        internal const string APP_VEYOR_UI_BASE_URL = @"https://ci.appveyor.com";
 
         public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings,
             CiEntryPointSetting ciEntryPointSetting)
         {
-            ciEntryPointSetting.Url = AppVeyorApiBaseUrl;
+            ciEntryPointSetting.Url = APP_VEYOR_API_BASE_URL;
             return new ConfigureAppVeyor(settings, this, ciEntryPointSetting);
         }
 
         public string Name
         {
-            get { return CiName; }
+            get { return CI_NAME; }
         }
 
         public string DisplayName
         {
-            get { return CiName; }
+            get { return CI_NAME; }
         }
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)

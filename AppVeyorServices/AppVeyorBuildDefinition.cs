@@ -6,29 +6,29 @@ namespace AppVeyorServices
 {
     public class AppVeyorBuildDefinition : MyBuildDefinition
     {
-        private const string IdFormat = "{0}.{1}";
-        private readonly string id;
-        private readonly string name;
+        private const string ID_FORMAT = "{0}.{1}";
+        private readonly string _id;
+        private readonly string _name;
 
         public AppVeyorBuildDefinition(Project project)
         {
-            id = ToId(project);
-            name = project.Name;
+            _id = ToId(project);
+            _name = project.Name;
         }
 
         public override string Id
         {
-            get { return id; }
+            get { return _id; }
         }
 
         public override string Name
         {
-            get { return name; }
+            get { return _name; }
         }
 
-        internal static string ToId(Project project)
+        private static string ToId(Project project)
         {
-            return IdFormat.Fmt(project.AccountName, project.Slug);
+            return ID_FORMAT.Fmt(project.AccountName, project.Slug);
         }
 
         internal static ProjectInfo FromId(string id)

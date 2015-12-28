@@ -35,8 +35,6 @@ namespace AppVeyorServices.ServerConfiguration
             this._url = new System.Windows.Forms.TextBox();
             this._connect = new SirenOfShame.Lib.SosButton();
             this._projects = new SirenOfShame.Lib.Helpers.ThreeStateTreeView();
-            this.label7 = new System.Windows.Forms.Label();
-            this._treatUnstableAsSuccess = new System.Windows.Forms.CheckBox();
             this._filter = new System.Windows.Forms.TextBox();
             this._search = new System.Windows.Forms.PictureBox();
             this._checkAll = new System.Windows.Forms.PictureBox();
@@ -91,32 +89,6 @@ namespace AppVeyorServices.ServerConfiguration
             this._projects.Size = new System.Drawing.Size(381, 174);
             this._projects.TabIndex = 4;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(9, 55);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 17);
-            this.label7.TabIndex = 52;
-            this.label7.Text = "Options:";
-            // 
-            // _treatUnstableAsSuccess
-            // 
-            this._treatUnstableAsSuccess.AutoSize = true;
-            this._treatUnstableAsSuccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this._treatUnstableAsSuccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._treatUnstableAsSuccess.ForeColor = System.Drawing.Color.White;
-            this._treatUnstableAsSuccess.Location = new System.Drawing.Point(76, 55);
-            this._treatUnstableAsSuccess.Name = "_treatUnstableAsSuccess";
-            this._treatUnstableAsSuccess.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this._treatUnstableAsSuccess.Size = new System.Drawing.Size(150, 17);
-            this._treatUnstableAsSuccess.TabIndex = 51;
-            this._treatUnstableAsSuccess.Text = "Treat unstable as success";
-            this._treatUnstableAsSuccess.UseVisualStyleBackColor = true;
-            this._treatUnstableAsSuccess.CheckedChanged += new System.EventHandler(this._treatUnstableAsSuccess_CheckedChanged);
             // 
             // _filter
             // 
@@ -190,8 +162,6 @@ namespace AppVeyorServices.ServerConfiguration
             this.Controls.Add(this._checkAll);
             this.Controls.Add(this._search);
             this.Controls.Add(this._filter);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this._treatUnstableAsSuccess);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._password);
@@ -214,8 +184,6 @@ namespace AppVeyorServices.ServerConfiguration
         private System.Windows.Forms.TextBox _url;
         private SosButton _connect;
         private SirenOfShame.Lib.Helpers.ThreeStateTreeView _projects;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox _treatUnstableAsSuccess;
         private System.Windows.Forms.TextBox _filter;
         private System.Windows.Forms.PictureBox _search;
         private System.Windows.Forms.PictureBox _checkAll;

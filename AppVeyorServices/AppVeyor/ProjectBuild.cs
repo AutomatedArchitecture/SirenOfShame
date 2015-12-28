@@ -10,7 +10,9 @@ namespace AppVeyorServices.AppVeyor
         public DateTime Finished { get; set; }
         public string Message { get; set; }
         public string AuthorName { get; set; }
-        public string ComitterName { get; set; }
+        public string AuthorUsername { get; set; }
+        public string CommitterName { get; set; }
+        public string CommitterUsername { get; set; }
         public string Version { get; set; }
     }
 }

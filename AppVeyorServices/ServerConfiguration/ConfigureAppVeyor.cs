@@ -31,7 +31,6 @@ namespace AppVeyorServices.ServerConfiguration
             _ciEntryPointSetting = ciEntryPointSetting;
             _url.Text = _ciEntryPointSetting.Url;
             _password.Text = _ciEntryPointSetting.GetPassword();
-            _treatUnstableAsSuccess.Checked = _ciEntryPointSetting.TreatUnstableAsSuccess;
         }
 
         private void ConnectClick(object sender, EventArgs e)
@@ -83,12 +82,6 @@ namespace AppVeyorServices.ServerConfiguration
                 Settings.Save();
             }
             ((ThreeStateTreeNode) e.Node).UpdateStateOfRelatedNodes();
-        }
-
-        private void _treatUnstableAsSuccess_CheckedChanged(object sender, EventArgs e)
-        {
-            _ciEntryPointSetting.TreatUnstableAsSuccess = _treatUnstableAsSuccess.Checked;
-            Settings.Save();
         }
 
         private void _filter_TextChanged(object sender, EventArgs e)
