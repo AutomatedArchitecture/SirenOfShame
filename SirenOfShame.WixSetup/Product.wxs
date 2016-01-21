@@ -90,8 +90,8 @@
         <!-- ensure the app folder is empty prior to install, this fixes the issue of 1.5.x having been installed 'per-user' and thus not cleaning up after itself nicely on upgrade -->
         <RemoveFile Id="PurgeAppFolder" Name="*.*" On="install" />
 
-        <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
-        <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="yes" WorkingDirectory="INSTALLLOCATION" />
+        <Shortcut Id="StartMenuSirenOfShameExe" Directory="ProgramMenuFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="no" WorkingDirectory="INSTALLLOCATION" />
+        <Shortcut Id="StartupMenuSirenOfShameExe" Directory="StartupFolder" Name="Siren of Shame" Icon="SirenOfShame.exe" IconIndex="0" Advertise="no" WorkingDirectory="INSTALLLOCATION" />
 
         <File Id="SirenOfShameExe" Name="SirenOfShame.exe" Source="..\SirenOfShame\bin\SirenOfShame.exe" KeyPath="yes" />
         <File Source="..\SirenOfShame\bin\SirenOfShame.exe.config" />
