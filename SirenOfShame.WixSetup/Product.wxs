@@ -140,6 +140,7 @@
     <Property Id='ARPPRODUCTICON'>SirenOfShameTrayBlankIco</Property>
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
     <Property Id="ALLUSERS">2</Property> <!-- ALLUSERS=2; i.e. install per-machine not per-user -->
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
 
 		<Feature Id="ProductFeature" Title="SirenOfShame.WixSetup" Level="1">
       <ComponentRef Id="MainExecutable"/>
