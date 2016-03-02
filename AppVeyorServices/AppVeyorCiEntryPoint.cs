@@ -11,13 +11,11 @@ namespace AppVeyorServices
     public class AppVeyorCiEntryPoint : ICiEntryPoint
     {
         private const string CI_NAME = @"AppVeyor";
-        private const string APP_VEYOR_API_BASE_URL = @"https://ci.appveyor.com/api";
         internal const string APP_VEYOR_UI_BASE_URL = @"https://ci.appveyor.com";
 
         public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings,
             CiEntryPointSetting ciEntryPointSetting)
         {
-            ciEntryPointSetting.Url = APP_VEYOR_API_BASE_URL;
             return new ConfigureAppVeyor(settings, this, ciEntryPointSetting);
         }
 

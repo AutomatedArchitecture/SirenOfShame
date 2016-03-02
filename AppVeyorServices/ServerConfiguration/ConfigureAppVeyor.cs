@@ -13,6 +13,8 @@ namespace AppVeyorServices.ServerConfiguration
 {
     public partial class ConfigureAppVeyor : ConfigureServerBase
     {
+        private const string APP_VEYOR_API_BASE_URL = @"https://ci.appveyor.com/api";
+
         private static readonly ILog _log = MyLogManager.GetLogger(typeof (ConfigureAppVeyor));
         private readonly AppVeyorCiEntryPoint _appVeyorCiEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
@@ -29,7 +31,7 @@ namespace AppVeyorServices.ServerConfiguration
             _appVeyorCiEntryPoint = appVeyorCiEntryPoint;
             InitializeComponent();
             _ciEntryPointSetting = ciEntryPointSetting;
-            _url.Text = _ciEntryPointSetting.Url;
+            _url.Text = _ciEntryPointSetting.Url ?? APP_VEYOR_API_BASE_URL;
             _password.Text = _ciEntryPointSetting.GetPassword();
         }
 
