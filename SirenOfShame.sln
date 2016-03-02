@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame", "SirenOfShame\SirenOfShame.csproj", "{E292FFA7-DB35-43AA-9615-5BA819550B1C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -64,6 +64,8 @@ EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SirenOfShame.Extruder.WixSetup", "SirenOfShame.Extruder.WixSetup\SirenOfShame.Extruder.WixSetup.wixproj", "{10A675A3-E641-422F-8E1F-E26AF94676B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppVeyorServices", "AppVeyorServices\AppVeyorServices.csproj", "{31DF203A-9C52-4320-B825-6B518B0734CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TfsRestServices", "TfsRestServices\TfsRestServices.csproj", "{EFE464C9-88AA-4526-AA6A-60DEE6B36970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -388,6 +390,22 @@ Global
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Release|Win32.Build.0 = Release|x86
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Release|x86.ActiveCfg = Release|x86
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Release|x86.Build.0 = Release|x86
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|Win32.Build.0 = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Debug|x86.Build.0 = Debug|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Win32.ActiveCfg = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|Win32.Build.0 = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|x86.ActiveCfg = Release|Any CPU
+		{EFE464C9-88AA-4526-AA6A-60DEE6B36970}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
