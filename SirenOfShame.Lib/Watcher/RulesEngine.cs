@@ -481,7 +481,10 @@ namespace SirenOfShame.Lib.Watcher
                                                 && !string.IsNullOrEmpty(buildStatus.RequestedBy)
                                              select new { buildStatus, setting };
 
-            var buildStatusesWithNewPeopleList = buildStatusesWithNewPeople.ToList();
+            var buildStatusesWithNewPeopleList = buildStatusesWithNewPeople
+                .GroupBy(i => i.buildStatus.RequestedBy)
+                .Select(i => i.First())
+                .ToList();
             if (!buildStatusesWithNewPeopleList.Any()) return;
 
             buildStatusesWithNewPeopleList
