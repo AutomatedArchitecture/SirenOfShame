@@ -41,6 +41,7 @@
             this._checkAll = new System.Windows.Forms.PictureBox();
             this._search = new System.Windows.Forms.PictureBox();
             this._filter = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
             this.SuspendLayout();
@@ -167,11 +168,21 @@
             this._filter.Size = new System.Drawing.Size(338, 20);
             this._filter.TabIndex = 56;
             // 
+            // label5
+            // 
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(224, 27);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(160, 26);
+            this.label5.TabIndex = 59;
+            this.label5.Text = "(may require alternate authentication credentials)";
+            // 
             // ConfigureTfsRest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this.label5);
             this.Controls.Add(this._checkAll);
             this.Controls.Add(this._search);
             this.Controls.Add(this._filter);
@@ -207,5 +218,6 @@
         private System.Windows.Forms.PictureBox _checkAll;
         private System.Windows.Forms.PictureBox _search;
         private System.Windows.Forms.TextBox _filter;
+        private System.Windows.Forms.Label label5;
     }
 }

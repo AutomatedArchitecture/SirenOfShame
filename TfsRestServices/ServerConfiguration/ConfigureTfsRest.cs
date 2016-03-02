@@ -73,7 +73,7 @@ namespace TfsRestServices.ServerConfiguration
             }
         }
 
-        private void Connect_Click(object sender, System.EventArgs e)
+        private void Connect_Click(object sender, EventArgs e)
         {
             ReloadProjects();
         }
