@@ -77,5 +77,36 @@ namespace TfsRestServices.ServerConfiguration
         {
             ReloadProjects();
         }
+
+        private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
+        {
+            var buildDefinition = e.Node.Tag as TfsRestBuildDefinition;
+            if (buildDefinition != null)
+            {
+                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _ciEntryPoint.Name);
+                buildDefSetting.Active = e.Node.Checked;
+                Settings.Save();
+            }
+            ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
+        }
+
+        private void _filter_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void _search_Click(object sender, EventArgs e)
+        {
+            ApplyFilter();
+        }
+
+        private void _checkAll_Click(object sender, EventArgs e)
+        {
+            var allChecked = _projects.Nodes.Cast<ThreeStateTreeNode>().All(i => i.Checked);
+            foreach (var node in _projects.Nodes.Cast<ThreeStateTreeNode>())
+            {
+                node.Checked = !allChecked;
+            }
+        }
     }
 }

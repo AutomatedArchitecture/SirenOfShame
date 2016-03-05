@@ -63,7 +63,7 @@
             this._url.Location = new System.Drawing.Point(76, 3);
             this._url.Name = "_url";
             this._url.Size = new System.Drawing.Size(308, 20);
-            this._url.TabIndex = 44;
+            this._url.TabIndex = 1;
             // 
             // _connect
             // 
@@ -74,7 +74,7 @@
             this._connect.Location = new System.Drawing.Point(309, 86);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
-            this._connect.TabIndex = 46;
+            this._connect.TabIndex = 4;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this.Connect_Click);
@@ -89,6 +89,7 @@
             this._projects.Name = "_projects";
             this._projects.Size = new System.Drawing.Size(381, 136);
             this._projects.TabIndex = 47;
+            this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
             // label4
             // 
@@ -126,14 +127,14 @@
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
-            this._password.TabIndex = 52;
+            this._password.TabIndex = 3;
             // 
             // _userName
             // 
             this._userName.Location = new System.Drawing.Point(76, 29);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
-            this._userName.TabIndex = 51;
+            this._userName.TabIndex = 2;
             // 
             // _checkAll
             // 
@@ -146,6 +147,7 @@
             this._checkAll.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._checkAll.TabIndex = 58;
             this._checkAll.TabStop = false;
+            this._checkAll.Click += new System.EventHandler(this._checkAll_Click);
             // 
             // _search
             // 
@@ -158,6 +160,7 @@
             this._search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this._search.TabIndex = 57;
             this._search.TabStop = false;
+            this._search.Click += new System.EventHandler(this._search_Click);
             // 
             // _filter
             // 
@@ -166,7 +169,8 @@
             this._filter.Location = new System.Drawing.Point(6, 115);
             this._filter.Name = "_filter";
             this._filter.Size = new System.Drawing.Size(338, 20);
-            this._filter.TabIndex = 56;
+            this._filter.TabIndex = 5;
+            this._filter.TextChanged += new System.EventHandler(this._filter_TextChanged);
             // 
             // label5
             // 
