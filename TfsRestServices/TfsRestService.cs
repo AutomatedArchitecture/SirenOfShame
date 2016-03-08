@@ -35,7 +35,8 @@ namespace TfsRestServices
         public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             var projects = await GetProjects(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword());
-            return projects.Where(bd => watchedBuildDefinitions.Any(wbd => bd.Id.ToString() == wbd.Id))
+            // todo: move this where clause into the query, see https://www.visualstudio.com/integrate/api/build/builds
+            return projects.Where(bd => watchedBuildDefinitions.Any(wbd => bd.Definition.Id.ToString() == wbd.Id))
                 .Select(i => new TfsRestBuildStatus(i));
         }
     }

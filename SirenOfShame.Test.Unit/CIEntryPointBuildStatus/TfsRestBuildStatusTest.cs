@@ -21,10 +21,10 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
             Assert.AreEqual("2", buildStatus.BuildDefinitionId);
             Assert.AreEqual("TestingGitTfsOnlineSolution", buildStatus.Name);
-            //Assert.AreEqual("Lee Richardson", buildStatus.RequestedBy);
+            Assert.AreEqual("Lee Richardson", buildStatus.RequestedBy);
             //Assert.AreEqual("Merge branch 'master' of https://github.com/tfsRest-ci/tfsRest-ci", buildStatus.Comment);
             //Assert.AreEqual("https://sirenofshame.visualstudio.com/DefaultCollection/_permalink/_build/index?collectionId=3be0f19d-62d0-4f45-a140-f219cb9c08ae&projectId=cd1d630e-e0fc-46d3-9540-a477d17a84b1&buildId=17", buildStatus.Url);
-            //Assert.AreEqual("18", buildStatus.BuildId);
+            Assert.AreEqual("18", buildStatus.BuildId);
         }
    }
 }

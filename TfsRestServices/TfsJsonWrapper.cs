@@ -11,6 +11,12 @@ namespace TfsRestServices
         public TfsJsonBuildDefinitionDefinition Definition { get; set; }
         public string Status { get; set; }
         public string Result { get; set; }
+        public TfsJsonPerson RequestedFor { get; set; }
+    }
+
+    public class TfsJsonPerson
+    {
+        public string DisplayName { get; set; }
     }
 
     public class TfsJsonBuildDefinitionDefinition
