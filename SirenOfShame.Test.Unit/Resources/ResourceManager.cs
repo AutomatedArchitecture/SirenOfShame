@@ -29,6 +29,11 @@ namespace SirenOfShame.Test.Unit.Resources
             }
         }
 
+        public static string TfsRestBuildDefinitions1
+        {
+            get { return GetResource("TfsRestBuildDefinitions1.json"); }
+        }
+
         public static string TravisCiWorkingBuild
         {
             get { return GetResource("TravisCiWorkingBuild.json"); }

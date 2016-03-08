@@ -10,39 +10,15 @@ using SirenOfShame.Lib.Settings;
 
 namespace TfsRestServices
 {
-    public class TfsRestBuildDefinition : MyBuildDefinition
+    public class TfsRestService
     {
-        public TfsRestBuildDefinition() {  }
-
-        public TfsRestBuildDefinition(TfsJsonBuildDefinition jsonBuildDefinition)
+        public async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
         {
-            Id = jsonBuildDefinition.Id.ToString();
-            Name = jsonBuildDefinition.Definition.Name;
+            var projects = await GetProjects(url, username, password);
+            return projects.Select(i => new TfsRestBuildDefinition(i)).ToList();
         }
 
-        public override string Id { get; }
-        public override string Name { get; }
-    }
-
-    public class TfsJsonWrapper
-    {
-        public TfsJsonBuildDefinition[] Value { get; set; }
-    }
-
-    public class TfsJsonBuildDefinition
-    {
-        public int Id { get; set; }
-        public TfsJsonBuildDefinitionDefinition Definition { get; set; }
-    }
-
-    public class TfsJsonBuildDefinitionDefinition
-    {
-        public string Name { get; set; }
-    }
-
-    internal class TfsRestService
-    {
-        public async Task<List<TfsRestBuildDefinition>> GetProjects(string url, string username, string password)
+        public async Task<TfsJsonBuildDefinition[]> GetProjects(string url, string username, string password)
         {
             HttpClient httpClient = new HttpClient();
             var byteArray = Encoding.ASCII.GetBytes(username + ":" + password);
@@ -53,7 +29,14 @@ namespace TfsRestServices
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var buildDefinitionsStr = await httpClient.GetStringAsync("_apis/build/builds?api-version=2.0");
             var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper>(buildDefinitionsStr);
-            return jsonWrapper.Value.Select(i => new TfsRestBuildDefinition(i)).ToList();
+            return jsonWrapper.Value;
+        }
+
+        public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
+        {
+            var projects = await GetProjects(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword());
+            return projects.Where(bd => watchedBuildDefinitions.Any(wbd => bd.Id.ToString() == wbd.Id))
+                .Select(i => new TfsRestBuildStatus(i));
         }
     }
 }

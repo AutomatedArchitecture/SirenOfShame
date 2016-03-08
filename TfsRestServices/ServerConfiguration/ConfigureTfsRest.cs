@@ -38,7 +38,7 @@ namespace TfsRestServices.ServerConfiguration
             {
                 _projects.Nodes.Clear();
                 _projects.Nodes.Add("Loading...");
-                var buildDefinitions = await _service.GetProjects(_url.Text, _userName.Text, _password.Text);
+                var buildDefinitions = await _service.GetBuildDefinitions(_url.Text, _userName.Text, _password.Text);
                 _ciEntryPointSetting.Url = _url.Text;
                 _ciEntryPointSetting.UserName = _userName.Text;
                 _ciEntryPointSetting.SetPassword(_password.Text);

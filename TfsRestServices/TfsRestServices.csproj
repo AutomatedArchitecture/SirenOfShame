@@ -59,6 +59,9 @@
     <Compile Include="ServerConfiguration\ConfigureTfsRest.Designer.cs">
       <DependentUpon>ConfigureTfsRest.cs</DependentUpon>
     </Compile>
+    <Compile Include="TfsJsonWrapper.cs" />
+    <Compile Include="TfsRestBuildDefinition.cs" />
+    <Compile Include="TfsRestBuildStatus.cs" />
     <Compile Include="TfsRestCiEntryPoint.cs" />
     <Compile Include="TfsRestService.cs" />
     <Compile Include="TfsRestWatcher.cs" />
