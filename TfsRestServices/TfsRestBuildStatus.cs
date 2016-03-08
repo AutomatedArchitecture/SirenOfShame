@@ -9,6 +9,8 @@ namespace TfsRestServices
         public TfsRestBuildStatus(TfsJsonBuildDefinition tfsRestBuildDefinition)
         {
             BuildStatusEnum = tfsRestBuildDefinition.Result == "succeeded" ? BuildStatusEnum.Working : BuildStatusEnum.Broken;
+            Name = tfsRestBuildDefinition.Definition.Name;
+            BuildDefinitionId = tfsRestBuildDefinition.Definition.Id.ToString();
         }
 
         

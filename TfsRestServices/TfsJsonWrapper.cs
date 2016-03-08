@@ -16,5 +16,6 @@ namespace TfsRestServices
     public class TfsJsonBuildDefinitionDefinition
     {
         public string Name { get; set; }
+        public int Id { get; set; }
     }
 }
