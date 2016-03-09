@@ -10,6 +10,11 @@ namespace TfsRestServices
         public List<T> Value { get; set; }
     }
 
+    public class TfsJsonComment
+    {
+        public string Message { get; set; }
+    }
+
     public class TfsJsonBuild
     {
         public TfsJsonLinks _links;

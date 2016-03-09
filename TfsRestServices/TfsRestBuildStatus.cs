@@ -13,6 +13,7 @@ namespace TfsRestServices
             RequestedBy = tfsRestBuildDefinition.RequestedFor.DisplayName;
             BuildId = tfsRestBuildDefinition.Id.ToString();
             Url = tfsRestBuildDefinition._links.Web.Href;
+            Comment = commentsCache.GetCachedCommentForBuild(tfsRestBuildDefinition);
         }
 
         private static readonly Dictionary<string, BuildStatusEnum> _buildStatusMapping = new Dictionary<string, BuildStatusEnum>
