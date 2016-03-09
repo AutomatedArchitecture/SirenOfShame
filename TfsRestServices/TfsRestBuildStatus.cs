@@ -1,5 +1,4 @@
-using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using SirenOfShame.Lib.Watcher;
 
 namespace TfsRestServices
@@ -8,13 +7,25 @@ namespace TfsRestServices
     {
         public TfsRestBuildStatus(TfsJsonBuildDefinition tfsRestBuildDefinition)
         {
-            BuildStatusEnum = tfsRestBuildDefinition.Result == "succeeded" ? BuildStatusEnum.Working : BuildStatusEnum.Broken;
+            BuildStatusEnum = GetBuildStatus(tfsRestBuildDefinition);
             Name = tfsRestBuildDefinition.Definition.Name;
             BuildDefinitionId = tfsRestBuildDefinition.Definition.Id.ToString();
             RequestedBy = tfsRestBuildDefinition.RequestedFor.DisplayName;
             BuildId = tfsRestBuildDefinition.Id.ToString();
         }
 
-        
+        private static readonly Dictionary<string, BuildStatusEnum> _buildStatusMapping = new Dictionary<string, BuildStatusEnum>
+        {
+            {"succeeded", BuildStatusEnum.Working},
+            {"partiallySucceeded", BuildStatusEnum.Working},
+            {"failed", BuildStatusEnum.Broken},
+            {"canceled", BuildStatusEnum.Unknown},
+        };
+
+        private static BuildStatusEnum GetBuildStatus(TfsJsonBuildDefinition tfsRestBuildDefinition)
+        {
+            BuildStatusEnum buildStatusEnum;
+            return _buildStatusMapping.TryGetValue(tfsRestBuildDefinition.Result, out buildStatusEnum) ? buildStatusEnum : BuildStatusEnum.Unknown;
+        }
     }
 }
