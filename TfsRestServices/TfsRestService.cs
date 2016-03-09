@@ -18,7 +18,7 @@ namespace TfsRestServices
             return projects.Select(i => new TfsRestBuildDefinition(i)).ToList();
         }
 
-        public async Task<TfsJsonBuildDefinition[]> GetProjects(string url, string username, string password)
+        public async Task<TfsJsonBuildDefinition[]> GetProjects(string url, string username, string password, IEnumerable<string> buildDefinitions = null)
         {
             HttpClient httpClient = new HttpClient();
             var byteArray = Encoding.ASCII.GetBytes(username + ":" + password);
@@ -27,17 +27,17 @@ namespace TfsRestServices
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var buildDefinitionsStr = await httpClient.GetStringAsync("_apis/build/builds?api-version=2.0");
+            string queryParams = buildDefinitions == null ? "" : "&definitions=" + string.Join(",", buildDefinitions);
+            var buildDefinitionsStr = await httpClient.GetStringAsync("_apis/build/builds?api-version=2.0" + queryParams);
             var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper>(buildDefinitionsStr);
             return jsonWrapper.Value;
         }
 
         public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
-            var projects = await GetProjects(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword());
-            // todo: move this where clause into the query, see https://www.visualstudio.com/integrate/api/build/builds
-            return projects.Where(bd => watchedBuildDefinitions.Any(wbd => bd.Definition.Id.ToString() == wbd.Id))
-                .Select(i => new TfsRestBuildStatus(i));
+            var buildIds = watchedBuildDefinitions.Select(i => i.Id);
+            var projects = await GetProjects(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword(), buildIds);
+            return projects.Select(i => new TfsRestBuildStatus(i));
         }
     }
 }
