@@ -12,11 +12,22 @@ namespace TfsRestServices
 
     public class TfsJsonBuild
     {
+        public TfsJsonLinks _links;
         public int Id { get; set; }
         public TfsJsonBuildDefinition Definition { get; set; }
         public string Status { get; set; }
         public string Result { get; set; }
         public TfsJsonPerson RequestedFor { get; set; }
+    }
+
+    public class TfsJsonLinks
+    {
+        public TfsJsonLink Web { get; set; }
+    }
+
+    public class TfsJsonLink
+    {
+        public string Href { get; set; }
     }
 
     public class TfsJsonPerson

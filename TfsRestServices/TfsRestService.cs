@@ -45,11 +45,23 @@ namespace TfsRestServices
             return result;
         }
 
+        private static CommentsCache _commentsCache = new CommentsCache();
+
         public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             var queryParams = GetBuildQueryParams(watchedBuildDefinitions);
             var projects = await GetFromTfs<TfsJsonBuild>(ciEntryPointSetting.Url, "_apis/build/builds", ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword(), queryParams);
-            return projects.Select(i => new TfsRestBuildStatus(i));
+            return projects.Select(i => new TfsRestBuildStatus(i, _commentsCache));
+        }
+    }
+
+    public class CommentsCache
+    {
+        Dictionary<string, string> _commentsCache = new Dictionary<string, string>();
+
+        public CommentsCache()
+        {
+            
         }
     }
 }

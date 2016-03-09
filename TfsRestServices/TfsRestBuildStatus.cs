@@ -5,13 +5,14 @@ namespace TfsRestServices
 {
     public class TfsRestBuildStatus : BuildStatus
     {
-        public TfsRestBuildStatus(TfsJsonBuild tfsRestBuildDefinition)
+        public TfsRestBuildStatus(TfsJsonBuild tfsRestBuildDefinition, CommentsCache commentsCache)
         {
             BuildStatusEnum = GetBuildStatus(tfsRestBuildDefinition);
             Name = tfsRestBuildDefinition.Definition.Name;
             BuildDefinitionId = tfsRestBuildDefinition.Definition.Id.ToString();
             RequestedBy = tfsRestBuildDefinition.RequestedFor.DisplayName;
             BuildId = tfsRestBuildDefinition.Id.ToString();
+            Url = tfsRestBuildDefinition._links.Web.Href;
         }
 
         private static readonly Dictionary<string, BuildStatusEnum> _buildStatusMapping = new Dictionary<string, BuildStatusEnum>
