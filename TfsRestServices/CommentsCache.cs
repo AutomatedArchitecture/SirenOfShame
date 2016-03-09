@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace TfsRestServices
@@ -10,24 +11,13 @@ namespace TfsRestServices
 
         public async Task FetchNewComments(List<TfsJsonBuild> projects, TfsConnectionDetails connection, Func<TfsJsonBuild, TfsConnectionDetails, Task<string>> getCommentFunc)
         {
-            foreach (var tfsJsonBuild in projects)
-            {
-                var buildDefinitionId = tfsJsonBuild.Definition.Id;
-                var buildId = tfsJsonBuild.Id;
+            var unCachedDefinitions = projects.Where(i => !_commentsCache.ContainsKey(i.Definition.Id));
+            var newlyChangedBuilds = projects.Where(i => _commentsCache.ContainsKey(i.Definition.Id) && _commentsCache[i.Definition.Id].Item1 != i.Id);
 
-                if (!_commentsCache.ContainsKey(buildDefinitionId))
-                {
-                    await FetchAndSaveComment(connection, getCommentFunc, tfsJsonBuild);
-                }
-                else
-                {
-                    var oldBuildId = _commentsCache[buildDefinitionId].Item1;
-                    if (oldBuildId != buildId)
-                    {
-                        await FetchAndSaveComment(connection, getCommentFunc, tfsJsonBuild);
-                    }
-                }
-            }
+            var allInvalidCaches = unCachedDefinitions.Concat(newlyChangedBuilds);
+            var commentRetrievalTasks = allInvalidCaches.Select(tfsJsonBuild => FetchAndSaveComment(connection, getCommentFunc, tfsJsonBuild));
+            // perform all comment retrievals in parallel
+            await Task.WhenAll(commentRetrievalTasks);
         }
 
         private async Task FetchAndSaveComment(TfsConnectionDetails connection, Func<TfsJsonBuild, TfsConnectionDetails, Task<string>> getCommentFunc, TfsJsonBuild tfsJsonBuild)
@@ -35,10 +25,7 @@ namespace TfsRestServices
             var buildDefinitionId = tfsJsonBuild.Definition.Id;
             var buildId = tfsJsonBuild.Id;
             var comment = await getCommentFunc(tfsJsonBuild, connection);
-            if (!string.IsNullOrEmpty(comment))
-            {
-                _commentsCache[buildDefinitionId] = new Tuple<int, string>(buildId, comment);
-            }
+            _commentsCache[buildDefinitionId] = new Tuple<int, string>(buildId, comment);
         }
 
         public string GetCachedCommentForBuild(TfsJsonBuild build)
