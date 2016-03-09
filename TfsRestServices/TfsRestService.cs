@@ -14,29 +14,41 @@ namespace TfsRestServices
     {
         public async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
         {
-            var projects = await GetProjects(url, username, password);
+            var projects = await GetFromTfs<TfsJsonBuildDefinition>(url, "_apis/build/definitions", username, password, new Dictionary<string, string>());
             return projects.Select(i => new TfsRestBuildDefinition(i)).ToList();
         }
 
-        public async Task<TfsJsonBuildDefinition[]> GetProjects(string url, string username, string password, IEnumerable<string> buildDefinitions = null)
+        private async Task<List<T>> GetFromTfs<T>(string baseUrl, string api, string username, string password, Dictionary<string, string> queryParams)
         {
             HttpClient httpClient = new HttpClient();
             var byteArray = Encoding.ASCII.GetBytes(username + ":" + password);
-            var betterUrl = url + (url.EndsWith("/") ? "" : "/");
+            var betterUrl = baseUrl + (baseUrl.EndsWith("/") ? "" : "/");
             httpClient.BaseAddress = new Uri(betterUrl);
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string queryParams = buildDefinitions == null ? "" : "&definitions=" + string.Join(",", buildDefinitions);
-            var buildDefinitionsStr = await httpClient.GetStringAsync("_apis/build/builds?api-version=2.0" + queryParams);
-            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper>(buildDefinitionsStr);
+            var queryParamsAsString = string.Concat(queryParams.Select(i => "&" + i.Key + "=" + i.Value));
+            var buildDefinitionsStr = await httpClient.GetStringAsync(api + "?api-version=2.0" + queryParamsAsString);
+            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
             return jsonWrapper.Value;
+        }
+
+        private static Dictionary<string, string> GetBuildQueryParams(BuildDefinitionSetting[] watchedBuildDefinitions)
+        {
+            var buildIds = watchedBuildDefinitions.Select(i => i.Id);
+            var result = new Dictionary<string, string>
+            {
+                { "maxBuildsPerDefinition", "1" },
+                { "statusFilter", "inProgress,completed" },
+                { "definitions", string.Join(",", buildIds) },
+            };
+            return result;
         }
 
         public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
-            var buildIds = watchedBuildDefinitions.Select(i => i.Id);
-            var projects = await GetProjects(ciEntryPointSetting.Url, ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword(), buildIds);
+            var queryParams = GetBuildQueryParams(watchedBuildDefinitions);
+            var projects = await GetFromTfs<TfsJsonBuild>(ciEntryPointSetting.Url, "_apis/build/builds", ciEntryPointSetting.UserName, ciEntryPointSetting.GetPassword(), queryParams);
             return projects.Select(i => new TfsRestBuildStatus(i));
         }
     }

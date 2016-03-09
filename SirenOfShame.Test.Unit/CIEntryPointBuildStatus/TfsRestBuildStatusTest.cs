@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
-using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 using TfsRestServices;
@@ -13,9 +12,8 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
         [Test]
         public void GivenATraditionalXmlBuildDefinition_WhenWeParseIt_ThenWeParseItCorrectly()
         {
-            var tfsRestService = new TfsRestService();
             var tfsRestWorkingBuild = ResourceManager.TfsRestBuildDefinitions1;
-            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper>(tfsRestWorkingBuild);
+            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<TfsJsonBuild>>(tfsRestWorkingBuild);
             var buildDefinition = jsonWrapper.Value[1];
             var buildStatus = new TfsRestBuildStatus(buildDefinition);
             Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);

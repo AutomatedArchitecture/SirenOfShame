@@ -1,14 +1,19 @@
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
+using System.Collections.Generic;
+
 namespace TfsRestServices
 {
-    public class TfsJsonWrapper
+    public class TfsJsonWrapper<T>
     {
-        public TfsJsonBuildDefinition[] Value { get; set; }
+        public List<T> Value { get; set; }
     }
 
-    public class TfsJsonBuildDefinition
+    public class TfsJsonBuild
     {
         public int Id { get; set; }
-        public TfsJsonBuildDefinitionDefinition Definition { get; set; }
+        public TfsJsonBuildDefinition Definition { get; set; }
         public string Status { get; set; }
         public string Result { get; set; }
         public TfsJsonPerson RequestedFor { get; set; }
@@ -19,7 +24,7 @@ namespace TfsRestServices
         public string DisplayName { get; set; }
     }
 
-    public class TfsJsonBuildDefinitionDefinition
+    public class TfsJsonBuildDefinition
     {
         public string Name { get; set; }
         public int Id { get; set; }

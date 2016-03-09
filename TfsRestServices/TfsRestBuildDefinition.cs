@@ -8,8 +8,8 @@ namespace TfsRestServices
 
         public TfsRestBuildDefinition(TfsJsonBuildDefinition jsonBuildDefinition)
         {
-            Id = jsonBuildDefinition.Definition.Id.ToString();
-            Name = jsonBuildDefinition.Definition.Name;
+            Id = jsonBuildDefinition.Id.ToString();
+            Name = jsonBuildDefinition.Name;
         }
 
         public override string Id { get; }

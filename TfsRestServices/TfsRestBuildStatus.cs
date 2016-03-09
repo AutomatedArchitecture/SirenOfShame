@@ -5,7 +5,7 @@ namespace TfsRestServices
 {
     public class TfsRestBuildStatus : BuildStatus
     {
-        public TfsRestBuildStatus(TfsJsonBuildDefinition tfsRestBuildDefinition)
+        public TfsRestBuildStatus(TfsJsonBuild tfsRestBuildDefinition)
         {
             BuildStatusEnum = GetBuildStatus(tfsRestBuildDefinition);
             Name = tfsRestBuildDefinition.Definition.Name;
@@ -22,8 +22,9 @@ namespace TfsRestServices
             {"canceled", BuildStatusEnum.Unknown},
         };
 
-        private static BuildStatusEnum GetBuildStatus(TfsJsonBuildDefinition tfsRestBuildDefinition)
+        private static BuildStatusEnum GetBuildStatus(TfsJsonBuild tfsRestBuildDefinition)
         {
+            if (tfsRestBuildDefinition.Status == "inProgress") return BuildStatusEnum.InProgress;
             BuildStatusEnum buildStatusEnum;
             return _buildStatusMapping.TryGetValue(tfsRestBuildDefinition.Result, out buildStatusEnum) ? buildStatusEnum : BuildStatusEnum.Unknown;
         }
