@@ -3,7 +3,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using log4net;
 using Newtonsoft.Json;
+using SirenOfShame.Lib;
 using SirenOfShame.Lib.Settings;
 
 namespace TfsRestServices
@@ -11,6 +13,7 @@ namespace TfsRestServices
     public class TfsRestService
     {
         private static readonly CommentsCache _commentsCache = new CommentsCache();
+        private readonly ILog _log = MyLogManager.GetLogger(typeof (TfsRestService));
 
         public async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
         {
@@ -58,9 +61,30 @@ namespace TfsRestServices
 
         private async Task<string> GetComment(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection)
         {
-            var comments = await GetFromTfs<TfsJsonComment>(connection, "_apis/build/builds/" + tfsJsonBuild.Id + "/changes", new Dictionary<string, string>());
+            var message = await GetCommentOnce(tfsJsonBuild, connection);
+            if (tfsJsonBuild.Definition.Type == "xaml" && message == null)
+            {
+                // old style xaml builds don't get associated with a commit immediately for some annoying reason, so keep trying for 2 minutes
+                const int maxRetries = 12;
+                for (int i = 0; i < maxRetries && message == null; i++)
+                {
+                    _log.Debug("Comment was null for a xaml build definition, so delaying and checking for a comment again in 10 seconds");
+                    await Task.Delay(10000);
+                    message = await GetCommentOnce(tfsJsonBuild, connection);
+                }
+            }
+            return message?.Trim();
+        }
+
+        private async Task<string> GetCommentOnce(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection)
+        {
+            var comments =
+                await
+                    GetFromTfs<TfsJsonComment>(connection, "_apis/build/builds/" + tfsJsonBuild.Id + "/changes",
+                        new Dictionary<string, string>());
             var firstComment = comments.FirstOrDefault();
-            return firstComment?.Message;
+            var message = firstComment?.Message;
+            return message;
         }
     }
 }
