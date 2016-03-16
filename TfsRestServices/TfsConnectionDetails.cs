@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Text;
 using SirenOfShame.Lib.Settings;
 
@@ -37,6 +38,11 @@ namespace TfsRestServices
             var byteArray = Encoding.ASCII.GetBytes(Username + ":" + Password);
             var base64String = Convert.ToBase64String(byteArray);
             return base64String;
+        }
+
+        public NetworkCredential AsNetworkConnection()
+        {
+            return new NetworkCredential(this.Username, this.Password);
         }
     }
 }

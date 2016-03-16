@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -24,12 +25,18 @@ namespace TfsRestServices
 
         private async Task<List<T>> GetFromTfs<T>(TfsConnectionDetails connection, string api, Dictionary<string, string> queryParams)
         {
-            var credentialsBase64Encoded = connection.Base64EncodeCredentials();
-            HttpClient httpClient = new HttpClient
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = true,
+                Credentials = connection.AsNetworkConnection()
+            };
+
+            HttpClient httpClient = new HttpClient(handler)
             {
                 BaseAddress = connection.GetBaseAddress()
             };
             httpClient.DefaultRequestHeaders.Accept.Clear();
+            var credentialsBase64Encoded = connection.Base64EncodeCredentials();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentialsBase64Encoded);
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             var queryParamsAsString = string.Concat(queryParams.Select(i => "&" + i.Key + "=" + i.Value));
