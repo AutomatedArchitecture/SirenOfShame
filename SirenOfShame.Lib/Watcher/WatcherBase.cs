@@ -72,6 +72,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 _log.Debug("Stopped watching build status (ThreadAbortException)");
                 StopWatching();
+                OnStoppedWatching();
             }
             catch (Exception ex)
             {
@@ -84,12 +85,24 @@ namespace SirenOfShame.Lib.Watcher
         public event StatusCheckedEvent StatusChecked;
         public event ServerUnavailableEvent ServerUnavailable;
         public event BuildDefinitionNotFoundEvent BuildDefinitionNotFound;
+        public event StoppedWatchingEvent StoppedWatching;
         public SirenOfShameSettings Settings { private get; set; }
         public CiEntryPointSetting CiEntryPointSetting { protected get; set; }
 
         public abstract void StopWatching();
 
         public abstract void Dispose();
+
+        protected virtual void OnStoppedWatching()
+        {
+            StoppedWatching?.Invoke(this, new StoppedWatchingEventArgs());
+        }
+    }
+
+    public delegate void StoppedWatchingEvent(object sender, StoppedWatchingEventArgs args);
+
+    public class StoppedWatchingEventArgs
+    {
     }
 
     public delegate void BuildDefinitionNotFoundEvent(object sender, BuildDefinitionNotFoundArgs args);

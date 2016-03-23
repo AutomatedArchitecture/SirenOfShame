@@ -137,6 +137,7 @@ namespace SirenOfShame.Lib.Watcher
         }
 
         private BuildStatus[] _previousBuildStatuses = { };
+        private bool _restarting = false;
 
         private void InvokeUpdateStatusBar(string statusText, Exception exception = null)
         {
@@ -155,26 +156,42 @@ namespace SirenOfShame.Lib.Watcher
             ExecuteNewBuilds(args.BuildStatuses);
         }
 
+        private void StoppedWatching(object sender, StoppedWatchingEventArgs args)
+        {
+            _restarting = true;
+        }
+
         public void ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
         {
-            ApplyUserMappings(newBuildStatuses);
-            SendCiServerConnectedEvents();
-            TryToGetAndSendNewSosOnlineAlerts();
-            var allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, newBuildStatuses);
-            var changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
-            if (!changedBuildStatuses.Any()) return;
-            InvokeSetTrayIcon(changedBuildStatuses);
-            InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
-            AddAnyNewPeopleToSettings(changedBuildStatuses);
-            UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
-            var changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
-            FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
-            WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
-            NotifyIfNewAchievements(changedBuildStatuses);
-            InvokeStatsChanged(changedBuildStatuses);
-            SyncNewBuildsToSos(changedBuildStatuses);
-            InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
-            CacheBuildStatuses(changedBuildStatuses);
+            try
+            {
+                ApplyUserMappings(newBuildStatuses);
+                SendCiServerConnectedEvents();
+                TryToGetAndSendNewSosOnlineAlerts();
+                var allBuildStatuses = BuildStatusUtil.Merge(_previousBuildStatuses, newBuildStatuses);
+                var changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
+                if (!changedBuildStatuses.Any())
+                {
+                    if (_restarting) InvokeRefreshStatus(allBuildStatuses);
+                    return;
+                }
+                InvokeSetTrayIcon(changedBuildStatuses);
+                InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
+                AddAnyNewPeopleToSettings(changedBuildStatuses);
+                UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
+                var changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
+                FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
+                WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
+                NotifyIfNewAchievements(changedBuildStatuses);
+                InvokeStatsChanged(changedBuildStatuses);
+                SyncNewBuildsToSos(changedBuildStatuses);
+                InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
+                CacheBuildStatuses(changedBuildStatuses);
+            }
+            finally
+            {
+                _restarting = false;
+            }
         }
 
         private void ApplyUserMappings(IList<BuildStatus> buildStatuses)
@@ -529,6 +546,7 @@ namespace SirenOfShame.Lib.Watcher
                 WatcherBase watcher = ciEntryPointSetting.GetWatcher(_settings);
                 _watchers.Add(watcher);
                 watcher.StatusChecked += BuildWatcherStatusChecked;
+                watcher.StoppedWatching += StoppedWatching;
                 watcher.ServerUnavailable += BuildWatcherServerUnavailable;
                 watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
                 watcher.Settings = _settings;
@@ -586,8 +604,7 @@ namespace SirenOfShame.Lib.Watcher
         public void Stop()
         {
             _timer.Stop();
-            if (_watcherThread != null)
-                _watcherThread.Abort();
+            _watcherThread?.Abort();
         }
 
         public void SyncAllBuildStatuses()
