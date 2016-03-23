@@ -42,7 +42,7 @@ namespace TfsRestServices
 
         public NetworkCredential AsNetworkConnection()
         {
-            return new NetworkCredential(this.Username, this.Password);
+            return new NetworkCredential(Username, Password);
         }
     }
 }

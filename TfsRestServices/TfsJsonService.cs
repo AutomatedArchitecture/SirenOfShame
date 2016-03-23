@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -11,15 +9,31 @@ namespace TfsRestServices
 {
     public class TfsJsonService
     {
-        public async Task<List<TfsJsonBuild>> GetBuildsStatuses(TfsConnectionDetails connection, Dictionary<string, string> queryParams)
+        public async Task<List<TfsJsonProject>> GetProjects(TfsConnectionDetails connection, string projectCollection)
         {
-            return await GetFromTfs<TfsJsonBuild>(connection, "_apis/build/builds", queryParams);
+            return await GetFromTfs<TfsJsonProject>(connection, $"{projectCollection}/_apis/projects", new Dictionary<string, string>());
         }
 
-        public async Task<List<TfsJsonBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
+        public async Task<List<TfsJsonBuild>> GetBuildsStatuses(TfsConnectionDetails connection, Dictionary<string, string> queryParams, string projectCollection)
         {
-            var connection = new TfsConnectionDetails(url, username, password);
-            return await GetFromTfs<TfsJsonBuildDefinition>(connection, "_apis/build/definitions", new Dictionary<string, string>());
+            return await GetFromTfs<TfsJsonBuild>(connection, $"{projectCollection}/_apis/build/builds", queryParams);
+        }
+
+        public async Task<List<TfsJsonBuildDefinition>> GetBuildDefinitions(TfsConnectionDetails connection, string projectCollection, string project)
+        {
+            return await GetFromTfs<TfsJsonBuildDefinition>(connection, $"{projectCollection}/{project}/_apis/build/definitions", new Dictionary<string, string>());
+        }
+
+        public async Task<List<TfsJsonComment>> GetComments(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection, string projectCollection)
+        {
+            var comments = await GetFromTfs<TfsJsonComment>(connection, $"{projectCollection}/_apis/build/builds/{tfsJsonBuild.Id}/changes",
+                        new Dictionary<string, string>());
+            return comments;
+        }
+
+        public async Task<List<TfsJsonProjectCollection>> GetProjectCollections(TfsConnectionDetails connection)
+        {
+            return await GetFromTfs<TfsJsonProjectCollection>(connection, "_apis/projectcollections", new Dictionary<string, string>());
         }
 
         private async Task<List<T>> GetFromTfs<T>(TfsConnectionDetails connection, string api, Dictionary<string, string> queryParams)
@@ -42,13 +56,6 @@ namespace TfsRestServices
             var buildDefinitionsStr = await httpClient.GetStringAsync(api + "?api-version=2.0" + queryParamsAsString);
             var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
             return jsonWrapper.Value;
-        }
-
-        public async Task<List<TfsJsonComment>> GetComments(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection)
-        {
-            var comments = await GetFromTfs<TfsJsonComment>(connection, "_apis/build/builds/" + tfsJsonBuild.Id + "/changes",
-                        new Dictionary<string, string>());
-            return comments;
         }
     }
 }

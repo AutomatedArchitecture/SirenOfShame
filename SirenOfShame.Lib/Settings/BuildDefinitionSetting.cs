@@ -18,6 +18,7 @@ namespace SirenOfShame.Lib.Settings {
 			Name = buildDefinition.Name;
             AffectsTrayIcon = true;
             BuildServer = buildServer;
+            Parent = buildDefinition.Parent;
         }
 
 		public bool Active { get; set; }
@@ -26,6 +27,11 @@ namespace SirenOfShame.Lib.Settings {
         public bool AffectsTrayIcon { get; set; }
         public List<string> People { get; set; }
 	    public string BuildServer { get; set; }
+
+        /// <summary>
+        /// For TFS this is the project collection that a build definition lives in, but it could be used for containing information for other CI build servers
+        /// </summary>
+        public string Parent { get; set; }
 
 	    public BuildStatus AsUnknownBuildStatus(SosDb sosDb)
 	    {

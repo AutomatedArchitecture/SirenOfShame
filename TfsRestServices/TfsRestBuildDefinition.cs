@@ -6,10 +6,11 @@ namespace TfsRestServices
     {
         public TfsRestBuildDefinition() {  }
 
-        public TfsRestBuildDefinition(TfsJsonBuildDefinition jsonBuildDefinition)
+        public TfsRestBuildDefinition(TfsJsonBuildDefinition jsonBuildDefinition, TfsJsonProject project, TfsJsonProjectCollection projectCollection)
         {
             Id = jsonBuildDefinition.Id.ToString();
             Name = jsonBuildDefinition.Name;
+            Parent = projectCollection.Name + "/" + project.Name;
         }
 
         public override string Id { get; }

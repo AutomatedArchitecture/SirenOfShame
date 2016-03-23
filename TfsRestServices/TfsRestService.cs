@@ -15,74 +15,29 @@ namespace TfsRestServices
 
         public async Task<List<TfsRestProjectCollection>>  GetBuildDefinitionsGrouped(string url, string username, string password)
         {
-            var buildDefinitions = await GetBuildDefinitions(url, username, password);
-            return new List<TfsRestProjectCollection>
+            TfsConnectionDetails connection = new TfsConnectionDetails(url, username, password);
+            var projectCollections = await _tfsJsonService.GetProjectCollections(connection);
+            var resultProjectCollections = new List<TfsRestProjectCollection>();
+            foreach (var projectCollection in projectCollections)
             {
-                new TfsRestProjectCollection
+                var resultProjectCollection = new TfsRestProjectCollection(projectCollection);
+                var projects = await _tfsJsonService.GetProjects(connection, projectCollection.Name);
+                foreach (var project in projects)
                 {
-                    Name = "pcname",
-                    Id = "pcid",
-                    Url = "pcurl",
-                    Projects = new List<TfsRestProject>
-                    {
-                        new TfsRestProject
-                        {
-                            Name = "pname",
-                            Id = "pid",
-                            Url = "purl",
-                            BuildDefinitions = buildDefinitions
-                        }
-                    }
+                    var resultProject = new TfsRestProject(project);
+                    resultProjectCollection.Projects.Add(resultProject);
+                    var buildDefinitions = await GetBuildDefinitions(connection, projectCollection, project);
+                    resultProject.BuildDefinitions = buildDefinitions;
                 }
-            };
-
-            //List<TfsRestProjectCollection> result = new List<TfsRestProjectCollection>();
-            //var projectCollections = await GetProjectCollections(url, username, password);
-            //foreach (var projectCollection in projectCollections)
-            //{
-            //    var projects = await GetProjects(url, username, password, projectCollection);
-            //    var tfsRestProjectCollection = new TfsRestProjectCollection(projectCollection, projects);
-            //    tfsRestProjectCollection.Projects = new List<TfsRestProject>();
-            //    tfsRestProjectCollection.Projects.Add();
-            //    result.Add(tfsRestProjectCollection);
-            //}
-            //return result;
+                resultProjectCollections.Add(resultProjectCollection);
+            }
+            return resultProjectCollections;
         }
 
-        private async Task<List<TfsJsonProject>>  GetProjects(string url, string username, string password, TfsJsonProjectCollection projectCollection)
+        private async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(TfsConnectionDetails connection, TfsJsonProjectCollection projectCollection, TfsJsonProject project)
         {
-            // todo: implement
-            await Task.Yield();
-            return new List<TfsJsonProject>
-            {
-                new TfsJsonProject
-                {
-                    Id = "pid",
-                    Name = "pname",
-                    Url = "url"
-                }
-            };
-        }
-
-        public async Task<List<TfsJsonProjectCollection>> GetProjectCollections(string url, string username, string password)
-        {
-            await Task.Yield();
-            // todo: implement
-            return new List<TfsJsonProjectCollection>
-            {
-                new TfsJsonProjectCollection
-                {
-                    Id = "id",
-                    Name = "name",
-                    Url = "url"
-                }
-            };
-        }
-
-        public async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
-        {
-            var tfsJsonBuildDefinitions = await _tfsJsonService.GetBuildDefinitions(url, username, password);
-            return tfsJsonBuildDefinitions.Select(i => new TfsRestBuildDefinition(i)).ToList();
+            var tfsJsonBuildDefinitions = await _tfsJsonService.GetBuildDefinitions(connection, projectCollection.Name, project.Name);
+            return tfsJsonBuildDefinitions.Select(i => new TfsRestBuildDefinition(i, project, projectCollection)).ToList();
         }
 
         private static Dictionary<string, string> GetBuildQueryParams(BuildDefinitionSetting[] watchedBuildDefinitions)
@@ -100,15 +55,23 @@ namespace TfsRestServices
         public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             var connection = new TfsConnectionDetails(ciEntryPointSetting);
-            var buildQueryParams = GetBuildQueryParams(watchedBuildDefinitions);
-            var projects = await _tfsJsonService.GetBuildsStatuses(connection, buildQueryParams);
-            await _commentsCache.FetchNewComments(projects, connection, GetComment);
-            return projects.Select(i => new TfsRestBuildStatus(i, _commentsCache));
+            var buildDefinitionsByProjectCollection = watchedBuildDefinitions.GroupBy(bd => bd.Parent);
+            List<TfsRestBuildStatus> resultingBuildStatuses = new List<TfsRestBuildStatus>();
+            foreach (var buildDefinitionGroup in buildDefinitionsByProjectCollection)
+            {
+                var projectCollection = buildDefinitionGroup.Key;
+                var buildQueryParams = GetBuildQueryParams(buildDefinitionGroup.ToArray());
+                var projects = await _tfsJsonService.GetBuildsStatuses(connection, buildQueryParams, projectCollection);
+                await _commentsCache.FetchNewComments(projects, connection, tfsJsonBuilds => GetComment(tfsJsonBuilds, connection, projectCollection));
+                var buildStatuses = projects.Select(i => new TfsRestBuildStatus(i, _commentsCache));
+                resultingBuildStatuses.AddRange(buildStatuses);
+            }
+            return resultingBuildStatuses;
         }
 
-        private async Task<string> GetComment(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection)
+        private async Task<string> GetComment(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection, string projectCollection)
         {
-            var message = await GetCommentOnce(tfsJsonBuild, connection);
+            var message = await GetCommentOnce(tfsJsonBuild, connection, projectCollection);
             if (tfsJsonBuild.Definition.Type == "xaml" && message == null)
             {
                 // old style xaml builds don't get associated with a commit immediately for some annoying reason, so keep trying for 2 minutes
@@ -117,15 +80,15 @@ namespace TfsRestServices
                 {
                     _log.Debug("Comment was null for a xaml build definition, so delaying and checking for a comment again in 10 seconds");
                     await Task.Delay(10000);
-                    message = await GetCommentOnce(tfsJsonBuild, connection);
+                    message = await GetCommentOnce(tfsJsonBuild, connection, projectCollection);
                 }
             }
             return message?.Trim();
         }
 
-        private async Task<string> GetCommentOnce(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection)
+        private async Task<string> GetCommentOnce(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection, string projectCollection)
         {
-            var comments = await _tfsJsonService.GetComments(tfsJsonBuild, connection);
+            var comments = await _tfsJsonService.GetComments(tfsJsonBuild, connection, projectCollection);
             var firstComment = comments.FirstOrDefault();
             var message = firstComment?.Message;
             return message;

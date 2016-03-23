@@ -21,9 +21,9 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             return commentsCache;
         }
 
-        private static Func<TfsJsonBuild, TfsConnectionDetails, Task<string>> GetCommentFunc(string comment)
+        private static Func<TfsJsonBuild, Task<string>> GetCommentFunc(string comment)
         {
-            return (build, details) =>
+            return build =>
             {
                 var tsc = new TaskCompletionSource<string>();
                 tsc.SetResult(comment);
