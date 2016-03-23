@@ -189,6 +189,7 @@ namespace SirenOfShame.Configuration
             foreach (var personSetting in _settings.People)
             {
                 var picture = activeDirectoryService.GetUserPicture(personSetting.RawName, _activeDirectoryDomain.Text);
+                if (picture == null) continue;
                 var newFileName = Guid.NewGuid() + ".png";
                 var combine = Path.Combine(avatarsFolder, newFileName);
                 picture.Save(combine);
