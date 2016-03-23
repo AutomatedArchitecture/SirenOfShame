@@ -17,7 +17,7 @@ namespace TfsRestServices
 
         public string Name => "TfsRest";
 
-        public string DisplayName => "Microsoft Team Foundation Build 2015+";
+        public string DisplayName => "Microsoft TFS 2015+";
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {

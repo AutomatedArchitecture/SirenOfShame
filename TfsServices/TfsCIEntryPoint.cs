@@ -22,7 +22,7 @@ namespace TfsServices
 
         public string DisplayName
         {
-            get { return "Microsoft Team Foundation Server"; }
+            get { return "Microsoft TFS 2010-2013 (xaml build definitions only)"; }
         }
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
