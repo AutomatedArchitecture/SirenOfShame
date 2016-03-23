@@ -89,17 +89,19 @@ namespace TfsServices.Configuration
 
         private void BuildConfigurationsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            if (_disableCheckEvents) return;
+            var disableCheckEvents = _disableCheckEvents;
             DisableCheckEvents(() =>
             {
                 var isBuildDefinition = e.Node.Tag != null;
                 if (isBuildDefinition)
                 {
                     SetBuildDefinitionActive(e.Node);
+                    if (disableCheckEvents) return;
                     RefreshCheckednessOfParentNodes();
                 }
                 else
                 {
+                    if (disableCheckEvents) return;
                     SelectAllChildren(e.Node);
                 }
             });
