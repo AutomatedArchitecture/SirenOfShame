@@ -65,6 +65,8 @@
     <Compile Include="TfsRestBuildDefinition.cs" />
     <Compile Include="TfsRestBuildStatus.cs" />
     <Compile Include="TfsRestCiEntryPoint.cs" />
+    <Compile Include="TfsRestProject.cs" />
+    <Compile Include="TfsRestProjectCollection.cs" />
     <Compile Include="TfsRestService.cs" />
     <Compile Include="TfsRestWatcher.cs" />
   </ItemGroup>

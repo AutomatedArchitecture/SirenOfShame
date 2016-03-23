@@ -16,6 +16,72 @@ namespace TfsRestServices
         private static readonly CommentsCache _commentsCache = new CommentsCache();
         private readonly ILog _log = MyLogManager.GetLogger(typeof (TfsRestService));
 
+        public async Task<List<TfsRestProjectCollection>>  GetBuildDefinitionsGrouped(string url, string username, string password)
+        {
+            var buildDefinitions = await GetBuildDefinitions(url, username, password);
+            return new List<TfsRestProjectCollection>
+            {
+                new TfsRestProjectCollection
+                {
+                    Name = "pcname",
+                    Id = "pcid",
+                    Url = "pcurl",
+                    Projects = new List<TfsRestProject>
+                    {
+                        new TfsRestProject
+                        {
+                            Name = "pname",
+                            Id = "pid",
+                            Url = "purl",
+                            BuildDefinitions = buildDefinitions
+                        }
+                    }
+                }
+            };
+
+            //List<TfsRestProjectCollection> result = new List<TfsRestProjectCollection>();
+            //var projectCollections = await GetProjectCollections(url, username, password);
+            //foreach (var projectCollection in projectCollections)
+            //{
+            //    var projects = await GetProjects(url, username, password, projectCollection);
+            //    var tfsRestProjectCollection = new TfsRestProjectCollection(projectCollection, projects);
+            //    tfsRestProjectCollection.Projects = new List<TfsRestProject>();
+            //    tfsRestProjectCollection.Projects.Add();
+            //    result.Add(tfsRestProjectCollection);
+            //}
+            //return result;
+        }
+
+        private async Task<List<TfsJsonProject>>  GetProjects(string url, string username, string password, TfsJsonProjectCollection projectCollection)
+        {
+            // todo: implement
+            await Task.Yield();
+            return new List<TfsJsonProject>
+            {
+                new TfsJsonProject
+                {
+                    Id = "pid",
+                    Name = "pname",
+                    Url = "url"
+                }
+            };
+        }
+
+        public async Task<List<TfsJsonProjectCollection>> GetProjectCollections(string url, string username, string password)
+        {
+            await Task.Yield();
+            // todo: implement
+            return new List<TfsJsonProjectCollection>
+            {
+                new TfsJsonProjectCollection
+                {
+                    Id = "id",
+                    Name = "name",
+                    Url = "url"
+                }
+            };
+        }
+
         public async Task<List<TfsRestBuildDefinition>> GetBuildDefinitions(string url, string username, string password)
         {
             var connection = new TfsConnectionDetails(url, username, password);

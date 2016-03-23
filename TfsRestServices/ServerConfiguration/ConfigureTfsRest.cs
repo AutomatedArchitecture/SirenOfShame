@@ -13,7 +13,8 @@ namespace TfsRestServices.ServerConfiguration
         private readonly TfsRestCiEntryPoint _ciEntryPoint;
         private readonly CiEntryPointSetting _ciEntryPointSetting;
         private readonly TfsRestService _service = new TfsRestService();
-        private List<TfsRestBuildDefinition> _buildDefinitions;
+        private List<TfsRestProjectCollection> _projectCollections;
+        private bool _disableCheckEvents = false;
         public ConfigureTfsRest() { }
 
         public ConfigureTfsRest(SirenOfShameSettings sosSettings, TfsRestCiEntryPoint ciEntryPoint,
@@ -38,14 +39,14 @@ namespace TfsRestServices.ServerConfiguration
             {
                 _projects.Nodes.Clear();
                 _projects.Nodes.Add("Loading...");
-                var buildDefinitions = await _service.GetBuildDefinitions(_url.Text, _userName.Text, _password.Text);
+                var projectCollections = await _service.GetBuildDefinitionsGrouped(_url.Text, _userName.Text, _password.Text);
                 _ciEntryPointSetting.Url = _url.Text;
                 _ciEntryPointSetting.UserName = _userName.Text;
                 _ciEntryPointSetting.SetPassword(_password.Text);
                 Settings.Save();
 
                 _projects.Nodes.Clear();
-                _buildDefinitions = buildDefinitions.OrderBy(i => i.Name).ToList();
+                _projectCollections = projectCollections.OrderBy(i => i.Name).ToList();
                 ApplyFilter();
             }
             catch (Exception ex)
@@ -58,19 +59,40 @@ namespace TfsRestServices.ServerConfiguration
         {
             _projects.Nodes.Clear();
 
-            foreach (TfsRestBuildDefinition project in _buildDefinitions)
+            foreach (var projectCollection in _projectCollections)
             {
-                var shouldBeVisible = string.IsNullOrEmpty(_filter.Text) || project.Name.Contains(_filter.Text, StringComparison.CurrentCultureIgnoreCase);
-                if (!shouldBeVisible) continue;
-                bool exists = Settings.BuildExistsAndIsActive(_ciEntryPoint.Name, project.Name);
-
-                ThreeStateTreeNode node = new ThreeStateTreeNode(project.Name)
+                TreeNode projectCollectionNode = new TreeNode(projectCollection.Name);
+                var tfsProjects = projectCollection.Projects.OrderBy(i => i.Name);
+                foreach (var project in tfsProjects)
                 {
-                    Tag = project,
-                    State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
-                };
-                _projects.Nodes.Add(node);
+                    var projectNode = new TreeNode(project.Name);
+                    var myTfsBuildDefinitions = project.BuildDefinitions.OrderBy(i => i.Name);
+                    foreach (var buildDefinition in myTfsBuildDefinitions)
+                    {
+                        var shouldBeVisible = string.IsNullOrEmpty(_filter.Text) || buildDefinition.Name.Contains(_filter.Text, StringComparison.CurrentCultureIgnoreCase);
+                        if (!shouldBeVisible) continue;
+                        _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _ciEntryPoint.Name);
+                        bool exists = Settings.BuildExistsAndIsActive(_ciEntryPoint.Name, buildDefinition.Name);
+
+                        ThreeStateTreeNode node = new ThreeStateTreeNode(buildDefinition.Name)
+                        {
+                            Tag = buildDefinition.Id,
+                            State = exists ? CheckBoxState.Checked : CheckBoxState.Unchecked
+                        };
+                        projectNode.Nodes.Add(node);
+                    }
+                    AddIfContainsChildren(projectCollectionNode.Nodes, projectNode);
+                }
+                AddIfContainsChildren(_projects.Nodes, projectCollectionNode);
             }
+            RefreshCheckednessOfParentNodes();
+        }
+
+        private static void AddIfContainsChildren(TreeNodeCollection nodes, TreeNode child)
+        {
+            if (child.Nodes.Count == 0) return;
+            nodes.Add(child);
+            child.Expand();
         }
 
         private void Connect_Click(object sender, EventArgs e)
@@ -80,14 +102,77 @@ namespace TfsRestServices.ServerConfiguration
 
         private void ProjectsAfterCheck(object sender, TreeViewEventArgs e)
         {
-            var buildDefinition = e.Node.Tag as TfsRestBuildDefinition;
-            if (buildDefinition != null)
+            var disableCheckEvents = _disableCheckEvents;
+            DisableCheckEvents(() =>
             {
-                var buildDefSetting = _ciEntryPointSetting.FindAddBuildDefinition(buildDefinition, _ciEntryPoint.Name);
-                buildDefSetting.Active = e.Node.Checked;
-                Settings.Save();
+                var isBuildDefinition = e.Node.Tag != null;
+                if (isBuildDefinition)
+                {
+                    SetBuildDefinitionActive(e.Node);
+                    if (disableCheckEvents) return;
+                    RefreshCheckednessOfParentNodes();
+                }
+                else
+                {
+                    if (disableCheckEvents) return;
+                    SelectAllChildren(e.Node);
+                }
+            });
+        }
+
+        private void SelectAllChildren(TreeNode node)
+        {
+            foreach (TreeNode child in node.Nodes)
+            {
+                child.Checked = node.Checked;
+                SelectAllChildren(child);
             }
-            ((ThreeStateTreeNode)e.Node).UpdateStateOfRelatedNodes();
+        }
+
+        private void SetBuildDefinitionActive(TreeNode node)
+        {
+            var buildDefinitionId = (string)node.Tag;
+            var buildDefinitionSetting = _ciEntryPointSetting.GetBuildDefinition(buildDefinitionId);
+            buildDefinitionSetting.Active = node.Checked;
+            Settings.Save();
+        }
+
+        private void DisableCheckEvents(Action action)
+        {
+            var oldDisableCheckEventsValue = _disableCheckEvents;
+            _disableCheckEvents = true;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                _disableCheckEvents = oldDisableCheckEventsValue;
+            }
+        }
+
+        private void RefreshCheckednessOfParentNodes()
+        {
+            DisableCheckEvents(() =>
+            {
+                foreach (TreeNode node in _projects.Nodes)
+                {
+                    RefreshCheckednessOfParentNodes(node);
+                }
+            });
+        }
+
+        private void RefreshCheckednessOfParentNodes(TreeNode node)
+        {
+            var childNodes = node.Nodes.Cast<TreeNode>().ToList();
+            foreach (TreeNode child in childNodes)
+            {
+                RefreshCheckednessOfParentNodes(child);
+            }
+            if (childNodes.Any())
+            {
+                node.Checked = childNodes.All(i => i.Checked);
+            }
         }
 
         private void _filter_TextChanged(object sender, EventArgs e)
