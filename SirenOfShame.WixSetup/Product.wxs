@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is application version number, update for each release -->
-<?define Version = "2.4.4" ?>
+<?define Version = "2.4.5" ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
@@ -64,6 +64,8 @@
         <File Source="..\SirenOfShame\bin\Plugins\HudsonServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TeamCityServices.dll" />
         <File Source="..\SirenOfShame\bin\Plugins\TfsServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\TfsRestServices.dll" />
+        <File Source="..\SirenOfShame\bin\Plugins\AppVeyorServices.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Common.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.VisualStudio.Services.Client.dll" />
         <File Source="..\Libs\TeamFoundation\Microsoft.ServiceBus.dll" />
@@ -104,6 +106,12 @@
         <File Source="..\TeensyHidBootloaderLib\bin\Release\TeensyHidBootloaderLib.dll" Id="TeensyHidBootloaderLibDll1" />
         <File Source="..\SoxLib\bin\Release\SoxLib.dll" Id="SoxLibDll1" />
         <File Source="..\packages\log4net.2.0.3\lib\net40-full\log4net.dll" Id="Log4NetDll1" />
+
+        <!-- for AppVeyor -->
+        <File Source="..\packages\ServiceStack.Client.4.0.50\lib\net40\ServiceStack.Client.dll" />
+        <File Source="..\packages\ServiceStack.Interfaces.4.0.50\lib\portable-wp80+sl5+net40+win8+monotouch+monoandroid+xamarin.ios10\ServiceStack.Interfaces.dll" />
+        <File Source="..\packages\ServiceStack.Text.4.0.50\lib\net40\ServiceStack.Text.dll" />
+        
         <File Source="..\Releases\wyUpdate\wyUpdate.exe" />
         <File Source="..\Releases\wyUpdate\client.wyc" />
         <File Source="..\Libs\wyUpdate\AutomaticUpdater.dll" />
