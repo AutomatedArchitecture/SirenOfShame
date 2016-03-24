@@ -172,7 +172,8 @@ namespace SirenOfShame.Lib.Watcher
                 var changedBuildStatuses = GetChangedBuildStatuses(allBuildStatuses);
                 if (!changedBuildStatuses.Any())
                 {
-                    if (_restarting) InvokeRefreshStatus(allBuildStatuses);
+                    if (_restarting)
+                        InvokeRefreshStatus(allBuildStatuses);
                     return;
                 }
                 InvokeSetTrayIcon(changedBuildStatuses);

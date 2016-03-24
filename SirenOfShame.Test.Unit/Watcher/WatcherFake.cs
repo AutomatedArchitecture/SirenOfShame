@@ -40,5 +40,9 @@ namespace SirenOfShame.Test.Unit.Watcher
         public new void InvokeStatusChecked(IList<BuildStatus> args) {
             base.InvokeStatusChecked(args);
         }
+
+        public void InvokeStoppedWatching() {
+            OnStoppedWatching();
+        }
     }
 }

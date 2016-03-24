@@ -14,6 +14,17 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class RulesEngineTest
     {
         [Test]
+        public void WhenStopWatchingThenStartWatching_InvokeChangeBuildStatuses()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
+            rulesEngine.Stop();
+            rulesEngine.Start();
+            Assert.AreEqual(3, rulesEngine.RefreshStatusEvents.Count);
+        }
+
+        [Test]
         public void DuplicateUsersInCheckin_OnlyOneNewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();

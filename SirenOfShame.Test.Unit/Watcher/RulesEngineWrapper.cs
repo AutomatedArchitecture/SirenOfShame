@@ -106,6 +106,16 @@ namespace SirenOfShame.Test.Unit.Watcher
             ((WatcherFake)CiEntryPointSetting.GetWatcher(Settings)).InvokeStatusChecked(new[] { args });
         }
 
+        public void Stop()
+        {
+            ((WatcherFake)CiEntryPointSetting.GetWatcher(Settings)).InvokeStoppedWatching();
+        }
+
+        public void Start()
+        {
+            _rulesEngine.Start(initialStart: true);
+        }
+
         public void InvokeStatusChecked(BuildStatusEnum status)
         {
             InvokeStatusChecked(new[]

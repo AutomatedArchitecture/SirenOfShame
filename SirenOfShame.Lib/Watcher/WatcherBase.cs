@@ -93,7 +93,7 @@ namespace SirenOfShame.Lib.Watcher
 
         public abstract void Dispose();
 
-        protected virtual void OnStoppedWatching()
+        protected void OnStoppedWatching()
         {
             StoppedWatching?.Invoke(this, new StoppedWatchingEventArgs());
         }
