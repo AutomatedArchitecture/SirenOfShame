@@ -189,37 +189,46 @@ namespace SirenOfShame.Configuration
             var avatarsFolder = SirenOfShameSettings.GetAvatarsFolder();
             foreach (var personSetting in _settings.People)
             {
-                try
-                {
-                    _log.Debug("Attempting to import image for " + personSetting.RawName);
-                    var picture = activeDirectoryService.GetUserPicture(personSetting.RawName,
-                        _activeDirectoryDomain.Text);
-                    if (picture == null) continue;
-                    var newFileName = Guid.NewGuid() + ".png";
-                    var combine = Path.Combine(avatarsFolder, newFileName);
-                    picture.Save(combine);
-                    personSetting.AvatarImageName = newFileName;
-                    personSetting.AvatarImageUploaded = false;
-                }
-                catch (COMException ex)
-                {
-                    if (ex.Message == "Unknown error (0x80005000)")
-                    {
-                        throw;
-                    }
-                    if (ex.Message == "The server is not operational.")
-                    {
-                        throw;
-                    }
-                    _log.Warn("Failed to import user " + personSetting.RawName + ", continuing import", ex);
-                }
-                catch (Exception ex)
-                {
-                    _log.Warn("Failed to import user " + personSetting.RawName + ", continuing import", ex);
-                }
+                ImportPersonFromAdContinueOnError(personSetting, activeDirectoryService, avatarsFolder);
             }
             _settings.Save();
             _errorMessage.Visible = false;
+        }
+
+        private void ImportPersonFromAdContinueOnError(PersonSetting personSetting, ActiveDirectoryService activeDirectoryService, string avatarsFolder)
+        {
+            try
+            {
+                ImportPersonFromAd(personSetting, activeDirectoryService, avatarsFolder);
+            }
+            catch (COMException ex)
+            {
+                if (ex.Message == "Unknown error (0x80005000)")
+                {
+                    throw;
+                }
+                if (ex.Message == "The server is not operational.")
+                {
+                    throw;
+                }
+                _log.Warn("Failed to import user " + personSetting.RawName + ", continuing import", ex);
+            }
+            catch (Exception ex)
+            {
+                _log.Warn("Failed to import user " + personSetting.RawName + ", continuing import", ex);
+            }
+        }
+
+        private void ImportPersonFromAd(PersonSetting personSetting, ActiveDirectoryService activeDirectoryService, string avatarsFolder)
+        {
+            _log.Debug("Attempting to import image for " + personSetting.RawName);
+            var picture = activeDirectoryService.GetUserPicture(personSetting.RawName, _activeDirectoryDomain.Text);
+            if (picture == null) return;
+            var newFileName = Guid.NewGuid() + ".png";
+            var combine = Path.Combine(avatarsFolder, newFileName);
+            picture.Save(combine);
+            personSetting.AvatarImageName = newFileName;
+            personSetting.AvatarImageUploaded = false;
         }
     }
 }
