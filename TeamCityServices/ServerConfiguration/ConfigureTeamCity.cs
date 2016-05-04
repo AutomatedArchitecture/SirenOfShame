@@ -95,6 +95,37 @@ namespace TeamCityServices.ServerConfiguration
             SaveCredentials();
             ClearProjectNodes();
             AddRootProjects(projects);
+            DeactivateProjectsNoLongerOnServer(projects);
+        }
+
+        private void DeactivateProjectsNoLongerOnServer(TeamCityProject[] projectsOnServer)
+        {
+            var buildDefinitionsOnServer = GetAllBuildDefinitionsFlattened(projectsOnServer);
+
+            var projectIdsOnServer = buildDefinitionsOnServer
+                .Select(bd => bd.Id)
+                .ToList();
+            var projectsInSettingsButNoLongerOnServer = _ciEntryPointSetting.BuildDefinitionSettings.Where(
+                bds => bds.BuildServer == _teamCityCiEntryPoint.Name && 
+                !projectIdsOnServer.Contains(bds.Id));
+            foreach (var buildDefinitionSetting in projectsInSettingsButNoLongerOnServer)
+            {
+                buildDefinitionSetting.Active = false;
+            }
+            Settings.Save();
+        }
+
+        private IEnumerable<TeamCityBuildDefinition> GetAllBuildDefinitionsFlattened(IEnumerable<TeamCityProject> projects)
+        {
+            foreach (var project in projects)
+            {
+                var subBuildDefinitions = GetAllBuildDefinitionsFlattened(project.SubProjects);
+                var buildDefinitionsHereAndBelow = project.BuildDefinitions.Concat(subBuildDefinitions);
+                foreach (var buildDefinition in buildDefinitionsHereAndBelow)
+                {
+                    yield return buildDefinition;
+                }
+            }
         }
 
         private void AddRootProjects(TeamCityProject[] rootProjects)
