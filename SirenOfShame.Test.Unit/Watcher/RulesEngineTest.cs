@@ -54,6 +54,40 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void UsersFirstCheckinOnOtherBuild_NoNewUserEvent()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            var build1 = new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.InProgress,
+                Name = RulesEngineWrapper.BUILD1_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 10, 10),
+                Comment = "C1"
+            };
+            var build2 = new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.InProgress,
+                Name = RulesEngineWrapper.BUILD2_ID,
+                RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
+                FinishedTime = new DateTime(2010, 1, 1, 1, 10, 10),
+                Comment = "C1"
+            };
+
+            // First checkin on BUILD1 should fire NewUserEvent
+            rulesEngine.InvokeStatusChecked(build1);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+
+            // First checkin on BUILD2 should NOT fire NewUserEvent
+            rulesEngine.InvokeStatusChecked(build2);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+        }
+
+        [Test]
         public void NewUser_NewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();

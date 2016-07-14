@@ -505,11 +505,19 @@ namespace SirenOfShame.Lib.Watcher
                 .ToList();
             if (!buildStatusesWithNewPeopleList.Any()) return;
 
+            var allExistingPeople = _settings.CiEntryPointSettings
+                .SelectMany(eps => eps.BuildDefinitionSettings)
+                .SelectMany(bds => bds.People)
+                .Distinct().ToList();
+            var newPeople = buildStatusesWithNewPeopleList
+                .Select(s => s.buildStatus.RequestedBy)
+                .Where(p => allExistingPeople.All(p1 => p1 != p)).ToList();
+
             buildStatusesWithNewPeopleList
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
             _settings.Save();
 
-            buildStatusesWithNewPeopleList.ForEach(bss => InvokeNewUser(bss.buildStatus.RequestedBy));
+            newPeople.ForEach(InvokeNewUser);
         }
 
         internal void InvokeModalDialog(string dialogText, string okText)

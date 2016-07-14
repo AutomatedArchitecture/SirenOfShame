@@ -195,11 +195,8 @@ namespace SirenOfShame
 
         public void NewUser(ImageList avatarImageList, string rawName)
         {
-            if (GetUserPanels().All(x => x.RawName != rawName))
-            {
-                var person = _settings.FindAddPerson(rawName);
-                AddUserPanel(avatarImageList, person);
-            }
+            var person = _settings.FindAddPerson(rawName);
+            AddUserPanel(avatarImageList, person);
         }
     }
 
