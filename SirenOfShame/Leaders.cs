@@ -46,7 +46,7 @@ namespace SirenOfShame
                 _usersPanel.Controls.SetChildIndex(panelAndPerson.panel, i);
                 i++;
             }
-            
+            UpdateRanks();
         }
 
         public void Initialize(SirenOfShameSettings settings, ImageList avatarImageList)
@@ -58,6 +58,7 @@ namespace SirenOfShame
             {
                 AddUserPanel(avatarImageList, person);
             }
+            UpdateRanks(true);
         }
 
         private void AddUserPanel(ImageList avatarImageList, PersonSetting person)
@@ -72,6 +73,15 @@ namespace SirenOfShame
             userPanel.AddMouseEnterToAllControls(UserPanelMouseEnter);
 
             _usersPanel.Controls.Add(userPanel);
+        }
+
+        private void UpdateRanks(bool all = false)
+        {
+            var rank = 1;
+            foreach (var userPanel in GetUserPanels().Where(x => all || x.Visible))
+            {
+                userPanel.Rank = rank++;
+            }
         }
 
         private string _selectedRawName;
@@ -154,6 +164,7 @@ namespace SirenOfShame
                 var person = _settings.FindPersonByRawName(rawName);
                 userPanel.Visible = _showAllUsers || !person.Hidden;
             }
+            UpdateRanks();
         }
 
         private void WithSelectedUser(Action<PersonSetting> action)
@@ -197,6 +208,7 @@ namespace SirenOfShame
         {
             var person = _settings.FindAddPerson(rawName);
             AddUserPanel(avatarImageList, person);
+            UpdateRanks();
         }
     }
 
