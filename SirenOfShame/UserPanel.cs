@@ -11,6 +11,7 @@ namespace SirenOfShame
     {
         private float _baseFontSize;
         private float _baseFontSizeReputation;
+        private float _baseFontSizeRank;
         private float _baseFontSizeDisplayName;
         private float _baseFontSizeSuccessfulBuildsInARow;
 
@@ -37,12 +38,14 @@ namespace SirenOfShame
             var fontSizeMultiplier = newBaseFontSize / _baseFontSize;
             ResetFontSize(fontSizeMultiplier, _reputation, _baseFontSizeReputation);
             ResetFontSize(fontSizeMultiplier, _displayName, _baseFontSizeDisplayName);
+            ResetFontSize(fontSizeMultiplier, _rank, _baseFontSizeRank);
             ResetFontSize(fontSizeMultiplier, _successfulBuildsInARow, _baseFontSizeSuccessfulBuildsInARow);
             ResetFontSize(fontSizeMultiplier, _fixedSomeoneElsesBuild, _baseFontSizeSuccessfulBuildsInARow);
             ResetFontSize(fontSizeMultiplier, _totalBuilds, _baseFontSizeSuccessfulBuildsInARow);
             ResetFontSize(fontSizeMultiplier, label2, _baseFontSizeSuccessfulBuildsInARow);
             ResetFontSize(fontSizeMultiplier, label3, _baseFontSizeSuccessfulBuildsInARow);
             ResetFontSize(fontSizeMultiplier, label5, _baseFontSizeSuccessfulBuildsInARow);
+
         }
 
         private void ResetFontSize(float fontSizeMultiplier, Label label, float baseSize)
@@ -56,6 +59,7 @@ namespace SirenOfShame
             _baseFontSize = Font.Size;
             _baseFontSizeReputation = _reputation.Font.Size;
             _baseFontSizeDisplayName = _displayName.Font.Size;
+            _baseFontSizeRank = _rank.Font.Size;
             _baseFontSizeSuccessfulBuildsInARow = _successfulBuildsInARow.Font.Size;
         }
 
@@ -70,6 +74,11 @@ namespace SirenOfShame
         {
             get { return _displayName.Text; }
             set { _displayName.Text = value; }
+        }
+
+        public int Rank
+        {
+            set { _rank.Text = $"#{value}"; }
         }
 
         public void RefreshStats(PersonSetting person)
