@@ -874,7 +874,7 @@ namespace SirenOfShame {
             this._viewBuilds.Margin = new System.Windows.Forms.Padding(0);
             this._viewBuilds.Name = "_viewBuilds";
             this._viewBuilds.Padding = new System.Windows.Forms.Padding(32, 0, 0, 0);
-            this._viewBuilds.Size = new System.Drawing.Size(538, 333);
+            this._viewBuilds.Size = new System.Drawing.Size(528, 333);
             this._viewBuilds.TabIndex = 42;
             // 
             // viewUser1
@@ -883,14 +883,14 @@ namespace SirenOfShame {
             this.viewUser1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewUser1.Location = new System.Drawing.Point(0, 128);
             this.viewUser1.Name = "viewUser1";
-            this.viewUser1.Size = new System.Drawing.Size(538, 333);
+            this.viewUser1.Size = new System.Drawing.Size(528, 333);
             this.viewUser1.TabIndex = 41;
             // 
             // _newsFeed1
             // 
             this._newsFeed1.BackColor = System.Drawing.Color.Transparent;
             this._newsFeed1.Dock = System.Windows.Forms.DockStyle.Right;
-            this._newsFeed1.Location = new System.Drawing.Point(538, 128);
+            this._newsFeed1.Location = new System.Drawing.Point(528, 128);
             this._newsFeed1.Margin = new System.Windows.Forms.Padding(0);
             this._newsFeed1.Name = "_newsFeed1";
             this._newsFeed1.Size = new System.Drawing.Size(258, 333);
@@ -903,7 +903,7 @@ namespace SirenOfShame {
             this._userList.Location = new System.Drawing.Point(796, 128);
             this._userList.Margin = new System.Windows.Forms.Padding(0);
             this._userList.Name = "_userList";
-            this._userList.Size = new System.Drawing.Size(209, 333);
+            this._userList.Size = new System.Drawing.Size(219, 333);
             this._userList.TabIndex = 11;
             // 
             // separator4
