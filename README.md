@@ -5,12 +5,12 @@ A devious solution for keeping the team from breaking the build ... while silmul
 
 ![Siren of Shame Screenshot](http://3.bp.blogspot.com/-IffqMxeHNMk/UF4rRlU7mvI/AAAAAAAACRM/thNpqfG4djg/s1600/MainScreen.png)
 
-For more information see: [http://sirenofshame.com](http://sirenofshame.com)
+For more information see: [https://sirenofshame.com](https://sirenofshame.com)
 
 What Is It?
 ======
 
-Siren of shame is a [build monitor](http://sirenofshame.com/BuildMonitor) that connects to:
+Siren of shame is a [build monitor](https://sirenofshame.com/BuildMonitor) that connects to:
 
 * TFS (2008, 2010, 2012, 2013)
 * Jenkins (1.4)
@@ -23,7 +23,7 @@ Siren of shame is a [build monitor](http://sirenofshame.com/BuildMonitor) that c
 
 It's also a reputation and achievement system that optionally synchronizes to an online leader board.
 
-It is also an API for an optional USB siren that is available [for purchase](http://sirenofshame.com/BuyNow).
+It is also an API for an optional USB siren that is available [for purchase](https://sirenofshame.com/BuyNow).
 
 Product Features
 ======
@@ -52,7 +52,7 @@ If you create a free My CI Account you can also:
 Download Now
 ======
 
-[Download](http://sirenofshame.com/downloads) the latest officially released msi from our old website.
+[Download](https://sirenofshame.com/downloads) the latest officially released msi from our old website.
 
 You can also pick up the bleeding edge .msi from [our Team City build server](http://teamcity.codebetter.com/project.html?projectId=SirenOfShame) generously provided by [CodeBetter](http://codebetter.com).
 
