@@ -70,7 +70,7 @@ namespace SirenOfShame
             this._url.Size = new System.Drawing.Size(150, 13);
             this._url.TabIndex = 2;
             this._url.TabStop = true;
-            this._url.Text = "http://www.sirenofshame.com";
+            this._url.Text = "https://www.sirenofshame.com";
             this._url.VisitedLinkColor = System.Drawing.Color.White;
             this._url.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.UrlLinkClicked);
             // 

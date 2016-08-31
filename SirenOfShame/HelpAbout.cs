@@ -18,8 +18,8 @@ namespace SirenOfShame
         }
 
         private void UrlLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ProcessStartInfo sInfo = new ProcessStartInfo("http://www.sirenofshame.com/");
+        {   
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://www.sirenofshame.com/");
             Process.Start(sInfo);
         }
     }

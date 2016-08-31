@@ -11,7 +11,7 @@ namespace SirenOfShame.Extruder.Services
 {
     public sealed partial class SosOnlineService
     {
-        public static string SOS_URL = "http://sirenofshame.com";
+        public static string SOS_URL = "https://sirenofshame.com";
         private readonly ILog _log = MyLogManager.GetLog(typeof (SosOnlineService));
         private HubConnection _connection;
         private IHubProxy _proxy;

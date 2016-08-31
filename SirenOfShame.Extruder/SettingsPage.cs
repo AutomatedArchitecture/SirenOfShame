@@ -94,7 +94,7 @@ namespace SirenOfShame.Extruder
 
         private void CreateAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://sirenofshame.com/Account/Register");
+            Process.Start("https://sirenofshame.com/Account/Register");
         }
     }
 

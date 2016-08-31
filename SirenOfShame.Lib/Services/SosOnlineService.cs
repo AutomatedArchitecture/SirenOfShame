@@ -23,7 +23,7 @@ namespace SirenOfShame.Lib.Services
     public partial class SosOnlineService
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
-        public static readonly string SOS_URL = "http://sirenofshame.com";
+        public static readonly string SOS_URL = "https://sirenofshame.com";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;
 

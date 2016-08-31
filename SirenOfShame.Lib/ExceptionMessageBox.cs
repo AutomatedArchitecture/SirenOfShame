@@ -65,7 +65,7 @@ namespace SirenOfShame.Lib
         {
             try
             {
-                var url = "http://www.sirenofshame.com/ReportError";
+                var url = "https://www.sirenofshame.com/ReportError";
                 _log.Info("Sending exception to: " + url);
                 WebClient webClient = new WebClient();
                 if (!string.IsNullOrEmpty(_contact.Text))

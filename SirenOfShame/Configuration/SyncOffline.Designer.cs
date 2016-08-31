@@ -121,8 +121,8 @@ namespace SirenOfShame.Configuration
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(387, 27);
             this.label8.TabIndex = 36;
-            this.label8.Text = "1. On a connected machine navigate to http://sirenofshame.com. Log in. Navigate t" +
-    "o http://sirenofshame.com/ApiV1/TestSynchronize";
+            this.label8.Text = "1. On a connected machine navigate to https://sirenofshame.com. Log in. Navigate t" +
+    "o https://sirenofshame.com/ApiV1/TestSynchronize";
             // 
             // imageList1
             // 

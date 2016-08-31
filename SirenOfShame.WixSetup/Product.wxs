@@ -141,9 +141,9 @@
     
     <Property Id='ARPCOMMENTS'>A build monitor, CI gamifier, and siren controller.</Property>
     <Property Id='ARPCONTACT'>support@sirenofshame.com</Property>
-    <Property Id='ARPHELPLINK'>http://sirenofshame.com</Property>
-    <Property Id='ARPURLINFOABOUT'>http://sirenofshame.com</Property>
-    <Property Id='ARPURLUPDATEINFO'>http://sirenofshame.com/downloads</Property>
+    <Property Id='ARPHELPLINK'>https://sirenofshame.com</Property>
+    <Property Id='ARPURLINFOABOUT'>https://sirenofshame.com</Property>
+    <Property Id='ARPURLUPDATEINFO'>https://sirenofshame.com/downloads</Property>
     <Property Id='ARPSIZE'>15852</Property>
     <Property Id='ARPPRODUCTICON'>SirenOfShameTrayBlankIco</Property>
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
