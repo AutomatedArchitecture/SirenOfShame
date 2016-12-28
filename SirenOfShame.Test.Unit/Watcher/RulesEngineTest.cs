@@ -359,6 +359,15 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void NewChecking_StatsChanged()
+        {
+            var rulesEngineWrapper = new RulesEngineWrapper();
+            rulesEngineWrapper.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngineWrapper.StatsChangedEvents.Count);
+            Assert.AreEqual(1, rulesEngineWrapper.StatsChangedEvents[0].ChangedBuildStatuses.Count);
+        }
+
+        [Test]
         public void Hudson_BuildUrlPassesThrough()
         {
             var rulesEngine = new RulesEngineWrapper();
