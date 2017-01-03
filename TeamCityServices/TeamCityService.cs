@@ -132,12 +132,12 @@ namespace TeamCityServices
                 SetCookie(rootUrl, userName, password);
             }
 
-            XDocument document = DownloadXml(rootUrl + "/ajax.html?getRunningBuilds=1", userName, password, GetCookie(rootUrl));
+            XDocument document = DownloadXml(rootUrl + "/httpAuth/app/rest/builds?locator=running:true", userName, password, GetCookie(rootUrl));
 
-            var inProgressBuilds = document.Descendants("build").Select(b => new
+            var inProgressBuilds = document.Descendants("builds").First().Descendants("build").Select(b => new
             {
                 buildTypeId = b.AttributeValueOrDefault("buildTypeId"),
-                buildId = b.AttributeValueOrDefault("buildId")
+                buildId = b.AttributeValueOrDefault("id")
             }).ToArray();
 
             var parallelResult = from buildDefinitionSetting in watchedBuildDefinitions
