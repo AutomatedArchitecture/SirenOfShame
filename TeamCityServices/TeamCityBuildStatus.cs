@@ -54,13 +54,22 @@ namespace TeamCityServices
         {
             try
             {
-                
+
                 if (changeResultXDoc != null)
                 {
                     XElement firstComment = changeResultXDoc.Descendants("comment").FirstOrDefault();
                     if (firstComment != null)
                         Comment = firstComment.Value.Trim();
                     RequestedBy = changeResultXDoc.Root.AttributeValueOrDefault("username");
+                }
+                else if (buildResultXDoc != null)
+                {
+                    XElement triggerElement = buildResultXDoc.Descendants("triggered").FirstOrDefault();
+                    if (triggerElement != null)
+                    {
+                        RequestedBy = triggerElement.Descendants("user").First().AttributeValueOrDefault("username");
+                        Comment = "Manual Build";
+                    }
                 }
 
                 string status = buildResultXDoc.Root.AttributeValueOrDefault("status");
