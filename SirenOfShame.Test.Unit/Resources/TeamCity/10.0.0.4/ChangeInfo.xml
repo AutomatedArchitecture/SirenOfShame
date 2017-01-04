@@ -1,0 +1,8 @@
+﻿<change id="1" version="1" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:1" webUrl="http://teamcity/viewModification.html?modId=1&amp;personal=false">
+  <comment>someonebroke the build and I am very sad</comment>
+  <user username="testuser" name="Test User" id="1" href="/httpAuth/app/rest/users/id:1"/>
+  <files count="1">
+    <file before-revision="1" after-revision="2" changeType="edited" file="/afile.cs" relative-file="afile.cs"/>
+  </files>
+  <vcsRootInstance id="1" vcs-root-id="Test" name="Test" href="/httpAuth/app/rest/vcs-root-instances/id:1"/>
+</change>

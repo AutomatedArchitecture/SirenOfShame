@@ -7,7 +7,7 @@ namespace SirenOfShame.Test.Unit.Resources
 {
     public static class ResourceManager
     {
-        private static string GetResource(string resourceName)
+        public static string GetResource(string resourceName)
         {
             string fullResourceName = "SirenOfShame.Test.Unit.Resources." + resourceName;
 
@@ -64,16 +64,6 @@ namespace SirenOfShame.Test.Unit.Resources
             get { return XDocument.Parse(GetResource("Bug152HudsonDuration.xml")); }
         }
 
-        public static XDocument TeamCityFailingBuild
-        {
-            get { return XDocument.Parse(GetResource("TeamCityFailingBuild.xml")); }
-        }
-
-        public static XDocument TeamCityFailingChange
-        {
-            get { return XDocument.Parse(GetResource("TeamCityFailingChange.xml")); }
-        }
-
         public static XDocument CruiseControlNetBrokenWithAuthor
         {
             get { return XDocument.Parse(GetResource("CruiseControlNetBrokenWithAuthor.xml")); }
@@ -92,16 +82,6 @@ namespace SirenOfShame.Test.Unit.Resources
         public static XDocument BambooFailingBuild
         {
             get { return XDocument.Parse(GetResource("BambooFailingBuild.xml")); }
-        }
-
-        public static XDocument TeamCityServerCleanup
-        {
-            get { return XDocument.Parse(GetResource("TeamCityServerCleanup.xml")); }
-        }
-
-        public static XDocument TeamCityFailureDueToCleanup
-        {
-            get { return XDocument.Parse(GetResource("TeamCityFailureDueToCleanup.xml")); }
         }
     }
 }

@@ -1,0 +1,3 @@
+﻿<builds count="1" href="/httpAuth/app/rest/builds?locator=running:true">
+  <build id="12345" buildTypeId="Test_Build_ID" number="73" status="SUCCESS" state="running" running="true" percentageComplete="2" href="/httpAuth/app/rest/builds/id:12345" webUrl="http://teamcity/viewLog.html?buildId=12345&amp;buildTypeId=Test_Build_ID"/>
+</builds>
