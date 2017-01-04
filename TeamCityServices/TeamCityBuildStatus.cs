@@ -67,8 +67,12 @@ namespace TeamCityServices
                     XElement triggerElement = buildResultXDoc.Descendants("triggered").FirstOrDefault();
                     if (triggerElement != null)
                     {
-                        RequestedBy = triggerElement.Descendants("user").First().AttributeValueOrDefault("username");
-                        Comment = "Manual Build";
+                        var firstUser = triggerElement.Descendants("user").FirstOrDefault();
+                        if (firstUser != null)
+                        {
+                            RequestedBy = firstUser.AttributeValueOrDefault("username");
+                            Comment = "Manual Build";
+                        }
                     }
                 }
 
