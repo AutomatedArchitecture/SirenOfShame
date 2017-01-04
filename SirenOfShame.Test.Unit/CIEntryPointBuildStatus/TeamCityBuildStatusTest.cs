@@ -1,9 +1,10 @@
 ﻿using System;
-using NUnit.Framework;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Resources;
 using TeamCityServices;
+using SirenOfShame.Test.Unit.Resources.TeamCity;
+using NUnit.Framework;
 
 namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
 {
@@ -11,15 +12,40 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
     public class TeamCityBuildStatusTest
     {
         [Test]
+        public void TeamCityBuildStatus_Working_10_0_0_4()
+        {
+            var buildInfo = TeamCityResources.TeamCity_10004_BuildInfo;
+            var changeInfo = TeamCityResources.TeamCity_10004_changeInfo;
+            BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting
+            {
+                Name = "Name",
+                Id = "BuildDefinitionId"
+            };
+            var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildInfo, changeInfo);
+
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
+            Assert.AreEqual("Tests", buildStatus.Name);
+            Assert.AreEqual("someone@somewhere.com", buildStatus.RequestedBy);
+            Assert.AreEqual(new DateTime(2017, 1, 1, 12, 00, 00, 0), buildStatus.StartedTime, HudsonBuildStatusTest.DateAsCode(buildStatus.StartedTime.Value));
+            string expectedComment = "someonebroke the build and I am very sad";
+            Assert.AreEqual(expectedComment.Replace("\r\n", "\r"), buildStatus.Comment);
+            Assert.AreEqual(new DateTime(2017, 1, 1, 12, 00, 00, 0), buildStatus.FinishedTime, HudsonBuildStatusTest.DateAsCode(buildStatus.FinishedTime.Value)); // timestamp+duration
+            Assert.AreEqual("http://teamcity/viewLog.html?buildId=12345&buildTypeId=Test_Build_ID", buildStatus.Url);
+            Assert.AreEqual("12345", buildStatus.BuildId);
+        }
+
+
+        [Test]
         public void TeamCityBuildStatus_PassingBuildNoComment()
         {
-            var teamCityFailingBuild = ResourceManager.TeamCityFailingBuild;
-            var teamCityFailingChange = ResourceManager.TeamCityFailingChange;
+            var teamCityFailingBuild = TeamCityResources.TeamCityFailingBuild;
+            var teamCityFailingChange = TeamCityResources.TeamCityFailingChange;
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting
-                                                                {
-                                                                    Name = "Name",
-                                                                    Id = "BuildDefinitionId"
-                                                                };
+            {
+                Name = "Name",
+                Id = "BuildDefinitionId"
+            };
             var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, teamCityFailingBuild, teamCityFailingChange);
 
             Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
@@ -40,12 +66,12 @@ Conflicts:
         [Test]
         public void TeamCityFailureDueToCleanup()
         {
-            var teamCityFailureDueToCleanup = ResourceManager.TeamCityFailureDueToCleanup;
+            var teamCityFailureDueToCleanup = TeamCityResources.TeamCityFailureDueToCleanup;
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting
-                                                                {
-                                                                    Name = "Name",
-                                                                    Id = "BuildDefinitionId"
-                                                                };
+            {
+                Name = "Name",
+                Id = "BuildDefinitionId"
+            };
             var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, teamCityFailureDueToCleanup, null);
 
             Assert.AreEqual(BuildStatusEnum.Unknown, buildStatus.BuildStatusEnum);

@@ -1,0 +1,9 @@
+﻿<changes count="7" href="/httpAuth/app/rest/changes?locator=build:(id:12345)">
+  <change id="1" version="1" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:1" webUrl="http://teamcity/viewModification.html?modId=1&amp;personal=false"/>
+  <change id="2" version="2" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:2" webUrl="http://teamcity/viewModification.html?modId=2&amp;personal=false"/>
+  <change id="3" version="3" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:3" webUrl="http://teamcity/viewModification.html?modId=3&amp;personal=false"/>
+  <change id="4" version="4" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:4" webUrl="http://teamcity/viewModification.html?modId=4&amp;personal=false"/>
+  <change id="5" version="5" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:5" webUrl="http://teamcity/viewModification.html?modId=5&amp;personal=false"/>
+  <change id="6" version="6" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:6" webUrl="http://teamcity/viewModification.html?modId=6&amp;personal=false"/>
+  <change id="7" version="7" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:7" webUrl="http://teamcity/viewModification.html?modId=7&amp;personal=false"/>
+</changes>

@@ -1,0 +1,28 @@
+﻿<build id="12345" buildTypeId="Test_Build_ID" number="72" status="SUCCESS" state="finished" href="/httpAuth/app/rest/builds/id:12345" webUrl="http://teamcity/viewLog.html?buildId=12345&amp;buildTypeId=Test_Build_ID">
+  <statusText>Tests passed: 12345</statusText>
+  <buildType id="Test_Build_ID" name="Tests" projectName="Test_Builds" projectId="Test_Builds" href="/httpAuth/app/rest/buildTypes/id:Test_Build_ID" webUrl="http://teamcity/viewType.html?buildTypeId=Test_Build_ID"/>
+  <queuedDate>20170101T120000-0500</queuedDate>
+  <startDate>20170101T120000-0500</startDate>
+  <finishDate>20170101T120000-0500</finishDate>
+  <triggered type="unknown" details="Schedule Trigger" date="20170101T120000-0500"/>
+  <lastChanges count="1">
+    <change id="1" version="6591" username="someone@somewhere.com" date="20170101T120000-0500" href="/httpAuth/app/rest/changes/id:1" webUrl="http://teamcity/viewModification.html?modId=1&amp;personal=false"/>
+  </lastChanges>
+  <changes href="/httpAuth/app/rest/changes?locator=build:(id:22524)"/>
+  <revisions count="1">
+    <revision version="1">
+      <vcs-root-instance id="1" vcs-root-id="Test" name="Test" href="/httpAuth/app/rest/vcs-root-instances/id:1"/>
+    </revision>
+  </revisions>
+  <agent id="5" name="teamcity" typeId="5" href="/httpAuth/app/rest/agents/id:5"/>
+  <testOccurrences count="164" href="/httpAuth/app/rest/testOccurrences?locator=build:(id:12345)" passed="164"/>
+  <artifacts href="/httpAuth/app/rest/builds/id:12345/artifacts/children/"/>
+  <relatedIssues href="/httpAuth/app/rest/builds/id:12345/relatedIssues"/>
+  <properties count="1">
+    <property name="system.DeployOnBuild" value="true" inherited="true"/>
+  </properties>
+  <statistics href="/httpAuth/app/rest/builds/id:12345/statistics"/>
+  <snapshot-dependencies count="1">
+    <build id="22519" buildTypeId="Test_Build_ID_Depends" number="1210" status="SUCCESS" state="finished" href="/httpAuth/app/rest/builds/id:22519" webUrl="http://teamcity/viewLog.html?buildId=22519&amp;buildTypeId=Test_Build_ID_Depends"/>
+  </snapshot-dependencies>
+</build>

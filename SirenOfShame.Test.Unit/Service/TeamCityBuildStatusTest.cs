@@ -4,6 +4,7 @@ using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Test.Unit.Resources;
 using TeamCityServices;
+using SirenOfShame.Test.Unit.Resources.TeamCity;
 
 namespace SirenOfShame.Test.Unit.Service
 {
@@ -33,7 +34,7 @@ namespace SirenOfShame.Test.Unit.Service
         {
             FakeTeamCityService teamCityService = new FakeTeamCityService();
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
-            XDocument xDoc = ResourceManager.TeamCityServerCleanup;
+            XDocument xDoc = TeamCityResources.TeamCityServerCleanup;
             teamCityService.GetBuildStatusAndCommentsFromXDocumentFake(
                 "fakeurl",
                 "username",
