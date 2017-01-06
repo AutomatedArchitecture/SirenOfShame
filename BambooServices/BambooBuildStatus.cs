@@ -18,7 +18,7 @@ namespace BambooServices
             {
                 BuildDefinitionId = buildDefinitionSetting.Id,
                 Name = buildDefinitionSetting.Name,
-                BuildStatusEnum = BuildStatusEnum.InProgress
+                CurrentBuildStatus = BuildStatusEnum.InProgress
             };
 
             DateTime startTime;
@@ -51,7 +51,7 @@ namespace BambooServices
             result.StartedTime = ParseDateTime(doc.Root.ElementValueOrDefault("buildStartedTime"));
             result.FinishedTime = ParseDateTime(doc.Root.ElementValueOrDefault("buildCompletedTime"));
 
-            result.BuildStatusEnum = ToBuildStatusEnum(stateStr);
+            result.CurrentBuildStatus = ToBuildStatusEnum(stateStr);
 
             var changesElem = doc.Root.Element("changes");
             if (changesElem != null)

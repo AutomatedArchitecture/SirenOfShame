@@ -308,7 +308,7 @@ namespace SirenOfShame.Lib.Watcher
             if (oldStatus == null) return true;
 
             bool startTimesUnequal = oldStatus.StartedTime != newStatus.StartedTime;
-            bool buildStatusesUnequal = oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum;
+            bool buildStatusesUnequal = oldStatus.CurrentBuildStatus != newStatus.CurrentBuildStatus;
            bool buildChanged = 
                 startTimesUnequal || buildStatusesUnequal;
             
@@ -319,8 +319,8 @@ namespace SirenOfShame.Lib.Watcher
                     newStatus.BuildDefinitionId, 
                     oldStatus.StartedTime, 
                     newStatus.StartedTime, 
-                    oldStatus.BuildStatusEnum, 
-                    newStatus.BuildStatusEnum,
+                    oldStatus.CurrentBuildStatus, 
+                    newStatus.CurrentBuildStatus,
                     newStatus.BuildId,
                     newStatus.RequestedBy
                     );
@@ -362,7 +362,7 @@ namespace SirenOfShame.Lib.Watcher
 
         private void TimerTick(object sender, EventArgs e)
         {
-            if (_previousBuildStatuses.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
+            if (_previousBuildStatuses.Any(bs => bs.CurrentBuildStatus == BuildStatusEnum.InProgress))
             {
                 InvokeRefreshStatus(_previousBuildStatuses);
             }
@@ -461,7 +461,7 @@ namespace SirenOfShame.Lib.Watcher
             BuildStatus previousWorkingOrBrokenBuildStatus;
             dictionary.TryGetValue(changedBuildStatus.BuildDefinitionId, out previousWorkingOrBrokenBuildStatus);
 
-            return previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
+            return previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.CurrentBuildStatus;
         }
 
         private static void SetValue(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
@@ -486,7 +486,7 @@ namespace SirenOfShame.Lib.Watcher
                                            select new { buildStatus, setting };
             bool anyBuildBroken = buildStatusesAndSettings
                 .Any(bs => bs.setting.AffectsTrayIcon && (
-                    bs.buildStatus.BuildStatusEnum == BuildStatusEnum.Broken));
+                    bs.buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken));
             TrayIcon trayIcon = anyBuildBroken ? TrayIcon.Red : TrayIcon.Green;
             InvokeSetTrayIcon(trayIcon);
         }

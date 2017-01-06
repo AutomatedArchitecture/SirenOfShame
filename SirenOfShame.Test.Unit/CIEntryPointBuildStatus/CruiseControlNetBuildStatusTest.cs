@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             CruiseControlNetBuildStatus.ClearCache();
             CruiseControlNetBuildStatus buildStatus = new CruiseControlNetBuildStatus(projectElement, null);
 
-            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("Lee", buildStatus.RequestedBy);
             Assert.IsNotNull(buildStatus.StartedTime);
             AssertAreClose(new DateTime(2012, 8, 16, 19, 23, 34, 276), buildStatus.StartedTime.Value);
@@ -56,7 +56,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             CruiseControlNetBuildStatus.ClearCache();
             CruiseControlNetBuildStatus buildStatus = new CruiseControlNetBuildStatus(projectElement, null);
 
-            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.BuildDefinitionId);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);
@@ -83,7 +83,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             new CruiseControlNetBuildStatus(notInProgressStatusProjectElement, null);
             CruiseControlNetBuildStatus buildStatus = new CruiseControlNetBuildStatus(inProgressStatusProjectElement, null);
 
-            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.BuildDefinitionId);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);
@@ -107,7 +107,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             new CruiseControlNetBuildStatus(projectElement, null);
             CruiseControlNetBuildStatus buildStatus = new CruiseControlNetBuildStatus(projectElement, null);
 
-            Assert.AreEqual(BuildStatusEnum.Unknown, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Unknown, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.BuildDefinitionId);
             Assert.AreEqual("CruiseControlNetProj1", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);

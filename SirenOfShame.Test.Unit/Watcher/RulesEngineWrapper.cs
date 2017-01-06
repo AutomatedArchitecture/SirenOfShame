@@ -124,7 +124,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 new BuildStatus
                 {
-                    BuildStatusEnum = status,
+                    CurrentBuildStatus = status,
                     Name = BUILD1_ID, 
                     RequestedBy = CURRENT_USER, 
                     BuildDefinitionId = BUILD1_ID, 

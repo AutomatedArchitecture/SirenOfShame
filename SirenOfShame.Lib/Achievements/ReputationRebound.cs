@@ -33,11 +33,11 @@ namespace SirenOfShame.Lib.Achievements
                 if (achievedThreeConsecurtiveFails.HasValue && buildStatus.RequestedBy == PersonSetting.RawName)
                 {
                     buildsSinceThreeConsecutiveFails++;
-                    if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+                    if (buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken)
                         failedSinceThreeConsecutiveFails++;
                 }
                 
-                if (buildStatus.RequestedBy == PersonSetting.RawName && buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+                if (buildStatus.RequestedBy == PersonSetting.RawName && buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken)
                 {
                     consecutiveFailedBuilds++;
                     if (consecutiveFailedBuilds >= 3)

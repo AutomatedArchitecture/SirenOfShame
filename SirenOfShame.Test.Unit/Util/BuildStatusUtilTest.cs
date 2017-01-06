@@ -13,17 +13,17 @@ namespace SirenOfShame.Test.Unit.Util
         public void Merge_NewBuildStatus_Added()
         {
             var oldStatus = new BuildStatus[] {};
-            var newStatuses = new[] {new BuildStatus {BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working}};
+            var newStatuses = new[] {new BuildStatus {BuildDefinitionId = "1", CurrentBuildStatus = BuildStatusEnum.Working}};
             var result = BuildStatusUtil.Merge(oldStatus, newStatuses);
             Assert.AreEqual(1, result.Count());
             Assert.AreEqual("1", result[0].BuildDefinitionId);
-            Assert.AreEqual(BuildStatusEnum.Working, result[0].BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, result[0].CurrentBuildStatus);
         }
         
         [Test]
         public void Merge_RemovedBuildStatus_Retained()
         {
-            var oldStatus = new[] {new BuildStatus {BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working}};
+            var oldStatus = new[] {new BuildStatus {BuildDefinitionId = "1", CurrentBuildStatus = BuildStatusEnum.Working}};
             var newStatuses = new BuildStatus[] {};
             var result = BuildStatusUtil.Merge(oldStatus, newStatuses);
             Assert.AreEqual(1, result.Count());
@@ -32,12 +32,12 @@ namespace SirenOfShame.Test.Unit.Util
         [Test]
         public void Merge_ExistingUnchangedBuildStatus_NotOverwritten()
         {
-            var oldStatus = new[] { new BuildStatus { BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working, LocalStartTime = new DateTime(2010, 1, 1) } };
-            var newStatuses = new[] { new BuildStatus { BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working, LocalStartTime = new DateTime(2012, 2, 2)} };
+            var oldStatus = new[] { new BuildStatus { BuildDefinitionId = "1", CurrentBuildStatus = BuildStatusEnum.Working, LocalStartTime = new DateTime(2010, 1, 1) } };
+            var newStatuses = new[] { new BuildStatus { BuildDefinitionId = "1", CurrentBuildStatus = BuildStatusEnum.Working, LocalStartTime = new DateTime(2012, 2, 2)} };
             var result = BuildStatusUtil.Merge(oldStatus, newStatuses);
             Assert.AreEqual(1, result.Count());
             Assert.AreEqual("1", result[0].BuildDefinitionId);
-            Assert.AreEqual(BuildStatusEnum.Working, result[0].BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, result[0].CurrentBuildStatus);
             Assert.AreEqual(new DateTime(2010, 1, 1), result[0].LocalStartTime);
         }
     }

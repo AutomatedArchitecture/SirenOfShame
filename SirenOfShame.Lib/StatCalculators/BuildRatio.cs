@@ -22,7 +22,7 @@ namespace SirenOfShame.Lib.StatCalculators
         {
             var currentUserBuilds = allActiveBuildDefinitionsOrderedChronoligically.Where(i => i.RequestedBy == personSetting.RawName).ToList();
             var totalBuilds = currentUserBuilds.Count;
-            var unsuccessfulBuilds = currentUserBuilds.Count(i => i.BuildStatusEnum == BuildStatusEnum.Broken);
+            var unsuccessfulBuilds = currentUserBuilds.Count(i => i.CurrentBuildStatus == BuildStatusEnum.Broken);
             return totalBuilds == 0 ? 0 : (double)unsuccessfulBuilds/totalBuilds;
         }
 
@@ -40,7 +40,7 @@ namespace SirenOfShame.Lib.StatCalculators
             foreach (var buildStatus in buildStatuses)
             {
                 totalBuilds++;
-                if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+                if (buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken)
                     unsuccessfulBuilds++;
                 currentRatio = (double)unsuccessfulBuilds / totalBuilds;
                 if (totalBuilds == 50)

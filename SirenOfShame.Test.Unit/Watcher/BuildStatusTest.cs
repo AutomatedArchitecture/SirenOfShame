@@ -30,7 +30,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Assert.AreEqual(new DateTime(2012, 1, 1, 1, 1, 1), actual.StartedTime);
             Assert.AreEqual(new DateTime(2012, 2, 2, 2, 2, 2), actual.FinishedTime);
             Assert.AreEqual("jshimpty", actual.RequestedBy);
-            Assert.AreEqual(BuildStatusEnum.Working, actual.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, actual.CurrentBuildStatus);
             Assert.AreEqual("buildid", actual.BuildDefinitionId);
         }
 
@@ -81,7 +81,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                BuildStatusEnum = BuildStatusEnum.InProgress
+                CurrentBuildStatus = BuildStatusEnum.InProgress
             };
             var now = new DateTime(2010, 1, 1, 1, 2, 2);
             var previousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>();
@@ -97,7 +97,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                BuildStatusEnum = BuildStatusEnum.InProgress
+                CurrentBuildStatus = BuildStatusEnum.InProgress
             };
             var now = new DateTime(2010, 1, 1, 1, 1, 1);
             var previousWorkingOrBrokenBuildStatus = new Dictionary<string, BuildStatus>
@@ -121,7 +121,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 BuildDefinitionId = "MyBuild",
                 LocalStartTime = new DateTime(2010, 1, 1, 1, 1, 1),
-                BuildStatusEnum = BuildStatusEnum.InProgress
+                CurrentBuildStatus = BuildStatusEnum.InProgress
             };
             var now = new DateTime(2010, 1, 1, 1, 3, 2);
             

@@ -296,7 +296,7 @@ namespace BuildBotServices
 
             if (buildInProgress)
             {
-                BuildStatusEnum = BuildStatusEnum.InProgress;
+                CurrentBuildStatus = BuildStatusEnum.InProgress;
             }
             else
             {
@@ -305,20 +305,20 @@ namespace BuildBotServices
                     List<object> text = mostRecentBuild.text;
                     if (text.Contains("successful"))
                     {
-                        BuildStatusEnum = BuildStatusEnum.Working;
+                        CurrentBuildStatus = BuildStatusEnum.Working;
                     }
                     else if (text.Contains("failed"))
                     {
-                        BuildStatusEnum = BuildStatusEnum.Broken;
+                        CurrentBuildStatus = BuildStatusEnum.Broken;
                     }
                     else
                     {
-                        BuildStatusEnum = BuildStatusEnum.Unknown;
+                        CurrentBuildStatus = BuildStatusEnum.Unknown;
                     }
                 }
                 catch( Exception )
                 {
-                    BuildStatusEnum = BuildStatusEnum.Unknown;
+                    CurrentBuildStatus = BuildStatusEnum.Unknown;
                 }
             }
 
@@ -374,7 +374,7 @@ namespace BuildBotServices
             Url = webUrl.ToString();
             BuildId = mostRecentBuild.number.ToString();
 
-            buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
+            buildStatusInfo.LastBuildStatusEnum = CurrentBuildStatus;
         }
 
         private ArrayList GetProperty(string propertyName, dynamic buildStatus)

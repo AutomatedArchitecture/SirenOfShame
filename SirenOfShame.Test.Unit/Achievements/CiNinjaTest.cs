@@ -13,8 +13,8 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, BuildDefinitionId = "1", RequestedBy = "someoneElse" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, BuildDefinitionId = "1", RequestedBy = "currentUser" }
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, BuildDefinitionId = "1", RequestedBy = "someoneElse" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, BuildDefinitionId = "1", RequestedBy = "currentUser" }
             };
             Assert.AreEqual(1, FixedSomeoneElsesBuild.HowManyTimesFixedSomeoneElsesBuildForAllBuilds(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }
@@ -24,8 +24,8 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, BuildDefinitionId = "1", RequestedBy = "someoneElse" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, BuildDefinitionId = "2", RequestedBy = "currentUser" }
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, BuildDefinitionId = "1", RequestedBy = "someoneElse" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, BuildDefinitionId = "2", RequestedBy = "currentUser" }
             };
             Assert.AreEqual(0, FixedSomeoneElsesBuild.HowManyTimesFixedSomeoneElsesBuildForAllBuilds(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }
@@ -42,8 +42,8 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "someoneElse" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser" }
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "someoneElse" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser" }
             };
             Assert.AreEqual(1, FixedSomeoneElsesBuild.HowManyTimesHasFixedSomeoneElsesBuildForBuild(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }
@@ -53,8 +53,8 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser" }
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser" }
             };
             Assert.AreEqual(0, FixedSomeoneElsesBuild.HowManyTimesHasFixedSomeoneElsesBuildForBuild(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }
@@ -64,8 +64,8 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "someoneElse" }
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "someoneElse" }
             };
             Assert.AreEqual(0, FixedSomeoneElsesBuild.HowManyTimesHasFixedSomeoneElsesBuildForBuild(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }
@@ -75,9 +75,9 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             var currentBuildDefinitionOrderedChronoligically = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "someoneElse" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser" },
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "someoneElse" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser" },
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser" },
             };
             Assert.AreEqual(1, FixedSomeoneElsesBuild.HowManyTimesHasFixedSomeoneElsesBuildForBuild(currentBuildDefinitionOrderedChronoligically, "currentUser"));
         }

@@ -7,7 +7,7 @@ namespace TfsRestServices
     {
         public TfsRestBuildStatus(TfsJsonBuild tfsRestBuildDefinition, CommentsCache commentsCache)
         {
-            BuildStatusEnum = GetBuildStatus(tfsRestBuildDefinition);
+            CurrentBuildStatus = GetBuildStatus(tfsRestBuildDefinition);
             Name = tfsRestBuildDefinition.Definition.Name;
             BuildDefinitionId = tfsRestBuildDefinition.Definition.Id.ToString();
             RequestedBy = tfsRestBuildDefinition.RequestedFor.DisplayName;

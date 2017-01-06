@@ -27,9 +27,9 @@ namespace SirenOfShame.Lib.StatCalculators
             string buildInitiallyBrokenBy = null;
             foreach (var buildStatus in currentBuildDefinitionOrderedChronoligically)
             {
-                bool newlyBroken = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && buildInitiallyBrokenBy == null;
+                bool newlyBroken = buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken && buildInitiallyBrokenBy == null;
                 bool wasBrokenLastTime = buildInitiallyBrokenBy != null;
-                bool newlyFixed = wasBrokenLastTime && buildStatus.BuildStatusEnum == BuildStatusEnum.Working;
+                bool newlyFixed = wasBrokenLastTime && buildStatus.CurrentBuildStatus == BuildStatusEnum.Working;
 
                 if (newlyBroken)
                 {

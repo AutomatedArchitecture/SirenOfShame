@@ -25,7 +25,7 @@ namespace SirenOfShame.Lib.Achievements
             var currentBuild = _currentBuildDefinitionOrderedChronoligically[count - 1];
             var previousBuild = _currentBuildDefinitionOrderedChronoligically[count - 2];
             bool currentAndLastBuildByCurrentUser = previousBuild.RequestedBy == PersonSetting.RawName && currentBuild.RequestedBy == PersonSetting.RawName;
-            bool wasJustFixed = previousBuild.BuildStatusEnum == BuildStatusEnum.Broken && currentBuild.BuildStatusEnum == BuildStatusEnum.Working;
+            bool wasJustFixed = previousBuild.CurrentBuildStatus == BuildStatusEnum.Broken && currentBuild.CurrentBuildStatus == BuildStatusEnum.Working;
             bool fixedWithinSixtySeconds = previousBuild.IsBackToBackWithNextBuild(currentBuild, 60);
             return currentAndLastBuildByCurrentUser && wasJustFixed && fixedWithinSixtySeconds;
         }

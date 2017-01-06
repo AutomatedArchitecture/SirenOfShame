@@ -41,7 +41,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             if (string.IsNullOrEmpty(buildStatus.RequestedBy)) return;
             var personSetting = settings.FindAddPerson(buildStatus.RequestedBy);
-            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken)
+            if (buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken)
             {
                 personSetting.FailedBuilds++;
             }
@@ -55,7 +55,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 buildStatus.StartedTime == null ? "" : buildStatus.StartedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
                 buildStatus.FinishedTime == null ? "" : buildStatus.FinishedTime.Value.Ticks.ToString(CultureInfo.InvariantCulture),
-                ((int) buildStatus.BuildStatusEnum).ToString(CultureInfo.InvariantCulture),
+                ((int) buildStatus.CurrentBuildStatus).ToString(CultureInfo.InvariantCulture),
                 buildStatus.RequestedBy
             };
             string contents = string.Join(",", items) + "\r\n";

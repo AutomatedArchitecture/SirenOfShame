@@ -353,7 +353,7 @@ namespace TeamCityServices
                     if (title != null && title.Value.StartsWith("Cleanup in progress"))
                         throw new ServerUnavailableException("Cleanup in progress");
                     _log.Error("There was no changes element in the following XML: " + buildResultXDoc);
-                    return new TeamCityBuildStatus(buildDefinitionSetting) { BuildStatusEnum = BuildStatusEnum.Unknown };
+                    return new TeamCityBuildStatus(buildDefinitionSetting) { CurrentBuildStatus = BuildStatusEnum.Unknown };
                 }
                 var count = changesNode.AttributeValueOrDefault("count");
                 bool commentsExist = !string.IsNullOrEmpty(count) && count != "0";
@@ -411,7 +411,7 @@ namespace TeamCityServices
             {
                 return new TeamCityBuildStatus(buildDefinitionSetting)
                 {
-                    BuildStatusEnum = BuildStatusEnum.Unknown,
+                    CurrentBuildStatus = BuildStatusEnum.Unknown,
                     Comment = "[unable to connect to " + buildDefinitionSetting.Id + "]",
                 };
             }

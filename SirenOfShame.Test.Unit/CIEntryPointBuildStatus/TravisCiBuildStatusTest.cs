@@ -19,7 +19,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             TravisCiBuildStatus buildStatus = new TravisCiBuildStatus(travisCiBuildDefinition, travisCiWorkingBuild, buildDefinitionSetting);
 
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Bob Smith", buildStatus.RequestedBy);
@@ -38,7 +38,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             TravisCiBuildStatus buildStatus = new TravisCiBuildStatus(travisCiBuildDefinition, travisCiWorkingBuild, buildDefinitionSetting);
 
-            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Garima Singh", buildStatus.RequestedBy);

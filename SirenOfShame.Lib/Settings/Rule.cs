@@ -162,18 +162,18 @@ namespace SirenOfShame.Lib.Settings
 
         private bool IsTriggerTypeMatch(BuildStatus buildStatus, bool newlyBroken, bool newlyFixed)
         {
-            if (TriggerType == TriggerType.BuildFailed && buildStatus.BuildStatusEnum == BuildStatusEnum.Broken) return true;
+            if (TriggerType == TriggerType.BuildFailed && buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken) return true;
             if (TriggerType == TriggerType.InitialFailedBuild       && newlyBroken) return true;
             if (TriggerType == TriggerType.InitialSuccess           && newlyFixed) return true;
-            if (TriggerType == TriggerType.BuildTriggered           && buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress) return true;
-            if (TriggerType == TriggerType.SubsequentFailedBuild    && buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken) return true;
-            if (TriggerType == TriggerType.SuccessfulBuild          && buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed) return true;
+            if (TriggerType == TriggerType.BuildTriggered           && buildStatus.CurrentBuildStatus == BuildStatusEnum.InProgress) return true;
+            if (TriggerType == TriggerType.SubsequentFailedBuild    && buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken && !newlyBroken) return true;
+            if (TriggerType == TriggerType.SuccessfulBuild          && buildStatus.CurrentBuildStatus == BuildStatusEnum.Working && !newlyFixed) return true;
             return false;
         }
 
         public void FireAnyUntilBuildPassesEvents(RulesEngine rulesEngine, BuildStatus buildStatus, BuildStatusEnum? previousStatus)
         {
-            bool newlyFixed = buildStatus.BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null && previousStatus != BuildStatusEnum.Working;
+            bool newlyFixed = buildStatus.CurrentBuildStatus == BuildStatusEnum.Working && previousStatus != null && previousStatus != BuildStatusEnum.Working;
 
             if (PlayAudio && PlayAudioUntilBuildPasses && newlyFixed)
             {
@@ -202,30 +202,30 @@ namespace SirenOfShame.Lib.Settings
                 message = "Build is passing again";
                 okText = "Yayy!";
             }
-            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
+            if (buildStatus.CurrentBuildStatus == BuildStatusEnum.InProgress)
             {
                 message = "Build triggered by " + buildStatus.RequestedBy;
                 okText = "Ok, whatever";
             }
-            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
+            if (buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken && !newlyBroken)
             {
                 message = "Build still broken";
                 okText = "Rats";
             }
-            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed)
+            if (buildStatus.CurrentBuildStatus == BuildStatusEnum.Working && !newlyFixed)
             {
                 message = "Build passed";
                 okText = "Yayy!";
             }
             message += " for " + buildStatus.Name;
-            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
+            if (buildStatus.CurrentBuildStatus == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
             {
                 message += "\r\n" + buildStatus.Comment;
             }
 
-            if (AlertType == AlertType.TrayAlert && !(previousStatus == null && buildStatus.BuildStatusEnum == BuildStatusEnum.Working))
+            if (AlertType == AlertType.TrayAlert && !(previousStatus == null && buildStatus.CurrentBuildStatus == BuildStatusEnum.Working))
             {
-                rulesEngine.InvokeTrayNotify(buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
+                rulesEngine.InvokeTrayNotify(buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
             }
 
             if (LedPattern != null)

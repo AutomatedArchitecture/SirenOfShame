@@ -14,8 +14,8 @@ namespace SirenOfShame.Test.Unit.StatCalculators
         {
             IEnumerable<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working },
             };
             var actual = SuccessInARow.CalculateSuccessInARow(new PersonSetting {RawName = "currentUser"}, builds);
             Assert.AreEqual(1, actual);
@@ -26,8 +26,8 @@ namespace SirenOfShame.Test.Unit.StatCalculators
         {
             IEnumerable<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "someoneElse", BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "someoneElse", BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "someoneElse", CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { BuildDefinitionId = "1", RequestedBy = "someoneElse", CurrentBuildStatus = BuildStatusEnum.Working },
             };
             var actual = SuccessInARow.CalculateSuccessInARow(new PersonSetting {RawName = "currentUser"}, builds);
             Assert.AreEqual(0, actual);

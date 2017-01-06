@@ -17,7 +17,7 @@ namespace SirenOfShame.Lib.StatCalculators
             return allActiveBuildDefinitionsOrderedChronoligically
                 .Reverse()
                 .Where(i => i.RequestedBy == personSetting.RawName)
-                .TakeWhile(i => i.BuildStatusEnum != BuildStatusEnum.Broken)
+                .TakeWhile(i => i.CurrentBuildStatus != BuildStatusEnum.Broken)
                 .Count();
         }
     }

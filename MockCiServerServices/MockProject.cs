@@ -44,7 +44,7 @@ namespace MockCiServerServices
                     {
                         Name = ProjectName,
                         BuildDefinitionId = ProjectId,
-                        BuildStatusEnum = _buildStatus,
+                        CurrentBuildStatus = _buildStatus,
                         Comment = _comment.Text,
                         FinishedTime = _finishedTime,
                         StartedTime = _startedTime,

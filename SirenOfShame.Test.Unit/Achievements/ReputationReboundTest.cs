@@ -15,21 +15,21 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> buildStatuses = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
             };
             Assert.AreEqual(true, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
@@ -40,20 +40,20 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> buildStatuses = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
             };
             Assert.AreEqual(false, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
@@ -64,20 +64,20 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> buildStatuses = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
             };
             Assert.AreEqual(false, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }
@@ -88,21 +88,21 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> buildStatuses = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser"},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "someoneElse"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser"},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "someoneElse"},
             };
             Assert.AreEqual(false, new ReputationRebound(personSetting, buildStatuses).HasJustAchieved());
         }

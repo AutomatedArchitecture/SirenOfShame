@@ -12,13 +12,13 @@ namespace AppVeyorServices
         {
             BuildDefinitionId = buildDefinitionSetting.Id;
             Name = "{0} ({1})".Fmt(project.Name, build.Version);
-            BuildStatusEnum = BuildStatusEnum.Unknown;
+            CurrentBuildStatus = BuildStatusEnum.Unknown;
             StartedTime = build.Started;
             FinishedTime = build.Finished;
             BuildStatusMessage = build.Status;
             Url = buildUrl;
             BuildId = build.BuildId;
-            BuildStatusEnum = ToBuildStatusEnum(build.Status);
+            CurrentBuildStatus = ToBuildStatusEnum(build.Status);
             RequestedBy = (string.IsNullOrEmpty(build.AuthorName)) ? build.AuthorName : build.CommitterName;
             Comment = build.Message;
         }

@@ -63,12 +63,12 @@ namespace HudsonServices
             var resultStr = docRoot.ElementValueOrDefault("result");
             if (!string.IsNullOrWhiteSpace(resultStr))
             {
-                BuildStatusEnum = ToBuildStatusEnum(resultStr, treatUnstableAsSuccess);
+                CurrentBuildStatus = ToBuildStatusEnum(resultStr, treatUnstableAsSuccess);
             }
             else
             {
                 var building = docRoot.ElementValueOrDefault("building");
-                BuildStatusEnum = string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase)
+                CurrentBuildStatus = string.Equals(building, "true", StringComparison.InvariantCultureIgnoreCase)
                                       ? BuildStatusEnum.InProgress
                                       : BuildStatusEnum.Unknown;
             }
@@ -190,7 +190,7 @@ namespace HudsonServices
         {
             BuildDefinitionId = buildDefinitionSetting.Id;
             Name = buildDefinitionSetting.Name;
-            BuildStatusEnum = BuildStatusEnum.Unknown;
+            CurrentBuildStatus = BuildStatusEnum.Unknown;
             StartedTime = null;
             FinishedTime = null;
             BuildStatusMessage = defaultBuildStatusMessage ?? string.Empty;

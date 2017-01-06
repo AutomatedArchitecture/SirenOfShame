@@ -48,7 +48,7 @@ namespace MockCiServerServices
             {
                 yield return new BuildStatus
                 {
-                    BuildStatusEnum = BuildStatusEnum.Working,
+                    CurrentBuildStatus = BuildStatusEnum.Working,
                     Name = "Build " + i,
                     StartedTime = startedTime,
                     FinishedTime = startedTime.AddMinutes(1).AddSeconds(2),
