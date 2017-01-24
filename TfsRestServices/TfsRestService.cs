@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,17 @@ namespace TfsRestServices
 
         public async Task<List<TfsRestProjectCollection>>  GetBuildDefinitionsGrouped(string url, string username, string password)
         {
+            var resultProjectCollections = new List<TfsRestProjectCollection>();
+
             TfsConnectionDetails connection = new TfsConnectionDetails(url, username, password);
             var projectCollections = await _tfsJsonService.GetProjectCollections(connection);
-            var resultProjectCollections = new List<TfsRestProjectCollection>();
+
+            //substitue the project name with DefaultCollection as defined in VSO REST API documenation
+            projectCollections.ToList().ForEach(p =>
+            {
+                p.Name = SubstituteName(new Uri(url), p.Name); ;
+            });
+
             foreach (var projectCollection in projectCollections)
             {
                 var resultProjectCollection = new TfsRestProjectCollection(projectCollection);
@@ -93,5 +102,17 @@ namespace TfsRestServices
             var message = firstComment?.Message;
             return message;
         }
+
+        private string SubstituteName(Uri url, string projectCollectionName)
+        {
+            if (url.HostNameType == UriHostNameType.Dns)
+            {
+                var projectNameFromUrl = url.Host.Split('.')[0];
+                return string.Equals(projectNameFromUrl, projectCollectionName) ? "DefaultCollection" : projectNameFromUrl;
+            }
+
+            return null;
+        }
+
     }
 }
