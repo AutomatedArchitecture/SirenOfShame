@@ -21,14 +21,10 @@ namespace TfsRestServices
             TfsConnectionDetails connection = new TfsConnectionDetails(url, username, password);
             var projectCollections = await _tfsJsonService.GetProjectCollections(connection);
 
-            //substitue the project name with DefaultCollection as defined in VSO REST API documenation
-            projectCollections.ToList().ForEach(p =>
-            {
-                p.Name = SubstituteName(new Uri(url), p.Name); ;
-            });
-
             foreach (var projectCollection in projectCollections)
             {
+                //substitue the project name with DefaultCollection as defined in VSO REST API documenation
+                projectCollection.Name = SubstituteName(url, projectCollection.Name);
                 var resultProjectCollection = new TfsRestProjectCollection(projectCollection);
                 var projects = await _tfsJsonService.GetProjects(connection, projectCollection.Name);
                 foreach (var project in projects)
@@ -103,15 +99,21 @@ namespace TfsRestServices
             return message;
         }
 
-        private string SubstituteName(Uri url, string projectCollectionName)
+        public static string SubstituteName(string url, string projectCollectionName)
+        {
+            var uri = new Uri(url);
+            return SubstituteName(uri, projectCollectionName);
+        }
+
+        private static string SubstituteName(Uri url, string projectCollectionName)
         {
             if (url.HostNameType == UriHostNameType.Dns)
             {
                 var projectNameFromUrl = url.Host.Split('.')[0];
-                return string.Equals(projectNameFromUrl, projectCollectionName) ? "DefaultCollection" : projectNameFromUrl;
+                return string.Equals(projectNameFromUrl, projectCollectionName) ? "DefaultCollection" : projectCollectionName;
             }
 
-            return null;
+            return projectCollectionName;
         }
 
     }
