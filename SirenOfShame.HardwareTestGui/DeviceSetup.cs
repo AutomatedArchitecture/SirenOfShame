@@ -45,8 +45,8 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool Verify()
         {
-            var results = RunStk500("-s");
-            var success = results.Contains("Signature is 0x1E 0x95 0x8A");
+            var results = RunStk500("info");
+            var success = results.Contains("Signature:  0x1e958a");
             SetResult(_verifyResults, success);
             return success;
         }
@@ -58,8 +58,8 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool Erase()
         {
-            var results = RunStk500("-e");
-            var success = results.Contains("Device erased");
+            var results = RunStk500("chiperase");
+            var success = results.Contains("Chiperase completed successfully");
             SetResult(_eraseResults, success);
             return success;
         }
@@ -71,8 +71,9 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool SetFuses()
         {
-            var results = RunStk500("-fD0DE -EFC");
-            var success = results.Contains("Fuse bits programmed");
+            // Set Fuse LOW=DE High=D0 Extended = FC
+            var results = RunStk500("write -fs --values 0xded0fc");
+            var success = results.Contains("Write completed successfully.");
             SetResult(_setFusesResult, success);
             return success;
         }
@@ -84,8 +85,8 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool VerifyFuses()
         {
-            var results = RunStk500("-FD0DE -GFC");
-            var success = results.Contains("Fuse bits verified successfully");
+            var results = RunStk500("verify -fs --values ded0fc");
+            var success = results.Contains("Verification OK");
             SetResult(_verifyFusesResults, success);
             return success;
         }
@@ -97,8 +98,9 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool WriteBootloader()
         {
-            var results = RunStk500("\"-if" + _bootloaderFilename.Text + "\" -pf");
-            var success = results.Contains("FLASH programmed");
+            // File format: "Intel Extended HEX"; Program device type = "FLASH"
+            var results = RunStk500("program -fl -f \"" + _bootloaderFilename.Text + "\"");
+            var success = results.Contains("Programming completed successfully.");
             SetResult(_writeBootloaderResults, success);
             return success;
         }
@@ -110,8 +112,8 @@ namespace SirenOfShame.HardwareTestGui
 
         private bool VerifyBootloader()
         {
-            var results = RunStk500("\"-if" + _bootloaderFilename.Text + "\" -vf");
-            var success = results.Contains("FLASH verified successfully");
+            var results = RunStk500("verify -fl -f \"" + _bootloaderFilename.Text + "\"");
+            var success = results.Contains("Verification OK");
             SetResult(_verifyBootloaderResults, success);
             return success;
         }
@@ -135,8 +137,8 @@ namespace SirenOfShame.HardwareTestGui
             Cursor = Cursors.WaitCursor;
             try
             {
-                const string defaultParameters = "-dAtmega32u2 -cUSB ";
-                const string fileName = @"C:\Program Files (x86)\Atmel\AVR Tools\STK500\stk500.exe";
+                const string defaultParameters = "-t avrispmk2 -d Atmega32u2 -i ISP ";
+                const string fileName = @"C:\Program Files (x86)\Atmel\Studio\7.0\atbackend\atprogram.exe";
                 string cmdLineArgs = defaultParameters + additionalParameters;
 
                 _log.Debug("Running stk500: " + fileName + " " + cmdLineArgs);
