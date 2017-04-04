@@ -24,10 +24,10 @@ namespace TfsRestServices.ServerConfiguration
             _ciEntryPoint = ciEntryPoint;
             _ciEntryPointSetting = ciEntryPointSetting;
             InitializeComponent();
-            _url.Text = ciEntryPointSetting.Url;
+            _url.Text = _ciEntryPointSetting.Url;
             _userName.Text = _ciEntryPointSetting.UserName;
             _password.Text = _ciEntryPointSetting.GetPassword();
-            _collection.Text = ciEntryPointSetting.CollectionName;
+            _collection.Text = _ciEntryPointSetting.CollectionName;
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();
