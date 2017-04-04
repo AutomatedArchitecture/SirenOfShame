@@ -14,17 +14,28 @@ namespace TfsRestServices
         private readonly ILog _log = MyLogManager.GetLogger(typeof (TfsRestService));
         private readonly TfsJsonService _tfsJsonService = new TfsJsonService();
 
-        public async Task<List<TfsRestProjectCollection>>  GetBuildDefinitionsGrouped(string url, string username, string password)
+        public async Task<List<TfsRestProjectCollection>>  GetBuildDefinitionsGrouped(string url, string collection, string username, string password)
         {
             var resultProjectCollections = new List<TfsRestProjectCollection>();
 
-            TfsConnectionDetails connection = new TfsConnectionDetails(url, username, password);
-            var projectCollections = await _tfsJsonService.GetProjectCollections(connection);
+            var connection = new TfsConnectionDetails(url, username, password);
+            List<TfsJsonProjectCollection> projectCollections;
+            if (string.IsNullOrEmpty(collection))
+            {
+                projectCollections = await _tfsJsonService.GetProjectCollections(connection);
+                foreach (var projectCollection in projectCollections)
+                {
+                    //substitue the project name with DefaultCollection as defined in VSO REST API documenation
+                    projectCollection.Name = SubstituteName(url, projectCollection.Name);
+                }
+            }
+            else
+            {
+                projectCollections = new List<TfsJsonProjectCollection>(new[] {new TfsJsonProjectCollection {Name = collection}});
+            }
 
             foreach (var projectCollection in projectCollections)
             {
-                //substitue the project name with DefaultCollection as defined in VSO REST API documenation
-                projectCollection.Name = SubstituteName(url, projectCollection.Name);
                 var resultProjectCollection = new TfsRestProjectCollection(projectCollection);
                 var projects = await _tfsJsonService.GetProjects(connection, projectCollection.Name);
                 foreach (var project in projects)
@@ -36,6 +47,7 @@ namespace TfsRestServices
                 }
                 resultProjectCollections.Add(resultProjectCollection);
             }
+
             return resultProjectCollections;
         }
 

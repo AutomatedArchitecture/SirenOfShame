@@ -24,9 +24,10 @@ namespace TfsRestServices.ServerConfiguration
             _ciEntryPoint = ciEntryPoint;
             _ciEntryPointSetting = ciEntryPointSetting;
             InitializeComponent();
-            _url.Text = _ciEntryPointSetting.Url;
+            _url.Text = ciEntryPointSetting.Url;
             _userName.Text = _ciEntryPointSetting.UserName;
             _password.Text = _ciEntryPointSetting.GetPassword();
+            _collection.Text = ciEntryPointSetting.CollectionName;
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();
@@ -39,10 +40,11 @@ namespace TfsRestServices.ServerConfiguration
             {
                 _projects.Nodes.Clear();
                 _projects.Nodes.Add("Loading...");
-                var projectCollections = await _service.GetBuildDefinitionsGrouped(_url.Text, _userName.Text, _password.Text);
+                var projectCollections = await _service.GetBuildDefinitionsGrouped(_url.Text, _collection.Text, _userName.Text, _password.Text);
                 _ciEntryPointSetting.Url = _url.Text;
                 _ciEntryPointSetting.UserName = _userName.Text;
                 _ciEntryPointSetting.SetPassword(_password.Text);
+                _ciEntryPointSetting.CollectionName = _collection.Text;
                 Settings.Save();
 
                 _projects.Nodes.Clear();
