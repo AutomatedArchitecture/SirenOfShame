@@ -65,7 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this._url.Location = new System.Drawing.Point(76, 3);
             this._url.Name = "_url";
-            this._url.Size = new System.Drawing.Size(308, 20);
+            this._url.Size = new System.Drawing.Size(393, 20);
             this._url.TabIndex = 1;
             // 
             // _connect
@@ -74,10 +74,10 @@
             this._connect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._connect.ForeColor = System.Drawing.Color.White;
-            this._connect.Location = new System.Drawing.Point(309, 113);
+            this._connect.Location = new System.Drawing.Point(394, 94);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
-            this._connect.TabIndex = 4;
+            this._connect.TabIndex = 5;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
             this._connect.Click += new System.EventHandler(this.Connect_Click);
@@ -88,10 +88,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._projects.CheckBoxes = true;
-            this._projects.Location = new System.Drawing.Point(6, 168);
+            this._projects.Location = new System.Drawing.Point(6, 149);
             this._projects.Name = "_projects";
-            this._projects.Size = new System.Drawing.Size(381, 109);
-            this._projects.TabIndex = 47;
+            this._projects.Size = new System.Drawing.Size(466, 128);
+            this._projects.TabIndex = 9;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
             // label4
@@ -130,20 +130,20 @@
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
-            this._password.TabIndex = 3;
+            this._password.TabIndex = 4;
             // 
             // _userName
             // 
             this._userName.Location = new System.Drawing.Point(76, 56);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
-            this._userName.TabIndex = 2;
+            this._userName.TabIndex = 3;
             // 
             // _checkAll
             // 
             this._checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkAll.Image = ((System.Drawing.Image)(resources.GetObject("_checkAll.Image")));
-            this._checkAll.Location = new System.Drawing.Point(369, 143);
+            this._checkAll.Location = new System.Drawing.Point(454, 124);
             this._checkAll.Margin = new System.Windows.Forms.Padding(2);
             this._checkAll.Name = "_checkAll";
             this._checkAll.Size = new System.Drawing.Size(16, 16);
@@ -156,7 +156,7 @@
             // 
             this._search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._search.Image = ((System.Drawing.Image)(resources.GetObject("_search.Image")));
-            this._search.Location = new System.Drawing.Point(346, 142);
+            this._search.Location = new System.Drawing.Point(431, 123);
             this._search.Margin = new System.Windows.Forms.Padding(2);
             this._search.Name = "_search";
             this._search.Size = new System.Drawing.Size(16, 16);
@@ -169,20 +169,21 @@
             // 
             this._filter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._filter.Location = new System.Drawing.Point(6, 142);
+            this._filter.Location = new System.Drawing.Point(6, 123);
             this._filter.Name = "_filter";
-            this._filter.Size = new System.Drawing.Size(338, 20);
-            this._filter.TabIndex = 5;
+            this._filter.Size = new System.Drawing.Size(423, 20);
+            this._filter.TabIndex = 6;
             this._filter.TextChanged += new System.EventHandler(this._filter_TextChanged);
             // 
             // label5
             // 
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(224, 54);
+            this.label5.Location = new System.Drawing.Point(224, 56);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(160, 26);
+            this.label5.Size = new System.Drawing.Size(246, 20);
             this.label5.TabIndex = 59;
-            this.label5.Text = "(may require alternate authentication credentials)";
+            this.label5.Text = "(or Personal access token)";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label6
             // 
@@ -199,16 +200,17 @@
             this._collection.Location = new System.Drawing.Point(76, 29);
             this._collection.Name = "_collection";
             this._collection.Size = new System.Drawing.Size(142, 20);
-            this._collection.TabIndex = 60;
+            this._collection.TabIndex = 2;
             // 
             // label7
             // 
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(224, 28);
+            this.label7.Location = new System.Drawing.Point(224, 29);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 26);
+            this.label7.Size = new System.Drawing.Size(223, 20);
             this.label7.TabIndex = 62;
-            this.label7.Text = "(leave empty to browse for collections)";
+            this.label7.Text = "(empty = see all, requires more permissions)";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ConfigureTfsRest
             // 
@@ -232,7 +234,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._url);
             this.Name = "ConfigureTfsRest";
-            this.Size = new System.Drawing.Size(387, 280);
+            this.Size = new System.Drawing.Size(472, 280);
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).EndInit();
             this.ResumeLayout(false);
