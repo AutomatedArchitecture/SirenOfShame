@@ -42,6 +42,9 @@
             this._search = new System.Windows.Forms.PictureBox();
             this._filter = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this._collection = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
             this.SuspendLayout();
@@ -71,7 +74,7 @@
             this._connect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._connect.ForeColor = System.Drawing.Color.White;
-            this._connect.Location = new System.Drawing.Point(309, 86);
+            this._connect.Location = new System.Drawing.Point(309, 113);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
             this._connect.TabIndex = 4;
@@ -85,9 +88,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._projects.CheckBoxes = true;
-            this._projects.Location = new System.Drawing.Point(6, 141);
+            this._projects.Location = new System.Drawing.Point(6, 168);
             this._projects.Name = "_projects";
-            this._projects.Size = new System.Drawing.Size(381, 136);
+            this._projects.Size = new System.Drawing.Size(381, 109);
             this._projects.TabIndex = 47;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
@@ -95,7 +98,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(224, 58);
+            this.label4.Location = new System.Drawing.Point(224, 85);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 13);
             this.label4.TabIndex = 55;
@@ -105,7 +108,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(14, 58);
+            this.label3.Location = new System.Drawing.Point(14, 85);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 13);
             this.label3.TabIndex = 54;
@@ -115,7 +118,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(7, 32);
+            this.label2.Location = new System.Drawing.Point(7, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 53;
@@ -123,7 +126,7 @@
             // 
             // _password
             // 
-            this._password.Location = new System.Drawing.Point(76, 55);
+            this._password.Location = new System.Drawing.Point(76, 82);
             this._password.Name = "_password";
             this._password.PasswordChar = '*';
             this._password.Size = new System.Drawing.Size(142, 20);
@@ -131,7 +134,7 @@
             // 
             // _userName
             // 
-            this._userName.Location = new System.Drawing.Point(76, 29);
+            this._userName.Location = new System.Drawing.Point(76, 56);
             this._userName.Name = "_userName";
             this._userName.Size = new System.Drawing.Size(142, 20);
             this._userName.TabIndex = 2;
@@ -140,7 +143,7 @@
             // 
             this._checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkAll.Image = ((System.Drawing.Image)(resources.GetObject("_checkAll.Image")));
-            this._checkAll.Location = new System.Drawing.Point(369, 116);
+            this._checkAll.Location = new System.Drawing.Point(369, 143);
             this._checkAll.Margin = new System.Windows.Forms.Padding(2);
             this._checkAll.Name = "_checkAll";
             this._checkAll.Size = new System.Drawing.Size(16, 16);
@@ -153,7 +156,7 @@
             // 
             this._search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._search.Image = ((System.Drawing.Image)(resources.GetObject("_search.Image")));
-            this._search.Location = new System.Drawing.Point(346, 115);
+            this._search.Location = new System.Drawing.Point(346, 142);
             this._search.Margin = new System.Windows.Forms.Padding(2);
             this._search.Name = "_search";
             this._search.Size = new System.Drawing.Size(16, 16);
@@ -166,7 +169,7 @@
             // 
             this._filter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._filter.Location = new System.Drawing.Point(6, 115);
+            this._filter.Location = new System.Drawing.Point(6, 142);
             this._filter.Name = "_filter";
             this._filter.Size = new System.Drawing.Size(338, 20);
             this._filter.TabIndex = 5;
@@ -175,17 +178,46 @@
             // label5
             // 
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(224, 27);
+            this.label5.Location = new System.Drawing.Point(224, 54);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(160, 26);
             this.label5.TabIndex = 59;
             this.label5.Text = "(may require alternate authentication credentials)";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(14, 32);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 61;
+            this.label6.Text = "Collection:";
+            // 
+            // _collection
+            // 
+            this._collection.Location = new System.Drawing.Point(76, 29);
+            this._collection.Name = "_collection";
+            this._collection.Size = new System.Drawing.Size(142, 20);
+            this._collection.TabIndex = 60;
+            // 
+            // label7
+            // 
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(224, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(160, 26);
+            this.label7.TabIndex = 62;
+            this.label7.Text = "(leave empty to browse for collections)";
             // 
             // ConfigureTfsRest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this._collection);
             this.Controls.Add(this.label5);
             this.Controls.Add(this._checkAll);
             this.Controls.Add(this._search);
@@ -223,5 +255,8 @@
         private System.Windows.Forms.PictureBox _search;
         private System.Windows.Forms.TextBox _filter;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox _collection;
+        private System.Windows.Forms.Label label7;
     }
 }
