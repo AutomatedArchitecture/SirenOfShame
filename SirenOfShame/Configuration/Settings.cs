@@ -43,6 +43,8 @@ namespace SirenOfShame.Configuration
         {
             _alwaysOnTop.Checked = _settings.AlwaysOnTop;
             _startInFullscreen.Checked = _settings.StartInFullScreen;
+            _showLeaders.Checked = _settings.ShowLeaders;
+            _showNewsfeed.Checked = _settings.ShowNewsfeed;
         }
 
         private void InitializeUpdateLocationSection()
@@ -108,6 +110,8 @@ namespace SirenOfShame.Configuration
         {
             _settings.AlwaysOnTop = _alwaysOnTop.Checked;
             _settings.StartInFullScreen = _startInFullscreen.Checked;
+            _settings.ShowNewsfeed = _showNewsfeed.Checked;
+            _settings.ShowLeaders = _showLeaders.Checked;
         }
 
         private void SetShowAchievements()
