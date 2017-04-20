@@ -57,11 +57,13 @@ namespace SirenOfShame.Configuration
             this._startInFullscreen = new System.Windows.Forms.CheckBox();
             this._alwaysOnTop = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this._activeDirectoryDomain = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this._importFromAd = new SirenOfShame.Lib.SosButton();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this._errorMessage = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this._importFromAd = new SirenOfShame.Lib.SosButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this._activeDirectoryDomain = new System.Windows.Forms.TextBox();
+            this._showNewsfeed = new System.Windows.Forms.CheckBox();
+            this._showLeaders = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._pollInterval)).BeginInit();
             this._updateLocations.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -78,7 +80,7 @@ namespace SirenOfShame.Configuration
             this._ok.FlatAppearance.BorderSize = 0;
             this._ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._ok.ForeColor = System.Drawing.Color.White;
-            this._ok.Location = new System.Drawing.Point(420, 447);
+            this._ok.Location = new System.Drawing.Point(433, 465);
             this._ok.Name = "_ok";
             this._ok.Size = new System.Drawing.Size(75, 23);
             this._ok.TabIndex = 2;
@@ -94,7 +96,7 @@ namespace SirenOfShame.Configuration
             this._cancel.FlatAppearance.BorderSize = 0;
             this._cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._cancel.ForeColor = System.Drawing.Color.White;
-            this._cancel.Location = new System.Drawing.Point(501, 447);
+            this._cancel.Location = new System.Drawing.Point(514, 465);
             this._cancel.Name = "_cancel";
             this._cancel.Size = new System.Drawing.Size(75, 23);
             this._cancel.TabIndex = 3;
@@ -118,7 +120,7 @@ namespace SirenOfShame.Configuration
             this._pollInterval.Location = new System.Drawing.Point(8, 19);
             this._pollInterval.Maximum = 60;
             this._pollInterval.Name = "_pollInterval";
-            this._pollInterval.Size = new System.Drawing.Size(546, 45);
+            this._pollInterval.Size = new System.Drawing.Size(559, 45);
             this._pollInterval.TabIndex = 0;
             this._pollInterval.Value = 1;
             this._pollInterval.ValueChanged += new System.EventHandler(this.PollIntervalValueChanged);
@@ -130,7 +132,7 @@ namespace SirenOfShame.Configuration
             this._viewLog.FlatAppearance.BorderSize = 0;
             this._viewLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._viewLog.ForeColor = System.Drawing.Color.White;
-            this._viewLog.Location = new System.Drawing.Point(339, 447);
+            this._viewLog.Location = new System.Drawing.Point(352, 465);
             this._viewLog.Name = "_viewLog";
             this._viewLog.Size = new System.Drawing.Size(75, 23);
             this._viewLog.TabIndex = 8;
@@ -150,7 +152,7 @@ namespace SirenOfShame.Configuration
             this._updateLocations.Controls.Add(this.textBox1);
             this._updateLocations.Location = new System.Drawing.Point(10, 26);
             this._updateLocations.Name = "_updateLocations";
-            this._updateLocations.Size = new System.Drawing.Size(546, 82);
+            this._updateLocations.Size = new System.Drawing.Size(559, 82);
             this._updateLocations.TabIndex = 11;
             // 
             // _updateLocationNever
@@ -169,7 +171,7 @@ namespace SirenOfShame.Configuration
             this._updateLocationOtherLocation.Enabled = false;
             this._updateLocationOtherLocation.Location = new System.Drawing.Point(246, 3);
             this._updateLocationOtherLocation.Name = "_updateLocationOtherLocation";
-            this._updateLocationOtherLocation.Size = new System.Drawing.Size(293, 20);
+            this._updateLocationOtherLocation.Size = new System.Drawing.Size(306, 20);
             this._updateLocationOtherLocation.TabIndex = 13;
             // 
             // _updateLocationOther
@@ -190,7 +192,7 @@ namespace SirenOfShame.Configuration
             this._checkForUpdates.FlatAppearance.BorderSize = 0;
             this._checkForUpdates.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._checkForUpdates.ForeColor = System.Drawing.Color.White;
-            this._checkForUpdates.Location = new System.Drawing.Point(400, 50);
+            this._checkForUpdates.Location = new System.Drawing.Point(413, 50);
             this._checkForUpdates.Name = "_checkForUpdates";
             this._checkForUpdates.Size = new System.Drawing.Size(139, 23);
             this._checkForUpdates.TabIndex = 12;
@@ -220,7 +222,7 @@ namespace SirenOfShame.Configuration
             this.textBox1.Location = new System.Drawing.Point(246, 29);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(293, 44);
+            this.textBox1.Size = new System.Drawing.Size(306, 44);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Examples: file:///c|/temp/\r\nhttp://myupdate.com/";
             // 
@@ -290,7 +292,7 @@ namespace SirenOfShame.Configuration
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 10);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(564, 90);
+            this.groupBox1.Size = new System.Drawing.Size(577, 90);
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Poll Interval";
@@ -303,7 +305,7 @@ namespace SirenOfShame.Configuration
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(13, 106);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(563, 117);
+            this.groupBox2.Size = new System.Drawing.Size(576, 117);
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Software Updates";
@@ -321,7 +323,7 @@ namespace SirenOfShame.Configuration
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(13, 229);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(563, 81);
+            this.groupBox3.Size = new System.Drawing.Size(576, 81);
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Reputation && Achievements";
@@ -347,13 +349,15 @@ namespace SirenOfShame.Configuration
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this._showLeaders);
+            this.groupBox4.Controls.Add(this._showNewsfeed);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this._startInFullscreen);
             this.groupBox4.Controls.Add(this._alwaysOnTop);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(13, 383);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(564, 48);
+            this.groupBox4.Size = new System.Drawing.Size(577, 70);
             this.groupBox4.TabIndex = 31;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Misc";
@@ -389,6 +393,8 @@ namespace SirenOfShame.Configuration
             // 
             // groupBox5
             // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this._errorMessage);
             this.groupBox5.Controls.Add(this.textBox3);
             this.groupBox5.Controls.Add(this._importFromAd);
@@ -397,26 +403,34 @@ namespace SirenOfShame.Configuration
             this.groupBox5.ForeColor = System.Drawing.Color.White;
             this.groupBox5.Location = new System.Drawing.Point(13, 316);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(564, 61);
+            this.groupBox5.Size = new System.Drawing.Size(577, 61);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Avatar Images";
             // 
-            // _activeDirectoryDomain
+            // _errorMessage
             // 
-            this._activeDirectoryDomain.Location = new System.Drawing.Point(146, 18);
-            this._activeDirectoryDomain.Name = "_activeDirectoryDomain";
-            this._activeDirectoryDomain.Size = new System.Drawing.Size(154, 20);
-            this._activeDirectoryDomain.TabIndex = 15;
+            this._errorMessage.ForeColor = System.Drawing.Color.Red;
+            this._errorMessage.Location = new System.Drawing.Point(19, 42);
+            this._errorMessage.Name = "_errorMessage";
+            this._errorMessage.Size = new System.Drawing.Size(534, 15);
+            this._errorMessage.TabIndex = 19;
+            this._errorMessage.Text = "[error message]";
+            this._errorMessage.Visible = false;
             // 
-            // label2
+            // textBox3
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 13);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Active Directory Domain:";
+            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.ForeColor = System.Drawing.Color.Gray;
+            this.textBox3.Location = new System.Drawing.Point(392, 16);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(177, 30);
+            this.textBox3.TabIndex = 18;
+            this.textBox3.Text = "If you enable My CI images will be sync\'d, but not made public";
             // 
             // _importFromAd
             // 
@@ -435,29 +449,41 @@ namespace SirenOfShame.Configuration
             this._importFromAd.UseVisualStyleBackColor = false;
             this._importFromAd.Click += new System.EventHandler(this.ImportFromAd_Click);
             // 
-            // textBox3
+            // label2
             // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.ForeColor = System.Drawing.Color.Gray;
-            this.textBox3.Location = new System.Drawing.Point(392, 16);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(164, 30);
-            this.textBox3.TabIndex = 18;
-            this.textBox3.Text = "If you enable My CI images will be sync\'d, but not made public";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(124, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Active Directory Domain:";
             // 
-            // _errorMessage
+            // _activeDirectoryDomain
             // 
-            this._errorMessage.ForeColor = System.Drawing.Color.Red;
-            this._errorMessage.Location = new System.Drawing.Point(19, 42);
-            this._errorMessage.Name = "_errorMessage";
-            this._errorMessage.Size = new System.Drawing.Size(534, 15);
-            this._errorMessage.TabIndex = 19;
-            this._errorMessage.Text = "[error message]";
-            this._errorMessage.Visible = false;
+            this._activeDirectoryDomain.Location = new System.Drawing.Point(146, 18);
+            this._activeDirectoryDomain.Name = "_activeDirectoryDomain";
+            this._activeDirectoryDomain.Size = new System.Drawing.Size(154, 20);
+            this._activeDirectoryDomain.TabIndex = 15;
+            // 
+            // _showNewsfeed
+            // 
+            this._showNewsfeed.AutoSize = true;
+            this._showNewsfeed.Location = new System.Drawing.Point(15, 42);
+            this._showNewsfeed.Name = "_showNewsfeed";
+            this._showNewsfeed.Size = new System.Drawing.Size(104, 17);
+            this._showNewsfeed.TabIndex = 3;
+            this._showNewsfeed.Text = "Show Newsfeed";
+            this._showNewsfeed.UseVisualStyleBackColor = true;
+            // 
+            // _showLeaders
+            // 
+            this._showLeaders.AutoSize = true;
+            this._showLeaders.Location = new System.Drawing.Point(216, 42);
+            this._showLeaders.Name = "_showLeaders";
+            this._showLeaders.Size = new System.Drawing.Size(94, 17);
+            this._showLeaders.TabIndex = 4;
+            this._showLeaders.Text = "Show Leaders";
+            this._showLeaders.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -466,7 +492,7 @@ namespace SirenOfShame.Configuration
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
             this.CancelButton = this._cancel;
-            this.ClientSize = new System.Drawing.Size(588, 482);
+            this.ClientSize = new System.Drawing.Size(601, 500);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -527,5 +553,7 @@ namespace SirenOfShame.Configuration
         private SosButton _importFromAd;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label _errorMessage;
+        private System.Windows.Forms.CheckBox _showLeaders;
+        private System.Windows.Forms.CheckBox _showNewsfeed;
     }
 }

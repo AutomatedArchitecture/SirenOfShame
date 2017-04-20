@@ -74,6 +74,8 @@ namespace SirenOfShame
                 SetFontSize(SirenOfShameSettings.DEFAULT_FONT_SIZE);
                 SetFontSize(lastFontSize);
             }
+            _newsFeed1.Visible = _settings.ShowNewsfeed;
+            _userList.Visible = _settings.ShowLeaders;
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -109,6 +111,7 @@ namespace SirenOfShame
         {
             _userList.OnUserSelected += UsersListOnOnUserSelected;
             _userList.Initialize(_settings, _avatarImageList);
+            _userList.Visible = _settings.ShowLeaders;
         }
 
         private void InitializeViewUser()
@@ -136,6 +139,7 @@ namespace SirenOfShame
             _newsFeed1.OnUserClicked += NewsFeedOnUserClicked;
             _newsFeed1.OnSendMessageToSosOnline += NewsFeedOnSendMessageToSosOnline;
             _newsFeed1.ClearFilter(_settings, _avatarImageList); // this will read in 
+            _newsFeed1.Visible = _settings.ShowNewsfeed;
         }
 
         private void NewsFeedOnSendMessageToSosOnline(object sender, SendMessageToSosOnlineArgs args)
