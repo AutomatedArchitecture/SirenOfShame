@@ -79,17 +79,17 @@ namespace TfsRestServices
                 var projectCollection = buildDefinitionGroup.Key;
                 var buildQueryParams = GetBuildQueryParams(buildDefinitionGroup.ToArray());
                 var projects = await _tfsJsonService.GetBuildsStatuses(connection, buildQueryParams, projectCollection);
-                await _commentsCache.FetchNewComments(projects, connection, tfsJsonBuilds => GetComment(tfsJsonBuilds, connection, projectCollection));
+                await _commentsCache.FetchNewComments(projects, connection, tfsJsonBuilds => GetComment(tfsJsonBuilds, connection, projectCollection, ciEntryPointSetting.IgnoreEmptyCommentsInXamlBuilds));
                 var buildStatuses = projects.Select(i => new TfsRestBuildStatus(i, _commentsCache));
                 resultingBuildStatuses.AddRange(buildStatuses);
             }
             return resultingBuildStatuses;
         }
 
-        private async Task<string> GetComment(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection, string projectCollection)
+        private async Task<string> GetComment(TfsJsonBuild tfsJsonBuild, TfsConnectionDetails connection, string projectCollection, bool ignoreEmptyCommentsInXamlBuilds)
         {
             var message = await GetCommentOnce(tfsJsonBuild, connection, projectCollection);
-            if (tfsJsonBuild.Definition.Type == "xaml" && message == null)
+            if (tfsJsonBuild.Definition.Type == "xaml" && message == null && !ignoreEmptyCommentsInXamlBuilds)
             {
                 // old style xaml builds don't get associated with a commit immediately for some annoying reason, so keep trying for 2 minutes
                 const int maxRetries = 12;
