@@ -70,6 +70,8 @@ namespace SirenOfShame.Lib.Settings
             Sounds = new List<Sound>();
             SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
             FontSize = DEFAULT_FONT_SIZE;
+            ShowLeaders = true;
+            ShowNewsfeed = true;
         }
 
         public int? Version { get; set; }
@@ -208,6 +210,10 @@ namespace SirenOfShame.Lib.Settings
         public bool AlwaysOnTop { get; set; }
 
         public bool StartInFullScreen { get; set; }
+
+        public bool ShowNewsfeed { get; set; }
+
+        public bool ShowLeaders { get; set; }
 
         public float FontSize { get; set; }
 
