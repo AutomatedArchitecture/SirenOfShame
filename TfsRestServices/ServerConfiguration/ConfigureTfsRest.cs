@@ -28,6 +28,7 @@ namespace TfsRestServices.ServerConfiguration
             _userName.Text = _ciEntryPointSetting.UserName;
             _password.Text = _ciEntryPointSetting.GetPassword();
             _collection.Text = _ciEntryPointSetting.CollectionName;
+            _ignoreEmptyCommentsInXamlBuilds.Checked = _ciEntryPointSetting.IgnoreEmptyCommentsInXamlBuilds;
             if (!string.IsNullOrEmpty(_url.Text))
             {
                 ReloadProjects();
@@ -45,6 +46,7 @@ namespace TfsRestServices.ServerConfiguration
                 _ciEntryPointSetting.UserName = _userName.Text;
                 _ciEntryPointSetting.SetPassword(_password.Text);
                 _ciEntryPointSetting.CollectionName = _collection.Text;
+                _ciEntryPointSetting.IgnoreEmptyCommentsInXamlBuilds = _ignoreEmptyCommentsInXamlBuilds.Checked;
                 Settings.Save();
 
                 _projects.Nodes.Clear();
