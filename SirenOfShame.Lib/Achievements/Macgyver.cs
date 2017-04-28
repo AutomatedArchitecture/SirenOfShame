@@ -26,14 +26,14 @@ namespace SirenOfShame.Lib.Achievements
             int count = _currentBuildDefinitionOrderedChronoligically.Count;
             if (count < 2) return false;
             var currentBuild = _currentBuildDefinitionOrderedChronoligically[count - 1];
-            if (currentBuild.BuildStatusEnum != BuildStatusEnum.Working)
+            if (currentBuild.CurrentBuildStatus != BuildStatusEnum.Working)
             {
                 _log.Debug("Only working builds are eligible for Macgyver achievements");
                 return false;
             }
             var lastSuccessfulBuild = _currentBuildDefinitionOrderedChronoligically
                 .Take(count - 1)
-                .LastOrDefault(i => i.BuildStatusEnum == BuildStatusEnum.Working && i.FinishedTime != null && i.StartedTime != null);
+                .LastOrDefault(i => i.CurrentBuildStatus == BuildStatusEnum.Working && i.FinishedTime != null && i.StartedTime != null);
             if (lastSuccessfulBuild == null)
             {
                 _log.Debug("Could not find a previous build that was working with a start and end time for " + currentBuild.BuildDefinitionId);

@@ -14,7 +14,7 @@ namespace TravisCiServices
         {
             try
             {
-                BuildStatusEnum = ToBuildStatusEnum(TravisCiService.GetJsonValue(jsonDoc, "result"));
+                CurrentBuildStatus = ToBuildStatusEnum(TravisCiService.GetJsonValue(jsonDoc, "result"));
                 BuildDefinitionId = buildDefinitionSetting.Id;
                 Name = buildDefinitionSetting.Name;
                 RequestedBy = TravisCiService.GetJsonValue(jsonDoc, "author_name");

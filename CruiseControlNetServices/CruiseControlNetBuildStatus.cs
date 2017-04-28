@@ -67,9 +67,9 @@ namespace CruiseControlNetServices
                 lastBuildTime = dt;
             }
 
-            BuildStatusEnum = ToBuildStatusEnum(projectElem.AttributeValueOrDefault("activity"), projectElem.AttributeValueOrDefault("lastBuildStatus"));
-            StartedTime = GetStartedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
-            FinishedTime = GetFinishedTime(buildStatusInfo, BuildStatusEnum, lastBuildTime);
+            CurrentBuildStatus = ToBuildStatusEnum(projectElem.AttributeValueOrDefault("activity"), projectElem.AttributeValueOrDefault("lastBuildStatus"));
+            StartedTime = GetStartedTime(buildStatusInfo, CurrentBuildStatus, lastBuildTime);
+            FinishedTime = GetFinishedTime(buildStatusInfo, CurrentBuildStatus, lastBuildTime);
             Comment = GetComment(modifications);
             RequestedBy = GetRequestedBy(projectElem, modifications);
 
@@ -79,18 +79,18 @@ namespace CruiseControlNetServices
             Url = string.Format("{0}/server/local/project/{1}/build/log{2}Lbuild.{3}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId, lastBuildNumber);
             BuildId = GetBuildIdOrDefault(projectElem, lastBuildTimeAsId);
 
-            if (BuildStatusEnum == BuildStatusEnum.InProgress)
+            if (CurrentBuildStatus == BuildStatusEnum.InProgress)
             {
                 Comment = null;
                 RequestedBy = null;
             }
-            else if (BuildStatusEnum == BuildStatusEnum.Broken)
+            else if (CurrentBuildStatus == BuildStatusEnum.Broken)
             {
                 Url = string.Format("{0}/server/local/project/{1}/build/log{2}.xml/ViewBuildReport.aspx", webUrl, Name, lastBuildTimeAsId);
                 BuildId = lastBuildTimeAsId;
             }
 
-            buildStatusInfo.LastBuildStatusEnum = BuildStatusEnum;
+            buildStatusInfo.LastBuildStatusEnum = CurrentBuildStatus;
         }
 
         private string GetBuildIdOrDefault(XElement projectElem, string defaultVal)
@@ -167,45 +167,55 @@ namespace CruiseControlNetServices
             return firstBreaker.Trim();
         }
 
-        private DateTime? GetFinishedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum buildStatusEnum, DateTime? lastBuildTime)
+        private DateTime? GetFinishedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum? status, DateTime? lastBuildTime)
         {
-            if (buildStatusInfo.LastBuildStatusEnum == null)
+            if (status.HasValue)
             {
-                return lastBuildTime;
+                if (buildStatusInfo.LastBuildStatusEnum == null)
+                {
+                    return lastBuildTime;
+                }
+                var lastBuildStatusEnum = buildStatusInfo.LastBuildStatusEnum.Value;
+
+                // the build stopped since our last poll time so update the finished time
+                if (status != BuildStatusEnum.InProgress && lastBuildStatusEnum == BuildStatusEnum.InProgress)
+                {
+                    buildStatusInfo.FinishedTime = DateTime.Now;
+                }
+
+                if (buildStatusInfo.FinishedTime == null && status != BuildStatusEnum.InProgress)
+                    return lastBuildTime;
+
+                return buildStatusInfo.FinishedTime;
             }
-            var lastBuildStatusEnum = buildStatusInfo.LastBuildStatusEnum.Value;
 
-            // the build stopped since our last poll time so update the finished time
-            if (buildStatusEnum != BuildStatusEnum.InProgress && lastBuildStatusEnum == BuildStatusEnum.InProgress)
-            {
-                buildStatusInfo.FinishedTime = DateTime.Now;
-            }
-
-            if (buildStatusInfo.FinishedTime == null && buildStatusEnum != BuildStatusEnum.InProgress)
-                return lastBuildTime;
-
-            return buildStatusInfo.FinishedTime;
+            return null;
         }
 
-        private static DateTime? GetStartedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum buildStatusEnum, DateTime? lastBuildTime)
+        private static DateTime? GetStartedTime(BuildStatusInfo buildStatusInfo, BuildStatusEnum? status, DateTime? lastBuildTime)
         {
-            bool thisIsTheFirstBuild = buildStatusInfo.LastBuildStatusEnum == null;
-            if (thisIsTheFirstBuild)
+            if (status.HasValue)
             {
-                return lastBuildTime;
+                bool thisIsTheFirstBuild = buildStatusInfo.LastBuildStatusEnum == null;
+                if (thisIsTheFirstBuild)
+                {
+                    return lastBuildTime;
+                }
+                var lastBuildStatusEnum = buildStatusInfo.LastBuildStatusEnum.Value;
+
+                // the build started since our last poll time so update the start time
+                if (status == BuildStatusEnum.InProgress && lastBuildStatusEnum != BuildStatusEnum.InProgress)
+                {
+                    buildStatusInfo.StartedTime = DateTime.Now;
+                }
+
+                if (buildStatusInfo.StartedTime == null)
+                    return lastBuildTime;
+
+                return buildStatusInfo.StartedTime;
             }
-            var lastBuildStatusEnum = buildStatusInfo.LastBuildStatusEnum.Value;
 
-            // the build started since our last poll time so update the start time
-            if (buildStatusEnum == BuildStatusEnum.InProgress && lastBuildStatusEnum != BuildStatusEnum.InProgress)
-            {
-                buildStatusInfo.StartedTime = DateTime.Now;
-            }
-
-            if (buildStatusInfo.StartedTime == null)
-                return lastBuildTime;
-
-            return buildStatusInfo.StartedTime;
+            return null;
         }
 
         private BuildStatusEnum ToBuildStatusEnum(string activity, string lastBuildStatus)

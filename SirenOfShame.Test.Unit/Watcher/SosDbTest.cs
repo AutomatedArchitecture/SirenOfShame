@@ -52,7 +52,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 BuildDefinitionId = "BuildDefinitionId",
                 BuildId = "BuildId",
                 Name = "Name",
@@ -76,7 +76,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 BuildDefinitionId = "BuildDefinitionId",
                 BuildId = "BuildId",
                 Name = "Name",
@@ -100,7 +100,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 2),
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 BuildDefinitionId = "BuildDefinitionId",
                 BuildId = "BuildId",
                 Name = "Name",
@@ -138,7 +138,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             {
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 3),
-                BuildStatusEnum = BuildStatusEnum.Broken,
+                CurrentBuildStatus = BuildStatusEnum.Broken,
                 BuildDefinitionId = "BuildDefinitionId",
                 BuildId = "BuildId",
                 Name = "Name",
@@ -158,7 +158,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             BuildStatus buildStatus = new BuildStatus
             {
                 BuildDefinitionId = "BuildDefinitionId",
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 Comment = "hi",
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
@@ -184,7 +184,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             BuildStatus buildStatus = new BuildStatus
             {
                 BuildDefinitionId = "BuildDefinitionId",
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 Comment = "hi",
                 FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1),
                 StartedTime = new DateTime(2010, 1, 1, 1, 1, 2),
@@ -213,7 +213,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             BuildStatus buildStatus = new BuildStatus
             {
                 BuildDefinitionId = uglyBuildDefinition,
-                BuildStatusEnum = BuildStatusEnum.Working,
+                CurrentBuildStatus = BuildStatusEnum.Working,
                 Name = "BuildName",
             };
             SirenOfShameSettingsFake fakeSettings = new SirenOfShameSettingsFake();

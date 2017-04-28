@@ -90,14 +90,14 @@ namespace TeamCityServices
                 StartedTime = GetTeamCityDate(startedTimeStr);
                 if (string.IsNullOrEmpty(finishedTimeStr))
                 {
-                    BuildStatusEnum = BuildStatusEnum.InProgress;
+                    CurrentBuildStatus = BuildStatusEnum.InProgress;
                 } 
                 else
                 {
                     FinishedTime = GetTeamCityDate(finishedTimeStr);
-                    BuildStatusEnum = ToBuildStatusEnum(status);
+                    CurrentBuildStatus = ToBuildStatusEnum(status);
 
-                    if (BuildStatusEnum == BuildStatusEnum.Unknown)
+                    if (CurrentBuildStatus == BuildStatusEnum.Unknown)
                     {
                         _log.Debug("Received an unknown build status from the following buildResult: " + buildResultXDoc);
                     }

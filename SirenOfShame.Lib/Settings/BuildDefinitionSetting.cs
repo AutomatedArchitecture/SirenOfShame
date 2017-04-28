@@ -47,7 +47,7 @@ namespace SirenOfShame.Lib.Settings {
 	        
             return new BuildStatus
 	        {
-	            BuildStatusEnum = BuildStatusEnum.Unknown,
+	            CurrentBuildStatus = BuildStatusEnum.Unknown,
 	            BuildDefinitionId = Id,
 	            Name = Name,
                 StartedTime = startedTime,

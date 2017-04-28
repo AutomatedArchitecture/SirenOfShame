@@ -85,7 +85,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             var build = jsonWrapper.Value[1];
             var commentsCache = GetCommentsCache(build.Definition.Id, build.Id, "My comment");
             var buildStatus = new TfsRestBuildStatus(build, commentsCache);
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("2", buildStatus.BuildDefinitionId);
             Assert.AreEqual("TestingGitTfsOnlineSolution", buildStatus.Name);
             Assert.AreEqual("Lee Richardson", buildStatus.RequestedBy);

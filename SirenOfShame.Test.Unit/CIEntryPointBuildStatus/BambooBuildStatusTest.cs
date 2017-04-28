@@ -19,7 +19,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             var buildStatus = BambooBuildStatus.CreateBuildResult(bambooFailingBuild, buildDefinitionSetting, "http://win7ci:8085");
 
-            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("Lee", buildStatus.RequestedBy);

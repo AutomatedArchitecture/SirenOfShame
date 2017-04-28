@@ -16,8 +16,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(89, builds[1].GetDuration().Value.TotalSeconds);
@@ -30,8 +30,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 24), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 24), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(84, builds[1].GetDuration().Value.TotalSeconds);
@@ -44,8 +44,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = null, BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = null, CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.IsFalse(new Macgyver(person, builds).HasJustAchieved());
         }
@@ -56,8 +56,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), BuildStatusEnum = BuildStatusEnum.Broken},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 29), CurrentBuildStatus = BuildStatusEnum.Broken},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(89, builds[1].GetDuration().Value.TotalSeconds);
@@ -70,9 +70,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 5, 00), BuildStatusEnum = BuildStatusEnum.Broken},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 3, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 3, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 5, 00), CurrentBuildStatus = BuildStatusEnum.Broken},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 3, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 3, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(240, builds[1].GetDuration().Value.TotalSeconds);
@@ -86,8 +86,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 51), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 51), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(111, builds[1].GetDuration().Value.TotalSeconds);
@@ -100,8 +100,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting person = new PersonSetting {RawName = "CurrentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), BuildStatusEnum = BuildStatusEnum.Working},
-                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 31), BuildStatusEnum = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 1, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 1, 2, 40), CurrentBuildStatus = BuildStatusEnum.Working},
+                new BuildStatus { StartedTime = new DateTime(2010, 1, 1, 2, 1, 0), FinishedTime = new DateTime(2010, 1, 1, 2, 2, 31), CurrentBuildStatus = BuildStatusEnum.Working},
             };
             Assert.AreEqual(100, builds[0].GetDuration().Value.TotalSeconds);
             Assert.AreEqual(91, builds[1].GetDuration().Value.TotalSeconds);

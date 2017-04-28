@@ -16,9 +16,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
             var builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 14), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 14)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 14), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 14)},
             };
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
@@ -29,9 +29,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
             var builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
             };
             Assert.AreEqual(true, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
@@ -42,9 +42,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
             var builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
             };
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
@@ -55,9 +55,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
             var builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = null},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = null},
             };
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }
@@ -78,9 +78,9 @@ namespace SirenOfShame.Test.Unit.Achievements
             var fakePersonSetting = new PersonSetting { RawName = "currentUser" };
             var builds = new List<BuildStatus>
             {
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "someoneElse", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
-                new BuildStatus { BuildStatusEnum = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Broken, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 2, 2), FinishedTime = new DateTime(2010, 2, 2, 2, 3, 2)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "someoneElse", StartedTime = new DateTime(2010, 2, 2, 2, 3, 3), FinishedTime = new DateTime(2010, 2, 2, 2, 4, 3)},
+                new BuildStatus { CurrentBuildStatus = BuildStatusEnum.Working, RequestedBy = "currentUser", StartedTime = new DateTime(2010, 2, 2, 2, 4, 4), FinishedTime = new DateTime(2010, 2, 2, 2, 5, 4)},
             };
             Assert.AreEqual(false, new LikeLightning(fakePersonSetting, builds).HasJustAchieved());
         }

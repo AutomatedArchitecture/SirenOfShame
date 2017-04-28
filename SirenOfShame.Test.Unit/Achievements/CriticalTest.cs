@@ -15,11 +15,11 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser" };
             List<BuildStatus> builds = new List<BuildStatus>();
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken });
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
-            builds.Add(new BuildStatus { RequestedBy = "someoneElse", BuildStatusEnum = BuildStatusEnum.Working });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
+            builds.Add(new BuildStatus { RequestedBy = "someoneElse", CurrentBuildStatus = BuildStatusEnum.Working });
             Assert.AreEqual(0.25, BuildRatio.CalculateCurrentBuildRatio(personSetting, builds));
         }
 
@@ -28,10 +28,10 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>();
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken });
             for (int i = 0; i < 49; i++)
             {
-                builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
+                builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
             }
             Assert.AreEqual(50, builds.Count);
             Assert.AreEqual(0.02, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
@@ -42,10 +42,10 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>();
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken });
             for (int i = 0; i < 99; i++)
             {
-                builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
+                builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
             }
             Assert.AreEqual(100, builds.Count);
             Assert.AreEqual(0.01, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
@@ -56,14 +56,14 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>();
-            builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken });
+            builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken });
             for (int i = 0; i < 49; i++)
             {
-                builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
+                builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
             }
             for (int i = 0; i < 50; i++)
             {
-                builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken });
+                builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken });
             }
             Assert.AreEqual(100, builds.Count);
             Assert.AreEqual(0.02, BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));
@@ -74,10 +74,10 @@ namespace SirenOfShame.Test.Unit.Achievements
         {
             PersonSetting personSetting = new PersonSetting { RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>();
-            builds.Add(new BuildStatus { RequestedBy = "someoneElse", BuildStatusEnum = BuildStatusEnum.Broken });
+            builds.Add(new BuildStatus { RequestedBy = "someoneElse", CurrentBuildStatus = BuildStatusEnum.Broken });
             for (int i = 0; i < 49; i++)
             {
-                builds.Add(new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working });
+                builds.Add(new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working });
             }
             Assert.AreEqual(50, builds.Count);
             Assert.IsNull(BuildRatio.CalculateLowestBuildRatioAfter50Builds(personSetting, builds));

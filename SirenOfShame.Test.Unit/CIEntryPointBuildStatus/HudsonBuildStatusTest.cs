@@ -18,7 +18,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Name = "Name";
             buildDefinitionSetting.Id = "BuildDefinitionId";
             HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsUnstable, buildDefinitionSetting, null, treatUnstableAsSuccess: true);
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Name = "Name";
             buildDefinitionSetting.Id = "BuildDefinitionId";
             HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsUnstable, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
-            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.CurrentBuildStatus);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
             
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("anonymous", buildStatus.RequestedBy);
@@ -61,7 +61,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
 
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Name", buildStatus.Name);
             Assert.AreEqual("STCO", buildStatus.RequestedBy);
@@ -81,7 +81,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             buildDefinitionSetting.Id = "BuildDefinitionId";
             HudsonBuildStatus buildStatus = new HudsonBuildStatus(jenkinsBuildStatusForIssue10, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
 
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual(null, buildStatus.RequestedBy);
 
             // 2/15/2012 5:00:54 PM

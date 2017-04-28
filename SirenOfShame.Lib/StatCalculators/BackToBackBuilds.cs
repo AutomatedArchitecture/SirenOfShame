@@ -40,8 +40,8 @@ namespace SirenOfShame.Lib.StatCalculators
                 bool currentBuildIsByActivePerson = buildStatus.RequestedBy == activePerson.RawName;
                 if (lastBuildWasByActivePerson && currentBuildIsByActivePerson)
                 {
-                    bool lastBuildPassed = lastBuild.BuildStatusEnum == BuildStatusEnum.Working;
-                    bool currentBuildPassed = buildStatus.BuildStatusEnum == BuildStatusEnum.Working;
+                    bool lastBuildPassed = lastBuild.CurrentBuildStatus == BuildStatusEnum.Working;
+                    bool currentBuildPassed = buildStatus.CurrentBuildStatus == BuildStatusEnum.Working;
                     bool wereBackToBack = lastBuild.IsBackToBackWithNextBuild(buildStatus);
                     if (lastBuildPassed && currentBuildPassed && wereBackToBack)
                     {

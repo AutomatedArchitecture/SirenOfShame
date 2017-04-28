@@ -41,7 +41,7 @@ namespace SirenOfShame
             {
                 if (buildStatus == null || buildStatus.FinishedTime == null || buildStatus.StartedTime == null) continue;
                 var duration = buildStatus.FinishedTime.Value - buildStatus.StartedTime.Value;
-                Fill fill = buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? _failFill : _successFill;
+                Fill fill = buildStatus.CurrentBuildStatus == BuildStatusEnum.Broken ? _failFill : _successFill;
                 var bar = myPane.AddBar(null, null, new[] { duration.TotalMinutes }, Color.White);
                 bar.Bar.Fill = fill;
                 bar.Bar.Border.Color = Color.White;

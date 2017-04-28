@@ -23,7 +23,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             };
             var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, buildInfo, changeInfo);
 
-            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("Tests", buildStatus.Name);
             Assert.AreEqual("someone@somewhere.com", buildStatus.RequestedBy);
@@ -48,7 +48,7 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             };
             var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, teamCityFailingBuild, teamCityFailingChange);
 
-            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Broken, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("BuildConfig4", buildStatus.Name);
             Assert.AreEqual("lee", buildStatus.RequestedBy);
@@ -74,7 +74,7 @@ Conflicts:
             };
             var buildStatus = new TeamCityBuildStatus(buildDefinitionSetting, teamCityFailureDueToCleanup, null);
 
-            Assert.AreEqual(BuildStatusEnum.Unknown, buildStatus.BuildStatusEnum);
+            Assert.AreEqual(BuildStatusEnum.Unknown, buildStatus.CurrentBuildStatus);
             Assert.AreEqual("BuildDefinitionId", buildStatus.BuildDefinitionId);
             Assert.AreEqual("db_maintenance Database [GRAVIS1]", buildStatus.Name);
             Assert.AreEqual(null, buildStatus.RequestedBy);

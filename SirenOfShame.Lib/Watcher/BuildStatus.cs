@@ -18,9 +18,22 @@ namespace SirenOfShame.Lib.Watcher
 
     public class BuildStatus
     {
+        public DateTime? StartedTime { get; set; }
+        public DateTime? FinishedTime { get; set; }
+        public string RequestedBy { get; set; }
+        public DateTime LocalStartTime { get; set; }
+        public string BuildDefinitionId { get; set; }
+        public string Name { get; set; }
+        public string BuildId { get; set; }
+        public string Url { get; set; }
+        public BuildStatusEnum? CurrentBuildStatus { get; set; }
+        public string BuildStatusMessage { get; set; }
+        public string Comment { get; set; }
+
         public BuildStatus()
         {
             LocalStartTime = DateTime.Now;
+            CurrentBuildStatus = null;
         }
 
         public static BuildStatus Parse(string[] lineFromSosDb, string buildDefinitionId)
@@ -42,7 +55,7 @@ namespace SirenOfShame.Lib.Watcher
                 {
                     StartedTime = string.IsNullOrEmpty(startedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(startedTimeStr)),
                     FinishedTime = string.IsNullOrEmpty(finishedTimeStr) ? (DateTime?)null : new DateTime(long.Parse(finishedTimeStr)),
-                    BuildStatusEnum = (BuildStatusEnum)int.Parse(buildStatusStr),
+                    CurrentBuildStatus = (BuildStatusEnum)int.Parse(buildStatusStr),
                     RequestedBy = requestedByStr,
                     BuildDefinitionId = buildDefinitionId
                 };
@@ -56,56 +69,47 @@ namespace SirenOfShame.Lib.Watcher
 
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildStatus));
 
-        private static string BuildStatusToString(BuildStatusEnum buildStatus)
+        private static string BuildStatusToString(BuildStatusEnum? buildStatus)
         {
-            switch (buildStatus)
+            if (buildStatus.HasValue)
             {
-                case BuildStatusEnum.Broken:
-                    return "Broken";
-                case BuildStatusEnum.Working:
-                    return "Passing";
-                case BuildStatusEnum.Unknown:
-                    return "Unknown";
-                case BuildStatusEnum.InProgress:
-                    return "In Progress";
-                default:
-                    throw new Exception("Unknown Status " + buildStatus);
+                switch (buildStatus)
+                {
+                    case BuildStatusEnum.Broken: return "Broken";
+                    case BuildStatusEnum.Working: return "Passing";
+                    case BuildStatusEnum.Unknown: return "Unknown";
+                    case BuildStatusEnum.InProgress: return "In Progress";
+                    default: throw new Exception("Unknown Status " + buildStatus);
+                }
             }
+
+            return "unknown";
         }
-
-        public DateTime? StartedTime { get; set; }
-        public DateTime? FinishedTime { get; set; }
-
-        public string RequestedBy { get; set; }
-        public DateTime LocalStartTime { get; set; }
-        public string BuildDefinitionId { get; set; }
-        public string Name { get; set; }
-        public string BuildId { get; set; }
-        public string Url { get; set; }
-        public BuildStatusEnum BuildStatusEnum { get; set; }
-        public string BuildStatusMessage { get; set; }
-        public string Comment { get; set; }
 
         public string BuildStatusDescription
         {
-            get { return BuildStatusToString(BuildStatusEnum); }
+            get { return BuildStatusToString(CurrentBuildStatus); }
         }
 
         public bool IsWorkingOrBroken()
         {
-            return BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Broken;
+            if (CurrentBuildStatus.HasValue)
+                return CurrentBuildStatus == BuildStatusEnum.Working || CurrentBuildStatus == BuildStatusEnum.Broken;
+
+            return false;
         }
 
         private BallsEnum BallIndex
         {
             get
             {
-                if (BuildStatusEnum == BuildStatusEnum.Working) 
-                    return BallsEnum.Green;
-                if (BuildStatusEnum == BuildStatusEnum.Broken) 
-                    return BallsEnum.Red;
-                if (BuildStatusEnum == BuildStatusEnum.Unknown)
-                    return BallsEnum.Triangle;
+                if (CurrentBuildStatus.HasValue)
+                {
+                    if (CurrentBuildStatus == BuildStatusEnum.Working) return BallsEnum.Green;
+                    if (CurrentBuildStatus == BuildStatusEnum.Broken) return BallsEnum.Red;
+                    if (CurrentBuildStatus == BuildStatusEnum.Unknown) return BallsEnum.Triangle;
+                }
+
                 return BallsEnum.Gray;
             }
         }
@@ -121,7 +125,7 @@ namespace SirenOfShame.Lib.Watcher
 
             var result = new BuildStatusDto
             {
-                BuildStatusEnum = BuildStatusEnum,
+                BuildStatusEnum = CurrentBuildStatus.Value,
                 BuildStatusMessage = BuildStatusMessage,
                 ImageIndex = (int)BallIndex,
                 StartTimeShort = FormatAsDayMonthTime(StartedTime),
@@ -190,26 +194,31 @@ namespace SirenOfShame.Lib.Watcher
 
         private TimeSpan? GetDuration(DateTime? startedTime, DateTime? finishedTime, BuildStatus previousStatus, DateTime now)
         {
-            if (BuildStatusEnum != BuildStatusEnum.InProgress)
+            if (CurrentBuildStatus.HasValue)
             {
-                if (startedTime == null || finishedTime == null)
+                if (CurrentBuildStatus != BuildStatusEnum.InProgress)
                 {
-                    _log.Warn("Start time or stop time was null for " + BuildDefinitionId + ", and the build was not in progress, this should only happen at startup");
-                    return null;
+                    if (startedTime == null || finishedTime == null)
+                    {
+                        _log.Warn("Start time or stop time was null for " + BuildDefinitionId + ", and the build was not in progress, this should only happen at startup");
+                        return null;
+                    }
+                    return finishedTime.Value - startedTime.Value;
                 }
-                return finishedTime.Value - startedTime.Value;
+
+                if (previousStatus == null || previousStatus.StartedTime == null || previousStatus.FinishedTime == null)
+                {
+                    // count up
+                    return now - LocalStartTime;
+                }
+
+                // count down
+                var previousDuration = previousStatus.FinishedTime.Value - previousStatus.StartedTime.Value;
+                var currentDuration = now - LocalStartTime;
+                return previousDuration - currentDuration;
             }
 
-            if (previousStatus == null || previousStatus.StartedTime == null || previousStatus.FinishedTime == null)
-            {
-                // count up
-                return now - LocalStartTime;
-            }
-
-            // count down
-            var previousDuration = previousStatus.FinishedTime.Value - previousStatus.StartedTime.Value;
-            var currentDuration = now - LocalStartTime;
-            return previousDuration - currentDuration;
+            return null;
         }
 
         public void FireApplicableRulesEngineEvents(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
@@ -227,12 +236,18 @@ namespace SirenOfShame.Lib.Watcher
 
         public bool IsNewlyBroken(BuildStatusEnum? previousStatus)
         {
-            return BuildStatusEnum == BuildStatusEnum.Broken && (previousStatus == null || previousStatus == BuildStatusEnum.Working);
+            if(previousStatus.HasValue)
+                return CurrentBuildStatus == BuildStatusEnum.Broken && (previousStatus == BuildStatusEnum.Working);
+
+            return false;
         }
 
         public bool IsNewlyFixed(BuildStatusEnum? previousStatus)
         {
-            return BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null && previousStatus == BuildStatusEnum.Broken;
+            if(previousStatus.HasValue)
+                return CurrentBuildStatus == BuildStatusEnum.Working && previousStatus == BuildStatusEnum.Broken;
+
+            return false;
         }
 
         public bool IsBackToBackWithNextBuild(BuildStatus nextBuild)
@@ -254,14 +269,17 @@ namespace SirenOfShame.Lib.Watcher
             {
                 DateAsExport(StartedTime), 
                 DateAsExport(FinishedTime),
-                BuildStatusAsExport(BuildStatusEnum)
+                BuildStatusAsExport(CurrentBuildStatus)
             };
             return string.Join(",", fieldsToExport);
         }
 
-        private string BuildStatusAsExport(BuildStatusEnum buildStatusEnum)
+        private string BuildStatusAsExport(BuildStatusEnum? status)
         {
-            return buildStatusEnum == BuildStatusEnum.Working ? "1" : "0";
+            if(status.HasValue)
+                return status == BuildStatusEnum.Working ? "1" : "0";
+
+            return "0";
         }
 
         private static string DateAsExport(DateTime? dateTime)
@@ -291,36 +309,50 @@ namespace SirenOfShame.Lib.Watcher
 
         private int? GetReputationChange()
         {
-            if (BuildStatusEnum == BuildStatusEnum.Working) return 1;
-            if (BuildStatusEnum == BuildStatusEnum.Broken) return -4;
+            if (CurrentBuildStatus.HasValue)
+            {
+                switch (CurrentBuildStatus.Value)
+                {
+                    case Watcher.BuildStatusEnum.Working: return 1;
+                    case Watcher.BuildStatusEnum.Broken: return -4;
+                }
+            }
+
             return null;
         }
 
         private NewsItemTypeEnum GetNewsItemType()
         {
-            if (BuildStatusEnum == BuildStatusEnum.Working) return NewsItemTypeEnum.BuildSuccess;
-            if (BuildStatusEnum == BuildStatusEnum.Broken) return NewsItemTypeEnum.BuildFailed;
-            if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
+            if (CurrentBuildStatus.HasValue)
+            {
+                switch (CurrentBuildStatus.Value)
+                {
+                    case Watcher.BuildStatusEnum.Working: return NewsItemTypeEnum.BuildSuccess;
+                    case Watcher.BuildStatusEnum.Broken: return NewsItemTypeEnum.BuildFailed;
+                    case Watcher.BuildStatusEnum.InProgress: return NewsItemTypeEnum.BuildStarted;
+                }
+            }
+
             return NewsItemTypeEnum.BuildUnknown;
         }
 
         private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
         {
-            var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Working;
-            var wasBrokenNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && BuildStatusEnum == BuildStatusEnum.Broken;
-            var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && BuildStatusEnum == BuildStatusEnum.Broken;
-            var inProgress = BuildStatusEnum == BuildStatusEnum.InProgress;
+            var wasBrokenNowWorking = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && CurrentBuildStatus == BuildStatusEnum.Working;
+            var wasBrokenNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Broken && CurrentBuildStatus == BuildStatusEnum.Broken;
+            var wasWorkingNowBroken = previousWorkingOrBrokenBuildStatus == BuildStatusEnum.Working && CurrentBuildStatus == BuildStatusEnum.Broken;
+            var inProgress = CurrentBuildStatus == BuildStatusEnum.InProgress;
 
             if (inProgress) return string.Format("'{0}'", Comment);
             if (wasBrokenNowWorking) return string.Format("Fixed the broken build");
             if (wasWorkingNowBroken) return string.Format("Broke the build");
             if (wasBrokenNowBroken) return string.Format("Failed to fix the build");
-            if (BuildStatusEnum == BuildStatusEnum.Working || BuildStatusEnum == BuildStatusEnum.Unknown) return string.Format("Successful build");
+            if (CurrentBuildStatus == BuildStatusEnum.Working || CurrentBuildStatus == BuildStatusEnum.Unknown) return string.Format("Successful build");
 
             // some other previous status? this should never happen
-            if (BuildStatusEnum == BuildStatusEnum.Broken) return string.Format("Broke the build");
+            if (CurrentBuildStatus == BuildStatusEnum.Broken) return string.Format("Broke the build");
 
-            throw new Exception("Unknown build status: " + BuildStatusEnum);
+            throw new Exception("Unknown build status: " + CurrentBuildStatus);
         }
     }
 }

@@ -16,8 +16,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), CurrentBuildStatus = BuildStatusEnum.Working },
             };
             Assert.IsTrue(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
@@ -28,8 +28,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "someoneElse", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { RequestedBy = "someoneElse", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), CurrentBuildStatus = BuildStatusEnum.Working },
             };
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
@@ -40,8 +40,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), BuildStatusEnum = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), CurrentBuildStatus = BuildStatusEnum.Broken },
             };
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
@@ -52,8 +52,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 2, 1), BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { RequestedBy = "currentUser", FinishedTime = new DateTime(2010, 1, 1, 1, 1, 1), CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 2, 1), CurrentBuildStatus = BuildStatusEnum.Working },
             };
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
@@ -64,8 +64,8 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Broken },
-                new BuildStatus { RequestedBy = "currentUser", BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Broken },
+                new BuildStatus { RequestedBy = "currentUser", CurrentBuildStatus = BuildStatusEnum.Working },
             };
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }
@@ -76,7 +76,7 @@ namespace SirenOfShame.Test.Unit.Achievements
             PersonSetting personSetting = new PersonSetting {RawName = "currentUser"};
             List<BuildStatus> builds = new List<BuildStatus>
             {
-                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), BuildStatusEnum = BuildStatusEnum.Working },
+                new BuildStatus { RequestedBy = "currentUser", StartedTime = new DateTime(2010, 1, 1, 1, 1, 59), CurrentBuildStatus = BuildStatusEnum.Working },
             };
             Assert.IsFalse(new AndGotAwayWithIt(personSetting, builds).HasJustAchieved());
         }

@@ -25,7 +25,7 @@ namespace SirenOfShame.Lib.Achievements
             var lastThree = _currentBuildDefinitionOrderedChronoligically.Skip(_currentBuildDefinitionOrderedChronoligically.Count - 3).ToList();
             if (!lastThree.All(i => i.RequestedBy == PersonSetting.RawName)) return false;
             if (!lastThree.All(i => i.StartedTime.HasValue && i.FinishedTime.HasValue)) return false;
-            if (!lastThree.All(i => i.BuildStatusEnum == BuildStatusEnum.Working)) return false;
+            if (!lastThree.All(i => i.CurrentBuildStatus == BuildStatusEnum.Working)) return false;
             BuildStatus oldestBuild = lastThree[0];
             BuildStatus middleBuild = lastThree[1];
             BuildStatus mostRecentBuild = lastThree[2];
