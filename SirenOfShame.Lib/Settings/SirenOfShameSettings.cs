@@ -232,19 +232,53 @@ namespace SirenOfShame.Lib.Settings
 
         public void Save(string fileName)
         {
+            // create the directory if it doesn't exit 
+            var dir = Path.GetDirectoryName(fileName);
+            Directory.CreateDirectory(dir);
+
             lock (_lock)
             {
-                StreamWriter myWriter = null;
+                var ext = Path.GetExtension(fileName);
+                var fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+
+                var tempFileName = string.Format(
+                    "{0}{1}{2}-{3:yyyy-MM-dd-HH-mm-ss}{4}", dir, Path.DirectorySeparatorChar,
+                    fileNameWithoutExt, DateTime.Now, ext);
+
                 try
                 {
-                    XmlSerializer mySerializer = new XmlSerializer(typeof (SirenOfShameSettings));
-                    myWriter = new StreamWriter(fileName, false);
-                    mySerializer.Serialize(myWriter, this);
-                } finally
-                {
-                    if (myWriter != null)
+                    // store to temporary
+                    var mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
+                    using (var stream = File.Open(tempFileName, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                    using (var writer = new StreamWriter(stream))
                     {
-                        myWriter.Close();
+                        mySerializer.Serialize(writer, this);
+                    }
+
+                    // and replace
+                    try
+                    {
+                        File.Replace(tempFileName, fileName, null);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        File.Move(tempFileName, fileName);
+                    }
+                    
+                    tempFileName = null;
+                }
+                finally
+                {
+                    try
+                    {
+                        if (!string.IsNullOrEmpty(tempFileName))
+                        {
+                            File.Delete(tempFileName);
+                        }
+                    }
+                    catch
+                    {
+                        // ignore any errors regarding deletion of the temp file
                     }
                 }
             }
@@ -258,7 +292,6 @@ namespace SirenOfShame.Lib.Settings
         private static string GetConfigFileName()
         {
             string path = GetSosAppDataFolder();
-            Directory.CreateDirectory(path);
             return Path.Combine(path, SIRENOFSHAME_CONFIG);
         }
 
@@ -588,10 +621,13 @@ namespace SirenOfShame.Lib.Settings
         public void Backup()
         {
             string fileName = GetConfigFileName();
-            string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.config.bak", DateTime.Now);
-            string path = GetSosAppDataFolder();
-            var backupFileNameAndPath = Path.Combine(path, backupFileName);
-            File.Copy(fileName, backupFileNameAndPath, true);
+            if (File.Exists(fileName))
+            {
+                string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.config.bak", DateTime.Now);
+                string path = GetSosAppDataFolder();
+                var backupFileNameAndPath = Path.Combine(path, backupFileName);
+                File.Copy(fileName, backupFileNameAndPath, true);
+            }
         }
 
         public static string GetAvatarsFolder()
