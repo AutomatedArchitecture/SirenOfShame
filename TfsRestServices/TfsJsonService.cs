@@ -38,24 +38,25 @@ namespace TfsRestServices
 
         private async Task<List<T>> GetFromTfs<T>(TfsConnectionDetails connection, string api, Dictionary<string, string> queryParams)
         {
-            HttpClientHandler handler = new HttpClientHandler()
+            using (var handler = new HttpClientHandler())
             {
-                AllowAutoRedirect = true,
-                Credentials = connection.AsNetworkConnection()
-            };
+                handler.AllowAutoRedirect = true;
+                handler.Credentials = connection.AsNetworkConnection();
 
-            HttpClient httpClient = new HttpClient(handler)
-            {
-                BaseAddress = connection.GetBaseAddress()
-            };
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            var credentialsBase64Encoded = connection.Base64EncodeCredentials();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentialsBase64Encoded);
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var queryParamsAsString = string.Concat(queryParams.Select(i => "&" + i.Key + "=" + i.Value));
-            var buildDefinitionsStr = await httpClient.GetStringAsync(api + "?api-version=2.0" + queryParamsAsString);
-            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
-            return jsonWrapper.Value;
+                using (var httpClient = new HttpClient(handler))
+                {
+                    httpClient.BaseAddress = connection.GetBaseAddress();
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    var credentialsBase64Encoded = connection.Base64EncodeCredentials();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentialsBase64Encoded);
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    var queryParamsAsString = string.Concat(queryParams.Select(i => "&" + i.Key + "=" + i.Value));
+                    var buildDefinitionsStr = await httpClient.GetStringAsync(api + "?api-version=2.0" + queryParamsAsString);
+                    var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
+                    return jsonWrapper.Value;
+                }
+            }
         }
     }
 }
