@@ -45,6 +45,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this._collection = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this._ignoreEmptyCommentsInXamlBuilds = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
             this.SuspendLayout();
@@ -74,7 +75,7 @@
             this._connect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this._connect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._connect.ForeColor = System.Drawing.Color.White;
-            this._connect.Location = new System.Drawing.Point(394, 94);
+            this._connect.Location = new System.Drawing.Point(394, 109);
             this._connect.Name = "_connect";
             this._connect.Size = new System.Drawing.Size(75, 23);
             this._connect.TabIndex = 5;
@@ -88,9 +89,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._projects.CheckBoxes = true;
-            this._projects.Location = new System.Drawing.Point(6, 149);
+            this._projects.Location = new System.Drawing.Point(6, 164);
             this._projects.Name = "_projects";
-            this._projects.Size = new System.Drawing.Size(466, 128);
+            this._projects.Size = new System.Drawing.Size(466, 177);
             this._projects.TabIndex = 9;
             this._projects.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.ProjectsAfterCheck);
             // 
@@ -143,7 +144,7 @@
             // 
             this._checkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._checkAll.Image = ((System.Drawing.Image)(resources.GetObject("_checkAll.Image")));
-            this._checkAll.Location = new System.Drawing.Point(454, 124);
+            this._checkAll.Location = new System.Drawing.Point(454, 139);
             this._checkAll.Margin = new System.Windows.Forms.Padding(2);
             this._checkAll.Name = "_checkAll";
             this._checkAll.Size = new System.Drawing.Size(16, 16);
@@ -156,7 +157,7 @@
             // 
             this._search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._search.Image = ((System.Drawing.Image)(resources.GetObject("_search.Image")));
-            this._search.Location = new System.Drawing.Point(431, 123);
+            this._search.Location = new System.Drawing.Point(431, 138);
             this._search.Margin = new System.Windows.Forms.Padding(2);
             this._search.Name = "_search";
             this._search.Size = new System.Drawing.Size(16, 16);
@@ -169,7 +170,7 @@
             // 
             this._filter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._filter.Location = new System.Drawing.Point(6, 123);
+            this._filter.Location = new System.Drawing.Point(6, 138);
             this._filter.Name = "_filter";
             this._filter.Size = new System.Drawing.Size(423, 20);
             this._filter.TabIndex = 6;
@@ -212,11 +213,23 @@
             this.label7.Text = "(empty = see all, requires more permissions)";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // _ignoreEmptyCommentsInXamlBuilds
+            // 
+            this._ignoreEmptyCommentsInXamlBuilds.AutoSize = true;
+            this._ignoreEmptyCommentsInXamlBuilds.ForeColor = System.Drawing.Color.White;
+            this._ignoreEmptyCommentsInXamlBuilds.Location = new System.Drawing.Point(76, 109);
+            this._ignoreEmptyCommentsInXamlBuilds.Name = "_ignoreEmptyCommentsInXamlBuilds";
+            this._ignoreEmptyCommentsInXamlBuilds.Size = new System.Drawing.Size(211, 17);
+            this._ignoreEmptyCommentsInXamlBuilds.TabIndex = 63;
+            this._ignoreEmptyCommentsInXamlBuilds.Text = "Ignore empty comments in XAML builds";
+            this._ignoreEmptyCommentsInXamlBuilds.UseVisualStyleBackColor = true;
+            // 
             // ConfigureTfsRest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this._ignoreEmptyCommentsInXamlBuilds);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this._collection);
@@ -234,7 +247,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this._url);
             this.Name = "ConfigureTfsRest";
-            this.Size = new System.Drawing.Size(472, 280);
+            this.Size = new System.Drawing.Size(472, 344);
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).EndInit();
             this.ResumeLayout(false);
@@ -260,5 +273,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox _collection;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox _ignoreEmptyCommentsInXamlBuilds;
     }
 }

@@ -34,6 +34,11 @@ namespace SirenOfShame.Lib.Settings
         public string CollectionName { get; set; }
 
         /// <summary>
+        /// Note: At the moment this setting only applies to TFS.
+        /// </summary>
+        public bool IgnoreEmptyCommentsInXamlBuilds { get; set; }
+
+        /// <summary>
         /// Note: At the moment this only applies to Jenkins/Hudson
         /// </summary>
         public bool TreatUnstableAsSuccess { get; set; }
