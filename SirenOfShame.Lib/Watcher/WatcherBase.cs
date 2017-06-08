@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using log4net;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
@@ -71,6 +72,12 @@ namespace SirenOfShame.Lib.Watcher
             catch (ThreadAbortException)
             {
                 _log.Debug("Stopped watching build status (ThreadAbortException)");
+                StopWatching();
+                OnStoppedWatching();
+            }
+            catch (TaskCanceledException)
+            {
+                _log.Debug("Stopped watching build status (TaskCanceledException)");
                 StopWatching();
                 OnStoppedWatching();
             }

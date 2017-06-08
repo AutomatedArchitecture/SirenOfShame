@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Lib.Settings;
 using SirenOfShame.Lib.Watcher;
@@ -37,6 +38,12 @@ namespace TfsRestServices
                 if (anyServerUnavailable)
                 {
                     throw new ServerUnavailableException();
+                }
+
+                var taskCancelledException = ex.InnerExceptions.FirstOrDefault(x => x is TaskCanceledException);
+                if (!ReferenceEquals(null, taskCancelledException))
+                {
+                    throw taskCancelledException;
                 }
                 throw;
             }
