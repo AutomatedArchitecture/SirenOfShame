@@ -7,6 +7,6 @@ if "%1" == "" (
 )
 
 rename SirenOfShame.WixSetup.msi %1
-"c:\Program Files (x86)\Windows Kits\8.1\bin\x64\signtool.exe" sign /t http://timestamp.verisign.com/scripts/timstamp.dll /f "C:\Temp\Cert.pfx" /p password /d %1 %1
+"c:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe" sign /t http://timestamp.verisign.com/scripts/timstamp.dll /f "C:\Temp\Cert.pfx" /p password /d %1 %1
 
 :end
