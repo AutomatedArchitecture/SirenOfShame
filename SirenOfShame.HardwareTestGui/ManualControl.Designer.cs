@@ -42,8 +42,8 @@
             this._led2 = new System.Windows.Forms.CheckBox();
             this._led1 = new System.Windows.Forms.CheckBox();
             this._siren = new System.Windows.Forms.CheckBox();
-            this.deviceConnect1 = new SirenOfShame.HardwareTestGui.DeviceConnect();
             this._lightNext = new System.Windows.Forms.Button();
+            this.deviceConnect1 = new SirenOfShame.HardwareTestGui.DeviceConnect();
             this._ledsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._led5Value)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._led4Value)).BeginInit();
@@ -66,7 +66,7 @@
             this._ledsGroupBox.Controls.Add(this._led3);
             this._ledsGroupBox.Controls.Add(this._led2);
             this._ledsGroupBox.Controls.Add(this._led1);
-            this._ledsGroupBox.Location = new System.Drawing.Point(3, 39);
+            this._ledsGroupBox.Location = new System.Drawing.Point(6, 83);
             this._ledsGroupBox.Name = "_ledsGroupBox";
             this._ledsGroupBox.Size = new System.Drawing.Size(172, 171);
             this._ledsGroupBox.TabIndex = 2;
@@ -210,33 +210,38 @@
             // 
             // _siren
             // 
-            this._siren.AutoSize = true;
-            this._siren.Location = new System.Drawing.Point(181, 39);
+            this._siren.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._siren.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this._siren.Location = new System.Drawing.Point(184, 83);
             this._siren.Name = "_siren";
-            this._siren.Size = new System.Drawing.Size(50, 17);
+            this._siren.Size = new System.Drawing.Size(336, 69);
             this._siren.TabIndex = 3;
-            this._siren.Text = "Siren";
-            this._siren.UseVisualStyleBackColor = true;
+            this._siren.Text = "Play Audio Siren";
+            this._siren.UseVisualStyleBackColor = false;
             this._siren.CheckedChanged += new System.EventHandler(this._siren_CheckedChanged);
-            // 
-            // deviceConnect1
-            // 
-            this.deviceConnect1.Location = new System.Drawing.Point(3, 3);
-            this.deviceConnect1.MaximumSize = new System.Drawing.Size(162, 30);
-            this.deviceConnect1.MinimumSize = new System.Drawing.Size(162, 30);
-            this.deviceConnect1.Name = "deviceConnect1";
-            this.deviceConnect1.Size = new System.Drawing.Size(162, 30);
-            this.deviceConnect1.TabIndex = 0;
             // 
             // _lightNext
             // 
-            this._lightNext.Location = new System.Drawing.Point(181, 173);
+            this._lightNext.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._lightNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this._lightNext.Location = new System.Drawing.Point(184, 158);
             this._lightNext.Name = "_lightNext";
-            this._lightNext.Size = new System.Drawing.Size(136, 23);
+            this._lightNext.Size = new System.Drawing.Size(336, 109);
             this._lightNext.TabIndex = 13;
-            this._lightNext.Text = "Light Next";
-            this._lightNext.UseVisualStyleBackColor = true;
+            this._lightNext.Text = "Light Next LED";
+            this._lightNext.UseVisualStyleBackColor = false;
             this._lightNext.Click += new System.EventHandler(this._lightNext_Click);
+            // 
+            // deviceConnect1
+            // 
+            this.deviceConnect1.AutoSize = true;
+            this.deviceConnect1.Location = new System.Drawing.Point(7, 3);
+            this.deviceConnect1.MinimumSize = new System.Drawing.Size(162, 30);
+            this.deviceConnect1.Name = "deviceConnect1";
+            this.deviceConnect1.Size = new System.Drawing.Size(253, 74);
+            this.deviceConnect1.TabIndex = 0;
             // 
             // ManualControl
             // 
@@ -247,7 +252,7 @@
             this.Controls.Add(this._ledsGroupBox);
             this.Controls.Add(this.deviceConnect1);
             this.Name = "ManualControl";
-            this.Size = new System.Drawing.Size(530, 309);
+            this.Size = new System.Drawing.Size(520, 329);
             this._ledsGroupBox.ResumeLayout(false);
             this._ledsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._led5Value)).EndInit();

@@ -34,9 +34,12 @@
             // 
             // _connect
             // 
+            this._connect.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._connect.Location = new System.Drawing.Point(3, 3);
             this._connect.Name = "_connect";
-            this._connect.Size = new System.Drawing.Size(75, 23);
+            this._connect.Size = new System.Drawing.Size(150, 57);
             this._connect.TabIndex = 0;
             this._connect.Text = "Connect";
             this._connect.UseVisualStyleBackColor = true;
@@ -44,10 +47,12 @@
             // 
             // _disconnect
             // 
+            this._disconnect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._disconnect.Enabled = false;
-            this._disconnect.Location = new System.Drawing.Point(84, 3);
+            this._disconnect.Location = new System.Drawing.Point(159, 4);
             this._disconnect.Name = "_disconnect";
-            this._disconnect.Size = new System.Drawing.Size(75, 23);
+            this._disconnect.Size = new System.Drawing.Size(130, 57);
             this._disconnect.TabIndex = 1;
             this._disconnect.Text = "Disconnect";
             this._disconnect.UseVisualStyleBackColor = true;
@@ -59,17 +64,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this._disconnect);
             this.Controls.Add(this._connect);
-            this.MaximumSize = new System.Drawing.Size(162, 30);
             this.MinimumSize = new System.Drawing.Size(162, 30);
             this.Name = "DeviceConnect";
-            this.Size = new System.Drawing.Size(162, 30);
+            this.Size = new System.Drawing.Size(292, 64);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button _connect;
-        private System.Windows.Forms.Button _disconnect;
+        protected System.Windows.Forms.Button _connect;
+        protected System.Windows.Forms.Button _disconnect;
     }
 }
