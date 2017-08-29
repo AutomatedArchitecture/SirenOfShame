@@ -42,15 +42,28 @@ namespace SirenOfShame.Lib.Helpers
 
         public static void Invoke(this Control ctrl, Action a)
         {
-            bool invokeRequired = ctrl.InvokeRequired;
-            if (invokeRequired)
+            if (ctrl.IsDisposed || ctrl.Disposing)
             {
-                try
+                return;
+            }
+
+            if (ctrl.IsHandleCreated)
+            {
+                var invokeRequired = ctrl.InvokeRequired;
+                if (invokeRequired)
                 {
-                    ctrl.Invoke(a);
-                } catch (ArgumentException ex)
+                    try
+                    {
+                        ctrl.Invoke(a);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        _log.Error("Error on invoke. Ignoring it for now, but this could be an indication of a larger problem.", ex);
+                    }
+                }
+                else
                 {
-                    _log.Error("Error on invoke. Ignoring it for now, but this could be an indication of a larger problem.", ex);
+                    a();
                 }
             }
             else
