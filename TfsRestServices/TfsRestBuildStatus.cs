@@ -10,7 +10,7 @@ namespace TfsRestServices
             BuildStatusEnum = GetBuildStatus(tfsRestBuildDefinition);
             Name = tfsRestBuildDefinition.Definition.Name;
             BuildDefinitionId = tfsRestBuildDefinition.Definition.Id.ToString();
-            RequestedBy = tfsRestBuildDefinition.RequestedFor.DisplayName;
+            RequestedBy = tfsRestBuildDefinition.RequestedFor?.DisplayName;
             BuildId = tfsRestBuildDefinition.Id.ToString();
             Url = tfsRestBuildDefinition._links.Web.Href;
             Comment = commentsCache.GetCachedCommentForBuild(tfsRestBuildDefinition);

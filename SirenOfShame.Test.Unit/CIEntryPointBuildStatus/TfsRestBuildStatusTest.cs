@@ -93,5 +93,23 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("https://sirenofshame.visualstudio.com/DefaultCollection/_permalink/_build/index?collectionId=3be0f19d-62d0-4f45-a140-f219cb9c08ae&projectId=cd1d630e-e0fc-46d3-9540-a477d17a84b1&buildId=18", buildStatus.Url);
             Assert.AreEqual("18", buildStatus.BuildId);
         }
+
+        [Test]
+        public void Creating_a_build_status_doesnt_throw_if_the_builds_RequestedFor_property_is_null()
+        {
+            var tfsRestWorkingBuild = ResourceManager.TfsRestBuildDefinitions1;
+            var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<TfsJsonBuild>>(tfsRestWorkingBuild);
+            var build = jsonWrapper.Value[1];
+            build.RequestedFor = null;
+            var commentsCache = GetCommentsCache(build.Definition.Id, build.Id, "My comment");
+            var buildStatus = new TfsRestBuildStatus(build, commentsCache);
+            Assert.AreEqual(BuildStatusEnum.Working, buildStatus.BuildStatusEnum);
+            Assert.AreEqual("2", buildStatus.BuildDefinitionId);
+            Assert.AreEqual("TestingGitTfsOnlineSolution", buildStatus.Name);
+            Assert.AreEqual(null, buildStatus.RequestedBy);
+            Assert.AreEqual("My comment", buildStatus.Comment);
+            Assert.AreEqual("https://sirenofshame.visualstudio.com/DefaultCollection/_permalink/_build/index?collectionId=3be0f19d-62d0-4f45-a140-f219cb9c08ae&projectId=cd1d630e-e0fc-46d3-9540-a477d17a84b1&buildId=18", buildStatus.Url);
+            Assert.AreEqual("18", buildStatus.BuildId);
+        }
    }
 }
