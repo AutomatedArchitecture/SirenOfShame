@@ -19,20 +19,22 @@ namespace SirenOfShame.Lib.Watcher
 
         protected void InvokeServerUnavailable(ServerUnavailableException args)
         {
-            var e = ServerUnavailable;
-            if (e != null) e(this, new ServerUnavailableEventArgs(args));
+            ServerUnavailable?.Invoke(this, new ServerUnavailableEventArgs(args));
         }
         
         protected void InvokeBuildDefinitionNotFound(BuildDefinitionSetting buildDefinitionSetting)
         {
-            var e = BuildDefinitionNotFound;
-            if (e != null) e(this, new BuildDefinitionNotFoundArgs(buildDefinitionSetting));
+            BuildDefinitionNotFound?.Invoke(this, new BuildDefinitionNotFoundArgs(buildDefinitionSetting));
+        }
+
+        protected void InvokeInvalidCredentials()
+        {
+            InvalidCredentials?.Invoke(this, new EventArgs());
         }
 
         protected void InvokeStatusChecked(IList<BuildStatus> args)
         {
-            var e = StatusChecked;
-            if (e != null) e(this, new StatusCheckedEventArgsArgs
+            StatusChecked?.Invoke(this, new StatusCheckedEventArgsArgs
             {
                 BuildStatuses = args
             });
@@ -62,7 +64,8 @@ namespace SirenOfShame.Lib.Watcher
         {
             try
             {
-                _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds", Settings.PollInterval));
+                _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds",
+                    Settings.PollInterval));
                 while (true)
                 {
                     GetBuildStatusAndFireEvents();
@@ -81,6 +84,13 @@ namespace SirenOfShame.Lib.Watcher
                 StopWatching();
                 OnStoppedWatching();
             }
+            catch (InvalidCredentialsException)
+            {
+                _log.Warn("Caught an InvalidCredentialsException, stopping watching so as not to lock out account");
+                InvokeInvalidCredentials();
+                StopWatching();
+                OnStoppedWatching();
+            }
             catch (Exception ex)
             {
                 _log.Error("uncaught exception in watcher", ex);
@@ -92,6 +102,7 @@ namespace SirenOfShame.Lib.Watcher
         public event StatusCheckedEvent StatusChecked;
         public event ServerUnavailableEvent ServerUnavailable;
         public event BuildDefinitionNotFoundEvent BuildDefinitionNotFound;
+        public event EventHandler InvalidCredentials;
         public event StoppedWatchingEvent StoppedWatching;
         public SirenOfShameSettings Settings { private get; set; }
         public CiEntryPointSetting CiEntryPointSetting { protected get; set; }

@@ -114,6 +114,21 @@ namespace SirenOfShame.Lib.Watcher
 
         private bool _serverPreviouslyUnavailable;
 
+        private void InvalidCredentials(object sender, EventArgs e)
+        {
+            InvokeUpdateStatusBar("Invalid credentials, please re-enter in settings");
+            SetStatusUnknown();
+            // only notify that it was unavailable once
+            if (_serverPreviouslyUnavailable)
+            {
+                return;
+            }
+
+            InvokeTrayNotify(ToolTipIcon.Error, "Invalid Credentials", "Stopping watching to avoid locking account.  Please re-enter credentails in settings.");
+            ResetPreviousWorkingOrBrokenStatuses();
+            _serverPreviouslyUnavailable = true;
+        }
+
         private void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
         {
             InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect", args.Exception);
@@ -557,6 +572,7 @@ namespace SirenOfShame.Lib.Watcher
                 watcher.StatusChecked += BuildWatcherStatusChecked;
                 watcher.StoppedWatching += StoppedWatching;
                 watcher.ServerUnavailable += BuildWatcherServerUnavailable;
+                watcher.InvalidCredentials += InvalidCredentials;
                 watcher.BuildDefinitionNotFound += BuildDefinitionNotFound;
                 watcher.Settings = _settings;
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
