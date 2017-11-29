@@ -142,6 +142,7 @@
       <DependentUpon>ConfigureSirenDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dto\OfflineUserAchievementDto.cs" />
+    <Compile Include="Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Dto\InstanceUserDto.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
