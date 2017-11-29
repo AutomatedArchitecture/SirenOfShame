@@ -191,6 +191,7 @@ namespace TeamCityServices
             int state = 0;
             DateTime initialRequest = DateTime.Now;
             bool serverUnavailable = false;
+            bool invalidCredentials = false;
             string loginPage = rootUrl + "/login.html";
 
             Exception documentCompleteException = null;
@@ -262,7 +263,19 @@ namespace TeamCityServices
                     }
                     if (IsTimeout(initialRequest))
                     {
-                        _log.Error("Timeout. State: " + state + " Cookie: " + GetCookie(rootUrl));
+                        var errorElement = webBrowser.Document?.GetElementById("errorMessage");
+                        var errorText = errorElement?.InnerText;
+                        if (string.IsNullOrWhiteSpace(errorText))
+                        {
+                            _log.Error("Timeout. State: " + state + " Cookie: " + GetCookie(rootUrl));
+                            return;
+                        }
+
+                        invalidCredentials = IsInvalidUsernamePassphrase(errorText);
+                        if (!invalidCredentials)
+                        {
+                            _log.Error($"Error during log in: {errorText}.  If this is an invalid username/passphrase then please help adjust the logic in TeamCityService.cs/IsInvalidUsernamePassphrase() to fix, in order to avoid locking out users.");
+                        }
                     }
 
                 }
@@ -273,6 +286,8 @@ namespace TeamCityServices
 
             if (serverUnavailable)
                 throw new ServerUnavailableException();
+            if (invalidCredentials)
+                throw new InvalidCredentialsException();
             if (documentCompleteException != null)
                 throw documentCompleteException;
             if (IsTimeout(initialRequest))
@@ -280,6 +295,12 @@ namespace TeamCityServices
                 _log.Warn("Timed out waiting for authentication, possible authentication error");
                 throw new ServerUnavailableException();
             }
+        }
+
+        private static bool IsInvalidUsernamePassphrase(string errorText)
+        {
+            // todo: localization?  Maybe assume any errorText is an invalid password?
+            return errorText == "Incorrect username or password";
         }
 
         private static bool IsTimeout(DateTime initialRequest)
