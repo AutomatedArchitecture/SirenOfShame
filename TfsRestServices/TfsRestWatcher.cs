@@ -34,6 +34,12 @@ namespace TfsRestServices
             }
             catch (AggregateException ex)
             {
+                var anyInvalidCredentials = ex.InnerExceptions.Any(IsInvalidCredentials);
+                if (anyInvalidCredentials)
+                {
+                    throw new InvalidCredentialsException();
+                }
+
                 var anyServerUnavailable = ex.InnerExceptions.Any(IsServerUnavailable);
                 if (anyServerUnavailable)
                 {
@@ -58,13 +64,20 @@ namespace TfsRestServices
             }
         }
 
+        private static bool IsInvalidCredentials(Exception ex)
+        {
+            if (ex is HttpRequestException httpRequestException)
+            {
+                return httpRequestException.Message.Contains("401");
+            }
+            return false;
+        }
+
         private static bool IsServerUnavailable(Exception ex)
         {
-            var webException = ex as WebException;
-            if (webException != null)
+            if (ex is WebException webException)
                 return IsServerUnavailable(webException);
-            var httpRequestException = ex as HttpRequestException;
-            if (httpRequestException != null)
+            if (ex is HttpRequestException httpRequestException)
                 return IsServerUnavailable(httpRequestException);
             // SocketException?
             return false;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using Moq;
 using NUnit.Framework;
@@ -94,6 +93,23 @@ namespace SirenOfShame.Test.Unit.TfsRestServices
 
             // assert & act
             Assert.Throws<ServerUnavailableException>(() =>
+                tfsRestWatcher.MyGetBuildStatus()
+            );
+        }
+
+        [Test]
+        public void GivenHttpRequestExceptionWith401InMessage_WhenGettingBuildStatus_ThenInvalidCredentialsException()
+        {
+            // arrange
+            var buildDefinitionSettings = new[] { new BuildDefinitionSetting() };
+            var tfsRestService = new Mock<TfsRestService>();
+            var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
+            tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
+                .ThrowsAsync(new System.Net.Http.HttpRequestException("Response status code does not indicate success: 401 (Unauthorized)."));
+            var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
+
+            // assert & act
+            Assert.Throws<InvalidCredentialsException>(() =>
                 tfsRestWatcher.MyGetBuildStatus()
             );
         }
