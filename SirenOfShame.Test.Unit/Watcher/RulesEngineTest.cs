@@ -482,7 +482,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
-        [Ignore]
+        [Ignore("I don't remember why")]
         public void TwoBuildsBackToBack_SystemFindsFirstResultForReputation()
         {
             var rulesEngine = new RulesEngineWrapper();

@@ -13,7 +13,7 @@ namespace TfsRestServices
     public class TfsRestWatcher : WatcherBase
     {
         private readonly TfsRestCiEntryPoint _tfsRestCiEntryPoint;
-        private readonly TfsRestService _service;
+        protected TfsRestService _service;
 
         public TfsRestWatcher(SirenOfShameSettings settings, TfsRestCiEntryPoint tfsRestCiEntryPoint) : base(settings)
         {
@@ -84,7 +84,7 @@ namespace TfsRestServices
                    ex.Message.Contains("Unable to connect to the remote server");
         }
 
-        private IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()
+        protected virtual IEnumerable<BuildDefinitionSetting> GetAllWatchedBuildDefinitions()
         {
             var activeBuildDefinitionSettings = CiEntryPointSetting.BuildDefinitionSettings.Where(bd => bd.Active && bd.BuildServer == _tfsRestCiEntryPoint.Name);
             return activeBuildDefinitionSettings;

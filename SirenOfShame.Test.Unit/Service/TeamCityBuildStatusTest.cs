@@ -29,18 +29,19 @@ namespace SirenOfShame.Test.Unit.Service
     public class TeamCityBuildStatusTest
     {
         [Test]
-        [ExpectedException(typeof(ServerUnavailableException))]
         public void ServerIsDoingACleanup()
         {
             FakeTeamCityService teamCityService = new FakeTeamCityService();
             BuildDefinitionSetting buildDefinitionSetting = new BuildDefinitionSetting();
             XDocument xDoc = TeamCityResources.TeamCityServerCleanup;
-            teamCityService.GetBuildStatusAndCommentsFromXDocumentFake(
-                "fakeurl",
-                "username",
-                "password",
-                buildDefinitionSetting,
-                xDoc);
+            Assert.Throws<ServerUnavailableException>(() =>
+                teamCityService.GetBuildStatusAndCommentsFromXDocumentFake(
+                    "fakeurl",
+                    "username",
+                    "password",
+                    buildDefinitionSetting,
+                    xDoc)
+            );
         }
     }
 }
