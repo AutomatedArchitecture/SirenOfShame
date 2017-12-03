@@ -69,7 +69,7 @@ namespace TfsRestServices
             return result;
         }
 
-        public async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
+        public virtual async Task<IEnumerable<TfsRestBuildStatus>> GetBuildsStatuses(CiEntryPointSetting ciEntryPointSetting, BuildDefinitionSetting[] watchedBuildDefinitions)
         {
             var connection = new TfsConnectionDetails(ciEntryPointSetting);
             var buildDefinitionsByProjectCollection = watchedBuildDefinitions.GroupBy(bd => bd.Parent);
