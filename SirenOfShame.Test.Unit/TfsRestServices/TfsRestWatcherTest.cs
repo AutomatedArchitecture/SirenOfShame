@@ -48,7 +48,7 @@ namespace SirenOfShame.Test.Unit.TfsRestServices
         }
 
         [Test]
-        public void GivenNetworkDisconnected_WhenGettingBuildStatus_ThenServerUnavailableException()
+        public void GivenWebExceptionRemoteNameCouldNotBeResolved_WhenGettingBuildStatus_ThenServerUnavailableException()
         {
             // arrange
             var buildDefinitionSettings = new[] {new BuildDefinitionSetting()};
@@ -56,6 +56,40 @@ namespace SirenOfShame.Test.Unit.TfsRestServices
             var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
             tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
                 .ThrowsAsync(new WebException("The remote name could not be resolved:"));
+            var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
+
+            // assert & act
+            Assert.Throws<ServerUnavailableException>(() =>
+                tfsRestWatcher.MyGetBuildStatus()
+            );
+        }
+
+        [Test]
+        public void GivenWebExceptionUnableConnectRemoteServer_WhenGettingBuildStatus_ThenServerUnavailableException()
+        {
+            // arrange
+            var buildDefinitionSettings = new[] {new BuildDefinitionSetting()};
+            var tfsRestService = new Mock<TfsRestService>();
+            var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
+            tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
+                .ThrowsAsync(new WebException("Unable to connect to the remote server"));
+            var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
+
+            // assert & act
+            Assert.Throws<ServerUnavailableException>(() =>
+                tfsRestWatcher.MyGetBuildStatus()
+            );
+        }
+
+        [Test]
+        public void GivenHttpRequestException_WhenGettingBuildStatus_ThenServerUnavailableException()
+        {
+            // arrange
+            var buildDefinitionSettings = new[] {new BuildDefinitionSetting()};
+            var tfsRestService = new Mock<TfsRestService>();
+            var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
+            tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
+                .ThrowsAsync(new System.Net.Http.HttpRequestException("Unable to connect to the remote server"));
             var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
 
             // assert & act
