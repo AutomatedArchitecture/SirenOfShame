@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame", "SirenOfShame\SirenOfShame.csproj", "{E292FFA7-DB35-43AA-9615-5BA819550B1C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -23,6 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoxLib", "SoxLib\SoxLib.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01EEF57F-92BC-49FC-9517-771367D36B6F}"
 	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
 		Local.testsettings = Local.testsettings
 		README.md = README.md
 		SirenOfShame.vsmdi = SirenOfShame.vsmdi
@@ -363,6 +364,7 @@ Global
 		{58B75DC1-0700-46A6-A759-717044004D11}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{58B75DC1-0700-46A6-A759-717044004D11}.Release|Win32.ActiveCfg = Release|Any CPU
 		{58B75DC1-0700-46A6-A759-717044004D11}.Release|x86.ActiveCfg = Release|Any CPU
+		{58B75DC1-0700-46A6-A759-717044004D11}.Release|x86.Build.0 = Release|Any CPU
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -376,7 +378,6 @@ Global
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Release|Win32.ActiveCfg = Release|x86
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Release|Win32.Build.0 = Release|x86
 		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Release|x86.ActiveCfg = Release|x86
-		{10A675A3-E641-422F-8E1F-E26AF94676B0}.Release|x86.Build.0 = Release|x86
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31DF203A-9C52-4320-B825-6B518B0734CF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
@@ -412,6 +413,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5054EC43-F498-4C42-A977-48D31CC4248A}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SirenOfShame.vsmdi
