@@ -47,9 +47,12 @@ Task("Publish")
 	.IsDependentOn("Build")
 	.Does(() =>
 {
-      // Use MSBuild
-      MSBuild("./SirenOfShame.WixSetup/SirenOfShame.WixSetup.wixproj", settings =>
-        settings.SetConfiguration(configuration));
+	// Use MSBuild
+	MSBuild("./SirenOfShame.WixSetup/SirenOfShame.WixSetup.wixproj", settings =>
+	{
+		settings.WithProperty("Platform", platform);
+		settings.SetConfiguration(configuration);
+	});
 });
 
 Task("Run-Unit-Tests")
