@@ -44,7 +44,7 @@ Task("Build")
 });
 
 Task("Publish")
-	.IsDependentOn("Build")
+	.IsDependentOn("Restore-NuGet-Packages")
 	.Does(() =>
 {
 	// Use MSBuild
