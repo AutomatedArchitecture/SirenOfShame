@@ -43,7 +43,7 @@ Task("Build")
 	});
 });
 
-Task("Publish")
+Task("MakeMsi")
 	.IsDependentOn("Restore-NuGet-Packages")
 	.Does(() =>
 {
@@ -54,6 +54,23 @@ Task("Publish")
 		settings.SetConfiguration(configuration);
 	});
 });
+
+Task("SignMsi")
+	.IsDependentOn("MakeMsi")
+	.Does(() =>
+{
+	var file = new FilePath("./SirenOfShame.WixSetup/bin/Release/SirenOfShame.WixSetup.msi");
+	Sign(file, new SignToolSignSettings {
+		CertSubjectName = "Open Source Developer, Lee RICHARDSON",
+		TimeStampUri = new Uri("http://time.certum.pl"),
+		DigestAlgorithm = SignToolDigestAlgorithm.Sha256,
+		Description = "Siren of Shame",
+		DescriptionUri = new Uri("https://sirenofshame.com")
+	});
+});
+
+Task("Publish")
+	.IsDependentOn("SignMsi");
 
 Task("Run-Unit-Tests")
     .IsDependentOn("Build")
