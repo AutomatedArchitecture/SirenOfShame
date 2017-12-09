@@ -167,7 +167,7 @@ namespace SirenOfShame.Lib.Settings
             if (TriggerType == TriggerType.InitialSuccess           && newlyFixed) return true;
             if (TriggerType == TriggerType.BuildTriggered           && buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress) return true;
             if (TriggerType == TriggerType.SubsequentFailedBuild    && buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken) return true;
-            if (TriggerType == TriggerType.SuccessfulBuild          && buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed) return true;
+            if (TriggerType == TriggerType.SuccessfulBuild          && buildStatus.BuildStatusEnum == BuildStatusEnum.Working) return true;
             return false;
         }
 
