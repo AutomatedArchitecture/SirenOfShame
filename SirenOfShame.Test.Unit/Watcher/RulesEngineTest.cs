@@ -806,7 +806,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
-        public void BuidFailsThenSucceedsWithGlobalSubsequentSuccessAlerts_NoAlert()
+        public void BuildFailsThenSucceedsWithSuccessfulBuildTrigger_TriggersAlert()
         {
             var rulesEngine = new RulesEngineWrapper();
 
@@ -815,11 +815,10 @@ namespace SirenOfShame.Test.Unit.Watcher
                 TriggerType = TriggerType.SuccessfulBuild,
                 AlertType = AlertType.TrayAlert
             });
-
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            Assert.AreEqual(0, rulesEngine.TrayNotificationEvents.Count);
+            Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
         }
 
         [Test]
@@ -858,9 +857,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
-            Assert.AreEqual(1, rulesEngine.TrayNotificationEvents.Count);
-            Assert.AreEqual("Build Passing", rulesEngine.TrayNotificationEvents[0].Title);
-            Assert.AreEqual("Build passed for Build Def 1", rulesEngine.TrayNotificationEvents[0].TipText);
+            Assert.AreEqual(2, rulesEngine.TrayNotificationEvents.Count);
+            Assert.AreEqual("Build Passing", rulesEngine.TrayNotificationEvents[1].Title);
+            Assert.AreEqual("Build passed for Build Def 1", rulesEngine.TrayNotificationEvents[1].TipText);
         }
 
         [Test]
