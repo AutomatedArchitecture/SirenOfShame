@@ -45,6 +45,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this._collection = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this._vstsLink = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this._checkAll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._search)).BeginInit();
             this.SuspendLayout();
@@ -212,11 +213,25 @@
             this.label7.Text = "(empty = see all, requires more permissions)";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // _vstsLink
+            // 
+            this._vstsLink.ActiveLinkColor = System.Drawing.Color.White;
+            this._vstsLink.AutoSize = true;
+            this._vstsLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this._vstsLink.Location = new System.Drawing.Point(396, 59);
+            this._vstsLink.Name = "_vstsLink";
+            this._vstsLink.Size = new System.Drawing.Size(73, 13);
+            this._vstsLink.TabIndex = 63;
+            this._vstsLink.TabStop = true;
+            this._vstsLink.Text = "Info On VSTS";
+            this._vstsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this._vstsLink_LinkClicked);
+            // 
             // ConfigureTfsRest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(38)))), ((int)(((byte)(39)))));
+            this.Controls.Add(this._vstsLink);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this._collection);
@@ -260,5 +275,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox _collection;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel _vstsLink;
     }
 }

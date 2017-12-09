@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using SirenOfShame.Lib.Helpers;
@@ -194,6 +195,11 @@ namespace TfsRestServices.ServerConfiguration
             {
                 node.Checked = !allChecked;
             }
+        }
+
+        private void _vstsLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/AutomatedArchitecture/SirenOfShame/wiki/How-To-Connect-to-VSTS");
         }
     }
 }
