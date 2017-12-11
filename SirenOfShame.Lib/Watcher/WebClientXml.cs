@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
+using System.Text;
 using System.Xml.Linq;
 using SirenOfShame.Lib.Exceptions;
 using log4net;
@@ -127,6 +128,7 @@ namespace SirenOfShame.Lib.Watcher
             {
                 Credentials = new NetworkCredential(userName, password),
                 CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
+                Encoding = Encoding.UTF8
             };
 
             if (AuthenticationType == AuthenticationTypeEnum.BasicAuth && !string.IsNullOrEmpty(userName))
