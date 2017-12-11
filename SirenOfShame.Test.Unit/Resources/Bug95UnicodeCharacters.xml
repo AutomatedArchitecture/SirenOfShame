@@ -1,0 +1,77 @@
+﻿<freeStyleBuild>
+    <action>
+        <cause>
+            <shortDescription>Started by an SCM change</shortDescription>
+        </cause>
+    </action>
+    <action/>
+    <action>
+        <buildsByBranchName>
+            <refsremotesoriginmaster>
+                <buildNumber>8</buildNumber>
+                <marked>
+                    <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+                    <branch>
+                        <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+                        <name>refs/remotes/origin/master</name>
+                    </branch>
+                </marked>
+                <revision>
+                    <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+                    <branch>
+                        <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+                        <name>refs/remotes/origin/master</name>
+                    </branch>
+                </revision>
+            </refsremotesoriginmaster>
+        </buildsByBranchName>
+        <lastBuiltRevision>
+            <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+            <branch>
+                <SHA1>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</SHA1>
+                <name>refs/remotes/origin/master</name>
+            </branch>
+        </lastBuiltRevision>
+        <remoteUrl>C:\Dev\SimpleAppRepo</remoteUrl>
+        <scmName/>
+    </action>
+    <action/>
+    <action/>
+    <building>false</building>
+    <displayName>#8</displayName>
+    <duration>6000</duration>
+    <estimatedDuration>6195</estimatedDuration>
+    <fullDisplayName>01-BuildTest #8</fullDisplayName>
+    <id>8</id>
+    <keepLog>false</keepLog>
+    <number>8</number>
+    <queueId>2</queueId>
+    <result>SUCCESS</result>
+    <timestamp>1512941471920</timestamp>
+    <url>http://localhost:8081/job/01-BuildTest/8/</url>
+    <builtOn/>
+    <changeSet>
+        <item>
+            <affectedPath>SimpleApp/Program.cs</affectedPath>
+            <commitId>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</commitId>
+            <timestamp>1512941299000</timestamp>
+            <author>
+                <absoluteUrl>http://localhost:8081/user/zo%C3%AB</absoluteUrl>
+                <fullName>zoë</fullName>
+            </author>
+            <comment>Keeping it passing from Zoë</comment>
+            <date>2017-12-10 16:28:19 -0500</date>
+            <id>c10f676ca103719e9f79f49e8d530ffe0dc5cb11</id>
+            <msg>Keeping it passing from Zoë</msg>
+            <path>
+                <editType>edit</editType>
+                <file>SimpleApp/Program.cs</file>
+            </path>
+        </item>
+        <kind>git</kind>
+    </changeSet>
+    <culprit>
+        <absoluteUrl>http://localhost:8081/user/zo%C3%AB</absoluteUrl>
+        <fullName>zoë</fullName>
+    </culprit>
+</freeStyleBuild>
