@@ -83,5 +83,10 @@ namespace SirenOfShame.Test.Unit.Resources
         {
             get { return XDocument.Parse(GetResource("BambooFailingBuild.xml")); }
         }
+
+        public static XDocument Bug95UnicodeCharacters
+        {
+            get { return XDocument.Parse(GetResource("Bug95UnicodeCharacters.xml")); }
+        }
     }
 }

@@ -92,6 +92,20 @@ namespace SirenOfShame.Test.Unit.CIEntryPointBuildStatus
             Assert.AreEqual("https://tr-w03.statoil.net:10945/jenkins-prod/view/eBOSS/job/eBOSS/49/", buildStatus.Url);
         }
 
+        [Test]
+        public void Bug95_JenkinsWithUnicodeCharacters()
+        {
+            var bug95UnicodeCharacters = ResourceManager.Bug95UnicodeCharacters;
+            var buildDefinitionSetting = new BuildDefinitionSetting
+            {
+                Name = "Name",
+                Id = "BuildDefinitionId"
+            };
+            var buildStatus = new HudsonBuildStatus(bug95UnicodeCharacters, buildDefinitionSetting, null, treatUnstableAsSuccess: false);
+            Assert.AreEqual("Keeping it passing from Zoë", buildStatus.Comment);
+            Assert.AreEqual("zoë", buildStatus.RequestedBy);
+        }
+
         public static string DateAsCode(DateTime d)
         {
             return string.Format("new DateTime({0}, {1}, {2}, {3}, {4}, {5}, {6})", 
