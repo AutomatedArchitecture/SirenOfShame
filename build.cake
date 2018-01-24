@@ -1,4 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#addin "Cake.FileHelpers"
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -6,6 +8,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var platform = Argument("platform", "x86");
+string version = Argument("vers", "");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -69,8 +72,29 @@ Task("SignMsi")
 	});
 });
 
+Task("SetVersion")
+	.Does(() => 
+{
+	if (string.IsNullOrEmpty(version)) {
+		throw new ArgumentNullException(nameof(version));
+	}
+
+	var versionRegex = "\"[1-9]+\\.[0-9]+\\.[0-9]+\"";
+	var newVersion = "\"" + version + "\"";
+	
+	ReplaceRegexInFiles("./SirenOfShame/Properties/AssemblyInfo.cs", versionRegex,	newVersion);
+	ReplaceRegexInFiles("./SirenOfShame.WixSetup/Product.wxs", versionRegex, newVersion);
+});
+
+// usage .\build.ps1 -t Publish -vers="2.4.12"
 Task("Publish")
-	.IsDependentOn("SignMsi");
+	.IsDependentOn("SetVersion")
+	.IsDependentOn("SignMsi")
+	.Does(() => 
+{
+	var versionWithDashes = version.Replace(".", "-");
+	MoveFile("./SirenOfShame.WixSetup/bin/Release/SirenOfShame.WixSetup.msi", $"./SirenOfShame.WixSetup/bin/Release/SirenOfShame-{versionWithDashes}.msi");
+});
 
 Task("Run-Unit-Tests")
     .IsDependentOn("Build")
