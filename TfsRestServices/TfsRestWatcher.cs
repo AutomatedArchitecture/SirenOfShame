@@ -46,11 +46,6 @@ namespace TfsRestServices
                     throw new ServerUnavailableException();
                 }
 
-                var taskCancelledException = ex.InnerExceptions.FirstOrDefault(x => x is TaskCanceledException);
-                if (!ReferenceEquals(null, taskCancelledException))
-                {
-                    throw taskCancelledException;
-                }
                 throw;
             }
             catch (WebException ex)
@@ -75,6 +70,8 @@ namespace TfsRestServices
 
         private static bool IsServerUnavailable(Exception ex)
         {
+            if (ex is TaskCanceledException)
+                return true;
             if (ex is WebException webException)
                 return IsServerUnavailable(webException);
             if (ex is HttpRequestException httpRequestException)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using SirenOfShame.Lib.Exceptions;
@@ -89,6 +90,23 @@ namespace SirenOfShame.Test.Unit.TfsRestServices
             var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
             tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
                 .ThrowsAsync(new System.Net.Http.HttpRequestException("Unable to connect to the remote server"));
+            var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
+
+            // assert & act
+            Assert.Throws<ServerUnavailableException>(() =>
+                tfsRestWatcher.MyGetBuildStatus()
+            );
+        }
+
+        [Test]
+        public void GivenTaskCanceledExceptionAkaTimeout_WhenGettingBuildStatus_ThenServerUnavailableException()
+        {
+            // arrange
+            var buildDefinitionSettings = new[] {new BuildDefinitionSetting()};
+            var tfsRestService = new Mock<TfsRestService>();
+            var ciEntryPointSetting = new CiEntryPointSetting { Url = "url" };
+            tfsRestService.Setup(i => i.GetBuildsStatuses(ciEntryPointSetting, buildDefinitionSettings))
+                .ThrowsAsync(new TaskCanceledException());
             var tfsRestWatcher = new MyTfsRestWatcher(tfsRestService.Object, buildDefinitionSettings, ciEntryPointSetting);
 
             // assert & act
