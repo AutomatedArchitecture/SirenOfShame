@@ -216,6 +216,7 @@
             // _vstsLink
             // 
             this._vstsLink.ActiveLinkColor = System.Drawing.Color.White;
+            this._vstsLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._vstsLink.AutoSize = true;
             this._vstsLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
             this._vstsLink.Location = new System.Drawing.Point(396, 59);
