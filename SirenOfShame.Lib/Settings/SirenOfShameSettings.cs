@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -210,6 +211,9 @@ namespace SirenOfShame.Lib.Settings
         public bool AlwaysOnTop { get; set; }
 
         public bool StartInFullScreen { get; set; }
+        public Size? StartWithSize { get; set; }
+        public int StartAtLeftPosition { get; set; }
+        public int StartAtTopPosition { get; set; }
 
         public bool ShowNewsfeed { get; set; }
 
