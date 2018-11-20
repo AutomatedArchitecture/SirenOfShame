@@ -73,9 +73,22 @@ namespace SirenOfShame
                 // it seems to be necessary to set a baseline font size
                 SetFontSize(SirenOfShameSettings.DEFAULT_FONT_SIZE);
                 SetFontSize(lastFontSize);
+                RestoreFormPosition();
             }
             _newsFeed1.Visible = _settings.ShowNewsfeed;
             _userList.Visible = _settings.ShowLeaders;
+        }
+
+        private void RestoreFormPosition()
+        {
+            if (!_settings.StartInFullScreen && _settings.StartWithSize.HasValue)
+            {
+                if (_settings.StartAtTopPosition >= 0)
+                    this.Top = _settings.StartAtTopPosition;
+                if (_settings.StartAtLeftPosition >= 0)
+                    this.Left = _settings.StartAtLeftPosition;
+                this.Size = _settings.StartWithSize.Value;
+            }
         }
 
         protected virtual SirenOfShameSettings GetAppSettings()
@@ -562,7 +575,18 @@ namespace SirenOfShame
             else
             {
                 RulesEngine.Stop();
+                SaveFormPosition();
             }
+        }
+
+        private void SaveFormPosition()
+        {
+            _settings.StartWithSize = Size;
+            if (_settings.StartAtTopPosition >= 0)
+                _settings.StartAtTopPosition = Top;
+            if (_settings.StartAtLeftPosition >= 0)
+                _settings.StartAtLeftPosition = Left;
+            _settings.Save();
         }
 
         // this is a hack to determine if we are being called by wyUpdate
