@@ -1203,6 +1203,102 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void GivenTwoBuildsWithSameBuildIdInDifferentBuildDefinitions_ThenTheyAreTreatedSeparately()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(new BuildStatus[]
+            {
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2018, 1, 1),
+                    BuildId = "B1"
+                },
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                    StartedTime = new DateTime(2018, 1, 1),
+                    BuildId = "B1"
+                },
+            });
+            rulesEngine.InvokeStatusChecked(new[]
+            {
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
+                    StartedTime = new DateTime(2018, 1, 1, 2, 2, 3),
+                    BuildId = "B2"
+                },
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                    StartedTime = new DateTime(2018, 1, 1, 2, 2, 2),
+                    BuildId = "B2"
+                }
+            });
+            var refreshStatusEventArgs = rulesEngine.RefreshStatusEvents.Last();
+            // 2 builds fired simultaneously, since they were from different build definitions they should both be returned
+            Assert.AreEqual(2, refreshStatusEventArgs.BuildStatusDtos.Count);
+        }
+
+        [Test]
+        public void GivenTwoBuildsStartedAtSameTime_InvokeStatusReturnsTheMostRecent()
+        {
+            var rulesEngine = new RulesEngineWrapper();
+            rulesEngine.InvokeStatusChecked(new BuildStatus[]
+            {
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.Working,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                    StartedTime = new DateTime(2018, 1, 1),
+                    BuildId = "BuildId1"
+                },
+            });
+            rulesEngine.InvokeStatusChecked(new []
+            {
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                    StartedTime = new DateTime(2018, 1, 1, 2, 2, 3),
+                    BuildId = "BuildId2"
+                },
+                new BuildStatus
+                {
+                    BuildStatusEnum = BuildStatusEnum.InProgress,
+                    Name = "Name1",
+                    RequestedBy = RulesEngineWrapper.CURRENT_USER,
+                    BuildDefinitionId = RulesEngineWrapper.BUILD2_ID,
+                    StartedTime = new DateTime(2018, 1, 1, 2, 2, 2),
+                    BuildId = "BuildId3"
+                }
+            });
+            var refreshStatusEventArgs = rulesEngine.RefreshStatusEvents.Last();
+            // even though 2 builds fired simultaneously there is only one status for the build definition
+            Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusDtos.Count);
+            var buildStatusDto = refreshStatusEventArgs.BuildStatusDtos[0];
+            Assert.AreEqual(BuildStatusEnum.InProgress, buildStatusDto.BuildStatusEnum);
+            Assert.AreEqual("BuildId2", buildStatusDto.BuildId);
+        }
+
+        [Test]
         public void BuildStartTimeChanged_RefreshStatus()
         {
             var rulesEngine = new RulesEngineWrapper();

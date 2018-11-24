@@ -10,7 +10,22 @@ namespace SirenOfShame.Test.Unit.Util
     public class BuildStatusUtilTest
     {
         [Test]
-        public void Merge_NewBuildStatus_Added()
+        public void GivenOneOldStatus_WhenTwoNewBuildsExistWithSameBuildDefinitionId_ThenNewestIsReturned()
+        {
+            var oldStatus = new[] { new BuildStatus { BuildDefinitionId = "BD1", BuildId = "B1", BuildStatusEnum = BuildStatusEnum.Working } };
+            var newStatuses = new[]
+            {
+                new BuildStatus {BuildDefinitionId = "BD1", BuildId = "B2", BuildStatusEnum = BuildStatusEnum.InProgress, StartedTime = new DateTime(2018, 1, 1, 2, 2, 3) },
+                new BuildStatus {BuildDefinitionId = "BD1", BuildId = "B3", BuildStatusEnum = BuildStatusEnum.InProgress, StartedTime = new DateTime(2018, 1, 1, 2, 2, 2)}
+            };
+            var buildStatuses = BuildStatusUtil.Merge(oldStatus, newStatuses);
+            Assert.AreEqual(1, buildStatuses.Length);
+            var buildStatuse = buildStatuses[0];
+            Assert.AreEqual("B2", buildStatuse.BuildId);
+        }
+
+        [Test]
+        public void GivenEmptyOldStatus_WhenNewBuildStatusExists_ThenNewBuildStatusIsAdded()
         {
             var oldStatus = new BuildStatus[] {};
             var newStatuses = new[] {new BuildStatus {BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working}};
@@ -21,7 +36,7 @@ namespace SirenOfShame.Test.Unit.Util
         }
         
         [Test]
-        public void Merge_RemovedBuildStatus_Retained()
+        public void GivenAnOldBuildStatus_WhenEmptyNewBuildStatusMerged_ThenOldBuildStatusIsRetained()
         {
             var oldStatus = new[] {new BuildStatus {BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working}};
             var newStatuses = new BuildStatus[] {};
@@ -30,7 +45,7 @@ namespace SirenOfShame.Test.Unit.Util
         }
 
         [Test]
-        public void Merge_ExistingUnchangedBuildStatus_NotOverwritten()
+        public void GivenOldBuildStatus_WhenBuildStatusWithSameIdIsMerged_ThenOldBuildStatusIsNotOverwritten()
         {
             var oldStatus = new[] { new BuildStatus { BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working, LocalStartTime = new DateTime(2010, 1, 1) } };
             var newStatuses = new[] { new BuildStatus { BuildDefinitionId = "1", BuildStatusEnum = BuildStatusEnum.Working, LocalStartTime = new DateTime(2012, 2, 2)} };
