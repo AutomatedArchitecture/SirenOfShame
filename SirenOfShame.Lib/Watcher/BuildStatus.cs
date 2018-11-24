@@ -86,6 +86,15 @@ namespace SirenOfShame.Lib.Watcher
         public string BuildStatusMessage { get; set; }
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Combines the build definition id and the build id for the purpose of uniquely
+        /// identifying a build in a dictionary and determining if a build is new
+        /// </summary>
+        public string UniqueId
+        {
+            get { return $"{BuildDefinitionId}-{BuildId}"; }
+        }
+
         public string BuildStatusDescription
         {
             get { return BuildStatusToString(BuildStatusEnum); }
