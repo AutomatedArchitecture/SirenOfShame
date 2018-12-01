@@ -307,7 +307,7 @@ namespace SirenOfShame.Lib.Watcher
             var oldBuildStatus = _previousBuildStatuses;
             _previousBuildStatuses = allBuildStatuses;
             var changedBuildStatuses = from newStatus in allBuildStatuses
-                                       from oldStatus in oldBuildStatus.Where(s => s.BuildDefinitionId == newStatus.BuildDefinitionId).DefaultIfEmpty()
+                                       from oldStatus in oldBuildStatus.Where(s => s.UniqueId == newStatus.UniqueId).DefaultIfEmpty()
                                        where DidBuildStatusChange(oldStatus, newStatus)
                                        select newStatus;
             

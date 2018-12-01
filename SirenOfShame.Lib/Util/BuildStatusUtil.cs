@@ -17,16 +17,18 @@ namespace SirenOfShame.Lib.Util
             var oldBuildStatusesToRetain = oldBuildStatuses.Except(newBuildStatuses, buildStatusComparer);
             var newBuildStatusesToAdd = newBuildStatuses.Except(oldBuildStatuses, buildStatusComparer);
             var unchangedBuildStatuses = from oldStatus in oldBuildStatuses
-                                         join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
+                                         join newStatus in newBuildStatuses on oldStatus.UniqueId equals newStatus.UniqueId
                                          where newStatus.BuildStatusEnum == oldStatus.BuildStatusEnum &&
                                             newStatus.StartedTime == oldStatus.StartedTime
                                          select oldStatus;
             var changedBuildStatuses = from oldStatus in oldBuildStatuses
-                                       join newStatus in newBuildStatuses on oldStatus.BuildDefinitionId equals newStatus.BuildDefinitionId
+                                       join newStatus in newBuildStatuses on oldStatus.UniqueId equals newStatus.UniqueId
                                        where newStatus.BuildStatusEnum != oldStatus.BuildStatusEnum ||
                                             newStatus.StartedTime != oldStatus.StartedTime
                                        select newStatus;
-            return oldBuildStatusesToRetain.Union(newBuildStatusesToAdd).Union(unchangedBuildStatuses).Union(changedBuildStatuses).ToArray();
+            var duplicateBuildDefIDs = oldBuildStatusesToRetain.Union(newBuildStatusesToAdd).Union(unchangedBuildStatuses).Union(changedBuildStatuses);
+            var distinct = duplicateBuildDefIDs.OrderBy(x => x.StartedTime).GroupBy(x => x.BuildDefinitionId).Select(y => y.LastOrDefault());
+            return distinct.ToArray();
         }
     }
 
@@ -36,7 +38,7 @@ namespace SirenOfShame.Lib.Util
         {
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
-            return x.BuildDefinitionId == y.BuildDefinitionId;
+            return x.UniqueId == y.UniqueId;
         }
 
         public int GetHashCode(BuildStatus obj)

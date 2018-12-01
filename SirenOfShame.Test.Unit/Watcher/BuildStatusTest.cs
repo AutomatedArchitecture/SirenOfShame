@@ -10,6 +10,17 @@ namespace SirenOfShame.Test.Unit.Watcher
     public class BuildStatusTest
     {
         [Test]
+        public void UniqueId_ContainsBuildDefinitionAndBuildId()
+        {
+            var buildStatus = new BuildStatus
+            {
+                BuildId = "1",
+                BuildDefinitionId = "2"
+            };
+            Assert.AreEqual("2-1", buildStatus.UniqueId);
+        }
+
+        [Test]
         public void Parse_InvalidDate()
         {
             var actual = BuildStatus.Parse(new [] { "63460976461000000Z", "", "1", "jshimpty" }, "buildid");
