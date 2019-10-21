@@ -87,7 +87,10 @@ namespace SirenOfShame
                     this.Top = _settings.StartAtTopPosition;
                 if (_settings.StartAtLeftPosition >= 0)
                     this.Left = _settings.StartAtLeftPosition;
-                this.Size = _settings.StartWithSize.Value;
+                // this 28 pixels check is for users of 2.4.13 whose form size was saved when minimized
+                const int minimizedHeight = 28;
+                if (_settings.StartWithSize.Value.Height > minimizedHeight)
+                    this.Size = _settings.StartWithSize.Value;
             }
         }
 
@@ -581,11 +584,11 @@ namespace SirenOfShame
 
         private void SaveFormPosition()
         {
+            if (Top <= 0 || Left <= 0) return;
+
             _settings.StartWithSize = Size;
-            if (_settings.StartAtTopPosition >= 0)
-                _settings.StartAtTopPosition = Top;
-            if (_settings.StartAtLeftPosition >= 0)
-                _settings.StartAtLeftPosition = Left;
+            _settings.StartAtTopPosition = Top;
+            _settings.StartAtLeftPosition = Left;
             _settings.Save();
         }
 
